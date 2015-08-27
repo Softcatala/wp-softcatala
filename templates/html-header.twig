@@ -1,0 +1,541 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js ie ie6 lt-ie9 lt-ie8 lt-ie7" {{site.language_attributes}}> <![endif]-->
+<!--[if IE 7]><html class="no-js ie ie7 lt-ie9 lt-ie8" {{site.language_attributes}}> <![endif]-->
+<!--[if IE 8]><html class="no-js ie ie8 lt-ie9" {{site.language_attributes}}> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" {{site.language_attributes}}> <!--<![endif]-->
+<head>
+    <meta charset="{{site.charset}}" />
+        <title>   
+            {% if wp_title %}
+                {{ wp_title }} - {{ site.name }}
+            {% else %}
+                {{ site.name }}
+            {% endif %}
+        </title>
+    <meta name="description" content="{{site.description}}">
+    <link rel="stylesheet" href="{{site.theme.link}}/style.css" type="text/css" media="screen" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="pingback" href="{{site.pingback_url}}" />
+    {{function('wp_head')}}
+</head>
+<body>
+
+    <!-- .pag-header -->
+    <header class="pag-header">
+      <!-- navbar -->
+      <nav class="navbar">
+
+          <!-- .wrap-gris .hidden-xs -->
+          <div class="wrap-gris hidden-xs">
+            <div class="container-fluid">
+
+              <!-- .navbar-noticies .hidden-xs -->
+              <div class="navbar-noticies">
+                <ul class="nav navbar-nav">
+                  <li class="active"><a href="#">Not&iacute;cies</a></li>
+                  <li><a href="#">Esdeveniments</a></li>
+                  <li><a href="#">Premsa</a></li>
+                  <li><a href="#">F&ograve;rums</a></li>
+                </ul>
+              </div><!--/.navbar-noticies .hidden-xs -->
+
+              <!-- .navbar-usuari .hidden-xs -->
+              <div class="navbar-usuari">
+                {{user_info.avatar}}
+                {% if user_info.is_connected %}
+                <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="{{user_info.profile_url}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user_info.name}} <i class="fa fa-chevron-down"></i></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{user_info.profile_url}}">Configureu</a></li>
+                        <li><a href="{{user_info.wp_logout_url}}">Desconnecteu</a></li>
+                      </ul>
+                  </li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="/wp-login.php">Connecteu-vos</span></a>
+                    </li>
+                </ul>
+                {% endif %}
+              </div><!--/.navbar-usuari .hidden-xs -->
+
+            </div><!--/.container-fluid -->
+          </div><!--/.wrap-gris -->
+
+
+          <!-- .wrap-blanc -->
+          <div class="wrap-blanc">
+            <div class="container-fluid">
+
+              <!-- .navbar-header -->
+              <div class="navbar-header">
+                <div class="bt-menu">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-principal" data-collapse-group="menu-xs" aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                </div>
+                <div class="bt-lupa-xs">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-cercador" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+                <div class="bt-ajuda">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ajuda" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-question-circle"></i>
+                  </button>
+                </div>
+                <div class="bt-usuari">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-usuari" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-user"></i>
+                  </button>
+                </div>
+                <a class="navbar-brand" rel="home" href="/"><img alt="Softcatala logotip" src="{{ theme.path }}/static/images/softcatala-logotip.jpg"></a>
+              </div><!--/.navbar-header -->
+
+
+              <!-- MENU MOBIL -->
+
+              <!-- #navbar-cercador .visible-xs -->
+              <div id="navbar-cercador" class="navbar-lupa collapse">
+                <div class="cercador-xs visible-xs-block">
+                <form class="searchform" role="form" method="get" action="/">
+                    <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="s" id="s">
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"><i class="fa fa-search"></i></span>
+                  </form>
+                </div>
+              </div><!--/#navbar-cercador xs -->
+
+              <!-- .navbar-ajuda-xs .visible-xs -->
+              <div id="navbar-ajuda" class="navbar-ajuda-xs collapse">
+                <ul class="nav navbar-nav visible-xs-block">
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                  <li><a href="#"><i class="fa fa-comment"></i> F&ograve;rums</a></li>
+                  <li><a href="#"><i class="fa fa-question-circle"></i> Preguntes m&eacute;s freq&uuml;ents</a></li>
+                </ul>
+              </div><!--/navbar-ajuda-xs .visible-xs -->
+
+              <!-- .navbar-usuari-xs .visible-xs -->
+              <div id="navbar-usuari" class="navbar-usuari-xs collapse">
+                <ul class="nav navbar-nav visible-xs-block">
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Configureu</a></li>
+                  <li><a href="#">Desconnecteu</a></li>
+                </ul>
+              </div><!--/.navbar-usuari-xs .visible-xs -->
+
+              <!-- #navbar-principal xs -->
+              <div id="navbar-principal" class="navbar-principal-xs collapse">
+
+                <!-- .nav-principal-xs .visible-xs -->
+                <ul class="visible-xs-block nav nav-principal-xs" id="accordion">
+                  <li class="panel">
+                    <a href="#recursos-collapse" class="titol-collapse collapsed primer-nivell-menu" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#recursos-collapse">
+                    <span>Recursos i Serveis</span><i class="fa fa-chevron-down"></i></a>
+                    <!-- #recursos -->
+                    <div class="navbar-collapse collapse primer-nivell-menu" id="recursos-collapse">
+
+                        <ul class="nav navbar-nav" id="sub-accordion-01">
+                          <li><a href="#">Traductor</a></li>
+                          <li class="divider-vertical"></li>
+                          <li><a href="#">Corrector</a></li>
+                          <li class="divider-vertical"></li>
+                          <li><a href="#">Diccionari <span class="center-block">de sin&ograve;nims</span></a></li>
+                          <li class="divider-vertical"></li>
+                          <!--/.submenu-tab-mega -->
+                          <li class="panel sub-menu dropdown-megamenu">
+                            <a href="#sub-menu-01-01" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-01">Programes <span class="center-block">i aplicacions</span><i class="fa fa-chevron-down"></i></a>
+                            <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-01-01">
+                              <li>
+                                <!-- .megamenu -->
+                                <div class="megamenu">
+                                  <div class="row">
+                                    <!-- .col-xs-12 col-sm-5 -->
+                                    <div class="mega-sense-llista col-xs-12 col-sm-5">
+                                      <p>Trieu un sistema operatiu</p>
+                                      <a class="thumbnail" href="#"><img alt="Sistema Windows" src="{{ theme.path }}/static/images/header/megamenu-windows.jpg"></a>
+                                      <a class="thumbnail" href="#"><img alt="Sistema Linux" src="{{ theme.path }}/static/images/header/megamenu-linux.jpg"></a>
+                                      <a class="thumbnail" href="#"><img alt="Sistema OS X" src="{{ theme.path }}/static/images/header/megamenu-osx.jpg"></a>
+                                      <a class="thumbnail" href="#"><img alt="Sistema Android" src="{{ theme.path }}/static/images/header/megamenu-android.jpg"></a>
+                                      <a class="thumbnail" href="#"><img alt="Sistema IOS" src="{{ theme.path }}/static/images/header/megamenu-ios.jpg"></a>
+                                    </div><!--/.col-xs-12 col-sm-5 -->
+                                    <!-- .col-xs-12 col-sm-7 -->
+                                    <div class="mega-amb-llista col-xs-12 col-sm-7">
+                                      <p>Trieu una categoria d&#039;aplicacions</p>
+                                        <div class="row">
+                                          <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                            <li><a href="#">Internet</a></li>
+                                            <li><a href="#">Ofim&agrave;tica</a></li>
+                                            <li><a href="#">Gr&agrave;fic</a></li>
+                                            <li><a href="#">Empresarial</a></li>
+                                            <li><a href="#">Utilitats</a></li>
+                                          </ul>
+                                          <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                            <li><a href="#">Llengua</a></li>
+                                            <li><a href="#">Multim&egrave;dia</a></li>
+                                            <li><a href="#">Educaci&oacute; / ci&egrave;ncia</a></li>
+                                            <li><a href="#">Jocs</a></li>
+                                            <li><a href="#">Sistemes operatius</a></li>
+                                          </ul>
+                                        </div>
+                                    </div><!--/.col-xs-12 col-sm-7 -->
+                                  </div> <!--/.row -->
+
+                                  <div class="row">
+                                    <div class="col-sm-12">
+                                      <button type="button" class="bt-basic" >Tots els programes</button>
+                                    </div>
+                                  </div>
+                                </div><!--/.megamenu -->
+                              </li>
+                            </ul>
+                          </li><!--/.submenu-tab-mega -->
+
+                          <li class="divider-vertical"></li>
+
+                          <!-- .submenu-tab-dropdown -->
+                          <li class="panel sub-menu">
+                            <a href="#sub-menu-01-02" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-01">Recursos <span class="center-block">per a traductors</span><i class="fa fa-chevron-down"></i></a>
+                            <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-01-02">
+                              <li><a href="#">Guia d&#039;estil</a></li>
+                              <li><a href="#">Mem&ograve;ries de traducci&oacute;</a></li>
+                              <li><a href="#">Terminologia</a></li>
+                              <li><a href="#">Adaptador a variant valenciana</a></li>
+                            </ul>
+                          </li><!--/.submenu-tab-dropdown -->
+
+                          <li class="divider-vertical"></li>
+                          <li><a href="#">Ordinadors <span class="center-block">i m&ograve;bils en catal&agrave;</span></a></li>
+                          <li class="divider-vertical"></li>
+                        </ul>
+                    </div><!--/#recursos -->
+                  </li>
+                  <li class="panel">
+                    <a href="#coneixeu-collapse" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#coneixeu-collapse">
+                    <span>Coneixeu Softcatal&agrave;</span><i class="fa fa-chevron-down"></i></a>
+                    <!-- #coneixeu -->
+                    <div class="navbar-collapse collapse primer-nivell-menu" id="coneixeu-collapse">
+                      <ul class="nav navbar-nav" id="sub-accordion-02">
+                        <!-- .submenu -->
+                        <li class="panel sub-menu">
+                          <a href="#sub-menu-02-01" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">Qu&egrave; &eacute;s <span class="center-block">softcatal&agrave;</span><i class="fa fa-chevron-down"></i></a>
+                          <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-01">
+                            <li><a href="#">L&#039;associaci&oacute;</a></li>
+                            <li><a href="#">Hist&ograve;ria</a></li>
+                            <li><a href="#">PMF sobre Softcatal&agrave;</a></li>
+                            <li><a href="#">Premis i Guardons</a></li>
+                          </ul>
+                        </li><!--/.submenu -->
+                        <li class="divider-vertical"></li>
+
+                        <!-- .submenu -->
+                        <li class="panel sub-menu">
+                          <a href="#sub-menu-02-02" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">En qu&egrave; <span class="center-block">treballem</span><i class="fa fa-chevron-down"></i></a>
+                          <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-02">
+                            <li><a href="#">Traducci&oacute; de programari</a></li>
+                            <li><a href="#">Creaci&oacute; de recursos per a traductors</a></li>
+                            <li><a href="#">Foment i difusi&oacute; del catal&agrave; a les noves tecnologies</a></li>
+                          </ul>
+                        </li><!--/.submenu -->
+
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Membres</a></li>
+                        <li class="divider-vertical"></li>
+
+                        <!-- .submenu -->
+                        <li class="panel sub-menu">
+                          <a href="#sub-menu-02-03" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">Com ens <span class="center-block">organitzem</span><i class="fa fa-chevron-down"></i></a>
+                          <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-03">
+                            <li><a href="#">Presa de decisions</a></li>
+                            <li><a href="#">Funcionament econ&ograve;mic de l&#039;associaci&oacute;</a></li>
+                            <li><a href="#">Nous membres</a></li>
+                            <li><a href="#">Codi de conducta</a></li>
+                            <li><a href="#">Comunicaci&oacute; amb els mitjans</a></li>
+                          </ul>
+                        </li><!--/.submenu -->
+
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Blocs</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Publicacions</a></li>
+                        <li class="divider-vertical"></li>
+                      </ul>
+                    </div><!--/#coneixeu -->
+                  </li>
+                  <li class="panel">
+                    <a href="#collaboreu-collapse" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#collaboreu-collapse"><span>Col&middot;laboreu amb l&#039;associaci&oacute;</span><i class="fa fa-chevron-down"></i></a>
+                    <!-- #collaboreu -->
+                    <div class="navbar-collapse collapse primer-nivell-menu" id="collaboreu-collapse">
+                      <ul class="nav navbar-nav">
+                        <li><a href="#">Menu 1.3.1</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Menu 1.3.2</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Menu 1.3.3</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Menu 1.3.4</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="#">Menu 1.3.5</a></li>
+                        <li class="divider-vertical"></li>
+                      </ul>
+                    </div><!--/#collaboreu -->
+                  </li>
+                </ul><!--/.nav-principal-xs .visible-xs -->
+
+                <!-- .nav espai .visible-xs -->
+                <ul class="visible-xs-block navbar-espai-xs nav navbar-nav navbar-right">
+                  <li class="active"><a href="#">Espai de col&middot;laboradors</a></li>
+                </ul><!--/.nav espai .visible-xs -->
+
+                <!-- #navbar-noticies .visible-xs -->
+                <ul id="navbar-noticies" class="visible-xs-block navbar-noticies-xs nav navbar-nav navbar-right">
+                  <li class="active"><a href="#">Not&iacute;cies</a></li>
+                  <li><a href="#">Esdeveniments</a></li>
+                  <li><a href="#">Premsa</a></li>
+                  <li><a href="#">F&ograve;rums</a></li>
+                </ul><!--/#navbar-noticies .visible-xs -->
+              </div><!--/#navbar-principal -->
+
+              <!--/MENU MOBIL -->
+
+
+
+              <!-- MENU ESCRIPTORI -->
+
+              <!-- .sb-search .hidden-xs -->
+              <div class="navbar-lupa hidden-xs">
+                <div id="sb-search" class="sb-search">
+                  <form role="search" method="get" class="searchform" >
+                    <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="s" id="s">
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"><i class="fa fa-search"></i></span>
+                  </form>
+                </div>
+              </div>
+              <!--/.navbar-lupa .hidden-xs -->
+
+              <!-- .navbar-ajuda .visible-lg -->
+              <div class="navbar-ajuda navbar-right visible-lg-block">
+                <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fa fa-chevron-down"></i></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                        <li><a href="#"><i class="fa fa-comment"></i> F&ograve;rums</a></li>
+                        <li><a href="#"><i class="fa fa-question-circle"></i> Preguntes m&eacute;s <span class="center-block">freq&uuml;ents</span></a></li>
+                      </ul>
+                  </li>
+                </ul>
+              </div><!--/.navbar-ajuda .visible-lg -->
+
+              <!-- .navbar-ajuda-md .visible-md-sm -->
+              <div class="navbar-ajuda-md hidden-lg hidden-xs">
+                <button type="button" class="bt-ajuda">
+                  <i class="fa fa-question-circle"></i>
+                </button>
+              </div><!--/.navbar-ajuda-md .visible-md-sm -->
+
+              <!-- navbar-principal lg -->
+              <div class="hidden-xs">
+
+                <!--/.espai .visible-lg -->
+                <div class="navbar-espai visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#">Espai de col&middot;laboradors</a></li>
+                  </ul>
+                </div><!--/.espai .visible-lg -->
+
+                <!-- .navbar-espai-md .visible-md-sm -->
+                <div class="navbar-espai-md hidden-lg">
+                  <button type="button" class="bt-espai">
+                    <i class="fa fa-users"></i>
+                  </button>
+                </div><!--/.navbar-espai-md .visible-md-sm -->
+
+                <!-- .nav-tabs .principal-lg -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active">
+                    <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">Recursos <span class="center-block">i Serveis</span></a>
+                  </li>
+                  <li>
+                    <a href="#coneixeu" aria-controls="coneixeu" role="tab" data-toggle="tab">Coneixeu <span class="center-block">Softcatal&agrave;</span></a>
+                  </li>
+                  <li>
+                    <a href="#collaboreu" aria-controls="collaboreu" role="tab" data-toggle="tab">Col&middot;laboreu <span class="center-block">amb l&#039;associaci&oacute;</span></a>
+                  </li>
+                </ul><!--/.nav-tabs .principal-lg .hidden-xs -->
+              </div><!--/#navbar-principal -->
+
+
+            </div><!--/.container-fluid -->
+
+
+          <!-- .wrap-vermell-header -->
+          <div class="wrap-vermell-header hidden-xs">
+            <div class="container-fluid">
+              <!-- .tab-content -->
+              <div class="tab-content">
+
+                <!-- #recursos -->
+                <div role="tabpanel" class="tab-pane fade in active" id="recursos">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Traductor</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Corrector</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Diccionari <span class="center-block">de sin&ograve;nims</span></a></li>
+                    <li class="divider-vertical"></li>
+                    <!--/.submenu-tab-mega -->
+                    <li class="dropdown dropdown-megamenu">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" delay="0" aria-expanded="false">Programes <span class="center-block">i aplicacions</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li>
+                          <!-- .megamenu -->
+                          <div class="megamenu">
+                            <div class="row">
+                              <!-- .col-xs-12 col-sm-5 -->
+                              <div class="mega-sense-llista col-xs-12 col-sm-5">
+                                <p>Trieu un sistema operatiu</p>
+                                <a class="thumbnail" href="#"><img alt="Sistema Windows" src="{{ theme.path }}/static/images/header/megamenu-windows.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema Linux" src="{{ theme.path }}/static/images/header/megamenu-linux.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema OS X" src="{{ theme.path }}/static/images/header/megamenu-osx.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema Android" src="{{ theme.path }}/static/images/header/megamenu-android.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema IOS" src="{{ theme.path }}/static/images/header/megamenu-ios.jpg"></a>
+                              </div><!--/.col-xs-12 col-sm-5 -->
+                              <!-- .col-xs-12 col-sm-7 -->
+                              <div class="mega-amb-llista col-xs-12 col-sm-7">
+                                <p>Trieu una categoria d&#039;aplicacions</p>
+                                  <div class="row">
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="#">Internet</a></li>
+                                      <li><a href="#">Ofim&agrave;tica</a></li>
+                                      <li><a href="#">Gr&agrave;fic</a></li>
+                                      <li><a href="#">Empresarial</a></li>
+                                      <li><a href="#">Utilitats</a></li>
+                                    </ul>
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="#">Llengua</a></li>
+                                      <li><a href="#">Multim&egrave;dia</a></li>
+                                      <li><a href="#">Educaci&oacute; / ci&egrave;ncia</a></li>
+                                      <li><a href="#">Jocs</a></li>
+                                      <li><a href="#">Sistemes operatius</a></li>
+                                    </ul>
+                                  </div>
+                              </div><!--/.col-xs-12 col-sm-7 -->
+                            </div> <!--/.row -->
+
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <button type="button" class="bt-basic" >Tots els programes</button>
+                              </div>
+                            </div>
+
+                          </div><!--/.megamenu -->
+                        </li>
+                      </ul>
+                    </li>
+                    <!--/.submenu-tab-mega -->
+
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recursos <span class="center-block">per a traductors</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Guia d&#039;estil</a></li>
+                        <li><a href="#">Mem&ograve;ries de traducci&oacute;</a></li>
+                        <li><a href="#">Terminologia</a></li>
+                        <li><a href="#">Adaptador a variant valenciana</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Ordinadors <span class="center-block">i m&ograve;bils en catal&agrave;</span></a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#recursos -->
+
+                <!-- #coneixeu -->
+                <div role="tabpanel" class="tab-pane fade" id="coneixeu">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#"></a></li>
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Qu&egrave; &eacute;s <span class="center-block">softcatal&agrave;</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">L&#039;associaci&oacute;</a></li>
+                        <li><a href="#">Hist&ograve;ria</a></li>
+                        <li><a href="#">PMF sobre Softcatal&agrave;</a></li>
+                        <li><a href="#">Premis i Guardons</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">En qu&egrave; <span class="center-block"> treballem </span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Traducci&oacute; de programari</a></li>
+                        <li><a href="#">Creaci&oacute; de recursos per a traductors</a></li>
+                        <li><a href="#">Foment i difusi&oacute; del catal&agrave; a les noves tecnologies</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Membres</a></li>
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Com ens <span class="center-block"> organitzem </span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Presa de decisions</a></li>
+                        <li><a href="#">Funcionament econ&ograve;mic de l&#039;associaci&oacute;</a></li>
+                        <li><a href="#">Nous membres</a></li>
+                        <li><a href="#">Codi de conducta</a></li>
+                        <li><a href="#">Comunicaci&oacute; amb els mitjans</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Blocs</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Publicacions</a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#coneixeu -->
+
+                <!-- #collaboreu -->
+                <div role="tabpanel" class="tab-pane fade" id="collaboreu">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Menu 1.3.1</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.2</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.3</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.4</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.5</a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#collaboreu -->
+
+              </div><!--/.tab-content -->
+
+            </div><!--/.container-fluid -->
+          </div><!--/.wrap-vermell-header -->
+
+          <!--/MENU ESCRIPTORI -->
+
+
+        </div><!--/.wrap-blanc -->
+      </nav><!--/.navbar -->
+    </header><!--/.pag-header -->
