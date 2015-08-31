@@ -32,8 +32,10 @@ class StarterSite extends TimberSite {
 
 	function add_to_context( $context ) {
 		$context['user_info'] = $this->get_user_information();
-		$context['menu'] = new TimberMenu();
+		$context['menu'] = file_get_contents(ABSPATH . '../ssi/menu-header.html');
+		$context['footer_html'] = file_get_contents(ABSPATH . '../ssi/footer.html');
 		$context['site'] = $this;
+		$context['themepath'] = get_template_directory_uri();
 		return $context;
 	}
 
@@ -57,6 +59,7 @@ class StarterSite extends TimberSite {
 		} else {
 			$user_info['avatar']  = get_avatar( $user_id, 19, null, 'fotografia-usuari-sofcatala' );
 			$user_info['is_connected'] = false;
+			$user_info['wp_login_url'] = wp_login_url('/');
 		}
 
 		return $user_info;
@@ -65,11 +68,6 @@ class StarterSite extends TimberSite {
 }
 
 new StarterSite();
-
-function myfoo( $text ) {
-	$text .= ' bar!';
-	return $text;
-}
 
 function softcatala_scripts() {
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
