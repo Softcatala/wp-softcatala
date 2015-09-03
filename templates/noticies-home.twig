@@ -1,0 +1,24 @@
+<!-- .noticies -->
+<div class="noticies col-sm-12 col-md-9">
+  <h2>Not&iacute;cies</h2>
+
+  <!-- .row -->
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-xs-6 col-sm-4">
+      <div class="thumbnail thumbnail-galeria">
+        <a href="{{post.link}}" title="{{post.title}}">
+          <img src="{{post.thumbnail.src|resize(270, 170, 'top')}}" alt="{{post.title}}">
+          <p>{{post.title}}</p>
+          <time class="data-temps">{{ post.post_date|date}}</time>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div><!--/.row -->
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="/noticies" title="M&eacute;s not&iacute;cies"><button type="button" class="bt-basic">M&eacute;s not&iacute;cies</button></a>
+    </div>
+  </div>
+</div><!--/.noticies -->

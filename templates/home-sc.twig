@@ -1,0 +1,78 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc home">
+
+      {% include "home_slider.twig" %}
+      <!-- .wrap-blanc -->
+      <div class="wrap-blanc">
+        <!-- .container-fluid -->
+        <div class="container-fluid">
+          <!-- .recursos-serveis  -->
+          <section class="contingut-section recursos-serveis">
+            <h3>Recursos i serveis</h3>
+            <h1>Viure i treballar en catal&agrave;</h1>
+
+            <div class="row">
+              <!-- .home-thumbs  -->
+              <div class="home-thumbs col-md-12 col-lg-8">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="home-thumb-01">
+                      <h2>Traductor</h2>
+                      <p>Traductor catal&agrave; &gt; {castell&agrave;, angl&egrave;s, portugu&egrave;s, franc&egrave;s} basat en la tecnologia d&rsquo;Apertium</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="home-thumb-02">
+                      <h2>Corredor</h2>
+                      <p>Corrector de textos on podeu triar entre formes generals, valencianes i balears</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="home-thumb-03">
+                      <h2>Catalanitzador</h2>
+                      <p>Un programa per catalanitzar els ordinadors Windows o Mac de forma senzilla i autom&agrave;tica</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="home-thumb-04">
+                      <h2>Guia d&#039;aparells <span class="center-block">en catal&agrave;</span></h2>
+                      <p>Voleu saber quins m&ograve;bils i tauletes funcionen en catal&agrave;? Us n&#039;informem en aquesta guia</p>
+                    </div>
+                </div>
+              </div><!--/.home-thumbs  -->
+            </div><!--/.row  -->
+
+            {% include "programari-home.twig" %}
+            
+
+          </section><!--/.recursos-serveis -->
+        </div><!--/.container-fluid -->
+      </div><!--/.wrap-blanc -->
+
+      {% include "wrap-gris-home.twig" %}
+      {% include "wrap-vermell-home.twig" %}
+      
+
+      <!-- .wrap-blanc -->
+      <div class="wrap-blanc">
+        <!-- .container-fluid -->
+        <div class="container-fluid">
+          <!-- .actualitat  -->
+          <section class="contingut-section actualitat">
+            <h3>Actualitat</h3>
+            <div class="row">
+              {% include "noticies-home.twig" %}
+
+              {% include "esdeveniments-home.twig" %}
+            </div><!--/.row -->
+          </section><!--/.actualitat -->
+
+        </div><!--/.container-fluid -->
+      </div><!--/.wrap-blanc -->
+    </main><!--/.main .wrap-blanc -->
+{% endblock %}

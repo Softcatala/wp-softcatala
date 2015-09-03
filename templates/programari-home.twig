@@ -1,0 +1,54 @@
+<!-- .programari  -->
+<div class="programari col-xs-12 col-md-6 col-lg-4">
+  <h2>Programari m&eacute;s baixat</h2>
+
+  <!-- .nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="tab-windows active"><a href="#windows" aria-controls="windows" role="tab" data-toggle="tab"><span>Widnows</span></a></li>
+    <li role="presentation" class="tab-linux"><a href="#linux" aria-controls="linux" role="tab" data-toggle="tab"><span>Linux</span></a></li>
+    <li role="presentation" class="tab-osx"><a href="#osx" aria-controls="osx" role="tab" data-toggle="tab"><span>OSX</span></a></li>
+    <li role="presentation" class="tab-android"><a href="#android" aria-controls="android" role="tab" data-toggle="tab"><span>Android</span></a></li>
+    <li role="presentation" class="tab-ios"><a href="#ios" aria-controls="ios" role="tab" data-toggle="tab"><span>IOS</span></a></li>
+  </ul><!--/.nav tabs -->
+
+  <!-- .tab-content -->
+  <div class="tab-content">
+    <!-- .tab-pane -->
+    <div role="tabpanel" class="tab-pane active" id="windows">
+      <ol>
+        {% for programa in programari.windows %}
+        <li><a href="{{ programa.link }}" title="{{ programa.title }}">{{ programa.title }} <span>({{ programa.total_downloads }})</span></a></li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="linux">
+      <ol>
+        {% for programa in programari.linux %}
+        <li><a href="{{ programa.link }}" title="{{ programa.title }}">{{ programa.title }} <span>({{ programa.total_downloads }})</span></a></li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="osx">
+      <ol>
+        {% for programa in programari.osx %}
+        <li><a href="{{ programa.link }}" title="{{ programa.title }}">{{ programa.title }} <span>({{ programa.total_downloads }})</span></a></li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="android">
+      <ol>
+        {% for programa in programari.android %}
+        <li><a href="{{ programa.link }}" title="{{ programa.title }}">{{ programa.title }} <span>({{ programa.total_downloads }})</span></a></li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="ios">
+      <ol>
+        {% for programa in programari.ios %}
+        <li><a href="{{ programa.link }}" title="{{ programa.title }}">{{ programa.title }} <span>({{ programa.total_downloads }})</span></a></li>
+        {% endfor %}
+      </ol>
+    </div><!--/.tab-pane -->
+    <button type="button" class="bt-basic">M&eacute;s programari</button>
+  </div><!--/.tab-content -->
+</div><!--/.programari  -->
