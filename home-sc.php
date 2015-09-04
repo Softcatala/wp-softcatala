@@ -6,8 +6,6 @@
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
-?>
-<?php
 
 $context = Timber::get_context();
 $context['slides'] = Timber::get_posts(array('post_type' => 'slide'));
