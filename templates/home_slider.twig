@@ -17,7 +17,7 @@
         <h1>{{ slide.title }}</h1>
         <h2>{{ slide.post_excerpt }}</h2>
         {% if attribute(slide,'wpcf-button_title') %}
-        <button type="button" class="bt-basic bt-blanc">{{ attribute(slide,'wpcf-button_title') }}</button>
+        <a href="{{ attribute(slide,'wpcf-slide_link') }}" class="bt-basic bt-blanc">{{ attribute(slide,'wpcf-button_title') }}</a>
         {% endif %}
       </div>
       {% if attribute(slide,'wpcf-image_credits') %}
