@@ -32,8 +32,6 @@ class StarterSite extends TimberSite {
 
 	function add_to_context( $context ) {
 		$context['user_info'] = $this->get_user_information();
-		$context['menu'] = file_get_contents(ABSPATH . '../ssi/menu-header.html');
-		$context['footer_html'] = file_get_contents(ABSPATH . '../ssi/footer.html');
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
 		return $context;
