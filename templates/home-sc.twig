@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc home">
+
+      {% include "home_slider.twig" %}
+      <!-- .wrap-blanc -->
+      <div class="wrap-blanc">
+        <!-- .container-fluid -->
+        <div class="container-fluid">
+          <!-- .recursos-serveis  -->
+          <section class="contingut-section recursos-serveis">
+            {% include "recursos-home.twig" %}
+
+            {% include "programari-home.twig" %}
+            
+
+          </section><!--/.recursos-serveis -->
+        </div><!--/.container-fluid -->
+      </div><!--/.wrap-blanc -->
+
+      {% include "qui-som-home.twig" %}
+      {% include "voleu-ajudar-home.twig" %}
+      
+
+      <!-- .wrap-blanc -->
+      <div class="wrap-blanc">
+        <!-- .container-fluid -->
+        <div class="container-fluid">
+          <!-- .actualitat  -->
+          <section class="contingut-section actualitat">
+            <h3>Actualitat</h3>
+            <div class="row">
+              {% include "noticies-home.twig" %}
+
+              {% include "esdeveniments-home.twig" %}
+            </div><!--/.row -->
+          </section><!--/.actualitat -->
+
+        </div><!--/.container-fluid -->
+      </div><!--/.wrap-blanc -->
+    </main><!--/.main .wrap-blanc -->
+{% endblock %}
