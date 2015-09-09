@@ -1,8 +1,177 @@
 {% extends "base.twig" %}
 
 {% block content %}
+  <script type="text/javascript">
+    var currentLocation = window.location;
+  </script>
 	<p>{{qux}}</p>
-	{% for post in posts %}
-		{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
-	{% endfor %}
+	<!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+      <!-- .main-header -->
+      <header class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-8 col-sm-9">
+              <h1>Notícies</h1>
+              {% if title %}
+                <span>/</span>
+                <h2>{{title}}</h2>
+              {% endif %}
+              <div class="compartiu">
+                <p>Compartiu</p>
+                <ul class="compartiu-media">
+                  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="https://twitter.com/intent/tweet?text=#softcatala | {{ current_url }}"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="https://plus.google.com/share?url={{ current_url }}"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-xs-4 col-sm-3">
+              <button type="button" class="bt-basic bt-basic-vermell">Call to action</button>
+            </div>
+          </div>
+        </div>
+      </header><!--/.main-header -->
+
+      <div class="container-fluid">
+        <div class="row">
+          <!-- .contingut -->
+          <div class="contingut contingut-left llista-noticies col-sm-12 col-md-9">
+            <!-- .contingut-header -->
+            <header class="contingut-header">
+
+              <!-- .filtres -->
+              <form class="searchform" method="get" id="cerca_noticies" role="search" action="">
+              <div class="filtres row">
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Escriviu aquí la vostra cerca" id="s" name="s" />
+                    <input type="hidden" value="post" name="post_type" />
+                    <input type="hidden" value="1" name="sentence" />
+                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <div class="row">
+                        <!-- dropdown sitemes operatius -->
+                        <div class="col-sm-6">
+                          <select class="form-control selectpicker" id="temes">
+                            <option value="">Tots els temes</option>
+                            {% for category in categories.temes %}
+                              <option value={{ category.cat_ID }}>{{ category.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div><!--/dropdown sitemes operatius -->
+
+                        <!-- dropdown categories -->
+                        <div class="col-sm-6">
+                          <select class="form-control selectpicker" id="tipus">
+                            <option value="">Tots els tipus</option>
+                            {% for category in categories.tipus %}
+                            	<option value={{ category.cat_ID }}>{{ category.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div><!--/dropdown categories -->
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div><!--/.filtres -->
+              </form>
+            </header><!--/.contingut-header -->
+
+            {% if posts %}
+            {% for post in posts %}
+      				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+      			{% endfor %}
+            <!-- .pagination -->
+            <div class="row">
+              <div class="intern">
+                <nav class="intern-center">
+                  <ul class="pagination">
+                    {% if pagination.prev %}
+                    <li>
+                      <a href="{{pagination.prev.link}}" class="prev {{pagination.prev.link|length ? '' : 'invisible'}}"><span aria-hidden="true">«</span></a>
+                    </li>
+                    {% endif %}
+                    {% for page in pagination.pages %}
+                        <li>
+                            {% if page.link %}
+                                <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+                            {% else %}
+                                <span class="{{page.class}}">{{page.title}}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    {% if pagination.next %}
+                    <li>
+                      <a href="{{pagination.next.link}}" aria-label="Next" class="next {{pagination.next.link|length ? '' : 'invisible'}}"><span aria-hidden="true">»</span></a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            {% else %}
+            No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
+            {% endif %}<!--/.pagination -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar-news.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        <p><strong>Call to action</strong></p>
+        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+        <div class="intern">
+            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+        </div>
+      </div>
+    </div><!--/.seccio-vermella -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    updateCategoryFilter();
+  });
+
+  $(".selectpicker").on('change', function() {
+    updateCategoryFilter();
+  });
+
+  function updateCategoryFilter()
+  {
+    if ($("#tipus").val() || $("#temes").val()) {
+      cat_tipus = $("#tipus").val();
+      cat_temes = $("#temes").val();
+
+      var categories;
+
+      if(cat_tipus && cat_temes) {
+        categories = cat_tipus+','+cat_temes;
+      } else if(cat_tipus && !cat_temes) {
+        categories = cat_tipus;
+      } else if(!cat_tipus && cat_temes) {
+        categories = cat_temes;
+      } else {
+        $('#cerca_noticies').remove();
+      }
+
+      input = $('<input type="hidden" name="cat" id="cat" value='+categories+'>');
+      $('#cat').remove();
+      $('#cerca_noticies').append(input);
+
+    } else {
+      $('#cat').remove();
+    }
+  }
+</script>
+
 {% endblock %}

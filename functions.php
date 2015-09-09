@@ -34,13 +34,13 @@ class StarterSite extends TimberSite {
 		$context['user_info'] = $this->get_user_information();
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
+		$context['current_url'] = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		return $context;
 	}
 
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		//$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
 		return $twig;
 	}
 
