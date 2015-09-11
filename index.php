@@ -20,6 +20,7 @@ if ( ! class_exists( 'Timber' ) ) {
 $context = Timber::get_context();
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
+$context['title'] = get_search_query();
 $context['categories']['temes'] = getSubcategories('temes');
 $context['categories']['tipus'] = getSubcategories('tipus');
 $templates = array( 'index.twig' );
