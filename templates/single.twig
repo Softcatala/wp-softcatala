@@ -76,10 +76,12 @@
                   <button type="button" class="bt-basic respon_link" id="0">Escriviu un comentari</button>
                 </div>
               </div>
+				<article class="article-comentari">
+				<div id="comment_0"></div>
+				</article>
       			{% for cmt in post.get_comments() %}
 				{% if loop.index == 5 %}<div id="mescomentaris" class="collapse">{% endif %}
                 <article class="article-comentari">
-				<div id="comment_0"></div>
       			{% include "comment.twig" with {comment:cmt} %}
                 {% if cmt.children %}
                   {% for cmtch1 in cmt.children %}
