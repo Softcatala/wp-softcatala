@@ -41,11 +41,11 @@
             <header class="contingut-header">
 
               <!-- .filtres -->
-              <form class="searchform" method="get" id="cerca_noticies" role="search" action="">
+              <form class="searchform" method="get" id="cerca_noticies" role="search" action="/noticies">
               <div class="filtres row">
                 <div class="col-sm-10">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Escriviu aquí la vostra cerca" id="s" name="s" />
+                    <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="s" name="s" />
                     <input type="hidden" value="post" name="post_type" />
                     <input type="hidden" value="1" name="sentence" />
                     <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
@@ -57,9 +57,9 @@
                         <!-- dropdown sitemes operatius -->
                         <div class="col-sm-6">
                           <select class="form-control selectpicker" id="temes">
-                            <option value="">Tots els temes</option>
+                            <option value="/noticies">Tots els temes</option>
                             {% for category in categories.temes %}
-                              <option value={{ category.cat_ID }}>{{ category.name }}</option>
+                              <option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                           </select>
                         </div><!--/dropdown sitemes operatius -->
@@ -67,9 +67,9 @@
                         <!-- dropdown categories -->
                         <div class="col-sm-6">
                           <select class="form-control selectpicker" id="tipus">
-                            <option value="">Tots els tipus</option>
+                            <option value="/noticies">Tots els tipus</option>
                             {% for category in categories.tipus %}
-                            	<option value={{ category.cat_ID }}>{{ category.name }}</option>
+                            	<option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                           </select>
                         </div><!--/dropdown categories -->
@@ -136,42 +136,12 @@
       </div>
     </div><!--/.seccio-vermella -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript">
-  $( document ).ready(function() {
-    updateCategoryFilter();
-  });
-
   $(".selectpicker").on('change', function() {
-    updateCategoryFilter();
+    category = this.id;
+	url = $("#"+category).val();
+	window.location.href = url;
   });
-
-  function updateCategoryFilter()
-  {
-    if ($("#tipus").val() || $("#temes").val()) {
-      cat_tipus = $("#tipus").val();
-      cat_temes = $("#temes").val();
-
-      var categories;
-
-      if(cat_tipus && cat_temes) {
-        categories = cat_tipus+','+cat_temes;
-      } else if(cat_tipus && !cat_temes) {
-        categories = cat_tipus;
-      } else if(!cat_tipus && cat_temes) {
-        categories = cat_temes;
-      } else {
-        $('#cerca_noticies').remove();
-      }
-
-      input = $('<input type="hidden" name="cat" id="cat" value='+categories+'>');
-      $('#cat').remove();
-      $('#cerca_noticies').append(input);
-
-    } else {
-      $('#cat').remove();
-    }
-  }
 </script>
 
 {% endblock %}

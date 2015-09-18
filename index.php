@@ -20,9 +20,9 @@ if ( ! class_exists( 'Timber' ) ) {
 $context = Timber::get_context();
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
-$context['title'] = get_search_query();
-$context['categories']['temes'] = getSubcategories('temes');
-$context['categories']['tipus'] = getSubcategories('tipus');
+$context['cerca'] = get_search_query();
+$context['categories']['temes'] = Timber::get_terms('category', array('parent' => getCategoryId('temes')));
+$context['categories']['tipus'] = Timber::get_terms('category', array('parent' => getCategoryId('tipus')));
 $templates = array( 'index.twig' );
 if ( is_home() ) {
 	array_unshift( $templates, 'home.twig' );
@@ -31,10 +31,14 @@ if ( is_home() ) {
 Timber::render( $templates, $context );
 
 
-function getSubcategories( $slug ) 
-{
+/**
+ * Function to get the category ID given a category slug
+ *
+ * @param $slug
+ * @return $int
+*/
+function getCategoryId( $slug ) {
 	$category = get_category_by_slug($slug);
-	$category_id = $category->term_id;
-	$categories = get_categories(array('child_of' => $category_id)); 
-	return $categories;
+	$category_id = $category->term_id; 
+	return $category_id;
 }

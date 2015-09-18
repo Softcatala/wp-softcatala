@@ -29,12 +29,28 @@ if ( is_day() ) {
 	$data['title'] = single_tag_title( '', false );
 } else if ( is_category() ) {
 	$data['title'] = single_cat_title( '', false );
+	$data['cat_link'] = get_category_link( get_query_var('cat') );
 	array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
 } else if ( is_post_type_archive() ) {
 	$data['title'] = post_type_archive_title( '', false );
 	array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
 }
 
+$data['categories']['temes'] = Timber::get_terms('category', array('parent' => getCategoryId('temes')));
+$data['categories']['tipus'] = Timber::get_terms('category', array('parent' => getCategoryId('tipus')));
 $data['posts'] = Timber::get_posts();
+$data['pagination'] = Timber::get_pagination();
 
 Timber::render( $templates, $data );
+
+/**
+ * Function to get the category ID given a category slug
+ *
+ * @param $slug
+ * @return $int
+*/
+function getCategoryId( $slug ) {
+	$category = get_category_by_slug($slug);
+	$category_id = $category->term_id; 
+	return $category_id;
+}

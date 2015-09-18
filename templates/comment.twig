@@ -1,5 +1,5 @@
 <img src="{{ comment.avatar(48) }}" alt="{{comment.author.name}}">
-<div id="comment_{{comment.ID}}">
+<div id="comment-{{comment.ID}}">
   <div class="cont-comentari">
     <header>
       <h3>{{comment.author.name}}</h3>
@@ -8,6 +8,8 @@
       </div>
     </header>
     <p>{{comment.comment_content|wpautop}}</p>
+    {% if is_child is not defined %}
     <a id="{{comment.ID}}" class="respon_link" title="Respon al comentari #{{comment.ID}}" style="cursor:pointer">Respon</a>
+    {% endif %}
   </div>
 </div>
