@@ -1,0 +1,183 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      <header class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xxs-12 col-xs-8 col-sm-9">
+              <h1>Traductor</h1>
+              {% include "share_links.twig" %}
+            </div>
+            <div class="col-xxs-12 col-xs-4 col-sm-3">
+              <button type="button" class="bt-basic bt-basic-vermell">Call to action</button>
+            </div>
+          </div>
+        </div>
+      </header><!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-9">
+
+            <!-- .formulari-eines -->
+            <section class="formulari-eines contingut-section">
+
+              <!-- .btns-llengues -->
+              <div class="btns-llengues row">
+                <div class="col-xs-12">
+                  <!-- .btns-llengues-origen -->
+                  <div class="btns-llengues-origen btn-group" role="group">
+                    <button type="button" class="btn bt select" id="origin-cat">Català</button>
+                    <button type="button" class="btn bt" id="origin-spa">Castellà</button>
+
+                    <div class="btn-group" role="group">
+                      <!-- dropdown llengues -->
+                      <select class="form-control selectpicker" id="origin-select">
+                        <option selected="true" disabled="disabled">Una altra llengua</option>
+                        <option value="oc">Occità/Aranès</option>
+                        <option value="fr">Francès</option>
+                        <option value="en">Anglès</option>
+                        <option value="pt">Portuguès</option>
+                      </select><!--/dropdown llengues -->
+                    </div>
+                  </div><!--/.btns-llengues-origen -->
+
+                  <div class="btn-right">
+                    <button type="button" class="btn direccio"><i class="fa fa-long-arrow-left"></i><i class="fa fa-long-arrow-right"></i></button>
+
+                    <!-- .btns-llengues-desti  -->
+                    <div class="btns-llengues-desti btn-group" role="group">
+                      <button type="button" class="btn bt select" id="target-spa">Castellà</button>
+                      <button type="button" class="btn bt" id="target-cat">Català</button>
+                      <div class="btn-group" role="group">
+                        <!-- dropdown llengues -->
+                        <select class="form-control selectpicker" id="target-select">
+                          <option selected="true" disabled="disabled">Una altra llengua</option>
+                          <option value="oc">Occità</option>
+                          <option value="fr">Francès</option>
+                          <option value="en">Anglès</option>
+                          <option value="pt">Portuguès</option>
+                        </select><!--/dropdown llengues -->
+                      </div>
+                    </div><!-- .btns-llengues-desti -->
+
+                    <button id="translate" type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
+                  </div>
+                </div>
+              </div><!--/.btns-llengues -->
+
+              <!-- .formulari -->
+              <form class="formulari form-horizontal">
+                <div class="traductor-textarea form-group">
+                  <div class="textarea-origen col-xs-12 col-sm-6">
+                    <textarea class="form-control primer-textarea" rows="12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed ornare diam, eget mollis arcu. Morbi bibendum, diam nec molestie vehicula, lorem arcu exemple d'enllaç, sit amet placerat lorem ex vitae sapien. Cras mauris velit, pretium non mauris at, viverra porttitor enim. Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante. Nam iaculis sollicitudin eleifend. Morbi sodales dictum neque, vitae euismod dolor iacu Cras mauris velit, pretium non mauris at, viverra porttitor enim. Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante. Nam iaculis sollicitudin eleifend. Morbi sodales dictum neque, vitae euismod dolor iacu Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante post et ridere.</textarea>
+                  </div>
+
+                  <div class="textarea-desti col-xs-12 col-sm-6">
+                    <textarea class="form-control second-textarea" rows="12">
+                  </textarea>
+                  </div>
+                </div>
+
+                <div class="traductor-checkbox form-group">
+                  <div class="col-sm-12">
+                    <div class="checkbox">
+                      <label class="checkbox-inline">
+                        <input type="checkbox" id="mark_unknown" /> Marca les paraules desconegudes
+                      </label>
+                      <label class="checkbox-inline">
+                        <input type="checkbox" id="formes_valencianes" /> Utilitza les formes valencianes
+                      </label>
+                    </div>
+
+                    <div class="bt-extra visible-xs-block">
+                    <button type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
+                  </div>
+                  </div>
+                </div>
+              </form><!--/.formulari -->
+
+              <p class="fons-gris">Traductor català <i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> <strong>{castellà, angl&egrave;s, portugu&egrave;s, franc&egrave;s}</strong> basat en la tecnologia d&rsquo;<a href="#">Apertium</a> i <a href="#">ScaleMT</a>, dissenyats pel <a href="#">Grup Transducens</a> del <a href="#">Departament de Llenguatges i Sistemes Informàtics de la Universitat d&rsquo;Alacant</a>, i desenvolupats sota les llic&egrave;ncies lliures GPL i AGPL, respectivament.</p>
+            </section><!--/.formulari-eines -->
+            
+            <div style="display: none">
+                <input type="hidden" id="origin_language" value="cat" />
+                <input type="hidden" id="target_language" value="spa" />
+            </div>
+
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          <!-- .aside-right -->
+          <aside class="aside-right col-sm-12 col-md-3">
+            <img class="img-responsive" src="dist/img/content/publicitat-content.jpg" alt="imatge d'exemple publicitat lateral">
+            <div class="caixa-gris">
+              <p>Ajudeu-nos a millorar</p>
+              <a href="#"><i class="fa fa-envelope-o"></i><span>Heu trobat un error? Aviseu-nos si veieu cap problema</span></a>
+              <a href="#"><i class="fa fa-user-plus"></i><span>Col·laboreu en la traducció d'aquest programa</span></a>
+            </div>
+            <div class="caixa-gris">
+              <p>Teniu algun dubte?</p>
+              <a href="#"><i class="fa fa-question-circle"></i><span>Al fòrum resolem totes les q&uuml;estions</span></a>
+            </div>
+            <div class="caixa-gris">
+              <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+              <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+            </div>
+            <div class="caixa-gris enllacos">
+              <a href="#">Títol de l'enllaç</a>
+              <p>Descripció de l'enllaç lorem ipsum</p>
+              <a href="#">Títol de l'enllaç</a>
+              <p>Descripció de l'enllaç lorem ipsum</p>
+            </div>
+            <img class="img-responsive" src="dist/img/content/twitter-content.jpg" alt="imatge d'exemple twitter lateral">
+          </aside><!--/.aside-right -->
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        <p><strong>Call to action</strong></p>
+        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+        <div class="intern">
+            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+        </div>
+      </div>
+    </div><!--/.seccio-vermella -->
+
+
+    <!-- .seccio-blanca -->
+    <div class="wrap-blanc seccio-blanca">
+      <div class="container-fluid">
+        <p><strong>Lorem ipsum dolor sit ametadipiscing elit</strong></p>
+        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+        <div class="row logos">
+          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/img/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
+
+        </div>
+        <div class="row logos">
+          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/img/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
+
+        </div>
+      </div>
+    </div><!--/.seccio-blanca -->
+{% endblock %}
