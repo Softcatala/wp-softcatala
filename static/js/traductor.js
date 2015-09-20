@@ -13,6 +13,17 @@ jQuery(document).ready(function(){
     $('#target-spa').removeAttr('disabled');
     $('[data-id="target-select"]').removeClass('select');
     $('[data-id="target-select"]').removeAttr('disabled');
+    
+    //Workaround to solve the issue when the selected language is the same marked in the dropdown
+    $('.btns-llengues-origen .dropdown-menu li').on('click', function() {
+        var origin_language = $('#origin-select').val();
+        $('#origin-select').trigger('change');
+    });
+    
+    $('.btns-llengues-desti .dropdown-menu li').on('click', function() {
+        var target_language = $('#target-select').val();
+        $('#target-select').trigger('change');
+    });
 });
 
 
@@ -55,7 +66,7 @@ $('#origin-spa').click(function() {
 
 $('#origin-select').on('change', function() {
     //Left
-    origin_language = $('#origin-select').val();
+    var origin_language = $('#origin-select').val();
     $('#origin_language').val(origin_language);
     $('#origin-cat').removeClass('select');
     $('#origin-spa').removeClass('select');
@@ -78,35 +89,67 @@ $('#target-spa').click(function() {
 });
 
 $('#target-select').on('change', function() {
-    target_language = $('#target-select').val();
+    var target_language = $('#target-select').val();
     $('#target_language').val(target_language);
     $('#target-cat').removeClass('select');
     $('#target-spa').removeClass('select');
     $('[data-id="target-select"]').addClass('select');
 });
 
+$('.direccio').on('click', function() {
+    var origin_language = $('#origin_language').val();
+    var target_language = $('#target_language').val();
+    $('#origin_language').val(target_language);
+    $('#target_language').val(origin_language);
+    
+    if (origin_language == 'cat') {
+        //Left
+        if (target_language == 'spa') {
+            $('#origin-spa').trigger('click');
+            $('#target-cat').trigger('click');
+        } else {
+            $('#origin-select').val(target_language);
+            $('#origin-select').trigger('change');
+        }
+    } else if (origin_language == 'spa') {
+        $('#origin-cat').trigger('click');
+        $('#target-spa').trigger('click');
+        $('#target-cat').attr('disabled', 'disabled');
+    } else {
+        $('#origin-cat').trigger('click');
+        $('#target-select').val(origin_language);
+        $('#target-select').trigger('change');
+        $('#target-cat').attr('disabled', 'disabled');
+    }
+    
+    
+});
+
 /** End setting different language pairs **/
 
+/** Translation AJAX action **/
 $('#translate').click(function() {
-    text = $('.primer-textarea').val();
+    var text = $('.primer-textarea').val();
     var origin_language = $('#origin_language').val();
     var target_language = $('#target_language').val();
     var valencian_forms = ($('#formes_valencianes:checked').length)?'_valencia':'';
-    var adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
+    var adapted_target_language = target_language;
+    if (origin_language == 'spa') {
+        adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
+    }
     
     var langpair = origin_language+"|"+adapted_target_language;
     var muk = ($('#mark_unknown:checked').length)?'yes':'no';
-    
-    var adapted_langpair = langpair.replace("cat","cat"+valencian_forms);
-        
+            
     $.ajax({
         url:"http://www.softcatala.org/apertium/json/translate",
         type:"POST",
-        data : {'langpair':adapted_langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
+        data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
         dataType: 'json',
         success : trad_ok,
         failure : trad_ko
     });
+    
     return false;
 });
 
@@ -126,3 +169,5 @@ function trad_ok(dt) {
 function trad_ko(dt) {
     alert('res');
 }
+
+/** End translation AJAX action **/

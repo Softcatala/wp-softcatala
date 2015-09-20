@@ -1,0 +1,27 @@
+<!-- .aside-right -->
+<aside class="aside-right col-sm-12 col-md-3">
+  <img class="img-responsive" src="{{ themepath }}/static/images/content/publicitat-content.jpg" alt="imatge d'exemple publicitat lateral">
+  <div class="caixa-gris">
+    <p>Ajudeu-nos a millorar</p>
+    <a href="#"><i class="fa fa-envelope-o"></i><span>Heu trobat un error? Aviseu-nos si veieu cap problema</span></a>
+    <a href="#"><i class="fa fa-user-plus"></i><span>Col·laboreu en la traducció d'aquest programa</span></a>
+  </div>
+  <div class="caixa-gris">
+    <p>Teniu algun dubte?</p>
+    <a href="/forum"><i class="fa fa-question-circle"></i><span>Al fòrum resolem totes les q&uuml;estions</span></a>
+  </div>
+  {% if attribute(post,'wpcf-baixades_relacionades_noticia') %}
+    <div class="caixa-gris">
+      {% for baixada in attribute(post,'wpcf-baixades_relacionades_noticia') %}
+      <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ baixada|get_caption_from_media_url }}</span></a>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <div class="caixa-gris enllacos">
+    <a href="#">Títol de l'enllaç</a>
+    <p>Descripció de l'enllaç lorem ipsum</p>
+    <a href="#">Títol de l'enllaç</a>
+    <p>Descripció de l'enllaç lorem ipsum</p>
+  </div>
+  <img class="img-responsive" src="{{ themepath }}/static/images/content/twitter-content.jpg" alt="imatge d'exemple twitter lateral">
+</aside><!--/.aside-right -->

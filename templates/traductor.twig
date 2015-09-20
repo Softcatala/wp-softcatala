@@ -57,7 +57,7 @@
                         <!-- dropdown llengues -->
                         <select class="form-control selectpicker" id="target-select">
                           <option selected="true" disabled="disabled">Una altra llengua</option>
-                          <option value="oc">Occità</option>
+                          <option value="oc">Occità/Aranès</option>
                           <option value="fr">Francès</option>
                           <option value="en">Anglès</option>
                           <option value="pt">Portuguès</option>
@@ -116,30 +116,7 @@
             </section><!--/.contingut-section  -->
           </div><!--/.contingut -->
 
-          <!-- .aside-right -->
-          <aside class="aside-right col-sm-12 col-md-3">
-            <img class="img-responsive" src="dist/img/content/publicitat-content.jpg" alt="imatge d'exemple publicitat lateral">
-            <div class="caixa-gris">
-              <p>Ajudeu-nos a millorar</p>
-              <a href="#"><i class="fa fa-envelope-o"></i><span>Heu trobat un error? Aviseu-nos si veieu cap problema</span></a>
-              <a href="#"><i class="fa fa-user-plus"></i><span>Col·laboreu en la traducció d'aquest programa</span></a>
-            </div>
-            <div class="caixa-gris">
-              <p>Teniu algun dubte?</p>
-              <a href="#"><i class="fa fa-question-circle"></i><span>Al fòrum resolem totes les q&uuml;estions</span></a>
-            </div>
-            <div class="caixa-gris">
-              <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
-              <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
-            </div>
-            <div class="caixa-gris enllacos">
-              <a href="#">Títol de l'enllaç</a>
-              <p>Descripció de l'enllaç lorem ipsum</p>
-              <a href="#">Títol de l'enllaç</a>
-              <p>Descripció de l'enllaç lorem ipsum</p>
-            </div>
-            <img class="img-responsive" src="dist/img/content/twitter-content.jpg" alt="imatge d'exemple twitter lateral">
-          </aside><!--/.aside-right -->
+          {% include "sidebar-traductor.twig" %}
 
         </div><!--/.row -->
       </div><!--/.container-fluid -->
@@ -163,19 +140,19 @@
         <p><strong>Lorem ipsum dolor sit ametadipiscing elit</strong></p>
         <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
         <div class="row logos">
-          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/img/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="{{ themepath }}/static/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
 
         </div>
         <div class="row logos">
-          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/img/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="dist/img/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="{{ themepath }}/static/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
+          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
 
         </div>
       </div>
