@@ -130,27 +130,31 @@ $('.direccio').on('click', function() {
 /** Translation AJAX action **/
 $('#translate').click(function() {
     var text = $('.primer-textarea').val();
-    var origin_language = $('#origin_language').val();
-    var target_language = $('#target_language').val();
-    var valencian_forms = ($('#formes_valencianes:checked').length)?'_valencia':'';
-    var adapted_target_language = target_language;
-    if (origin_language == 'spa') {
-        adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
+    if (text.length) {
+        var origin_language = $('#origin_language').val();
+        var target_language = $('#target_language').val();
+        var valencian_forms = ($('#formes_valencianes:checked').length)?'_valencia':'';
+        var adapted_target_language = target_language;
+        if (origin_language == 'spa') {
+            adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
+        }
+        
+        var langpair = origin_language+"|"+adapted_target_language;
+        var muk = ($('#mark_unknown:checked').length)?'yes':'no';
+                
+        $.ajax({
+            url:"http://www.softcatala.org/apertium/json/translate",
+            type:"POST",
+            data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
+            dataType: 'json',
+            success : trad_ok,
+            failure : trad_ko
+        });
+        
+        return false;
+    } else {
+        alert('Introduïu algun text');
     }
-    
-    var langpair = origin_language+"|"+adapted_target_language;
-    var muk = ($('#mark_unknown:checked').length)?'yes':'no';
-            
-    $.ajax({
-        url:"http://www.softcatala.org/apertium/json/translate",
-        type:"POST",
-        data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
-        dataType: 'json',
-        success : trad_ok,
-        failure : trad_ko
-    });
-    
-    return false;
 });
 
 function nl2br(text) {
@@ -160,7 +164,7 @@ function nl2br(text) {
 
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
-        jQuery('.second-textarea').html(nl2br(dt.responseData.translatedText));
+        $('.second-textarea').html(nl2br(dt.responseData.translatedText));
     } else {
         trad_ko();
     }
@@ -171,3 +175,39 @@ function trad_ko(dt) {
 }
 
 /** End translation AJAX action **/
+
+/** Contact form action **/
+var $contactForm = $('#report_form');
+
+$contactForm.on('submit', function(ev){
+    ev.preventDefault();
+    
+    //Data
+    post_data = {
+        'nom'       : $('input[name=nom]').val(),
+        'correu'    : $('input[name=correu]').val(),
+        'tipus'     : $('select[name=tipus]').val(),
+        'comentari' : $('textarea[name=comentari]').val()
+    };
+    
+    $.ajax({
+        url:"/traductor",
+        type:"POST",
+        data : post_data,
+        dataType: 'json',
+        success : form_sent_ok,
+        failure : form_sent_ko
+    });
+});
+
+function form_sent_ok(dt) {
+    if (dt.type == 'message') {
+        $("#contingut-formulari").empty().html(dt.text);
+    }
+}
+
+function form_sent_ko(dt) {
+    alert('merda');
+}
+
+/** End contact form action **/

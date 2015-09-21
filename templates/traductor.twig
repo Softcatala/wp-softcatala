@@ -11,9 +11,11 @@
               <h1>Traductor</h1>
               {% include "share_links.twig" %}
             </div>
+            {% if attribute(post,'wpcf-call_to_action_top_url') %}
             <div class="col-xxs-12 col-xs-4 col-sm-3">
-              <button type="button" class="bt-basic bt-basic-vermell">Call to action</button>
+              <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
             </div>
+			{% endif %}
           </div>
         </div>
       </header><!--/.main-header -->
@@ -74,11 +76,11 @@
               <form class="formulari form-horizontal">
                 <div class="traductor-textarea form-group">
                   <div class="textarea-origen col-xs-12 col-sm-6">
-                    <textarea class="form-control primer-textarea" rows="12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed ornare diam, eget mollis arcu. Morbi bibendum, diam nec molestie vehicula, lorem arcu exemple d'enllaç, sit amet placerat lorem ex vitae sapien. Cras mauris velit, pretium non mauris at, viverra porttitor enim. Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante. Nam iaculis sollicitudin eleifend. Morbi sodales dictum neque, vitae euismod dolor iacu Cras mauris velit, pretium non mauris at, viverra porttitor enim. Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante. Nam iaculis sollicitudin eleifend. Morbi sodales dictum neque, vitae euismod dolor iacu Nam pulvinar, magna vitae fermentum aliquet, elit eros dignissim arcu, ut finibus sapien ipsum sit amet ante post et ridere.</textarea>
+                    <textarea class="form-control primer-textarea" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
                   </div>
 
                   <div class="textarea-desti col-xs-12 col-sm-6">
-                    <textarea class="form-control second-textarea" rows="12">
+                    <textarea class="form-control second-textarea" rows="12" readonly>
                   </textarea>
                   </div>
                 </div>
@@ -110,6 +112,8 @@
             </div>
 
 
+            
+
             <!-- .contingut-section  -->
             <section class="contingut-section">
               {{post.content}}
@@ -123,38 +127,20 @@
     </main><!--/.main .wrap-blanc -->
 
     <!-- .seccio-vermella -->
-    <div class="wrap-vermell seccio-vermella">
-      <div class="container-fluid">
-        <p><strong>Call to action</strong></p>
-        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
-        <div class="intern">
-            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+      <div class="wrap-vermell seccio-vermella">
+        <div class="container-fluid">
+          <p>Baixa l'aplicació per a mòbil</p>
+          <div class="intern">
+              <a href="https://play.google.com/store/apps/details?id=org.softcatala.traductor" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-android"></i> App per Android</a>
+              <a style="margin-right: 10px;" href="https://itunes.apple.com/es/app/traductor-softcatala/id447196146?l=ca&mt=8" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-apple"></i>App per iOS</a>
+          </div>
         </div>
-      </div>
-    </div><!--/.seccio-vermella -->
+      </div><!--/.seccio-vermella -->
+    {% endif %}
+    
+    
+    {% include "report-traductor.twig" %}
 
-
-    <!-- .seccio-blanca -->
-    <div class="wrap-blanc seccio-blanca">
-      <div class="container-fluid">
-        <p><strong>Lorem ipsum dolor sit ametadipiscing elit</strong></p>
-        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
-        <div class="row logos">
-          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="{{ themepath }}/static/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
-
-        </div>
-        <div class="row logos">
-          <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="{{ themepath }}/static/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-02.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-03.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-04.jpg" class="img-responsive center-block"></div>
-          <div class="col-xs-12 col-sm-2"><img src="{{ themepath }}/static/images/content/img-franja-blanca-05.jpg" class="img-responsive center-block"></div>
-
-        </div>
-      </div>
-    </div><!--/.seccio-blanca -->
+    {% include "static/templates/traductor-logos.twig" %}
 {% endblock %}
