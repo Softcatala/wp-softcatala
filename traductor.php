@@ -11,6 +11,8 @@ if($_POST) {
     $context = Timber::get_context();
     $post = new TimberPost();
     $context['post'] = $post;
+    $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+    $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
     Timber::render( array( 'traductor.twig' ), $context );
 }
     

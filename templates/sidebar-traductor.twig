@@ -1,10 +1,9 @@
 <!-- .aside-right -->
 <aside class="aside-right col-sm-12 col-md-3">
-  <img class="img-responsive" src="{{ themepath }}/static/images/content/publicitat-content.jpg" alt="imatge d'exemple publicitat lateral">
+  {{sidebar_top}}
   <div class="caixa-gris">
     <p>Ajudeu-nos a millorar</p>
-    <a href="#"><i class="fa fa-envelope-o"></i><span>Heu trobat un error? Aviseu-nos si veieu cap problema</span></a>
-    <a href="#"><i class="fa fa-user-plus"></i><span>Col·laboreu en la traducció d'aquest programa</span></a>
+    <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-envelope-o"></i><span>Heu trobat un error? Aviseu-nos si veieu cap problema</span></a>
   </div>
   <div class="caixa-gris">
     <p>Teniu algun dubte?</p>
@@ -27,6 +26,5 @@
     <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
     <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
   </div>
-  <a class="twitter-timeline"  href="https://twitter.com/softcatala" data-widget-id="349615365229277184">Tuits de @softcatala</a>
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  {{sidebar_bottom}}
 </aside><!--/.aside-right -->

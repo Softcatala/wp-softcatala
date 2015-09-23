@@ -24,6 +24,27 @@ jQuery(document).ready(function(){
         var target_language = $('#target-select').val();
         $('#target-select').trigger('change');
     });
+    
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 100;  //time in ms, 5 second for example
+    
+    //on keyup, start the countdown
+    $('.primer-textarea').keyup(function(){
+        clearTimeout(typingTimer);
+        if ($('.primer-textarea').val) {
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        }
+    });
+    
+    //user is "finished typing," do something
+    function doneTyping () {
+        if ($('.primer-textarea').val() == '') {
+            $('.second-textarea').html('');
+        } else {
+            $('#translate').trigger('click');
+        }
+    }
 });
 
 
