@@ -66,6 +66,10 @@ $('#origin-cat').click(function() {
         $('#target_language').val('spa');
         $('#target-spa').addClass('select');
     }
+    
+    //Disable 'formes valencianes' checkbox
+    $('#formes_valencianes').attr('disabled', 'disabled');
+    $('#formes_valencianes_label').css( "color", "#AAA" );
 });
 
 $('#origin-spa').click(function() {
@@ -83,6 +87,10 @@ $('#origin-spa').click(function() {
     $('#target-spa').attr('disabled', 'disabled');
     $('[data-id="target-select"]').removeClass('select');
     $('[data-id="target-select"]').attr('disabled', 'disabled');
+    
+    //Enable 'formes valencianes' checkbox
+    $('#formes_valencianes').removeAttr('disabled');
+    $('#formes_valencianes_label').css( "color", "#333" );
 });
 
 $('#origin-select').on('change', function() {
@@ -101,6 +109,10 @@ $('#origin-select').on('change', function() {
     $('#target-cat').addClass('select');
     $('[data-id="target-select"]').attr('disabled', 'disabled');
     $('[data-id="target-select"]').removeClass('select');
+    
+    //Disable 'formes valencianes' checkbox
+    $('#formes_valencianes').attr('disabled', 'disabled');
+    $('#formes_valencianes_label').css( "color", "#AAA" );
 });
 
 $('#target-spa').click(function() {
@@ -128,6 +140,10 @@ $('.direccio').on('click', function() {
         if (target_language == 'spa') {
             $('#origin-spa').trigger('click');
             $('#target-cat').trigger('click');
+            
+            //Enable 'formes valencianes' checkbox
+            $('#formes_valencianes').removeAttr('disabled');
+            $('#formes_valencianes_label').css( "color", "#333" );
         } else {
             $('#origin-select').val(target_language);
             $('#origin-select').trigger('change');
