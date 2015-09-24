@@ -20,11 +20,14 @@
     {% endif %}
     </div>
   {% endif %}
-  <div class="caixa-gris enllacos">
-    <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
-    <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
-    <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
-    <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
+  {% if links %}
+    <div class="caixa-gris enllacos">
+    {% for link in links %}
+      <a href="{{ link.link_url }}">{{ link.link_title }}</a>
+      <p>{{ link.link_description }}</p>
+    {% endfor %}
   </div>
+  {% endif %}
+  
   {{sidebar_bottom}}
 </aside><!--/.aside-right -->

@@ -11,6 +11,15 @@ if($_POST) {
     $context = Timber::get_context();
     $post = new TimberPost();
     $context['post'] = $post;
+    $post_links = types_child_posts('link', $post->ID);
+    $links = array();
+    foreach ($post_links as $k => $post_link) {
+        $links[]['link_title'] = $post_link->fields['link_title'];
+        $links[]['link_url'] = $post_link->fields['link_url'];
+        $links[]['link_description'] = $post_link->fields['link_description'];  
+    }
+
+    $context['links'] = $links;
     $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
     $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
     Timber::render( array( 'traductor.twig' ), $context );
