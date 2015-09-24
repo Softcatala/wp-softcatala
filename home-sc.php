@@ -2,9 +2,7 @@
 /**
  * Template Name: Home Softcatala
  *
- * @package WordPress
- * @subpackage Twenty_Fourteen
- * @since Twenty Fourteen 1.0
+ * @package wp-softcatala
  */
 
 $context = Timber::get_context();
