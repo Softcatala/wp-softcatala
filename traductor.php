@@ -11,7 +11,7 @@ if($_POST) {
     $context = Timber::get_context();
     $post = new TimberPost();
     $context['post'] = $post;
-    $post_links = types_child_posts('link', $post->ID);
+    $post_links = types_child_posts('link');
     $links = array();
     foreach ($post_links as $k => $post_link) {
         $links[]['link_title'] = $post_link->fields['link_title'];
