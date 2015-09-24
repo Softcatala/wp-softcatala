@@ -14,6 +14,12 @@ jQuery(document).ready(function(){
     $('[data-id="target-select"]').removeClass('select');
     $('[data-id="target-select"]').removeAttr('disabled');
     
+    //Mobile (left-right)
+    $('#origin-select-mobil').val('cat');
+    $('#target-select-mobil').val('spa');
+    $('#origin-select-mobil').trigger('change');
+    $('#target-select-mobil').trigger('change');
+    
     //Workaround to solve the issue when the selected language is the same marked in the dropdown
     $('.btns-llengues-origen .dropdown-menu li').on('click', function() {
         var origin_language = $('#origin-select').val();
@@ -154,18 +160,80 @@ $('.direccio').on('click', function() {
             $('#origin-select').val(target_language);
             $('#origin-select').trigger('change');
         }
+        
+        //Mobil
+        $('#target-select-mobil').val('cat');
+        $('#origin-select-mobil').val(target_language);
+        $("#target-select-mobil > option").each(function() {
+            if (this.value != 'cat') {
+                $("#target-select-mobil option[value="+ this.value +"]").attr('disabled', 'disabled');
+            }
+        });
+        $('.selectpicker').selectpicker('refresh');
     } else if (origin_language == 'spa') {
         $('#origin-cat').trigger('click');
         $('#target-spa').trigger('click');
         $('#target-cat').attr('disabled', 'disabled');
+        //Mòbil
+        $('#origin-select-mobil').val('cat');
+        $('#target-select-mobil').val(origin_language);
+        $("#target-select-mobil > option").each(function() {
+            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
+        });
+        $('.selectpicker').selectpicker('refresh');
     } else {
         $('#origin-cat').trigger('click');
         $('#target-select').val(origin_language);
         $('#target-select').trigger('change');
         $('#target-cat').attr('disabled', 'disabled');
+        //Mòbil
+        $('#origin-select-mobil').val('cat');
+        $('#target-select-mobil').val(origin_language);
+        $("#target-select-mobil > option").each(function() {
+            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
+        });
+        $('.selectpicker').selectpicker('refresh');
     }
     
     
+});
+
+//Mobile
+$('#origin-select-mobil').on('change', function() {
+    //Left
+    var origin_language = $('#origin-select-mobil').val();
+    var target_language = $('#target-select-mobil').val();
+    $('#origin_language').val(origin_language);
+    
+    //Right
+    if (origin_language != 'cat') {
+        $('#target-select-mobil').val('cat');
+        $('#target-select-mobil').trigger('change');
+        $('#target_language').val('cat');
+        
+        $("#target-select-mobil > option").each(function() {
+            if (this.value != 'cat') {
+                $("#target-select-mobil option[value="+ this.value +"]").attr('disabled', 'disabled');
+            }
+        });
+    } else {
+        $('#target_language').val(target_language);
+        
+        $("#target-select-mobil > option").each(function() {
+            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
+        });
+    }
+
+    $('.selectpicker').selectpicker('refresh');
+    
+    //Disable 'formes valencianes' checkbox
+    $('#formes_valencianes').attr('disabled', 'disabled');
+    $('#formes_valencianes_label').css( "color", "#AAA" );
+});
+
+$('#target-select-mobil').on('change', function() {
+    var target_language = $('#target-select-mobil').val();
+    $('#target_language').val(target_language);
 });
 
 /** End setting different language pairs **/
