@@ -25,28 +25,34 @@ jQuery(document).ready(function(){
         $('#target-select').trigger('change');
     });
     
-    //setup before functions
-    var typingTimer;                //timer identifier
-    var doneTypingInterval = 100;  //time in ms, 5 second for example
-    
-    //on keyup, start the countdown
-    $('.primer-textarea').keyup(function(){
-        clearTimeout(typingTimer);
-        if ($('.primer-textarea').val) {
-            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    //Timer for instant translation
+    var timer,
+    lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
+    timeoutPunct = 1000, timeoutOther = 3000;
+    $('.primer-textarea').on('keyup paste', function (event) {
+        if(lastPunct && event.keyCode === 32 || event.keyCode === 13) {
+            // Don't override the short timeout for simple space-after-punctuation
+            return;
         }
-    });
-    
-    //user is "finished typing," do something
-    function doneTyping () {
-        if ($('.primer-textarea').val() == '') {
-            $('.second-textarea').html('');
-        } else {
-            $('#translate').trigger('click');
-        }
-    }
-});
 
+        if(timer)
+            clearTimeout(timer);
+
+        var timeout;
+        if(punct.indexOf(event.keyCode) !== -1) {
+            timeout = timeoutPunct;
+            lastPunct = true;
+        }
+        else {
+            timeout = timeoutOther;
+            lastPunct = false;
+        }
+
+        timer = setTimeout(function () {
+                translateText();
+        }, timeout);
+    });
+});
 
 /** Set the different language pairs and update menus depending on user clicks **/
 $('#origin-cat').click(function() {
@@ -164,6 +170,10 @@ $('.direccio').on('click', function() {
 
 /** End setting different language pairs **/
 
+$('#mark_unknown').click(function() {
+    translateText();
+});
+
 /** Translation AJAX action **/
 $('#translate').click(function() {
     var text = $('.primer-textarea').val();
@@ -201,14 +211,26 @@ function nl2br(text) {
 
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
-        $('.second-textarea').html(nl2br(dt.responseData.translatedText));
+        translation = nl2br(dt.responseData.translatedText);
+        translation_coloured = translation.replace(/(\*\S+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
+        $('.second-textarea').html(translation_coloured);
     } else {
         trad_ko();
     }
 }
 
 function trad_ko(dt) {
-    alert('res');
+    //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
+    var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
+    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
+    $('#error_title').html(error_title);
+    $('#error_description').html(error_txt);
+    $('#error_pagina').trigger('click');
+}
+
+/* This function just calls the translation */
+function translateText() {
+    $('#translate').trigger('click');
 }
 
 /** End translation AJAX action **/

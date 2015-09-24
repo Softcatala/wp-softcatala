@@ -80,8 +80,7 @@
                   </div>
 
                   <div class="textarea-desti col-xs-12 col-sm-6">
-                    <textarea class="form-control second-textarea" rows="12" readonly>
-                  </textarea>
+                    <div class="form-control second-textarea"></div>
                   </div>
                 </div>
 
@@ -89,7 +88,7 @@
                   <div class="col-sm-12">
                     <div class="checkbox">
                       <label class="checkbox-inline">
-                        <input type="checkbox" id="mark_unknown" /> Marca les paraules desconegudes
+                        <input type="checkbox" id="mark_unknown" /> Ressalta les paraules desconegudes
                       </label>
                       <label class="checkbox-inline text-disabled" id="formes_valencianes_label">
                         <input type="checkbox" id="formes_valencianes" disabled/> Utilitza les formes valencianes
@@ -139,8 +138,9 @@
       </div><!--/.seccio-vermella -->
     {% endif %}
     
-    
     {% include "report-traductor.twig" %}
 
     {% include "static/traductor-logos.twig" %}
+    
+    {% include "template-avis.twig" %}
 {% endblock %}
