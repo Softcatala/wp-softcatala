@@ -243,7 +243,7 @@ $('#mark_unknown').click(function() {
 });
 
 /** Translation AJAX action **/
-$('#translate').click(function() {
+$('#translate, #translate_xs').click(function() {
     var text = $('.primer-textarea').val();
     if (text.length) {
         var origin_language = $('#origin_language').val();
@@ -298,7 +298,7 @@ function trad_ko(dt) {
 
 /* This function just calls the translation */
 function translateText() {
-    $('#translate').trigger('click');
+    $('#translate, #translate_xs').trigger('click');
 }
 
 /** End translation AJAX action **/
