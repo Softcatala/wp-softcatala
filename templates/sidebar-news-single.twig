@@ -1,25 +1,31 @@
 <!-- .aside-right -->
       <aside class="aside-right col-sm-3">
-        <img class="img-responsive" src="dist/img/content/publicitat-content.jpg" alt="imatge d'exemple publicitat lateral">
+        {{sidebar_top}}
         <div class="caixa-gris">
           <p>Teniu algun dubte?</p>
           <a href="/forum"><i class="fa fa-question-circle"></i><span>Al fòrum resolem totes les qüestions</span></a>
         </div>
         {% if attribute(post,'wpcf-baixades_relacionades_noticia') %}
           <div class="caixa-gris">
-            {% for baixada in attribute(post,'wpcf-baixades_relacionades_noticia') %}
-            <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ baixada|get_caption_from_media_url }}</span></a>
+          {% if attribute(post,'wpcf-baixades_relacionades_noticia') is iterable %}
+              {% for baixada in attribute(post,'wpcf-baixades_relacionades_noticia') %}
+              <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ baixada|get_caption_from_media_url }}</span></a>
             {% endfor %}
+          {% else %}
+              <a href="{{ attribute(post,'wpcf-baixades_relacionades_noticia') }}"><i class="fa fa-download"></i><span>{{ attribute(post,'wpcf-baixades_relacionades_noticia')|get_caption_from_media_url }}</span></a>
+          {% endif %}
           </div>
         {% endif %}
-        <div class="caixa-gris enllacos">
-          <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
-          <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
-          <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
-          <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
+        {% if links %}
+          <div class="caixa-gris enllacos">
+          {% for link in links %}
+            <a href="{{ link.link_url }}">{{ link.link_title }}</a>
+            <p>{{ link.link_description }}</p>
+          {% endfor %}
         </div>
-        <a class="twitter-timeline"  href="https://twitter.com/softcatala" data-widget-id="349615365229277184">Tuits de @softcatala</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        {% endif %}
+        
+        {{sidebar_bottom}}  
       </aside><!--/.aside-right -->
 
     </div><!--/.row -->
