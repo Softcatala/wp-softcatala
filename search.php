@@ -18,16 +18,3 @@ $context['categories']['temes'] = Timber::get_terms('category', array('parent' =
 $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 
 Timber::render( $templates, $context );
-
-
-/**
- * Function to get the category ID given a category slug
- *
- * @param $slug
- * @return $int
-*/
-function get_category_id( $slug ) {
-	$category = get_category_by_slug($slug);
-	$category_id = $category->term_id; 
-	return $category_id;
-}

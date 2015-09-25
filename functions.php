@@ -134,6 +134,18 @@ function get_current_url()
 	return $current_url;
 }
 
+/**
+ * Function to get the category ID given a category slug
+ *
+ * @param $slug
+ * @return $int
+*/
+function get_category_id( $slug ) {
+	$category = get_category_by_slug($slug);
+	$category_id = $category->term_id; 
+	return $category_id;
+}
+
 function include_theme_conf()
 {
     locate_template( array( 'inc/widgets.php' ), true, true );
