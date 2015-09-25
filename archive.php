@@ -17,6 +17,8 @@
 $templates = array( 'archive.twig', 'index.twig' );
 
 $data = Timber::get_context();
+$page = Timber::query_post(get_option( 'page_for_posts' ));
+$data['post'] = $page;
 
 $data['title'] = 'Archive';
 if ( is_day() ) {
@@ -35,7 +37,17 @@ if ( is_day() ) {
 	$data['title'] = post_type_archive_title( '', false );
 	array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
 }
+$post_links = types_child_posts('link', array('post_id' => get_option( 'page_for_posts' )));
+$links = array();
+foreach ($post_links as $k => $post_link) {
+	$links[]['link_title'] = $post_link->fields['link_title'];
+	$links[]['link_url'] = $post_link->fields['link_url'];
+	$links[]['link_description'] = $post_link->fields['link_description'];
+}
 
+$data['links'] = $links;
+$data['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$data['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $data['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
 $data['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 $data['posts'] = Timber::get_posts();

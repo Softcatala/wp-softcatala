@@ -34,7 +34,7 @@ class StarterSite extends TimberSite {
 		$context['user_info'] = $this->get_user_information();
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
-		$context['current_url'] = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$context['current_url'] = get_current_url();
 		return $context;
 	}
 
@@ -59,8 +59,7 @@ class StarterSite extends TimberSite {
 		} else {
 			$user_info['avatar']  = get_avatar( $user_id, 19, null, 'fotografia-usuari-sofcatala' );
 			$user_info['is_connected'] = false;
-			$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-			$user_info['wp_login_url'] = wp_login_url($current_url);
+			$user_info['wp_login_url'] = wp_login_url(get_current_url());
 		}
 
 		return $user_info;
@@ -74,12 +73,6 @@ function softcatala_scripts() {
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
 	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', '1.0.0', true );
-	
-	//JS for Traductor page
-	$slug = get_post_field( 'post_name', get_post() );
-	if( $slug == 'traductor' ) {
-		wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/traductor.js', array(), '1.0.0', true );
-	}
 }
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
 
@@ -122,6 +115,18 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 	$attachment_meta = get_post_field('post_excerpt', $attachment_id);
  
 	return $attachment_meta;
+}
+
+/**
+ * This function retrieves the current url, either on http or https format
+ * depending on the current navigation
+ *
+ * @return string $url
+*/
+function get_current_url()
+{
+	$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	return $current_url;
 }
 
 function include_theme_conf()
