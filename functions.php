@@ -1,11 +1,16 @@
 <?php
 
-if ( ! class_exists( 'Timber' ) ) {
+if ( ! class_exists( 'Timber' ) && is_admin() ) {
 	add_action( 'admin_notices', function() {
 			echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
 		} );
 	return;
+} else if ( ! class_exists( 'Timber' ) && ! is_admin() ) {
+	header('HTTP/1.1 500 Internal Server Error');
+    echo 'Aquest és un error 500, esperant que l\'Anna dissenye alguna cosa millor';
+    die();
 }
+
 
 Timber::$dirname = array('templates', 'views');
 
