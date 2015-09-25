@@ -23,8 +23,8 @@ $context['post'] = $page;
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 $context['cerca'] = get_search_query();
-$context['categories']['temes'] = Timber::get_terms('category', array('parent' => getCategoryId('temes')));
-$context['categories']['tipus'] = Timber::get_terms('category', array('parent' => getCategoryId('tipus')));
+$context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
+$context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 $post_links = types_child_posts('link', array('post_id' => get_option( 'page_for_posts' )));
 $links = array();
 foreach ($post_links as $k => $post_link) {
@@ -51,7 +51,7 @@ Timber::render( $templates, $context );
  * @param $slug
  * @return $int
 */
-function getCategoryId( $slug ) {
+function get_category_id( $slug ) {
 	$category = get_category_by_slug($slug);
 	$category_id = $category->term_id; 
 	return $category_id;

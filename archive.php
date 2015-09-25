@@ -36,8 +36,8 @@ if ( is_day() ) {
 	array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
 }
 
-$data['categories']['temes'] = Timber::get_terms('category', array('parent' => getCategoryId('temes')));
-$data['categories']['tipus'] = Timber::get_terms('category', array('parent' => getCategoryId('tipus')));
+$data['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
+$data['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 $data['posts'] = Timber::get_posts();
 $data['pagination'] = Timber::get_pagination();
 
@@ -49,7 +49,7 @@ Timber::render( $templates, $data );
  * @param $slug
  * @return $int
 */
-function getCategoryId( $slug ) {
+function get_category_id( $slug ) {
 	$category = get_category_by_slug($slug);
 	$category_id = $category->term_id; 
 	return $category_id;
