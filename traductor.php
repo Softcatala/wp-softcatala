@@ -46,10 +46,10 @@ function sendContactForm() {
     }
     
     //Sanitize input data using PHP filter_var().
-    $nom      = filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
-    $correu     = filter_var($_POST["correu"], FILTER_SANITIZE_EMAIL);
-    $tipus   = filter_var($_POST["tipus"], FILTER_SANITIZE_STRING);
-    $comentari   = filter_var($_POST["comentari"], FILTER_SANITIZE_STRING);
+    $nom      = sanitize_text_field( $_POST["nom"] );
+    $correu     = sanitize_email( $_POST["correu"] );
+    $tipus   = sanitize_text_field( $_POST["tipus"] );
+    $comentari   = sanitize_text_field( $_POST["comentari"] );
     
     //email body
     $message_body = "Tipus: ".$tipus."\r\n\r\Comentari: ".$comentari."\r\n\r\Nom: ".$nom."\r\nCorreu electrònic: ".$correu;
