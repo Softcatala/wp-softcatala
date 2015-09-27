@@ -14,22 +14,14 @@
  */
 
 $context = Timber::get_context();
-$page = Timber::query_post(get_option( 'page_for_posts' ));
-$context['post'] = $page;
+$post = Timber::query_post(get_option( 'page_for_posts' ));
+$context['post'] = $post;
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 $context['cerca'] = get_search_query();
 $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
 $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
-$post_links = types_child_posts('link', array('post_id' => get_option( 'page_for_posts' )));
-$links = array();
-foreach ($post_links as $k => $post_link) {
-	$links[]['link_title'] = $post_link->fields['link_title'];
-	$links[]['link_url'] = $post_link->fields['link_url'];
-	$links[]['link_description'] = $post_link->fields['link_description'];  
-}
-
-$context['links'] = $links;
+$context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 
