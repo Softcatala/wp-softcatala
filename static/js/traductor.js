@@ -280,7 +280,7 @@ function nl2br(text) {
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
-        translation_coloured = translation.replace(/(\*\S+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
+        translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         $('.second-textarea').html(translation_coloured);
     } else {
         trad_ko();
