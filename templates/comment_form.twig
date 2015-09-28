@@ -1,0 +1,43 @@
+<article class="article-comentari respondre" id="comment_flexible_form">
+  {% if user_info.is_connected %}
+  <i class="">{{ user_info.avatar_48 }}</i>
+  {% else %}
+  <i class="fa fa-user"></i>
+  {% endif %}
+  <div class="cont-respondre">
+
+    <form class="form-horizontal" id="commentform" method="post" action="/wp/wp-comments-post.php">
+
+      <!-- camp de text -->
+      <div class="form-group">
+        <div class="col-sm-12">
+          <textarea rows="6" class="form-control" placeholder="Comentari" name="comment" required="required"></textarea>
+        </div>
+      </div><!--/camp de text -->
+      {% if user_info.is_connected == false %}
+      <!-- camp -->
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="text" placeholder="Nom" name="author" class="form-control" required="required">
+        </div>
+      </div><!-- camp -->
+      <div class="form-group">
+        <div class="col-sm-12">
+          <input type="email" placeholder="E-mail" name="email" class="form-control" required="required">
+        </div>
+      </div><!-- camp -->
+      {% endif %}
+      <!-- botons -->
+      <div class="form-group">
+          <div class="col-sm-12 form-botons">
+                <input id="comment_post_ID" type="hidden" value="{{ post.ID }}" name="comment_post_ID">
+                <input id="comment_parent" type="hidden" value="0" name="comment_parent">
+               <button class="bt-basic bt-basic-vermell-fosc" type="submit">envia</button>
+               <button class="bt-basic bt-basic-gris" type="button" id="hide_clean_form">cancel·la</button>
+              {% if user_info.is_connected == false %}<a href="{{user_info.wp_login_url}}" class="sessio">Inicieu la sessió</a>{% endif %}
+          </div>
+      </div><!--/botons -->
+    </form>
+
+  </div>
+</article>

@@ -1,0 +1,80 @@
+<!-- .contingut -->
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-lg">
+
+
+                <!-- .modal-content -->
+                <div class="modal-content">
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                  <!-- .formulari -->
+                  <div class="formulari">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                      <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                          <h1>Proposeu-nos millores en la traducció o informeu d'errors</h1>
+                          <p>Si heu trobat un error en la traducció o voleu proposar alguna millora, ompliu els camps següents i descriviu quina és la millora que proposeu o l'error del qual voleu informar-nos.</p>
+                        </div>
+                      </div>
+                    </header><!--/.contingut-header -->
+
+                    <!-- section -->
+                    <section class="contingut-section" id="contingut-formulari">
+                      <form class="form-horizontal" id="report_form" method="post">
+                        <!-- camp -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">El vostre nom *</label>
+                          <div class="col-sm-6">
+                            <input type="text" name="nom" class="form-control" placeholder="Nom" required>
+                          </div>
+                        </div><!-- camp -->
+                        
+                        <!-- camp -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">El vostre correu electrònic *</label>
+                          <div class="col-sm-6">
+                            <input type="email" name="correu" class="form-control" placeholder="Correu electrònic" required>
+                          </div>
+                        </div><!-- camp -->
+
+                        <!-- camp dropdown -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Què proposeu?</label>
+                          <div class="col-sm-6">
+                            <select class="form-control selectpicker" name="tipus">
+                              <option>Una millora</option>
+                              <option>Informar d'un error</option>
+                            </select>
+                          </div>
+                          <div class="col-sm-3">
+                          </div>
+                        </div><!-- /camp dropdown -->
+
+                        <!-- camp de text -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Comentari *</label>
+                          <div class="col-sm-9">
+                            <textarea class="form-control" name="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                          </div>
+                        </div><!--/camp de text -->
+
+                        <!-- botons -->
+                        <div class="form-group">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9 form-botons">
+                              <div class="row">
+                             <div class="form-boto col-xs-5">
+                               <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
+                             </div>
+                             </div>
+                            </div>
+                        </div><!--/botons -->
+                      </form>
+                    </section><!--/ section -->
+                  </div><!--/.formulari -->
+
+                </div><!-- .modal-content -->
+              </div><!--/.modal-dialog -->
+            </div><!--/.modal -->

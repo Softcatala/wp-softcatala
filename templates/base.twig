@@ -8,7 +8,6 @@
 
 	<body class="{{body_class}}" data-template="base.twig">
 		<section id="content" role="main" class="content-wrapper">
-			{% if title %}<h1>{{title}}</h1>{% endif %}
 			<div class="wrapper {{sidebar_class}}">
 				{% block content %}
 					Sorry, no content
@@ -22,9 +21,7 @@
 		</section>
 
 		{% block footer %}
-			<footer id="footer">
-				{% include 'footer.twig' %}
-			</footer>
+			{% include 'footer.twig' %}
 			{{ function('wp_footer') }}
 		{% endblock %}
 	</body>

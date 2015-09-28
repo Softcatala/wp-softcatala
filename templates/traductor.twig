@@ -1,0 +1,165 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      <header class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xxs-12 col-xs-8 col-sm-9">
+              <h1>Traductor</h1>
+              {% include "share_links.twig" %}
+            </div>
+            {% if attribute(post,'wpcf-call_to_action_top_url') %}
+            <div class="col-xxs-12 col-xs-4 col-sm-3">
+              <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+            </div>
+			{% endif %}
+          </div>
+        </div>
+      </header><!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-9">
+
+            <!-- .formulari-eines -->
+            <section class="formulari-eines contingut-section">
+
+              <!-- .btns-llengues -->
+              <div class="btns-llengues row">
+                <div class="col-xs-12">
+                  <!-- .btns-llengues-origen -->
+                  <div class="btns-llengues-origen btn-group" role="group">
+                    <button type="button" class="btn bt select" id="origin-cat">Català</button>
+                    <button type="button" class="btn bt" id="origin-spa">Castellà</button>
+
+                    <div class="btn-group" role="group">
+                      <!-- dropdown llengues -->
+                      <select class="form-control selectpicker bt" id="origin-select">
+                        <option selected="true" disabled="disabled">Una altra llengua</option>
+                        <option value="oc">Occità/Aranès</option>
+                        <option value="fr">Francès</option>
+                        <option value="en">Anglès</option>
+                        <option value="pt">Portuguès</option>
+                      </select><!--/dropdown llengues -->
+                      
+                      <!-- dropdown llengues mòbil -->
+                      <select class="form-control selectpicker visible-xs-block" id="origin-select-mobil">
+                        <option value="cat">Català</option>
+                        <option value="spa">Castellà</option>
+                        <option value="oc">Occità/Aranès</option>
+                        <option value="fr">Francès</option>
+                        <option value="en">Anglès</option>
+                        <option value="pt">Portuguès</option>
+                      </select><!--/dropdown llengues mòbil -->
+                    </div>
+                  </div><!--/.btns-llengues-origen -->
+
+                  <div class="btn-right">
+                    <button type="button" class="btn direccio"><i class="fa fa-long-arrow-left"></i><i class="fa fa-long-arrow-right"></i></button>
+
+                    <!-- .btns-llengues-desti  -->
+                    <div class="btns-llengues-desti btn-group" role="group">
+                      <button type="button" class="btn bt select" id="target-spa">Castellà</button>
+                      <button type="button" class="btn bt" id="target-cat">Català</button>
+                      <div class="btn-group" role="group">
+                        <!-- dropdown llengues -->
+                        <select class="form-control selectpicker bt" id="target-select">
+                          <option value="oc">Occità/Aranès</option>
+                          <option value="fr">Francès</option>
+                          <option value="en">Anglès</option>
+                          <option value="pt">Portuguès</option>
+                        </select><!--/dropdown llengues -->
+                        
+                        <!-- dropdown llengues mòbil -->
+                        <select class="form-control selectpicker visible-xs-inline-block" id="target-select-mobil">
+                          <option value="cat">Català</option>
+                          <option value="spa" selected="selected">Castellà</option>
+                          <option value="oc">Occità/Aranès</option>
+                          <option value="fr">Francès</option>
+                          <option value="en">Anglès</option>
+                          <option value="pt">Portuguès</option>
+                        </select><!--/dropdown llengues mòbil -->
+                      </div>
+                    </div><!-- .btns-llengues-desti -->
+
+                    <button id="translate" type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
+                  </div>
+                </div>
+              </div><!--/.btns-llengues -->
+
+              <!-- .formulari -->
+              <form class="formulari form-horizontal">
+                <div class="traductor-textarea form-group">
+                  <div class="textarea-origen col-xs-12 col-sm-6">
+                    <textarea class="form-control primer-textarea" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
+                  </div>
+
+                  <div class="textarea-desti col-xs-12 col-sm-6">
+                    <div class="form-control second-textarea"></div>
+                  </div>
+                </div>
+
+                <div class="traductor-checkbox form-group">
+                  <div class="col-sm-12">
+                    <div class="checkbox">
+                      <label class="checkbox-inline">
+                        <input type="checkbox" id="mark_unknown" /> Ressalta les paraules desconegudes
+                      </label>
+                      <label class="checkbox-inline text-disabled" id="formes_valencianes_label">
+                        <input type="checkbox" id="formes_valencianes" disabled/> Utilitza les formes valencianes
+                      </label>
+                    </div>
+
+                    <div class="bt-extra visible-xs-block">
+                    <button id="translate_xs" type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
+                  </div>
+                  </div>
+                </div>
+              </form><!--/.formulari -->
+
+              <p class="fons-gris">Traductor català <i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> <strong>{castellà, angl&egrave;s, portugu&egrave;s, franc&egrave;s}</strong> basat en la tecnologia d&rsquo;<a href="#">Apertium</a> i <a href="#">ScaleMT</a>, dissenyats pel <a href="#">Grup Transducens</a> del <a href="#">Departament de Llenguatges i Sistemes Informàtics de la Universitat d&rsquo;Alacant</a>, i desenvolupats sota les llic&egrave;ncies lliures GPL i AGPL, respectivament.</p>
+            </section><!--/.formulari-eines -->
+            
+            <div style="display: none">
+                <input type="hidden" id="origin_language" value="cat" />
+                <input type="hidden" id="target_language" value="spa" />
+            </div>
+
+
+            
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar-traductor.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    
+      <!-- .seccio-vermella -->
+      <div class="wrap-vermell seccio-vermella">
+        <div class="container-fluid">
+          <p>Baixa l'aplicació per a mòbil</p>
+          <div class="intern">
+              <a href="https://play.google.com/store/apps/details?id=org.softcatala.traductor" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-android"></i> App per Android</a>
+              <a style="margin-right: 10px;" href="https://itunes.apple.com/es/app/traductor-softcatala/id447196146?l=ca&amp;mt=8" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-apple"></i>App per iOS</a>
+          </div>
+        </div>
+      </div>
+      <!--/.seccio-vermella -->
+    
+    {% include "report-traductor.twig" %}
+
+    {% include "static/traductor-logos.twig" %}
+    
+    {% include "template-avis.twig" %}
+{% endblock %}

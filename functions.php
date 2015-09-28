@@ -1,11 +1,16 @@
 <?php
 
-if ( ! class_exists( 'Timber' ) ) {
+if ( ! class_exists( 'Timber' ) && is_admin() ) {
 	add_action( 'admin_notices', function() {
 			echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
 		} );
 	return;
+} else if ( ! class_exists( 'Timber' ) && ! is_admin() ) {
+	header('HTTP/1.1 500 Internal Server Error');
+    echo 'Aquest és un error 500, esperant que l\'Anna dissenye alguna cosa millor';
+    die();
 }
+
 
 Timber::$dirname = array('templates', 'views');
 
@@ -34,13 +39,14 @@ class StarterSite extends TimberSite {
 		$context['user_info'] = $this->get_user_information();
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
+		$context['current_url'] = get_current_url();
 		return $context;
 	}
 
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		//$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
+		$twig->addFilter('get_caption_from_media_url', new Twig_Filter_Function('get_caption_from_media_url'));
 		return $twig;
 	}
 
@@ -52,12 +58,13 @@ class StarterSite extends TimberSite {
 			$user_info['is_connected'] = true;
 			$user_info['wp_logout_url'] = wp_logout_url( '/' );
 			$user_info['avatar']  = get_avatar( $user_id, 19, null, 'fotografia-usuari-sofcatala' );
+			$user_info['avatar_48']  = get_avatar( $user_id, 48, null, 'fotografia-usuari-sofcatala' );
 			$user_info['name'] = $current_user->display_name;
 			$user_info['profile_url']  = get_edit_profile_url( $user_id );
 		} else {
 			$user_info['avatar']  = get_avatar( $user_id, 19, null, 'fotografia-usuari-sofcatala' );
 			$user_info['is_connected'] = false;
-			$user_info['wp_login_url'] = wp_login_url('/');
+			$user_info['wp_login_url'] = wp_login_url(get_current_url());
 		}
 
 		return $user_info;
@@ -69,8 +76,78 @@ new StarterSite();
 
 function softcatala_scripts() {
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
-	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/static/js/bootstrap-toolkit.min.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
+
+/**
+ * This function retrieves the media caption from
+ * a given url. It is used because the «secondary image»
+ * created from Types doesn't return the media caption
+ * Author: https://philipnewcomer.net/2012/11/get-the-attachment-id-from-an-image-url-in-wordpress/
+ *
+ * @param string $url
+ * @return string $caption
+*/
+function get_caption_from_media_url( $attachment_url = '' ) {
+ 
+	global $wpdb;
+	$attachment_id = false;
+ 
+	// If there is no url, return.
+	if ( '' == $attachment_url )
+		return;
+ 
+	// Get the upload directory paths
+	$upload_dir_paths = wp_upload_dir();
+ 
+	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
+	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
+ 
+		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+		$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
+ 
+		// Remove the upload path base directory from the attachment URL
+		$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
+ 
+		// Finally, run a custom database query to get the attachment ID from the modified attachment URL
+		$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+ 
+	}
+
+	//Not in the original function from the author
+	$attachment_meta = get_post_field('post_excerpt', $attachment_id);
+ 
+	return $attachment_meta;
 }
 
-add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
+/**
+ * This function retrieves the current url, either on http or https format
+ * depending on the current navigation
+ *
+ * @return string $url
+*/
+function get_current_url()
+{
+	$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	return $current_url;
+}
+
+/**
+ * Function to get the category ID given a category slug
+ *
+ * @param $slug
+ * @return $int
+*/
+function get_category_id( $slug ) {
+	$category = get_category_by_slug($slug);
+	$category_id = $category->term_id; 
+	return $category_id;
+}
+
+function include_theme_conf()
+{
+    locate_template( array( 'inc/widgets.php' ), true, true );
+}
+add_action( 'after_setup_theme', 'include_theme_conf' );
