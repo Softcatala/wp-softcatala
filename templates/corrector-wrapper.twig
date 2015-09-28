@@ -1,0 +1,98 @@
+<div class="corrector-textarea form-group">
+  <div class="col-xs-12">
+<!-- .btns-corrector -->
+<div class="btns-corrector row">
+  <div class="col-xs-12">
+	<!-- .formes  -->
+	<div class="formes">
+	  <p>Formes</p>
+	  <label class="radio-inline">
+		<input type="radio" name="check_formes" id="check_formes_generals" checked> generals
+	  </label>
+	  <label class="radio-inline">
+		<input type="radio" name="check_formes" id="check_formes_valencianes" /> Valencianes
+	  </label>
+	  <label class="radio-inline">
+		<input type="radio" name="check_formes" id="check_formes_balears" /> Balears
+	  </label>
+	</div><!--/.formes -->
+
+	<div class="btn-right">
+	  <input type="submit" id="submit" class="bt-basic bt-basic-vermell" name="_action_checkText" value="Revisa">
+	  <input type="hidden" name="lang" value="ca"/>
+	</div>
+
+  </div>
+</div><!--/.btns-corrector -->
+
+<!-- comença el formulari -->
+<div class="textcorrectorgram">
+
+		<p id="checktextpara">
+			<textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="6"></textarea>
+		</p>
+		<textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
+
+</div>
+</div>
+</div>
+
+<div class="traductor-checkbox form-group">
+  <div class="col-sm-12">
+	<div class="checkbox">
+	  <a id="text_prova" href="#">Insereix un text de prova</a>
+	  <label class="checkbox-inline">
+		<input type="checkbox" name="CA_UNPAIRED_QUESTION" id="CA_UNPAIRED_QUESTION"> Exigeix signe d&#039;interrogaci&oacute; inicial (&iquest;)
+	  </label>
+	  <label class="checkbox-inline">
+		<input type="checkbox" name="SE_DAVANT_SC" id="SE_DAVANT_SC" checked> Exigeix &#039;se&#039; (se sap, se celebra)
+	  </label>
+	</div>
+	<div id="opcions_valencia">
+	  <div class="btns-corrector row">
+		<div class="col-xs-12">
+		  <div class="formes">
+			<p>Accentuació</p>
+			<label class="radio-inline">
+			  <input type="radio" name="accentuacio" value="accentuacio_general">general (cafè)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="accentuacio" value="accentuacio_valenciana" checked>valenciana (café)
+			</label>
+		  </div>
+		  <div class="formes">
+			<p>Verbs incoatius</p>
+			<label class="radio-inline">
+			  <input type="radio" name="incoatius" value="incoatius_eix" checked>-eix (serveix)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="incoatius" value="incoatius_ix">-ix (servix)
+			</label>
+			|
+			<label class="radio-inline">
+			  <input type="radio" name="incoatius2" value="incoatius_esc">-esc (servesc)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="incoatius2" value="incoatius_isc" checked>-isc (servisc)
+			</label> 
+		  </div>
+		  <div class="formes">
+			<p>Demostratius</p>
+			<label class="radio-inline">
+			  <input type="radio" name="demostratius" value="demostratius_aquest" checked>aquest
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="demostratius" value="demostratius_este">este
+			</label>
+		  </div>
+		</div>
+	  </div> 
+	</div>
+  </div>
+
+  <div class="bt-extra visible-xs-block">
+	<button type="button" class="bt-basic bt-basic-vermell">Revisa</button>
+  </div>
+
+</div>
+<!-- acaba el formulari-->
