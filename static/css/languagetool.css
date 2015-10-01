@@ -1,0 +1,86 @@
+body #checktextpara .mceEditor table td {
+	width: auto;
+}
+
+body div#menu_checktext_spellcheckermenu table#menu_checktext_spellcheckermenu_tbl td {
+	width: auto;
+}
+
+p#checktextpara {
+	position: relative;
+	float: none;
+	clear: both;
+}
+
+p#checktextpara p {
+	float: none;
+}
+
+p#checktextpara table {
+	  margin: 10px 2px;
+	  width: 99%;
+	  display: table;
+	  float: none;
+}
+
+.errorMarker {
+        /* font-weight: bold; */
+        padding-bottom: 2px;
+        background-image: url("../images/squiggle.png");
+        background-repeat: repeat-x;
+        background-position: left bottom;
+        vertical-align: text-top;
+}
+
+.hiddenSpellError {
+    padding-bottom: 2px;
+    background-image: url("images/squiggle_red.png");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    cursor: default;
+}
+
+.hiddenGrammarError {
+    padding-bottom: 2px;
+    background-image: url("images/squiggle.png");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    cursor: default;
+}
+
+.hiddenGreenError {
+    padding-bottom: 2px;
+    background-image: url("images/squiggle_green.png");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    cursor: default;
+}
+
+.textcorrectorgram {
+  margin-top:15px;
+}
+.textcorrectorgram p, .textcorrectorgram form {
+    font: 13px/20px Verdana;
+    margin: 3px 0px 13px 0px;
+}
+.textpetit {
+   font-size: 10px;
+}
+.textexplicacions p {
+    font: 12px/19px Verdana;
+    margin: 3px 0px 13px 0px;
+}
+td {vertical-align:top;}
+td img {vertical-align: top;}
+.ngrid690 {
+    width: 95% !important;
+}
+
+.ngrid260 {
+    width: 30% !important;
+}
+
+.boxtit {
+    width: 95% !important;
+}
+

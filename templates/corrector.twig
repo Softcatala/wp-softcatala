@@ -1,0 +1,77 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      <header class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xxs-12 col-xs-8 col-sm-9">
+              <h1>Corrector</h1>
+              {% include "share_links.twig" %}
+            </div>
+            {% if attribute(post,'wpcf-call_to_action_top_url') %}
+            <div class="col-xxs-12 col-xs-4 col-sm-3">
+              <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+            </div>
+			{% endif %}
+          </div>
+        </div>
+      </header><!--/.main-header -->
+      
+      
+
+      <div class="container-fluid">
+        
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-9">
+
+            <!-- .formulari-eines -->
+            <section class="formulari-eines contingut-section">
+
+              
+
+              <!-- .formulari -->
+              <form class="formulari form-horizontal"  name="checkform" action="http://community.languagetool.org" method="post">
+                
+					{% include "corrector-wrapper.twig" %}  
+				  
+              </form><!--/.formulari  -->
+                <p class="fons-gris"><strong>Resultats</strong>. Apareixeran subratllats errors ortogràfics, errors gramaticals o tipogràfics i recomanacions d'estil. Fent clic en les paraules assenyalades, obtindreu suggeriments de correcció, si n'hi ha. Els resultats són orientatius i en cap cas poden substituir una revisió experta. </p>
+                <p class="fons-gris"><strong>Opcions</strong>. Trieu entre formes generals, valencianes i balears. Aquestes opcions afecten principalment la flexió verbal. Podeu configurar altres opcions (més nombroses en el cas valencià) fent clic en «Més opcions». També podeu usar LanguageTool com a complement de <a href="/wiki/Rebost:Corrector_gramatical_en_català_LanguageTool">LibreOffice/OpenOffice</a> o <a href="https://addons.mozilla.org/ca/firefox/addon/languagetoolfx/">Firefox</a>.</p>
+            </section><!--/.formulari-eines -->
+
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar-traductor.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
+        <div class="intern">
+            <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
+        </div>
+      </div>
+    </div><!--/.seccio-vermella -->
+    {% endif %}
+    
+    {% include "report-traductor.twig" %}
+
+    {% include "static/corrector-logos.twig" %}
+    
+    {% include "template-avis.twig" %}
+{% endblock %}
