@@ -41,4 +41,5 @@ body, td, pre {
     font-weight: 300;
     resize: none;
     font-family: "Open Sans",Helvetica, Arial,sans-serif !important;
+    line-height: 25px;
 }
