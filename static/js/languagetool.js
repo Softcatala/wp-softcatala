@@ -33,7 +33,7 @@ var SC_COOKIE = 'sc-languagetool';
     });
 
     var clip = new ZeroClipboard($("#copyclip"), {
-      moviePath: "/languagetool/js/ZeroClipboard.swf"
+      moviePath: "/themes/wp-softcatala/inc/languagetool/js/ZeroClipboard.swf"
     });
 
     clip.on('mouseover', function(client, args) {
@@ -103,7 +103,7 @@ var SC_COOKIE = 'sc-languagetool';
     //languagetool_rpc_url                 : "/languagetool/online-check/tiny_mce/plugins/atd-tinymce/server/proxy.php?url=",
     languagetool_rpc_url: "/languagetool/api/checkDocument",
     /* edit this file to customize how LanguageTool shows errors: */
-    languagetool_css_url: "/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
+    languagetool_css_url: "/themes/wp-softcatala/inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
     /* this stuff is a matter of preference: */
     height: 300,
     theme: "advanced",
@@ -136,7 +136,6 @@ var SC_COOKIE = 'sc-languagetool';
             "input[name=incoatius2]:checked").val() + "," + $(
             "input[name=demostratius]:checked").val();
       }
-	  alert(catOptions)
       // opcions per a les tres variants
       catOptions = catOptions + "," + $("input[name=SE_DAVANT_SC]:checked")
         .val() + "," + $("input[name=CA_UNPAIRED_QUESTION]:checked").val();
