@@ -3,7 +3,6 @@
     background-image: url("../../../../../images/squiggle_red.png");
     background-repeat: repeat-x;
     background-position: left bottom;
-    vertical-align: text-top;
     cursor: default;
 }
 
@@ -12,7 +11,6 @@
     background-image: url("../../../../../images/squiggle.png");
     background-repeat: repeat-x;
     background-position: left bottom;
-    vertical-align: text-top;
     cursor: default;
 }
 
@@ -21,7 +19,6 @@
     background-image: url("../../../../../images/squiggle_green.png");
     background-repeat: repeat-x;
     background-position: left bottom;
-    vertical-align: text-top;
     cursor: default;
 }
 
@@ -30,7 +27,6 @@
     background-image: url("../../../../../images/squiggle.png");
     background-repeat: repeat-x;
     background-position: left bottom;
-    vertical-align: text-top;
     cursor: default;
 }
 
@@ -43,7 +39,6 @@ body, td, pre {
     font-size: 16px;
     color: #666;
     font-weight: 300;
-    line-height: 8px;
     resize: none;
     font-family: "Open Sans",Helvetica, Arial,sans-serif !important;
 }
