@@ -2,7 +2,6 @@ Theme Name: WP-Softcatala
 Theme URI: http://www.softcatala.org
 
 Copyright: 2015
-Version: 0.1
 Author: Pau Iranzo 
 
 REQUIREMENTS
