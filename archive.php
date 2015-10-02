@@ -17,8 +17,8 @@
 $templates = array( 'archive.twig', 'index.twig' );
 
 $data = Timber::get_context();
-$page = Timber::query_post(get_option( 'page_for_posts' ));
-$data['post'] = $page;
+$post = Timber::query_post(get_option( 'page_for_posts' ));
+$data['post'] = $post;
 
 $data['title'] = 'Archive';
 if ( is_day() ) {
