@@ -11,7 +11,6 @@ wp_enqueue_script( 'sc-js-corrector-5', get_template_directory_uri() . '/static/
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
-$post_links = types_child_posts('link');
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
