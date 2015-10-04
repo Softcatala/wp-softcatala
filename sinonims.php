@@ -6,7 +6,7 @@
  */
 
 /* JS scripts */
-wp_enqueue_script( 'sc-js-corrector-5', get_template_directory_uri() . '/static/js/sinonims.js', array(), '1.0.0', true );
+wp_enqueue_script( 'sc-js-sinonims', get_template_directory_uri() . '/static/js/sinonims.js', array(), '1.0.0', true );
 
 $context = Timber::get_context();
 $post = new TimberPost();
