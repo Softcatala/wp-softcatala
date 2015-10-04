@@ -1,0 +1,80 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xxs-12 col-xs-8 col-sm-9">
+                        <h1>Diccionari de sinònims</h1>
+                        {% include "share_links.twig" %}
+                    </div>
+                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
+                        <div class="col-xxs-12 col-xs-4 col-sm-3">
+                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+
+                    <!-- .formulari-eines  -->
+                    <section class="formulari-eines contingut-section">
+
+                        <!-- .btns-diccionari  -->
+                        <div class="btns-diccionari row">
+                            <div class="col-xs-12">
+                                <p>Introduïu a continuació la paraula de la qual voleu cercar els sinònims i feu clic al botó de cerca.</p>
+                                <div class="input-group">
+                                    <input type="text" name="sinonims" id="sinonims" class="form-control" placeholder="Introduïu una paraula">
+                                    <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_sinonims" name="_action_consulta_sinonims">cerca</a>
+                                </div>
+                            </div>
+                        </div><!--/.btns-diccionari  -->
+
+                        <!-- .diccionari-resultat  -->
+                        <div class="diccionari-resultat" id="results" style="display:none">
+                        </div><!--/.diccionari-resultat  -->
+
+                    </section><!--/.formulari-eines  -->
+
+                    <!-- .contingut-section  -->
+                    <section class="contingut-section">
+                        {{post.content}}
+                    </section><!--/.contingut-section  -->
+                </div><!--/.contingut -->
+
+                {% include "sidebar-traductor.twig" %}
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+        <!-- .seccio-vermella -->
+        <div class="wrap-vermell seccio-vermella">
+            <div class="container-fluid">
+                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
+                <div class="intern">
+                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
+                </div>
+            </div>
+        </div><!--/.seccio-vermella -->
+    {% endif %}
+
+    {% include "report-traductor.twig" %}
+
+    {% include "static/sinonims-logos.twig" %}
+
+    {% include "template-avis.twig" %}
+
+{% endblock %}
