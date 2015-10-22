@@ -1,0 +1,140 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <script type="text/javascript">
+        var currentLocation = window.location;
+    </script>
+    <p>{{qux}}</p>
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-9">
+                        <h1>{{title}}</h1>
+                        {% if cerca %}
+                            <span>/</span>
+                            <h2>{{ cerca }}</h2>
+                        {% endif %}
+                        {% include "share_links.twig" %}
+                    </div>
+                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
+                        <div class="col-xxs-12 col-xs-4 col-sm-3">
+                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <!-- .filtres -->
+                        <div class="filtres row">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Escriviu aquí la vostra cerca">
+                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <!-- dropdown sitemes operatius -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker">
+                                                    <option>Tots els esdeveniments</option>
+                                                    <option>Sistema operatiu 01</option>
+                                                    <option>Sistema operatiu 02</option>
+                                                    <option>Sistema operatiu 03</option>
+                                                    <option>Sistema operatiu 04</option>
+                                                    <option>Sistema operatiu 05</option>
+                                                </select>
+                                            </div><!--/dropdown sitemes operatius -->
+
+                                            <!-- dropdown categories -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker">
+                                                    <option>Qualsevol data</option>
+                                                    <option>Categoria 01</option>
+                                                    <option>Categoria 02</option>
+                                                    <option>Categoria 03</option>
+                                                    <option>Categoria 04</option>
+                                                    <option>Categoria 05</option>
+                                                </select>
+                                            </div><!--/dropdown categories -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!--/.filtres -->
+                    </header><!--/.contingut-header -->
+
+                    {% if posts %}
+                    {% for esdeveniment in posts %}
+                    <section class="llista-esdeveniments">
+                        <h2 class="any">{{esdeveniment.post_date|date('Y')}}</h2>
+                        <article class="contingut-article">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <i><span><strong>3</strong>FEB</span></i>
+                                    <h2><a href="#">{{esdeveniment.title}}</a></h2>
+                                    <!-- .article-footer -->
+                                    <footer class="article-footer">
+                                        {{esdeveniment.ciutat}}
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(post,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}</time>
+                                    </footer><!--/.article-footer -->
+                                </div>
+                                {% if esdeveniment.thumbnail.src %}
+                                <div class="col-sm-3">
+                                    <img width="170" alt="{{esdeveniment.title}}" src="{{esdeveniment.thumbnail.src}}">
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr class="clara">
+                        </article>
+                    </section>
+                    {% endfor %}
+
+                    <!-- .pagination -->
+                    <div class="row">
+                        <div class="intern">
+                            <nav class="intern-center">
+                                <ul class="pagination">
+                                    {% if pagination.prev %}
+                                        <li>
+                                            <a href="{{pagination.prev.link}}" class="prev {{pagination.prev.link|length ? '' : 'invisible'}}"><span aria-hidden="true">«</span></a>
+                                        </li>
+                                    {% endif %}
+                                    {% for page in pagination.pages %}
+                                        <li>
+                                            {% if page.link %}
+                                                <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+                                            {% else %}
+                                                <span class="{{page.class}}">{{page.title}}</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                    {% if pagination.next %}
+                                        <li>
+                                            <a href="{{pagination.next.link}}" aria-label="Next" class="next {{pagination.next.link|length ? '' : 'invisible'}}"><span aria-hidden="true">»</span></a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    {% else %}
+                    No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
+                    {% endif %}<!--/.pagination -->
+                </div><!--/.contingut -->
+
+
+{% endblock %}

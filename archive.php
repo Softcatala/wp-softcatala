@@ -18,7 +18,6 @@ $templates = array( 'archive.twig', 'index.twig' );
 
 $data = Timber::get_context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
-$data['post'] = $post;
 
 $data['title'] = 'Archive';
 if ( is_day() ) {
@@ -36,7 +35,17 @@ if ( is_day() ) {
 } else if ( is_post_type_archive() ) {
 	$data['title'] = post_type_archive_title( '', false );
 	array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
+
+	///Get the related «page» to this post type (it will contain the links, downloads, actions...)
+	$slug = strtolower($data['title']);
+	$args = array(
+		'name'        => 'test',
+		'post_type'   => 'page'
+	);
+	$esdeveniments = get_posts($args);
+	$post = Timber::query_post($esdeveniments[0]->ID);
 }
+$data['post'] = $post;
 $data['links'] = $post->get_field( 'link' );
 $data['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $data['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
