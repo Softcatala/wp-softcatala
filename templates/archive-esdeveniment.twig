@@ -80,16 +80,24 @@
                     {% if posts %}
                     {% for esdeveniment in posts %}
                     <section class="llista-esdeveniments">
-                        <h2 class="any">{{esdeveniment.post_date|date('Y')}}</h2>
+                        {% if loop.first %}
+                            {% set year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
+                            <h2 class="any">{{attribute(esdeveniment,'wpcf-data_inici')|date('Y')}}</h2>
+                        {% endif %}
+                        {% set current_post_year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
+                        {% if current_post_year != year %}
+                            {% set year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
+                            <h2 class="any">{{attribute(esdeveniment,'wpcf-data_inici')|date('Y')}}</h2>
+                        {% endif %}
                         <article class="contingut-article">
                             <div class="row">
                                 <div class="col-sm-9">
-                                    <i><span><strong>3</strong>FEB</span></i>
-                                    <h2><a href="#">{{esdeveniment.title}}</a></h2>
+                                    <i><span><strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('j')}}</strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('M')}}</span></i>
+                                    <h2><a href="{{esdeveniment.link}}">{{esdeveniment.title}}</a></h2>
                                     <!-- .article-footer -->
                                     <footer class="article-footer">
-                                        {{esdeveniment.ciutat}}
-                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(post,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}</time>
+                                        {{esdeveniment.ciutat}}<br/>
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}{% if attribute(esdeveniment,'wpcf-data_fi') %} - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}{% endif %}</time>
                                     </footer><!--/.article-footer -->
                                 </div>
                                 {% if esdeveniment.thumbnail.src %}
@@ -135,6 +143,6 @@
                     No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
                     {% endif %}<!--/.pagination -->
                 </div><!--/.contingut -->
-
+                {% include "sidebar-news-single.twig" %}
 
 {% endblock %}
