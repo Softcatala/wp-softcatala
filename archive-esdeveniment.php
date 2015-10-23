@@ -24,7 +24,7 @@ $args = array(
     'post_type'   => 'page'
 );
 $esdeveniments = get_posts($args);
-$post = Timber::query_post(25);
+$post = Timber::query_post($esdeveniments[0]->ID);
 $data['post'] = $post;
 
 $data['title'] = 'Archive';
