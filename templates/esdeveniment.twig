@@ -32,22 +32,24 @@
                     <header class="contingut-header">
                         <!-- .info-esdeveniment -->
                         <div class="info-esdeveniment">
+                            {% if post.terms('esdeveniment_cat') %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Cicle o sèrie:
                                 </div>
                                 <div class="col-sm-9">
-                                    {% for term in post.terms('categories') %}
+                                    {% for term in post.terms('esdeveniment_cat') %}
                                         <a href="{{term.link}}">{{term.name}}</a>{% if not loop.last %}, {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
+                            {% endif %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Data:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}
+                                    {{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %}{% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}
                                 </div>
                             </div>
                             {% if attribute(post,'wpcf-horari') %}
@@ -87,13 +89,6 @@
                             {% if post.thumbnail.caption %}
                                 <em class="peu-foto">{{post.thumbnail.caption}}</em>
                             {% endif %}
-                        {% endif %}
-                        {% if post.terms('tags') %}
-                            <div class="bt-grup">
-                            {% for term in post.terms('tags') %}
-                                <a class="bt-basic" href="{{term.link}}">{{term.name}}</a>
-                            {% endfor %}
-                            </div>
                         {% endif %}
                         <div class="data">
                             <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-n-j')}}">{{post.post_date|date('j M Y')}}</time><span>|</span>Publicat per <a href="{{post.author.path}}">{{ post.author.name }}</a>

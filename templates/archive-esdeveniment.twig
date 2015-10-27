@@ -8,10 +8,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-8 col-sm-9">
-                        <h1>{{title}}</h1>
-                        {% if cerca %}
+                        <h1>Esdeveniments</h1>
+                        {% if tag %}
                             <span>/</span>
-                            <h2>{{ cerca }}</h2>
+                            <h2>{{ tag }}</h2>
                         {% endif %}
                         {% include "share_links.twig" %}
                     </div>
@@ -32,45 +32,45 @@
                     <!-- .contingut-header -->
                     <header class="contingut-header">
                         <!-- .filtres -->
-                        <div class="filtres row">
-                            <div class="col-sm-10">
-                                <div class="input-group">
-                                    <input type="search" class="form-control" placeholder="Escriviu aquí la vostra cerca">
-                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
-                                </div>
+                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="/esdeveniments">
+                            <div class="filtres row">
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="s" name="s" />
+                                        <input type="hidden" value="esdeveniment" name="post_type" />
+                                        <input type="hidden" value="1" name="sentence" />
+                                        <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                    </div>
 
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <div class="row">
-                                            <!-- dropdown sitemes operatius -->
-                                            <div class="col-sm-6">
-                                                <select class="form-control selectpicker">
-                                                    <option>Tots els esdeveniments</option>
-                                                    <option>Sistema operatiu 01</option>
-                                                    <option>Sistema operatiu 02</option>
-                                                    <option>Sistema operatiu 03</option>
-                                                    <option>Sistema operatiu 04</option>
-                                                    <option>Sistema operatiu 05</option>
-                                                </select>
-                                            </div><!--/dropdown sitemes operatius -->
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <div class="row">
+                                                <!-- dropdown sitemes operatius -->
+                                                <div class="col-sm-6">
+                                                    <select class="form-control selectpicker" id="temes">
+                                                        <option value="/esdeveniments">Tots els temes</option>
+                                                        {% for category in categories.temes %}
+                                                            <option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div><!--/dropdown sitemes operatius -->
 
-                                            <!-- dropdown categories -->
-                                            <div class="col-sm-6">
-                                                <select class="form-control selectpicker">
-                                                    <option>Qualsevol data</option>
-                                                    <option>Categoria 01</option>
-                                                    <option>Categoria 02</option>
-                                                    <option>Categoria 03</option>
-                                                    <option>Categoria 04</option>
-                                                    <option>Categoria 05</option>
-                                                </select>
-                                            </div><!--/dropdown categories -->
+                                                <!-- dropdown categories -->
+                                                <div class="col-sm-6">
+                                                    <select class="form-control selectpicker" id="tipus">
+                                                        <option value="/esdeveniments">Qualsevol dia</option>
+                                                        {% for filtre in filtres %}
+                                                            <option value="?filtre={{ filtre.link }}" {% if selected_filtre == filtre.link %}selected{% endif %}>{{ filtre.title }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div><!--/dropdown categories -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        </div><!--/.filtres -->
+                                </div>
+                            </div><!--/.filtres -->
+                        </form>
                     </header><!--/.contingut-header -->
 
                     {% if posts %}
@@ -93,7 +93,7 @@
                                     <!-- .article-footer -->
                                     <footer class="article-footer">
                                         {{esdeveniment.ciutat}}<br/>
-                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}{% if attribute(esdeveniment,'wpcf-data_fi') %} - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}{% endif %}</time>
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}{% if attribute(esdeveniment,'wpcf-data_fi') %}{% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %} - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}</time>
                                     </footer><!--/.article-footer -->
                                 </div>
                                 {% if esdeveniment.thumbnail.src %}
@@ -140,5 +140,11 @@
                     {% endif %}<!--/.pagination -->
                 </div><!--/.contingut -->
                 {% include "sidebar-news-single.twig" %}
-
+                <script type="text/javascript">
+                    $(".selectpicker").on('change', function() {
+                        category = this.id;
+                        url = $("#"+category).val();
+                        window.location.href = url;
+                    });
+                </script>
 {% endblock %}
