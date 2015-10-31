@@ -41,8 +41,9 @@ jQuery(document).ready(function(){
             return;
         }
 
-        if(timer)
+        if(timer) {
             clearTimeout(timer);
+        }
 
         var timeout;
         if(punct.indexOf(event.keyCode) !== -1) {
@@ -176,16 +177,10 @@ $('.direccio').on('click', function() {
 
     exchange_texts();
 });
-
-
-
 /** End setting different language pairs **/
 
-$('#mark_unknown').click(function() {
-    translateText();
-});
 
-/** Translation AJAX action **/
+/** Translation AJAX action and other related actions **/
 $('#translate, #translate_xs').click(function() {
     var text = $('.primer-textarea').val();
     if (text.length) {
@@ -244,7 +239,11 @@ function translateText() {
     $('#translate, #translate_xs').trigger('click');
 }
 
+$('#mark_unknown').click(function() {
+    translateText();
+});
 /** End translation AJAX action **/
+
 
 /** Contact form action **/
 var $contactForm = $('#report_form');
@@ -279,9 +278,10 @@ function form_sent_ok(dt) {
 function form_sent_ko(dt) {
     alert('Alguna cosa no ha funcionat bé en enviar les dades al servidor de traducció');
 }
-
 /** End contact form action **/
 
+
+/** Start functions to set the different language pairs and update menus depending on user clicks **/
 function toggle_formes_valencianes(status) {
     if ( status == 'on' ) {
         //Enable 'formes valencianes' checkbox
@@ -383,3 +383,4 @@ function exchange_texts() {
     $('.second-textarea').html(original_text);
     $('.primer-textarea').val(translation_text);
 }
+/** End functions related to language pairs change **/
