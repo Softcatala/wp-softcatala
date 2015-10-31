@@ -2,39 +2,39 @@
 jQuery(document).ready(function(){
     $('#origin_language').val('cat');
     $('#target_language').val('spa');
-    
+
     //Left
     $('#origin-cat').addClass('select');
     $('#origin-spa').removeClass('select');
     $('[data-id="origin-select"]').removeClass('select');
-    
+
     //Right
     $('#target-cat').attr('disabled', 'disabled');
     $('#target-spa').removeAttr('disabled');
     $('[data-id="target-select"]').removeClass('select');
     $('[data-id="target-select"]').removeAttr('disabled');
-    
+
     //Mobile (left-right)
     $('#origin-select-mobil').val('cat');
     $('#target-select-mobil').val('spa');
-    $('#origin-select-mobil').trigger('change');
-    $('#target-select-mobil').trigger('change');
-    
-    //Workaround to solve the issue when the selected language is the same marked in the dropdown
-    $('.btns-llengues-origen .dropdown-menu li').on('click', function() {
-        var origin_language = $('#origin-select').val();
+    $('#origin-select-mobil').selectpicker('render');
+    $('#target-select-mobil').selectpicker('render');
+    $('.selectpicker').selectpicker('refresh');
+
+    /** Workaround to solve the issue when the selected language is the same marked in the dropdown **/
+    $('div.btns-llengues-origen.btn-group div.btn-group div.btn-group.bootstrap-select.form-control.bt div.dropdown-menu.open ul.dropdown-menu.inner li').on('click', function() {
         $('#origin-select').trigger('change');
     });
-    
-    $('.btns-llengues-desti .dropdown-menu li').on('click', function() {
-        var target_language = $('#target-select').val();
+
+    $('div.btns-llengues-desti.btn-group div.btn-group div.btn-group.bootstrap-select.form-control.bt div.dropdown-menu.open ul.dropdown-menu.inner li').on('click', function() {
         $('#target-select').trigger('change');
     });
-    
+    /** End workaround **/
+
     //Timer for instant translation
     var timer,
-    lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
-    timeoutPunct = 1000, timeoutOther = 3000;
+        lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
+        timeoutPunct = 1000, timeoutOther = 3000;
     $('.primer-textarea').on('keyup paste', function (event) {
         if(lastPunct && event.keyCode === 32 || event.keyCode === 13) {
             // Don't override the short timeout for simple space-after-punctuation
@@ -55,186 +55,111 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
-                translateText();
+            translateText();
         }, timeout);
     });
 });
 
 /** Set the different language pairs and update menus depending on user clicks **/
+//Desktop selectors
 $('#origin-cat').click(function() {
-    //Left
-    $('#origin_language').val('cat');
-    $('#origin-cat').addClass('select');
-    $('#origin-spa').removeClass('select');
-    $('[data-id="origin-select"]').removeClass('select');
-    
-    //Rigth
-    $('[data-id="target-select"]').removeAttr('disabled');
-    $('#target-spa').removeAttr('disabled');
-    
-    if ($('#target_language').val() == 'cat') {
-        $('#target-cat').attr('disabled', 'disabled');
-        $('#target-cat').removeClass('select');
-        $('#target_language').val('spa');
-        $('#target-spa').addClass('select');
+    var prev_origin_language = $('#origin_language').val();
+    var final_target_language = 'spa';
+
+    set_origin_language('cat');
+
+    set_origin_button('cat');
+    set_origin_button_mobile('cat');
+
+    if(prev_origin_language != 'cat') {
+        final_target_language = prev_origin_language;
     }
-    
-    //Disable 'formes valencianes' checkbox
-    $('#formes_valencianes').attr('disabled', 'disabled');
-    $('#formes_valencianes_label').css( "color", "#AAA" );
+    set_target_language(final_target_language);
+    set_target_button(final_target_language);
+    set_target_button_mobile(final_target_language);
+
+    toggle_formes_valencianes('off');
 });
 
 $('#origin-spa').click(function() {
-    //Left
-    $('#origin_language').val('spa');
-    $('#origin-spa').addClass('select');
-    $('#origin-cat').removeClass('select');
-    $('[data-id="origin-select"]').removeClass('select');
-    
-    //Right
-    $('#target_language').val('cat');
-    $('#target-cat').removeAttr('disabled');
-    $('#target-cat').addClass('select');
-    $('#target-spa').removeClass('select');
-    $('#target-spa').attr('disabled', 'disabled');
-    $('[data-id="target-select"]').removeClass('select');
-    $('[data-id="target-select"]').attr('disabled', 'disabled');
-    
-    //Enable 'formes valencianes' checkbox
-    $('#formes_valencianes').removeAttr('disabled');
-    $('#formes_valencianes_label').css( "color", "#333" );
+    set_origin_language('spa');
+    set_target_language('cat');
+
+    set_origin_button('spa');
+    set_origin_button_mobile('spa');
+
+    set_target_button('cat');
+    set_target_button_mobile('cat');
+
+    toggle_formes_valencianes('on');
 });
 
 $('#origin-select').on('change', function() {
-    //Left
     var origin_language = $('#origin-select').val();
-    $('#origin_language').val(origin_language);
-    $('#origin-cat').removeClass('select');
-    $('#origin-spa').removeClass('select');
-    $('[data-id="origin-select"]').addClass('select');
-    
-    //Right
-    $('#target_language').val('cat');
-    $('#target-spa').removeClass('select');
-    $('#target-spa').attr('disabled', 'disabled');
-    $('#target-cat').removeAttr('disabled');
-    $('#target-cat').addClass('select');
-    $('[data-id="target-select"]').attr('disabled', 'disabled');
-    $('[data-id="target-select"]').removeClass('select');
-    
-    //Disable 'formes valencianes' checkbox
-    $('#formes_valencianes').attr('disabled', 'disabled');
-    $('#formes_valencianes_label').css( "color", "#AAA" );
+    set_origin_language(origin_language);
+    set_target_language('cat');
+
+    set_origin_button(origin_language);
+    set_origin_button_mobile(origin_language);
+
+    set_target_button('cat');
+    set_target_button_mobile('cat');
+
+    toggle_formes_valencianes('off');
 });
 
 $('#target-spa').click(function() {
-    $('#target_language').val('spa');
-    $('#target-spa').addClass('select');
-    $('[data-id="target-select"]').removeClass('select');
+    set_target_language('spa');
+    set_target_button('spa');
+    set_target_button_mobile('spa');
 });
 
 $('#target-select').on('change', function() {
     var target_language = $('#target-select').val();
-    $('#target_language').val(target_language);
-    $('#target-cat').removeClass('select');
-    $('#target-spa').removeClass('select');
-    $('[data-id="target-select"]').addClass('select');
+    set_target_language(target_language);
+
+    set_target_button(target_language);
+    set_target_button_mobile(target_language);
 });
 
-$('.direccio').on('click', function() {
-    var origin_language = $('#origin_language').val();
-    var target_language = $('#target_language').val();
-    $('#origin_language').val(target_language);
-    $('#target_language').val(origin_language);
-    
-    if (origin_language == 'cat') {
-        //Left
-        if (target_language == 'spa') {
-            $('#origin-spa').trigger('click');
-            $('#target-cat').trigger('click');
-            
-            //Enable 'formes valencianes' checkbox
-            $('#formes_valencianes').removeAttr('disabled');
-            $('#formes_valencianes_label').css( "color", "#333" );
-        } else {
-            $('#origin-select').val(target_language);
-            $('#origin-select').trigger('change');
-        }
-        
-        //Mobil
-        $('#target-select-mobil').val('cat');
-        $('#origin-select-mobil').val(target_language);
-        $("#target-select-mobil > option").each(function() {
-            if (this.value != 'cat') {
-                $("#target-select-mobil option[value="+ this.value +"]").attr('disabled', 'disabled');
-            }
-        });
-        $('.selectpicker').selectpicker('refresh');
-    } else if (origin_language == 'spa') {
-        $('#origin-cat').trigger('click');
-        $('#target-spa').trigger('click');
-        $('#target-cat').attr('disabled', 'disabled');
-        //Mòbil
-        $('#origin-select-mobil').val('cat');
-        $('#target-select-mobil').val(origin_language);
-        $("#target-select-mobil > option").each(function() {
-            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
-        });
-        $('.selectpicker').selectpicker('refresh');
-    } else {
-        $('#origin-cat').trigger('click');
-        $('#target-select').val(origin_language);
-        $('#target-select').trigger('change');
-        $('#target-cat').attr('disabled', 'disabled');
-        //Mòbil
-        $('#origin-select-mobil').val('cat');
-        $('#target-select-mobil').val(origin_language);
-        $("#target-select-mobil > option").each(function() {
-            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
-        });
-        $('.selectpicker').selectpicker('refresh');
-    }
-    
-    
-});
-
-//Mobile
+//Mobile selectors
 $('#origin-select-mobil').on('change', function() {
-    //Left
+    var prev_origin_language = $('#origin_language').val();
+    var final_target_language = 'cat';
     var origin_language = $('#origin-select-mobil').val();
-    var target_language = $('#target-select-mobil').val();
-    $('#origin_language').val(origin_language);
-    
-    //Right
-    if (origin_language != 'cat') {
-        $('#target-select-mobil').val('cat');
-        $('#target-select-mobil').trigger('change');
-        $('#target_language').val('cat');
-        
-        $("#target-select-mobil > option").each(function() {
-            if (this.value != 'cat') {
-                $("#target-select-mobil option[value="+ this.value +"]").attr('disabled', 'disabled');
-            }
-        });
-    } else {
-        $('#target_language').val(target_language);
-        
-        $("#target-select-mobil > option").each(function() {
-            $("#target-select-mobil option[value="+ this.value +"]").removeAttr('disabled');
-        });
-    }
+    set_origin_language(origin_language);
 
-    $('.selectpicker').selectpicker('refresh');
-    
-    //Disable 'formes valencianes' checkbox
-    $('#formes_valencianes').attr('disabled', 'disabled');
-    $('#formes_valencianes_label').css( "color", "#AAA" );
+    set_origin_button(origin_language);
+    set_origin_button_mobile(origin_language);
+
+    if(origin_language == 'cat') {
+        final_target_language = prev_origin_language;
+    }
+    set_target_language(final_target_language);
+    set_target_button(final_target_language);
+    set_target_button_mobile(final_target_language);
+
+    if(origin_language == 'spa') {
+        toggle_formes_valencianes('on');
+    } else {
+        toggle_formes_valencianes('off');
+    }
 });
 
 $('#target-select-mobil').on('change', function() {
     var target_language = $('#target-select-mobil').val();
-    $('#target_language').val(target_language);
+    set_target_language(target_language);
+
+    set_target_button(target_language);
+    set_target_button_mobile(target_language);
 });
+
+//Direction change
+$('.direccio').on('click', function() {
+
+});
+
+
 
 /** End setting different language pairs **/
 
@@ -253,10 +178,10 @@ $('#translate, #translate_xs').click(function() {
         if (origin_language == 'spa') {
             adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
         }
-        
+
         var langpair = origin_language+"|"+adapted_target_language;
         var muk = ($('#mark_unknown:checked').length)?'yes':'no';
-                
+
         $.ajax({
             url:"http://www.softcatala.org/apertium/json/translate",
             type:"POST",
@@ -265,7 +190,7 @@ $('#translate, #translate_xs').click(function() {
             success : trad_ok,
             failure : trad_ko
         });
-        
+
         return false;
     } else {
         alert('Introduïu algun text');
@@ -273,8 +198,8 @@ $('#translate, #translate_xs').click(function() {
 });
 
 function nl2br(text) {
-	text=escape(text);
-	return unescape(text.replace(/(%5Cr%5Cn)|(%5Cn%5Cr)|%0A|%5Cr|%5Cn/g,'<br />'));
+    text=escape(text);
+    return unescape(text.replace(/(%5Cr%5Cn)|(%5Cn%5Cr)|%0A|%5Cr|%5Cn/g,'<br />'));
 }
 
 function trad_ok(dt) {
@@ -308,7 +233,7 @@ var $contactForm = $('#report_form');
 
 $contactForm.on('submit', function(ev){
     ev.preventDefault();
-    
+
     //Data
     post_data = {
         'nom'       : $('input[name=nom]').val(),
@@ -316,7 +241,7 @@ $contactForm.on('submit', function(ev){
         'tipus'     : $('select[name=tipus]').val(),
         'comentari' : $('textarea[name=comentari]').val()
     };
-    
+
     $.ajax({
         url:"/traductor",
         type:"POST",
@@ -334,7 +259,102 @@ function form_sent_ok(dt) {
 }
 
 function form_sent_ko(dt) {
-    alert('merda');
+    alert('Alguna cosa no ha funcionat bé en enviar les dades al servidor de traducció');
 }
 
 /** End contact form action **/
+
+function toggle_formes_valencianes(status) {
+    if ( status == 'on' ) {
+        //Enable 'formes valencianes' checkbox
+        $('#formes_valencianes').removeAttr('disabled');
+        $('#formes_valencianes_label').css( "color", "#333" );
+    } else {
+        //Disable 'formes valencianes' checkbox
+        $('#formes_valencianes').attr('disabled', 'disabled');
+        $('#formes_valencianes_label').css( "color", "#AAA" );
+    }
+}
+
+function set_origin_language( language ) {
+    $('#origin_language').val(language);
+}
+
+function set_target_language ( language ) {
+    $('#target_language').val(language);
+}
+
+function set_origin_button ( language ) {
+    if ( language == 'spa' ) {
+        $('#origin-spa').addClass('select');
+        $('#origin-cat').removeClass('select');
+        $('[data-id="origin-select"]').removeClass('select');
+    } else if ( language == 'cat' ) {
+        $('#origin-cat').addClass('select');
+        $('#origin-spa').removeClass('select');
+        $('[data-id="origin-select"]').removeClass('select');
+    } else {
+        $('[data-id="origin-select"]').addClass('select');
+        $('#origin-spa').removeClass('select');
+        $('#origin-cat').removeClass('select');
+
+        $('#origin-select').val( language );
+        $('#origin-select').selectpicker('render');
+    }
+}
+
+function set_origin_button_mobile ( language ) {
+    $('#origin-select-mobil').val(language);
+    $('#origin-select-mobil').selectpicker('render');
+
+    if( language == 'cat' ) {
+        $('div.btns-llengues-desti .dropdown-menu').css('display', '');
+        $("#target-select-mobil option[value='cat']").css('display', 'none');
+        $('.selectpicker-mobil').selectpicker('refresh');
+    } else {
+        $("#target-select-mobil option[value='cat']").css('display', '');
+        $('.selectpicker-mobil').selectpicker('refresh');
+        $('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
+    }
+}
+
+function set_target_button ( language ) {
+    if( language == 'cat' ) {
+        $('#target-cat').removeAttr('disabled', 'disabled');
+        $('#target-cat').addClass('select');
+        $('#target-spa').removeClass('select');
+        $('#target-spa').attr('disabled', 'disabled');
+        $('[data-id="target-select"]').removeClass('select');
+        $('[data-id="target-select"]').attr('disabled', 'disabled');
+    } else if ( language == 'spa' ) {
+        $('#target-spa').removeAttr('disabled', 'disabled');
+        $('#target-spa').addClass('select');
+        $('#target-cat').removeClass('select');
+        $('#target-cat').attr('disabled', 'disabled');
+        $('[data-id="target-select"]').removeClass('select');
+        $('[data-id="target-select"]').removeAttr('disabled', 'disabled');
+    } else {
+        $('#target-select').val( language );
+        $('#target-spa').removeAttr('disabled');
+        $('#target-spa').removeClass('select');
+        $('#target-cat').removeClass('select');
+        $('#target-cat').attr('disabled', 'disabled');
+        $('[data-id="target-select"]').addClass('select');
+        $('[data-id="target-select"]').removeAttr('disabled', 'disabled');
+        $('#target-select').selectpicker('render');
+    }
+}
+
+function set_target_button_mobile ( language ) {
+    $('#target-select-mobil').val( language );
+
+    //Don't display other options than 'cat' in case Catalan is the target language
+    if( language == 'cat' ) {
+        $("#target-select-mobil option[value='cat']").css('display', '');
+        $('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
+    } else {
+        $("#target-select-mobil option[value='cat']").css('display', 'none');
+        $('div.btns-llengues-desti .dropdown-menu').css('display', '');
+    }
+    $('#target-select-mobil').selectpicker('render');
+}
