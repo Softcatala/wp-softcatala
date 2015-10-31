@@ -156,7 +156,25 @@ $('#target-select-mobil').on('change', function() {
 
 //Direction change
 $('.direccio').on('click', function() {
+    var new_target_language = $('#origin_language').val();
+    var new_origin_language = $('#target_language').val();
 
+    if(new_origin_language == 'spa') {
+        toggle_formes_valencianes('on');
+    } else {
+        toggle_formes_valencianes('off');
+    }
+
+    set_target_language(new_target_language);
+    set_origin_language(new_origin_language);
+
+    set_origin_button(new_origin_language);
+    set_origin_button_mobile(new_origin_language);
+
+    set_target_button(new_target_language);
+    set_target_button_mobile(new_target_language);
+
+    exchange_texts();
 });
 
 
@@ -357,4 +375,11 @@ function set_target_button_mobile ( language ) {
         $('div.btns-llengues-desti .dropdown-menu').css('display', '');
     }
     $('#target-select-mobil').selectpicker('render');
+}
+
+function exchange_texts() {
+    var translation_text = $('.second-textarea').html();
+    var original_text = $('.primer-textarea').val();
+    $('.second-textarea').html(original_text);
+    $('.primer-textarea').val(translation_text);
 }
