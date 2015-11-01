@@ -1,24 +1,21 @@
 <!-- .esdeveniments -->
-              <div class="esdeveniments col-xs-12 col-sm-6 col-md-3">
-                <h2>Esdeveniments</h2>
-                <!-- .llista-esdeveniments -->
-                <section class="llista-esdeveniments">
-                  <article class="contingut-article">
-                    <i><span><strong>26</strong>FEB</span></i>
-                    <h2>Dia de la Llibertat dels Documents per unes tecnologies més obertes</h2>
-                  </article>
-                  <article class="contingut-article">
-                    <i><span><strong>26</strong>FEB</span></i>
-                    <h2>Trobada de pencaires mensual, octubre de 2014</h2>
-                    <!-- .article-footer -->
-                    <footer class="article-footer">
-                      <a href="#">Llibreria Laie</a>
-                    </footer><!--/.article-footer -->
-                  </article>
-                </section><!--/.llista-esdeveniments -->
-                <div class="row">
-                  <div class="col-xs-12">
-                    <a title="Més esdeveniments" class="bt-basic" href="/esdeveniments">Més esdeveniments</a>
-                  </div>
-                </div>
-              </div><!--/.esdeveniments -->
+<div class="esdeveniments col-xs-12 col-sm-6 col-md-3">
+  <h2>Esdeveniments</h2>
+  <!-- .llista-esdeveniments -->
+  <section class="llista-esdeveniments">
+    {% for esdeveniment in esdeveniments %}
+    <article class="contingut-article">
+      <i><span><strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('j')}}</strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('M')}}</span></i>
+      <h2><a href="{{esdeveniment.link}}" title="{{esdeveniment.title}}">{{esdeveniment.title}}</a></h2>
+      <footer class="article-footer">
+        <a href="{{esdeveniment.link}}" title="{{esdeveniment.title}} {{esdeveniment.ciutat}}">{{esdeveniment.ciutat}}</a>
+      </footer><!--/.article-footer -->
+    </article>
+    {% endfor %}
+  </section><!--/.llista-esdeveniments -->
+  <div class="row">
+    <div class="col-xs-12">
+      <a title="Més esdeveniments" class="bt-basic" href="/esdeveniments/">Més esdeveniments</a>
+    </div>
+  </div>
+</div><!--/.esdeveniments -->
