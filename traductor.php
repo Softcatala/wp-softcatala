@@ -42,7 +42,7 @@ function sendContactForm() {
     $nom      = sanitize_text_field( $_POST["nom"] );
     $correu     = sanitize_email( $_POST["correu"] );
     $tipus   = sanitize_text_field( $_POST["tipus"] );
-    $comentari   = stripslashes($_POST["comentari"]);
+    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
     
     //email body
     $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
