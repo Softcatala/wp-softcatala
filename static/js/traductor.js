@@ -1,3 +1,8 @@
+//Constant variables
+
+var traductor_json_url = "http://www.softcatala.org/apertium/json/translate";
+
+
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
     $('#origin_language').val('cat');
@@ -22,11 +27,11 @@ jQuery(document).ready(function(){
     $('.selectpicker').selectpicker('refresh');
 
     /** Workaround to solve the issue when the selected language is the same marked in the dropdown **/
-    $('div.btns-llengues-origen.btn-group div.btn-group div.btn-group.bootstrap-select.form-control.bt div.dropdown-menu.open ul.dropdown-menu.inner li').on('click', function() {
+    $('div#div_select_origin  ul.dropdown-menu.inner li').on('click', function() {
         $('#origin-select').trigger('change');
     });
 
-    $('div.btns-llengues-desti.btn-group div.btn-group div.btn-group.bootstrap-select.form-control.bt div.dropdown-menu.open ul.dropdown-menu.inner li').on('click', function() {
+    $('div#div_select_target  ul.dropdown-menu.inner li').on('click', function() {
         $('#target-select').trigger('change');
     });
     /** End workaround **/
@@ -196,7 +201,7 @@ $('#translate, #translate_xs').click(function() {
         var muk = ($('#mark_unknown:checked').length)?'yes':'no';
 
         $.ajax({
-            url:"http://www.softcatala.org/apertium/json/translate",
+            url:traductor_json_url,
             type:"POST",
             data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
             dataType: 'json',
