@@ -151,3 +151,130 @@ function include_theme_conf()
     locate_template( array( 'inc/widgets.php' ), true, true );
 }
 add_action( 'after_setup_theme', 'include_theme_conf' );
+
+function retrieve_page_data($page_slug = '')
+{
+	//Actions to be taken depending on the post type
+	switch ($page_slug) {
+		case 'esdeveniment':
+			///Get the related «page» to this post type (it will contain the links, downloads, actions...)
+			$args = array(
+				'name' => 'esdeveniment-page',
+				'post_type' => 'page'
+			);
+			$post = Timber::get_post($args);
+			break;
+		default:
+			break;
+	}
+
+	return $post;
+}
+
+
+/*
+ * Functions related to esdeveniments
+ */
+
+function get_the_event_filters()
+{
+    $filtres = array(
+        array(
+            'link' => 'setmana',
+            'title' => 'Aquesta setmana'
+        ),
+        array(
+            'link' => 'setmanavinent',
+            'title' => 'La setmana vinent',
+        ),
+        array(
+            'link' => 'mes',
+            'title' => 'Aquest mes'
+        )
+    );
+    return $filtres;
+}
+
+abstract class SearchQueryType {
+	const All = 0;
+	const FilteredDate = 1;
+	const Search = 2;
+}
+
+/*
+ * Returns the arguments to apply to the mysql query
+ */
+function get_post_query_args( $queryType, $filter )
+{
+    //Retrieve posts
+    $base_args = array(
+        'meta_key'   =>  'wpcf-data_inici',
+        'post_type' => 'esdeveniment',
+        'post_status'    => 'publish',
+        'orderby'        => 'wpcf-data_inici',
+        'order'          => 'ASC',
+        'paged' => get_is_paged(),
+        'posts_per_page' => 10
+    );
+
+    if ( $queryType == SearchQueryType::Search ) {
+        $filter_args = array(
+            's'         => $filter,
+            'meta_query' => array(
+                'relation' => 'AND',
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+            )
+        );
+
+    } else if( $queryType == SearchQueryType::FilteredDate  ) {
+        $filter_args = array(
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    get_meta_query_value( 'wpcf-data_fi', $filter['start_time'], '>=', 'NUMERIC' )
+                ),
+                array(
+                    get_meta_query_value( 'wpcf-data_inici', $filter['final_time'], '<=', 'NUMERIC' )
+                )
+            )
+        );
+    } else {
+        $filter_args = array(
+            'meta_query' => array(
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+            )
+        );
+    }
+
+    return array_merge( $base_args, $filter_args );
+}
+
+/*
+ * Creates a param to query using a meta field
+ */
+function get_meta_query_value( $key, $value, $compare, $type ) {
+    return array(
+                    'key'     => $key,
+                    'value' => $value,
+                    'compare' => $compare,
+                    'type'      => $type
+                );
+}
+
+/*
+ * Returns global paged variable
+ */
+function get_is_paged() {
+    global $paged;
+
+    return (!isset($paged) || !$paged) ? 1 : $paged;
+}
+
+/*
+ * Function to handle the date filter for events
+ */
+function add_query_vars_filter( $vars ){
+    $vars[] = "filtre";
+    return $vars;
+}
+add_filter( 'query_vars', 'add_query_vars_filter' );
