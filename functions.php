@@ -195,73 +195,79 @@ function get_the_event_filters()
     return $filtres;
 }
 
+abstract class SearchQueryType {
+	const All = 0;
+	const FilteredDate = 1;
+	const Search = 2;
+}
+
 /*
  * Returns the arguments to apply to the mysql query
  */
-function get_post_query_args( $filter = '', $filterdate = '', $search = '' )
+function get_post_query_args( $queryType, $filter )
 {
     //Retrieve posts
-    global $paged;
-    if (!isset($paged) || !$paged){
-        $paged = 1;
-    }
-
     $base_args = array(
         'meta_key'   =>  'wpcf-data_inici',
         'post_type' => 'esdeveniment',
         'post_status'    => 'publish',
         'orderby'        => 'wpcf-data_inici',
         'order'          => 'ASC',
-        'paged' => $paged,
+        'paged' => get_is_paged(),
         'posts_per_page' => 10
     );
 
-    if( !empty( $search ) ) {
+    if ( $queryType == SearchQueryType::Search ) {
         $filter_args = array(
-            's'         => $search,
+            's'         => $filter,
             'meta_query' => array(
                 'relation' => 'AND',
-                array(
-                    'key'     => 'wpcf-data_fi',
-                    'value' => time(),
-                    'compare' => '>=',
-                    'type'      => 'NUMERIC'
-                )
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
 
-    } else if( $filter == '' ) {
-        $filter_args = array(
-            'meta_query' => array(
-                array(
-                    'key'     => 'wpcf-data_fi',
-                    'value' => time(),
-                    'compare' => '>=',
-                    'type'      => 'NUMERIC'
-                )
-            )
-        );
-    } else  {
+    } else if( $queryType == SearchQueryType::FilteredDate  ) {
         $filter_args = array(
             'meta_query' => array(
                 'relation' => 'AND',
                 array(
-                    'key'     => 'wpcf-data_fi',
-                    'value' => $filterdate['start_time'],
-                    'compare' => '>=',
-                    'type'      => 'NUMERIC'
+                    get_meta_query_value( 'wpcf-data_fi', $filter['start_time'], '>=', 'NUMERIC' )
                 ),
                 array(
-                    'key'     => 'wpcf-data_inici',
-                    'value' => $filterdate['final_time'],
-                    'compare' => '<=',
-                    'type'      => 'NUMERIC'
+                    get_meta_query_value( 'wpcf-data_inici', $filter['final_time'], '<=', 'NUMERIC' )
                 )
+            )
+        );
+    } else {
+        $filter_args = array(
+            'meta_query' => array(
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
     }
 
     return array_merge( $base_args, $filter_args );
+}
+
+/*
+ * Creates a param to query using a meta field
+ */
+function get_meta_query_value( $key, $value, $compare, $type ) {
+    return array(
+                    'key'     => $key,
+                    'value' => $value,
+                    'compare' => $compare,
+                    'type'      => $type
+                );
+}
+
+/*
+ * Returns global paged variable
+ */
+function get_is_paged() {
+    global $paged;
+
+    return (!isset($paged) || !$paged) ? 1 : $paged;
 }
 
 /*
