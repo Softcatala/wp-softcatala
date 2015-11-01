@@ -27,8 +27,7 @@ if ( is_category() ) {
 	$context['title'] = single_cat_title( '', false );
 	$context['cat_link'] = get_category_link( get_query_var('cat') );
 	array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
-} else if ( is_post_type_archive() ) {
-	$context['title'] = post_type_archive_title( '', false );
+} else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
 	array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
 
 	$post = retrieve_page_data(get_query_var( 'post_type' ));
@@ -75,12 +74,11 @@ Timber::render( $templates, $context );
 function get_final_time( $filter )
 {
     $today_unix_time = strtotime("today");
-    $future_unix_time = 60*60*24*700;
 
     switch ($filter) {
         case 'setmana':
             $filterdate['start_time'] = $today_unix_time;
-            $filterdate['final_time'] = $today_unix_time;
+            $filterdate['final_time'] = strtotime("next Sunday");
             break;
         case 'mes':
             $filterdate['start_time'] = $today_unix_time;
@@ -92,7 +90,7 @@ function get_final_time( $filter )
             break;
         default:
             $filterdate['start_time'] = $today_unix_time;
-            $filterdate['final_time'] = $future_unix_time + $today_unix_time;
+            $filterdate['final_time'] = strtotime("+100 weeks");
             break;
     }
 

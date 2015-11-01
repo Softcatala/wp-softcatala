@@ -11,7 +11,8 @@ $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
-$context['filtres'] = get_the_event_filters();
+$context['filters'] = get_the_event_filters();
+$context['selected_filter'] = get_query_var( 'filtre' );
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 
