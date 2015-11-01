@@ -14,7 +14,7 @@
  * @since   Timber 0.2
  */
 
-$templates = array( 'archive.twig', 'index.twig', 'archive-esdeveniment.twig' );
+$templates = array( 'index.twig', 'archive-esdeveniment.twig' );
 
 $context = Timber::get_context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
@@ -22,7 +22,7 @@ $context['post'] = $post;
 $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
 $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 
-$context['title'] = 'Archive';
+
 if ( is_category() ) {
 	$context['title'] = single_cat_title( '', false );
 	$context['cat_link'] = get_category_link( get_query_var('cat') );
@@ -32,21 +32,30 @@ if ( is_category() ) {
 	array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
 
 	$post = retrieve_page_data(get_query_var( 'post_type' ));
+    $context['title'] = 'Esdeveniments';
 	$context['post'] = $post;
     $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
-    $context['filtres'] = get_the_event_filters();
-    $filtre = get_query_var( 'filtre' );
-    $filtredate = get_final_time( $filtre );
+    $context['filters'] = get_the_event_filters();
+    $filter = get_query_var( 'filtre' );
+    $filterdate = get_final_time( $filter );
+} else { //Any other query asking for date parameters will display just news
+    if (is_day()){
+        $context['title'] = 'Arxiu '.get_the_date( 'j F Y' );
+    } else if (is_month()){
+        $context['title'] = 'Arxiu '.get_the_date( 'F Y' );
+    } else if (is_year()){
+        $context['title'] = 'Arxiu '.get_the_date( 'Y' );
+    }
 }
 
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 //Get the posts depending on the parameters
-if(isset($filtre)) {
-    $context['selected_filtre'] = $filtre;
-    $args = get_post_query_args( $filtre, $filtredate );
+if( isset( $filter ) ) {
+    $context['selected_filter'] = $filter;
+    $args = get_post_query_args( $filter, $filterdate );
     query_posts($args);
     $context['posts'] = Timber::get_posts($args);
 } else {
@@ -63,27 +72,29 @@ Timber::render( $templates, $context );
 /*
  * Returns the start_time and final_time of the time range in UNIX Timestamp
  */
-function get_final_time( $filtre )
+function get_final_time( $filter )
 {
-    $today_unix_time = time();
-    switch ($filtre) {
+    $today_unix_time = strtotime("today");
+    $future_unix_time = 60*60*24*700;
+
+    switch ($filter) {
         case 'setmana':
-            $filtredate['start_time'] = time();
-            $filtredate['final_time'] = 60*60*24*7 + $today_unix_time;
+            $filterdate['start_time'] = $today_unix_time;
+            $filterdate['final_time'] = $today_unix_time;
             break;
-        case '1mes':
-            $filtredate['start_time'] = time();
-            $filtredate['final_time'] = strtotime("first day of next month");
+        case 'mes':
+            $filterdate['start_time'] = $today_unix_time;
+            $filterdate['final_time'] = strtotime("first day of next month");
             break;
         case 'setmanavinent':
-            $filtredate['start_time'] = strtotime("monday next week");
-            $filtredate['final_time'] = strtotime("sunday next week");
+            $filterdate['start_time'] = strtotime("next Monday");
+            $filterdate['final_time'] = strtotime("sunday next week");
             break;
         default:
-            $filtredate['start_time'] = time();
-            $filtredate['final_time'] = 60*60*24*700 + $today_unix_time;
+            $filterdate['start_time'] = $today_unix_time;
+            $filterdate['final_time'] = $future_unix_time + $today_unix_time;
             break;
     }
 
-    return $filtredate;
+    return $filterdate;
 }

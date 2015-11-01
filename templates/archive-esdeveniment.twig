@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-8 col-sm-9">
-                        <h1>Esdeveniments</h1>
+                        <h1>{{ title  }}</h1>
                         {% if tag %}
                             <span>/</span>
                             <h2>{{ tag }}</h2>
@@ -59,8 +59,8 @@
                                                 <div class="col-sm-6">
                                                     <select class="form-control selectpicker" id="tipus">
                                                         <option value="/esdeveniments">Qualsevol dia</option>
-                                                        {% for filtre in filtres %}
-                                                            <option value="?filtre={{ filtre.link }}" {% if selected_filtre == filtre.link %}selected{% endif %}>{{ filtre.title }}</option>
+                                                        {% for filter in filters %}
+                                                            <option value="?filtre={{ filter.link }}" {% if selected_filter == filter.link %}selected{% endif %}>{{ filter.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div><!--/dropdown categories -->

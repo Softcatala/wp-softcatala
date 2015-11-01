@@ -162,8 +162,7 @@ function retrieve_page_data($page_slug = '')
 				'name' => 'esdeveniment-page',
 				'post_type' => 'page'
 			);
-			$esdeveniments = get_posts($args);
-			$post = Timber::query_post($esdeveniments[0]->ID);
+			$post = Timber::get_post($args);
 			break;
 		default:
 			break;
@@ -189,7 +188,7 @@ function get_the_event_filters()
             'title' => 'La setmana vinent',
         ),
         array(
-            'link' => '1mes',
+            'link' => 'mes',
             'title' => 'Aquest mes'
         )
     );
@@ -199,7 +198,7 @@ function get_the_event_filters()
 /*
  * Returns the arguments to apply to the mysql query
  */
-function get_post_query_args( $filtre = '', $filtredate = '', $search = '' )
+function get_post_query_args( $filter = '', $filterdate = '', $search = '' )
 {
     //Retrieve posts
     global $paged;
@@ -207,14 +206,19 @@ function get_post_query_args( $filtre = '', $filtredate = '', $search = '' )
         $paged = 1;
     }
 
-    if( $search != '' ) {
-        $args = array(
-            'meta_key'   =>  'wpcf-data_inici',
-            'post_type' => 'esdeveniment',
-            'post_status'    => 'publish',
+    $base_args = array(
+        'meta_key'   =>  'wpcf-data_inici',
+        'post_type' => 'esdeveniment',
+        'post_status'    => 'publish',
+        'orderby'        => 'wpcf-data_inici',
+        'order'          => 'ASC',
+        'paged' => $paged,
+        'posts_per_page' => 10
+    );
+
+    if( !empty( $search ) ) {
+        $filter_args = array(
             's'         => $search,
-            'orderby'        => 'wpcf-data_inici',
-            'order'          => 'ASC',
             'meta_query' => array(
                 'relation' => 'AND',
                 array(
@@ -223,18 +227,11 @@ function get_post_query_args( $filtre = '', $filtredate = '', $search = '' )
                     'compare' => '>=',
                     'type'      => 'NUMERIC'
                 )
-            ),
-            'paged' => $paged,
-            'posts_per_page' => 10
+            )
         );
 
-    } else if( $filtre == '' ) {
-        $args = array(
-            'meta_key'   =>  'wpcf-data_inici',
-            'post_type' => 'esdeveniment',
-            'post_status'    => 'publish',
-            'orderby'        => 'wpcf-data_inici',
-            'order'          => 'ASC',
+    } else if( $filter == '' ) {
+        $filter_args = array(
             'meta_query' => array(
                 array(
                     'key'     => 'wpcf-data_fi',
@@ -242,56 +239,29 @@ function get_post_query_args( $filtre = '', $filtredate = '', $search = '' )
                     'compare' => '>=',
                     'type'      => 'NUMERIC'
                 )
-            ),
-            'paged' => $paged,
-            'posts_per_page' => 10
+            )
         );
-    } else if( $filtre != 'setmanavinent' ) {
-        $args = array(
-            'meta_key'   =>  'wpcf-data_inici',
-            'post_type' => 'esdeveniment',
-            'post_status'    => 'publish',
-            'orderby'        => 'wpcf-data_inici',
-            'order'          => 'ASC',
-            'meta_query' => array(
-                array(
-                    'key'     => 'wpcf-data_fi',
-                    'value' => array( $filtredate['start_time'], $filtredate['final_time'] ),
-                    'compare' => 'BETWEEN',
-                    'type'      => 'NUMERIC'
-                )
-            ),
-            'paged' => $paged,
-            'posts_per_page' => 10
-        );
-    } else if ( $filtre == 'setmanavinent' ) {
-        $args = array(
-            'meta_key'   =>  'wpcf-data_inici',
-            'post_type' => 'esdeveniment',
-            'post_status'    => 'publish',
-            'orderby'        => 'wpcf-data_inici',
-            'order'          => 'ASC',
+    } else  {
+        $filter_args = array(
             'meta_query' => array(
                 'relation' => 'AND',
                 array(
                     'key'     => 'wpcf-data_fi',
-                    'value' => $filtredate['start_time'],
+                    'value' => $filterdate['start_time'],
                     'compare' => '>=',
                     'type'      => 'NUMERIC'
                 ),
                 array(
                     'key'     => 'wpcf-data_inici',
-                    'value' => $filtredate['final_time'],
+                    'value' => $filterdate['final_time'],
                     'compare' => '<=',
                     'type'      => 'NUMERIC'
                 )
-            ),
-            'paged' => $paged,
-            'posts_per_page' => 10
+            )
         );
     }
 
-    return $args;
+    return array_merge( $base_args, $filter_args );
 }
 
 /*

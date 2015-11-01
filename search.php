@@ -13,7 +13,7 @@ $post_type = get_query_var( 'post_type' );
 $post = retrieve_page_data( $post_type );
 $search = get_search_query();
 
-$templates = array( 'archive-'.$post_type.'.twig', 'search.twig', 'archive.twig', 'index.twig' );
+$templates = array( 'archive-'.$post_type.'.twig' );
 $context = Timber::get_context();
 $context['post'] = $post;
 $context['links'] = $post->get_field( 'link' );

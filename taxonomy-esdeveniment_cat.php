@@ -4,14 +4,7 @@ $templates = array( 'archive-esdeveniment.twig' );
 
 $context = Timber::get_context();
 
-///Get the related «page» to this post type (it will contain the links, downloads, actions...)
-$args = array(
-    'name'        => 'esdeveniment-page',
-    'post_type'   => 'page'
-);
-
-$esdeveniments = get_posts($args);
-$post = Timber::query_post($esdeveniments[0]->ID);
+$post = retrieve_page_data('esdeveniment');
 $context['cat_link'] = get_term_link( get_query_var( 'term'), 'esdeveniment_cat' );
 $context['post'] = $post;
 $context['links'] = $post->get_field( 'link' );
