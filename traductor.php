@@ -26,6 +26,7 @@ if($_POST) {
  */
 function sendContactForm() {
     $to_email       = "traductor@softcatala.org";
+    $nom_from       = "Traductor de Softcatalà";
     $assumpte       = "[Traductor] Contacte des del formulari";
     
     //check if its an ajax request, exit if not
@@ -41,17 +42,17 @@ function sendContactForm() {
     $nom      = sanitize_text_field( $_POST["nom"] );
     $correu     = sanitize_email( $_POST["correu"] );
     $tipus   = sanitize_text_field( $_POST["tipus"] );
-    $comentari   = sanitize_text_field( $_POST["comentari"] );
+    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
     
     //email body
-    $message_body = "Tipus: ".$tipus."\r\n\r\Comentari: ".$comentari."\r\n\r\Nom: ".$nom."\r\nCorreu electrònic: ".$correu;
+    $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
     
     //proceed with PHP email.
-    $headers = 'From: '.$nom.'' . "\r\n" .
+    $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
     'Reply-To: '.$correu.'' . "\r\n" .
     'X-Mailer: PHP/' . phpversion();
-    
-    $send_mail = mail($to_email, $assumpte, $message_body, $headers);
+
+    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
     
     if(!$send_mail) {
         //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)

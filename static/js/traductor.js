@@ -276,9 +276,15 @@ $contactForm.on('submit', function(ev){
 
 function form_sent_ok(dt) {
     if (dt.type == 'message') {
-        $("#contingut-formulari").empty().html(dt.text);
+        $("#contingut-formulari").hide();
+        $("#contingut-formulari-response").empty().html(dt.text).fadeIn();
     }
 }
+
+$('#contact_traductor').click(function() {
+    $("#contingut-formulari-response").hide();
+    $("#contingut-formulari").show();
+});
 
 function form_sent_ko(dt) {
     alert('Alguna cosa no ha funcionat bé en enviar les dades al servidor de traducció');
