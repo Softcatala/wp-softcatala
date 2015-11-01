@@ -18,8 +18,9 @@ $context = Timber::get_context();
 $context['post'] = $post;
 $context['links'] = $post->get_field( 'link' );
 $context['title'] = get_search_query();
+
 if( $post_type == 'esdeveniment' ) {
-    $args = get_post_query_args('', '', $search);
+    $args = get_post_query_args( SearchQueryType::Search, $search);
     query_posts($args);
     $context['posts'] = Timber::get_posts($args);
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
@@ -29,6 +30,7 @@ if( $post_type == 'esdeveniment' ) {
     $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
     $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 }
+
 $context['cerca'] = get_search_query();
 $context['pagination'] = Timber::get_pagination();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
