@@ -227,6 +227,12 @@ function trad_ok(dt) {
         translation = nl2br(dt.responseData.translatedText);
         translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         $('.second-textarea').html(translation_coloured);
+
+        if($(".second-textarea").height() < '270') {
+            $('html, body').animate({
+                scrollTop: $(".second-textarea").offset().top
+            }, 2000);
+        }
     } else {
         trad_ko();
     }
