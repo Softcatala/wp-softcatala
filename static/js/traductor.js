@@ -61,7 +61,9 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
+          if( $('.primer-textarea').val() != '' ) {
             translateText();
+          }
         }, timeout);
     });
 });
@@ -283,6 +285,7 @@ function form_sent_ok(dt) {
 
 $('#contact_traductor').click(function() {
     $("#contingut-formulari-response").hide();
+    $("textarea[name='comentari']").val('');
     $("#contingut-formulari").show();
 });
 
