@@ -61,9 +61,11 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
-          if( $('.primer-textarea').val() != '' ) {
-            translateText();
-          }
+            if( $('.primer-textarea').val() != '' ) {
+                translateText();
+            } else {
+                $(".second-textarea").html('');
+            }
         }, timeout);
     });
 });
