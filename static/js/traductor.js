@@ -61,11 +61,7 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
-            if( $('.primer-textarea').val() != '' ) {
-                translateText();
-            } else {
-                $(".second-textarea").html('');
-            }
+            translateText();
         }, timeout);
     });
 });
@@ -190,7 +186,7 @@ $('.direccio').on('click', function() {
 
 
 /** Translation AJAX action and other related actions **/
-$('#translate, #translate_xs').click(function() {
+$('#translate').click(function() {
     var text = $('.primer-textarea').val();
     if (text.length) {
         var origin_language = $('#origin_language').val();
@@ -251,7 +247,11 @@ function trad_ko(dt) {
 
 /* This function just calls the translation */
 function translateText() {
-    $('#translate, #translate_xs').trigger('click');
+    if( $('.primer-textarea').val() == '' ) {
+        $(".second-textarea").html(''); //just empty the second area
+    } else {
+        $('#translate').trigger('click');
+    }
 }
 
 $('#mark_unknown').click(function() {
