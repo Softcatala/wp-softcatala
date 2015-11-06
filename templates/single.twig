@@ -41,11 +41,11 @@
                 	{% endif %}
                 {% endif %}
                 {% if post.terms('tags') %}
+                    <div class="bt-grup">
                 	{% for term in post.terms('tags') %}
-	                <div class="bt-grup">
 	                  <a class="bt-basic active" href="{{term.link}}">{{term.name}}</a>
-	                </div>
 	            	{% endfor %}
+                    </div>
 	            {% endif %}
                 <div class="data">
                   <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-n-j')}}">{{post.post_date|date('j M Y')}}</time><span>|</span>Publicat per <a href="{{post.author.path}}">{{ post.author.name }}</a>
