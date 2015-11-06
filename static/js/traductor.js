@@ -392,9 +392,11 @@ function set_target_button_mobile ( language ) {
     if( language == 'cat' ) {
         $("#target-select-mobil option[value='cat']").css('display', '');
         $('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
+        $('#div_select_target_mobile .filter-option').next("span").removeClass('caret');
     } else {
         $("#target-select-mobil option[value='cat']").css('display', 'none');
         $('div.btns-llengues-desti .dropdown-menu').css('display', '');
+        $('#div_select_target_mobile .filter-option').next("span").addClass('caret');
     }
     $('#target-select-mobil').selectpicker('render');
 }
