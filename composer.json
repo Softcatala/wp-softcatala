@@ -2,7 +2,7 @@
     "name": "softcatala/wp-softcatala",
     "type": "wordpress-theme",
     "description": "WordPress Theme for Softcatalà website",
-    "keywords" : ["wordpress,catalan"],
+    "keywords" : ["wordpress"],
     "homepage" : "https://github.com/Softcatala/wp-softcatala",
     "license" : "GPL-2.0+"
 }
