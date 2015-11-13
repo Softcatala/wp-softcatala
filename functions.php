@@ -241,6 +241,7 @@ function get_post_query_args( $queryType, $filter = array() )
         );
     } else if ( $queryType == SearchQueryType::Highlight ) {
     	$filter_args = array(
+    		'posts_per_page' => 2,
             'meta_query' => array(
             	'relation' => 'AND',
             	array(
@@ -253,6 +254,7 @@ function get_post_query_args( $queryType, $filter = array() )
         );
     } else {
         $filter_args = array(
+        	'posts_per_page' => 2,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )

@@ -49,7 +49,7 @@
                                     Data:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %}{% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}
+                                    {{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %}{% if attribute(post,'wpcf-data_fi') != attribute(post,'wpcf-data_inici') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}
                                 </div>
                             </div>
                             {% if attribute(post,'wpcf-horari') %}
