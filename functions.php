@@ -241,20 +241,20 @@ function get_post_query_args( $queryType, $filter = array() )
         );
     } else if ( $queryType == SearchQueryType::Highlight ) {
     	$filter_args = array(
-    		'posts_per_page' => 2,
+            'posts_per_page' => 2,
             'meta_query' => array(
-            	'relation' => 'AND',
-            	array(
-                	get_meta_query_value( 'wpcf-destacat', '1', '>=', 'NUMERIC' )
+                'relation' => 'AND',
+                array(
+                    get_meta_query_value( 'wpcf-destacat', '1', '>=', 'NUMERIC' )
                 ),
                 array(
-                	get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+                    get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
                 )
             )
         );
     } else {
         $filter_args = array(
-        	'posts_per_page' => 2,
+            'posts_per_page' => 2,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
