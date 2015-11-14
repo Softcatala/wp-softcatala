@@ -13,15 +13,22 @@ $post_type = get_query_var( 'post_type' );
 $post = retrieve_page_data( $post_type );
 $search = get_search_query();
 
-$templates = array( 'archive-'.$post_type.'.twig' );
+$templates = array( 'archive-'.$post_type.'.twig', 'index.twig' );
 $context = Timber::get_context();
 $context['post'] = $post;
 $context['links'] = $post->get_field( 'link' );
 $context['title'] = get_search_query();
 
 if( $post_type == 'esdeveniment' ) {
-    $args = get_post_query_args( SearchQueryType::Search, $search);
-    query_posts($args);
+    global $wp_query;
+
+    if( get_query_var('orderasc') ) {
+        $context['cat_link'] = get_term_link( get_query_var( 'term'), 'esdeveniment_cat' );
+    }
+    
+    $search_args = get_post_query_args( SearchQueryType::Search, $search );
+    $args = wp_parse_args( $search_args, $wp_query->query );
+
     $context['posts'] = Timber::get_posts($args);
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
     $context['filters'] = get_the_event_filters();

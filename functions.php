@@ -165,6 +165,11 @@ function retrieve_page_data($page_slug = '')
 			$post = Timber::get_post($args);
 			break;
 		default:
+			$args = array(
+				'name' => 'noticies',
+				'post_type' => 'page'
+			);
+			$post = Timber::get_post($args);
 			break;
 	}
 
@@ -226,7 +231,6 @@ function get_post_query_args( $queryType, $filter = array() )
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
-
     } else if( $queryType == SearchQueryType::FilteredDate ) {
         $filter_args = array(
             'meta_query' => array(

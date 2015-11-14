@@ -24,15 +24,15 @@ $context['categories']['tipus'] = Timber::get_terms('category', array('parent' =
 
 
 if ( is_category() ) {
-	$context['title'] = single_cat_title( '', false );
-	$context['cat_link'] = get_category_link( get_query_var('cat') );
-	array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
+    $context['title'] = single_cat_title( '', false );
+    $context['cat_link'] = get_category_link( get_query_var('cat') );
+    array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
 } else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
-	array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
+    array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
 
-	$post = retrieve_page_data(get_query_var( 'post_type' ));
+    $post = retrieve_page_data(get_query_var( 'post_type' ));
     $context['title'] = 'Esdeveniments';
-	$context['post'] = $post;
+    $context['post'] = $post;
     $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
     $context['filters'] = get_the_event_filters();
