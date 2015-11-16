@@ -199,12 +199,13 @@ abstract class SearchQueryType {
 	const All = 0;
 	const FilteredDate = 1;
 	const Search = 2;
+	const Highlight = 3;
 }
 
 /*
  * Returns the arguments to apply to the mysql query
  */
-function get_post_query_args( $queryType, $filter )
+function get_post_query_args( $queryType, $filter = array() )
 {
     //Retrieve posts
     $base_args = array(
@@ -226,7 +227,7 @@ function get_post_query_args( $queryType, $filter )
             )
         );
 
-    } else if( $queryType == SearchQueryType::FilteredDate  ) {
+    } else if( $queryType == SearchQueryType::FilteredDate ) {
         $filter_args = array(
             'meta_query' => array(
                 'relation' => 'AND',
@@ -238,8 +239,22 @@ function get_post_query_args( $queryType, $filter )
                 )
             )
         );
+    } else if ( $queryType == SearchQueryType::Highlight ) {
+    	$filter_args = array(
+            'posts_per_page' => 2,
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    get_meta_query_value( 'wpcf-destacat', '1', '>=', 'NUMERIC' )
+                ),
+                array(
+                    get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+                )
+            )
+        );
     } else {
         $filter_args = array(
+            'posts_per_page' => 2,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )

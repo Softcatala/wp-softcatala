@@ -9,8 +9,14 @@ $context = Timber::get_context();
 $context['slides'] = Timber::get_posts(array('post_type' => 'slide'));
 $args = array('post_type' => 'post', 'numberposts' => '3');
 $context['posts'] = Timber::get_posts($args);
-$args = array('post_type' => 'esdeveniment', 'numberposts' => '2', 'meta_key' => 'wpcf-destacat', 'meta_value' => '1');
+$args = get_post_query_args( SearchQueryType::Highlight );
+query_posts($args);
 $context['esdeveniments'] = Timber::get_posts($args);
+if(count($context['esdeveniments']) < 1){
+    $args = get_post_query_args( SearchQueryType::All );
+    query_posts($args);
+    $context['esdeveniments'] = Timber::get_posts($args);
+}
 $context['programari'] = getProgramari();
 Timber::render( array( 'home-sc.twig' ), $context );
 
