@@ -54,6 +54,13 @@ class StarterSite extends TimberSite {
 		$user_info = array();
 		$user_id = get_current_user_id();
 		$current_user = wp_get_current_user();
+		$user_info['current_url'] = get_current_url();
+        $user_info['current_url_filtre'] = remove_querystring_var( $user_info['current_url'], 'filtre' );
+		$user_info['current_url_filtre_addition'] = get_filter_addition($user_info['current_url_filtre']);
+        $user_info['current_url_nocat'] = get_current_url('filtre');
+        $user_info['current_url_params'] = get_all_get();
+        $user_info['current_url_noparams'] = str_replace($user_info['current_url_params'], '', $user_info['current_url']);
+
 		if($user_id) {
 			$user_info['is_connected'] = true;
 			$user_info['wp_logout_url'] = wp_logout_url( '/' );
@@ -128,9 +135,12 @@ function get_caption_from_media_url( $attachment_url = '' ) {
  *
  * @return string $url
 */
-function get_current_url()
+function get_current_url($remove = false)
 {
 	$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	if( $remove ) {
+        $current_url = remove_query_arg( $remove, $current_url );
+	}
 	return $current_url;
 }
 
@@ -297,3 +307,78 @@ function add_query_vars_filter( $vars ){
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
+
+/*
+ * Retrieve all url active parameters
+ */
+function get_all_get()
+{
+    $output = "?";
+    $firstRun = true;
+    foreach($_GET as $key=>$val) {
+        if(!$firstRun) {
+            $output .= "&";
+        } else {
+            $firstRun = false;
+        }
+        $output .= $key."=".$val;
+    }
+
+    if ($output == '?' ) {
+        $output = '';
+    }
+
+    return $output;
+}
+
+/*
+ * Removes a parameter from URL
+ *
+ * Source: https://davidwalsh.name/php-remove-variable#comment-16120
+ */
+function remove_querystring_var($url, $key) {
+	$url = preg_replace('/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
+	$url = substr($url, 0, -1);
+
+	return $url;
+}
+
+function get_filter_addition( $url ) {
+	$pos = strpos($url, '?');
+	if ($pos === false) {
+		$addition = '?';
+	} else {
+		$addition = '&';
+	}
+
+	return $addition;
+}
+
+/*
+ * Returns the start_time and final_time of the time range in UNIX Timestamp
+ */
+function get_final_time( $filter )
+{
+	$today_unix_time = strtotime("today");
+
+	switch ($filter) {
+		case 'setmana':
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("next Sunday");
+			break;
+		case 'mes':
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("first day of next month");
+			break;
+		case 'setmanavinent':
+			$filterdate['start_time'] = strtotime("next Monday");
+			$filterdate['final_time'] = strtotime("sunday next week");
+			break;
+		default:
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("+100 weeks");
+			break;
+	}
+
+	return $filterdate;
+}

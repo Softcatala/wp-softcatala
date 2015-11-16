@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-8 col-sm-9">
-                        <h1>{{ title  }}</h1>
+                        <h1>Esdeveniments</h1>
                         {% if tag %}
                             <span>/</span>
                             <h2>{{ tag }}</h2>
@@ -32,35 +32,38 @@
                     <!-- .contingut-header -->
                     <header class="contingut-header">
                         <!-- .filtres -->
-                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="/esdeveniments">
+                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{user_info.current_url}}">
                             <div class="filtres row">
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="s" name="s" />
                                         <input type="hidden" value="esdeveniment" name="post_type" />
                                         <input type="hidden" value="1" name="sentence" />
+                                        {% if selected_filter %}
+                                            <input type="hidden" value="{{ selected_filter }}" name="filtre" />
+                                        {% endif %}
                                         <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-sm-10">
                                             <div class="row">
-                                                <!-- dropdown sitemes operatius -->
+                                                <!-- dropdown categories -->
                                                 <div class="col-sm-6">
                                                     <select class="form-control selectpicker" id="temes">
-                                                        <option value="/esdeveniments">Tots els temes</option>
+                                                        <option value="/esdeveniments/{{ user_info.current_url_params }}">Tots els temes</option>
                                                         {% for category in categories.temes %}
-                                                            <option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                            <option value="{{ category.link }}{{ user_info.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div><!--/dropdown sitemes operatius -->
 
-                                                <!-- dropdown categories -->
+                                                <!-- dropdown date filters -->
                                                 <div class="col-sm-6">
                                                     <select class="form-control selectpicker" id="tipus">
-                                                        <option value="/esdeveniments">Qualsevol dia</option>
+                                                        <option value="{{user_info.current_url_filtre}}">Qualsevol dia</option>
                                                         {% for filter in filters %}
-                                                            <option value="?filtre={{ filter.link }}" {% if selected_filter == filter.link %}selected{% endif %}>{{ filter.title }}</option>
+                                                            <option value="{{ user_info.current_url_filtre }}{{ user_info.current_url_filtre_addition }}filtre={{ filter.link }}" {% if selected_filter == filter.link %}selected{% endif %}>{{ filter.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div><!--/dropdown categories -->

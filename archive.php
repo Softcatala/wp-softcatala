@@ -68,31 +68,3 @@ Timber::render( $templates, $context );
 
 /* Functions */
 
-/*
- * Returns the start_time and final_time of the time range in UNIX Timestamp
- */
-function get_final_time( $filter )
-{
-    $today_unix_time = strtotime("today");
-
-    switch ($filter) {
-        case 'setmana':
-            $filterdate['start_time'] = $today_unix_time;
-            $filterdate['final_time'] = strtotime("next Sunday");
-            break;
-        case 'mes':
-            $filterdate['start_time'] = $today_unix_time;
-            $filterdate['final_time'] = strtotime("first day of next month");
-            break;
-        case 'setmanavinent':
-            $filterdate['start_time'] = strtotime("next Monday");
-            $filterdate['final_time'] = strtotime("sunday next week");
-            break;
-        default:
-            $filterdate['start_time'] = $today_unix_time;
-            $filterdate['final_time'] = strtotime("+100 weeks");
-            break;
-    }
-
-    return $filterdate;
-}

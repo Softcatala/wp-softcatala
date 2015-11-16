@@ -13,6 +13,16 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
 $context['filters'] = get_the_event_filters();
 $context['selected_filter'] = get_query_var( 'filtre' );
+if( get_query_var('filtre') ) {
+    $filter = get_query_var( 'filtre' );
+    $filterdate = get_final_time( $filter );
+    $context['selected_filter'] = $filter;
+    $date_filter_args = get_post_query_args( SearchQueryType::FilteredDate, $filterdate );
+    query_posts($date_filter_args);
+    $context['posts'] = Timber::get_posts($date_filter_args);
+} else {
+    $context['posts'] = Timber::get_posts();
+}
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 

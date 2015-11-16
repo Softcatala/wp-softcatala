@@ -27,7 +27,15 @@ if( $post_type == 'esdeveniment' ) {
     }
     
     $search_args = get_post_query_args( SearchQueryType::Search, $search );
-    $args = wp_parse_args( $search_args, $wp_query->query );
+    $args = wp_parse_args( $search_args, $wp_query->query ); //search + active args
+
+    if( get_query_var('filtre') ) {
+        $filter = get_query_var( 'filtre' );
+        $filterdate = get_final_time( $filter );
+        $context['selected_filter'] = $filter;
+        $date_filter_args = get_post_query_args( SearchQueryType::FilteredDate, $filterdate );
+        $args = wp_parse_args( $date_filter_args, $args ); //all filters applied
+    }
 
     $context['posts'] = Timber::get_posts($args);
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
