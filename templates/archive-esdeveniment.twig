@@ -32,7 +32,7 @@
                     <!-- .contingut-header -->
                     <header class="contingut-header">
                         <!-- .filtres -->
-                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{user_info.current_url}}">
+                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{search_params.current_url}}">
                             <div class="filtres row">
                                 <div class="col-sm-10">
                                     <div class="input-group">
@@ -51,9 +51,9 @@
                                                 <!-- dropdown categories -->
                                                 <div class="col-sm-6">
                                                     <select class="form-control selectpicker" id="temes">
-                                                        <option value="/esdeveniments/{{ user_info.current_url_params }}">Tots els temes</option>
+                                                        <option value="/esdeveniments/{{ search_params.current_url_params }}">Tots els temes</option>
                                                         {% for category in categories.temes %}
-                                                            <option value="{{ category.link }}{{ user_info.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                            <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div><!--/dropdown sitemes operatius -->
@@ -61,9 +61,9 @@
                                                 <!-- dropdown date filters -->
                                                 <div class="col-sm-6">
                                                     <select class="form-control selectpicker" id="tipus">
-                                                        <option value="{{user_info.current_url_filtre}}">Qualsevol dia</option>
+                                                        <option value="{{search_params.current_url_filtre}}">Qualsevol dia</option>
                                                         {% for filter in filters %}
-                                                            <option value="{{ user_info.current_url_filtre }}{{ user_info.current_url_filtre_addition }}filtre={{ filter.link }}" {% if selected_filter == filter.link %}selected{% endif %}>{{ filter.title }}</option>
+                                                            <option value="{{ search_params.current_url_filtre }}{{ search_params.current_url_filtre_addition }}filtre={{ filter.link }}" {% if selected_filter == filter.link %}selected{% endif %}>{{ filter.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div><!--/dropdown categories -->

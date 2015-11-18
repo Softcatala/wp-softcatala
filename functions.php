@@ -37,6 +37,7 @@ class StarterSite extends TimberSite {
 
 	function add_to_context( $context ) {
 		$context['user_info'] = $this->get_user_information();
+        $context['search_params'] = $this->get_search_params();
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
 		$context['current_url'] = get_current_url();
@@ -50,16 +51,24 @@ class StarterSite extends TimberSite {
 		return $twig;
 	}
 
+    function get_search_params() {
+        $search_params = array();
+
+        $search_params['current_url'] = get_current_url();
+        $search_params['current_url_filtre'] = remove_querystring_var( $search_params['current_url'], 'filtre' );
+        $search_params['current_url_filtre_addition'] = get_filter_addition($search_params['current_url_filtre']);
+        $search_params['current_url_nocat'] = get_current_url('filtre');
+        $search_params['current_url_params'] = get_current_querystring();
+        $search_params['current_url_noparams'] = str_replace($search_params['current_url_params'], '', $search_params['current_url']);
+
+        return $search_params;
+    }
+
 	function get_user_information() {
 		$user_info = array();
 		$user_id = get_current_user_id();
 		$current_user = wp_get_current_user();
 		$user_info['current_url'] = get_current_url();
-        $user_info['current_url_filtre'] = remove_querystring_var( $user_info['current_url'], 'filtre' );
-		$user_info['current_url_filtre_addition'] = get_filter_addition($user_info['current_url_filtre']);
-        $user_info['current_url_nocat'] = get_current_url('filtre');
-        $user_info['current_url_params'] = get_all_get();
-        $user_info['current_url_noparams'] = str_replace($user_info['current_url_params'], '', $user_info['current_url']);
 
 		if($user_id) {
 			$user_info['is_connected'] = true;
@@ -237,7 +246,6 @@ function get_post_query_args( $queryType, $filter = array() )
         $filter_args = array(
             's'         => $filter,
             'meta_query' => array(
-                'relation' => 'AND',
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
@@ -256,19 +264,16 @@ function get_post_query_args( $queryType, $filter = array() )
     } else if ( $queryType == SearchQueryType::Highlight ) {
     	$filter_args = array(
             'posts_per_page' => 2,
+            'meta_key'   =>  'wpcf-destacat',
+            'orderby'        => 'meta_value_num',
+            'order'          => 'DESC',
             'meta_query' => array(
-                'relation' => 'AND',
-                array(
-                    get_meta_query_value( 'wpcf-destacat', '1', '>=', 'NUMERIC' )
-                ),
-                array(
-                    get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
-                )
+                get_meta_query_value( 'wpcf-destacat', '0', '>=', 'NUMERIC' ),
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
     } else {
         $filter_args = array(
-            'posts_per_page' => 2,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
@@ -311,21 +316,18 @@ add_filter( 'query_vars', 'add_query_vars_filter' );
 /*
  * Retrieve all url active parameters
  */
-function get_all_get()
+function get_current_querystring()
 {
-    $output = "?";
+    $output = '';
     $firstRun = true;
-    foreach($_GET as $key=>$val) {
-        if(!$firstRun) {
+    foreach( $_GET as $key=>$val ) {
+        if( !$firstRun ) {
             $output .= "&";
         } else {
+			$output = "?";
             $firstRun = false;
         }
-        $output .= $key."=".$val;
-    }
-
-    if ($output == '?' ) {
-        $output = '';
+        $output .= sanitize_text_field( $key ) . "=" . sanitize_text_field( $val );
     }
 
     return $output;
@@ -336,8 +338,8 @@ function get_all_get()
  *
  * Source: https://davidwalsh.name/php-remove-variable#comment-16120
  */
-function remove_querystring_var($url, $key) {
-	$url = preg_replace('/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
+function remove_querystring_var( $url, $key ) {
+	$url = preg_replace( '/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&' );
 	$url = substr($url, 0, -1);
 
 	return $url;
@@ -381,4 +383,12 @@ function get_final_time( $filter )
 	}
 
 	return $filterdate;
+}
+
+/*
+ * Function that modifies the orderby query only for events in home page
+ */
+function orderbyreplace( $orderby ) {
+    global $wpdb;
+    return str_replace($wpdb->prefix.'postmeta.meta_value+0 DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
 }
