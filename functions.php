@@ -265,10 +265,11 @@ function get_post_query_args( $queryType, $filter = array() )
     	$filter_args = array(
             'posts_per_page' => 2,
             'meta_key'   =>  'wpcf-destacat',
-            'orderby'        => 'meta_value_num',
+            'orderby'        => 'meta_value',
             'order'          => 'DESC',
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-destacat', '0', '>=', 'NUMERIC' ),
+                get_meta_query_value( 'wpcf-data_inici', '0', '>=', 'NUMERIC' ),
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
@@ -390,5 +391,5 @@ function get_final_time( $filter )
  */
 function orderbyreplace( $orderby ) {
     global $wpdb;
-    return str_replace($wpdb->prefix.'postmeta.meta_value+0 DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
+    return str_replace($wpdb->prefix.'postmeta.meta_value DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
 }
