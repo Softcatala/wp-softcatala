@@ -36,7 +36,7 @@
             <header class="contingut-header">
 
               <!-- .filtres -->
-              <form class="searchform" method="get" id="cerca_noticies" role="search" action="/noticies">
+              <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{ search_params.current_url }}">
               <div class="filtres row">
                 <div class="col-sm-10">
                   <div class="input-group">
@@ -54,7 +54,7 @@
                           <select class="form-control selectpicker" id="temes">
                             <option value="/noticies">Tots els temes</option>
                             {% for category in categories.temes %}
-                              <option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                              <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                           </select>
                         </div><!--/dropdown sitemes operatius -->
@@ -64,7 +64,7 @@
                           <select class="form-control selectpicker" id="tipus">
                             <option value="/noticies">Tots els tipus</option>
                             {% for category in categories.tipus %}
-                            	<option value="{{ category.link }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                            	<option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                           </select>
                         </div><!--/dropdown categories -->

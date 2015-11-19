@@ -19,13 +19,14 @@ $templates = array( 'index.twig', 'archive-esdeveniment.twig' );
 $context = Timber::get_context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
 $context['post'] = $post;
-$context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
-$context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 
 
 if ( is_category() ) {
+    $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
+    $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
     $context['title'] = single_cat_title( '', false );
     $context['cat_link'] = get_category_link( get_query_var('cat') );
+
     array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
 } else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
@@ -39,6 +40,9 @@ if ( is_category() ) {
     $filter = get_query_var( 'filtre' );
     $filterdate = get_final_time( $filter );
 } else { //Any other query asking for date parameters will display just news
+    $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
+    $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
+
     if (is_day()){
         $context['title'] = 'Arxiu '.get_the_date( 'j F Y' );
     } else if (is_month()){
