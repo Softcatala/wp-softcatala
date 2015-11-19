@@ -1,0 +1,76 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+
+        <!-- .main-header-back-img -->
+        <header class="main-header-back-img main-header" style="background: rgba(0, 0, 0, 0) url('{{post.thumbnail.src}}') no-repeat scroll center center">
+            <div class="container-fluid">
+                <div class="intern">
+                    <div class="intern-center">
+                        <i class="fa fa-book"></i>
+                    </div>
+                </div>
+                <h1>{{ post.title }}</h1>
+                <div class="intern">
+                    <div class="intern-center compartiu">
+                        <ul class="compartiu-media">
+                            <li><p>Compartiu</p></li>
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/intent/tweet?text={{post.title}} {{ current_url }} #softcatala"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://plus.google.com/share?url={{ current_url }}"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <h2>{{ post.content }}</h2>
+                <div class="intern">
+                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
+                        <div class="intern-center">
+                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header><!--/.main-header-back-img -->
+
+
+        <div class="container-fluid">
+
+            <!-- .contingut -->
+            <div class="contingut">
+
+                <!-- section paragraf + thumb gris img -->
+                <section class="contingut-section">
+
+                    <!-- .row -->
+                    <div class="row">
+                        {% for row in links|batch((links|length)/2) %}
+                            <div class="col-xs-12 col-md-6"><ul class="cont-llista llista-gran">
+                            {% for link in row %}
+                            <li><a href="{{ link.link_url }}"><i class="fa fa-angle-right"></i>{{ link.link_title }}</a></li>
+                            {% endfor %}
+                            </ul>
+                            </div>
+                        {% endfor %}
+                    </div><!--/.row -->
+
+                </section><!-- section paragraf + thumb gris img -->
+            </div><!--/.contingut -->
+
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+        <!-- .seccio-vermella -->
+        <div class="wrap-vermell seccio-vermella">
+            <div class="container-fluid">
+                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
+                <div class="intern">
+                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
+                </div>
+            </div>
+        </div><!--/.seccio-vermella -->
+    {% endif %}
+
+{% endblock %}
