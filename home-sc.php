@@ -13,6 +13,7 @@ $args = get_post_query_args( SearchQueryType::Highlight );
 add_filter('posts_orderby','orderbyreplace');
 query_posts($args);
 $context['esdeveniments'] = Timber::get_posts($args);
+remove_filter('posts_orderby','orderbyreplace');
 $context['programari'] = getProgramari();
 Timber::render( array( 'home-sc.twig' ), $context );
 
