@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Plantilla distribuïdora 02
+ * Template Name: Distribuïdora amb capçalera/enllaços
  *
  * @package wp-softcatala
  */
