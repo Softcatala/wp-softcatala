@@ -25,9 +25,9 @@
                 </div>
                 <h2>{{ post.content }}</h2>
                 <div class="intern">
-                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
+                    {% if post.call_to_action_top_url %}
                         <div class="intern-center">
-                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+                            <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                         </div>
                     {% endif %}
                 </div>
@@ -61,13 +61,13 @@
         </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
-    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+    {% if post.call_to_action_bottom_url %}
         <!-- .seccio-vermella -->
         <div class="wrap-vermell seccio-vermella">
             <div class="container-fluid">
-                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
+                {{ post.call_to_action_bottom_text }}
                 <div class="intern">
-                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
+                    <a href="{{ post.call_to_action_bottom_url }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ post.call_to_action_bottom_button_text }}</a>
                 </div>
             </div>
         </div><!--/.seccio-vermella -->
