@@ -1,0 +1,75 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xxs-12 col-xs-8 col-sm-9">
+                        <h1>{{ parent_title }}</h1>
+                        {% include "share_links.twig" %}
+                    </div>
+                    {% if post.call_to_action_top_url %}
+                        <div class="col-xxs-12 col-xs-4 col-sm-3">
+                            <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .cont-aside-left -->
+                <aside class="aside-left col-sm-3">
+                    <!-- .boto-menu-lateral gris - xs -->
+                    <div class="visible-xs-block boto-menu-lateral">
+                        <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                            <i class="fa fa-bars"></i>
+                            <p>Taula de continguts</p>
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                    </div><!--/.boto-menu-lateral gris - xs -->
+
+                    <!-- #menu-lateral -->
+                    <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                        {{ page_hierarchy }}
+                    </ul><!--/#menu-lateral -->
+                </aside><!--/.cont-aside-left -->
+
+                <!-- .contingut -->
+                <div class="contingut col-sm-9">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <h1>{{ post.title }}</h1>
+                    </header><!--/.contingut-header -->
+
+                    <!-- section paragraf -->
+                    <section class="contingut-section">
+                        <p>{{ post.content }}</p>
+                    </section><!--/ section paragraf -->
+
+                </div><!--/.contingut -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    {% if post.call_to_action_bottom_url %}
+        <!-- .seccio-vermella -->
+        <div class="wrap-vermell seccio-vermella">
+            <div class="container-fluid">
+                {{ post.call_to_action_bottom_text }}
+                <div class="intern">
+                    <a href="{{ post.call_to_action_bottom_url }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ post.call_to_action_bottom_button_text }}</a>
+                </div>
+            </div>
+        </div><!--/.seccio-vermella -->
+    {% endif %}
+
+{% endblock %}
