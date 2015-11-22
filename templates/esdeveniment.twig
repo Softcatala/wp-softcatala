@@ -62,6 +62,7 @@
                                 </div>
                             </div>
                             {% endif %}
+                            {% if attribute(post,'wpcf-lloc') %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Lloc:
@@ -70,6 +71,7 @@
                                     {{ attribute(post,'wpcf-lloc') }}
                                 </div>
                             </div>
+                            {% endif %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Cost:

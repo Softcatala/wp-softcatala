@@ -37,6 +37,7 @@ class StarterSite extends TimberSite {
 
 	function add_to_context( $context ) {
 		$context['user_info'] = $this->get_user_information();
+        $context['search_params'] = $this->get_search_params();
 		$context['site'] = $this;
 		$context['themepath'] = get_template_directory_uri();
 		$context['current_url'] = get_current_url();
@@ -50,10 +51,25 @@ class StarterSite extends TimberSite {
 		return $twig;
 	}
 
+    function get_search_params() {
+        $search_params = array();
+
+        $search_params['current_url'] = get_current_url();
+        $search_params['current_url_filtre'] = remove_querystring_var( $search_params['current_url'], 'filtre' );
+        $search_params['current_url_filtre_addition'] = get_filter_addition($search_params['current_url_filtre']);
+        $search_params['current_url_nocat'] = get_current_url('filtre');
+        $search_params['current_url_params'] = get_current_querystring();
+        $search_params['current_url_noparams'] = str_replace($search_params['current_url_params'], '', $search_params['current_url']);
+
+        return $search_params;
+    }
+
 	function get_user_information() {
 		$user_info = array();
 		$user_id = get_current_user_id();
 		$current_user = wp_get_current_user();
+		$user_info['current_url'] = get_current_url();
+
 		if($user_id) {
 			$user_info['is_connected'] = true;
 			$user_info['wp_logout_url'] = wp_logout_url( '/' );
@@ -128,9 +144,12 @@ function get_caption_from_media_url( $attachment_url = '' ) {
  *
  * @return string $url
 */
-function get_current_url()
+function get_current_url($remove = false)
 {
 	$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	if( $remove ) {
+        $current_url = remove_query_arg( $remove, $current_url );
+	}
 	return $current_url;
 }
 
@@ -165,6 +184,11 @@ function retrieve_page_data($page_slug = '')
 			$post = Timber::get_post($args);
 			break;
 		default:
+			$args = array(
+				'name' => 'noticies',
+				'post_type' => 'page'
+			);
+			$post = Timber::get_post($args);
 			break;
 	}
 
@@ -222,11 +246,9 @@ function get_post_query_args( $queryType, $filter = array() )
         $filter_args = array(
             's'         => $filter,
             'meta_query' => array(
-                'relation' => 'AND',
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
-
     } else if( $queryType == SearchQueryType::FilteredDate ) {
         $filter_args = array(
             'meta_query' => array(
@@ -242,19 +264,17 @@ function get_post_query_args( $queryType, $filter = array() )
     } else if ( $queryType == SearchQueryType::Highlight ) {
     	$filter_args = array(
             'posts_per_page' => 2,
+            'meta_key'   =>  'wpcf-destacat',
+            'orderby'        => 'meta_value',
+            'order'          => 'DESC',
             'meta_query' => array(
-                'relation' => 'AND',
-                array(
-                    get_meta_query_value( 'wpcf-destacat', '1', '>=', 'NUMERIC' )
-                ),
-                array(
-                    get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
-                )
+                get_meta_query_value( 'wpcf-destacat', '0', '>=', 'NUMERIC' ),
+                get_meta_query_value( 'wpcf-data_inici', '0', '>=', 'NUMERIC' ),
+                get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
         );
     } else {
         $filter_args = array(
-            'posts_per_page' => 2,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
             )
@@ -293,3 +313,83 @@ function add_query_vars_filter( $vars ){
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
+
+/*
+ * Retrieve all url active parameters
+ */
+function get_current_querystring()
+{
+    $output = '';
+    $firstRun = true;
+    foreach( $_GET as $key=>$val ) {
+        if( !$firstRun ) {
+            $output .= "&";
+        } else {
+			$output = "?";
+            $firstRun = false;
+        }
+        $output .= sanitize_text_field( $key ) . "=" . sanitize_text_field( $val );
+    }
+
+    return $output;
+}
+
+/*
+ * Removes a parameter from URL
+ *
+ * Source: https://davidwalsh.name/php-remove-variable#comment-16120
+ */
+function remove_querystring_var( $url, $key ) {
+	$url = preg_replace( '/(.*)(\?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&' );
+	$url = substr($url, 0, -1);
+
+	return $url;
+}
+
+function get_filter_addition( $url ) {
+	$pos = strpos($url, '?');
+	if ($pos === false) {
+		$addition = '?';
+	} else {
+		$addition = '&';
+	}
+
+	return $addition;
+}
+
+/*
+ * Returns the start_time and final_time of the time range in UNIX Timestamp
+ */
+function get_final_time( $filter )
+{
+	$today_unix_time = strtotime("today");
+
+	switch ($filter) {
+		case 'setmana':
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("next Sunday");
+			break;
+		case 'mes':
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("first day of next month");
+			break;
+		case 'setmanavinent':
+			$filterdate['start_time'] = strtotime("next Monday");
+			$filterdate['final_time'] = strtotime("sunday next week");
+			break;
+		default:
+			$filterdate['start_time'] = $today_unix_time;
+			$filterdate['final_time'] = strtotime("+100 weeks");
+			break;
+	}
+
+	return $filterdate;
+}
+
+/*
+ * Function that modifies the orderby query only for events in home page
+ */
+function orderbyreplace( $orderby ) {
+    global $wpdb;
+    return str_replace($wpdb->prefix.'postmeta.meta_value DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
+}
