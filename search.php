@@ -41,6 +41,7 @@ if( $post_type == 'esdeveniment' ) {
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
     $context['filters'] = get_the_event_filters();
 } else {
+    $context['cat_link'] = get_category_link( get_query_var('cat') );
     $context['posts'] = Timber::get_posts();
     $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
     $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));

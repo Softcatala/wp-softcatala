@@ -20,7 +20,7 @@ class StarterSite extends TimberSite {
 		add_theme_support( 'post-formats' );
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'menus' );
-		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
+		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
@@ -35,7 +35,7 @@ class StarterSite extends TimberSite {
 		//this is where you can register custom taxonomies
 	}
 
-	function add_to_context( $context ) {
+	function add_user_nav_info_to_context( $context ) {
 		$context['user_info'] = $this->get_user_information();
         $context['search_params'] = $this->get_search_params();
 		$context['site'] = $this;
