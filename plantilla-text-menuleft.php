@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Plantilla Text Menu Left
+ * Template Name: Plantilla text amb menú esquerra
  *
  * @package wp-softcatala
  */
