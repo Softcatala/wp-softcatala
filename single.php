@@ -11,6 +11,8 @@
 
 $context = Timber::get_context();
 $post = Timber::query_post();
+$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
