@@ -1,5 +1,32 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	Sorry, we couldn't find what you're looking for.
+    <main class="main wrap-blanc cd-main-content" style="min-height: 100%;">
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xxs-12 col-xs-8 col-sm-9">
+                        <h1>No s'ha trobat la pàgina</h1>
+                    </div>
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-9">
+
+                    <header class="contingut-header">
+                        <p>La pàgina que heu demanat no existeix al web de Softcatalà.<br/>
+                            Si us plau, comproveu-ne l'adreça i torneu-ho a provar.</p>
+                    </header>
+
+                </div><!--/.contingut -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
 {% endblock %}
