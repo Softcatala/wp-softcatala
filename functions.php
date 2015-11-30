@@ -24,6 +24,7 @@ class StarterSite extends TimberSite {
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
 		parent::__construct();
 	}
 
@@ -85,6 +86,27 @@ class StarterSite extends TimberSite {
 
 		return $user_info;
 	}
+
+    public function fix_woosidebar_hooks() {
+        global $wp_filter;
+
+        $priorities = $wp_filter['get_header'];
+
+        foreach( $priorities as $p => $filters ) {
+            foreach ( $filters as $f => $v ) {
+                $to_add = $v['function'];
+
+                if( is_array( $to_add) && count( $to_add) == 2) {
+                    $class = get_class( $to_add[0]);
+
+                    if( strpos (  $class, 'Woo_' ) >= 0 ){
+                        remove_action( 'get_header', $to_add);
+                        add_action( 'template_redirect', $to_add, 10+$p);
+                    }
+                }
+            }
+        }
+    }
 
 }
 
