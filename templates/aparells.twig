@@ -1,0 +1,1067 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<!-- .main .wrap-blanc -->
+<main class="main wrap-blanc cd-main-content">
+
+    <!-- .main-header -->
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xxs-12 col-xs-8 col-sm-9">
+                    <h1>{{ parent_title }}</h1>
+                    {% include "share_links.twig" %}
+                </div>
+                {% if post.call_to_action_top_url %}
+                    <div class="col-xxs-12 col-xs-4 col-sm-3">
+                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header><!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- .cont-aside-left -->
+            <aside class="aside-left col-sm-3">
+                <!-- .boto-menu-lateral gris - xs -->
+                <div class="visible-xs-block boto-menu-lateral">
+                    <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                        <i class="fa fa-bars"></i>
+                        <p>Taula de continguts</p>
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                </div><!--/.boto-menu-lateral gris - xs -->
+
+                <!-- #menu-lateral -->
+                <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                    {{ page_hierarchy }}
+                </ul><!--/#menu-lateral -->
+            </aside><!--/.cont-aside-left -->
+
+            <!-- .contingut -->
+            <div class="contingut aparells-plus col-sm-9">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <h1>{{ post.title }}</h1>
+                            {{ post.content }}
+                        </div>
+                    </div>
+
+                    <!-- .filtres -->
+                    <div class="filtres row">
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="search" class="form-control" placeholder="Escriviu aquí la vostra cerca">
+                                <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <div class="row">
+                                        <!-- dropdown sitemes operatius -->
+                                        <div class="col-sm-6">
+                                            <select class="form-control selectpicker">
+                                                <option>Tots els sistemes operatius</option>
+                                                <option>Sistema operatiu 01</option>
+                                                <option>Sistema operatiu 02</option>
+                                                <option>Sistema operatiu 03</option>
+                                                <option>Sistema operatiu 04</option>
+                                                <option>Sistema operatiu 05</option>
+                                            </select>
+                                        </div><!--/dropdown sitemes operatius -->
+
+                                        <!-- dropdown categories -->
+                                        <div class="col-sm-6">
+                                            <select class="form-control selectpicker">
+                                                <option>Totes les categories</option>
+                                                <option>Categoria 01</option>
+                                                <option>Categoria 02</option>
+                                                <option>Categoria 03</option>
+                                                <option>Categoria 04</option>
+                                                <option>Categoria 05</option>
+                                            </select>
+                                        </div><!--/dropdown categories -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--/.filtres -->
+
+                </header><!--/.contingut-header -->
+
+                <!-- section  -->
+                <section class="contingut-section">
+
+                    <!-- .acordio-aparells  -->
+                    <div class="panel-group acordio-aparells" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5"><h4>Sony Xperia Z3 Compac</h4></div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="dist/images/content/aparells-plus-android.jpg" class="logo-aparell" alt="logotip android"><span>Android 4.2</span></div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+                                    <!-- .comentaris -->
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-01">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-01" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse" >m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5">
+                                            <h4>Blackberry Q10</h4>
+                                        </div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3">
+                                            <img src="dist/images/content/aparells-plus-blackberry.jpg" class="logo-aparell" alt="logotip android"><span>BlackBerry 10</span>
+                                        </div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-02">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-02" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse" >m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5"><h4>HTC Windows Phone 8X</h4></div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="dist/images/content/aparells-plus-windows.jpg" class="logo-aparell" alt="logotip android"><span>WindowsPhone 8</span></div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+                                    <!-- .comentaris -->
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-03">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-03" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse" >m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5"><h4>Sony Xperia Z3 Compac</h4></div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="dist/images/content/aparells-plus-android.jpg" class="logo-aparell" alt="logotip android"><span>Android 4.2</span></div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+                                    <!-- .comentaris -->
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-04">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-04" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse" >m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingFive">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5">
+                                            <h4>Blackberry Q10</h4>
+                                        </div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3">
+                                            <img src="dist/images/content/aparells-plus-blackberry.jpg" class="logo-aparell" alt="logotip android"><span>BlackBerry 10</span>
+                                        </div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-05">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-05" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse" >m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseOne">
+                                    <div class="panel-title row">
+                                        <div class="col-xs-12 col-sm-5"><h4>HTC Windows Phone 8X</h4></div>
+                                        <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="dist/images/content/aparells-plus-windows.jpg" class="logo-aparell" alt="logotip android"><span>WindowsPhone 8</span></div>
+                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                            <ul>
+                                                <li>Configuraci&oacute; en catal&agrave;<i class="fa fa-times"></i></li>
+                                                <li>Correcci&oacute; ortogr&agrave;fica en catal&agrave;<i class="fa fa-check"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <!-- .panel-body -->
+                                <div class="panel-body">
+                                    <h2>Detalls</h2>
+                                    <!-- detalls -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Nom</strong></li>
+                                                        <li>V3</li>
+                                                        <li><strong>Sistema operatiu</strong></li>
+                                                        <li>Android</li>
+                                                        <li><strong>Est&agrave; tradu&iuml;t al catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Tipus de dispositiu</strong></li>
+                                                        <li>M&ograve;bil</li>
+                                                        <li><strong>Versi&oacute; del SO</strong></li>
+                                                        <li>4.2.2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <ul>
+                                                        <li><strong>Fabricant</strong></li>
+                                                        <li>Oktel</li>
+                                                        <li><strong>Inclou teclat predictiu en catal&agrave;?</strong></li>
+                                                        <li>No</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img src="dist/images/content/img-dispositiu.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/detalls -->
+                                    <!-- .comentaris -->
+                                    <section class="comentaris">
+
+                                        <div class="row comentari-header">
+                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                <h2>Comentaris</h2>
+                                            </div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                <button type="button" class="bt-basic">Escriu un comentari</button>
+                                            </div>
+                                        </div>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+                                        <article class="article-comentari">
+                                            <img src="dist/images/content/img-comentari-03.jpg" alt="imatge usuari">
+                                            <div class="cont-comentari">
+                                                <header>
+                                                    <h3>Jaume Valls</h3>
+                                                    <div class="data">
+                                                        <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                    </div>
+                                                </header>
+                                                <p>Una eina imprescindible que utilitzo cada dia per treballar.</p>
+                                                <a href="#">Respon</a>
+                                            </div>
+                                        </article>
+
+
+                                        <!-- .mescomentaris -->
+                                        <div class="collapse" id="mescomentaris-06">
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+
+                                            <article class="article-comentari">
+                                                <img src="dist/images/content/img-comentari-02.jpg" alt="imatge usuari">
+                                                <div class="cont-comentari">
+                                                    <header>
+                                                        <h3>Jaume Valls</h3>
+                                                        <div class="cont-rating">
+                                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                                        </div>
+                                                        <div class="data">
+                                                            <time itemprop="dateCreated" datetime="2015-10-03">15 Gen 2015</time>
+                                                        </div>
+                                                    </header>
+                                                    <p>Donec egestas massa ligula, eu efficitur arcu pharetra non. Morbi fringilla id risus ut tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                                    <a href="#">Respon</a>
+                                                </div>
+                                            </article>
+                                        </div><!--/.mescomentaris -->
+
+
+                                        <!-- .bt-mes -->
+                                        <div class="row">
+                                            <div class="intern">
+                                                <button href="#mescomentaris-06" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse">m&eacute;s<i class="fa fa-angle-down"></i></button>
+                                            </div>
+                                        </div><!--/.bt-mes -->
+                                    </section><!--/.comentaris -->
+                                </div><!--/.panel-body -->
+                            </div>
+                        </div>
+
+
+                    </div><!--/.acordio-aparells  -->
+
+                </section><!--/ section  -->
+
+
+
+
+
+
+
+
+                <!--/.contingut-footer -->
+                <footer class="contingut-footer">
+                    <hr>
+                    <div class="alerta">
+                        <p><strong>IMPORTANT!</strong> Exemple de Nota al peu de p&agrave;gina. Lorem ipsum dolor set morbi bibendum arcu eget justo dictum  vel ullamcorper quam accumsan</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="caixa-gris">
+                                <p>Teniu algun suggeriment?</p>
+                                <a href="#" class="sobre"><i class="fa fa-envelope-o"></i><span>Podeu posar-vos en contacte amb nosaltres a <em>correu@softcatala.org</em></span></a>
+                            </div>
+                            <div class="caixa-gris">
+                                <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+                                <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+                            </div>
+                            <div class="caixa-gris enllacos">
+                                <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
+                                <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer><!--/.contingut-footer -->
+            </div><!--/.contingut -->
+
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+<!-- .seccio-vermella -->
+<div class="wrap-vermell seccio-vermella">
+    <div class="container-fluid">
+        <p><strong>Call to action</strong></p>
+        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+        <div class="intern">
+            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+        </div>
+    </div>
+</div><!--/.seccio-vermella -->
+
+{% endblock %}
