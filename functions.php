@@ -22,6 +22,8 @@ class StarterSite extends TimberSite {
 		add_theme_support( 'menus' );
 		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
+		remove_filter ('the_content', 'wpautop');
+		add_filter ('the_content', 'scautop');
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ) );
 		add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
@@ -415,4 +417,12 @@ function get_final_time( $filter )
 function orderbyreplace( $orderby ) {
     global $wpdb;
     return str_replace($wpdb->prefix.'postmeta.meta_value DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
+}
+
+/*
+ * Function that adds a excerpt to pages to be used as a subtitle
+ */
+add_action( 'init', 'sc_add_excerpts_to_pages' );
+function sc_add_excerpts_to_pages() {
+	add_post_type_support( 'page', 'excerpt' );
 }
