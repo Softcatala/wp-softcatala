@@ -29,8 +29,14 @@
 						<p>{{  post.post_excerpt }}</p>
 					</header>
 
-					<!-- .contingut-section - paragraf + taules -->
-					<section class="contingut-section">{{  post.content }}</section><!--/.contingut-section - paragraf + taules -->
+					{% if post.thumbnail.src %}
+						<br/>
+						<img alt="{{post.title}}" src="{{post.thumbnail.src}}">
+					{% endif %}
+
+					<!-- section paragraf -->
+					<section class="contingut-section">{{  post.content }}</section>
+					<!--/ section paragraf -->
 
 				</div><!--/.contingut -->
 
