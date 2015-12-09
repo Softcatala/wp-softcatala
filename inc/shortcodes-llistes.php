@@ -15,6 +15,7 @@ add_filter('the_content', 'sc_add_dummy_shortcode', 12);
 
 function sc_add_dummy_shortcode( $content = '' )
 {
+	global $sc_preprocessed_shortcodes;
 	foreach ( $sc_preprocessed_shortcodes as $shortcode => $func ) {
 		add_shortcode( $shortcode, 'sc_dummy_filter');
 	}
