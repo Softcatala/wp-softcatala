@@ -191,6 +191,7 @@ function include_theme_conf()
 {
     locate_template( array( 'inc/widgets.php' ), true, true );
 	locate_template( array( 'inc/content_styles.php' ), true, true );
+	locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
 }
 add_action( 'after_setup_theme', 'include_theme_conf' );
 
