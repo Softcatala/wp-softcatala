@@ -48,7 +48,12 @@
                     <header class="contingut-header">
                         <h1>{{ post.title }}</h1>
                         <p>{{  post.post_excerpt }}</p>
-                    </header><!--/.contingut-header -->
+                    </header>
+                    <!--/.contingut-header -->
+
+                    {% if post.text_baixada_principal %}
+                        <a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fa fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
+                    {% endif %}
 
                     {% if post.thumbnail.src %}
                         <br/>
