@@ -1,4 +1,4 @@
-<article class="article-comentari respondre" id="comment_flexible_form">
+<article class="article-comentari respondre" id="comment_flexible_form_{{ post.ID }}">
   {% if user_info.is_connected %}
   <i class="">{{ user_info.avatar_48 }}</i>
   {% else %}
@@ -31,7 +31,7 @@
       <div class="form-group">
           <div class="col-sm-12 form-botons">
                 <input id="comment_post_ID" type="hidden" value="{{ post.ID }}" name="comment_post_ID">
-                <input id="comment_parent" type="hidden" value="0" name="comment_parent">
+                <input id="comment_parent_{{ post.ID }}" type="hidden" value="0" name="comment_parent">
                <button class="bt-basic bt-basic-vermell-fosc" type="submit">envia</button>
                <button class="bt-basic bt-basic-gris" type="button" id="hide_clean_form">cancel·la</button>
               {% if user_info.is_connected == false %}<a href="{{user_info.wp_login_url}}" class="sessio">Inicieu la sessió</a>{% endif %}
