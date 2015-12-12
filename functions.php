@@ -90,6 +90,10 @@ class StarterSite extends TimberSite {
     public function fix_woosidebar_hooks() {
         global $wp_filter;
 
+		if ( !isset ($wp_filter['get_header'] ) ) {
+			return;
+		}
+		
         $priorities = $wp_filter['get_header'];
 
         foreach( $priorities as $p => $filters ) {
