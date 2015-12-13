@@ -421,3 +421,11 @@ function orderbyreplace( $orderby ) {
     global $wpdb;
     return str_replace($wpdb->prefix.'postmeta.meta_value DESC', 'mt1.meta_value DESC, mt2.meta_value ASC', $orderby);
 }
+
+/*
+ * Function that adds a excerpt to pages to be used as a subtitle
+ */
+add_action( 'init', 'sc_add_excerpts_to_pages' );
+function sc_add_excerpts_to_pages() {
+	add_post_type_support( 'page', 'excerpt' );
+}
