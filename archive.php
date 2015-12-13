@@ -32,7 +32,6 @@ if ( is_category() ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
 
     $post = retrieve_page_data(get_query_var( 'post_type' ));
-    $context['title'] = 'Esdeveniments';
     $context['post'] = $post;
     $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
