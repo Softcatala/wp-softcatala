@@ -8,7 +8,7 @@
 global $sc_preprocessed_shortcodes;
 
 // Add here all shortcodes to avoid wpautop and other processing on them
-$sc_preprocessed_shortcodes = array ('iconlist' => 'sc_icon_list_shortcode');
+$sc_preprocessed_shortcodes = array ('llista-icones' => 'sc_icon_list_shortcode');
 
 add_filter('the_content', 'sc_pre_process_shortcode', 7);
 add_filter('the_content', 'sc_add_dummy_shortcode', 12);
