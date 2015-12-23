@@ -2,7 +2,7 @@
 
 var traductor_json_url = "http://www.softcatala.org/apertium/json/translate";
 
-
+(function($) {
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
     $('#origin_language').val('cat');
@@ -408,3 +408,5 @@ function exchange_texts() {
     $('.primer-textarea').val(translation_text);
 }
 /** End functions related to language pairs change **/
+
+})(jQuery);
