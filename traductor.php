@@ -8,7 +8,7 @@
 if($_POST) {
     sendContactForm();
 } else {
-    wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/traductor.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/traductor.js', array('sc-js-main'), '1.0.0', true );
     $context = Timber::get_context();
     $post = new TimberPost();
     $context['post'] = $post;
