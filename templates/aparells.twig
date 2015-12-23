@@ -110,7 +110,7 @@
                                         <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
                                         <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
                                         <div class="col-xxs-12 col-xs-8 col-sm-4">
-                                            <ul>
+                                            <ul class="aparells_detail">
                                                 <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
                                                 <li>Correcció ortogràfica en català<i class="fa {% if post.correccio_cat %}fa-check{% else %}fa-times {% endif %}"></i></li>
                                             </ul>
@@ -127,7 +127,7 @@
                                         <div class="col-xs-12 col-sm-6">
                                             <div class="row">
                                                 <div class="col-xs-6">
-                                                    <ul>
+                                                    <ul class="aparells_detail">
                                                         <li><strong>Nom</strong></li>
                                                         <li>{{ post.title }}</li>
                                                         <li><strong>Sistema operatiu</strong></li>
@@ -137,7 +137,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <ul>
+                                                    <ul class="aparells_detail">
                                                         <li><strong>Tipus de dispositiu</strong></li>
                                                         <li>{{ post.tipus|title }}</li>
                                                         <li><strong>Versió del SO</strong></li>
@@ -149,7 +149,7 @@
                                         <div class="col-xs-12 col-sm-6">
                                             <div class="row">
                                                 <div class="col-xs-6">
-                                                    <ul>
+                                                    <ul class="aparells_detail">
                                                         <li><strong>Fabricant</strong></li>
                                                         <li>{{ post.fabricant }}</li>
                                                         <li><strong>Inclou teclat predictiu en català?</strong></li>
