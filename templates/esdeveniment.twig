@@ -11,9 +11,9 @@
                     <h1>{{post.title}}</h1>
                     {% include "share_links.twig" %}
                 </div>
-                {% if attribute(post,'wpcf-call_to_action_top_url') %}
+                {% if post.call_to_action_top_url and post.call_to_action_top_text %}
                     <div class="col-xxs-12 col-xs-4 col-sm-3">
-                        <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
+                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                     </div>
                 {% endif %}
             </div>

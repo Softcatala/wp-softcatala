@@ -19,11 +19,11 @@
               {% endif %}
               {% include "share_links.twig" %}
             </div>
-            {% if attribute(post,'wpcf-call_to_action_top_url') %}
-            <div class="col-xxs-12 col-xs-4 col-sm-3">
-              <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
-            </div>
-			{% endif %}
+            {% if post.call_to_action_top_url and post.call_to_action_top_text %}
+              <div class="col-xxs-12 col-xs-4 col-sm-3">
+                <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+              </div>
+            {% endif %}
           </div>
         </div>
       </header><!--/.main-header -->
@@ -124,17 +124,17 @@
       </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
-    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
-			<!-- .seccio-vermella -->
-			<div class="wrap-vermell seccio-vermella">
-			  <div class="container-fluid">
-			    {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
-			    <div class="intern">
-			        <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
-			    </div>
-			  </div>
-			</div><!--/.seccio-vermella -->
-		  {% endif %}
+  {% if post.call_to_action_bottom_url and post.call_to_action_bottom_text %}
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        {{ post.call_to_action_bottom_text }}
+        <div class="intern">
+          <a href="{{ post.call_to_action_bottom_url }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ post.call_to_action_bottom_button_text }}</a>
+        </div>
+      </div>
+    </div><!--/.seccio-vermella -->
+  {% endif %}
 
 <script type="text/javascript">
   $(".selectpicker").on('change', function() {
