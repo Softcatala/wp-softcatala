@@ -3,6 +3,7 @@
   <h2>Esdeveniments</h2>
   <!-- .llista-esdeveniments -->
   <section class="llista-esdeveniments">
+    {% if esdeveniments %}
     {% for esdeveniment in esdeveniments %}
     <article class="contingut-article" style="clear: both;">
       <i><span><strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('j')}}</strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('M')}}</span></i>
@@ -18,4 +19,8 @@
       <a title="Més esdeveniments" class="bt-basic" href="/esdeveniments/">Més esdeveniments</a>
     </div>
   </div>
-</div><!--/.esdeveniments -->
+  {% else %}
+    No hi ha cap esdeveniment programat
+  {% endif %}
+</div>
+<!--/.esdeveniments -->

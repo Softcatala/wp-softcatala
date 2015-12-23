@@ -16,6 +16,7 @@
 $context = Timber::get_context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
 $context['post'] = $post;
+$context['title'] = get_search_query();
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 $context['cerca'] = get_search_query();

@@ -25,11 +25,24 @@
 
 				<!-- .contingut -->
 				<div class="contingut contingut-left col-sm-9">
+					<!-- .contingut-header -->
+					<header class="contingut-header">
+						<p>{{  post.post_excerpt }}</p>
 
-					<!-- .contingut-section - paragraf + taules -->
-					<section class="contingut-section">
-						<p>{{  post.content }}</p>
-					</section><!--/.contingut-section - paragraf + taules -->
+						{% if post.text_baixada_principal %}
+							<a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fa fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
+						{% endif %}
+
+						{% if post.thumbnail.src %}
+							{% if not post.text_baixada_principal %}<br/>{% endif %}
+							<img alt="{{post.title}}" src="{{post.thumbnail.src}}">
+						{% endif %}
+					</header>
+					<!--/.contingut-header -->
+
+					<!-- section paragraf -->
+					<section class="contingut-section">{{  post.content }}</section>
+					<!--/ section paragraf -->
 
 				</div><!--/.contingut -->
 

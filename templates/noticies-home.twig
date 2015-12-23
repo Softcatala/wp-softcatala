@@ -1,8 +1,8 @@
 <!-- .noticies -->
 <div class="noticies col-sm-12 col-md-9">
   <h2>Notícies</h2>
-
   <!-- .row -->
+    {% if posts %}
   <div class="row">
     {% for post in posts %}
     <div class="col-xs-6 col-sm-4">
@@ -21,4 +21,7 @@
       <a href="/noticies/" title="Més notícies" class="bt-basic">Més notícies</a>
     </div>
   </div>
+  {% else %}
+    <div class="row"><div class="col-xs-6 col-sm-4">No hi ha cap notícia</div></div>
+  {% endif %}
 </div><!--/.noticies -->

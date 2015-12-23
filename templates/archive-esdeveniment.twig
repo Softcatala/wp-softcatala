@@ -139,7 +139,11 @@
                         </div>
                     </div>
                     {% else %}
-                    No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
+                    {% if title %}
+                        No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
+                    {% else %}
+                        No hi ha cap esdeveniment programat
+                    {% endif %}
                     {% endif %}<!--/.pagination -->
                 </div><!--/.contingut -->
                 {% include "sidebar-news.twig" %}
