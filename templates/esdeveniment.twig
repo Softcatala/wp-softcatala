@@ -3,22 +3,9 @@
 {% block content %}
     <!-- .main .wrap-blanc -->
     <main class="main wrap-blanc blog">
-    <!-- .main-header -->
-    <header class="main-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xxs-12 col-xs-8 col-sm-9">
-                    <h1>{{post.title}}</h1>
-                    {% include "share_links.twig" %}
-                </div>
-                {% if post.call_to_action_top_url and post.call_to_action_top_text %}
-                    <div class="col-xxs-12 col-xs-4 col-sm-3">
-                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </header><!--/.main-header -->
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
 
     <div class="container-fluid">
         <div class="row">
@@ -116,6 +103,10 @@
         </div><!--/.row -->
     </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
 
 
 {% endblock %}

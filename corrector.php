@@ -18,6 +18,7 @@ wp_enqueue_style( 'sc-css-corrector', get_template_directory_uri() . '/static/cs
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
+$context['content_title'] = 'Corrector';
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top_recursos'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_bottom_recursos'] = Timber::get_widgets('sidebar_bottom_recursos');

@@ -13,6 +13,7 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
 $context['filters'] = get_the_event_filters();
 $context['selected_filter'] = get_query_var( 'filtre' );
+$context['content_title'] = 'Esdeveniments';
 if( get_query_var('filtre') ) {
     $filter = get_query_var( 'filtre' );
     $filterdate = get_final_time( $filter );

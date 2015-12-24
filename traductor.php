@@ -12,6 +12,7 @@ if($_POST) {
     $context = Timber::get_context();
     $post = new TimberPost();
     $context['post'] = $post;
+    $context['content_title'] = 'Traductor';
     $context['links'] = $post->get_field( 'link' );
     $context['sidebar_top_recursos'] = Timber::get_widgets('sidebar_top_recursos');
     $context['sidebar_bottom_recursos'] = Timber::get_widgets('sidebar_bottom_recursos');

@@ -3,22 +3,9 @@
 {% block content %}
 	<!-- .main .wrap-blanc -->
     <main class="main wrap-blanc blog">
-      <!-- .main-header -->
-      <header class="main-header">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-xxs-12 col-xs-8 col-sm-9">
-              <h1>{{post.title}}</h1>
-              {% include "share_links.twig" %}
-            </div>
-			  {% if post.call_to_action_top_url and post.call_to_action_top_text %}
-				  <div class="col-xxs-12 col-xs-4 col-sm-3">
-					  <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
-				  </div>
-			  {% endif %}
-          </div>
-        </div>
-      </header><!--/.main-header -->
+		<!-- .main-header -->
+		{% include "contingut-header.twig" %}
+		<!--/.main-header -->
 
       <div class="container-fluid">
         <div class="row">
@@ -132,15 +119,7 @@
 </main><!--/.main .wrap-blanc -->
 
 
-	{% if post.call_to_action_bottom_url and post.call_to_action_bottom_text %}
-		<!-- .seccio-vermella -->
-		<div class="wrap-vermell seccio-vermella">
-			<div class="container-fluid">
-				{{ post.call_to_action_bottom_text }}
-				<div class="intern">
-					<a href="{{ post.call_to_action_bottom_url }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ post.call_to_action_bottom_button_text }}</a>
-				</div>
-			</div>
-		</div><!--/.seccio-vermella -->
-	{% endif %}
+	<!-- .seccio-vermella -->
+	{% include "call-to-action-bottom.twig" %}
+	<!--/.seccio-vermella -->
 {% endblock %}

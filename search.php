@@ -37,10 +37,12 @@ if( $post_type == 'esdeveniment' ) {
         $args = wp_parse_args( $date_filter_args, $args ); //all filters applied
     }
 
+    $context['content_title'] = 'Esdeveniments';
     $context['posts'] = Timber::get_posts($args);
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
     $context['filters'] = get_the_event_filters();
-} else {
+} else { //Default, notícies
+    $context['content_title'] = 'Notícies';
     $context['cat_link'] = get_category_link( get_query_var('cat') );
     $context['posts'] = Timber::get_posts();
     $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));

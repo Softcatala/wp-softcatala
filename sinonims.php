@@ -11,6 +11,7 @@ wp_enqueue_script( 'sc-js-sinonims', get_template_directory_uri() . '/static/js/
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
+$context['content_title'] = 'Diccionari de sinónims';
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top_recursos'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_bottom_recursos'] = Timber::get_widgets('sidebar_bottom_recursos');

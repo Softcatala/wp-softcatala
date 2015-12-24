@@ -30,7 +30,7 @@ if ( is_category() ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
 } else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
-
+    $context['content_title'] = 'Esdeveniments';
     $post = retrieve_page_data(get_query_var( 'post_type' ));
     $context['post'] = $post;
     $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
