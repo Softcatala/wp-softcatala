@@ -213,11 +213,12 @@
                                 var comment_ids = this.id.split("_");
                                 $('#hide_clean_form').click();
                                 $("#comment_form_flexible_"+comment_ids[0]).detach().appendTo('#comment-'+comment_ids[0]+'_'+comment_ids[1]);
-                                $("#comment_parent_"+comment_ids[1]).val(comment_ids[1]);
+
+                                $("#comment_parent_"+comment_ids[0]).val(comment_ids[1]);
                                 if (this.id == '0') {
-                                    $( "#comment_flexible_form_"+comment_ids[1] ).css( "margin-left", "0" );
+                                    $( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "0" );
                                 } else {
-                                    $( "#comment_flexible_form_"+comment_ids[1] ).css( "margin-left", "68px" );
+                                    $( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "68px" );
                                 }
                                 jQuery("#comment_form_flexible_"+comment_ids[0]).fadeIn();
                             });
