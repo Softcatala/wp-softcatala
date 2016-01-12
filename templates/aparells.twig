@@ -53,7 +53,7 @@
                     </div>
 
                     <!-- .filtres -->
-                    <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{ search_params.current_url }}">
+                    <form class="searchform" method="get" id="cerca_aparells" role="search" action="{{ search_params.current_url }}">
                         <div class="filtres row">
                             <div class="col-sm-10">
                                 <div class="input-group">
@@ -66,20 +66,20 @@
                                         <div class="row">
                                             <!-- dropdown sitemes operatius -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="temes">
-                                                    <option value="/noticies">Tots els temes</option>
-                                                    {% for category in categories.temes %}
-                                                        <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                <select class="form-control selectpicker" id="temes" name="sistema_operatiu">
+                                                    <option value="">Tots els sistemes operatius</option>
+                                                    {% for category in categories.sistemesoperatius %}
+                                                        <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div><!--/dropdown sitemes operatius -->
 
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="tipus">
-                                                    <option value="/noticies">Tots els tipus</option>
+                                                <select class="form-control selectpicker" id="tipus" name="tipus_aparell">
+                                                    <option value="">Totes les categories</option>
                                                     {% for category in categories.tipus %}
-                                                        <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                        <option value="{{ category.slug }}" {% if selected_filter_tipus == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div><!--/dropdown categories -->
@@ -130,7 +130,11 @@
                                                             <li><strong>Nom</strong></li>
                                                             <li>{{ post.title }}</li>
                                                             <li><strong>Sistema operatiu</strong></li>
-                                                            <li>{{ post.sistema_operatiu }}</li>
+                                                            <li>{% if post.terms('sistema_operatiu_aparell') %}
+                                                                    {% for term in post.terms('sistema_operatiu_aparell') %}
+                                                                        {{term.name}}
+                                                                    {% endfor %}
+                                                                {% endif %}</li>
                                                             <li><strong>Està traduït al català?</strong></li>
                                                             <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
                                                         </ul>
@@ -138,9 +142,13 @@
                                                     <div class="col-xs-6">
                                                         <ul class="aparells_detail">
                                                             <li><strong>Tipus de dispositiu</strong></li>
-                                                            <li>{{ post.tipus|title }}</li>
+                                                            <li>{% if post.terms('tipus_aparell') %}
+                                                                        {% for term in post.terms('tipus_aparell') %}
+                                                                            {{term.name}}
+                                                                        {% endfor %}
+                                                                {% endif %}</li>
                                                             <li><strong>Versió del SO</strong></li>
-                                                            <li>4.2.2</li>
+                                                            <li>{{ post.versio }}</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -208,28 +216,28 @@
 
                             {% endfor %}
                         {% else %}
-                            No s'ha trobat cap aparell que coincideixi amb la cerca: <strong>{{ cerca }}</strong>
+                            No s'ha trobat cap aparell que coincideixi amb la cerca
                         {% endif %}
                         <script>
-                            $( ".respon_link" ).click(function() {
+                            jQuery( ".respon_link" ).click(function() {
                                 var comment_ids = this.id.split("_");
-                                $('#hide_clean_form').click();
-                                $("#comment_form_flexible_"+comment_ids[0]).detach().appendTo('#comment-'+comment_ids[0]+'_'+comment_ids[1]);
+                                jQuery('#hide_clean_form').click();
+                                jQuery("#comment_form_flexible_"+comment_ids[0]).detach().appendTo('#comment-'+comment_ids[0]+'_'+comment_ids[1]);
 
-                                $("#comment_parent_"+comment_ids[0]).val(comment_ids[1]);
+                                jQuery("#comment_parent_"+comment_ids[0]).val(comment_ids[1]);
                                 if (this.id == '0') {
-                                    $( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "0" );
+                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "0" );
                                 } else {
-                                    $( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "68px" );
+                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "68px" );
                                 }
                                 jQuery("#comment_form_flexible_"+comment_ids[0]).fadeIn();
                             });
 
-                            $( "#hide_clean_form" ).click(function() {
-                                $("#comment_form_flexible").hide();
-                                $("#author").val('Nom');
-                                $("#comment").val('Comentari');
-                                $("#email").val('E-mail');
+                            jQuery( "#hide_clean_form" ).click(function() {
+                                jQuery("#comment_form_flexible").hide();
+                                jQuery("#author").val('Nom');
+                                jQuery("#comment").val('Comentari');
+                                jQuery("#email").val('E-mail');
                             });
                         </script>
                     </div><!--/.acordio-aparells  -->
@@ -239,23 +247,31 @@
                 <!--/.contingut-footer -->
                 <footer class="contingut-footer">
                     <hr>
-                    <div class="alerta">
-                        <p><strong>IMPORTANT!</strong> Exemple de Nota al peu de pàgina. Lorem ipsum dolor set morbi bibendum arcu eget justo dictum  vel ullamcorper quam accumsan</p>
-                    </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="caixa-gris">
                                 <p>Teniu algun suggeriment?</p>
-                                <a href="#" class="sobre"><i class="fa fa-envelope-o"></i><span>Podeu posar-vos en contacte amb nosaltres a <em>correu@softcatala.org</em></span></a>
+                                <a href="mailto:correu@softcatala.org" class="sobre"><i class="fa fa-envelope-o"></i><span>Podeu posar-vos en contacte amb nosaltres a <em>correu@softcatala.org</em></span></a>
                             </div>
-                            <div class="caixa-gris">
-                                <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
-                                <a href="#"><i class="fa fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
-                            </div>
-                            <div class="caixa-gris enllacos">
-                                <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
-                                <p>Descripció de l&#039;enlla&ccedil; lorem ipsum</p>
-                            </div>
+                            {% if post.baixades_relacionades_noticia %}
+                                <div class="caixa-gris">
+                                    {% if post.baixades_relacionades_noticia is iterable %}
+                                        {% for baixada in post.baixades_relacionades_noticia %}
+                                            <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ baixada|get_caption_from_media_url }}</span></a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a href="{{ post.baixades_relacionades_noticia }}"><i class="fa fa-download"></i><span>{{ post.baixades_relacionades_noticia|get_caption_from_media_url }}</span></a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% if links %}
+                                <div class="caixa-gris enllacos">
+                                    {% for link in links %}
+                                        <a href="{{ link.link_url }}">{{ link.link_title }}</a>
+                                        <p>{{ link.link_description }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </footer><!--/.contingut-footer -->
@@ -265,15 +281,25 @@
     </div><!--/.container-fluid -->
 </main><!--/.main .wrap-blanc -->
 
-<!-- .seccio-vermella -->
-<div class="wrap-vermell seccio-vermella">
-    <div class="container-fluid">
-        <p><strong>Call to action</strong></p>
-        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
-        <div class="intern">
-            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+
+        <!-- .seccio-vermella -->
+        {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
+        <div class="wrap-vermell seccio-vermella">
+            <div class="container-fluid">
+                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
+                <div class="intern">
+                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
+                </div>
+            </div>
         </div>
-    </div>
-</div><!--/.seccio-vermella -->
+        {% endif %}
+        <!--/.seccio-vermella -->
+
+
+    <script type="text/javascript">
+        jQuery(".selectpicker").on('change', function() {
+            jQuery( "#cerca_aparells" ).submit();
+        });
+    </script>
 
 {% endblock %}

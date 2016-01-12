@@ -141,8 +141,9 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 	if ( '' == $attachment_url )
 		return;
 
-	// Get the upload directory paths
+	// Get the upload directory paths and clean the attachment url
 	$upload_dir_paths = wp_upload_dir();
+    $attachment_url = str_replace( 'wp/../', '', $attachment_url );
 
 	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
 	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
@@ -313,9 +314,28 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
 				)
 		);
 	} else if ( $queryType == SearchQueryType::Aparell ) {
-		$filter_args = array(
-				's'         => $filter
-		);
+		$filter_args = array();
+		if( ! empty ( $filter['s'] ) ) {
+			$filter_args['s'] =	$filter['s'];
+		}
+
+        if ( ! empty ( $filter['sistema_operatiu_aparell'] ) ) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'sistema_operatiu_aparell',
+                'field' => 'slug',
+                'terms' => $filter['sistema_operatiu_aparell']
+            );
+            $filter_args['filter_so'] = $filter['sistema_operatiu_aparell'];
+        }
+
+        if ( ! empty ( $filter['tipus_aparell'] ) ) {
+            $filter_args['tax_query'][] = array (
+                'taxonomy' => 'tipus_aparell',
+                'field' => 'slug',
+                'terms' => $filter['tipus_aparell']
+            );
+            $filter_args['filter_tipus'] = $filter['tipus_aparell'];
+		}
     }else {
 		$filter_args = array(
 				'meta_query' => array(
@@ -354,6 +374,8 @@ function get_is_paged() {
 function add_query_vars_filter( $vars ){
 	$vars[] = "filtre";
 	$vars[] = "cerca";
+    $vars[] = "sistema_operatiu";
+    $vars[] = "tipus";
 	return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
