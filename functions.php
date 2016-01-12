@@ -118,7 +118,7 @@ new StarterSite();
 
 function softcatala_scripts() {
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
-	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), '1.0.0', true );
 	wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
