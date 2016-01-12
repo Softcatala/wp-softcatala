@@ -252,23 +252,34 @@ abstract class SearchQueryType {
 	const FilteredDate = 1;
 	const Search = 2;
 	const Highlight = 3;
+	const Aparell = 4;
 }
 
 /*
  * Returns the arguments to apply to the mysql query
  */
-function get_post_query_args( $queryType, $filter = array() )
+function get_post_query_args( $post_type, $queryType, $filter = array() )
 {
 	//Retrieve posts
-	$base_args = array(
-			'meta_key'   =>  'wpcf-data_inici',
-			'post_type' => 'esdeveniment',
-			'post_status'    => 'publish',
-			'orderby'        => 'wpcf-data_inici',
-			'order'          => 'ASC',
-			'paged' => get_is_paged(),
-			'posts_per_page' => 10
-	);
+	switch ($post_type) {
+		case 'esdeveniment':
+			$base_args = array(
+					'meta_key'   =>  'wpcf-data_inici',
+					'post_type' => $post_type,
+					'post_status'    => 'publish',
+					'orderby'        => 'wpcf-data_inici',
+					'order'          => 'ASC',
+					'paged' => get_is_paged(),
+					'posts_per_page' => 10
+			);
+			break;
+		case 'aparell':
+			$base_args = array(
+					'post_type' => $post_type,
+					'post_status'    => 'publish',
+					'order'          => 'ASC'
+			);
+	}
 
 	if ( $queryType == SearchQueryType::Search ) {
 		$filter_args = array(
@@ -301,7 +312,11 @@ function get_post_query_args( $queryType, $filter = array() )
 						get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
 				)
 		);
-	} else {
+	} else if ( $queryType == SearchQueryType::Aparell ) {
+		$filter_args = array(
+				's'         => $filter
+		);
+    }else {
 		$filter_args = array(
 				'meta_query' => array(
 						get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
@@ -338,6 +353,7 @@ function get_is_paged() {
  */
 function add_query_vars_filter( $vars ){
 	$vars[] = "filtre";
+	$vars[] = "cerca";
 	return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );

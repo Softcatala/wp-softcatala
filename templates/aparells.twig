@@ -53,45 +53,43 @@
                     </div>
 
                     <!-- .filtres -->
-                    <div class="filtres row">
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <input type="search" class="form-control" placeholder="Escriviu aquí la vostra cerca">
-                                <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
-                            </div>
+                    <form class="searchform" method="get" id="cerca_noticies" role="search" action="{{ search_params.current_url }}">
+                        <div class="filtres row">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
+                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                </div>
 
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <div class="row">
-                                        <!-- dropdown sitemes operatius -->
-                                        <div class="col-sm-6">
-                                            <select class="form-control selectpicker">
-                                                <option>Tots els sistemes operatius</option>
-                                                <option>Sistema operatiu 01</option>
-                                                <option>Sistema operatiu 02</option>
-                                                <option>Sistema operatiu 03</option>
-                                                <option>Sistema operatiu 04</option>
-                                                <option>Sistema operatiu 05</option>
-                                            </select>
-                                        </div><!--/dropdown sitemes operatius -->
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <!-- dropdown sitemes operatius -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="temes">
+                                                    <option value="/noticies">Tots els temes</option>
+                                                    {% for category in categories.temes %}
+                                                        <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown sitemes operatius -->
 
-                                        <!-- dropdown categories -->
-                                        <div class="col-sm-6">
-                                            <select class="form-control selectpicker">
-                                                <option>Totes les categories</option>
-                                                <option>Categoria 01</option>
-                                                <option>Categoria 02</option>
-                                                <option>Categoria 03</option>
-                                                <option>Categoria 04</option>
-                                                <option>Categoria 05</option>
-                                            </select>
-                                        </div><!--/dropdown categories -->
+                                            <!-- dropdown categories -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="tipus">
+                                                    <option value="/noticies">Tots els tipus</option>
+                                                    {% for category in categories.tipus %}
+                                                        <option value="{{ category.link }}{{ search_params.current_url_params }}" {% if cat_link == category.link %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown categories -->
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div><!--/.filtres -->
+                    </form><!--/.filtres -->
 
                 </header><!--/.contingut-header -->
 
@@ -101,113 +99,117 @@
                     <!-- .acordio-aparells  -->
                     <div class="panel-group acordio-aparells" id="accordion" role="tablist" aria-multiselectable="true">
 
-                        {% for post in aparells %}
+                        {% if aparells %}
+                            {% for post in aparells %}
 
-                        <div class="panel">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
-                                    <div class="panel-title row">
-                                        <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
-                                        <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
-                                        <div class="col-xxs-12 col-xs-8 col-sm-4">
-                                            <ul class="aparells_detail">
-                                                <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
-                                                <li>Correcció ortogràfica en català<i class="fa {% if post.correccio_cat %}fa-check{% else %}fa-times {% endif %}"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div id="collapse{{ post.ID }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <!-- .panel-body -->
-                                <div class="panel-body">
-                                    <h2>Detalls</h2>
-                                    <!-- detalls -->
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6">
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    <ul class="aparells_detail">
-                                                        <li><strong>Nom</strong></li>
-                                                        <li>{{ post.title }}</li>
-                                                        <li><strong>Sistema operatiu</strong></li>
-                                                        <li>{{ post.sistema_operatiu }}</li>
-                                                        <li><strong>Està traduït al català?</strong></li>
-                                                        <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    <ul class="aparells_detail">
-                                                        <li><strong>Tipus de dispositiu</strong></li>
-                                                        <li>{{ post.tipus|title }}</li>
-                                                        <li><strong>Versió del SO</strong></li>
-                                                        <li>4.2.2</li>
-                                                    </ul>
-                                                </div>
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
+                                        <div class="panel-title row">
+                                            <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                                <ul class="aparells_detail">
+                                                    <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
+                                                    <li>Correcció ortogràfica en català<i class="fa {% if post.correccio_cat %}fa-check{% else %}fa-times {% endif %}"></i></li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-6">
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    <ul class="aparells_detail">
-                                                        <li><strong>Fabricant</strong></li>
-                                                        <li>{{ post.fabricant }}</li>
-                                                        <li><strong>Inclou teclat predictiu en català?</strong></li>
-                                                        <li>{% if post.correccio_cat %}Sí{% else %}No{% endif %}</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    <img src="{{post.thumbnail.src}}" height="141" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!--/detalls -->
-                                    <!-- .comentaris -->
-                                    <section class="comentaris">
-                                        <hr>
-                                        <div class="row comentari-header">
-                                            <div class="col-xxs-12 col-xs-8 col-sm-8">
-                                                <h2>Comentaris</h2>
-                                            </div>
-                                            <div class="col-xxs-12 col-xs-4 col-sm-4">
-                                                <button type="button" class="bt-basic respon_link" id="{{ post.ID }}_0">Escriviu un comentari</button>
-                                            </div>
-                                        </div>
-                                        <article class="article-comentari">
-                                            <div id="comment-{{ post.ID }}_0"></div>
-                                        </article>
-                                        {% for cmt in post.get_comments() %}
-                                            {% if loop.index == 3 %}<div id="mescomentaris" class="collapse">{% endif %}
-                                            <article class="article-comentari">
-                                                {% include "comment.twig" with {comment:cmt} %}
-                                                {% if cmt.children %}
-                                                    {% for cmtch1 in cmt.children %}
-                                                        <article class="article-comentari">
-                                                            {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
-                                                        </article>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </article>
-                                            {% if loop.index > 3 %}{% if loop.last %}</div>{% endif %}{% endif %}
-                                            {% if loop.index > 3 %}
-                                                {% if loop.last %}
-                                                    <div class="row">
-                                                        <div class="intern">
-                                                            <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris">més<i class="fa fa-angle-down"></i></button>
-                                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse{{ post.ID }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <!-- .panel-body -->
+                                    <div class="panel-body">
+                                        <h2>Detalls</h2>
+                                        <!-- detalls -->
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Nom</strong></li>
+                                                            <li>{{ post.title }}</li>
+                                                            <li><strong>Sistema operatiu</strong></li>
+                                                            <li>{{ post.sistema_operatiu }}</li>
+                                                            <li><strong>Està traduït al català?</strong></li>
+                                                            <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
+                                                        </ul>
                                                     </div>
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Tipus de dispositiu</strong></li>
+                                                            <li>{{ post.tipus|title }}</li>
+                                                            <li><strong>Versió del SO</strong></li>
+                                                            <li>4.2.2</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Fabricant</strong></li>
+                                                            <li>{{ post.fabricant }}</li>
+                                                            <li><strong>Inclou teclat predictiu en català?</strong></li>
+                                                            <li>{% if post.correccio_cat %}Sí{% else %}No{% endif %}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <img src="{{post.thumbnail.src}}" height="141" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!--/detalls -->
+                                        <!-- .comentaris -->
+                                        <section class="comentaris">
+                                            <hr>
+                                            <div class="row comentari-header">
+                                                <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                    <h2>Comentaris</h2>
+                                                </div>
+                                                <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                    <button type="button" class="bt-basic respon_link" id="{{ post.ID }}_0">Escriviu un comentari</button>
+                                                </div>
+                                            </div>
+                                            <article class="article-comentari">
+                                                <div id="comment-{{ post.ID }}_0"></div>
+                                            </article>
+                                            {% for cmt in post.get_comments() %}
+                                                {% if loop.index == 3 %}<div id="mescomentaris" class="collapse">{% endif %}
+                                                <article class="article-comentari">
+                                                    {% include "comment.twig" with {comment:cmt} %}
+                                                    {% if cmt.children %}
+                                                        {% for cmtch1 in cmt.children %}
+                                                            <article class="article-comentari">
+                                                                {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
+                                                            </article>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </article>
+                                                {% if loop.index > 3 %}{% if loop.last %}</div>{% endif %}{% endif %}
+                                                {% if loop.index > 3 %}
+                                                    {% if loop.last %}
+                                                        <div class="row">
+                                                            <div class="intern">
+                                                                <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris">més<i class="fa fa-angle-down"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
                                                 {% endif %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </section>
-                                    <div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
-                                        {% include "comment_form.twig" %}
-                                    </div>
-                                </div><!--/.panel-body -->
+                                            {% endfor %}
+                                        </section>
+                                        <div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
+                                            {% include "comment_form.twig" %}
+                                        </div>
+                                    </div><!--/.panel-body -->
+                                </div>
                             </div>
-                        </div>
 
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            No s'ha trobat cap aparell que coincideixi amb la cerca: <strong>{{ cerca }}</strong>
+                        {% endif %}
                         <script>
                             $( ".respon_link" ).click(function() {
                                 var comment_ids = this.id.split("_");
@@ -233,13 +235,6 @@
                     </div><!--/.acordio-aparells  -->
 
                 </section><!--/ section  -->
-
-
-
-
-
-
-
 
                 <!--/.contingut-footer -->
                 <footer class="contingut-footer">
