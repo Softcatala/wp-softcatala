@@ -25,7 +25,9 @@ $context['categories']['temes'] = Timber::get_terms('category', array('parent' =
 $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
+
 
 $templates = array( 'index.twig' );
 if ( is_home() ) {

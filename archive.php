@@ -53,6 +53,7 @@ if ( is_category() ) {
 
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 //Get the posts depending on the parameters
 if( isset( $filter ) ) {
