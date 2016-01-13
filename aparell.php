@@ -29,6 +29,7 @@ $context['parent_title'] = $parent_data['title'];
 $context['page_hierarchy'] = get_parent_page_hierarchy($parent_data['id'], 'DESC');
 query_posts($args);
 $context['post'] = $post;
+$context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 $context['links'] = $post->get_field( 'link' );
 $context['aparells'] = Timber::get_posts($args);
 Timber::render( array( 'aparells.twig' ), $context );

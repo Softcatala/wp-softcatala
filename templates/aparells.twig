@@ -249,29 +249,9 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="caixa-gris">
-                                <p>Teniu algun suggeriment?</p>
-                                <a href="mailto:correu@softcatala.org" class="sobre"><i class="fa fa-envelope-o"></i><span>Podeu posar-vos en contacte amb nosaltres a <em>correu@softcatala.org</em></span></a>
-                            </div>
-                            {% if post.baixades_relacionades_noticia %}
-                                <div class="caixa-gris">
-                                    {% if post.baixades_relacionades_noticia is iterable %}
-                                        {% for baixada in post.baixades_relacionades_noticia %}
-                                            <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ baixada|get_caption_from_media_url }}</span></a>
-                                        {% endfor %}
-                                    {% else %}
-                                        <a href="{{ post.baixades_relacionades_noticia }}"><i class="fa fa-download"></i><span>{{ post.baixades_relacionades_noticia|get_caption_from_media_url }}</span></a>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                            {% if links %}
-                                <div class="caixa-gris enllacos">
-                                    {% for link in links %}
-                                        <a href="{{ link.link_url }}">{{ link.link_title }}</a>
-                                        <p>{{ link.link_description }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                            {% for element in sidebar_elements %}
+                                {% include element %}
+                            {% endfor %}
                         </div>
                     </div>
                 </footer><!--/.contingut-footer -->
@@ -282,18 +262,9 @@
 </main><!--/.main .wrap-blanc -->
 
 
-        <!-- .seccio-vermella -->
-        {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
-        <div class="wrap-vermell seccio-vermella">
-            <div class="container-fluid">
-                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
-                <div class="intern">
-                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        <!--/.seccio-vermella -->
+<!-- .seccio-vermella -->
+{% include "call-to-action-bottom.twig" %}
+<!--/.seccio-vermella -->
 
 
     <script type="text/javascript">
