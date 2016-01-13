@@ -52,6 +52,7 @@ if( $post_type == 'esdeveniment' ) {
 $context['cerca'] = get_search_query();
 $context['pagination'] = Timber::get_pagination();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 
 Timber::render( $templates, $context );
