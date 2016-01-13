@@ -5,21 +5,8 @@
     <!-- .main .wrap-blanc -->
     <main class="main wrap-blanc cd-main-content">
         <!-- .main-header -->
-        <header class="main-header">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xxs-12 col-xs-8 col-sm-9">
-                        <h1>Diccionari de sinònims</h1>
-                        {% include "share_links.twig" %}
-                    </div>
-                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
-                        <div class="col-xxs-12 col-xs-4 col-sm-3">
-                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </header><!--/.main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
 
         <div class="container-fluid">
             <div class="row">
@@ -53,23 +40,15 @@
                     </section><!--/.contingut-section  -->
                 </div><!--/.contingut -->
 
-                {% include "sidebar-recursos.twig" %}
+                {% include "sidebar.twig" %}
 
             </div><!--/.row -->
         </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
-    {% if attribute(post,'wpcf-call_to_action_bottom_url') %}
-        <!-- .seccio-vermella -->
-        <div class="wrap-vermell seccio-vermella">
-            <div class="container-fluid">
-                {{ attribute(post,'wpcf-call_to_action_bottom_text') }}
-                <div class="intern">
-                    <a href="{{ attribute(post,'wpcf-call_to_action_bottom_url') }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ attribute(post,'wpcf-call_to_action_bottom_button_text') }}</a>
-                </div>
-            </div>
-        </div><!--/.seccio-vermella -->
-    {% endif %}
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
 
     {% include "report-traductor.twig" %}
 

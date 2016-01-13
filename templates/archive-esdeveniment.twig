@@ -4,25 +4,8 @@
     <!-- .main .wrap-blanc -->
     <main class="main blog wrap-blanc">
         <!-- .main-header -->
-        <header class="main-header">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-8 col-sm-9">
-                        <h1>Esdeveniments</h1>
-                        {% if tag %}
-                            <span>/</span>
-                            <h2>{{ tag }}</h2>
-                        {% endif %}
-                        {% include "share_links.twig" %}
-                    </div>
-                    {% if attribute(post,'wpcf-call_to_action_top_url') %}
-                        <div class="col-xxs-12 col-xs-4 col-sm-3">
-                            <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </header><!--/.main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
 
         <div class="container-fluid">
             <div class="row">
@@ -146,7 +129,14 @@
                     {% endif %}
                     {% endif %}<!--/.pagination -->
                 </div><!--/.contingut -->
-                {% include "sidebar-news.twig" %}
+                {% include "sidebar.twig" %}
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
                 <script type="text/javascript">
                     $(".selectpicker").on('change', function() {
                         category = this.id;

@@ -1,0 +1,8 @@
+{% if links %}
+    <div class="caixa-gris enllacos">
+        {% for link in links %}
+            <a href="{{ link.link_url }}">{{ link.link_title }}</a>
+            <p>{{ link.link_description }}</p>
+        {% endfor %}
+    </div>
+{% endif %}

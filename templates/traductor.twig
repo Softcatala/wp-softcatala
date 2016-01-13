@@ -4,21 +4,8 @@
     <!-- .main .wrap-blanc -->
     <main class="main wrap-blanc cd-main-content">
       <!-- .main-header -->
-      <header class="main-header">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-xxs-12 col-xs-8 col-sm-9">
-              <h1>Traductor</h1>
-              {% include "share_links.twig" %}
-            </div>
-            {% if attribute(post,'wpcf-call_to_action_top_url') %}
-            <div class="col-xxs-12 col-xs-4 col-sm-3">
-              <a href="{{ attribute(post,'wpcf-call_to_action_top_url') }}" class="bt-basic bt-basic-vermell">{{ attribute(post,'wpcf-call_to_action_top_text') }}</a>
-            </div>
-			{% endif %}
-          </div>
-        </div>
-      </header><!--/.main-header -->
+      {% include "contingut-header.twig" %}
+      <!--/.main-header -->
     <div class="container-fluid">
         <div class="row">
 
@@ -142,24 +129,16 @@
             </section><!--/.contingut-section  -->
           </div><!--/.contingut -->
 
-          {% include "sidebar-recursos.twig" %}
+          {% include "sidebar.twig" %}
 
         </div><!--/.row -->
       </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
-    
-      <!-- .seccio-vermella -->
-      <div class="wrap-vermell seccio-vermella">
-        <div class="container-fluid">
-          <p>Baixa l'aplicació per a mòbil</p>
-          <div class="intern">
-              <a href="https://play.google.com/store/apps/details?id=org.softcatala.traductor" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-android"></i> App per Android</a>
-              <a style="margin-right: 10px;" href="https://itunes.apple.com/es/app/traductor-softcatala/id447196146?l=ca&amp;mt=8" class="bt-basic bt-basic-vermell-blanc intern-center"><i style="font-size: 18px; margin-right: 10px;" class="fa fa-apple"></i>App per iOS</a>
-          </div>
-        </div>
-      </div>
-      <!--/.seccio-vermella -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
     
     {% include "report-traductor.twig" %}
 

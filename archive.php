@@ -30,7 +30,7 @@ if ( is_category() ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
 } else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
     array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
-
+    $context['content_title'] = 'Esdeveniments';
     $post = retrieve_page_data(get_query_var( 'post_type' ));
     $context['post'] = $post;
     $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
@@ -53,6 +53,7 @@ if ( is_category() ) {
 
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 //Get the posts depending on the parameters
 if( isset( $filter ) ) {

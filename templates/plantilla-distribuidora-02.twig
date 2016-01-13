@@ -25,7 +25,7 @@
                 </div>
                 <h2>{{ post.content }}</h2>
                 <div class="intern">
-                    {% if post.call_to_action_top_url %}
+                    {% if post.call_to_action_top_url and post.call_to_action_top_text %}
                         <div class="intern-center">
                             <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                         </div>
@@ -57,16 +57,8 @@
         </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
-    {% if post.call_to_action_bottom_url %}
-        <!-- .seccio-vermella -->
-        <div class="wrap-vermell seccio-vermella">
-            <div class="container-fluid">
-                {{ post.call_to_action_bottom_text }}
-                <div class="intern">
-                    <a href="{{ post.call_to_action_bottom_url }}" class="bt-basic bt-basic-vermell-blanc intern-center">{{ post.call_to_action_bottom_button_text }}</a>
-                </div>
-            </div>
-        </div><!--/.seccio-vermella -->
-    {% endif %}
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
 
 {% endblock %}
