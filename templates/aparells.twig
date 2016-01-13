@@ -12,11 +12,9 @@
                     <h1>{{ parent_title }}</h1>
                     {% include "share_links.twig" %}
                 </div>
-                {% if post.call_to_action_top_url %}
                     <div class="col-xxs-12 col-xs-4 col-sm-3">
-                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+                        <a href="{{ post.call_to_action_top_url }}" data-target=".bs-example-modal-lg" data-toggle="modal" class="bt-basic bt-basic-vermell">Afegeix un aparell</a>
                     </div>
-                {% endif %}
             </div>
         </div>
     </header><!--/.main-header -->
@@ -266,11 +264,8 @@
 {% include "call-to-action-bottom.twig" %}
 <!--/.seccio-vermella -->
 
-
-    <script type="text/javascript">
-        jQuery(".selectpicker").on('change', function() {
-            jQuery( "#cerca_aparells" ).submit();
-        });
-    </script>
+<!-- .formulari-afegeix -->
+    {% include "aparells-afegeix.twig" %}
+<!-- ./formulari-afegeix -->
 
 {% endblock %}

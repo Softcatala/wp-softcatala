@@ -5,6 +5,7 @@
  * @package wp-softcatala
  */
 $context = Timber::get_context();
+wp_enqueue_script( 'sc-js-aparells', get_template_directory_uri() . '/static/js/aparells.js', array('sc-js-main'), '1.0.0', true );
 
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
