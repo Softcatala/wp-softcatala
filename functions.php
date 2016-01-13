@@ -7,7 +7,7 @@ if ( ! class_exists( 'Timber' ) && is_admin() ) {
 	return;
 } else if ( ! class_exists( 'Timber' ) && ! is_admin() ) {
 	header('HTTP/1.1 500 Internal Server Error');
-	echo 'Aquest és un error 500, esperant que l\'Anna dissenye alguna cosa millor';
+	echo 'Aquest és un error 500. Alguna cosa no funciona bé al servidor.';
 	die();
 }
 
