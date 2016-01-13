@@ -17,6 +17,7 @@ $context = Timber::get_context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
 $context['post'] = $post;
 $context['title'] = get_search_query();
+$context['content_title'] = 'Notícies';
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
 $context['cerca'] = get_search_query();
@@ -24,7 +25,9 @@ $context['categories']['temes'] = Timber::get_terms('category', array('parent' =
 $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
+
 
 $templates = array( 'index.twig' );
 if ( is_home() ) {

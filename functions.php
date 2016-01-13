@@ -143,7 +143,7 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 
 	// Get the upload directory paths and clean the attachment url
 	$upload_dir_paths = wp_upload_dir();
-    $attachment_url = str_replace( 'wp/../', '', $attachment_url );
+	$attachment_url = str_replace( 'wp/../', '', $attachment_url );
 
 	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
 	if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {

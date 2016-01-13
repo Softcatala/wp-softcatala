@@ -37,10 +37,12 @@ if( $post_type == 'esdeveniment' ) {
         $args = wp_parse_args( $date_filter_args, $args ); //all filters applied
     }
 
+    $context['content_title'] = 'Esdeveniments';
     $context['posts'] = Timber::get_posts($args);
     $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
     $context['filters'] = get_the_event_filters();
-} else {
+} else { //Default, notícies
+    $context['content_title'] = 'Notícies';
     $context['cat_link'] = get_category_link( get_query_var('cat') );
     $context['posts'] = Timber::get_posts();
     $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
@@ -50,6 +52,7 @@ if( $post_type == 'esdeveniment' ) {
 $context['cerca'] = get_search_query();
 $context['pagination'] = Timber::get_pagination();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 
 Timber::render( $templates, $context );

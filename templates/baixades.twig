@@ -1,0 +1,22 @@
+{% if post.baixades_relacionades_noticia %}
+  {% if post.baixades_relacionades_noticia is iterable %}
+  {% for baixada in post.baixades_relacionades_noticia %}
+      {% set caption_from_media = baixada|get_caption_from_media_url %}
+      {% if caption_from_media %}
+      {% if not baixades_exist %}
+        <div class="caixa-gris">
+        {% set baixades_exist = true %}
+      {% endif %}
+      <a href="{{ baixada }}"><i class="fa fa-download"></i><span>{{ caption_from_media }}</span></a>
+      {% endif %}
+      {% if loop.last and baixades_exist %}</div>{% endif %}
+    {% endfor %}
+    {% else %}
+      {% set caption_from_media = post.baixades_relacionades_noticia|get_caption_from_media_url %}
+      {% if caption_from_media %}
+      <div class="caixa-gris">
+      <a href="{{ post.baixades_relacionades_noticia }}"><i class="fa fa-download"></i><span>{{ caption_from_media }}</span></a>
+      </div>
+      {% endif %}
+  {% endif %}
+{% endif %}
