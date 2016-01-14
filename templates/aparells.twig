@@ -1,0 +1,276 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<!-- .main .wrap-blanc -->
+<main class="main wrap-blanc cd-main-content">
+
+    <!-- .main-header -->
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xxs-12 col-xs-8 col-sm-9">
+                    <h1>{{ parent_title }}</h1>
+                    {% include "share_links.twig" %}
+                </div>
+                {% if post.call_to_action_top_url %}
+                    <div class="col-xxs-12 col-xs-4 col-sm-3">
+                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header><!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- .cont-aside-left -->
+            <aside class="aside-left col-sm-3">
+                <!-- .boto-menu-lateral gris - xs -->
+                <div class="visible-xs-block boto-menu-lateral">
+                    <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                        <i class="fa fa-bars"></i>
+                        <p>Taula de continguts</p>
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                </div><!--/.boto-menu-lateral gris - xs -->
+
+                <!-- #menu-lateral -->
+                <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                    {{ page_hierarchy }}
+                </ul><!--/#menu-lateral -->
+            </aside><!--/.cont-aside-left -->
+
+            <!-- .contingut -->
+            <div class="contingut aparells-plus col-sm-9">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <h1>{{ post.title }}</h1>
+                            {{ post.content }}
+                        </div>
+                    </div>
+
+                    <!-- .filtres -->
+                    <form class="searchform" method="get" id="cerca_aparells" role="search" action="{{ search_params.current_url }}">
+                        <div class="filtres row">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
+                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <!-- dropdown sitemes operatius -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="temes" name="sistema_operatiu">
+                                                    <option value="">Tots els sistemes operatius</option>
+                                                    {% for category in categories.sistemesoperatius %}
+                                                        <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown sitemes operatius -->
+
+                                            <!-- dropdown categories -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="tipus" name="tipus_aparell">
+                                                    <option value="">Totes les categories</option>
+                                                    {% for category in categories.tipus %}
+                                                        <option value="{{ category.slug }}" {% if selected_filter_tipus == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown categories -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form><!--/.filtres -->
+
+                </header><!--/.contingut-header -->
+
+                <!-- section  -->
+                <section class="contingut-section">
+
+                    <!-- .acordio-aparells  -->
+                    <div class="panel-group acordio-aparells" id="accordion" role="tablist" aria-multiselectable="true">
+
+                        {% if aparells %}
+                            {% for post in aparells %}
+
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
+                                        <div class="panel-title row">
+                                            <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
+                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            <div class="col-xxs-12 col-xs-8 col-sm-4">
+                                                <ul class="aparells_detail">
+                                                    <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
+                                                    <li>Correcció ortogràfica en català<i class="fa {% if post.correccio_cat %}fa-check{% else %}fa-times {% endif %}"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse{{ post.ID }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <!-- .panel-body -->
+                                    <div class="panel-body">
+                                        <h2>Detalls</h2>
+                                        <!-- detalls -->
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Nom</strong></li>
+                                                            <li>{{ post.title }}</li>
+                                                            <li><strong>Sistema operatiu</strong></li>
+                                                            <li>{% if post.terms('sistema_operatiu_aparell') %}
+                                                                    {% for term in post.terms('sistema_operatiu_aparell') %}
+                                                                        {{term.name}}
+                                                                    {% endfor %}
+                                                                {% endif %}</li>
+                                                            <li><strong>Està traduït al català?</strong></li>
+                                                            <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Tipus de dispositiu</strong></li>
+                                                            <li>{% if post.terms('tipus_aparell') %}
+                                                                        {% for term in post.terms('tipus_aparell') %}
+                                                                            {{term.name}}
+                                                                        {% endfor %}
+                                                                {% endif %}</li>
+                                                            <li><strong>Versió del SO</strong></li>
+                                                            <li>{{ post.versio }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <ul class="aparells_detail">
+                                                            <li><strong>Fabricant</strong></li>
+                                                            <li>{{ post.fabricant }}</li>
+                                                            <li><strong>Inclou teclat predictiu en català?</strong></li>
+                                                            <li>{% if post.correccio_cat %}Sí{% else %}No{% endif %}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <img src="{{post.thumbnail.src}}" height="141" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!--/detalls -->
+                                        <!-- .comentaris -->
+                                        <section class="comentaris">
+                                            <hr>
+                                            <div class="row comentari-header">
+                                                <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                                    <h2>Comentaris</h2>
+                                                </div>
+                                                <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                                    <button type="button" class="bt-basic respon_link" id="{{ post.ID }}_0">Escriviu un comentari</button>
+                                                </div>
+                                            </div>
+                                            <article class="article-comentari">
+                                                <div id="comment-{{ post.ID }}_0"></div>
+                                            </article>
+                                            {% for cmt in post.get_comments() %}
+                                                {% if loop.index == 3 %}<div id="mescomentaris" class="collapse">{% endif %}
+                                                <article class="article-comentari">
+                                                    {% include "comment.twig" with {comment:cmt} %}
+                                                    {% if cmt.children %}
+                                                        {% for cmtch1 in cmt.children %}
+                                                            <article class="article-comentari">
+                                                                {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
+                                                            </article>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </article>
+                                                {% if loop.index > 3 %}{% if loop.last %}</div>{% endif %}{% endif %}
+                                                {% if loop.index > 3 %}
+                                                    {% if loop.last %}
+                                                        <div class="row">
+                                                            <div class="intern">
+                                                                <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris">més<i class="fa fa-angle-down"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </section>
+                                        <div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
+                                            {% include "comment_form.twig" %}
+                                        </div>
+                                    </div><!--/.panel-body -->
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        {% else %}
+                            No s'ha trobat cap aparell que coincideixi amb la cerca
+                        {% endif %}
+                        <script>
+                            jQuery( ".respon_link" ).click(function() {
+                                var comment_ids = this.id.split("_");
+                                jQuery('#hide_clean_form').click();
+                                jQuery("#comment_form_flexible_"+comment_ids[0]).detach().appendTo('#comment-'+comment_ids[0]+'_'+comment_ids[1]);
+
+                                jQuery("#comment_parent_"+comment_ids[0]).val(comment_ids[1]);
+                                if (this.id == '0') {
+                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "0" );
+                                } else {
+                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "68px" );
+                                }
+                                jQuery("#comment_form_flexible_"+comment_ids[0]).fadeIn();
+                            });
+
+                            jQuery( "#hide_clean_form" ).click(function() {
+                                jQuery("#comment_form_flexible").hide();
+                                jQuery("#author").val('Nom');
+                                jQuery("#comment").val('Comentari');
+                                jQuery("#email").val('E-mail');
+                            });
+                        </script>
+                    </div><!--/.acordio-aparells  -->
+
+                </section><!--/ section  -->
+
+                <!--/.contingut-footer -->
+                <footer class="contingut-footer">
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% for element in sidebar_elements %}
+                                {% include element %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </footer><!--/.contingut-footer -->
+            </div><!--/.contingut -->
+
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+
+<!-- .seccio-vermella -->
+{% include "call-to-action-bottom.twig" %}
+<!--/.seccio-vermella -->
+
+
+    <script type="text/javascript">
+        jQuery(".selectpicker").on('change', function() {
+            jQuery( "#cerca_aparells" ).submit();
+        });
+    </script>
+
+{% endblock %}

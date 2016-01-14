@@ -26,14 +26,14 @@ if( $post_type == 'esdeveniment' ) {
         $context['cat_link'] = get_term_link( get_query_var( 'term'), 'esdeveniment_cat' );
     }
     
-    $search_args = get_post_query_args( SearchQueryType::Search, $search );
+    $search_args = get_post_query_args( 'esdeveniment', SearchQueryType::Search, $search );
     $args = wp_parse_args( $search_args, $wp_query->query ); //search + active args
 
     if( get_query_var('filtre') ) {
         $filter = get_query_var( 'filtre' );
         $filterdate = get_final_time( $filter );
         $context['selected_filter'] = $filter;
-        $date_filter_args = get_post_query_args( SearchQueryType::FilteredDate, $filterdate );
+        $date_filter_args = get_post_query_args( 'esdeveniment', SearchQueryType::FilteredDate, $filterdate );
         $args = wp_parse_args( $date_filter_args, $args ); //all filters applied
     }
 

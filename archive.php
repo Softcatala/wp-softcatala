@@ -58,7 +58,7 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 //Get the posts depending on the parameters
 if( isset( $filter ) ) {
     $context['selected_filter'] = $filter;
-    $args = get_post_query_args( SearchQueryType::FilteredDate, $filterdate );
+    $args = get_post_query_args( 'esdeveniment', SearchQueryType::FilteredDate, $filterdate );
     query_posts($args);
     $context['posts'] = Timber::get_posts($args);
 } else {
