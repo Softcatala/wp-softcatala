@@ -9,27 +9,22 @@ $contactForm.on('submit', function(ev){
     ev.preventDefault();
 
     //Data
-    post_data = {
-        'nom'       : $('input[name=nom]').val(),
-        'tipus_aparell'    : $('input[name=tipus_aparell]:checked').val(),
-        'fabricant'       : $('input[name=fabricant]').val(),
-        'sistema_operatiu'     : $('input[name=sistema_operatiu]:checked').val(),
-        'versio'       : $('input[name=versio]').val(),
-        'traduccio_catala'       : $('input[name=traduccio_catala]:checked').val(),
-        'correccio_catala'       : $('input[name=correccio_catala]:checked').val(),
-        'comentari' : $('textarea[name=comentari]').val()
-    };
+    console.log($contactForm[0]);
+    post_data = new FormData($contactForm[0]);
+    console.log(post_data);
 
-    jQuery.post(
-        scajax.ajax_url,
-        {
+    jQuery.ajax({
+        url: scajax.ajax_url,
+        contentType: false,
+        processData: false,
+        data: {
             'action': 'send_aparell',
             'data': post_data
         },
-        function(response){
+        success: function(response){
             alert('The server responded: ' + response);
         }
-    );
+    });
 });
 
 /** End New aparell form action **/
