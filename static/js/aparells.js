@@ -2,7 +2,7 @@ jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_aparells" ).submit();
 });
 
-/** Contact form action **/
+/** New aparell form action **/
 var $contactForm = jQuery('#report_form');
 
 $contactForm.on('submit', function(ev){
@@ -32,20 +32,4 @@ $contactForm.on('submit', function(ev){
     );
 });
 
-function form_sent_ok(dt) {
-    if (dt.type == 'message') {
-        $("#contingut-formulari").hide();
-        $("#contingut-formulari-response").empty().html(dt.text).fadeIn();
-    }
-}
-
-$('#contact_traductor').click(function() {
-    $("#contingut-formulari-response").hide();
-    $("textarea[name='comentari']").val('');
-    $("#contingut-formulari").show();
-});
-
-function form_sent_ko(dt) {
-    alert('Alguna cosa no ha funcionat bé en enviar les dades al servidor de traducció');
-}
-/** End contact form action **/
+/** End New aparell form action **/
