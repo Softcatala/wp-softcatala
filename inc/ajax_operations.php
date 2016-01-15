@@ -6,7 +6,7 @@ add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
 
 function sc_send_aparell() {
     check_is_ajax_call();
-
+    
     $nom = sanitize_text_field( $_POST["data"]["nom"] );
     $tipus_aparell = sanitize_text_field( $_POST["data"]["tipus_aparell"] );
     $fabricant   = sanitize_text_field( $_POST["data"]["fabricant"] );
