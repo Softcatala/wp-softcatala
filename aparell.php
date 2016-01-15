@@ -4,8 +4,12 @@
  *
  * @package wp-softcatala
  */
-$context = Timber::get_context();
 wp_enqueue_script( 'sc-js-aparells', get_template_directory_uri() . '/static/js/aparells.js', array('sc-js-main'), '1.0.0', true );
+wp_localize_script( 'sc-js-aparells', 'scajax', array(
+    'ajax_url' => admin_url( 'admin-ajax.php' )
+));
+
+$context = Timber::get_context();
 
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
@@ -34,3 +38,9 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 $context['links'] = $post->get_field( 'link' );
 $context['aparells'] = Timber::get_posts($args);
 Timber::render( array( 'aparells.twig' ), $context );
+
+
+function ajax_action_stuff() {
+    echo 'ajax submitted';
+    die(); // stop executing script
+}
