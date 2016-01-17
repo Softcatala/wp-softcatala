@@ -74,6 +74,9 @@ function set_featured_image($post_id) {
 
             $attach_id = wp_insert_attachment( $attachment, $uploaded['file'], $post_id );
 
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $uploaded['file'] );
+            wp_update_attachment_metadata( $attach_id,  $attach_data );
+
             set_post_thumbnail( $post_id, $attach_id );
 
             return true;
