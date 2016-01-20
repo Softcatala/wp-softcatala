@@ -31,8 +31,21 @@ function sc_send_aparell() {
         'correccio_cat' => $correccio_catala );
 
     $return = sc_add_draft_content('aparell', $nom, $slug, $terms, $metadata);
-    $response = json_encode( $return );
 
+    if( $return['status'] == 1 ) {
+        $to_email       = "web@softcatala.org";
+        $nom_from       = "Aparells de Softcatalà";
+        $assumpte       = "[Aparells] Aparell enviat per formulari";
+
+        $fields = array (
+            "Nom de l'aparell" => $nom,
+            "Comentari" => $comentari,
+            "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
+        );
+        sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+    }
+
+    $response = json_encode( $return );
     die( $response );
 }
 
@@ -72,6 +85,7 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
     }
 
     if( $return['status'] == 1 ) {
+        $return['post_id'] = $post_id;
         $return['text'] = 'Gràcies per enviar aquesta informació. La publicarem el més aviat possible.';
     }
 
