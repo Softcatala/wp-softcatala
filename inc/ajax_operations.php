@@ -36,11 +36,11 @@ function sc_send_aparell() {
     wp_die();
 }
 
-function sc_add_draft_content ( $type, $title, $slug, $allTerms, $metadata) {
+function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata) {
 
     //Generate array data
     $post_data = array (
-        'post_type'         =>  'aparell',
+        'post_type'         =>  $type,
         'post_status'		=>	'pending',
         'comment_status'	=>	'open',
         'ping_status'		=>	'closed',
