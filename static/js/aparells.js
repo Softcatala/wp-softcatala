@@ -30,10 +30,19 @@ $contactForm.on('submit', function(ev){
         data: post_data,
         contentType: false,
         processData: false,
-        success: function(response){
-            alert('The server responded: ' + response);
-        }
+        success : form_sent_ok,
+        failure : form_sent_ko
     });
 });
 
+function form_sent_ok() {
+    var response = 'Gràcies per enviar-nos aquesta informació. La revisarem i la publicarem el més aviat possible.';
+    jQuery('#contingut-formulari').hide();
+    jQuery('#aparell_initial_message').hide();
+    jQuery('#contingut-formulari-response').empty().html(response).fadeIn();
+}
+
+function form_sent_ko() {
+    alert('Alguna cosa no ha funcionat bé en enviar les dades. Podeu provar de nou?');
+}
 /** End New aparell form action **/

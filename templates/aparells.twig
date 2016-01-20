@@ -105,7 +105,9 @@
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
                                         <div class="panel-title row">
                                             <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
-                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            {% if post.terms('sistema_operatiu_aparell') %}
+                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{post.terms('sistema_operatiu_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            {% endif %}
                                             <div class="col-xxs-12 col-xs-8 col-sm-4">
                                                 <ul class="aparells_detail">
                                                     <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
