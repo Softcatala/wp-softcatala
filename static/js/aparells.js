@@ -28,21 +28,32 @@ $contactForm.on('submit', function(ev){
         type: 'POST',
         url: scajax.ajax_url,
         data: post_data,
+        dataType: 'json',
         contentType: false,
         processData: false,
         success : form_sent_ok,
-        failure : form_sent_ko
+        error : form_sent_ko
     });
 });
 
-function form_sent_ok() {
-    var response = 'Gràcies per enviar-nos aquesta informació. La revisarem i la publicarem el més aviat possible.';
+function form_sent_ok(result) {
     jQuery('#contingut-formulari').hide();
     jQuery('#aparell_initial_message').hide();
-    jQuery('#contingut-formulari-response').empty().html(response).fadeIn();
+    jQuery('#contingut-formulari-response').empty().html(result.text).fadeIn();
 }
 
-function form_sent_ko() {
-    alert('Alguna cosa no ha funcionat bé en enviar les dades. Podeu provar de nou?');
+function form_sent_ko(result) {
+    jQuery('#contingut-formulari').hide();
+    jQuery('#aparell_initial_message').hide();
+    jQuery('#contingut-formulari-response').empty().html("S'ha produït un error en enviar les dades. Proveu de nou més tard.").fadeIn();
 }
+
+jQuery('#afegeix_aparell_button').click(function() {
+    jQuery("#contingut-formulari-response").hide();
+    jQuery("input[name='nom']").val('');
+    jQuery("input[name='fabricant']").val('');
+    jQuery("input[name='versio']").val('');
+    jQuery("textarea[name='comentari']").val('');
+    jQuery("#contingut-formulari").show();
+});
 /** End New aparell form action **/

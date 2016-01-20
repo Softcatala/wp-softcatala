@@ -30,13 +30,15 @@ function sc_send_aparell() {
         'conf_cat' => $traduccio_catala,
         'correccio_cat' => $correccio_catala );
 
-    $success = sc_add_draft_content('aparell', $nom, $slug, $terms, $metadata);
+    $return = sc_add_draft_content('aparell', $nom, $slug, $terms, $metadata);
+    $response = json_encode( $return );
 
-    echo $success;
-    wp_die();
+    die( $response );
 }
 
-function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata) {
+function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
+
+    $return = array();
 
     //Generate array data
     $post_data = array (
@@ -63,45 +65,55 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata) {
             $wpcf->field->save( $meta_value );
         }
 
-        sc_set_featured_image($post_id);
-
-        $success = true;
+        $return = sc_set_featured_image($post_id);
     } else {
-        $success = false;
+        $return['status'] = 0;
+        $return['text'] = "S'ha produït un error en enviar les dades. Proveu de nou.";
     }
 
-    return $success;
+    if( $return['status'] == 1 ) {
+        $return['text'] = 'Gràcies per enviar aquesta informació. La publicarem el més aviat possible.';
+    }
+
+    return $return;
 }
 
 function sc_set_featured_image($post_id) {
-    $tmpfile = $_FILES['file'];
+    if( isset( $_FILES['file'] ) ) {
+        $tmpfile = $_FILES['file'];
 
-    $upload_overrides = array( 'test_form' => false );
+        $upload_overrides = array('test_form' => false);
 
-    $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
+        $uploaded = wp_handle_upload($tmpfile, $upload_overrides);
 
-    if ( $uploaded && !isset( $uploaded['error'] ) ) {
+        if ($uploaded && !isset($uploaded['error'])) {
 
-            $wp_filetype = wp_check_filetype( basename( $uploaded['file'] ), null );
+            $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
 
             $attachment = array(
                 'post_mime_type' => $wp_filetype['type'],
-                'post_title' => preg_replace('/.[^.]+$/', '', basename( $uploaded['file'] ) ),
+                'post_title' => preg_replace('/.[^.]+$/', '', basename($uploaded['file'])),
                 'post_content' => '',
                 'post_status' => 'inherit'
             );
 
-            $attach_id = wp_insert_attachment( $attachment, $uploaded['file'], $post_id );
+            $attach_id = wp_insert_attachment($attachment, $uploaded['file'], $post_id);
 
-            $attach_data = wp_generate_attachment_metadata( $attach_id, $uploaded['file'] );
-            wp_update_attachment_metadata( $attach_id,  $attach_data );
+            $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
+            wp_update_attachment_metadata($attach_id, $attach_data);
 
-            set_post_thumbnail( $post_id, $attach_id );
+            set_post_thumbnail($post_id, $attach_id);
 
-            return true;
+            $return['status'] = 1;
+        } else {
+            $return['status'] = 0;
+            $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
+        }
     } else {
-        return false;
+        $return['status'] = 1;
     }
+
+    return $return;
 }
 
 
