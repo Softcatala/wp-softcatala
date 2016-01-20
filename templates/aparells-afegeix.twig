@@ -1,0 +1,190 @@
+<!-- .contingut -->
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <!-- .modal-content -->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <!-- .formulari -->
+            <div class="formulari">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Afegiu un aparell</h1>
+                            <p id="aparell_initial_message">Si voleu proposar d'afegir un aparell nou a la llista, empleneu el formulari següent:</p>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <section class="contingut-section" id="contingut-formulari-response" style="display:none">
+                </section>
+
+                <!-- section -->
+                <section class="contingut-section" id="contingut-formulari">
+                    <form class="form-horizontal" id="report_form" method="post">
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Nom de l'aparell *</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="nom" class="form-control" placeholder="Nexus 6P, Galaxy S6, iPhone 6..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tipus de dispositiu *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    {% for row in categories.tipus|batch((categories.tipus|length)/3) %}
+                                        <!-- col-sm-4 -->
+                                        <div class="col-sm-4">
+                                    {% for category in row %}
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" name="tipus_aparell" value="{{ category.ID }}"> {{ category.name }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                        </div>
+                                        <!-- col-sm-4 -->
+                                    {% endfor %}
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Fabricant *</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="fabricant" class="form-control" placeholder="LG, Samsung, Apple..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Sistema operatiu *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    {% for row in categories.sistemesoperatius|batch((categories.sistemesoperatius|length)/3) %}
+                                        <!-- col-sm-4 -->
+                                        <div class="col-sm-4">
+                                            {% for category in row %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" name="sistema_operatiu" value="{{ category.ID }}"> {{ category.name }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <!-- col-sm-4 -->
+                                    {% endfor %}
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Versió del SO *</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="versio" class="form-control" placeholder="8, 9, 10..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Inclou traducció al català *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <!-- col-sm-4 -->
+                                    <div class="col-sm-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" name="traduccio_catala" value="1" checked> Sí
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="traduccio_catala" value="0"> No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- col-sm-4 -->
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Inclou correcció ortogràfica al català *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <!-- col-sm-4 -->
+                                    <div class="col-sm-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" name="correccio_catala" value="1" checked> Sí
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="correccio_catala" value="0"> No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- col-sm-4 -->
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp de text -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Comentari *</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                            </div>
+                        </div><!--/camp de text -->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Imatge *</label>
+                            <div class="col-sm-9 col-md-6">
+                                <div class="row">
+                                    <div class="col-xs-4 col-sm-4 bt-puja">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="file" name="aparell_imatge">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- botons -->
+                        <div class="form-group">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9 form-botons">
+                                <div class="row">
+                                    <div class="form-boto col-xs-5">
+                                        <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--/botons -->
+                    </form>
+                </section><!--/ section -->
+            </div><!--/.formulari -->
+
+        </div><!-- .modal-content -->
+    </div><!--/.modal-dialog -->
+</div><!--/.modal -->

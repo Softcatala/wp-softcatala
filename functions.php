@@ -198,6 +198,7 @@ function include_theme_conf()
     locate_template( array( 'inc/widgets.php' ), true, true );
     locate_template( array( 'inc/post_types_functions.php' ), true, true );
     locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
+    locate_template( array( 'inc/ajax_operations.php' ), true, true );
 }
 add_action( 'after_setup_theme', 'include_theme_conf' );
 
@@ -467,4 +468,30 @@ function orderbyreplace( $orderby ) {
 add_action( 'init', 'sc_add_excerpts_to_pages' );
 function sc_add_excerpts_to_pages() {
     add_post_type_support( 'page', 'excerpt' );
+}
+
+/*
+ * General 'send email' function
+ */
+function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
+    //email body
+    $message_body = '';
+    foreach( $fields as $key => $field ) {
+        $message_body .= $key . ": " . $field . "\r\n\r";
+    }
+
+    //proceed with PHP email.
+    $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
+        'Reply-To: web@softcatala.org' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
+
+    if(!$send_mail) {
+        //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+        $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el missatge.'));
+    } else {
+        $output = json_encode(array('type'=>'message', 'text' => 'S\'ha enviat la informació.'));
+    }
+    return $output;
 }

@@ -12,11 +12,9 @@
                     <h1>{{ parent_title }}</h1>
                     {% include "share_links.twig" %}
                 </div>
-                {% if post.call_to_action_top_url %}
                     <div class="col-xxs-12 col-xs-4 col-sm-3">
-                        <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
+                        <a href="#" id="afegeix_aparell_button" data-target=".bs-example-modal-lg" data-toggle="modal" class="bt-basic bt-basic-vermell">Afegeix un aparell</a>
                     </div>
-                {% endif %}
             </div>
         </div>
     </header><!--/.main-header -->
@@ -107,7 +105,9 @@
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
                                         <div class="panel-title row">
                                             <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
-                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{ post.sistema_operatiu }}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            {% if post.terms('sistema_operatiu_aparell') %}
+                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{post.terms('sistema_operatiu_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            {% endif %}
                                             <div class="col-xxs-12 col-xs-8 col-sm-4">
                                                 <ul class="aparells_detail">
                                                     <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
@@ -266,11 +266,8 @@
 {% include "call-to-action-bottom.twig" %}
 <!--/.seccio-vermella -->
 
-
-    <script type="text/javascript">
-        jQuery(".selectpicker").on('change', function() {
-            jQuery( "#cerca_aparells" ).submit();
-        });
-    </script>
+<!-- .formulari-afegeix -->
+    {% include "aparells-afegeix.twig" %}
+<!-- ./formulari-afegeix -->
 
 {% endblock %}
