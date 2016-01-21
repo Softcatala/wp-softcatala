@@ -1,0 +1,240 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc programa cd-main-content">
+        <!-- .main-header -->
+        <header class="main-header" id="principi">
+            <div class="container-fluid">
+                <div class="gris-main-header">
+                    <div class="row">
+                        <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
+                            <img class="img-responsive" src="{{ post.logotip_programa }}" class="imatge-logotip-programa">
+                        </div>
+                        <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
+                            <h1>{{ post.title }}</h1>
+                            <h2>{{ post.subtitle_programa }}</h2>
+                            <ul>
+                                <li>{{ post.autor_programa }}</li>
+                                <li>{% if post.terms('llicencia') %}
+                                        {% for term in post.terms('llicencia') %}
+                                            {{term.name}}{% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% endif %}</li>
+                                <li><a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>
+                            </ul>
+
+
+                            {% if baixades %}
+                                {% for baixada in baixades %}
+                                    {% if baixada.terms('sistema-operatiu-programa') %}
+                                        {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
+                                        {% set so_baixada_min = so_baixada|split(' ')|first|lower %}
+                                    {% endif %}
+                                    <div id="baixada_{{ so_baixada_min }}" class="baixada_boto" style="display:none;">
+                                        <a id="baixada_download" href="{{ baixada.url_baixada }}" class="bt-download-invers bt-download-hide">
+                                            <i class="fa fa-download"></i>
+                                            <span>Baixa'l<em>Per a {{ so_baixada }}, versió {{ baixada.versio_baixada }}</em></span>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                <a class="bt-versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
+
+                                <div class="collapse" id="versions">
+                                    <div class="versions">
+                                        <a class="bt-versions-creu" role="button" href="#versions" data-toggle="collapse"><i class="fa fa-times"></i></a>
+                                        <div class="row">
+                                            {% for baixada in baixades %}
+                                                <div class="col-xxs-12 col-md-3 col-sm-4 col-xs-6">
+                                                    <button type="button" class="bt-download-invers"><i class="fa fa-windows"></i><span>Per a Windows<em>versió {{ baixada.versio_baixada }}</em></span></button>
+                                                    <p>{% if baixada.versio_estesa_baixada %}{{ baixada.versio_estesa_baixada }}<br/>{% endif %}{% if baixada.mida_baixada %}{{ baixada.mida_baixada }} MB{% endif %}
+                                                    </p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <footer class="footer-main-header-gris">
+                                <div class="cont-rating">
+                                    <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                    <span class="numero">8.5</span>
+                                    <em>(1567 vots)</em>
+                                </div>
+                                <div class="cont-baixades">
+                                    <i class="fa fa-line-chart"></i>
+                                    <span class="numero">{{ post.total_baixades_programa }}</span>
+                                    <em>baixades</em>
+                                </div>
+                                <div class="compartiu">
+                                    <p>Compartiu</p>
+                                    <ul class="compartiu-media">
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-main-header-gris">
+                    <!-- .boto-menu-lateral gris - xs -->
+                    <div class="visible-xs-block boto-menu-lateral">
+                        <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                            <i class="fa fa-bars"></i>
+                            <p>Taula de continguts</p>
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                    </div><!--/.boto-menu-lateral gris - xs -->
+                    <!-- #menu-lateral -->
+                    <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
+                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
+                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
+                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
+                    </ul><!--/#menu-lateral -->
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-9">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <p>{{ post.post_excerpt }}</p>
+                        <div class="row">
+                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_1 }}" alt="Imatge destacada 1 del {{ post.title }}">
+                            </div>
+                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_2 }}" alt="Imatge destacada 2 del {{ post.title }}">
+                            </div>
+                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_3 }}" alt="Imatge destacada 3 del {{ post.title }}">
+                            </div>
+                        </div>
+                    </header><!--/.contingut-header -->
+
+
+                    <!-- .contingut-section -->
+                    <section class="contingut-section">
+                        {{ post.content }}
+                    </section><!--/.contingut-section -->
+
+                    <!-- .contingut-section -->
+                    <section class="contingut-section">
+                        <h2>{{ post.video_title }}</h2>
+                        <!-- 16:9 aspect ratio -->
+                        <div class="embed-responsive embed-responsive-16by9">
+                            {{ url_video }}
+                        </div>
+                        <p>{{ post.video_description }}</p>
+                    </section><!--/.contingut-section -->
+
+                    <!-- .comentaris -->
+                    <section class="comentaris">
+                        <hr>
+                        <div class="row comentari-header">
+                            <div class="col-xxs-12 col-xs-8 col-sm-8">
+                                <h2>Comentaris</h2>
+                            </div>
+                            <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                <button type="button" class="bt-basic respon_link" id="0">Escriviu un comentari</button>
+                            </div>
+                        </div>
+                        <article class="article-comentari">
+                            <div id="comment-0"></div>
+                        </article>
+                        {% for cmt in post.get_comments() %}
+                            {% if loop.index == 20 %}<div id="mescomentaris" class="collapse">{% endif %}
+                            <article class="article-comentari">
+                                {% include "comment.twig" with {comment:cmt} %}
+                                {% if cmt.children %}
+                                    {% for cmtch1 in cmt.children %}
+                                        <article class="article-comentari">
+                                            {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
+                                        </article>
+                                    {% endfor %}
+                                {% endif %}
+                            </article>
+                            {% if loop.index > 20 %}{% if loop.last %}</div>{% endif %}{% endif %}
+                            {% if loop.index > 20 %}
+                                {% if loop.last %}
+                                    <div class="row">
+                                        <div class="intern">
+                                            <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris">més<i class="fa fa-angle-down"></i></button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </section>
+
+                    <div id="comment_form_flexible" style="display: none;">
+                        {% include "comment_form.twig" %}
+                    </div>
+                    <script>
+                        $( ".respon_link" ).click(function() {
+                            $('#hide_clean_form').click();
+                            $("#comment_form_flexible").detach().appendTo('#comment-'+this.id);
+                            $("#comment_parent").val(this.id);
+                            if (this.id == '0') {
+                                $( "#comment_flexible_form" ).css( "margin-left", "0" );
+                            } else {
+                                $( "#comment_flexible_form" ).css( "margin-left", "68px" );
+                            }
+                            jQuery("#comment_form_flexible").fadeIn();
+                        });
+
+                        $( "#hide_clean_form" ).click(function() {
+                            $("#comment_form_flexible").hide();
+                            $("#author").val('Nom');
+                            $("#comment").val('Comentari');
+                            $("#email").val('E-mail');
+                        });
+                    </script>
+
+                    <!--/.comentaris -->
+
+
+
+                    <!--/.contingut-footer -->
+                    <footer class="contingut-footer">
+                        <hr>
+                        <div class="alerta">
+                            <p><strong>IMPORTANT!</strong> Exemple de Nota al peu de p&agrave;gina. Lorem ipsum dolor set morbi bibendum arcu eget justo dictum  vel ullamcorper quam accumsan</p>
+                        </div>
+                    </footer><!--/.contingut-footer -->
+                </div><!--/.contingut -->
+
+                <!-- .aside-right -->
+                {% include "sidebar.twig" %}
+                </aside><!--/.aside-right -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    <!-- .seccio-blanca -->
+    <div class="wrap-blanc seccio-blanca">
+        <div class="container-fluid">
+            <p><strong>Lorem ipsum dolor sit ametadipiscing elit</strong></p>
+            <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+            <div class="row logos">
+                <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+            </div>
+            <div class="row logos">
+                <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
+            </div>
+        </div>
+    </div><!--/.seccio-blanca -->
+{% endblock %}

@@ -9,6 +9,8 @@
  * @since    Timber 0.1
  */
 
+wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main'), '1.0.0', true );
+
 $context = Timber::get_context();
 $post = Timber::query_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
@@ -18,10 +20,11 @@ $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
-
+$context['baixades'] = $post->get_field( 'baixada' );
+$context['url_video'] = wp_oembed_get( $post->video_url, array('width'=>560, 'height'=>315, 'class'=>'embed-responsive-item', 'allowfullscreen'=>1) );
 
 if ( post_password_required( $post->ID ) ) {
-	Timber::render( 'single-password.twig', $context );
+    Timber::render( 'single-password.twig', $context );
 } else {
-	Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );
+    Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );
 }
