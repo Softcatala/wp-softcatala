@@ -170,46 +170,8 @@
                                             </div>
                                         </div><!--/detalls -->
                                         <!-- .comentaris -->
-                                        <section class="comentaris">
-                                            <hr>
-                                            <div class="row comentari-header">
-                                                <div class="col-xxs-12 col-xs-8 col-sm-8">
-                                                    <h2>Comentaris</h2>
-                                                </div>
-                                                <div class="col-xxs-12 col-xs-4 col-sm-4">
-                                                    <button type="button" class="bt-basic respon_link" id="{{ post.ID }}_0">Escriviu un comentari</button>
-                                                </div>
-                                            </div>
-                                            <article class="article-comentari">
-                                                <div id="comment-{{ post.ID }}_0"></div>
-                                            </article>
-                                            {% for cmt in post.get_comments() %}
-                                                {% if loop.index == 3 %}<div id="mescomentaris" class="collapse">{% endif %}
-                                                <article class="article-comentari">
-                                                    {% include "comment.twig" with {comment:cmt} %}
-                                                    {% if cmt.children %}
-                                                        {% for cmtch1 in cmt.children %}
-                                                            <article class="article-comentari">
-                                                                {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
-                                                            </article>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </article>
-                                                {% if loop.index > 3 %}{% if loop.last %}</div>{% endif %}{% endif %}
-                                                {% if loop.index > 3 %}
-                                                    {% if loop.last %}
-                                                        <div class="row">
-                                                            <div class="intern">
-                                                                <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris">més<i class="fa fa-angle-down"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </section>
-                                        <div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
-                                            {% include "comment_form.twig" %}
-                                        </div>
+                                        {% include "comentaris.twig" %}
+                                        <!-- /.comentaris -->
                                     </div><!--/.panel-body -->
                                 </div>
                             </div>
@@ -218,28 +180,6 @@
                         {% else %}
                             No s'ha trobat cap aparell que coincideixi amb la cerca
                         {% endif %}
-                        <script>
-                            jQuery( ".respon_link" ).click(function() {
-                                var comment_ids = this.id.split("_");
-                                jQuery('#hide_clean_form').click();
-                                jQuery("#comment_form_flexible_"+comment_ids[0]).detach().appendTo('#comment-'+comment_ids[0]+'_'+comment_ids[1]);
-
-                                jQuery("#comment_parent_"+comment_ids[0]).val(comment_ids[1]);
-                                if (this.id == '0') {
-                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "0" );
-                                } else {
-                                    jQuery( "#comment_flexible_form_"+comment_ids[0] ).css( "margin-left", "68px" );
-                                }
-                                jQuery("#comment_form_flexible_"+comment_ids[0]).fadeIn();
-                            });
-
-                            jQuery( "#hide_clean_form" ).click(function() {
-                                jQuery("#comment_form_flexible").hide();
-                                jQuery("#author").val('Nom');
-                                jQuery("#comment").val('Comentari');
-                                jQuery("#email").val('E-mail');
-                            });
-                        </script>
                     </div><!--/.acordio-aparells  -->
 
                 </section><!--/ section  -->

@@ -1,0 +1,40 @@
+<section class="comentaris">
+    <hr>
+    <div class="row comentari-header">
+        <div class="col-xxs-12 col-xs-8 col-sm-8">
+            <h2>Comentaris</h2>
+        </div>
+        <div class="col-xxs-12 col-xs-4 col-sm-4">
+            <button type="button" class="bt-basic respon_link" id="{{ post.ID }}_0">Escriviu un comentari</button>
+        </div>
+    </div>
+    <article class="article-comentari">
+        <div id="comment-{{ post.ID }}_0"></div>
+    </article>
+    {% for cmt in post.get_comments() %}
+        {% if loop.index == 4 %}<div id="mescomentaris_{{ post.ID }}" class="collapse">{% endif %}
+        <article class="article-comentari">
+            {% include "comment.twig" with {comment:cmt} %}
+            {% if cmt.children %}
+                {% for cmtch1 in cmt.children %}
+                    <article class="article-comentari">
+                        {% include "comment.twig" with {comment:cmtch1, is_child:1} %}
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </article>
+        {% if loop.index > 3 %}{% if loop.last %}</div>{% endif %}{% endif %}
+        {% if loop.index > 3 %}
+            {% if loop.last %}
+                <div class="row">
+                    <div class="intern">
+                        <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris_{{ post.ID }}">més<i class="fa fa-angle-down"></i></button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</section>
+<div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
+    {% include "comment_form.twig" %}
+</div>
