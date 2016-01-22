@@ -214,6 +214,13 @@ function retrieve_page_data($page_slug = '')
             );
             $post = Timber::get_post($args);
             break;
+        case 'programa':
+            $args = array(
+                'name' => 'programa-page',
+                'post_type' => 'page'
+            );
+            $post = Timber::get_post($args);
+            break;
         default:
             $args = array(
                 'name' => 'noticies',
@@ -256,6 +263,7 @@ abstract class SearchQueryType {
     const Search = 2;
     const Highlight = 3;
     const Aparell = 4;
+    const Programa = 5;
 }
 
 /*
@@ -281,6 +289,14 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_type' => $post_type,
                 'post_status'    => 'publish',
                 'order'          => 'ASC'
+            );
+        case 'programa':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'ASC',
+                'paged' => get_is_paged(),
+                'posts_per_page' => 18
             );
     }
 
@@ -317,11 +333,11 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         );
     } else if ( $queryType == SearchQueryType::Aparell ) {
         $filter_args = array();
-        if( ! empty ( $filter['s'] ) ) {
-            $filter_args['s'] =	$filter['s'];
+        if (!empty ($filter['s'])) {
+            $filter_args['s'] = $filter['s'];
         }
 
-        if ( ! empty ( $filter['sistema_operatiu_aparell'] ) ) {
+        if (!empty ($filter['sistema_operatiu_aparell'])) {
             $filter_args['tax_query'][] = array(
                 'taxonomy' => 'sistema_operatiu_aparell',
                 'field' => 'slug',
@@ -330,15 +346,38 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['filter_so'] = $filter['sistema_operatiu_aparell'];
         }
 
-        if ( ! empty ( $filter['tipus_aparell'] ) ) {
-            $filter_args['tax_query'][] = array (
+        if (!empty ($filter['tipus_aparell'])) {
+            $filter_args['tax_query'][] = array(
                 'taxonomy' => 'tipus_aparell',
                 'field' => 'slug',
                 'terms' => $filter['tipus_aparell']
             );
             $filter_args['filter_tipus'] = $filter['tipus_aparell'];
         }
-    }else {
+    } else if ( $queryType == SearchQueryType::Programa ) {
+        $filter_args = array();
+        if (!empty ($filter['s'])) {
+            $filter_args['s'] = $filter['s'];
+        }
+
+        if (!empty ($filter['sistema-operatiu-programa'])) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'sistema-operatiu-programa',
+                'field' => 'slug',
+                'terms' => $filter['sistema-operatiu-programa']
+            );
+            $filter_args['filter_so'] = $filter['sistema-operatiu-programa'];
+        }
+
+        if (!empty ($filter['categoria-programa'])) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'categoria-programa',
+                'field' => 'slug',
+                'terms' => $filter['categoria-programa']
+            );
+            $filter_args['filter_categoria'] = $filter['categoria-programa'];
+        }
+    } else {
         $filter_args = array(
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )

@@ -1,0 +1,121 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+
+            <!-- .contingut -->
+            <div class="contingut llista-programes">
+
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <!-- .filtres -->
+                    <form class="searchform" method="get" id="cerca_programes" role="search" action="{{ search_params.current_url }}">
+                        <div class="filtres row">
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
+                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <!-- dropdown categories -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="sistemes_operatius" name="sistemes_operatius">
+                                                    <option value="/programes/{{ search_params.current_url_params }}">Tots els sistemes operatius</option>
+                                                    {% for category in categories.sistemes_operatius %}
+                                                        <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown sitemes operatius -->
+
+                                            <!-- dropdown categories -->
+                                            <div class="col-sm-6">
+                                                <select class="form-control selectpicker" id="categories_programes" name="categories_programes">
+                                                    <option value="/programes/{{ search_params.current_url_params }}">Totes les categories</option>
+                                                    {% for category in categories.categories_programes %}
+                                                        <option value="{{ category.slug }}" {% if selected_filter_tipus == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div><!--/dropdown sitemes operatius -->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <a href="#" class="mostra">Mostra el programari arxivat</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!--/.filtres -->
+                    </form>
+                </header><!--/.contingut-header -->
+
+
+                <!-- section paragraf + thumb gris img -->
+                <section class="contingut-section">
+
+                    <!-- .row -->
+                    {% for row in posts|batch(6) %}
+                    <div class="row">
+                        {% for post in row %}
+                        <div class="col-xxs-12 col-xs-4 col-sm-3 col-md-2">
+                            <div class="thumbnail thumbnail-vertical thumbnail-programes">
+                                <a href="{{ post.link }}" title="{{ post.title }}">
+                                    <img src="{{ post.logotip_programa }}" alt="logotip {{ post.title }}">
+                                    <div class="caption">
+                                        <h3>{{ post.title }}</h3>
+                                        <div class="cont-rating">
+                                            <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
+                                            <em>({{ post.total_baixades_programa }})</em>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <!--/.row -->
+
+                    <!-- .pagination -->
+                    {% include "pagination.twig" %}
+                    <!--/.pagination -->
+
+
+                </section><!-- section paragraf + thumb gris img -->
+
+
+                <!--/.contingut-footer -->
+                <footer class="contingut-footer">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            {% for element in sidebar_elements %}
+                                {% include element %}
+                            {% endfor %}
+                        </div>
+                        {% include "sidebar.twig" %}
+                    </div>
+                </footer><!--/.contingut-footer -->
+
+            </div><!--/.contingut -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    <script>
+        jQuery(".selectpicker").on('change', function() {
+            jQuery( "#cerca_programes" ).submit();
+        });
+    </script>
+
+{% endblock %}
