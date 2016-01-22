@@ -21,6 +21,7 @@ $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 $context['baixades'] = $post->get_field( 'baixada' );
+$context['credits'] = $post->get_field( 'credit' );
 $context['url_video'] = wp_oembed_get( $post->video_url, array('width'=>560, 'height'=>315, 'class'=>'embed-responsive-item', 'allowfullscreen'=>1) );
 
 if ( post_password_required( $post->ID ) ) {

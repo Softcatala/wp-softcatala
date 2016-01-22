@@ -89,10 +89,8 @@
                     </div><!--/.boto-menu-lateral gris - xs -->
                     <!-- #menu-lateral -->
                     <ul class="nav collapse navbar-collapse" id="menu-lateral">
-                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
-                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
-                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
-                        <li><a href="#">P&agrave;gina de Nivell 4</a></li>
+                        <li><a href="#">Descripció</a></li>
+                        {% if pmf %}<li><a href="#">Preguntes més freqüents</a></li>{% endif %}
                     </ul><!--/#menu-lateral -->
                 </div>
             </div>
@@ -200,15 +198,6 @@
 
                     <!--/.comentaris -->
 
-
-
-                    <!--/.contingut-footer -->
-                    <footer class="contingut-footer">
-                        <hr>
-                        <div class="alerta">
-                            <p><strong>IMPORTANT!</strong> Exemple de Nota al peu de p&agrave;gina. Lorem ipsum dolor set morbi bibendum arcu eget justo dictum  vel ullamcorper quam accumsan</p>
-                        </div>
-                    </footer><!--/.contingut-footer -->
                 </div><!--/.contingut -->
 
                 <!-- .aside-right -->
@@ -224,16 +213,6 @@
     <!--/.seccio-vermella -->
 
     <!-- .seccio-blanca -->
-    <div class="wrap-blanc seccio-blanca">
-        <div class="container-fluid">
-            <p><strong>Lorem ipsum dolor sit ametadipiscing elit</strong></p>
-            <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
-            <div class="row logos">
-                <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-            </div>
-            <div class="row logos">
-                <div class="col-xs-12 col-sm-2 col-sm-offset-1"><img src="dist/images/content/img-franja-blanca-01.jpg" class="img-responsive center-block"></div>
-            </div>
-        </div>
-    </div><!--/.seccio-blanca -->
+    {% include "credits.twig" %}
+    <!--/.seccio-blanca -->
 {% endblock %}
