@@ -12,10 +12,11 @@ function get_page_parent_title( $post ) {
     return $parent_data;
 }
 
-function get_parent_page_hierarchy($parent_id, $sort_order = 'ASC') {
+function get_parent_page_hierarchy($parent_id, $sort_column = 'menu_order', $sort_order = 'ASC') {
     $pages_tree = wp_list_pages( array(
         'child_of' => $parent_id,
         'echo' => 0,
+        'sort_column' => $sort_column,
         'sort_order'   => $sort_order,
         'link_before' => '<i class="fa fa-angle-right"></i>',
         'title_li' => '',
