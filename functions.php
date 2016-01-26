@@ -290,14 +290,19 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC'
             );
+            break;
         case 'programa':
             $base_args = array(
                 'post_type' => $post_type,
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'paged' => get_is_paged(),
-                'posts_per_page' => 18
+                'posts_per_page' => 18,
+                'meta_query' => array(
+                    get_meta_query_value('wpcf-arxivat', 0, '=', 'NUMERIC')
+                )
             );
+            break;
     }
 
     if ( $queryType == SearchQueryType::Search ) {
@@ -360,15 +365,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
-        if (!empty ($filter['sistema-operatiu-programa'])) {
-            $filter_args['tax_query'][] = array(
-                'taxonomy' => 'sistema-operatiu-programa',
-                'field' => 'slug',
-                'terms' => $filter['sistema-operatiu-programa']
-            );
-            $filter_args['filter_so'] = $filter['sistema-operatiu-programa'];
-        }
-
         if (!empty ($filter['categoria-programa'])) {
             $filter_args['tax_query'][] = array(
                 'taxonomy' => 'categoria-programa',
@@ -376,6 +372,13 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'terms' => $filter['categoria-programa']
             );
             $filter_args['filter_categoria'] = $filter['categoria-programa'];
+        }
+
+        //If 'arxivat = 1' that means that all programas should be displayed, arxivats and no arxivats
+        //It's necessary to remove the meta_query filter
+        if( ! empty ($filter['arxivat']) &&  $filter['arxivat'] == 1 ) {
+            unset( $base_args['meta_query'] );
+            $filter_args['arxivat'] = $filter['arxivat'];
         }
     } else {
         $filter_args = array(
@@ -417,6 +420,8 @@ function add_query_vars_filter( $vars ){
     $vars[] = "cerca";
     $vars[] = "sistema_operatiu";
     $vars[] = "tipus";
+    $vars[] = "categoria_programa";
+    $vars[] = "arxivat";
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );

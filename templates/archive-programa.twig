@@ -28,8 +28,8 @@
                                         <div class="row">
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="sistemes_operatius" name="sistemes_operatius">
-                                                    <option value="/programes/{{ search_params.current_url_params }}">Tots els sistemes operatius</option>
+                                                <select class="form-control selectpicker" id="sistema_operatiu" name="sistema_operatiu">
+                                                    <option value="{% if current_url_params %}/programes/{{ search_params.current_url_params }}{% endif %}">Tots els sistemes operatius</option>
                                                     {% for category in categories.sistemes_operatius %}
                                                         <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
@@ -38,17 +38,20 @@
 
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="categories_programes" name="categories_programes">
-                                                    <option value="/programes/{{ search_params.current_url_params }}">Totes les categories</option>
+                                                <select class="form-control selectpicker" id="categoria_programa" name="categoria_programa">
+                                                    <option value="{% if current_url_params %}/programes/{{ search_params.current_url_params }}{% endif %}">Totes les categories</option>
                                                     {% for category in categories.categories_programes %}
-                                                        <option value="{{ category.slug }}" {% if selected_filter_tipus == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                                                        <option value="{{ category.slug }}" {% if selected_filter_categoria == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div><!--/dropdown sitemes operatius -->
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <a href="#" class="mostra">Mostra el programari arxivat</a>
+                                        <input type="hidden" name="arxivat" id="arxivat" value="{% if selected_arxivat %}1{% else %}0{% endif %}"/>
+                                        <a id="mostra_arxivat" href="#" class="mostra">
+                                            {% if selected_arxivat == 1 %}No mostris el programari arxivat{% else %}Mostra el programari arxivat{% endif %}
+                                        </a>
                                     </div>
                                 </div>
 
@@ -60,7 +63,7 @@
 
                 <!-- section paragraf + thumb gris img -->
                 <section class="contingut-section">
-
+                    {% if posts %}
                     <!-- .row -->
                     {% for row in posts|batch(6) %}
                     <div class="row">
@@ -73,7 +76,7 @@
                                         <h3>{{ post.title }}</h3>
                                         <div class="cont-rating">
                                             <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
-                                            <em>({{ post.total_baixades_programa }})</em>
+                                            {% if post.total_baixades_programa %}<em>({{ post.total_baixades_programa }})</em>{% endif %}
                                         </div>
                                     </div>
                                 </a>
@@ -87,6 +90,9 @@
                     <!-- .pagination -->
                     {% include "pagination.twig" %}
                     <!--/.pagination -->
+                    {% else %}
+                        No s'ha trobat cap programa
+                    {% endif %}
 
 
                 </section><!-- section paragraf + thumb gris img -->
@@ -114,6 +120,15 @@
 
     <script>
         jQuery(".selectpicker").on('change', function() {
+            jQuery( "#cerca_programes" ).submit();
+        });
+        jQuery("#mostra_arxivat").on('click', function() {
+            if(jQuery("#arxivat").val() == 1) {
+                jQuery("#arxivat").val(0);
+            } else {
+                jQuery("#arxivat").val(1);
+            }
+
             jQuery( "#cerca_programes" ).submit();
         });
     </script>
