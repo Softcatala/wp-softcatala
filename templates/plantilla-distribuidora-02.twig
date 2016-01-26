@@ -40,6 +40,7 @@
             <!-- .contingut -->
             <div class="contingut">
                 
+                {% if links %}
                     <!-- .row -->
                     <div class="row">
                         {% for row in links|batch((links|length)/2) %}
@@ -51,6 +52,7 @@
                             </div>
                         {% endfor %}
                     </div><!--/.row -->
+                {% endif %}
 
             </div><!--/.contingut -->
 
