@@ -1,8 +1,7 @@
 <?php
 
-$templates = array( 'index.twig', 'archive-programa.twig' );
-
-array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
+wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main'), '1.0.0', true );
+$templates = array( 'archive-programa.twig' );
 
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
