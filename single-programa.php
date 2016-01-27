@@ -10,6 +10,9 @@
  */
 
 wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main'), '1.0.0', true );
+wp_localize_script( 'sc-js-programes', 'scajax', array(
+    'ajax_url' => admin_url( 'admin-ajax.php' )
+));
 
 $context = Timber::get_context();
 $post = Timber::query_post();

@@ -57,9 +57,9 @@
 
                             <footer class="footer-main-header-gris">
                                 <div class="cont-rating">
-                                    <input id="input-id" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false">
-                                    <span class="numero">8.5</span>
-                                    <em>(1567 vots)</em>
+                                    <input type="hidden" value="{{ post.valoracio }}" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating" class="rating" data-rating-class="rating-fa" data-symbol="&#xf006;" data-glyphicon="false" data-show-caption="false" data-show-clear="false"/>
+                                    <span class="numero">{{ post.valoracio }}</span>
+                                    {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}
                                 </div>
                                 <div class="cont-baixades">
                                     <i class="fa fa-line-chart"></i>
@@ -147,6 +147,8 @@
         </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
+    <!-- .contingut -->
+
     <!-- .seccio-vermella -->
     {% include "call-to-action-bottom.twig" %}
     <!--/.seccio-vermella -->
@@ -154,4 +156,8 @@
     <!-- .seccio-blanca -->
     {% include "credits.twig" %}
     <!--/.seccio-blanca -->
+
+    <!-- .messages-block -->
+    {% include "messages.twig" %}
+    <!--/.messages-block -->
 {% endblock %}
