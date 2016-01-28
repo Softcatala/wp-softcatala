@@ -544,3 +544,10 @@ function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
     }
     return $output;
 }
+
+/*  Add responsive container to embeds
+/* ------------------------------------ */
+function sc_embed_html( $html ) {
+    return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
+}
+add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
