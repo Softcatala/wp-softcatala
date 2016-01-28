@@ -41,9 +41,9 @@ if( ! empty( $sistema_operatiu ) ) {
     }
 
     if( isset( $args ) ) {
-        $programes_no_so = get_posts( $args );
-        $programes_no_so_ids = array_map("extract_post_ids", $programes_no_so);
-        $programes_ids = array_intersect( $programes_no_so_ids, $programes_baixades_ids);
+        $all_programs = get_posts( $args );
+        $all_programs_ids = array_map("extract_post_ids", $all_programs);
+        $programes_ids = array_intersect( $all_programs_ids, $programes_baixades_ids);
     } else {
         $programes_ids = $programes_baixades_ids;
     }
