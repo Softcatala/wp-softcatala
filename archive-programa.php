@@ -35,10 +35,7 @@ if( ! empty( $sistema_operatiu ) ) {
         )
     );
     $baixades_posts = get_posts( $args_so_baixades );
-
-    foreach( $baixades_posts as $baixada_post ) {
-        $programes_baixades_ids[] = wpcf_pr_post_get_belongs($baixada_post->ID, 'programa');
-    }
+    $programes_baixades_ids = array_map( "extract_post_ids_program", $baixades_posts );
 
     if( isset( $args ) ) {
         $all_programs = get_posts( $args );
