@@ -366,6 +366,10 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
+        if ( ! empty ( $filter['post__in'] ) ) {
+            $filter_args['post__in'] = $filter['post__in'];
+        }
+
         if (!empty ($filter['categoria-programa'])) {
             $filter_args['tax_query'][] = array(
                 'taxonomy' => 'categoria-programa',

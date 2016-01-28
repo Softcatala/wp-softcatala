@@ -8,18 +8,49 @@ $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $categoria_programa = get_query_var( 'categoria_programa' );
 $arxivat = get_query_var( 'arxivat' );
 
-if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) ) {
+if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) ) {
     $query['s'] = $search;
-    $query['sistema-operatiu-programa'] = $sistema_operatiu;
     $query['categoria-programa'] = $categoria_programa;
     $query['arxivat'] = $arxivat;
     $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
     $context['cerca'] = $search;
-    $context['selected_filter_so'] = ( isset ( $args['filter_so'] ) ? $args['filter_so'] : '' );
     $context['selected_filter_categoria'] = ( isset ( $args['filter_categoria'] ) ? $args['filter_categoria'] : '' );
     $context['selected_arxivat'] = ( isset ( $args['arxivat'] ) ? $args['arxivat'] : '' );
 } else {
     $args = get_post_query_args( 'programa', SearchQueryType::Programa );
+}
+
+if( ! empty( $sistema_operatiu ) ) {
+    $query['sistema-operatiu-programa'] = $sistema_operatiu;
+
+    $args_so_baixades = array (
+        'post_type' => 'baixada',
+        'tax_query' => array (
+            array(
+                'taxonomy' => 'sistema-operatiu-programa',
+                'field' => 'slug',
+                'terms' => $sistema_operatiu,
+                'post_status'    => 'publish'
+            )
+        )
+    );
+    $baixades_posts = get_posts( $args_so_baixades );
+
+    foreach( $baixades_posts as $baixada_post ) {
+        $programes_baixades_ids[] = wpcf_pr_post_get_belongs($baixada_post->ID, 'programa');
+    }
+
+    if( isset( $args ) ) {
+        $programes_no_so = get_posts( $args );
+        $programes_no_so_ids = array_map("extract_post_ids", $programes_no_so);
+        $programes_ids = array_intersect( $programes_no_so_ids, $programes_baixades_ids);
+    } else {
+        $programes_ids = $programes_baixades_ids;
+    }
+    $query['post__in'] = $programes_ids;
+
+    $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+    $context['selected_filter_so'] = $sistema_operatiu;
 }
 
 $context['content_title'] = 'Programes i aplicacions';
