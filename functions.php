@@ -366,6 +366,10 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
+        if ( ! empty ( $filter['post__in'] ) ) {
+            $filter_args['post__in'] = $filter['post__in'];
+        }
+
         if (!empty ($filter['categoria-programa'])) {
             $filter_args['tax_query'][] = array(
                 'taxonomy' => 'categoria-programa',
@@ -540,3 +544,10 @@ function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
     }
     return $output;
 }
+
+/*  Add responsive container to embeds
+/* ------------------------------------ */
+function sc_embed_html( $html ) {
+    return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
+}
+add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );

@@ -26,3 +26,17 @@ function get_parent_page_hierarchy($parent_id, $sort_column = 'menu_order', $sor
 
     return $pages_tree;
 }
+
+/*
+ * Function that extracts the post id from a specific post (for use on array_map)
+ */
+function extract_post_ids( $post ) {
+    return $post->ID;
+}
+
+/*
+ * Function that extracts the post id from a specific post relationship (for use on array_map)
+ */
+function extract_post_ids_program( $post ) {
+    return wpcf_pr_post_get_belongs( $post->ID, 'programa' );
+}

@@ -126,18 +126,6 @@
                         {{ post.content }}
                     </section><!--/.contingut-section -->
 
-                    <!-- .contingut-section -->
-                    {% if url_video %}
-                    <section class="contingut-section">
-                        <h2>{{ post.video_title }}</h2>
-                        <!-- 16:9 aspect ratio -->
-                        <div class="embed-responsive embed-responsive-16by9">
-                            {{ url_video }}
-                        </div>
-                        <p>{{ post.video_description }}</p>
-                    </section><!--/.contingut-section -->
-                    {% endif %}
-
                     <!-- .comentaris -->
                     {% include "comentaris.twig" %}
                     <!--/.comentaris -->

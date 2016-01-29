@@ -75,7 +75,7 @@
                                     <div class="caption">
                                         <h3>{{ post.title }}</h3>
                                         <div class="cont-rating">
-                                            <input id="input-id" value="{{ post.valoracio }}" class="rating" min=0 max=5 step=1 data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false" data-readonly/>
+                                            <input id="input-id" value="{{ post.valoracio }}" class="rating" data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false" disabled="disabled" data-readonly/>
                                             {% if post.total_baixades_programa %}<em>({{ post.total_baixades_programa }})</em>{% endif %}
                                         </div>
                                     </div>
