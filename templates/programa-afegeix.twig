@@ -1,0 +1,257 @@
+<!-- .modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- .modal-content -->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <!-- .formulari 1 -->
+            <div class="formulari" id="form_1">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Voleu incorporar un programa nou?</h1>
+                            <p>Llegiu amb atenció el text següent</p>
+                        </div>
+                        <div class="col-xxs-12 col-xs-3">
+                            <span class="contador-formulari">1<i>/</i>4</span>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <!-- .contingut-section - paragraf -->
+                <section class="contingut-section">
+                    <p>{{ conditions_text }}</p>
+
+                    <!-- botons -->
+                    <div class="form-horizontal">
+                        <div class="form-botons row form-group">
+                            <div class="form-boto col-xs-6">
+                                <button id="pas_1" type="submit" class="next_step bt-basic bt-basic-vermell-fosc">D'acord, pas següent</button>
+                            </div>
+                        </div><!--/botons -->
+                    </div>
+                </section><!--/.contingut-section - paragraf -->
+            </div><!--/.formulari -->
+
+            <!-- .formulari 2 -->
+            <div class="formulari" id="form_2" style="display: none;">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Voleu incorporar un programa nou?</h1>
+                            <p>Comproveu si el programa ja existeix al rebost</p>
+                        </div>
+                        <div class="col-xxs-12 col-xs-3">
+                            <span class="contador-formulari">2<i>/</i>4</span>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <!-- .contingut-section - paragraf -->
+                <form id="second_step">
+                <section class="contingut-section">
+                    <!-- camp -->
+                    <div class="col-sm-6" style="margin-left: -15px;">
+                        <input type="text" id="nom_programa" class="form-control" placeholder="Libreoffice, VLC..." required>
+                    </div>
+                    <!-- camp -->
+                    <p/>
+                </section>
+                <section class="contingut-section">
+                    <div class="form-horizontal">
+                        <div class="form-botons row form-group">
+                            <div class="form-boto col-xs-6">
+                                <button id="cerca_programa" type="submit" class="bt-basic bt-basic-vermell">Cerca...</button>
+                            </div>
+                            <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i>
+                        </div><!--/botons -->
+                    </div>
+                </section>
+                </form>
+                <section class="contingut-section">
+                    <p id="text_response"></p>
+                    <p id="llistat_programes">
+
+                    </p>
+                    <div class="form-horizontal">
+                        <div class="form-botons row form-group">
+                            <div class="form-boto col-xs-6">
+                                <button id="pas_2" type="submit" class="next_step bt-basic bt-basic-vermell-fosc" style="display: none;">D'acord, pas següent</button>
+                            </div>
+                        </div><!--/botons -->
+                    </div>
+                </section>
+            </div><!--/.formulari -->
+
+            <section class="contingut-section">
+                <!-- .formulari 3 -->
+                <div class="formulari" id="form_3" style="display: none;">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <div class="row">
+                            <div class="col-xxs-12 col-xs-9">
+                                <h1>Voleu incorporar un programa nou?</h1>
+                                <p>Empleneu els camps següents amb la informació del programa</p>
+                            </div>
+                            <div class="col-xxs-12 col-xs-3">
+                                <span class="contador-formulari">3<i>/</i>4</span>
+                            </div>
+                        </div>
+                    </header><!--/.contingut-header -->
+
+                    <form class="form-horizontal" id="programa_form" method="post">
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Nom del programa</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="nom" class="form-control" placeholder="Libreoffice, VLC..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Autor</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Lloc web</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="lloc_web" class="form-control" placeholder="http://www.libreoffice.com, ..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Descripció *</label>
+                            <div class="col-sm-9">
+                                <textarea rows="6" name="descripcio" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Llicència *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    {% for row in categories.llicencies|batch((categories.llicencies|length)/3) %}
+                                        <!-- col-sm-4 -->
+                                        <div class="col-sm-4">
+                                            {% for category in row %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" name="llicencia" value="{{ category.ID }}"> {{ category.name }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <!-- col-sm-4 -->
+                                    {% endfor %}
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Categoria *</label>
+                            <!-- col-sm-9 -->
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    {% for row in categories.categories_programes|batch((categories.categories_programes|length)/3) %}
+                                        <!-- col-sm-4 -->
+                                        <div class="col-sm-4">
+                                            {% for category in row %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" name="categoria_programa" value="{{ category.ID }}"> {{ category.name }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <!-- col-sm-4 -->
+                                    {% endfor %}
+                                </div>
+                            </div><!--/col-sm-9 -->
+                        </div>
+                        <!-- camp -->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Logo *</label>
+                            <div class="col-sm-9 col-md-6">
+                                <div class="row">
+                                    <div class="col-xs-4 col-sm-4 bt-puja">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="file" name="logo">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- botons -->
+                        <div class="form-horizontal">
+                            <div class="form-botons row form-group">
+                                <div class="form-boto col-xs-6">
+                                    <button id="pas_3" type="submit" class="next_step bt-basic bt-basic-vermell-fosc">Envia les dades</button>
+                                </div>
+                            </div><!--/botons -->
+                        </div>
+                    </form><!--/.contingut-section - paragraf -->
+                </div><!--/.formulari -->
+            </section>
+
+            <!-- .formulari 4 -->
+            <div class="formulari" id="form_4" style="display: none;">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Voleu incorporar un programa nou?</h1>
+                            <p>Comproveu si el programa ja existeix al rebost</p>
+                        </div>
+                        <div class="col-xxs-12 col-xs-3">
+                            <span class="contador-formulari">4<i>/</i>4</span>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <!-- .contingut-section - paragraf -->
+                <section class="contingut-section">
+                    <!-- camp -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nom del programa</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="nom" class="form-control" placeholder="Libreoffice, VLC..." required>
+                        </div>
+                    </div>
+                    <!-- camp -->
+
+                    <!-- botons -->
+                    <div class="form-horizontal">
+                        <div class="form-botons row form-group">
+                            <div class="form-boto col-xs-6">
+                                <button id="pas_4" type="submit" class="next_step bt-basic bt-basic-vermell-fosc">D'acord, pas següent</button>
+                            </div>
+                        </div><!--/botons -->
+                    </div>
+                </section><!--/.contingut-section - paragraf -->
+            </div><!--/.formulari -->
+        </div><!-- .modal-content -->
+
+    </div>
+</div><!-- /.modal -->

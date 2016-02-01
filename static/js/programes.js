@@ -73,3 +73,43 @@ function show_message(text) {
     jQuery("#message_text").html(text);
     jQuery('.modal').modal('show');
 }
+
+/** Formulari afegeix **/
+jQuery(".next_step").on('click', function() {
+    var button_id = jQuery(this).attr('id').split('_');
+    step = button_id[1];
+    jQuery("#form_"+step).hide();
+    step++;
+    jQuery("#form_"+step).show();
+});
+
+var $contactForm = jQuery('#second_step');
+
+$contactForm.on('submit', function(ev){
+    ev.preventDefault();
+
+    jQuery("#loading").fadeIn();
+    var nom_programa = jQuery("#nom_programa").val();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('nom_programa', nom_programa);
+    post_data.append('action', 'search_program');
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success : form_search_ok,
+        error : form_sent_ko
+    });
+});
+
+function form_search_ok(result) {
+    jQuery("#loading").hide();
+    jQuery("#text_response").html(result.text+result.programs);
+    jQuery("#pas_2").show();
+}

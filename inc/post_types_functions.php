@@ -40,3 +40,15 @@ function extract_post_ids( $post ) {
 function extract_post_ids_program( $post ) {
     return wpcf_pr_post_get_belongs( $post->ID, 'programa' );
 }
+
+/*
+ * Function that extracts the post url and title from a specific post (for use on array_map)
+ */
+function extract_post_title_url( $post ) {
+    $title = $post->post_title;
+    $url = get_permalink($post);
+
+    $return = '<a href="'.$url.'" title="'.$title.'">'.$title.'</a>';
+
+    return $return;
+}

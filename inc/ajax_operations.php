@@ -6,6 +6,45 @@ add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
 /** PROGRAMES **/
 add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
+add_action( 'wp_ajax_search_program', 'sc_search_program' );
+add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
+
+/**
+ * Function to look up a program with a title similar to the title from the search on the add program form
+ *
+ * @return json response
+ */
+function sc_search_program() {
+    $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
+
+    $result = array();
+    if( ! empty ( $nom_programa ) ) {
+        $args = array(
+            's'         => $nom_programa,
+            'orders'    => 'DESC',
+            'post_status'    => 'publish',
+            'post_type'        => 'programa',
+        );
+        $result_full = get_posts( $args );
+    }
+
+    $programs = array_map( 'extract_post_title_url', $result_full );
+
+    if ( count( $programs ) > 0 ) {
+        $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
+        $result['programs'] = '<ul class="cont-llista">';
+        foreach ( $programs as $program ) {
+            $result['programs'] .= '<li><i class="fa fa-chevron-right"></i>' . $program.'</li>';
+        }
+        $result['programs'] .= '</ul>';
+    } else {
+        $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
+    }
+
+
+    $response = json_encode( $result );
+    die( $response );
+}
 
 /**
  * This function increments the vote count for a 'programa' post type and calculates
