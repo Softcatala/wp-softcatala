@@ -137,6 +137,37 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
     post_data.append('llicencia', jQuery('input[name=llicencia]:checked').val());
     post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
+
+    //Programes
+    var urls_baixada = new Array();
+    jQuery(".url_baixada").each(function() {
+        urls_baixada.push(jQuery(this).val());
+    });
+
+    var versions = new Array();
+    jQuery(".versio").each(function() {
+        versions.push(jQuery(this).val());
+    });
+
+    var sistemes_operatius = new Array();
+    jQuery(".sistema_operatiu").each(function() {
+        if(jQuery(this).is(':checked')) {
+            sistemes_operatius.push(jQuery(this).val());
+        }
+    });
+
+    var baixades = new Object();
+    urls_baixada.forEach(function (value, i) {
+        var values = new Object();
+        values.url = urls_baixada[i];
+        values.versio = versions[i];
+        values.sistema_operatiu = sistemes_operatius[i];
+        baixades[i] = values;
+    });
+
+    baixadesjson = JSON.stringify(baixades);
+
+    post_data.append('baixades', baixadesjson);
     post_data.append('action', 'add_new_program');
 
     var file = jQuery(document).find('input[type="file"]');
@@ -158,3 +189,13 @@ $add_program_form.on('submit', function(ev) {
 function form_add_ok(result) {
     jQuery("#loading_program").hide();
 }
+
+jQuery('#add_new_baixada').on('click', function () {
+    var content = jQuery('#baixada_fields').prop('outerHTML');
+    current_baixada_id = baixada_id;
+    baixada_id = baixada_id + 1;
+    pattern = "[1]";
+    re = new RegExp(pattern, "g");
+    res2 = content.replace(re, baixada_id);
+    jQuery( "#baixada_group").append(res2);
+});

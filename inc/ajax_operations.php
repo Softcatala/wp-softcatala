@@ -26,6 +26,7 @@ function sc_add_new_program() {
     $llicencia = sanitize_text_field( $_POST["llicencia"] );
     $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
     $slug = sanitize_title_with_dashes( $nom );
+    $baixades = json_decode(stripslashes($_POST["baixades"]));
 
     $terms = array(
         'categoria-programa' => array($categoria_programa),
@@ -40,18 +41,33 @@ function sc_add_new_program() {
     $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
 
     if( $return['status'] == 1 ) {
-        $to_email       = "web@softcatala.org";
-        $nom_from       = "Programes i aplicacions de Softcatalà";
-        $assumpte       = "[Programes] Programa enviat per formulari";
-
-        $fields = array (
-            "Nom del programa" => $nom,
-            "Descripció" => $descripcio,
-            "Comentari de l'usuari"  => $comentari_usuari,
-            "Email de l'usuari" => $email_usuari,
-            "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
+        //Related downloads
+        $terms_baixada = array(
+            'categoria-programa' => array($categoria_programa)
         );
-        sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+        foreach ( $baixades as $baixada ) {
+            $metadata_baixada = array (
+                'url_baixada' => $baixada->url,
+                'versio_baixada' => $baixada->versio,
+                'post_id' => $return['post_id']
+            );
+            $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
+        }
+
+        if( $return_baixada['status'] == 1 ) {
+            $to_email = "web@softcatala.org";
+            $nom_from = "Programes i aplicacions de Softcatalà";
+            $assumpte = "[Programes] Programa enviat per formulari";
+
+            $fields = array(
+                "Nom del programa" => $nom,
+                "Descripció" => $descripcio,
+                "Comentari de l'usuari" => $comentari_usuari,
+                "Email de l'usuari" => $email_usuari,
+                "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
+            );
+            sendEmailForm($to_email, $nom_from, $assumpte, $fields);
+        }
     }
 
     $response = json_encode( $return );
@@ -189,11 +205,18 @@ function sc_send_aparell() {
 function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
 
     $return = array();
+    if( isset( $metadata['post_id'] ) ){
+        $parent_id = $metadata['post_id'];
+        unset($metadata['post_id']);
+        $post_status = 'publish';
+    } else {
+        $post_status = 'pending';
+    }
 
     //Generate array data
     $post_data = array (
         'post_type'         =>  $type,
-        'post_status'		=>	'pending',
+        'post_status'		=>	$post_status,
         'comment_status'	=>	'open',
         'ping_status'		=>	'closed',
         'post_author'		=>	get_current_user_id(),
@@ -211,7 +234,12 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
 
         sc_update_metadata( $post_id, $metadata );
 
-        $return = sc_set_featured_image($post_id);
+        if ( $type == 'programa' || $type == 'aparell' ) {
+            $return = sc_set_featured_image( $post_id, $type );
+        } elseif ( $type == 'baixada' ) {
+            $return = sc_set_baixada_post_relationship( $post_id, $parent_id );
+        }
+
     } else {
         $return['status'] = 0;
         $return['text'] = "S'ha produït un error en enviar les dades. Proveu de nou.";
@@ -225,31 +253,38 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
     return $return;
 }
 
-function sc_set_featured_image($post_id) {
+function sc_set_featured_image( $post_id, $type ) {
     if( isset( $_FILES['file'] ) ) {
         $tmpfile = $_FILES['file'];
 
         $upload_overrides = array('test_form' => false);
 
-        $uploaded = wp_handle_upload($tmpfile, $upload_overrides);
+        $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
 
-        if ($uploaded && !isset($uploaded['error'])) {
+        if ( $uploaded && ! isset( $uploaded['error']) ) {
 
             $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
 
             $attachment = array(
                 'post_mime_type' => $wp_filetype['type'],
-                'post_title' => preg_replace('/.[^.]+$/', '', basename($uploaded['file'])),
+                'post_title' => preg_replace( '/.[^.]+$/', '', basename( $uploaded['file']) ),
                 'post_content' => '',
                 'post_status' => 'inherit'
             );
 
-            $attach_id = wp_insert_attachment($attachment, $uploaded['file'], $post_id);
+            $attach_id = wp_insert_attachment( $attachment, $uploaded['file'], $post_id );
 
             $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
             wp_update_attachment_metadata($attach_id, $attach_data);
 
-            set_post_thumbnail($post_id, $attach_id);
+            if ( $type == 'aparell' ) {
+                set_post_thumbnail( $post_id, $attach_id );
+            } elseif ( $type == 'programa' ) {
+                $metadata = array(
+                    'logotip_programa' => wp_get_attachment_url( $attach_id )
+                );
+                sc_update_metadata ( $post_id, $metadata );
+            }
 
             $return['status'] = 1;
         } else {
@@ -261,6 +296,10 @@ function sc_set_featured_image($post_id) {
     }
 
     return $return;
+}
+
+function sc_set_baixada_post_relationship( $baixada_id, $program_id ) {
+    update_post_meta( $baixada_id, '_wpcf_belongs_programa_id', $program_id );
 }
 
 
