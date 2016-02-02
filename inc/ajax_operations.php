@@ -8,6 +8,56 @@ add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
+add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
+add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
+
+/**
+ * Function to look up a program with a title similar to the title from the search on the add program form
+ *
+ * @return json response
+ */
+function sc_add_new_program() {
+    $nom = sanitize_text_field( $_POST["nom"] );
+    $email_usuari = sanitize_email( $_POST["email_usuari"] );
+    $comentari_usuari = sanitize_text_field( $_POST["comentari_usuari"] );
+    $descripcio = sanitize_text_field( $_POST["descripcio"] );
+    $autor_programa = sanitize_text_field( $_POST["autor_programa"] );
+    $lloc_web_programa = sanitize_text_field( $_POST["lloc_web_programa"] );
+    $llicencia = sanitize_text_field( $_POST["llicencia"] );
+    $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
+    $slug = sanitize_title_with_dashes( $nom );
+
+    $terms = array(
+        'categoria-programa' => array($categoria_programa),
+        'llicencia' => array($llicencia)
+    );
+
+    $metadata = array(
+        'autor_programa' => $autor_programa,
+        'lloc_web_programa' => $lloc_web_programa
+    );
+
+    $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
+
+    if( $return['status'] == 1 ) {
+        $to_email       = "web@softcatala.org";
+        $nom_from       = "Programes i aplicacions de Softcatalà";
+        $assumpte       = "[Programes] Programa enviat per formulari";
+
+        $fields = array (
+            "Nom del programa" => $nom,
+            "Descripció" => $descripcio,
+            "Comentari de l'usuari"  => $comentari_usuari,
+            "Email de l'usuari" => $email_usuari,
+            "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
+        );
+        sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+    }
+
+    $response = json_encode( $return );
+    die( $response );
+
+}
 
 /**
  * Function to look up a program with a title similar to the title from the search on the add program form
@@ -15,6 +65,8 @@ add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
  * @return json response
  */
 function sc_search_program() {
+    check_is_ajax_call();
+
     $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
 
     $result = array();
@@ -115,7 +167,7 @@ function sc_send_aparell() {
         'conf_cat' => $traduccio_catala,
         'correccio_cat' => $correccio_catala );
 
-    $return = sc_add_draft_content('aparell', $nom, $slug, $terms, $metadata);
+    $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
 
     if( $return['status'] == 1 ) {
         $to_email       = "web@softcatala.org";
@@ -134,7 +186,7 @@ function sc_send_aparell() {
     die( $response );
 }
 
-function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
+function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
 
     $return = array();
 
@@ -147,6 +199,7 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
         'post_author'		=>	get_current_user_id(),
         'post_name'		    =>	$slug,
         'post_title'		=>	$nom,
+        'post_content'      =>  $descripcio,
         'post_date'         => date('Y-m-d H:i:s')
     );
 

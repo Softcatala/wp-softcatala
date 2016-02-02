@@ -74,7 +74,7 @@ function show_message(text) {
     jQuery('.modal').modal('show');
 }
 
-/** Formulari afegeix **/
+/** Formulari comprova si programa existeix **/
 jQuery(".next_step").on('click', function() {
     var button_id = jQuery(this).attr('id').split('_');
     step = button_id[1];
@@ -83,9 +83,9 @@ jQuery(".next_step").on('click', function() {
     jQuery("#form_"+step).show();
 });
 
-var $contactForm = jQuery('#second_step');
+var $search_program_form = jQuery('#second_step');
 
-$contactForm.on('submit', function(ev){
+$search_program_form.on('submit', function(ev){
     ev.preventDefault();
 
     jQuery("#loading").fadeIn();
@@ -110,6 +110,51 @@ $contactForm.on('submit', function(ev){
 
 function form_search_ok(result) {
     jQuery("#loading").hide();
-    jQuery("#text_response").html(result.text+result.programs);
+    if(result.programs) {
+        var response = result.text+result.programs;
+    } else {
+        var response = result.text;
+    }
+    jQuery("#text_response").html(response);
     jQuery("#pas_2").show();
+}
+
+/** Formulari afegeix programa **/
+var $add_program_form = jQuery('#programa_form');
+
+$add_program_form.on('submit', function(ev) {
+    ev.preventDefault();
+
+    jQuery("#loading_program").fadeIn();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('email_usuari', jQuery('input[name=email_usuari]').val());
+    post_data.append('comentari_usuari', jQuery('textarea[name=comentari_usuari]').val());
+    post_data.append('nom', jQuery('input[name=nom]').val());
+    post_data.append('autor_programa', jQuery('input[name=autor]').val());
+    post_data.append('lloc_web_programa', jQuery('input[name=lloc_web]').val());
+    post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
+    post_data.append('llicencia', jQuery('input[name=llicencia]:checked').val());
+    post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
+    post_data.append('action', 'add_new_program');
+
+    var file = jQuery(document).find('input[type="file"]');
+    var individual_file = file[0].files[0];
+    post_data.append("file", individual_file);
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success : form_add_ok,
+        error : form_sent_ko
+    });
+});
+
+function form_add_ok(result) {
+    jQuery("#loading_program").hide();
 }

@@ -106,7 +106,25 @@
                     <form class="form-horizontal" id="programa_form" method="post">
                         <!-- camp -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Nom del programa</label>
+                            <label class="col-sm-3 control-label">El vostre correu *</label>
+                            <div class="col-sm-6">
+                                <input type="email" name="email_usuari" class="form-control" placeholder="usuari@gmail.cat ..." required>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Comentaris</label>
+                            <div class="col-sm-6">
+                                <textarea name="comentari_usuari" class="form-control" placeholder="Afegiu aquí qualsevol comentari que vulgueu donar"> </textarea>
+                            </div>
+                        </div>
+                        <!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Nom del programa *</label>
                             <div class="col-sm-6">
                                 <input type="text" name="nom" class="form-control" placeholder="Libreoffice, VLC..." required>
                             </div>
@@ -115,7 +133,7 @@
 
                         <!-- camp -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Autor</label>
+                            <label class="col-sm-3 control-label">Autor *</label>
                             <div class="col-sm-6">
                                 <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic..." required>
                             </div>
@@ -124,9 +142,9 @@
 
                         <!-- camp -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Lloc web</label>
+                            <label class="col-sm-3 control-label">Lloc web *</label>
                             <div class="col-sm-6">
-                                <input type="text" name="lloc_web" class="form-control" placeholder="http://www.libreoffice.com, ..." required>
+                                <input type="url" name="lloc_web" class="form-control" placeholder="http://www.libreoffice.com, ...">
                             </div>
                         </div>
                         <!-- camp -->
@@ -207,7 +225,7 @@
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
                                 <div class="form-boto col-xs-6">
-                                    <button id="pas_3" type="submit" class="next_step bt-basic bt-basic-vermell-fosc">Envia les dades</button>
+                                    <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
                                 </div>
                             </div><!--/botons -->
                         </div>
