@@ -137,6 +137,7 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
     post_data.append('llicencia', jQuery('input[name=llicencia]:checked').val());
     post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
+    post_data.append('autor_traduccio', jQuery('textarea[name=autor_traduccio]').val());
 
     //Programes
     var urls_baixada = new Array();
@@ -156,12 +157,20 @@ $add_program_form.on('submit', function(ev) {
         }
     });
 
+    var arquitectures = new Array();
+    jQuery(".arquitectura").each(function() {
+        if(jQuery(this).is(':checked')) {
+            arquitectures.push(jQuery(this).val());
+        }
+    });
+
     var baixades = new Object();
     urls_baixada.forEach(function (value, i) {
         var values = new Object();
         values.url = urls_baixada[i];
         values.versio = versions[i];
         values.sistema_operatiu = sistemes_operatius[i];
+        values.arquitectura = arquitectures[i];
         baixades[i] = values;
     });
 

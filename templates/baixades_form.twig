@@ -32,7 +32,7 @@
                             {% for category in row %}
                                 <div class="checkbox">
                                     <label>
-                                        <input class="sistema_operatiu" type="radio" name="sistema_operatiu[1]" value="{{ category.ID }}"> {{ category.name }}
+                                        <input class="sistema_operatiu" type="radio" name="sistema_operatiu[1] required" value="{{ category.ID }}"> {{ category.name }}
                                     </label>
                                 </div>
                             {% endfor %}
@@ -43,13 +43,36 @@
             </div><!--/col-sm-9 -->
         </div>
         <!-- camp -->
+
+        <!-- camp -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Arquitectura *</label>
+            <!-- col-sm-9 -->
+            <div class="col-sm-9">
+                <div class="row">
+                    <!-- col-sm-4 -->
+                    <div class="col-sm-4">
+                        <div class="checkbox">
+                            <label>
+                                <input class="arquitectura" type="radio" name="arquitectura[1]" value="1"> 32 bits
+                            </label>
+                            <label>
+                                <input class="arquitectura" type="radio" name="arquitectura[1]" value="2" checked> 64 bits
+                            </label>
+                        </div>
+                    </div>
+                    <!-- col-sm-4 -->
+                </div>
+            </div><!--/col-sm-9 -->
+        </div>
+        <!-- camp -->
     </div>
 </div>
 <!-- botons -->
 <div class="form-horizontal">
     <div class="form-botons row form-group">
         <div class="form-boto col-xs-6">
-            <button id="add_new_baixada" class="bt-basic bt-basic-gris">Afegeix una altra baixada</button>
+            <button id="add_new_baixada" class="bt-basic bt-basic-petit">Afegeix una altra baixada</button>
         </div>
     </div><!--/botons -->
 </div>

@@ -49,6 +49,7 @@ function sc_add_new_program() {
             $metadata_baixada = array (
                 'url_baixada' => $baixada->url,
                 'versio_baixada' => $baixada->versio,
+                'arquitectura_baixada' => $baixada->arquitectura,
                 'post_id' => $return['post_id']
             );
             $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
