@@ -52,7 +52,6 @@ class StarterSite extends TimberSite {
         global $sc_types;
 
         $sc_types['programes'] = new SC_Programes();
-        $sc_types['esdeveniments'] = new SC_Esdeveniments();
     }
 
     function register_taxonomies() {
