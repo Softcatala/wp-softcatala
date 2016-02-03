@@ -121,6 +121,7 @@ function softcatala_scripts() {
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
     wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), '1.0.0', true );
     wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', '1.0.0', true );
+    wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
 
@@ -214,6 +215,13 @@ function retrieve_page_data($page_slug = '')
             );
             $post = Timber::get_post($args);
             break;
+        case 'programa':
+            $args = array(
+                'name' => 'programa-page',
+                'post_type' => 'page'
+            );
+            $post = Timber::get_post($args);
+            break;
         default:
             $args = array(
                 'name' => 'noticies',
@@ -256,6 +264,7 @@ abstract class SearchQueryType {
     const Search = 2;
     const Highlight = 3;
     const Aparell = 4;
+    const Programa = 5;
 }
 
 /*
@@ -282,6 +291,19 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC'
             );
+            break;
+        case 'programa':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'ASC',
+                'paged' => get_is_paged(),
+                'posts_per_page' => 18,
+                'meta_query' => array(
+                    get_meta_query_value('wpcf-arxivat', 0, '=', 'NUMERIC')
+                )
+            );
+            break;
     }
 
     if ( $queryType == SearchQueryType::Search ) {
@@ -317,11 +339,11 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         );
     } else if ( $queryType == SearchQueryType::Aparell ) {
         $filter_args = array();
-        if( ! empty ( $filter['s'] ) ) {
-            $filter_args['s'] =	$filter['s'];
+        if (!empty ($filter['s'])) {
+            $filter_args['s'] = $filter['s'];
         }
 
-        if ( ! empty ( $filter['sistema_operatiu_aparell'] ) ) {
+        if (!empty ($filter['sistema_operatiu_aparell'])) {
             $filter_args['tax_query'][] = array(
                 'taxonomy' => 'sistema_operatiu_aparell',
                 'field' => 'slug',
@@ -330,15 +352,40 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['filter_so'] = $filter['sistema_operatiu_aparell'];
         }
 
-        if ( ! empty ( $filter['tipus_aparell'] ) ) {
-            $filter_args['tax_query'][] = array (
+        if (!empty ($filter['tipus_aparell'])) {
+            $filter_args['tax_query'][] = array(
                 'taxonomy' => 'tipus_aparell',
                 'field' => 'slug',
                 'terms' => $filter['tipus_aparell']
             );
             $filter_args['filter_tipus'] = $filter['tipus_aparell'];
         }
-    }else {
+    } else if ( $queryType == SearchQueryType::Programa ) {
+        $filter_args = array();
+        if (!empty ($filter['s'])) {
+            $filter_args['s'] = $filter['s'];
+        }
+
+        if ( ! empty ( $filter['post__in'] ) ) {
+            $filter_args['post__in'] = $filter['post__in'];
+        }
+
+        if (!empty ($filter['categoria-programa'])) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'categoria-programa',
+                'field' => 'slug',
+                'terms' => $filter['categoria-programa']
+            );
+            $filter_args['filter_categoria'] = $filter['categoria-programa'];
+        }
+
+        //If 'arxivat = 1' that means that all programas should be displayed, arxivats and no arxivats
+        //It's necessary to remove the meta_query filter
+        if( ! empty ($filter['arxivat']) &&  $filter['arxivat'] == 1 ) {
+            unset( $base_args['meta_query'] );
+            $filter_args['arxivat'] = $filter['arxivat'];
+        }
+    } else {
         $filter_args = array(
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
@@ -378,6 +425,8 @@ function add_query_vars_filter( $vars ){
     $vars[] = "cerca";
     $vars[] = "sistema_operatiu";
     $vars[] = "tipus";
+    $vars[] = "categoria_programa";
+    $vars[] = "arxivat";
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
@@ -495,3 +544,10 @@ function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
     }
     return $output;
 }
+
+/*  Add responsive container to embeds
+/* ------------------------------------ */
+function sc_embed_html( $html ) {
+    return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
+}
+add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );

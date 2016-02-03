@@ -65,40 +65,8 @@
       				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
       			{% endfor %}
             <!-- .pagination -->
-            <div class="row">
-              <div class="intern">
-                <nav class="intern-center">
-                  <ul class="pagination">
-                    {% if pagination.prev %}
-                    <li>
-                      <a href="{{pagination.prev.link}}" class="prev {{pagination.prev.link|length ? '' : 'invisible'}}"><span aria-hidden="true">«</span></a>
-                    </li>
-                    {% endif %}
-                    {% for page in pagination.pages %}
-                        <li>
-                            {% if page.link %}
-                                <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
-                            {% else %}
-                                <span class="{{page.class}}">{{page.title}}</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    {% if pagination.next %}
-                    <li>
-                      <a href="{{pagination.next.link}}" aria-label="Next" class="next {{pagination.next.link|length ? '' : 'invisible'}}"><span aria-hidden="true">»</span></a>
-                    </li>
-                    {% endif %}
-                  </ul>
-                </nav>
-              </div>
-            </div>
-            {% else %}
-            {% if title %}
-              No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
-            {% else %}
-              No hi ha cap notícia publicada en aquest moment
-            {% endif %}
-            {% endif %}<!--/.pagination -->
+            {% include "pagination.twig" %}
+            <!--/.pagination -->
           </div><!--/.contingut -->
 
           {% include "sidebar.twig" %}

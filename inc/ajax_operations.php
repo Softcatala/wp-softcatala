@@ -3,7 +3,53 @@
 /** APARELLS **/
 add_action( 'wp_ajax_send_aparell', 'sc_send_aparell' );
 add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
+/** PROGRAMES **/
+add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
+add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
 
+/**
+ * This function increments the vote count for a 'programa' post type and calculates
+ * the new rate
+ *
+ * @return json response
+ */
+function sc_send_vote() {
+    check_is_ajax_call();
+
+    $post_id = intval(sanitize_text_field( $_POST["post_id"] ));
+    $rate = sanitize_text_field( $_POST["rate"] );
+    $single = true;
+
+    $current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
+    $votes = get_post_meta( $post_id, 'wpcf-vots', $single );
+
+    $new_votes = $votes + 1;
+    $new_rate = $current_rating * ( $votes/ $new_votes ) + $rate * ( 1/$new_votes );
+
+    $metadata = array(
+        'valoracio'   => number_format((float)$new_rate, 2, '.', ''),
+        'vots' => $new_votes
+    );
+
+    $result = sc_update_metadata( $post_id, $metadata );
+
+    if ( ! $result ) {
+        $return['status'] = 0;
+        $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
+    } else {
+        $return['status'] = 1;
+        $return['text'] = "Gràcies per enviar-nos la vostra valoració!";
+    }
+
+    $response = json_encode( $return );
+    die( $response );
+}
+
+/**
+ * Creates a new post of the type 'aparell' using the data sent from the form ($_POST)
+ *
+ * @return json response
+ */
 function sc_send_aparell() {
     check_is_ajax_call();
     
@@ -65,18 +111,13 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
         'post_date'         => date('Y-m-d H:i:s')
     );
 
-    $post_id = wp_insert_post($post_data);
+    $post_id = wp_insert_post( $post_data );
     if( $post_id ) {
-        global $wpcf;
-
-        foreach($allTerms as $taxonomy => $terms) {
-            wp_set_post_terms($post_id, $terms, $taxonomy);
+        foreach( $allTerms as $taxonomy => $terms ) {
+            wp_set_post_terms( $post_id, $terms, $taxonomy );
         }
 
-        foreach($metadata as $meta_key => $meta_value ) {
-            $wpcf->field->set( $post_id, $meta_key );
-            $wpcf->field->save( $meta_value );
-        }
+        sc_update_metadata( $post_id, $metadata );
 
         $return = sc_set_featured_image($post_id);
     } else {
@@ -141,4 +182,25 @@ function check_is_ajax_call() {
         ));
         die($output); //exit script outputting json data
     }
+}
+
+/**
+ * This function updates an array of given post metadata
+ *
+ * @param int $post_id
+ * @param array $metadata
+ * @return boolean
+ */
+function sc_update_metadata( $post_id, $metadata ) {
+    $result = false;
+    if( $post_id ) {
+        global $wpcf;
+
+        foreach ($metadata as $meta_key => $meta_value) {
+            $wpcf->field->set( $post_id, $meta_key );
+            $wpcf->field->save( $meta_value );
+        }
+        $result = true;
+    }
+    return $result;
 }
