@@ -80,6 +80,11 @@ jQuery(".next_step").on('click', function() {
     step = button_id[1];
     jQuery("#form_"+step).hide();
     step++;
+    if(step == 3) {
+        jQuery("#form_3").addClass('actiu');
+    } else {
+        jQuery("#form_3").removeClass('actiu');
+    }
     jQuery("#form_"+step).show();
 });
 
@@ -213,4 +218,12 @@ jQuery('#add_new_baixada').on('click', function () {
     re = new RegExp(pattern, "g");
     res2 = content.replace(re, baixada_id);
     jQuery( "#baixada_group").append(res2);
+});
+
+jQuery('#afegeix_programa_button').on('click', function () {
+    if (!jQuery('#form_3').hasClass('actiu')) {
+        jQuery('#form_4').hide();
+        jQuery('#form_2').hide();
+        jQuery('#form_1').show();
+    }
 });
