@@ -179,9 +179,13 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('baixades', baixadesjson);
     post_data.append('action', 'add_new_program');
 
-    var file = jQuery(document).find('input[type="file"]');
-    var individual_file = file[0].files[0];
-    post_data.append("file", individual_file);
+    var logo = jQuery(document).find('input[name="logo"]');
+    var logo_file = logo[0].files[0];
+    post_data.append("logo", logo_file);
+
+    var captura = jQuery(document).find('input[name="captura"]');
+    var captura_file = captura[0].files[0];
+    post_data.append("captura", captura_file);
 
     jQuery.ajax({
         type: 'POST',
@@ -197,6 +201,8 @@ $add_program_form.on('submit', function(ev) {
 
 function form_add_ok(result) {
     jQuery("#loading_program").hide();
+    jQuery("#form_3").hide();
+    jQuery("#form_4").fadeIn();
 }
 
 jQuery('#add_new_baixada').on('click', function () {

@@ -45,6 +45,17 @@ function sc_add_new_program() {
         $terms_baixada = array(
             'categoria-programa' => array($categoria_programa)
         );
+
+        //Logo and screenshot file upload
+        $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
+        $screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
+        $metadata = array(
+            'logotip_programa' => wp_get_attachment_url( $logo_attach_id ),
+            'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
+        );
+        sc_update_metadata ( $return['post_id'], $metadata );
+
+
         foreach ( $baixades as $baixada ) {
             $metadata_baixada = array (
                 'url_baixada' => $baixada->url,
@@ -254,6 +265,35 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
     return $return;
 }
 
+function sc_upload_file( $value, $post_id ) {
+    if( isset( $_FILES[$value] ) ) {
+        $tmpfile = $_FILES[$value];
+
+        $upload_overrides = array('test_form' => false);
+
+        $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
+
+        if ( $uploaded && ! isset( $uploaded['error']) ) {
+
+            $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
+
+            $attachment = array(
+                'post_mime_type' => $wp_filetype['type'],
+                'post_title' => preg_replace('/.[^.]+$/', '', basename($uploaded['file'])),
+                'post_content' => '',
+                'post_status' => 'inherit'
+            );
+
+            $attach_id = wp_insert_attachment($attachment, $uploaded['file'], $post_id);
+
+            $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
+            wp_update_attachment_metadata($attach_id, $attach_data);
+
+            return $attach_id;
+        }
+    }
+}
+
 function sc_set_featured_image( $post_id, $type ) {
     if( isset( $_FILES['file'] ) ) {
         $tmpfile = $_FILES['file'];
@@ -278,14 +318,7 @@ function sc_set_featured_image( $post_id, $type ) {
             $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
             wp_update_attachment_metadata($attach_id, $attach_data);
 
-            if ( $type == 'aparell' ) {
-                set_post_thumbnail( $post_id, $attach_id );
-            } elseif ( $type == 'programa' ) {
-                $metadata = array(
-                    'logotip_programa' => wp_get_attachment_url( $attach_id )
-                );
-                sc_update_metadata ( $post_id, $metadata );
-            }
+            set_post_thumbnail( $post_id, $attach_id );
 
             $return['status'] = 1;
         } else {
