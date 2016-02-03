@@ -44,7 +44,7 @@ function extract_post_ids_program( $post ) {
 /*
  * Function that extracts the post url and title from a specific post (for use on array_map)
  */
-function extract_post_title_url( $post ) {
+function generate_post_url_link( $post ) {
     $title = $post->post_title;
     $url = get_permalink($post);
 

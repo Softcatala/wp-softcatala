@@ -145,33 +145,33 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('autor_traduccio', jQuery('textarea[name=autor_traduccio]').val());
 
     //Programes
-    var urls_baixada = new Array();
+    var urls_baixada = [];
     jQuery(".url_baixada").each(function() {
         urls_baixada.push(jQuery(this).val());
     });
 
-    var versions = new Array();
+    var versions = [];
     jQuery(".versio").each(function() {
         versions.push(jQuery(this).val());
     });
 
-    var sistemes_operatius = new Array();
+    var sistemes_operatius = [];
     jQuery(".sistema_operatiu").each(function() {
         if(jQuery(this).is(':checked')) {
             sistemes_operatius.push(jQuery(this).val());
         }
     });
 
-    var arquitectures = new Array();
+    var arquitectures = [];
     jQuery(".arquitectura").each(function() {
         if(jQuery(this).is(':checked')) {
             arquitectures.push(jQuery(this).val());
         }
     });
 
-    var baixades = new Object();
+    var baixades = {};
     urls_baixada.forEach(function (value, i) {
-        var values = new Object();
+        var values = {};
         values.url = urls_baixada[i];
         values.versio = versions[i];
         values.sistema_operatiu = sistemes_operatius[i];
@@ -208,6 +208,7 @@ function form_add_ok(result) {
     jQuery("#loading_program").hide();
     jQuery("#form_3").hide();
     jQuery("#form_4").fadeIn();
+    jQuery("#form_3").removeClass('actiu');
 }
 
 jQuery('#add_new_baixada').on('click', function () {

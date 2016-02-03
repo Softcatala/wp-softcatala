@@ -108,15 +108,11 @@ function sc_search_program() {
         $result_full = get_posts( $args );
     }
 
-    $programs = array_map( 'extract_post_title_url', $result_full );
+    $programs = array_map( 'generate_post_url_link', $result_full );
 
     if ( count( $programs ) > 0 ) {
+        $result['programs'] = Timber::fetch('ajax/programs-list.twig', array( 'programs' => $programs ) );
         $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
-        $result['programs'] = '<ul class="cont-llista">';
-        foreach ( $programs as $program ) {
-            $result['programs'] .= '<li><i class="fa fa-chevron-right"></i>' . $program.'</li>';
-        }
-        $result['programs'] .= '</ul>';
     } else {
         $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
     }
@@ -198,7 +194,7 @@ function sc_send_aparell() {
     $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
 
     if( $return['status'] == 1 ) {
-        $to_email       = "web@softcatala.org";
+        $to_email       = "rebost@llistes.softcatala.org";
         $nom_from       = "Aparells de Softcatalà";
         $assumpte       = "[Aparells] Aparell enviat per formulari";
 
@@ -246,10 +242,13 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
 
         sc_update_metadata( $post_id, $metadata );
 
-        if ( $type == 'programa' || $type == 'aparell' ) {
-            $return = sc_set_featured_image( $post_id, $type );
+        if ( $type == 'aparell' ) {
+            $featured_image_attach_id = sc_upload_file( 'file', $post_id );
+            $return = sc_set_featured_image( $post_id, $featured_image_attach_id );
         } elseif ( $type == 'baixada' ) {
             $return = sc_set_baixada_post_relationship( $post_id, $parent_id );
+        } else {
+            $return['status'] = 1;
         }
 
     } else {
@@ -290,43 +289,21 @@ function sc_upload_file( $value, $post_id ) {
             wp_update_attachment_metadata($attach_id, $attach_data);
 
             return $attach_id;
+        } else {
+            return false;
         }
+    } else {
+        return false;
     }
 }
 
-function sc_set_featured_image( $post_id, $type ) {
-    if( isset( $_FILES['file'] ) ) {
-        $tmpfile = $_FILES['file'];
-
-        $upload_overrides = array('test_form' => false);
-
-        $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
-
-        if ( $uploaded && ! isset( $uploaded['error']) ) {
-
-            $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
-
-            $attachment = array(
-                'post_mime_type' => $wp_filetype['type'],
-                'post_title' => preg_replace( '/.[^.]+$/', '', basename( $uploaded['file']) ),
-                'post_content' => '',
-                'post_status' => 'inherit'
-            );
-
-            $attach_id = wp_insert_attachment( $attachment, $uploaded['file'], $post_id );
-
-            $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
-            wp_update_attachment_metadata($attach_id, $attach_data);
-
-            set_post_thumbnail( $post_id, $attach_id );
-
-            $return['status'] = 1;
-        } else {
-            $return['status'] = 0;
-            $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
-        }
-    } else {
+function sc_set_featured_image( $post_id, $attach_id ) {
+    if( $attach_id ) {
+        set_post_thumbnail( $post_id, $attach_id );
         $return['status'] = 1;
+    } else {
+        $return['status'] = 0;
+        $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
     }
 
     return $return;
