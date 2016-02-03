@@ -1,48 +1,85 @@
 <?php
+/**
+ * @package SC
+ */
 
+/**
+ * Handles Rewrite API for CPT subpages
+ */
 class SC_Rewriter {
 
-    protected $singular;
-    protected $plural;
+	/**
+	 * Singular name of the CPT
+	 *
+	 * @var string
+	 */
+	protected $singular;
 
-    public function __construct($singular, $plural) {
-        $this->singular = $singular;
-        $this->plural = $plural;
-    }
+	/**
+	 * Plural name of the CPT.
+	 *
+	 * @var string
+	 */
+	protected $plural;
 
-    public function setup_rewrite() {
-        $this->subpages_rewrite();
-        add_filter( 'page_link', array($this, 'subpages_post_link') , 10, 2 );
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param string $singular Singular name of the CPT.
+	 * @param string $plural Singular name of the CPT.
+	 */
+	public function __construct($singular, $plural) {
+		$this->singular = $singular;
+		$this->plural = $plural;
+	}
 
-    private function subpages_rewrite() {
-        add_rewrite_rule(
-            "$this->plural/[^&/]+/([^/]+)/?",
-            'index.php?post_type=page&pagename='. $this->get_partial_subpages_path().'$matches[1]',
-            'top'
-        );
-    }
+	/**
+	 * Configures the rewrites.
+	 */
+	public function setup_rewrite() {
+		$this->subpages_rewrite();
+		add_filter( 'page_link', array( $this, 'subpages_post_link' ) , 10, 2 );
+	}
 
-    public function subpages_post_link( $permalink, $post ) {
+	/**
+	 * Configures the rewrite for CPT subpages
+	 */
+	private function subpages_rewrite() {
+		add_rewrite_rule(
+			"$this->plural/[^&/]+/([^/]+)/?",
+			'index.php?post_type=page&pagename='. $this->get_partial_subpages_path().'$matches[1]',
+			'top'
+		);
+	}
 
-        if ( false === strpos( $permalink, $this->get_partial_subpages_path() ) ) {
-            return $permalink;
-        }
+	/**
+	 * Returs permalink for particular subpage.
+	 *
+	 * @param string $permalink default permalink for the page.
+	 * @param object $page WP_Post object representing the page.
+	 * @return string
+	 */
+	public function subpages_post_link( $permalink, $page ) {
 
-        $parent_id = get_post_meta($post, 'wpcf-'.$this->singular, true);
+		if ( false === strpos( $permalink, $this->get_partial_subpages_path() ) ) {
+			return $permalink;
+		}
 
-        $parent_entity = get_post( $parent_id );
+		$parent_id = get_post_meta( $page, 'wpcf-'.$this->singular, true );
 
-        if ( $parent_entity !== null ) {
-            $slug = $parent_entity->post_name;
-        } else {
-            $slug = '';
-        }
+		$parent_entity = get_post( $parent_id );
 
-        return str_replace( "%$this->singular%", $slug , $permalink );
-    }
+		$slug = ( $parent_entity !== null ) ? $slug = $parent_entity->post_name : '';
 
-    private function get_partial_subpages_path() {
-        return "subpagines-$this->plural/";
-    }
+		return str_replace( "%$this->singular%", $slug , $permalink );
+	}
+
+	/**
+	 * Returns parent page in the content tree of the CPT subpages.
+	 *
+	 * @return string
+	 */
+	private function get_partial_subpages_path() {
+		return "subpagines-$this->plural/";
+	}
 }
