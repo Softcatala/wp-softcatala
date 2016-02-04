@@ -13,15 +13,11 @@
                 {% endif %}
                 {% include "share_links.twig" %}
             </div>
-            {% if post_type == 'programa' %}
-                <div class="col-xxs-12 col-xs-4 col-sm-3">
-                    <a href="#" id="afegeix_{{ post_type }}_button" data-target=".bs-example-modal-lg" data-toggle="modal" class="bt-basic bt-basic-vermell">Voleu incorporar un programa nou?</a>
-                </div>
-            {% elseif post.call_to_action_top_url and post.call_to_action_top_text %}
+            {% block call_to_action_top %}
                 <div class="col-xxs-12 col-xs-4 col-sm-3">
                     <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                 </div>
-            {% endif %}
+            {% endblock %}
         </div>
     </div>
 </header><!--/.main-header -->
