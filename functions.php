@@ -11,8 +11,11 @@ if ( ! class_exists( 'Timber' ) && is_admin() ) {
     die();
 }
 
-
 Timber::$dirname = array('templates', 'views');
+
+global $sc_types;
+
+$sc_types = array();
 
 class StarterSite extends TimberSite {
 
@@ -24,13 +27,31 @@ class StarterSite extends TimberSite {
         add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
-        add_action( 'init', array( $this, 'register_taxonomies' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
+        add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
+
+        spl_autoload_register( array( $this, 'autoload' ) );
+
         parent::__construct();
     }
 
+    function autoload($cls) {
+        $path =  __DIR__ . '/classes/' . strtolower(str_replace('SC_', '', $cls)) . '.php';
+
+        is_readable($path) && require_once($path);
+    }
+
+    function include_theme_conf() {
+        locate_template( array( 'inc/widgets.php' ), true, true );
+        locate_template( array( 'inc/post_types_functions.php' ), true, true );
+        locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
+        locate_template( array( 'inc/ajax_operations.php' ), true, true );
+    }
+
     function register_post_types() {
-        //this is where you can register custom post types
+        global $sc_types;
+
+        $sc_types['programes'] = new SC_Programes();
     }
 
     function register_taxonomies() {
@@ -193,15 +214,6 @@ function get_category_id( $slug ) {
     $category_id = $category->term_id;
     return $category_id;
 }
-
-function include_theme_conf()
-{
-    locate_template( array( 'inc/widgets.php' ), true, true );
-    locate_template( array( 'inc/post_types_functions.php' ), true, true );
-    locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
-    locate_template( array( 'inc/ajax_operations.php' ), true, true );
-}
-add_action( 'after_setup_theme', 'include_theme_conf' );
 
 function retrieve_page_data($page_slug = '')
 {
@@ -551,3 +563,4 @@ function sc_embed_html( $html ) {
     return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
 }
 add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
+

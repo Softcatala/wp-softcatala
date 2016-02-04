@@ -4,5 +4,21 @@
     "description": "WordPress Theme for Softcatalà website",
     "keywords" : ["wordpress"],
     "homepage" : "https://github.com/Softcatala/wp-softcatala",
-    "license" : "GPL-2.0+"
+    "license" : "GPL-2.0+",
+    "require-dev": {
+        "yoast/yoastcs": "dev-master"
+    },
+    "scripts": {
+		"config-cs": [
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
+		],
+		"phpmd" : "vendor/bin/phpmd classes/ text vendor/yoast/yoastcs/phpmd.xml",
+		"phpcs" : "vendor/bin/phpcs --extensions=php classes/",
+		"code" : [
+			"@config-cs",
+			"@phpcs",
+			"@phpmd"
+		]
+    }
 }

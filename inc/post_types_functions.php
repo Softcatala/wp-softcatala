@@ -12,7 +12,7 @@ function get_page_parent_title( $post ) {
     return $parent_data;
 }
 
-function get_parent_page_hierarchy($parent_id, $sort_column = 'menu_order', $sort_order = 'ASC') {
+function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order = 'ASC') {
     $pages_tree = wp_list_pages( array(
         'child_of' => $parent_id,
         'echo' => 0,
