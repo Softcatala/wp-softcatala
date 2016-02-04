@@ -7,8 +7,16 @@
 wp_enqueue_script( 'sc-js-pmf', get_template_directory_uri() . '/static/js/pmf.js', array('sc-js-main'), '1.0.0', true );
 
 $context = Timber::get_context();
-$post = new TimberPost();
-$context['post_pmf'] = $post;
-$context['post'] = new TimberPost( $post->postid );
-$context['content_title'] = 'PMF';
+$post_pmf = new TimberPost();
+$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
+$context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
+$context['post_pmf'] = $post_pmf;
+$post = new TimberPost( $post_pmf->programa );
+$context['post'] = $post;
+$context['content_title'] = $post->title.' - PMF';
+$query = array ( 'post_id' => $post_pmf->programa );
+$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+query_posts($args);
+$context['related_pages'] = Timber::get_posts($args);
 Timber::render( array( 'pmf-programa.twig' ), $context );

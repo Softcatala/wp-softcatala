@@ -277,6 +277,7 @@ abstract class SearchQueryType {
     const Highlight = 3;
     const Aparell = 4;
     const Programa = 5;
+    const PagePrograma = 6;
 }
 
 /*
@@ -313,6 +314,16 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'posts_per_page' => 18,
                 'meta_query' => array(
                     get_meta_query_value('wpcf-arxivat', 0, '=', 'NUMERIC')
+                )
+            );
+            break;
+        case 'page':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'ASC',
+                'meta_query' => array(
+                    get_meta_query_value('wpcf-programa', $filter['post_id'], '=', 'NUMERIC')
                 )
             );
             break;
@@ -397,6 +408,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             unset( $base_args['meta_query'] );
             $filter_args['arxivat'] = $filter['arxivat'];
         }
+    } else if ( $queryType == SearchQueryType::PagePrograma ) {
+        $filter_args = array();
     } else {
         $filter_args = array(
             'meta_query' => array(

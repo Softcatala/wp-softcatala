@@ -25,6 +25,10 @@ $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 $context['baixades'] = $post->get_field( 'baixada' );
 $context['credits'] = $post->get_field( 'credit' );
+$query = array ( 'post_id' => $post->ID );
+$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+query_posts($args);
+$context['related_pages'] = Timber::get_posts($args);
 
 if ( post_password_required( $post->ID ) ) {
     Timber::render( 'single-password.twig', $context );

@@ -78,9 +78,14 @@
             </div><!--/.boto-menu-lateral gris - xs -->
             <!-- #menu-lateral -->
             <ul class="nav collapse navbar-collapse" id="menu-lateral">
-                <li><a href="#">Descripció</a></li>
-                {% if pmf %}<li><a href="#">Preguntes més freqüents</a></li>{% endif %}
+                <li><a href="{{ post.link }}">Descripció</a></li>
+                {% if related_pages %}
+                {% for page in related_pages %}
+                <li><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
+                {% endfor %}
+                {% endif %}
             </ul><!--/#menu-lateral -->
+
         </div>
     </div>
 </header>
