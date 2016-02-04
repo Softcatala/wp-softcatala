@@ -56,8 +56,9 @@ $context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-opera
 $context['categories']['categories_programes'] = Timber::get_terms( 'categoria-programa' );
 $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 $context['post'] = $post;
-
-$context['links'] = $post->get_field( 'link' );
+if ( $post ) {
+    $context['links'] = $post->get_field( 'link' );
+}
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 
