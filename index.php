@@ -12,13 +12,42 @@
  * @subpackage  Timber
  * @since   Timber 0.1
  */
+wp_enqueue_script( 'sc-js-noticies', get_template_directory_uri() . '/static/js/noticies.js', array('sc-js-main'), '1.0.0', true );
 
 $context = Timber::get_context();
+
+//Cerca
+$search = get_query_var('cerca');
+$tipus = get_query_var( 'tipus' );
+$tema = get_query_var( 'tema' );
+
+
+if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
+	$query['s'] = $search;
+	$context['cerca'] = $search;
+	$context['selected_tipus'] = $tipus;
+	$context['selected_tema'] = $tema;
+	$query['categoria'] = array();
+	if ( $tema ) {
+		$tema_cat = get_category_by_slug( $tema );
+		$query['categoria'][] = $tema_cat->term_id;
+	}
+	if ( $tipus ) {
+		$tipus_cat = get_category_by_slug( $tipus );
+		$query['categoria'][] = $tipus_cat->term_id;
+	}
+
+	$args = get_post_query_args( 'post', SearchQueryType::Post, $query );
+} else {
+	$args = get_post_query_args( 'post', SearchQueryType::Post );
+}
+
 $post = Timber::query_post(get_option( 'page_for_posts' ));
 $context['post'] = $post;
 $context['title'] = get_search_query();
 $context['content_title'] = 'Notícies';
-$context['posts'] = Timber::get_posts();
+query_posts($args);
+$context['posts'] = Timber::get_posts($args);
 $context['pagination'] = Timber::get_pagination();
 $context['cerca'] = get_search_query();
 $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
