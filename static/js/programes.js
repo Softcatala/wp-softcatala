@@ -73,3 +73,158 @@ function show_message(text) {
     jQuery("#message_text").html(text);
     jQuery('.modal').modal('show');
 }
+
+/** Formulari comprova si programa existeix **/
+jQuery(".next_step").on('click', function() {
+    var button_id = jQuery(this).attr('id').split('_');
+    step = button_id[1];
+    jQuery("#form_"+step).hide();
+    step++;
+    if(step == 3) {
+        jQuery("#form_3").addClass('actiu');
+    } else {
+        jQuery("#form_3").removeClass('actiu');
+    }
+    jQuery("#form_"+step).show();
+});
+
+var $search_program_form = jQuery('#second_step');
+
+$search_program_form.on('submit', function(ev){
+    ev.preventDefault();
+
+    jQuery("#loading").fadeIn();
+    var nom_programa = jQuery("#nom_programa").val();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('nom_programa', nom_programa);
+    post_data.append('action', 'search_program');
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success : form_search_ok,
+        error : form_sent_ko
+    });
+});
+
+function form_search_ok(result) {
+    jQuery("#loading").hide();
+    if(result.programs) {
+        var response = result.text+result.programs;
+    } else {
+        var response = result.text;
+    }
+    jQuery("#text_response").html(response);
+    jQuery("#pas_2").show();
+}
+
+/** Formulari afegeix programa **/
+var $add_program_form = jQuery('#programa_form');
+
+$add_program_form.on('submit', function(ev) {
+    ev.preventDefault();
+
+    jQuery("#loading_program").fadeIn();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('email_usuari', jQuery('input[name=email_usuari]').val());
+    post_data.append('comentari_usuari', jQuery('textarea[name=comentari_usuari]').val());
+    post_data.append('nom', jQuery('input[name=nom]').val());
+    post_data.append('autor_programa', jQuery('input[name=autor]').val());
+    post_data.append('lloc_web_programa', jQuery('input[name=lloc_web]').val());
+    post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
+    post_data.append('llicencia', jQuery('input[name=llicencia]:checked').val());
+    post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
+    post_data.append('autor_traduccio', jQuery('textarea[name=autor_traduccio]').val());
+
+    //Programes
+    var urls_baixada = [];
+    jQuery(".url_baixada").each(function() {
+        urls_baixada.push(jQuery(this).val());
+    });
+
+    var versions = [];
+    jQuery(".versio").each(function() {
+        versions.push(jQuery(this).val());
+    });
+
+    var sistemes_operatius = [];
+    jQuery(".sistema_operatiu").each(function() {
+        if(jQuery(this).is(':checked')) {
+            sistemes_operatius.push(jQuery(this).val());
+        }
+    });
+
+    var arquitectures = [];
+    jQuery(".arquitectura").each(function() {
+        if(jQuery(this).is(':checked')) {
+            arquitectures.push(jQuery(this).val());
+        }
+    });
+
+    var baixades = {};
+    urls_baixada.forEach(function (value, i) {
+        var values = {};
+        values.url = urls_baixada[i];
+        values.versio = versions[i];
+        values.sistema_operatiu = sistemes_operatius[i];
+        values.arquitectura = arquitectures[i];
+        baixades[i] = values;
+    });
+
+    baixadesjson = JSON.stringify(baixades);
+
+    post_data.append('baixades', baixadesjson);
+    post_data.append('action', 'add_new_program');
+
+    var logo = jQuery(document).find('input[name="logo"]');
+    var logo_file = logo[0].files[0];
+    post_data.append("logo", logo_file);
+
+    var captura = jQuery(document).find('input[name="captura"]');
+    var captura_file = captura[0].files[0];
+    post_data.append("captura", captura_file);
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success : form_add_ok,
+        error : form_sent_ko
+    });
+});
+
+function form_add_ok(result) {
+    jQuery("#loading_program").hide();
+    jQuery("#form_3").hide();
+    jQuery("#form_4").fadeIn();
+    jQuery("#form_3").removeClass('actiu');
+}
+
+jQuery('#add_new_baixada').on('click', function () {
+    var content = jQuery('#baixada_fields').prop('outerHTML');
+    current_baixada_id = baixada_id;
+    baixada_id = baixada_id + 1;
+    pattern = "[1]";
+    re = new RegExp(pattern, "g");
+    res2 = content.replace(re, baixada_id);
+    jQuery( "#baixada_group").append(res2);
+});
+
+jQuery('#afegeix_programa_button').on('click', function () {
+    if (!jQuery('#form_3').hasClass('actiu')) {
+        jQuery('#form_4').hide();
+        jQuery('#form_2').hide();
+        jQuery('#form_1').show();
+    }
+});

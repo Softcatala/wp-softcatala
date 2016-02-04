@@ -13,11 +13,11 @@
                 {% endif %}
                 {% include "share_links.twig" %}
             </div>
-            {% if post.call_to_action_top_url and post.call_to_action_top_text %}
+            {% block call_to_action_top %}
                 <div class="col-xxs-12 col-xs-4 col-sm-3">
                     <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                 </div>
-            {% endif %}
+            {% endblock %}
         </div>
     </div>
 </header><!--/.main-header -->
