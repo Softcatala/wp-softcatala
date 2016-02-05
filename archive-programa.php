@@ -63,7 +63,9 @@ $context['post'] = $post;
 $context['post_type'] = $post_type;
 $context['conditions_text'] = "Si voleu afegir un programa nou...";
 
-$context['links'] = $post->get_field( 'link' );
+if( $post ) {
+    $context['links'] = $post->get_field( 'link' );
+}
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 
