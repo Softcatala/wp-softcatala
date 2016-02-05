@@ -6,6 +6,121 @@ add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
 /** PROGRAMES **/
 add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
+add_action( 'wp_ajax_search_program', 'sc_search_program' );
+add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
+add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
+add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
+
+/**
+ * Function to look up a program with a title similar to the title from the search on the add program form
+ *
+ * @return json response
+ */
+function sc_add_new_program() {
+    $nom = sanitize_text_field( $_POST["nom"] );
+    $email_usuari = sanitize_email( $_POST["email_usuari"] );
+    $comentari_usuari = sanitize_text_field( $_POST["comentari_usuari"] );
+    $descripcio = sanitize_text_field( $_POST["descripcio"] );
+    $autor_programa = sanitize_text_field( $_POST["autor_programa"] );
+    $lloc_web_programa = sanitize_text_field( $_POST["lloc_web_programa"] );
+    $llicencia = sanitize_text_field( $_POST["llicencia"] );
+    $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
+    $slug = sanitize_title_with_dashes( $nom );
+    $baixades = json_decode(stripslashes($_POST["baixades"]));
+
+    $terms = array(
+        'categoria-programa' => array($categoria_programa),
+        'llicencia' => array($llicencia)
+    );
+
+    $metadata = array(
+        'autor_programa' => $autor_programa,
+        'lloc_web_programa' => $lloc_web_programa
+    );
+
+    $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
+
+    if( $return['status'] == 1 ) {
+        //Related downloads
+        $terms_baixada = array(
+            'categoria-programa' => array($categoria_programa)
+        );
+
+        //Logo and screenshot file upload
+        $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
+        $screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
+        $metadata = array(
+            'logotip_programa' => wp_get_attachment_url( $logo_attach_id ),
+            'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
+        );
+        sc_update_metadata ( $return['post_id'], $metadata );
+
+
+        foreach ( $baixades as $baixada ) {
+            $metadata_baixada = array (
+                'url_baixada' => $baixada->url,
+                'versio_baixada' => $baixada->versio,
+                'arquitectura_baixada' => $baixada->arquitectura,
+                'post_id' => $return['post_id']
+            );
+            $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
+        }
+
+        if( $return_baixada['status'] == 1 ) {
+            $to_email = "web@softcatala.org";
+            $nom_from = "Programes i aplicacions de Softcatalà";
+            $assumpte = "[Programes] Programa enviat per formulari";
+
+            $fields = array(
+                "Nom del programa" => $nom,
+                "Descripció" => $descripcio,
+                "Comentari de l'usuari" => $comentari_usuari,
+                "Email de l'usuari" => $email_usuari,
+                "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
+            );
+            sendEmailForm($to_email, $nom_from, $assumpte, $fields);
+        }
+    }
+
+    $response = json_encode( $return );
+    die( $response );
+
+}
+
+/**
+ * Function to look up a program with a title similar to the title from the search on the add program form
+ *
+ * @return json response
+ */
+function sc_search_program() {
+    check_is_ajax_call();
+
+    $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
+
+    $result = array();
+    if( ! empty ( $nom_programa ) ) {
+        $args = array(
+            's'         => $nom_programa,
+            'orders'    => 'DESC',
+            'post_status'    => 'publish',
+            'post_type'        => 'programa',
+        );
+        $result_full = get_posts( $args );
+    }
+
+    $programs = array_map( 'generate_post_url_link', $result_full );
+
+    if ( count( $programs ) > 0 ) {
+        $result['programs'] = Timber::fetch('ajax/programs-list.twig', array( 'programs' => $programs ) );
+        $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
+    } else {
+        $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
+    }
+
+
+    $response = json_encode( $result );
+    die( $response );
+}
 
 /**
  * This function increments the vote count for a 'programa' post type and calculates
@@ -76,10 +191,10 @@ function sc_send_aparell() {
         'conf_cat' => $traduccio_catala,
         'correccio_cat' => $correccio_catala );
 
-    $return = sc_add_draft_content('aparell', $nom, $slug, $terms, $metadata);
+    $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
 
     if( $return['status'] == 1 ) {
-        $to_email       = "web@softcatala.org";
+        $to_email       = "rebost@llistes.softcatala.org";
         $nom_from       = "Aparells de Softcatalà";
         $assumpte       = "[Aparells] Aparell enviat per formulari";
 
@@ -95,19 +210,27 @@ function sc_send_aparell() {
     die( $response );
 }
 
-function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
+function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
 
     $return = array();
+    if( isset( $metadata['post_id'] ) ){
+        $parent_id = $metadata['post_id'];
+        unset($metadata['post_id']);
+        $post_status = 'publish';
+    } else {
+        $post_status = 'pending';
+    }
 
     //Generate array data
     $post_data = array (
         'post_type'         =>  $type,
-        'post_status'		=>	'pending',
+        'post_status'		=>	$post_status,
         'comment_status'	=>	'open',
         'ping_status'		=>	'closed',
         'post_author'		=>	get_current_user_id(),
         'post_name'		    =>	$slug,
         'post_title'		=>	$nom,
+        'post_content'      =>  $descripcio,
         'post_date'         => date('Y-m-d H:i:s')
     );
 
@@ -119,7 +242,15 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
 
         sc_update_metadata( $post_id, $metadata );
 
-        $return = sc_set_featured_image($post_id);
+        if ( $type == 'aparell' ) {
+            $featured_image_attach_id = sc_upload_file( 'file', $post_id );
+            $return = sc_set_featured_image( $post_id, $featured_image_attach_id );
+        } elseif ( $type == 'baixada' ) {
+            $return = sc_set_baixada_post_relationship( $post_id, $parent_id );
+        } else {
+            $return['status'] = 1;
+        }
+
     } else {
         $return['status'] = 0;
         $return['text'] = "S'ha produït un error en enviar les dades. Proveu de nou.";
@@ -133,15 +264,15 @@ function sc_add_draft_content ( $type, $nom, $slug, $allTerms, $metadata ) {
     return $return;
 }
 
-function sc_set_featured_image($post_id) {
-    if( isset( $_FILES['file'] ) ) {
-        $tmpfile = $_FILES['file'];
+function sc_upload_file( $value, $post_id ) {
+    if( isset( $_FILES[$value] ) ) {
+        $tmpfile = $_FILES[$value];
 
         $upload_overrides = array('test_form' => false);
 
-        $uploaded = wp_handle_upload($tmpfile, $upload_overrides);
+        $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
 
-        if ($uploaded && !isset($uploaded['error'])) {
+        if ( $uploaded && ! isset( $uploaded['error']) ) {
 
             $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
 
@@ -157,18 +288,29 @@ function sc_set_featured_image($post_id) {
             $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
             wp_update_attachment_metadata($attach_id, $attach_data);
 
-            set_post_thumbnail($post_id, $attach_id);
-
-            $return['status'] = 1;
+            return $attach_id;
         } else {
-            $return['status'] = 0;
-            $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
+            return false;
         }
     } else {
+        return false;
+    }
+}
+
+function sc_set_featured_image( $post_id, $attach_id ) {
+    if( $attach_id ) {
+        set_post_thumbnail( $post_id, $attach_id );
         $return['status'] = 1;
+    } else {
+        $return['status'] = 0;
+        $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
     }
 
     return $return;
+}
+
+function sc_set_baixada_post_relationship( $baixada_id, $program_id ) {
+    update_post_meta( $baixada_id, '_wpcf_belongs_programa_id', $program_id );
 }
 
 

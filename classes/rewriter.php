@@ -69,9 +69,16 @@ class SC_Rewriter {
 
 		$parent_entity = get_post( $parent_id );
 
-		$slug = ( $parent_entity !== null ) ? $slug = $parent_entity->post_name : '';
+		if ( $parent_entity !== null ) {
 
-		return str_replace( "%$this->singular%", $slug , $permalink );
+			$slug = $parent_entity->post_name;
+
+			return str_replace(
+				$this->get_partial_subpages_path(),
+				$this->plural . '/' . $slug . '/',
+				$permalink
+			);
+		}
 	}
 
 	/**
