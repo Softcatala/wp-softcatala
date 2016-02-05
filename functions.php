@@ -46,6 +46,7 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/post_types_functions.php' ), true, true );
         locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
+        locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
     function register_post_types() {
@@ -439,6 +440,7 @@ function add_query_vars_filter( $vars ){
     $vars[] = "tipus";
     $vars[] = "categoria_programa";
     $vars[] = "arxivat";
+    $vars[] = "paraula";
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
@@ -563,4 +565,3 @@ function sc_embed_html( $html ) {
     return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
 }
 add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
-
