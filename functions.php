@@ -277,6 +277,7 @@ abstract class SearchQueryType {
     const Highlight = 3;
     const Aparell = 4;
     const Programa = 5;
+    const Post = 6;
 }
 
 /*
@@ -316,9 +317,27 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 )
             );
             break;
+        case 'post':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'DESC',
+                'paged' => get_is_paged(),
+                'posts_per_page' => 10
+            );
+            break;
+
     }
 
-    if ( $queryType == SearchQueryType::Search ) {
+    $filter_args = array();
+    if ( $queryType == SearchQueryType::Post ) {
+        if ( ! empty ( $filter['s'] ) ) {
+            $filter_args['s'] = $filter['s'];
+        }
+        if ( ! empty ( $filter['categoria'] ) ) {
+            $filter_args['category__in'] = $filter['categoria'];
+        }
+    } else if ( $queryType == SearchQueryType::Search ) {
         $filter_args = array(
             's'         => $filter,
             'meta_query' => array(
@@ -439,6 +458,7 @@ function add_query_vars_filter( $vars ){
     $vars[] = "tipus";
     $vars[] = "categoria_programa";
     $vars[] = "arxivat";
+    $vars[] = "tema";
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
