@@ -17,7 +17,7 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
 $context = Timber::get_context();
 $post = Timber::query_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
-$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
+$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
@@ -25,6 +25,7 @@ $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 $context['baixades'] = $post->get_field( 'baixada' );
 $context['credits'] = $post->get_field( 'credit' );
+$context['projecte_relacionat_url'] = false; //Aquí posarem l'url del projecte relacionat per enllaçar-ho des de la pàgina del programa
 
 if ( post_password_required( $post->ID ) ) {
     Timber::render( 'single-password.twig', $context );
