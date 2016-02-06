@@ -4,16 +4,33 @@
  *
  * @package wp-softcatala
  */
+//JS and Styles related to the page
 wp_enqueue_script( 'sc-js-aparells', get_template_directory_uri() . '/static/js/aparells.js', array('sc-js-main'), '1.0.0', true );
 wp_localize_script( 'sc-js-aparells', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
+//Template initialization
+$templates = array('aparells.twig' );
 $context = Timber::get_context();
+$post = new TimberPost();
+$context['post'] = $post;
+$parent_data = get_page_parent_title( $post );
+$context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
+$context['links'] = $post->get_field( 'link' );
+$context['parent_title'] = $parent_data['title'];
+$context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
 
+//Filters population
+$context['categories']['sistemesoperatius'] = Timber::get_terms('sistema_operatiu_aparell');
+$context['categories']['tipus'] = Timber::get_terms('tipus_aparell');
+
+//Search and filters
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $tipus_aparell = get_query_var( 'tipus_aparell' );
+
+//Generate $args query
 if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) ) {
     $query_aparell['s'] = $search;
     $query_aparell['sistema_operatiu_aparell'] = $sistema_operatiu;
@@ -26,21 +43,7 @@ if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparel
     $args = array( 'post_type' => 'aparell' );
 }
 
-$post = new TimberPost();
-$parent_data = get_page_parent_title( $post );
-$context['categories']['sistemesoperatius'] = Timber::get_terms('sistema_operatiu_aparell');
-$context['categories']['tipus'] = Timber::get_terms('tipus_aparell');
-$context['parent_title'] = $parent_data['title'];
-$context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
-query_posts($args);
-$context['post'] = $post;
-$context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
-$context['links'] = $post->get_field( 'link' );
-$context['aparells'] = Timber::get_posts($args);
-Timber::render( array( 'aparells.twig' ), $context );
-
-
-function ajax_action_stuff() {
-    echo 'ajax submitted';
-    die(); // stop executing script
-}
+//Posts and pagination
+query_posts( $args );
+$context['aparells'] = Timber::get_posts( $args );
+Timber::render( $templates, $context );
