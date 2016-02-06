@@ -279,6 +279,7 @@ abstract class SearchQueryType {
     const Aparell = 4;
     const Programa = 5;
     const Post = 6;
+    const FilteredTema = 7;
 }
 
 /*
@@ -417,6 +418,14 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             unset( $base_args['meta_query'] );
             $filter_args['arxivat'] = $filter['arxivat'];
         }
+    } else if ( $queryType == SearchQueryType::FilteredTema ) {
+        if (!empty ($filter)) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'esdeveniment_cat',
+                'field' => 'slug',
+                'terms' => $filter
+            );
+        }
     } else {
         $filter_args = array(
             'meta_query' => array(
@@ -453,7 +462,6 @@ function get_is_paged() {
  * Function to handle the date filter for events
  */
 function add_query_vars_filter( $vars ){
-    $vars[] = "filtre";
     $vars[] = "cerca";
     $vars[] = "sistema_operatiu";
     $vars[] = "tipus";
@@ -461,6 +469,7 @@ function add_query_vars_filter( $vars ){
     $vars[] = "arxivat";
     $vars[] = "paraula";
     $vars[] = "tema";
+    $vars[] = "data";
 
     return $vars;
 }
