@@ -29,7 +29,10 @@
                         </div><!--/.btns-diccionari  -->
 
                         <!-- .diccionari-resultat  -->
-                        <div class="diccionari-resultat" id="results" style="display:none">
+                        <div class="diccionari-resultat" id="results" {% if not sinonims_result %}style="display:none"{% endif %}>
+                            {% if sinonims_result %}
+                                {{ sinonims_result }}
+                            {% endif %}
                         </div><!--/.diccionari-resultat  -->
 
                     </section><!--/.formulari-eines  -->

@@ -12,6 +12,13 @@ $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
 $context['paraula'] = get_query_var('paraula');
+if( ! empty ( $context['paraula'] ) ) {
+    $url = "https://www.softcatala.org/sinonims/api/search?format=application/json&q=" . $context['paraula'];
+    $sinonims_server = json_decode( file_get_contents( $url ) );
+    $sinonims['paraula'] = $context['paraula'];
+    $sinonims['response'] = $sinonims_server->synsets;
+    $context['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+}
 $context['content_title'] = 'Diccionari de sinònims';
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');

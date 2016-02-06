@@ -1,22 +1,15 @@
-jQuery(document).ready(function () {
-    if (jQuery("#sinonims").val() != '') {
-        jQuery('#_action_consulta_sinonims').trigger('click');
-    }
-});
-
-
 jQuery('#_action_consulta_sinonims').click(function(){
 
     jQuery("#loading").show();
-    var url = '/sinonims/api/search';
+    var url = 'https://www.softcatala.org/sinonims/api/search';
     var query = jQuery('#sinonims').val();
 
-    var url_history = '/diccionari_de_sinonims/paraula/'+query;
+    var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
-    $.ajax({
+    jQuery.ajax({
         url : url,
-        type:"POST",
+        type:"GET",
         data : {'format':'application/json','q':query},
         dataType: 'json',
         success: printSynsets,
@@ -42,7 +35,7 @@ function printSynsets(data) {
             }
 
             toAdd += '<li><strong>'+categoria+'</strong>: ';
-            toAdd += $.map(this.terms, printTerm).join(', ');
+            toAdd += jQuery.map(this.terms, printTerm).join(', ');
         })
 
         toAdd += '</ol>';
