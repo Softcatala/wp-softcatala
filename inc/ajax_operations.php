@@ -10,6 +10,31 @@ add_action( 'wp_ajax_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
 add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
+/** SINÒNIMS **/
+add_action( 'wp_ajax_find_sinonim', 'sc_find_sinonim' );
+add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
+
+/**
+ * Function to make the request to synonims dictionary server
+ *
+ * @return json response
+ */
+function sc_find_sinonim() {
+    $paraula = sanitize_text_field( $_POST["paraula"] );
+    $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
+
+    $result = '';
+    if( ! empty ( $paraula ) ) {
+        $url = $url_sinonims_server . $paraula;
+        $sinonims_server = json_decode( file_get_contents( $url ) );
+        $sinonims['paraula'] = $paraula;
+        $sinonims['response'] = $sinonims_server->synsets;
+        $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+    }
+
+    $response = json_encode( $result );
+    die( $response );
+}
 
 /**
  * Function to look up a program with a title similar to the title from the search on the add program form
