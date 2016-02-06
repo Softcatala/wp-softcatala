@@ -46,9 +46,9 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Què proposeu?</label>
                           <div class="col-sm-6">
-                            <select class="form-control selectpicker" name="tipus">
-                              <option>Una millora</option>
-                              <option>Informar d'un error</option>
+                            <select class="form-control selectpicker" name="tipus" id="tipus_contacte">
+                              <option value="millora">Una millora</option>
+                              <option value="error" selected>Informar d'un error</option>
                             </select>
                           </div>
                           <div class="col-sm-3">
@@ -59,7 +59,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Comentari *</label>
                           <div class="col-sm-9">
-                            <textarea class="form-control" name="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                            <textarea class="form-control" name="comentari" id="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
                           </div>
                         </div><!--/camp de text -->
 

@@ -17,19 +17,24 @@
                     <!-- .formulari-eines  -->
                     <section class="formulari-eines contingut-section">
 
-                        <!-- .btns-diccionari  -->
-                        <div class="btns-diccionari row">
-                            <div class="col-xs-12">
-                                <p>Introduïu a continuació la paraula de la qual voleu cercar els sinònims i feu clic al botó de cerca.</p>
-                                <div class="input-group">
-                                    <input type="text" name="sinonims" id="sinonims" class="form-control" placeholder="Introduïu una paraula">
-                                    <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_sinonims" name="_action_consulta_sinonims">cerca</a>
+                        <form id="sinonims_form">
+                            <!-- .btns-diccionari  -->
+                            <div class="btns-diccionari row">
+                                <div class="col-xs-12">
+                                    <p>Introduïu a continuació la paraula de la qual voleu cercar els sinònims i feu clic al botó de cerca.</p>
+                                    <div class="input-group">
+                                        <input type="text" name="sinonims" id="sinonims" class="form-control" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu una paraula">
+                                        <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_sinonims" name="_action_consulta_sinonims">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!--/.btns-diccionari  -->
+                            </div><!--/.btns-diccionari  -->
+                        </form>
 
                         <!-- .diccionari-resultat  -->
-                        <div class="diccionari-resultat" id="results" style="display:none">
+                        <div class="diccionari-resultat" id="results" {% if not sinonims_result %}style="display:none"{% endif %}>
+                            {% if sinonims_result %}
+                                {{ sinonims_result }}
+                            {% endif %}
                         </div><!--/.diccionari-resultat  -->
 
                     </section><!--/.formulari-eines  -->
