@@ -239,8 +239,8 @@ $contactForm.on('submit', function(ev){
     var post_data = new FormData();
     post_data.append('nom', jQuery('input[name=nom]').val());
     post_data.append('correu', jQuery('input[name=correu]').val());
-    post_data.append('tipus', jQuery('input[name=tipus]').val());
-    post_data.append('comentari', jQuery('input[name=comentari]').val());
+    post_data.append('tipus', jQuery('#tipus_contacte option:selected').val());
+    post_data.append('comentari', jQuery('#comentari').val());
     post_data.append('to_email', 'avis_rebost@softcatala.org');
     post_data.append('nom_from', 'Rebost de Softcatalà');
     post_data.append('assumpte', '[Programes] Contacte des del formulari');
