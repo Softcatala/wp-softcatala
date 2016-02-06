@@ -3,9 +3,7 @@ jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_noticies" ).submit();
 });
 
-/** New aparell form action **/
 var $cerca_form = jQuery('#cerca_noticies');
-
 $cerca_form.on('submit', function(){
     disable_empty_fields();
     return true;

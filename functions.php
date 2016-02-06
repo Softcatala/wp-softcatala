@@ -280,6 +280,7 @@ abstract class SearchQueryType {
     const Programa = 5;
     const Post = 6;
     const FilteredTema = 7;
+    const Baixada = 8;
 }
 
 /*
@@ -328,6 +329,12 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'posts_per_page' => 10
             );
             break;
+        case 'baixada':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish'
+            );
+            break;
 
     }
 
@@ -344,6 +351,16 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             's'         => $filter,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+            )
+        );
+    } else if ( $queryType == SearchQueryType::Baixada ) {
+        $filter_args = array(
+            'tax_query' => array (
+                array(
+                    'taxonomy' => 'sistema-operatiu-programa',
+                    'field' => 'slug',
+                    'terms' => $filter
+                )
             )
         );
     } else if( $queryType == SearchQueryType::FilteredDate ) {
