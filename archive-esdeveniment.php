@@ -51,7 +51,8 @@ if( ! empty( $search ) || ! empty( $tema ) || ! empty( $filter ) ) {
 }
 
 //Posts and pagination
-$context['posts'] = Timber::get_posts($args);
+query_posts( $args );
+$context['posts'] = Timber::get_posts( $args );
 $context['pagination'] = Timber::get_pagination();
 
 Timber::render( $templates, $context );

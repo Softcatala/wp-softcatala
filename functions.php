@@ -337,7 +337,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
         if ( ! empty ( $filter['categoria'] ) ) {
-            $filter_args['category__in'] = $filter['categoria'];
+            $filter_args['category__and'] = $filter['categoria'];
         }
     } else if ( $queryType == SearchQueryType::Search ) {
         $filter_args = array(
