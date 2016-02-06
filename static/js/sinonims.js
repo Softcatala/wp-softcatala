@@ -1,3 +1,12 @@
+/** Formulari afegeix programa **/
+var $sinonims_form = jQuery('#sinonims_form');
+
+$sinonims_form.on('submit', function(ev) {
+    ev.preventDefault();
+
+    jQuery('#_action_consulta_sinonims').trigger('click');
+});
+
 jQuery('#_action_consulta_sinonims').click(function(){
 
     jQuery("#loading").show();
@@ -7,55 +16,29 @@ jQuery('#_action_consulta_sinonims').click(function(){
     var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
+    //Data
+    var post_data = new FormData();
+    post_data.append('paraula', query);
+    post_data.append('action', 'find_sinonim');
+
     jQuery.ajax({
-        url : url,
-        type:"GET",
-        data : {'format':'application/json','q':query},
+        url: scajax.ajax_url,
+        type: 'POST',
+        data: post_data,
         dataType: 'json',
-        success: printSynsets,
-        error: errorSynsets
+        contentType: false,
+        processData: false,
+        success : print_synonims,
+        error : errorSynsets
     });
 
     return false;
 });
 
-function printSynsets(data) {
-    var synsets = data.synsets;
-    var query = jQuery('#sinonims').val();
-
-    var toAdd = '';
-
-    if(synsets.length > 0) {
-        toAdd = '<h1>'+query+'</h1><ol>';
-        jQuery(synsets).each(function() {
-            var categoria = this.categories[0];
-            if(categoria == "undefined")
-            {
-                categoria = "";
-            }
-
-            toAdd += '<li><strong>'+categoria+'</strong>: ';
-            toAdd += jQuery.map(this.terms, printTerm).join(', ');
-        })
-
-        toAdd += '</ol>';
-    } else {
-        toAdd = '<br /><p>No hem trobat cap resultat al nostre diccionari</p>';
-    }
-
+function print_synonims(result) {
     jQuery("#loading").hide();
-    jQuery('#results').html(toAdd);
+    jQuery('#results').html(result);
     jQuery('#results').slideDown();
-}
-
-function printTerm(term,index) {
-    var ret = term.term;
-
-    if(term.level) {
-        ret += " ("+term.level+")";
-    }
-
-    return ret;
 }
 
 function errorSynsets() {

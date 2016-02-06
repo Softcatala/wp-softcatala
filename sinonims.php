@@ -7,13 +7,18 @@
 
 /* JS scripts */
 wp_enqueue_script( 'sc-js-sinonims', get_template_directory_uri() . '/static/js/sinonims.js', array(), '1.0.0', true );
+wp_localize_script( 'sc-js-sinonims', 'scajax', array(
+    'ajax_url' => admin_url( 'admin-ajax.php' )
+));
+
+$url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
 
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
-$context['paraula'] = get_query_var('paraula');
+$context['paraula'] = urldecode( get_query_var('paraula') );
 if( ! empty ( $context['paraula'] ) ) {
-    $url = "https://www.softcatala.org/sinonims/api/search?format=application/json&q=" . $context['paraula'];
+    $url = $url_sinonims_server . $context['paraula'];
     $sinonims_server = json_decode( file_get_contents( $url ) );
     $sinonims['paraula'] = $context['paraula'];
     $sinonims['response'] = $sinonims_server->synsets;
