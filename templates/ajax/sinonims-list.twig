@@ -1,0 +1,19 @@
+<h1>{{ sinonims.paraula }}</h1>
+<ol>
+    {% for sinonim in sinonims.response %}
+        <li>
+            {% if sinonim.categories %}
+                <strong>
+            {% for categoria in sinonim.categories %}
+                {{ categoria }}{% if not loop.last %}, {% else %}: {% endif %}
+            {% endfor %}
+                </strong>
+            {% endif %}
+            {% if sinonim.terms %}
+                {% for term in sinonim.terms %}
+                    {{ term.term }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ol>

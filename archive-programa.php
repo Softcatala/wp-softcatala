@@ -60,13 +60,12 @@ $context['categories']['categories_programes'] = Timber::get_terms( 'categoria-p
 $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 $context['post'] = $post;
-if ( $post ) {
-    $context['links'] = $post->get_field( 'link' );
-}
-
 $context['post_type'] = $post_type;
 $context['conditions_text'] = "Si voleu afegir un programa nou...";
 
+if( $post ) {
+    $context['links'] = $post->get_field( 'link' );
+}
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 

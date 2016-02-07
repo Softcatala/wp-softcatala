@@ -46,6 +46,7 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/post_types_functions.php' ), true, true );
         locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
+        locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
     function register_post_types() {
@@ -277,7 +278,8 @@ abstract class SearchQueryType {
     const Highlight = 3;
     const Aparell = 4;
     const Programa = 5;
-    const PagePrograma = 6;
+    const Post = 6;
+    const PagePrograma = 7;
 }
 
 /*
@@ -327,9 +329,26 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 )
             );
             break;
+        case 'post':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'DESC',
+                'paged' => get_is_paged(),
+                'posts_per_page' => 10
+            );
+            break;
     }
 
-    if ( $queryType == SearchQueryType::Search ) {
+    $filter_args = array();
+    if ( $queryType == SearchQueryType::Post ) {
+        if ( ! empty ( $filter['s'] ) ) {
+            $filter_args['s'] = $filter['s'];
+        }
+        if ( ! empty ( $filter['categoria'] ) ) {
+            $filter_args['category__in'] = $filter['categoria'];
+        }
+    } else if ( $queryType == SearchQueryType::Search ) {
         $filter_args = array(
             's'         => $filter,
             'meta_query' => array(
@@ -452,6 +471,9 @@ function add_query_vars_filter( $vars ){
     $vars[] = "tipus";
     $vars[] = "categoria_programa";
     $vars[] = "arxivat";
+    $vars[] = "paraula";
+    $vars[] = "tema";
+
     return $vars;
 }
 add_filter( 'query_vars', 'add_query_vars_filter' );
@@ -576,4 +598,3 @@ function sc_embed_html( $html ) {
     return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
 }
 add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
-
