@@ -52,3 +52,33 @@ function generate_post_url_link( $post ) {
 
     return $return;
 }
+
+/**
+ * Temporary function to retrive most downloaded software list
+ * Should be removed once «Programari» section is implemented and
+ * $context['programari'] retrieves the post type 'programa'
+ *
+ * @return array
+ *
+ */
+function getProgramari()
+{
+    $limit = 5;
+    $json_url = "http://softcatala.local/result.json";
+    $baixades_json = json_decode( file_get_contents( $json_url ) );
+
+    foreach ( $baixades_json as $key => $operating_system ) {
+        $programari[$key] = array();
+        $i = 0;
+        foreach ( $operating_system as $pkey => $program ) {
+            if ($i < $limit) {
+                $programari[$key][$pkey]['title'] = str_replace('_', ' ', $program->Nom);
+                $programari[$key][$pkey]['link'] = 'https://www.softcatala.org/wiki/Rebost:' . $program->Nom;
+                $programari[$key][$pkey]['total_downloads'] = $program->total;
+                $i++;
+            }
+        }
+    }
+
+    return $programari;
+}
