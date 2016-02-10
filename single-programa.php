@@ -20,6 +20,12 @@ $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
+
+//Download count
+$download_full = json_decode(file_get_contents('http://softcatala.local/full.json'), true);
+$index = array_search($post->idrebost, array_column($download_full, 'idrebost'));
+$context['total_downloads'] = $download_full[$index]['total'];
+
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );

@@ -56,12 +56,13 @@
                             <span class="numero">{{ post.valoracio }}</span>
                             {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}
                         </div>
-                        <!--
-                                <div class="cont-baixades">
-                                    <i class="fa fa-line-chart"></i>
-                                    <span class="numero">{{ post.total_baixades_programa }}</span>
-                                    <em>baixades</em>
-                                </div> -->
+                        {% if total_downloads %}
+                        <div class="cont-baixades">
+                            <i class="fa fa-line-chart"></i>
+                            <span class="numero">{{ total_downloads }}</span>
+                            <em>baixades</em>
+                        </div>
+                        {% endif %}
                         {% include "share_links.twig" %}
                     </footer>
                 </div>
