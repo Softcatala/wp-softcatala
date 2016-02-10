@@ -228,3 +228,24 @@ jQuery('#afegeix_programa_button').on('click', function () {
         jQuery('#form_1').show();
     }
 });
+
+
+/** Download count **/
+jQuery('.baixada_boto').on('click', function () {
+    var data_id = jQuery(this).attr("data-id");
+    var data = data_id.split('_');
+
+    var download_data = new FormData();
+    download_data.append('post_id', data[1]);
+    download_data.append('baixada_id', data[3]);
+    download_data.append('action', 'increment_download');
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: download_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false
+    });
+});

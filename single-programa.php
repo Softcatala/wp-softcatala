@@ -30,6 +30,7 @@ $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 $context['baixades'] = $post->get_field( 'baixada' );
+$context['baixades_urls'] = generate_url_download( $context['baixades'], $post );
 $context['credits'] = $post->get_field( 'credit' );
 $query = array ( 'post_id' => $post->ID );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
@@ -40,4 +41,27 @@ if ( post_password_required( $post->ID ) ) {
     Timber::render( 'single-password.twig', $context );
 } else {
     Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );
+}
+
+
+function generate_url_download( $baixades, $post ) {
+    //https://baixades.softcatala.org/?url=http://download.mozilla.org/?product=firefox-44.0.1&os=linux&lang=ca&id=3522&mirall=&extern=2&versio=44.0.1&so=linux
+    foreach ( $baixades as $key => $baixada ) {
+        //OS
+        $term_list = wp_get_post_terms($baixada->ID, 'sistema-operatiu-programa', array("fields" => "all"));
+        if ( $term_list ) {
+            $os = $term_list[0]->name;
+        } else {
+            $os = '';
+        }
+
+        $download_url[$key]['url'] = 'https://baixades.softcatala.org/';
+        $download_url[$key]['url'] .= '?url='.$baixada->url_baixada;
+        $download_url[$key]['url'] .= '&os='.$os;
+        $download_url[$key]['url'] .= '&id='.$post->idrebost;
+        $download_url[$key]['url'] .= '&versio='.$baixada->versio_baixada;
+        $download_url[$key]['url'] .= '&so='.$os;
+
+        $download_url[$key]['url']['ID'] = $baixada->ID;
+    }
 }

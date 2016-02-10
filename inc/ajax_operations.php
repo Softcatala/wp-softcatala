@@ -3,6 +3,7 @@
 /** APARELLS **/
 add_action( 'wp_ajax_send_aparell', 'sc_send_aparell' );
 add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
+
 /** PROGRAMES **/
 add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
@@ -10,9 +11,37 @@ add_action( 'wp_ajax_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
 add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
+add_action( 'wp_ajax_increment_download', 'sc_increment_download_count' );
+add_action( 'wp_ajax_nopriv_increment_download', 'sc_increment_download_count' );
+
 /** SINÒNIMS **/
 add_action( 'wp_ajax_find_sinonim', 'sc_find_sinonim' );
 add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
+
+/**
+ * This function increments the download count for a 'programa' and a 'baixada' post type
+ *
+ * @return json response
+ */
+function sc_increment_download_count() {
+    check_is_ajax_call();
+
+    $post_id = intval(sanitize_text_field( $_POST["post_id"] ));
+    $baixada_id = intval(sanitize_text_field( $_POST["baixada_id"] ));
+    $single = true;
+    $current_downloads_programa = get_post_meta( $post_id, 'wpcf-total_baixades_programa', $single );
+    $current_downloads_baixada = get_post_meta( $baixada_id, 'wpcf-total_baixades_baixada', $single );
+    $metadata_programa = array(
+        'total_baixades_programa' => $current_downloads_programa + 1
+    );
+    $metadata_baixada = array(
+        'total_baixades_baixada' => $current_downloads_baixada + 1
+    );
+    sc_update_metadata( $post_id, $metadata_programa );
+    sc_update_metadata( $baixada_id, $metadata_baixada );
+
+    die(0);
+}
 
 /**
  * Function to make the request to synonims dictionary server
