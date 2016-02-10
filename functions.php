@@ -280,6 +280,8 @@ abstract class SearchQueryType {
     const Programa = 5;
     const Post = 6;
     const PagePrograma = 7;
+    const FilteredTema = 8;
+    const Baixada = 9;
 }
 
 /*
@@ -338,6 +340,12 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'posts_per_page' => 10
             );
             break;
+        case 'baixada':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish'
+            );
+            break;
     }
 
     $filter_args = array();
@@ -346,13 +354,23 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
         if ( ! empty ( $filter['categoria'] ) ) {
-            $filter_args['category__in'] = $filter['categoria'];
+            $filter_args['category__and'] = $filter['categoria'];
         }
     } else if ( $queryType == SearchQueryType::Search ) {
         $filter_args = array(
             's'         => $filter,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+            )
+        );
+    } else if ( $queryType == SearchQueryType::Baixada ) {
+        $filter_args = array(
+            'tax_query' => array (
+                array(
+                    'taxonomy' => 'sistema-operatiu-programa',
+                    'field' => 'slug',
+                    'terms' => $filter
+                )
             )
         );
     } else if( $queryType == SearchQueryType::FilteredDate ) {
@@ -429,6 +447,14 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         }
     } else if ( $queryType == SearchQueryType::PagePrograma ) {
         $filter_args = array();
+    } else if ( $queryType == SearchQueryType::FilteredTema ) {
+        if (!empty ($filter)) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'esdeveniment_cat',
+                'field' => 'slug',
+                'terms' => $filter
+            );
+        }
     } else {
         $filter_args = array(
             'meta_query' => array(
@@ -465,7 +491,6 @@ function get_is_paged() {
  * Function to handle the date filter for events
  */
 function add_query_vars_filter( $vars ){
-    $vars[] = "filtre";
     $vars[] = "cerca";
     $vars[] = "sistema_operatiu";
     $vars[] = "tipus";
@@ -473,6 +498,7 @@ function add_query_vars_filter( $vars ){
     $vars[] = "arxivat";
     $vars[] = "paraula";
     $vars[] = "tema";
+    $vars[] = "data";
 
     return $vars;
 }

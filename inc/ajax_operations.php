@@ -13,7 +13,9 @@ add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
 add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
 add_action( 'wp_ajax_increment_download', 'sc_increment_download_count' );
 add_action( 'wp_ajax_nopriv_increment_download', 'sc_increment_download_count' );
-
+/** CONTACT FORM **/
+add_action( 'wp_ajax_contact_form', 'sc_contact_form' );
+add_action( 'wp_ajax_nopriv_contact_form', 'sc_contact_form' );
 /** SINÒNIMS **/
 add_action( 'wp_ajax_find_sinonim', 'sc_find_sinonim' );
 add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
@@ -66,7 +68,52 @@ function sc_find_sinonim() {
 }
 
 /**
- * Function to look up a program with a title similar to the title from the search on the add program form
+ * Function to send a contact form
+ *
+ * @return json response
+ */
+function sc_contact_form() {
+    $to_email       = sanitize_text_field( $_POST["to_email"] );
+    $nom_from       = sanitize_text_field( $_POST["nom_from"] );
+    $assumpte       = sanitize_text_field( $_POST["assumpte"] );
+
+    //check if its an ajax request, exit if not
+    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+        $output = json_encode(array( //create JSON data
+            'type'=>'error',
+            'text' => 'Sorry Request must be Ajax POST'
+        ));
+        die($output); //exit script outputting json data
+    }
+
+    //Sanitize input data using PHP filter_var().
+    $nom      = sanitize_text_field( $_POST["nom"] );
+    $correu     = sanitize_email( $_POST["correu"] );
+    $tipus   = sanitize_text_field( $_POST["tipus"] );
+    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
+
+    //email body
+    $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
+
+    //proceed with PHP email.
+    $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
+        'Reply-To: '.$correu.'' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
+
+    if(!$send_mail) {
+        //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+        $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
+    } else {
+        $output = json_encode(array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'));
+    }
+
+    die($output);
+}
+
+/**
+ * Function to add a new draft program into database
  *
  * @return json response
  */

@@ -28,6 +28,19 @@ jQuery("#mostra_arxivat").on('click', function() {
     jQuery( "#cerca_programes" ).submit();
 });
 
+var $cerca_form = jQuery('#cerca_programes');
+$cerca_form.on('submit', function(){
+    disable_empty_fields();
+    return true;
+});
+
+function disable_empty_fields() {
+    jQuery('#cerca_programes').find('input, select').each(function(_, inp) {
+        if (jQuery(inp).val() === '' || jQuery(inp).val() === null)
+            inp.disabled = true;
+    });
+}
+
 /** Rating **/
 jQuery('#input_rating').on('change', function () {
     var complexname = jQuery(this).attr('name');
@@ -71,7 +84,7 @@ function form_sent_ko(result) {
 
 function show_message(text) {
     jQuery("#message_text").html(text);
-    jQuery('.modal').modal('show');
+    jQuery('.bs-messages-modal-lg').modal('show');
 }
 
 /** Formulari comprova si programa existeix **/
@@ -229,23 +242,51 @@ jQuery('#afegeix_programa_button').on('click', function () {
     }
 });
 
+/** Contact form action **/
+var $contactForm = jQuery('#report_form');
 
-/** Download count **/
-jQuery('.baixada_boto').on('click', function () {
-    var data_id = jQuery(this).attr("data-id");
-    var data = data_id.split('_');
+$contactForm.on('submit', function(ev){
+    ev.preventDefault();
 
-    var download_data = new FormData();
-    download_data.append('post_id', data[1]);
-    download_data.append('baixada_id', data[3]);
-    download_data.append('action', 'increment_download');
+    //Data
+    var post_data = new FormData();
+    post_data.append('nom', jQuery('input[name=nom]').val());
+    post_data.append('correu', jQuery('input[name=correu]').val());
+    post_data.append('tipus', jQuery('#tipus_contacte option:selected').val());
+    post_data.append('comentari', jQuery('#comentari').val());
+    post_data.append('to_email', 'avis_rebost@softcatala.org');
+    post_data.append('nom_from', 'Rebost de Softcatalà');
+    post_data.append('assumpte', '[Programes] Contacte des del formulari');
+    post_data.append('action', 'contact_form');
 
     jQuery.ajax({
         type: 'POST',
         url: scajax.ajax_url,
-        data: download_data,
+        data: post_data,
         dataType: 'json',
         contentType: false,
-        processData: false
+        processData: false,
+        success : form_sent_ok,
+        error : form_sent_ko
     });
 });
+
+function form_sent_ok(dt) {
+    if (dt.type == 'message') {
+        jQuery("#contingut-formulari").hide();
+        jQuery("#contingut-formulari-response").empty().html(dt.text).fadeIn();
+    }
+}
+
+jQuery('#contact_traductor').click(function() {
+    jQuery("#contingut-formulari-response").hide();
+    jQuery("textarea[name='comentari']").val('');
+    jQuery("#contingut-formulari").show();
+});
+
+function form_sent_ko() {
+    var message = 'Alguna cosa no ha funcionat bé en enviar les dades al servidor de traducció';
+    jQuery("#contingut-formulari").hide();
+    jQuery("#contingut-formulari-response").empty().html(message).fadeIn();
+}
+/** End contact form action **/

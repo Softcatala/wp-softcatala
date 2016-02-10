@@ -4,9 +4,7 @@
  *
  * Methods for TimberHelper can be found in the /lib sub-directory
  *
- * @package  WordPress
- * @subpackage  Timber
- * @since    Timber 0.1
+ * @package  wp-softcatala
  */
 
 wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main'), '1.0.0', true );
@@ -17,7 +15,7 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
 $context = Timber::get_context();
 $post = Timber::query_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
-$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
+$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 
@@ -36,32 +34,10 @@ $query = array ( 'post_id' => $post->ID );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
 query_posts($args);
 $context['related_pages'] = Timber::get_posts($args);
+$context['projecte_relacionat_url'] = false; //Aquí posarem l'url del projecte relacionat per enllaçar-ho des de la pàgina del programa
 
 if ( post_password_required( $post->ID ) ) {
     Timber::render( 'single-password.twig', $context );
 } else {
     Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );
-}
-
-
-function generate_url_download( $baixades, $post ) {
-    //https://baixades.softcatala.org/?url=http://download.mozilla.org/?product=firefox-44.0.1&os=linux&lang=ca&id=3522&mirall=&extern=2&versio=44.0.1&so=linux
-    foreach ( $baixades as $key => $baixada ) {
-        //OS
-        $term_list = wp_get_post_terms($baixada->ID, 'sistema-operatiu-programa', array("fields" => "all"));
-        if ( $term_list ) {
-            $os = $term_list[0]->name;
-        } else {
-            $os = '';
-        }
-
-        $download_url[$key]['url'] = 'https://baixades.softcatala.org/';
-        $download_url[$key]['url'] .= '?url='.$baixada->url_baixada;
-        $download_url[$key]['url'] .= '&os='.$os;
-        $download_url[$key]['url'] .= '&id='.$post->idrebost;
-        $download_url[$key]['url'] .= '&versio='.$baixada->versio_baixada;
-        $download_url[$key]['url'] .= '&so='.$os;
-
-        $download_url[$key]['url']['ID'] = $baixada->ID;
-    }
 }
