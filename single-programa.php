@@ -18,17 +18,18 @@ $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
+$context['comment_form'] = TimberHelper::get_comment_form();
+$post_links = types_child_posts('link', $post->ID);
+$context['links'] = $post->get_field( 'link' );
+$baixades = $post->get_field( 'baixada' );
 
 //Download count
 $download_full = json_decode(file_get_contents('http://softcatala.local/full.json'), true);
 $index = array_search($post->idrebost, array_column($download_full, 'idrebost'));
 $context['total_downloads'] = $download_full[$index]['total'];
 
-$context['comment_form'] = TimberHelper::get_comment_form();
-$post_links = types_child_posts('link', $post->ID);
-$context['links'] = $post->get_field( 'link' );
-$context['baixades'] = $post->get_field( 'baixada' );
-$context['baixades_urls'] = generate_url_download( $context['baixades'], $post );
+$context['baixades'] = generate_url_download( $baixades, $post );
+
 $context['credits'] = $post->get_field( 'credit' );
 $query = array ( 'post_id' => $post->ID );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );

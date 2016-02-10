@@ -25,7 +25,7 @@
                                 {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
                                 {% set so_baixada_min = so_baixada|split(' ')|first|lower %}
                             {% endif %}
-                            <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.url_baixada }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
+                            <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
                                 <i class="fa fa-download"></i>
                                 <span>Baixa'l<em>Per a {{ so_baixada }}, versió {{ baixada.versio_baixada }}</em></span>
                             </a>

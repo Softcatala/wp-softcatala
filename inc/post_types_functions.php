@@ -54,14 +54,12 @@ function generate_post_url_link( $post ) {
 }
 
 /**
- * Temporary function to retrive most downloaded software list
- * Should be removed once «Programari» section is implemented and
- * $context['programari'] retrieves the post type 'programa'
+ * Function to retrive most downloaded software list for the home page
  *
  * @return array
  *
  */
-function getProgramari()
+function get_top_downloads_home()
 {
     $limit = 5;
     $json_url = "http://softcatala.local/result.json";
@@ -81,4 +79,34 @@ function getProgramari()
     }
 
     return $programari;
+}
+
+/**
+ * This function generates the final download url that uses the Softcatalà counter
+ *
+ * @param object $baixades
+ * @param object $post
+ * @return object $baixades
+ */
+function generate_url_download( $baixades, $post ) {
+
+    //https://baixades.softcatala.org/?url=http://download.mozilla.org/?product=firefox-44.0.1&os=linux&lang=ca&id=3522&mirall=&extern=2&versio=44.0.1&so=linux
+    foreach ( $baixades as $key => $baixada ) {
+        //OS
+        $term_list = wp_get_post_terms($baixada->ID, 'sistema-operatiu-programa', array("fields" => "all"));
+        if ( $term_list ) {
+            $os = $term_list[0]->slug;
+        } else {
+            $os = '';
+        }
+
+        $baixada->download_url = 'https://baixades.softcatala.org/';
+        $baixada->download_url .= '?url='.$baixada->url_baixada;
+        $baixada->download_url .= '&os='.$os;
+        $baixada->download_url .= '&id='.$post->idrebost;
+        $baixada->download_url .= '&versio='.$baixada->versio_baixada;
+        $baixada->download_url .= '&so='.$os;
+    }
+
+    return $baixades;
 }
