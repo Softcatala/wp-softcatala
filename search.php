@@ -4,9 +4,7 @@
  *
  * Methods for TimberHelper can be found in the /lib sub-directory
  *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.1
+ * @package  wp-softcatala
  */
 die('test');
 $search = get_search_query();

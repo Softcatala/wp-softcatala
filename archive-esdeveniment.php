@@ -4,8 +4,7 @@
  *
  * Methods for TimberHelper can be found in the /lib sub-directory
  *
- * @package  WordPress
- * @subpackage  wp-softcatala
+ * @package  wp-softcatala
  */
 //JS and Styles related to the page
 wp_enqueue_script( 'sc-js-esdeveniments', get_template_directory_uri() . '/static/js/esdeveniments.js', array('sc-js-main'), '1.0.0', true );
