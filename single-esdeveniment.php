@@ -2,6 +2,7 @@
 /**
  * The Template for displaying an event
  *
+ *  @package  wp-softcatala
  */
 
 $context = Timber::get_context();

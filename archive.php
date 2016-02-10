@@ -9,9 +9,7 @@
  *
  * Methods for TimberHelper can be found in the /lib sub-directory
  *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.2
+ * @package  wp-softcatala
  */
 
 $templates = array( 'index.twig', 'archive-esdeveniment.twig' );
@@ -28,16 +26,6 @@ if ( is_category() ) {
     $context['cat_link'] = get_category_link( get_query_var('cat') );
 
     array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
-} else if ( is_post_type_archive( array( 'esdeveniment' ) ) ) {
-    array_unshift( $templates, 'archive-' . get_query_var( 'post_type' ) . '.twig' );
-    $context['content_title'] = 'Esdeveniments';
-    $post = retrieve_page_data(get_query_var( 'post_type' ));
-    $context['post'] = $post;
-    $context['cat_link'] = get_category_link( get_query_var('esdeveniment_cat') );
-    $context['categories']['temes'] = Timber::get_terms( 'esdeveniment_cat' );
-    $context['filters'] = get_the_event_filters();
-    $filter = get_query_var( 'filtre' );
-    $filterdate = get_final_time( $filter );
 } else { //Any other query asking for date parameters will display just news
     $context['categories']['temes'] = Timber::get_terms('category', array('parent' => get_category_id('temes')));
     $context['categories']['tipus'] = Timber::get_terms('category', array('parent' => get_category_id('tipus')));

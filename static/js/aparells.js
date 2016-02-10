@@ -1,6 +1,20 @@
+//Search form
 jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_aparells" ).submit();
 });
+
+var $cerca_form = jQuery('#cerca_aparells');
+$cerca_form.on('submit', function(){
+    disable_empty_fields();
+    return true;
+});
+
+function disable_empty_fields() {
+    jQuery('#cerca_aparells').find('input, select').each(function(_, inp) {
+        if (jQuery(inp).val() === '' || jQuery(inp).val() === null)
+            inp.disabled = true;
+    });
+}
 
 /** New aparell form action **/
 var $contactForm = jQuery('#report_form');
