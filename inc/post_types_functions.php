@@ -70,7 +70,7 @@ function get_top_downloads_home()
         $i = 0;
         foreach ( $operating_system as $pkey => $program ) {
             if ($i < $limit) {
-                $programari[$key][$pkey]['title'] = str_replace('_', ' ', $program->Nom);
+                $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', $program->Nom), 4 );
                 $programari[$key][$pkey]['link'] = 'https://www.softcatala.org/wiki/Rebost:' . $program->Nom;
                 $programari[$key][$pkey]['total_downloads'] = $program->total;
                 $i++;
