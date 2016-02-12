@@ -143,9 +143,6 @@ function sc_add_new_program() {
 
     if( $return['status'] == 1 ) {
         //Related downloads
-        $terms_baixada = array(
-            'categoria-programa' => array($categoria_programa)
-        );
 
         //Logo and screenshot file upload
         $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
@@ -158,6 +155,10 @@ function sc_add_new_program() {
 
 
         foreach ( $baixades as $baixada ) {
+            $terms_baixada = array(
+                'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
+            );
+
             $metadata_baixada = array (
                 'url_baixada' => $baixada->url,
                 'versio_baixada' => $baixada->versio,

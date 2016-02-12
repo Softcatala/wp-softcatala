@@ -624,3 +624,10 @@ function sc_embed_html( $html ) {
     return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
 }
 add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
+
+/* SVG Graphics */
+function cc_mime_types($mimes) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');
