@@ -52,7 +52,7 @@ class StarterSite extends TimberSite {
     function register_post_types() {
         global $sc_types;
 
-        $sc_types['programes'] = new SC_Programes();
+        //$sc_types['programes'] = new SC_Programes();
     }
 
     function register_taxonomies() {

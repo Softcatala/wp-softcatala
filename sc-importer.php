@@ -43,7 +43,7 @@ class SC_Importer
         $row = 1;
         if ( ( $handle = fopen( self::csvfile , "r" ) ) !== FALSE ) {
             while (($data = fgetcsv($handle, 100000, ",")) !== FALSE) {
-                if ( $row > 1 ) {
+                if ( $row > 1 && $row <= 50 ) {
                     $download_info[$row] = $this->import_data( $data );
 
                     if ( ! get_page_by_path($download_info[$row]['slug'] , OBJECT, 'programa') ) {
@@ -68,8 +68,8 @@ class SC_Importer
     {
         $value['post_name'] = str_replace( 'Rebost:', '', $data[0] );
         $value['autor_programa'] = $data[1];
-        $value['url_rebost'] = 'https://www.softcatala.org/wiki/'.$data[0];
-        $value['post_content'] = $data[16];
+        $value['url_rebost'] = 'https://www.softcatala.org/wiki/'.str_replace( ' ', '_', $data[0] );
+        $value['post_content'] = $this->get_wiki_article_content( $value['url_rebost'] );
         $value['imatge_destacada_1'] = $this->get_image_url( $data[2] );
         $value['logotip_programa'] = $this->get_image_url( $data[7] );
         $value['llicencia'] = $this->get_taxonomy_id( $data[6], 'llicencia' );
@@ -81,6 +81,7 @@ class SC_Importer
         $value['hosted_in_sc'] = ( $data[23] = 'fals' ? '0' : '1' );
         $value['slug'] = sanitize_title($value['post_name']);
         $value['idrebost'] = $this->get_idrebost_for_page_namepage( $value['post_name'] );
+        $value['arxivat'] = '0';
 
         $downloads = explode( ',', $data[4] );
         $data[3] = false; //Calculation is not accurate
@@ -92,8 +93,14 @@ class SC_Importer
         $os = explode( ',', $data[10] );
         foreach ( $downloads as $key => $download ) {
             $value['program'][$key]['url_baixada'] = $download;
-            $os_name = $this->generate_os_name($os[$key]);
-            $value['program'][$key]['download_os'] = $this->get_taxonomy_id( $os_name, 'sistema-operatiu-programa' );
+            if ( $os[$key] ) {
+                $os_name = $this->generate_os_name($os[$key]);
+                $value['program'][$key]['download_os'] = $this->get_taxonomy_id( $os_name, 'sistema-operatiu-programa' );
+            } else {
+                var_dump($value['program'][$key]['url_baixada'] );
+                $value['program'][$key]['download_os'] = $this->get_taxonomy_id( $os_name, 'sistema-operatiu-programa' );
+            }
+
             $value['program'][$key]['versio_baixada'] = $data[19];
             $value['program'][$key]['versio_estesa_baixada'] = $data[11];
             $value['program'][$key]['arquitectura_baixada'] = ( strpos($os[$key], '64') ? 2 : 1 );
@@ -105,25 +112,37 @@ class SC_Importer
         return $value;
     }
 
+    private function get_wiki_article_content( $url )
+    {
+        $wikipage = file_get_contents( $url );
+        $first_step = explode( '<h2><span class="mw-headline" id="Descripci.C3.B3">Descripció</span></h2>' , $wikipage );
+        $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+
+        return $second_step[0];
+    }
+
     private function get_idrebost_for_page_namepage( $program_name )
     {
-        $program_name = addslashes( str_replace( ' ', '_', $program_name ) );
-        $query = "SELECT
+        try {
+            $program_name = addslashes( str_replace( ' ', '_', $program_name ) );
+            $query = utf8_decode( "SELECT
                        b.idrebost
                   FROM wikidb.page w, rebost.baixades b
                   WHERE w.page_id = b.idrebost
                   AND w.page_title = '$program_name'
                   group by b.idrebost
-                  LIMIT 1";
+                  LIMIT 1" );
 
-        var_dump($query);
-        $query_result = $this->link->query($query);
+            $query_result = $this->link->query($query);
+            while ($row = $query_result->fetch_object()){
+                $result[] = $row;
+            }
 
-        while ($row = $query_result->fetch_object()){
-            $result[] = $row;
+            return $result[0]->idrebost;
+        } catch (Exception $e ) {
+            error_log($e, 3, "/var/log/nginx/wordpress.log");
         }
 
-        return $result[0]->idrebost;
     }
 
     /**
@@ -159,7 +178,8 @@ class SC_Importer
             'valoracio' => $value['valoracio'],
             'preu' => $value['preu'],
             'hosted_in_sc' => $value['hosted_in_sc'],
-            'idrebost' => $value['idrebost']
+            'idrebost' => $value['idrebost'],
+            'arxivat' => $value['arxivat']
         );
 
         $terms = array(
@@ -199,7 +219,9 @@ class SC_Importer
                     'post_id' => $return['post_id']
                 );
 
-                $return_baixada = $this->sc_add_draft_content('baixada', $value['post_name'], '', $value['slug'], $terms_baixada, $metadata_baixada);
+                if ( $baixada['url_baixada'] != '' ) {
+                    $return_baixada = $this->sc_add_draft_content('baixada', $value['post_name'], '', $value['slug'], $terms_baixada, $metadata_baixada);
+                }
             }
         }
     }
