@@ -84,7 +84,12 @@ class SC_Importer
         $value['hosted_in_sc'] = ( $data[23] = 'fals' ? '0' : '1' );
         $value['slug'] = sanitize_title($value['post_name']);
         $value['idrebost'] = $this->get_idrebost_for_page_namepage( $value['post_name'] );
-        $value['arxivat'] = '0';
+        if ( $data[21] == 'Obsolet' ) {
+            $value['arxivat'] = '1';
+        } else {
+            $value['arxivat'] = '0';
+        }
+
 
         $downloads = explode( ',', $data[4] );
         $data[3] = false; //Calculation is not accurate
@@ -117,39 +122,48 @@ class SC_Importer
     {
         $wikipage = file_get_contents( $url );
         $first_step = explode( '<h2><span class="mw-headline" id="Descripci.C3.B3">Descripció</span></h2>' , $wikipage );
-        if ( isset ( $first_step[1] ) ) {
-            $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
-        } else {
-            var_dump($url);
-            $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+        $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+
+        //Warning
+        $warning_1 = explode( '<div id="obsolet">' , $wikipage );
+        if ( isset ( $warning_1[1] ) ) {
+            $warning_2 = explode( '</div>' , $warning_1[1] );
+            $second_step[0] = $second_step[0] . '<br/><br/><h3>Avís important</h3>' . $warning_2[0];
         }
 
+        //Responsable
+        $responsable_1 = explode( '<div id="no_responsable">' , $wikipage );
+        if ( isset ( $responsable_1[1] ) ) {
+            $responsable_2 = explode( '</div>' , $responsable_1[1] );
+            $second_step[0] = $second_step[0] . '<br/><br/><h3>Avís important</h3>' . $responsable_2[0];
+        }
 
         return $second_step[0];
     }
 
     private function get_idrebost_for_page_namepage( $program_name )
     {
-        try {
-            $program_name = addslashes( str_replace( ' ', '_', $program_name ) );
-            $query = utf8_decode( "SELECT
-                       b.idrebost
-                  FROM wikidb.page w, rebost.baixades b
-                  WHERE w.page_id = b.idrebost
-                  AND w.page_title = '$program_name'
-                  group by b.idrebost
-                  LIMIT 1" );
+        $program_name = addslashes( str_replace( ' ', '_', $program_name ) );
+        $query = utf8_decode( "SELECT
+                   b.idrebost
+              FROM wikidb.page w, rebost.baixades b
+              WHERE w.page_id = b.idrebost
+              AND w.page_title = '$program_name'
+              group by b.idrebost
+              LIMIT 1" );
 
-            $query_result = $this->link->query($query);
-            while ($row = $query_result->fetch_object()){
-                $result[] = $row;
-            }
-
-            return $result[0]->idrebost;
-        } catch (Exception $e ) {
-            error_log($e, 3, "/var/log/nginx/wordpress.log");
+        $query_result = $this->link->query($query);
+        while ($row = $query_result->fetch_object()){
+            $result[] = $row;
         }
 
+        if ( isset ( $result[0]->idrebost ) ) {
+            $idrebost = $result[0]->idrebost;
+        } else {
+            $idrebost = '';
+        }
+
+        return $idrebost;
     }
 
     /**
@@ -163,7 +177,7 @@ class SC_Importer
         if ( $filename != '' ) {
             $base_sc_url = 'https://www.softcatala.org/';
             $base_scwiki_url = 'https://www.softcatala.org/wiki/';
-            $contents = file_get_contents($base_scwiki_url.$filename);
+            $contents = file_get_contents( str_replace( ' ', '_', $base_scwiki_url.$filename ));
             $first_step = explode( '<div class="fullImageLink" id="file">' , $contents );
             $second_step = explode("</div>" , $first_step[1] );
             preg_match('/<a href=\"([^\"]*)\">(.*)<\/a>/iU', $second_step[0], $match);
