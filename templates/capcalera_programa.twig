@@ -3,7 +3,11 @@
         <div class="gris-main-header">
             <div class="row">
                 <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
-                    <img class="img-responsive" src="{{ post.logotip_programa }}" class="imatge-logotip-programa">
+                    {% if post.logotip_programa %}
+                    <img class="img-responsive" src="{{ post.logotip_programa }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                    {% else %}
+                    <i style="font-size: 152px" class="fa fa-cogs"></i>
+                    {% endif %}
                 </div>
                 <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
                     <h1>{{ post.title }}</h1>
@@ -30,7 +34,7 @@
                                 <span>Baixa'l<em>Per a {{ so_baixada }}, versió {{ baixada.versio_baixada }}</em></span>
                             </a>
                         {% endfor %}
-                        <a class="bt-versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
+                        <a class="bt-versions" id="show_more_versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
 
                         <div class="collapse" id="versions">
                             <div class="versions">

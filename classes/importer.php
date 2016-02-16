@@ -19,9 +19,10 @@ class SC_Importer
         $this->link = mysqli_connect('localhost', self::DB_User, self::DB_Pass, self::DB_Name);
     }
 
-    public function run( $i, $j )
+    public function run( $i, $j, $step )
     {
-        $download_info = $this->open_csv_file( $i, $j );
+        $download_info = $this->open_csv_file( $i, $j, $step );
+        $download_info['step'] = $step;
 
         return $download_info;
     }
@@ -31,26 +32,31 @@ class SC_Importer
      *
      * @return array
      */
-    private function open_csv_file( $i, $j )
+    private function open_csv_file( $i, $j, $step )
     {
         $row = 1;
+        $return['text'] = '';
         if ( ( $handle = fopen( self::csvfile , "r" ) ) !== FALSE ) {
             while (($data = fgetcsv($handle, 100000, ",")) !== FALSE) {
                 if ( $row > $i && $row <= $j ) {
-                    $download_info[$row] = $this->import_data( $data );
-
-                    if ( ! get_page_by_path($download_info[$row]['slug'] , OBJECT, 'programa') ) {
-                        $return['text'] = $this->create_program($download_info[$row]);
+                    $post_name = str_replace( 'Rebost:', '', $data[0] );
+                    $slug = sanitize_title($post_name);
+                    if ( ! $page = get_page_by_path( $slug , OBJECT, 'programa' ) ) {
+                        $download_info[$row] = $this->import_data( $data );
+                        $return['text'] .= $this->create_program($download_info[$row]).'<br/>';
+                    } elseif ( strpos( get_permalink( $page ), 'programes/' ) == false ) {
+                        $download_info[$row] = $this->import_data( $data );
+                        $return['text'] .= $this->create_program($download_info[$row]).'<br/>';
                     } else {
-                        $return['text'] = 'Not imported: '. $download_info[$row]['post_name'];
+                        $return['text'] .= $row . ' - Not imported: '. get_permalink( $page ).'<br/>';
                     }
                 }
                 $row++;
             }
             fclose($handle);
         }
-        $return['i_value'] = $i;
-        $return['j_value'] = $j;
+        $return['i_value'] = $j;
+        $return['j_value'] = $j + $step;
 
         return $return;
     }
@@ -90,14 +96,15 @@ class SC_Importer
         $os = explode( ',', $data[10] );
         foreach ( $downloads as $key => $download ) {
             $value['program'][$key]['url_baixada'] = $download;
-            if ( $os[$key] ) {
+            if ( isset ( $os[$key] ) ) {
                 $os_name = $this->generate_os_name($os[$key]);
                 $value['program'][$key]['download_os'] = $this->get_taxonomy_id( $os_name, 'sistema-operatiu-programa' );
+                $value['program'][$key]['arquitectura_baixada'] = ( strpos($os[$key], '64') ? 2 : 1 );
             }
 
             $value['program'][$key]['versio_baixada'] = $data[19];
             $value['program'][$key]['versio_estesa_baixada'] = $data[11];
-            $value['program'][$key]['arquitectura_baixada'] = ( strpos($os[$key], '64') ? 2 : 1 );
+
             if ( $data[3] ) {
                 $value['program'][$key]['download_size'] = $sizes[$key];
             }
@@ -110,7 +117,13 @@ class SC_Importer
     {
         $wikipage = file_get_contents( $url );
         $first_step = explode( '<h2><span class="mw-headline" id="Descripci.C3.B3">Descripció</span></h2>' , $wikipage );
-        $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+        if ( isset ( $first_step[1] ) ) {
+            $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+        } else {
+            var_dump($url);
+            $second_step = explode("<div id=\"contact_warning\">" , $first_step[1] );
+        }
+
 
         return $second_step[0];
     }
@@ -202,19 +215,21 @@ class SC_Importer
             $this->sc_update_metadata($return['post_id'], $metadata);
 
             foreach ($value['program'] as $baixada) {
-                $terms_baixada = array(
-                    'sistema-operatiu-programa' => array($baixada['download_os'])
-                );
+                if( isset( $baixada['download_os'] ) ) {
+                    $terms_baixada = array(
+                        'sistema-operatiu-programa' => array($baixada['download_os'])
+                    );
 
-                $metadata_baixada = array(
-                    'url_baixada' => $baixada['url_baixada'],
-                    'versio_baixada' => $baixada['versio_baixada'],
-                    'arquitectura_baixada' => $baixada['arquitectura_baixada'],
-                    'post_id' => $return['post_id']
-                );
+                    $metadata_baixada = array(
+                        'url_baixada' => $baixada['url_baixada'],
+                        'versio_baixada' => $baixada['versio_baixada'],
+                        'arquitectura_baixada' => $baixada['arquitectura_baixada'],
+                        'post_id' => $return['post_id']
+                    );
 
-                if ( $baixada['url_baixada'] != '' ) {
-                    $return_baixada = $this->sc_add_draft_content('baixada', $value['post_name'], '', $value['slug'], $terms_baixada, $metadata_baixada);
+                    if ( $baixada['url_baixada'] != '' ) {
+                        $return_baixada = $this->sc_add_draft_content('baixada', $value['post_name'], '', $value['slug'], $terms_baixada, $metadata_baixada);
+                    }
                 }
             }
         }
