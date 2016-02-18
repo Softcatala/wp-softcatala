@@ -62,7 +62,7 @@ function generate_post_url_link( $post ) {
 function get_top_downloads_home()
 {
     $limit = 5;
-    $json_url = "http://softcatala.local/result.json";
+    $json_url = get_home_url()."/result.json";
     $baixades_json = json_decode( file_get_contents( $json_url ) );
 
     foreach ( $baixades_json as $key => $operating_system ) {
@@ -70,9 +70,12 @@ function get_top_downloads_home()
         $i = 0;
         foreach ( $operating_system as $pkey => $program ) {
             if ($i < $limit) {
-                $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', $program->Nom), 4 );
-                $programari[$key][$pkey]['link'] = 'https://www.softcatala.org/wiki/Rebost:' . $program->Nom;
-                $programari[$key][$pkey]['total_downloads'] = $program->total;
+                $link = get_program_link($program);
+                if ( $link ) {
+                    $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', $program->Nom), 4 );
+                    $programari[$key][$pkey]['link'] = $link;
+                    $programari[$key][$pkey]['total_downloads'] = $program->total;
+                }
                 $i++;
             }
         }
@@ -109,4 +112,31 @@ function generate_url_download( $baixades, $post ) {
     }
 
     return $baixades;
+}
+
+/**
+ * This function retrieves the program link depending on the idrebost or wordpress_id
+ */
+function get_program_link( $program ) {
+    $link = false;
+    if( isset( $program->wordpress_id )) {
+        $link = get_post_permalink( $program->wordpress_id );
+    } else {
+        $args = array(
+            'post_type' => 'programa',
+            'meta_query' => array(
+                array(
+                    'key' => 'wpcf-idrebost',
+                    'value' => $program->idrebost,
+                    'compare' => '='
+                )
+            )
+        );
+        $programes = query_posts($args);
+        if ( count ( $programes) > 0 ) {
+            $link = get_post_permalink( $programes[0]->ID );
+        }
+    }
+
+    return $link;
 }

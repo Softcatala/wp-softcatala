@@ -27,4 +27,4 @@ $context['related_pages'] = Timber::get_posts($args);
 $baixades = $post->get_field( 'baixada' );
 $context['baixades'] = generate_url_download( $baixades, $post );
 
-Timber::render( array( 'pmf-programa.twig' ), $context );
+Timber::render( array( 'subpagina-programa.twig' ), $context );
