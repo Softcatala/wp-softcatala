@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc programa cd-main-content">
+    <!-- .main-header -->
+    {% include "capcalera_programa.twig" %}
+    <!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- .contingut -->
+            <div class="contingut contingut-left pmf col-sm-9">
+
+                <!-- .contingut-section -->
+                <section class="contingut-section">
+                    {{ post_pmf.content }}
+                </section><!--/.contingut-section -->
+
+            </div><!--/.contingut -->
+
+            <!-- .aside-right -->
+            {% include "sidebar.twig" %}
+            </aside><!--/.aside-right -->
+
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .contingut -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    <!-- .seccio-blanca -->
+    {% include "credits.twig" %}
+    <!--/.seccio-blanca -->
+
+    <!-- .messages-block -->
+    {% include "messages.twig" %}
+    <!--/.messages-block -->
+{% endblock %}

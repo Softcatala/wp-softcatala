@@ -11,6 +11,11 @@ jQuery( document ).ready(function() {
     } else {
         jQuery('.baixada_boto').first().show();
     }
+
+    var numItems = jQuery('.baixada_boto').length;
+    if ( numItems <= 2 ) {
+        jQuery("#show_more_versions").hide();
+    }
 });
 
 /** Cerca **/

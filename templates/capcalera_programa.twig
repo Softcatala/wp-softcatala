@@ -1,0 +1,96 @@
+<header class="main-header" id="principi">
+    <div class="container-fluid">
+        <div class="gris-main-header">
+            <div class="row">
+                <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
+                    {% if post.logotip_programa %}
+                    <img class="img-responsive" src="{{ post.logotip_programa }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                    {% else %}
+                    <i style="font-size: 152px" class="fa fa-cogs"></i>
+                    {% endif %}
+                </div>
+                <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
+                    <h1>{{ post.title }}</h1>
+                    <h2>{{ post.subtitle_programa }}</h2>
+                    <ul>
+                        <li>{{ post.autor_programa }}</li>
+                        <li>{% if post.terms('llicencia') %}
+                                {% for term in post.terms('llicencia') %}
+                                    {{term.name}}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% endif %}</li>
+                        <li><a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>
+                    </ul>
+
+
+                    {% if baixades %}
+                        {% for baixada in baixades %}
+                            {% if baixada.terms('sistema-operatiu-programa') %}
+                                {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
+                                {% set so_baixada_min = so_baixada|split(' ')|first|lower %}
+                            {% endif %}
+                            <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
+                                <i class="fa fa-download"></i>
+                                <span>Baixa'l<em>Per a {{ so_baixada }}, versió {{ baixada.versio_baixada }}</em></span>
+                            </a>
+                        {% endfor %}
+                        <a class="bt-versions" id="show_more_versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
+
+                        <div class="collapse" id="versions">
+                            <div class="versions">
+                                <a class="bt-versions-creu" role="button" href="#versions" data-toggle="collapse"><i class="fa fa-times"></i></a>
+                                <div class="row">
+                                    {% for baixada in baixades %}
+                                        {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
+                                        <div class="col-xxs-12 col-md-3 col-sm-4 col-xs-6">
+                                            <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.url_baixada }}" class="bt-download-invers baixada_boto"><i class="fa fa-windows"></i><span>Per a {{ so_baixada }}<em>versió {{ baixada.versio_baixada }}</em></span>
+                                                <p>{% if baixada.versio_estesa_baixada %}{{ baixada.versio_estesa_baixada }}<br/>{% endif %}{% if baixada.mida_baixada %}{{ baixada.mida_baixada }} MB{% endif %}
+                                                </p>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <footer class="footer-main-header-gris">
+                        <div class="cont-rating">
+                            <input type="hidden" value="{{ post.valoracio }}" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating" class="rating" data-rating-class="rating-fa" data-symbol="&#xf006;" data-glyphicon="false" data-show-caption="false" data-show-clear="false"/>
+                            <span class="numero">{{ post.valoracio }}</span>
+                            {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}
+                        </div>
+                        {% if total_downloads %}
+                        <div class="cont-baixades">
+                            <i class="fa fa-line-chart"></i>
+                            <span class="numero">{{ total_downloads }}</span>
+                            <em>baixades</em>
+                        </div>
+                        {% endif %}
+                        {% include "share_links.twig" %}
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <div class="menu-main-header-gris">
+            <!-- .boto-menu-lateral gris - xs -->
+            <div class="visible-xs-block boto-menu-lateral">
+                <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                    <i class="fa fa-bars"></i>
+                    <p>Taula de continguts</p>
+                    <i class="fa fa-chevron-down"></i>
+                </a>
+            </div><!--/.boto-menu-lateral gris - xs -->
+            <!-- #menu-lateral -->
+            <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                <li><a href="{{ post.link }}">Descripció</a></li>
+                {% if related_pages %}
+                {% for page in related_pages %}
+                <li><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
+                {% endfor %}
+                {% endif %}
+            </ul><!--/#menu-lateral -->
+
+        </div>
+    </div>
+</header>
