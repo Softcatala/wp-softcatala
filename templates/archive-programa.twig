@@ -71,9 +71,8 @@
                 <section class="contingut-section">
                     {% if posts %}
                     <!-- .row -->
-                    {% for row in posts|batch(6) %}
                     <div class="row">
-                        {% for post in row %}
+                        {% for post in posts %}
                         <div class="col-xxs-12 col-xs-4 col-sm-3 col-md-2">
                             <div class="thumbnail thumbnail-vertical thumbnail-programes">
                                 <a href="{{ post.link }}" title="{{ post.title }}">
@@ -96,7 +95,6 @@
                         </div>
                         {% endfor %}
                     </div>
-                    {% endfor %}
                     <!--/.row -->
 
                     <!-- .pagination -->
