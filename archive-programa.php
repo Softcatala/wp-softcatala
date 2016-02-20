@@ -76,7 +76,6 @@ if( ! empty( $sistema_operatiu ) ) {
 }
 
 
-
 //Posts and pagination
 query_posts( $args );
 $context['posts'] = Timber::get_posts( $args );
