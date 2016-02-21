@@ -1,0 +1,74 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc programa cd-main-content">
+        <!-- .main-header -->
+        {% include "capcalera_projecte.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-9">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <p>{{ post.post_excerpt }}</p>
+                        {% if post.imatge_destacada_1_p or post.imatge_destacada_2_p or post.imatge_destacada_3_p %}
+                            <div class="row">
+                                {% if post.imatge_destacada_1_p %}
+                                    <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                        <img class="img-responsive" src="{{ post.imatge_destacada_1_p }}" alt="Imatge destacada 1 del {{ post.title }}">
+                                    </div>
+                                {% endif %}
+                                {% if post.imatge_destacada_2_p %}
+                                    <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                        <img class="img-responsive" src="{{ post.imatge_destacada_2_p }}" alt="Imatge destacada 2 del {{ post.title }}">
+                                    </div>
+                                {% endif %}
+                                {% if post.imatge_destacada_3_p %}
+                                    <div class="col-xxs-12 col-xs-4 col-sm-4">
+                                        <img class="img-responsive" src="{{ post.imatge_destacada_3_p }}" alt="Imatge destacada 3 del {{ post.title }}">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </header><!--/.contingut-header -->
+
+
+                    <!-- .contingut-section -->
+                    <section class="contingut-section">
+                        {{ post.content }}
+                    </section><!--/.contingut-section -->
+
+                    <!-- .comentaris -->
+                    {% include "comentaris.twig" %}
+                    <!--/.comentaris -->
+
+                </div><!--/.contingut -->
+
+                <!-- .aside-right -->
+                {% include "sidebar.twig" %}
+                </aside><!--/.aside-right -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .contingut -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "report-traductor.twig" %}
+
+    <!-- .seccio-blanca -->
+    {% include "credits.twig" %}
+    <!--/.seccio-blanca -->
+
+    <!-- .messages-block -->
+    {% include "messages.twig" %}
+    <!--/.messages-block -->
+{% endblock %}
