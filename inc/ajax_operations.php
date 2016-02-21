@@ -3,6 +3,7 @@
 /** APARELLS **/
 add_action( 'wp_ajax_send_aparell', 'sc_send_aparell' );
 add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
+
 /** PROGRAMES **/
 add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
@@ -115,9 +116,6 @@ function sc_add_new_program() {
 
     if( $return['status'] == 1 ) {
         //Related downloads
-        $terms_baixada = array(
-            'categoria-programa' => array($categoria_programa)
-        );
 
         //Logo and screenshot file upload
         $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
@@ -130,6 +128,10 @@ function sc_add_new_program() {
 
 
         foreach ( $baixades as $baixada ) {
+            $terms_baixada = array(
+                'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
+            );
+
             $metadata_baixada = array (
                 'url_baixada' => $baixada->url,
                 'versio_baixada' => $baixada->versio,

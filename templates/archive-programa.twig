@@ -71,13 +71,18 @@
                 <section class="contingut-section">
                     {% if posts %}
                     <!-- .row -->
-                    {% for row in posts|batch(6) %}
                     <div class="row">
-                        {% for post in row %}
+                        {% for post in posts %}
                         <div class="col-xxs-12 col-xs-4 col-sm-3 col-md-2">
                             <div class="thumbnail thumbnail-vertical thumbnail-programes">
                                 <a href="{{ post.link }}" title="{{ post.title }}">
+                                    {% if post.logotip_programa %}
                                     <img src="{{ post.logotip_programa }}" alt="logotip {{ post.title }}">
+                                    {% elseif post.imatge_destacada_1 %}
+                                    <img src="{{ post.imatge_destacada_1 }}" alt="logotip {{ post.title }}">
+                                    {% else %}
+                                    <i style="font-size: 152px" class="fa fa-cogs"></i>
+                                    {% endif %}
                                     <div class="caption">
                                         <h3>{{ post.title }}</h3>
                                         <div class="cont-rating">
@@ -90,7 +95,6 @@
                         </div>
                         {% endfor %}
                     </div>
-                    {% endfor %}
                     <!--/.row -->
 
                     <!-- .pagination -->

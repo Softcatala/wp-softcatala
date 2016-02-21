@@ -21,8 +21,20 @@ $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
-$context['baixades'] = $post->get_field( 'baixada' );
+$baixades = $post->get_field( 'baixada' );
+
+//Download count
+$download_full = json_decode(file_get_contents('http://softcatala.local/full.json'), true);
+$index = array_search($post->idrebost, array_column($download_full, 'idrebost'));
+$context['total_downloads'] = $download_full[$index]['total'];
+
+$context['baixades'] = generate_url_download( $baixades, $post );
+
 $context['credits'] = $post->get_field( 'credit' );
+$query = array ( 'post_id' => $post->ID );
+$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+query_posts($args);
+$context['related_pages'] = Timber::get_posts($args);
 $context['projecte_relacionat_url'] = false; //Aquí posarem l'url del projecte relacionat per enllaçar-ho des de la pàgina del programa
 
 if ( post_password_required( $post->ID ) ) {

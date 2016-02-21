@@ -71,7 +71,7 @@ class StarterSite extends TimberSite {
     function add_to_twig( $twig ) {
         /* this is where you can add your own fuctions to twig */
         $twig->addExtension( new Twig_Extension_StringLoader() );
-        $twig->addFilter('get_caption_from_media_url', new Twig_Filter_Function('get_caption_from_media_url'));
+        $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
         return $twig;
     }
 
@@ -279,8 +279,9 @@ abstract class SearchQueryType {
     const Aparell = 4;
     const Programa = 5;
     const Post = 6;
-    const FilteredTema = 7;
-    const Baixada = 8;
+    const PagePrograma = 7;
+    const FilteredTema = 8;
+    const Baixada = 9;
 }
 
 /*
@@ -320,6 +321,16 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 )
             );
             break;
+        case 'page':
+            $base_args = array(
+                'post_type' => $post_type,
+                'post_status'    => 'publish',
+                'order'          => 'ASC',
+                'meta_query' => array(
+                    get_meta_query_value('wpcf-programa', $filter['post_id'], '=', 'NUMERIC')
+                )
+            );
+            break;
         case 'post':
             $base_args = array(
                 'post_type' => $post_type,
@@ -335,7 +346,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish'
             );
             break;
-
     }
 
     $filter_args = array();
@@ -435,6 +445,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             unset( $base_args['meta_query'] );
             $filter_args['arxivat'] = $filter['arxivat'];
         }
+    } else if ( $queryType == SearchQueryType::PagePrograma ) {
+        $filter_args = array();
     } else if ( $queryType == SearchQueryType::FilteredTema ) {
         if (!empty ($filter)) {
             $filter_args['tax_query'][] = array(
@@ -612,3 +624,10 @@ function sc_embed_html( $html ) {
     return '<div class="embed-responsive embed-responsive-16by9">' . $html . '</div>';
 }
 add_filter( 'embed_oembed_html', 'sc_embed_html', 10, 3 );
+
+/* SVG Graphics */
+function cc_mime_types($mimes) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');

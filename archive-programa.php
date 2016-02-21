@@ -47,8 +47,6 @@ if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) 
     $context['cerca'] = $search;
     $context['selected_filter_categoria'] = ( isset ( $args['filter_categoria'] ) ? $args['filter_categoria'] : '' );
     $context['selected_arxivat'] = ( isset ( $args['arxivat'] ) ? $args['arxivat'] : '' );
-} else {
-    $args = $wp_query->query;
 }
 
 if( ! empty( $sistema_operatiu ) ) {
@@ -73,7 +71,10 @@ if( ! empty( $sistema_operatiu ) ) {
     } else {
         $args = array();
     }
+} elseif ( ! isset ( $args ) ) {
+    $args = get_post_query_args( 'programa', SearchQueryType::Programa );
 }
+
 
 //Posts and pagination
 query_posts( $args );
