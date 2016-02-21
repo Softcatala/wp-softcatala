@@ -72,6 +72,7 @@ class StarterSite extends TimberSite {
         /* this is where you can add your own fuctions to twig */
         $twig->addExtension( new Twig_Extension_StringLoader() );
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
+        $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         return $twig;
     }
 
@@ -190,6 +191,19 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 }
 
 /**
+ * Twig function to truncate text
+ *
+ * @param string
+ * @return string
+ */
+function truncate_twig( $string, $size )
+{
+    $splitstring = wp_trim_words( str_replace('_', ' ', $string ), $size );
+
+    return $splitstring;
+}
+
+/**
  * This function retrieves the current url, either on http or https format
  * depending on the current navigation
  *
@@ -220,24 +234,16 @@ function retrieve_page_data($page_slug = '')
 {
     //Actions to be taken depending on the post type
     switch ($page_slug) {
-        case 'esdeveniment':
-            ///Get the related «page» to this post type (it will contain the links, downloads, actions...)
+        case 'noticies':
             $args = array(
-                'name' => 'esdeveniment-page',
-                'post_type' => 'page'
-            );
-            $post = Timber::get_post($args);
-            break;
-        case 'programa':
-            $args = array(
-                'name' => 'programa-page',
+                'name' => 'noticies',
                 'post_type' => 'page'
             );
             $post = Timber::get_post($args);
             break;
         default:
             $args = array(
-                'name' => 'noticies',
+                'name' => $page_slug.'-page',
                 'post_type' => 'page'
             );
             $post = Timber::get_post($args);
