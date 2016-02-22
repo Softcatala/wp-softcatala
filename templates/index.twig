@@ -58,14 +58,13 @@
             </header><!--/.contingut-header -->
 
             {% if posts %}
-            {% for post in posts %}
-      				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
-      			{% endfor %}
-            {% endif %}
+              {% for post in posts %}
+                      {% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+                  {% endfor %}
+              {% endif %}
             <!-- .pagination -->
             {% include "pagination.twig" %}
             <!--/.pagination -->
-            {% endif %}
           </div><!--/.contingut -->
 
           {% include "sidebar.twig" %}
