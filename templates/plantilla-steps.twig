@@ -1,0 +1,68 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<!-- .main .wrap-blanc -->
+<main class="main wrap-blanc cd-main-content">
+
+    <!-- .main-header -->
+    {% include "contingut-header.twig" %}
+    <!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- .contingut -->
+            <div class="contingut contingut-left col-sm-12 col-md-9">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="bt-grup row">
+                        <div class="col-xs-4"><button type="button" data-id="step_1" class="bt-basic steps active"><span><i>01</i><p>Requisits</p></span></button></div>
+                        <div class="col-xs-4"><button type="button" data-id="step_2" class="bt-basic steps segon"><span><i>02</i><p>Lectures recomenades</p></span></button></div>
+                        {% if not projecte %}<div class="col-xs-4"><button type="button" data-id="step_3" class="bt-basic steps"><span><i>03</i><p>On cal ajuda?</p></span></button></div>{% endif %}
+                        <ul class="titol-xxs visible-xxs-block">
+                            <li>Requisits</li>
+                            <li class="hidden">Lectures recomenades</li>
+                            {% if not projecte %}<li class="hidden">On cal ajuda?</li>{% endif %}
+                        </ul>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <!-- section paragraf + llista elements icona -->
+                <section class="contingut-section">
+                    <!--.row -->
+                    <div class="steps-projecte" id="steps_visible">
+                    {{ projecte.project_requirements }}
+                    </div>
+                    <!--/.row -->
+
+                    <!-- .bt-seguent -->
+                    <div class="row">
+                        <div class="intern">
+                            <button type="button" class="bt-basic bt-seguent intern-center">següent</button>
+                        </div>
+                    </div><!--/.bt-seguent -->
+                </section><!--/ section paragraf + llista elements icona -->
+            </div><!--/.contingut -->
+
+            {% include "sidebar.twig" %}
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+    
+    <div id="step_1" style="display: none;">
+        {{ projecte.project_requirements }}
+    </div>
+    <div id="step_2" style="display: none;">
+        {{ projecte.lectures_recomanades }}
+    </div>
+    <div id="step_3" style="display: none;">
+        {{ llistat_projectes }}
+    </div>
+
+
+{% endblock %}

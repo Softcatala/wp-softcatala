@@ -58,7 +58,8 @@ function sc_icon_list_shortcode( $atts, $content ) {
         'color' => 'blanc',
     ), $atts );
 	
-	$color = ($atributs['color'] == 'gris' ) ? 'gris' : 'blanc';
+	$color = $atributs['color'];
+	$extra = ($atributs['color'] == 'blancgris' ) ? 'col-xs-12' : '';
 		
 	$html = '<div class="row">';
 	
@@ -66,8 +67,8 @@ function sc_icon_list_shortcode( $atts, $content ) {
 	
 	$columns = sc_get_icon_list_columns( $items, $color );
 	
-	$html .= '<div class="col-sm-6">' . $columns[0] . '</div>';
-	$html .=  '<div class="col-sm-6">' . $columns[1] . '</div>';
+	$html .= '<div class="' .$extra.' col-sm-6">' . $columns[0] . '</div>';
+	$html .=  '<div class="' .$extra.' col-sm-6">' . $columns[1] . '</div>';
 	$html .=  '</div>';
 	
 	return $html;
@@ -93,7 +94,9 @@ function sc_get_icon_list_columns ( $items, $color ) {
 
 function sc_get_icon_list_item ( $item, $color ) {
 	$parts = explode( '|', $item );
-	
+
+	$color = ($color == 'blancgris' ) ? 'blanc thumbnail-invers' : $color;
+
 	$icon = (empty($parts[0])) ? 'circle' : $parts[0];
 	$heading = (empty($parts[1])) ? '' : $parts[1];
 	$body = (empty($parts[2])) ? '' : $parts[2];

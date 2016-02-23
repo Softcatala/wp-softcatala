@@ -505,6 +505,7 @@ function add_query_vars_filter( $vars ){
     $vars[] = "paraula";
     $vars[] = "tema";
     $vars[] = "data";
+    $vars[] = "project";
 
     return $vars;
 }
