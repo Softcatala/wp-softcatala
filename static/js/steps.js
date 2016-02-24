@@ -15,17 +15,11 @@ jQuery('.steps').click(function(){
     step_id[1]++;
     data_id = 'step_' + step_id[1];
     if ( ! jQuery('[data-id="'+data_id+'"').length) {
-        jQuery('.bt-seguent').each(function() {
-            jQuery(this).removeClass('bt-seguent');
-            jQuery(this).addClass('bt-last');
-            jQuery(this).html('Demaneu col·laborar en aquest projecte');
-        });
+        jQuery("#bt-next").hide();
+        jQuery("#bt-last").show();
     } else {
-        jQuery('.bt-last').each(function() {
-            jQuery(this).removeClass('bt-last');
-            jQuery(this).addClass('bt-seguent');
-            jQuery(this).html('següent');
-        });
+        jQuery("#bt-last").hide();
+        jQuery("#bt-next").show();
     }
 });
 

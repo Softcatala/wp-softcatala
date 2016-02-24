@@ -39,7 +39,8 @@
                     <!-- .bt-seguent -->
                     <div class="row">
                         <div class="intern">
-                            <button type="button" class="bt-basic bt-seguent intern-center">següent</button>
+                            <button id="bt-next" type="button" class="bt-basic bt-seguent intern-center">següent</button>
+                            <button id="bt-last" type="button" data-target=".bs-formjoin-modal-lg" data-toggle="modal" class="bt-basic intern-center" style="display: none">Demaneu col·laborar en aquest projecte</button>
                         </div>
                     </div><!--/.bt-seguent -->
                 </section><!--/ section paragraf + llista elements icona -->
@@ -60,9 +61,17 @@
     <div id="step_2" style="display: none;">
         {{ projecte.lectures_recomanades }}
     </div>
+    {% if not projecte %}
     <div id="step_3" style="display: none;">
         {{ llistat_projectes }}
     </div>
+    {% endif %}
+
+    {% include "form-collaborar.twig" %}
+
+    {% include "report-traductor.twig" %}
+
+    {% include "template-avis.twig" %}
 
 
 {% endblock %}
