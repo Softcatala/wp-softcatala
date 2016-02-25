@@ -3,7 +3,6 @@
 <div class="modal fade bs-formjoin-modal-lg" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
 
-
         <!-- .modal-content -->
         <div class="modal-content">
 
@@ -21,17 +20,19 @@
                     </div>
                 </header><!--/.contingut-header -->
 
-                <section class="contingut-section" id="contingut-formulari-response" style="display:none">
+                <section class="contingut-section" id="contingut-formulari-projecte-response" style="display:none">
                 </section>
 
                 <!-- section -->
-                <section class="contingut-section" id="contingut-formulari">
+                <section class="contingut-section" id="contingut-formulari-projecte">
                     <form class="form-horizontal" id="collabora_form" method="post">
                         <!-- camp -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">El vostre nom *</label>
                             <div class="col-sm-6">
-                                <input type="text" name="nom" class="form-control" placeholder="Nom" required>
+                                <input type="hidden" name="llista" id="llista" value="{{ projecte.llista_de_correu }}" />
+                                <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title }}" />
+                                <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>
                             </div>
                         </div><!-- camp -->
 
@@ -39,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">El vostre correu electrònic *</label>
                             <div class="col-sm-6">
-                                <input type="email" name="correu" class="form-control" placeholder="Correu electrònic" required>
+                                <input type="email" name="correu_contacte" id="correu_contacte" class="form-control" placeholder="Correu electrònic" required>
                             </div>
                         </div><!-- camp -->
 

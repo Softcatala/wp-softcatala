@@ -5,54 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="pingback" href="{{site.pingback_url}}" />
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     {{function('wp_head')}}
 </head>
 <body>
-
-    <!-- .pag-header -->
-    <header class="pag-header cd-main-header">
-      <!-- navbar -->
-      <nav class="navbar">
-
-          <!-- .wrap-gris .hidden-xs -->
-          <div class="wrap-gris hidden-xs">
-            <div class="container-fluid">
-
-              <!-- .navbar-noticies .hidden-xs -->
-              <div class="navbar-noticies">
-                <ul class="nav navbar-nav">
-                  <li><a href="/noticies/">Notícies</a></li>
-                  <li><a href="/esdeveniments/">Esdeveniments</a></li>
-                  <li><a href="#">Premsa</a></li>
-                  <li><a href="#">Fòrums</a></li>
-                </ul>
-              </div><!--/.navbar-noticies .hidden-xs -->
-
-              <!-- .navbar-usuari .hidden-xs -->
-              <div class="navbar-usuari">
-                {{user_info.avatar}}
-                {% if user_info.is_connected %}
-                <ul class="nav navbar-nav">
-                  <li class="dropdown">
-                    <a href="{{user_info.profile_url}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user_info.name}} <i class="fa fa-chevron-down"></i></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="{{user_info.profile_url}}">Configureu</a></li>
-                        <li><a href="{{user_info.wp_logout_url}}">Desconnecteu</a></li>
-                      </ul>
-                  </li>
-                </ul>
-                {% else %}
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="{{user_info.wp_login_url}}">Connecteu-vos</a>
-                    </li>
-                </ul>
-                {% endif %}
-              </div><!--/.navbar-usuari .hidden-xs -->
-
-            </div><!--/.container-fluid -->
-          </div><!--/.wrap-gris -->
-
-          <!--#include virtual="/ssi/menu-header.html" -->
-    </header><!--/.pag-header -->
+    <!--#include virtual="/ssi/menu-header.html" -->

@@ -144,3 +144,57 @@ function get_program_link( $program ) {
 
     return $link;
 }
+
+/**
+ * Returns a post value given a custom_field
+ *
+ * @param string $post_type
+ * @param string $custom_field
+ * @param string $custom_field_value
+ * @param string $field
+ * @return mixed
+ */
+function get_field_value_from_custom_field( $post_type, $custom_field, $custom_field_value, $field ) {
+    $args = array(
+        'post_type' => $post_type,
+        'meta_query' => array(
+            array(
+                'key' => $custom_field,
+                'value' => $custom_field_value,
+                'compare' => '='
+            )
+        )
+    );
+    $posts = query_posts($args);
+    $post = new TimberPost($posts[0]->ID);
+
+    return $post->$field;
+}
+
+/**
+ * Tries to subscribe an email to a mailing list
+ *
+ * @param $url
+ * @return mixed
+ */
+function send_subscription_to_mailinlist( $url ) {
+    $result['message'] = '';
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    if(preg_match('#Subscrit satisfactòriament#i', $data)) {
+        $result['status'] = true;
+    } else {
+        $result['status'] = false;
+        if(preg_match('#Ja sou membre#i', $data)) {
+            $result['message'] = 'Sembla que ja sou membre de la llista de correu.';
+        }
+    }
+
+    return $result;
+}

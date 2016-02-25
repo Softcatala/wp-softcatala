@@ -16,15 +16,29 @@ $context = Timber::get_context();
 
 //Project
 $project_slug = get_query_var( 'project' );
-if ( $project_slug != '' ) {
+if ( ! empty ( $project_slug ) ) {
     $projecte = get_page_by_path( $project_slug , OBJECT, 'projecte' );
     $projecte = new TimberPost($projecte->ID);
-    $content_title = 'Vull col·laborar en el projecte '. $projecte->post_title;
+    $content_title = 'Col·laboreu en el projecte '. $projecte->post_title;
     $projecte->project_requirements = apply_filters('the_content', $projecte->project_requirements);
     $projecte->lectures_recomanades = apply_filters('the_content', $projecte->lectures_recomanades);
     $context['projecte'] = $projecte;
 } else {
     $content_title = 'Vull col·laborar';
+    $args = array(
+        'post_type' => 'projecte',
+        'meta_query' => array(
+            array(
+                'key' => 'wpcf-arxivat_pr',
+                'value' => 0,
+                'compare' => '='
+            )
+        )
+    );
+    $projectes = Timber::get_posts($args);
+    $context['projectes'] = $projectes;
+    $context['post_lectures'] = $post = retrieve_page_data( 'lectures-recomanades' ); //looks for the page with slug lectures_recomanades-page
+    $context['post_requirements'] = $post = retrieve_page_data( 'projectes-requeriments' ); //looks for the page with slug projecte_requeriments-page
 }
 
 $post = new TimberPost();

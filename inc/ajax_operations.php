@@ -17,6 +17,57 @@ add_action( 'wp_ajax_nopriv_contact_form', 'sc_contact_form' );
 /** SINÒNIMS **/
 add_action( 'wp_ajax_find_sinonim', 'sc_find_sinonim' );
 add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
+/** PROJECTES */
+add_action( 'wp_ajax_subscribe_list', 'sc_subscribe_list' );
+add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
+
+
+/**
+ * Function to make the request to synonims dictionary server
+ *
+ * @return json response
+ */
+function sc_subscribe_list() {
+    $nom = sanitize_text_field( $_POST["nom"] );
+    $correu = sanitize_text_field( $_POST["correu"] );
+    $llista = sanitize_text_field( $_POST["llista"] );
+    $projecte = sanitize_text_field( $_POST["projecte"] );
+
+    if( ! empty ( $llista )) {
+        $password = get_field_value_from_custom_field( 'llista', 'wpcf-url_llista', $llista, 'password');
+        if ( ! empty ( $password )){
+            $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload='.$correu.'&adminpw='.$password;
+            $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
+            $url = $list_admin_url . $path;
+            $response_subscription = send_subscription_to_mailinlist($url);
+            if ( $response_subscription['status'] ) {
+                $result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
+            } else {
+                $result['text'] = "S'ha produït un error. " . $response_subscription['message'];
+            }
+        }
+    } else {
+        $to_email = 'web@softcatala.org';
+        $subject = '[Projectes] Demanda de participació al projecte '. $projecte;
+        $message = 'Un usuari ha demanat col·laborar al projecte '. $projecte;
+        $message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
+        $message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: '. $nom . '<br/>Email: '. $correu;
+
+        //proceed with PHP email.
+        $headers = 'From: '.$nom.' <'.$to_email. ">\r\n" .
+            'Reply-To: '.$correu.'' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        if ( wp_mail( $to_email, $subject, $message, $headers )) {
+            $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
+        } else {
+            $result['text'] = "S'ha produït un error. Proveu més tard.";
+        }
+    }
+
+    $response = json_encode( $result );
+    die( $response );
+}
 
 /**
  * Function to make the request to synonims dictionary server
