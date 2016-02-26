@@ -177,7 +177,7 @@ function get_field_value_from_custom_field( $post_type, $custom_field, $custom_f
  * @param $url
  * @return mixed
  */
-function send_subscription_to_mailinlist( $url ) {
+function send_subscription_to_mailinglist( $url ) {
     $result['message'] = '';
     $ch = curl_init();
     $timeout = 5;
@@ -193,6 +193,8 @@ function send_subscription_to_mailinlist( $url ) {
         $result['status'] = false;
         if(preg_match('#Ja sou membre#i', $data)) {
             $result['message'] = 'Sembla que ja sou membre de la llista de correu.';
+        } else {
+            $result['message'] = 'S\'ha produït un error desconegut. Podeu informar-nos a <a href="mailto:web@softcatala.org">web@softcatala.org</a>';
         }
     }
 

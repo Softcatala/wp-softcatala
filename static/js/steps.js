@@ -21,7 +21,7 @@ jQuery('.steps').click(function(){
         jQuery("#bt-next").show();
     }
 
-    //Don't show the 'Demanue col·laborar' button in the 3rd step
+    //Don't show the 'Demaneu col·laborar' button in the 3rd step
     if(step_id[1] > 3) {
         jQuery("#bt-last").hide();
     }

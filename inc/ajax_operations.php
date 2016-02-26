@@ -34,12 +34,12 @@ function sc_subscribe_list() {
     $projecte = sanitize_text_field( $_POST["projecte"] );
 
     if( ! empty ( $llista )) {
-        $password = get_field_value_from_custom_field( 'llista', 'wpcf-url_llista', $llista, 'password');
+        $password = get_option( 'llistes_access' );
         if ( ! empty ( $password )){
             $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload='.$correu.'&adminpw='.$password;
             $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
             $url = $list_admin_url . $path;
-            $response_subscription = send_subscription_to_mailinlist($url);
+            $response_subscription = send_subscription_to_mailinglist($url);
             if ( $response_subscription['status'] ) {
                 $result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
             } else {

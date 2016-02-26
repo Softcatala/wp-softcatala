@@ -29,6 +29,8 @@ class StarterSite extends TimberSite {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
+        //SC Dashboard settings
+        add_action('admin_menu', array( $this, 'include_sc_settings' ));
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
@@ -47,6 +49,25 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
         locate_template( array( 'inc/rewrites.php' ), true, true );
+    }
+
+    /**
+     * Custom Softcatalà settings
+     */
+    function include_sc_settings() {
+        register_setting( 'softcatala-group', 'llistes_access' );
+
+        if ( function_exists('add_submenu_page') )
+            add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
+    }
+
+    /**
+     * Renders the Softcatalà dashboard settings page
+     */
+    function softcatala_dash_page() {
+        $admin_template = dirname(__FILE__) . '/templates/admin/sc-dash.twig';
+        $section_html_content = Timber::fetch( $admin_template );
+        echo $section_html_content;
     }
 
     function register_post_types() {
