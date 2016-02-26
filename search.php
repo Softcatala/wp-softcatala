@@ -6,7 +6,6 @@
  *
  * @package  wp-softcatala
  */
-die('test');
 $search = get_search_query();
 
 $templates = array( 'archive-'.$post_type.'.twig', 'index.twig' );

@@ -65,18 +65,21 @@ function get_top_downloads_home()
     $json_url = get_home_url()."/top.json";
     $baixades_json = json_decode( file_get_contents( $json_url ) );
 
-    foreach ( $baixades_json as $key => $operating_system ) {
-        $programari[$key] = array();
-        $i = 0;
-        foreach ( $operating_system as $pkey => $program ) {
-            if ($i < $limit) {
-                $link = get_program_link($program);
-                if ( $link ) {
-                    $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 4 );
-                    $programari[$key][$pkey]['link'] = $link;
-                    $programari[$key][$pkey]['total_downloads'] = $program->total;
+    $programari = array();
+    if ( $baixades_json ) {
+        foreach ( $baixades_json as $key => $operating_system ) {
+            $programari[$key] = array();
+            $i = 0;
+            foreach ( $operating_system as $pkey => $program ) {
+                if ($i < $limit) {
+                    $link = get_program_link($program);
+                    if ( $link ) {
+                        $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 4 );
+                        $programari[$key][$pkey]['link'] = $link;
+                        $programari[$key][$pkey]['total_downloads'] = $program->total;
+                    }
+                    $i++;
                 }
-                $i++;
             }
         }
     }
@@ -140,4 +143,60 @@ function get_program_link( $program ) {
     }
 
     return $link;
+}
+
+/**
+ * Returns a post value given a custom_field
+ *
+ * @param string $post_type
+ * @param string $custom_field
+ * @param string $custom_field_value
+ * @param string $field
+ * @return mixed
+ */
+function get_field_value_from_custom_field( $post_type, $custom_field, $custom_field_value, $field ) {
+    $args = array(
+        'post_type' => $post_type,
+        'meta_query' => array(
+            array(
+                'key' => $custom_field,
+                'value' => $custom_field_value,
+                'compare' => '='
+            )
+        )
+    );
+    $posts = query_posts($args);
+    $post = new TimberPost($posts[0]->ID);
+
+    return $post->$field;
+}
+
+/**
+ * Tries to subscribe an email to a mailing list
+ *
+ * @param $url
+ * @return mixed
+ */
+function send_subscription_to_mailinglist( $url ) {
+    $result['message'] = '';
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    if(preg_match('#Subscrit satisfactòriament#i', $data)) {
+        $result['status'] = true;
+    } else {
+        $result['status'] = false;
+        if(preg_match('#Ja sou membre#i', $data)) {
+            $result['message'] = 'Sembla que ja sou membre de la llista de correu.';
+        } else {
+            $result['message'] = 'S\'ha produït un error desconegut. Podeu informar-nos a <a href="mailto:web@softcatala.org">web@softcatala.org</a>';
+        }
+    }
+
+    return $result;
 }

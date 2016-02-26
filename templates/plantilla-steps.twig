@@ -1,0 +1,94 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<!-- .main .wrap-blanc -->
+<main class="main wrap-blanc cd-main-content">
+
+    <!-- .main-header -->
+    {% include "contingut-header.twig" %}
+    <!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- .contingut -->
+            <div class="contingut contingut-left col-sm-12 col-md-9">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="bt-grup row">
+                        <div class="col-xs-4"><button type="button" data-id="step_1" class="bt-basic steps active"><span><i>01</i><p>Requisits</p></span></button></div>
+                        <div class="col-xs-4"><button type="button" data-id="step_2" class="bt-basic steps segon"><span><i>02</i><p>Lectures recomenades</p></span></button></div>
+                        {% if not projecte %}<div class="col-xs-4"><button type="button" data-id="step_3" class="bt-basic steps"><span><i>03</i><p>On cal ajuda?</p></span></button></div>{% endif %}
+                        <ul class="titol-xxs visible-xxs-block">
+                            <li>Requisits</li>
+                            <li class="hidden">Lectures recomenades</li>
+                            {% if not projecte %}<li class="hidden">On cal ajuda?</li>{% endif %}
+                        </ul>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <!-- section paragraf + llista elements icona -->
+                <section class="contingut-section">
+                    <!--.row -->
+                <div id="step_1" class="step_div">
+                    {% if projecte %}{{ projecte.project_requirements }}{% else %}{{ post_requirements.content }}{% endif %}
+                </div>
+                <div id="step_2" class="step_div" style="display: none;">
+                    {% if projecte %}{{ projecte.lectures_recomanades }}{% else %}{{ post_lectures.content }}{% endif %}
+                </div>
+                {% if projectes %}
+                    <div id="step_3" class="step_div" style="display: none;">
+                        <p>A continuació teniu la llista de tots els projectes de Softcatalà que requereixen col·laboradors. Feu clic a «Col·laboreu-hi» per apuntar-vos</p>
+                        <!-- .row -->
+                        <div class="row">
+                            {% for projecte in projectes %}
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="thumbnail thumbnail-gris-img">
+                                        <a href="#" title="{{ projecte.title }}" data-llista="{{ projecte.llista_de_correu }}" data-projecte="{{ projecte.title }}" class="link_colabora">
+                                            {% if projecte.logotip %}
+                                                <img src="{{ projecte.logotip|resize(90, 90, 'top') }}" alt="logotip {{ projecte.title }}">
+                                            {% else %}
+                                                <i style="font-size: 90px" class="fa fa-cogs"></i>
+                                            {% endif %}
+                                            <div class="caption">
+                                                <h3>{{ projecte.title }}</h3>
+                                                <p>{{ projecte.post_excerpt|truncate(25) }}</p>
+                                                <span class="bt-aneu">col·laboreu-hi<i class="fa fa-chevron-right"></i></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div><!--/.row -->
+                    </div>
+                    <!--/.row -->
+                {% endif %}
+
+                    <!-- .bt-seguent -->
+                    <div class="row">
+                        <div class="intern">
+                            <button id="bt-next" type="button" class="bt-basic bt-seguent intern-center">següent</button>
+                            <button id="bt-last" type="button" data-target=".bs-formjoin-modal-lg" data-toggle="modal" class="bt-basic intern-center" style="display: none">Demaneu col·laborar en aquest projecte</button>
+                        </div>
+                    </div><!--/.bt-seguent -->
+                </section><!--/ section paragraf + llista elements icona -->
+            </div><!--/.contingut -->
+
+            {% include "sidebar.twig" %}
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "form-collaborar.twig" %}
+
+    {% include "report-traductor.twig" %}
+
+    {% include "template-avis.twig" %}
+
+
+{% endblock %}

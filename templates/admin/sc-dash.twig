@@ -1,0 +1,18 @@
+<div class="wrap">
+    <h2>Paràmetres generals de Softcatalà</h2>
+    <h3>Llistes de correu</h3>
+    <form method="post" action="options.php">
+
+        {{ function( 'settings_fields', 'softcatala-group' ) }}
+        {{ function( 'do_settings_sections', 'softcatala-group' ) }}
+        <p>
+        <table class="form-table">
+            <tbody><tr valign="top">
+                <th scope="row"><label>Contrasenya global</label></th>
+                <td><input type="password" value="{{ function( 'get_option', 'llistes_access') }}" id="llistes_access" name="llistes_access"></td>
+            </tr>
+            </tbody></table>
+        </p>
+        {{ function('submit_button') }}
+    </form>
+</div>

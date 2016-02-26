@@ -5,5 +5,9 @@ function add_rewrite_rules($aRules) {
     //Diccionari de sinònims
     $aNewRules = array('diccionari-de-sinonims/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
+
+    //Plantilla steps
+    $aNewRules = array('col·laboreu/projecte/([^/]+)/?' => 'index.php?post_type=page&pagename=col·laboreu&project=$matches[1]');
+    $aRules = $aNewRules + $aRules;
     return $aRules;
 }

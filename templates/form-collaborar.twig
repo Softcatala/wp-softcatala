@@ -1,0 +1,64 @@
+<!-- .contingut -->
+
+<div class="modal fade bs-formjoin-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- .modal-content -->
+        <div class="modal-content">
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <!-- .formulari -->
+            <div class="formulari">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Col·laboreu amb aquest projecte</h1>
+                            <p>Per col·laborar amb aquest projecte només cal que us inscriviu a la llista de correu. Digueu-nos quina és la vostra adreça electrònica i
+                            us inscriurem a la llista de correu automàticament.</p>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+
+                <section class="contingut-section" id="contingut-formulari-projecte-response" style="display:none">
+                </section>
+
+                <!-- section -->
+                <section class="contingut-section" id="contingut-formulari-projecte">
+                    <form class="form-horizontal" id="collabora_form" method="post">
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">El vostre nom *</label>
+                            <div class="col-sm-6">
+                                <input type="hidden" name="llista" id="llista" value="{{ projecte.llista_de_correu }}" />
+                                <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title }}" />
+                                <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>
+                            </div>
+                        </div><!-- camp -->
+
+                        <!-- camp -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">El vostre correu electrònic *</label>
+                            <div class="col-sm-6">
+                                <input type="email" name="correu_contacte" id="correu_contacte" class="form-control" placeholder="Correu electrònic" required>
+                            </div>
+                        </div><!-- camp -->
+
+                        <!-- botons -->
+                        <div class="form-group">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9 form-botons">
+                                <div class="row">
+                                    <div class="form-boto col-xs-5">
+                                        <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--/botons -->
+                    </form>
+                </section><!--/ section -->
+            </div><!--/.formulari -->
+
+        </div><!-- .modal-content -->
+    </div><!--/.modal-dialog -->
+</div><!--/.modal -->
