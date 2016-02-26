@@ -1,0 +1,12 @@
+{% if response %}
+    <h1>Paraules que comencen per <strong>{{ response.lletra }}</strong></h1>
+    {% for row in response.result.words|batch((response.result.words|length)/4) %}
+        <div class="col-xs-6 col-md-3">
+            <ul>
+            {% for word in row %}
+                <li><a href="/diccionari-multilingue/paraula/{{ word }}">{{ word }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endif %}

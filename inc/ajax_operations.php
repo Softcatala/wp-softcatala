@@ -20,7 +20,35 @@ add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
 /** PROJECTES */
 add_action( 'wp_ajax_subscribe_list', 'sc_subscribe_list' );
 add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
+/** DICCIONARI MULTILINGÜE */
+add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
+add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
 
+/**
+ * Retrieves the results from the Multilingüe API server given a word + language
+ *
+ * @return json response
+ */
+function sc_multilingue_search() {
+    $paraula = sanitize_text_field( $_POST["paraula"] );
+    $lang = sanitize_text_field( $_POST["lang"] );
+
+    $url_api = 'https://www.softcatala.org/diccionari-multilingue/api/';
+    $url = $url_api.'search/'.$paraula.'?lang='.$lang;
+    $api_response = json_decode( file_get_contents( $url ) );
+
+    if ( isset( $api_response[0] ) ) {
+        $response['result'] = $api_response[0];
+    } else {
+        $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+    }
+    $response['paraula'] = $paraula;
+
+    $result = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+
+    echo json_encode( $result );
+    die();
+}
 
 /**
  * Function to make the request to synonims dictionary server

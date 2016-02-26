@@ -1,0 +1,96 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    <section class="formulari-eines contingut-section">
+                            <div class="btns-diccionari row">
+                                <div class="col-xs-12">
+                                    <p>Escriviu el terme que voleu cercar i premeu el botó de cerca.</p>
+                                </div>
+                            </div>
+                    </section>
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+
+                        <!-- .filtres -->
+                        <form id="multilingue_form" class="form-horizontal">
+                            <div class="filtres row">
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" id="source" name="source" required class="form-control" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu el terme">
+                                        <span class="input-group-addon"><button id="_action_consulta" type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <div class="row">
+                                                <!-- dropdown sitemes operatius -->
+                                                <div class="col-sm-6">
+                                                    <select class="form-control selectpicker" id="lang" name="lang">
+                                                        <option {% if lang == 'ca' %}selected="selected"{% endif %} value="ca">català</option>
+                                                        <option {% if lang == 'es' %}selected="selected"{% endif %} value="es">espanyol</option>
+                                                        <option {% if lang == 'en' %}selected="selected"{% endif %} value="en">anglès</option>
+                                                        <option {% if lang == 'de' %}selected="selected"{% endif %} value="de">alemany</option>
+                                                        <option {% if lang == 'fr' %}selected="selected"{% endif %} value="fr">francès</option>
+                                                        <option {% if lang == 'it' %}selected="selected"{% endif %} value="it">italià</option>
+                                                    </select>
+                                                </div><!--/dropdown sitemes operatius -->
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--/.filtres -->
+                        </form>
+                    </header><!--/.contingut-header -->
+
+
+
+                    <section class="formulari-eines contingut-section">
+                        {% include "static/index-lletres.twig" %}
+
+                        <!-- .diccionari-resultat  -->
+                        <div class="diccionari-resultat" id="results" {% if not cerca_result %}style="display:none"{% endif %}>
+                            {% if cerca_result %}
+                                {{ cerca_result }}
+                            {% endif %}
+                        </div><!--/.diccionari-resultat  -->
+
+                    </section><!--/.formulari-eines  -->
+
+                    <!-- .contingut-section  -->
+                    <section class="contingut-section">
+                        {{post.content}}
+                    </section><!--/.contingut-section  -->
+                </div><!--/.contingut -->
+
+                {% include "sidebar.twig" %}
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "report-traductor.twig" %}
+
+    {% include "credits.twig" %}
+
+    {% include "template-avis.twig" %}
+
+{% endblock %}

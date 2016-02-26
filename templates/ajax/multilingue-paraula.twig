@@ -1,0 +1,32 @@
+{% if response.result %}
+    <h1>{{ response.paraula }}</h1>
+    <ul>
+        {% if response.result.word_ca or response.result.definition_ca %}
+            <li><strong>Català</strong>: {{ response.result.word_ca }}{{ response.result.definition_ca|print_definition }}</li>
+        {% endif %}
+        {% if response.result.word_es or response.result.definition_es %}
+            <li><strong>Espanyol</strong>: {{ response.result.word_es }}{{ response.result.definition_es|print_definition }}</li>
+        {% endif %}
+        {% if response.result.word_en or response.result.definition_en %}
+            <li><strong>Anglès</strong>: {{ response.result.word_en }}{{ response.result.definition_en|print_definition }}</li>
+        {% endif %}
+        {% if response.result.word_fr or response.result.definition_fr %}
+            <li><strong>Francès</strong>: {{ response.result.word_fr }}{{ response.result.definition_fr|print_definition }}</li>
+        {% endif %}
+        {% if response.result.word_de or response.result.definition_de %}
+            <li><strong>Alemany</strong>: {{ response.result.word_de }}{{ response.result.definition_de|print_definition }}</li>
+        {% endif %}
+        {% if response.result.word_it or response.result.definition_it %}
+            <li><strong>Italià</strong>: {{ response.result.word_it }}{{ response.result.definition_it|print_definition }}</li>
+        {% endif %}
+    </ul>
+
+    <p>Font: {{ response.result|get_source_link }}</p>
+
+    {% if response.result.image %}
+    <img src="https://www.softcatala.org/diccionari-multilingue/api/images/{{ response.result.image }}">
+    {% endif %}
+{% endif %}
+{% if response.message %}
+    {{ response.message }}
+{% endif %}
