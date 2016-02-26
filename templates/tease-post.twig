@@ -10,9 +10,9 @@
             <p>{{post.get_preview(50, false, __('Read more...'))}}</p>
           </div><!--/.article-cont - Extracte contingut article -->
         </div>
-        {% if attribute(post,'wpcf-main_image_post') %}
+        {% if post.main_image_post %}
         <div class="col-sm-3">
-          <img alt="{{post.title}}" src="{{attribute(post,'wpcf-main_image_post')|resize(170)}}">
+          <img alt="{{post.title}}" src="{{ post.main_image_post|resize(170)}}">
         </div>
         {% endif %}
       </div>
