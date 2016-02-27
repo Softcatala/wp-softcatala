@@ -1,0 +1,87 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <script type="text/javascript">
+        var currentLocation = window.location;
+    </script>
+    <p>{{qux}}</p>
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- .contingut -->
+                <div class="contingut contingut-left llista-noticies col-sm-12 col-md-9">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+
+                        <!-- .filtres -->
+                        <form class="searchform" method="get" id="cerca_noticies" role="search" action="/cerca">
+                            <div class="filtres row">
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
+                                        <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                    </div>
+                                </div>
+                            </div><!--/.filtres -->
+                        </form>
+                    </header><!--/.contingut-header -->
+
+                    {% if posts %}
+                        {% for post in posts %}
+                            {% if post.main_image_post %}
+                                {% set post_image = post.main_image_post %}
+                                {% set width_post = '' %}
+                            {% elseif post.logotip %}
+                                {% set post_image = post.logotip %}
+                                {% set width_post = '' %}
+                            {% elseif post.logotip_programa %}
+                                {% set post_image = post.logotip_programa %}
+                                {% set width_post = '' %}
+                            {% else %}
+                                {% set width_post = 'col-sm-12' %}
+                            {% endif %}
+                            <article class="contingut-article post-type-{{post.post_type}}" id="post-{{post.ID}}">
+                                <div class="row">
+                                    <div class="{% if width_post %}{{ width_post }}{% else %}col-sm-9{% endif %}">
+                                        <h2><a href="{{post.link}}">{{post.title}}</a></h2>
+                                        <!-- .article-cont - Extracte contingut article -->
+                                        <div class="article-cont">
+                                            <p>{{post.get_preview(50, false, __('Read more...'))}}</p>
+                                        </div><!--/.article-cont - Extracte contingut article -->
+                                    </div>
+                                    {% if post.main_image_post or post.logotip or post.logotip_programa %}
+                                        <div class="col-sm-3">
+                                            <img alt="{{post.title}}" src="{{ post_image|resize(170, 170, 'top') }}">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!-- .article-footer -->
+                                <footer class="article-footer">
+                                    Publicat per <a href="{{post.author.path}}">{{ post.author.name }}</a>
+                                    <time class="data-temps" itemprop="dateCreated" datetime="{{ post.post_date|date('Y-n-j')}}">{{ post.post_date|date}}</time>
+                                </footer><!--/.article-footer -->
+                                <hr class="clara">
+                            </article>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- .pagination -->
+                    {% include "pagination.twig" %}
+                    <!--/.pagination -->
+                </div><!--/.contingut -->
+
+                {% include "sidebar.twig" %}
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}
