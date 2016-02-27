@@ -27,11 +27,12 @@
                         <form id="multilingue_form" class="form-horizontal">
                             <div class="filtres row">
                                 <div class="col-sm-10">
+                                    <!-- AUTOCOMPLETE TESTS !-->
+                                    <script type="text/javascript" src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>            <!-- AUTOCOMPLETE TESTS !-->
                                     <div class="input-group">
-                                        <input type="text" id="source" name="source" required class="form-control" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu el terme">
+                                        <input type="text" id="source" name="source" required class="form-control typeahead" data-provide="typeahead" autocomplete="off" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu el terme">
                                         <span class="input-group-addon"><button id="_action_consulta" type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-sm-10">
                                             <div class="row">

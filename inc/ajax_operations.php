@@ -23,6 +23,26 @@ add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
 /** DICCIONARI MULTILINGÜE */
 add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
 add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
+add_action( 'wp_ajax_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
+add_action( 'wp_ajax_nopriv_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
+
+/**
+ * Retrieves the results from the Multilingüe API server given a word + language
+ *
+ * @return json response
+ */
+function sc_multilingue_autocomplete() {
+    $paraula = sanitize_text_field( $_POST["paraula"] );
+    $lang = sanitize_text_field( $_POST["lang"] );
+
+    $url_api = 'https://www.softcatala.org/diccionari-multilingue/api/';
+    $url = $url_api.'autocomplete/'.$paraula.'?lang='.$lang;
+
+    $api_response = json_decode( file_get_contents( $url ) );
+
+    echo json_encode(  $api_response );
+    die();
+}
 
 /**
  * Retrieves the results from the Multilingüe API server given a word + language

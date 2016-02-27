@@ -116,3 +116,33 @@ function update_share_links(query) {
     jQuery('#share_twitter').attr("href", url_twitter);
     jQuery('#share_google').attr("href", url_google);
 }
+
+//Autocomplete
+jQuery('#source').typeahead({
+        minLength: 1
+    },
+    {
+        limit: 12,
+        async: true,
+        source: function (query, processSync, processAsync) {
+            var lang = jQuery('#lang option:selected').val();
+
+            //Data
+            var post_data = new FormData();
+            post_data.append('paraula', query);
+            post_data.append('lang', lang);
+            post_data.append('action', 'multilingue_autocomplete');
+
+            return jQuery.ajax({
+                url: scajax.ajax_url,
+                type: 'POST',
+                data: post_data,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (json) {
+                    return processAsync(json.words);
+                }
+            });
+        }
+    });
