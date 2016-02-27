@@ -27,7 +27,9 @@ class StarterSite extends TimberSite {
         add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
+        add_action( 'init', array( $this, 'sc_rewrite_search' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
+        add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
         //SC Dashboard settings
         add_action('admin_menu', array( $this, 'include_sc_settings' ));
@@ -49,6 +51,25 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
         locate_template( array( 'inc/rewrites.php' ), true, true );
+    }
+
+    /**
+     *
+     * esta funció s'encarrega de que si arriba alguna URL tipus /?s=XXX la converteix
+     */
+    function sc_change_search_url_rewrite() {
+        if ( is_search() && ! empty( $_GET['s'] ) ) {
+            wp_redirect( home_url( "/cerca/" ) . urlencode( get_query_var( 's' ) ) );
+            exit();
+        }
+    }
+
+    /**
+     * Change "search" by "cerca"
+     */
+    function sc_rewrite_search(){
+        global $wp_rewrite;
+        $wp_rewrite->search_base = 'cerca';
     }
 
     /**
