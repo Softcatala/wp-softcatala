@@ -119,7 +119,7 @@ function update_share_links(query) {
 
 //Autocomplete
 jQuery('#source').typeahead({
-        minLength: 1
+        minLength: 3
     },
     {
         limit: 12,
