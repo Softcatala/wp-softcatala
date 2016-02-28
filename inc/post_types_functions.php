@@ -124,7 +124,9 @@ function generate_url_download( $baixades, $post ) {
 function get_program_link( $program ) {
     $link = false;
     if( isset( $program->wordpress_id )) {
-        $link = get_post_permalink( $program->wordpress_id );
+        if ( FALSE !== get_post_status( $program->wordpress_id ) ) {
+            $link = get_post_permalink( $program->wordpress_id );
+        }
     } else {
         $args = array(
             'post_type' => 'programa',
