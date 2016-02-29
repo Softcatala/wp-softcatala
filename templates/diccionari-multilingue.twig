@@ -21,7 +21,6 @@
                                 <div class="col-xs-12">
                                     <p>Escriviu el terme que voleu cercar i premeu el botó de cerca.</p>
                                     <div class="input-group">
-                                        <script type="text/javascript" src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>            <!-- AUTOCOMPLETE TESTS !-->
                                         <input type="text" id="source" name="source" required class="form-control typeahead" data-provide="typeahead" autocomplete="off" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu el terme">
                                         <a name="_action_consulta" id="_action_consulta" class="input-group-addon bt-basic bt-basic-vermell" href="#">cerca <i style="display: none;" class="fa fa-spinner fa-pulse" id="loading"></i></a>
                                     </div>
@@ -53,10 +52,6 @@
                         </form>
 
                         {% include "static/index-lletres.twig" %}
-
-                        <!-- .diccionari-resultat  -->
-                        <div style="display:none" id="results" class="diccionari-resultat">
-                        </div><!--/.diccionari-resultat  -->
 
                     </section>
 

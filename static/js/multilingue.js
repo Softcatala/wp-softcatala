@@ -8,6 +8,8 @@ $sinonims_form.on('submit', function(ev) {
 });
 
 jQuery('#_action_consulta').click(function(){
+    jQuery('.typeahead').typeahead('close');
+
     var query = jQuery('#source').val();
     var lang = jQuery('#lang option:selected').val();
 
@@ -118,10 +120,13 @@ function update_share_links(query) {
 }
 
 //Autocomplete
-jQuery('#source').typeahead({
-        minLength: 3
+jQuery('#source').typeahead(
+    {
+        minLength: 1,
+        hint: true,
     },
     {
+        delay: 3500,
         limit: 12,
         async: true,
         source: function (query, processSync, processAsync) {
@@ -145,4 +150,5 @@ jQuery('#source').typeahead({
                 }
             });
         }
-    });
+    }
+);
