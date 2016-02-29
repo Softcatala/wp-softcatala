@@ -1,20 +1,23 @@
 <?php
 /**
- * The template for displaying Author Archive pages
+ * The template for displaying Member pages
  *
- * Methods for TimberHelper can be found in the /lib sub-directory
- *
- * @package  WordPress
- * @subpackage  Timber
- * @since    Timber 0.1
+ * @package  wp-softcatala
  */
-global $wp_query;
+//JS and Styles related to the page
 
+//Template initialization
 $data = Timber::get_context();
 $data['posts'] = Timber::get_posts();
 if ( isset( $wp_query->query_vars['author'] ) ) {
-	$author = new TimberUser( $wp_query->query_vars['author'] );
-	$data['author'] = $author;
-	$data['title'] = 'Publicades per ' . $author->name();
+    $author = new TimberUser( $wp_query->query_vars['author'] );
+    $data['author'] = $author;
+    $data['author_role'] = get_user_role( $author );
+    $data['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
+    $data['author_image'] = get_avatar( $author->ID, 270 );
+    $data['title'] = 'Publicades per ' . $author->name();
 }
-Timber::render( array( 'index.twig', 'archive.twig' ), $data );
+Timber::render( array( 'single-author.twig', 'archive.twig' ), $data );
+
+
+

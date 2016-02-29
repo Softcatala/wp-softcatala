@@ -115,6 +115,8 @@ class StarterSite extends TimberSite {
         $twig->addExtension( new Twig_Extension_StringLoader() );
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
+        $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
+        $twig->addFilter('get_source_link', new Twig_SimpleFilter( 'get_source_link', 'get_source_link' ));
         return $twig;
     }
 
@@ -243,6 +245,46 @@ function truncate_twig( $string, $size )
     $splitstring = wp_trim_words( str_replace('_', ' ', $string ), $size );
 
     return $splitstring;
+}
+
+/**
+ * Twig function specific for Dictionari multilingüe
+ * Gets the source URL from the given data
+ */
+function get_source_link($result) {
+    if($result->source == 'wikidata') {
+        $value = '<a href="https://www.wikidata.org/wiki/' . $result->references->wikidata . '">Wikidata</a>';
+    } else if ($result->source == 'wikidictionary_ca') {
+        $value = '<a href="https://ca.wiktionary.org/wiki/' . $result->references->wikidictionary_ca . '">Viccionari</a>';
+    }
+
+    return $value;
+}
+
+/**
+ * Twig function specific for Diccionari multilingüe
+ *
+ * @param string
+ * @return string
+ */
+function print_definition( $def ) {
+    $def = trim($def);
+    $pos = strpos($def, '#');
+
+    if ($pos === false) {
+        $result = ' - ' . $def;
+    } else {
+        $def = str_replace('#', '', $def);
+        $entries = explode("\n", $def);
+        $filtered = array_filter(array_map('trim_entries', $entries));
+        $result = ' - ' . implode('<br />- ', $filtered) . '<br />';
+    }
+
+    return $result;
+}
+function trim_entries($entry) {
+    $trimmed = trim($entry);
+    return empty($trimmed) ? null : $trimmed;
 }
 
 /**
@@ -548,6 +590,8 @@ function add_query_vars_filter( $vars ){
     $vars[] = "tema";
     $vars[] = "data";
     $vars[] = "project";
+    $vars[] = "lletra";
+    $vars[] = "llengua";
 
     return $vars;
 }
@@ -680,3 +724,17 @@ function cc_mime_types($mimes) {
     return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
+
+/**
+ * Returns the user role for a user
+ *
+ * @param $user
+ * @return mixed
+ */
+function get_user_role( $author ) {
+    $user = get_user_by( 'id', $author->ID);
+    $user_roles = $user->roles;
+    $user_role = array_shift($user_roles);
+
+    return $user_role;
+}

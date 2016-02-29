@@ -1,0 +1,99 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc membre cd-main-content">
+
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xxs-12 col-xs-8 col-sm-9">
+                        <h1>{{ author.first_name }} {{ author.last_name }}</h1>
+                        {% include "share_links.twig" %}
+                    </div>
+                </div>
+            </div>
+        </header><!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .cont-aside-left -->
+                <aside class="aside-left col-sm-12 col-md-3">
+
+                    <div class="row">
+
+                        <div class="img-membre col-xxs-12 col-xs-6 col-md-12">
+                            {{ author_image }}
+                        </div>
+
+                        <div class="col-xxs-12 col-xs-12 col-md-12">
+                            <div class="fitxa-membre">
+                                <i class="fa fa-envelope-o"></i>
+                                <ul class="mail">
+                                    <li>Adre&ccedil;a electr&ograve;nica</li>
+                                    <li>{{ author.user_email }}</li>
+                                </ul>
+                                <hr>
+                                <i class="fa fa-globe"></i>
+                                <ul class="lloc-web">
+                                    <li>LLocs web</li>
+                                    {% for lloc_web in attribute(author,'wpcf-llocs_web') %}
+                                    <li><a href="{{ lloc_web }}">{{ lloc_web }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <ul class="info">
+                                    <li><i class="fa fa-bookmark"></i>{{ author_role }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="ubicacio col-xxs-12 col-xs-6 col-md-12">
+                            <h2>ubicaci&oacute;</h2>
+                            <p class="coordenades"></p>
+                            <div class="mapa">
+                                {{ attribute(author,'wpcf-ubicacio') }}
+                            </div>
+                        </div>
+
+                    </div>
+                </aside><!--/.cont-aside-left -->
+
+                <!-- .contingut -->
+                <div class="contingut col-sm-12 col-md-9">
+
+
+                    <!-- .contingut-section - paragraf + llistes -->
+                    <section class="contingut-section">{{ author_content }}</section>
+
+                    <section class="contingut-section">
+                        <h2>Títol de paràgraf</h2>
+                        <h3>Subtítol de paràgraf per a una llista a doble columna que poden ser enllaços</h3>
+                        <div class="row">
+                            <ul class="llista-check col-sm-6">
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                            </ul>
+                            <ul class="llista-check col-sm-6">
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
+                            </ul>
+                        </div>
+                    </section>
+
+                </div><!--/.contingut -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+{% endblock %}
