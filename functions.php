@@ -77,6 +77,8 @@ class StarterSite extends TimberSite {
      */
     function include_sc_settings() {
         register_setting( 'softcatala-group', 'llistes_access' );
+        register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
+        register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
 
         if ( function_exists('add_submenu_page') )
             add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
@@ -724,3 +726,11 @@ function cc_mime_types($mimes) {
     return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
+
+//404 and 500 functions
+function throw_error( $code, $message ) {
+    global $wp_query;
+    header("HTTP/1.1 " . $code . " " . $message);
+    ${"call"} = 'set_'.$code;
+    $wp_query->{"call"}();
+}

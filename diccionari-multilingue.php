@@ -12,13 +12,13 @@ wp_localize_script( 'sc-js-multilingue', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$url_api = 'https://www.softcatala.org/diccionari-multilingue/api/';
+$url_api = get_option( 'api_diccionari_multilingue' );
 
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
 $context['paraula'] = urldecode( get_query_var('paraula') );
-$context['lletra'] = urldecode( get_query_var('lletra') );
+$context['lletra'] = get_query_var('lletra');
 
 if( ! empty ( $context['paraula'] ) ) {
     $url = $url_api.'search/' . $context['paraula'];
@@ -27,24 +27,40 @@ if( ! empty ( $context['paraula'] ) ) {
         $url = $url . '?lang='. $lang;
         $context['lang'] = $lang;
     }
-    $api_response = json_decode( file_get_contents( $url ) );
+    try {
+        $api_response = json_decode( file_get_contents( $url ) );
 
-    if ( isset( $api_response[0] ) ) {
-        $response['result'] = $api_response[0];
-    } else {
-        $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+        if ( isset( $api_response[0] ) ) {
+            $response['result'] = $api_response[0];
+        } else {
+            throw_error('404', 'No Results For This Search');
+            $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+        }
+        $response['paraula'] = $context['paraula'];
+
+        $context['cerca_result'] = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+    } catch (Exception $e) {
+        throw_error('500', 'Error connecting to API server');
+        $context['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     }
 
-    $response['paraula'] = $context['paraula'];
-
-    $context['cerca_result'] = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
 } else if ( ! empty ( $context['lletra'] ) ) {
-    $url = $url_api.'index/' . $context['lletra'];
-    $api_response = json_decode( file_get_contents( $url ) );
-    $response['lletra'] = $context['lletra'];
-    $response['result'] = $api_response;
+    if (strlen( $context['lletra'] ) == '1' ) {
+        $url = $url_api.'index/' . $context['lletra'];
+        try {
+            $api_response = json_decode(file_get_contents($url));
+            $response['lletra'] = $context['lletra'];
+            $response['result'] = $api_response;
 
-    $context['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array( 'response' => $response ) );
+            $context['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));
+        } catch (Exception $e) {
+            throw_error('500', 'Error connecting to API server');
+            $context['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+        }
+    } else {
+        throw_error('404', 'No Results For This Search');
+        $context['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
+    }
 }
 $context['content_title'] = 'Diccionari multilingüe';
 $context['links'] = $post->get_field( 'link' );
