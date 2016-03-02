@@ -1,23 +1,37 @@
 <?php
 /**
- * The template for displaying Member pages
+ * Template Name: Plantilla Membres
  *
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
 
+
 //Template initialization
+$templates = array( 'archive-author.twig', 'single-author.twig' );
 $data = Timber::get_context();
-$data['posts'] = Timber::get_posts();
-if ( isset( $wp_query->query_vars['author'] ) ) {
+
+if ( ! empty ( $wp_query->query_vars['author'] ) ) {
+    array_unshift( $templates, 'single-author.twig' );
     $author = new TimberUser( $wp_query->query_vars['author'] );
     $data['author'] = $author;
     $data['author_role'] = get_user_role( $author );
     $data['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
     $data['author_image'] = get_avatar( $author->ID, 270 );
-    $data['title'] = 'Publicades per ' . $author->name();
+    $data['content_title'] = 'Publicades per ' . $author->name();
+} else {
+    $post = new TimberPost();
+    $data['post'] = $post;
+    //Show only active members
+    $args = array(
+        'meta_query' => array(
+            get_meta_query_value('wpcf-status_membre', 0, '>', '')
+        )
+    );
+    $authors = get_users($args);
+    $data['authors'] = $authors;
+    $data['content_title'] = 'Membres de Softcatalà';
+    $data['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 }
-Timber::render( array( 'single-author.twig', 'archive.twig' ), $data );
 
-
-
+Timber::render( $templates, $data );

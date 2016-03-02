@@ -28,6 +28,7 @@ class StarterSite extends TimberSite {
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
+        add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
@@ -70,6 +71,13 @@ class StarterSite extends TimberSite {
     function sc_rewrite_search(){
         global $wp_rewrite;
         $wp_rewrite->search_base = 'cerca';
+    }
+
+    function sc_author_rewrite_base() {
+        global $wp_rewrite;
+        $author_slug = 'membres';
+        $wp_rewrite->author_base = $author_slug;
+        $wp_rewrite->author_structure = '/membres/%author%';
     }
 
     /**
