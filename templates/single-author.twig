@@ -32,7 +32,7 @@
                             <div class="fitxa-membre">
                                 <i class="fa fa-envelope-o"></i>
                                 <ul class="mail">
-                                    <li>Adre&ccedil;a electr&ograve;nica</li>
+                                    <li>Adreça electrònica</li>
                                     <li>{{ author.user_email }}</li>
                                 </ul>
                                 <hr>
@@ -51,8 +51,7 @@
                         </div>
 
                         <div class="ubicacio col-xxs-12 col-xs-6 col-md-12">
-                            <h2>ubicaci&oacute;</h2>
-                            <p class="coordenades"></p>
+                            <h2>ubicació</h2>
                             <div class="mapa">
                                 {{ attribute(author,'wpcf-ubicacio') }}
                             </div>
@@ -63,30 +62,8 @@
 
                 <!-- .contingut -->
                 <div class="contingut col-sm-12 col-md-9">
-
-
                     <!-- .contingut-section - paragraf + llistes -->
                     <section class="contingut-section">{{ author_content }}</section>
-
-                    <section class="contingut-section">
-                        <h2>Títol de paràgraf</h2>
-                        <h3>Subtítol de paràgraf per a una llista a doble columna que poden ser enllaços</h3>
-                        <div class="row">
-                            <ul class="llista-check col-sm-6">
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                            </ul>
-                            <ul class="llista-check col-sm-6">
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                                <li><a href="#"><i class="fa fa-check"></i><span>Lorem ipsum dolor sit amet</span></a></li>
-                            </ul>
-                        </div>
-                    </section>
-
                 </div><!--/.contingut -->
 
             </div><!--/.row -->
