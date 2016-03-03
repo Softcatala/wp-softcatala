@@ -59,10 +59,8 @@ class StarterSite extends TimberSite {
      * This function implements the rewrite tags for the different sections of the website
      */
     function sc_change_programs_search_url_rewrite() {
-        $current_url = get_current_url();
-
-        if (strpos($current_url, '?') !== false) {
-            if(get_query_var( 'post_type' ) == 'programa') {
+        if(get_query_var( 'post_type' ) == 'programa') {
+            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) || isset($_GET['arxivat'])) {
                 $available_query_vars = array( 'cerca' => 'c', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arx' );
                 $params_query = '';
                 foreach($available_query_vars as $query_var => $key) {
@@ -119,7 +117,7 @@ class StarterSite extends TimberSite {
     function register_post_types() {
         global $sc_types;
 
-        $sc_types['programes'] = new SC_Programes();
+        //$sc_types['programes'] = new SC_Programes();
     }
 
     function register_taxonomies() {
