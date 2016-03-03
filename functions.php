@@ -391,7 +391,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         case 'baixada':
             $base_args = array(
                 'post_type' => $post_type,
-                'post_status'    => 'publish'
+                'post_status'    => 'publish',
+                'posts_per_page' => -1
             );
             break;
     }

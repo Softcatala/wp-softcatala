@@ -39,7 +39,9 @@ $categoria_programa = get_query_var( 'categoria_programa' );
 $arxivat = get_query_var( 'arxivat' );
 
 //Generate $args query
+$flag_search = false;
 if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) ) {
+    $flag_search = true;
     $query['s'] = $search;
     $query['categoria-programa'] = $categoria_programa;
     $query['arxivat'] = $arxivat;
@@ -50,16 +52,20 @@ if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) 
 }
 
 if( ! empty( $sistema_operatiu ) ) {
+    $flag_search = true;
     $context['selected_filter_so'] = $sistema_operatiu;
     $query['sistema_operatiu'] = $sistema_operatiu;
     $args_so_baixades = get_post_query_args( 'baixada', SearchQueryType::Baixada, $query['sistema_operatiu'] );
 
+
     $baixades_posts = get_posts( $args_so_baixades );
     $programes_baixades_ids = array_map( "extract_post_ids_program", $baixades_posts );
+
 
     if( isset( $args ) ) {
         $all_programs = get_posts( $args );
         $all_programs_ids = array_map("extract_post_ids", $all_programs);
+
         $programes_ids = array_intersect( $all_programs_ids, $programes_baixades_ids);
     } else {
         $programes_ids = $programes_baixades_ids;
@@ -71,6 +77,7 @@ if( ! empty( $sistema_operatiu ) ) {
     } else {
         $args = array();
     }
+
 } elseif ( ! isset ( $args ) ) {
     $args = get_post_query_args( 'programa', SearchQueryType::Programa );
 }
@@ -81,4 +88,7 @@ query_posts( $args );
 $context['posts'] = Timber::get_posts( $args );
 $context['pagination'] = Timber::get_pagination();
 
+if (count($context['posts']) == 0 && $flag_search == true ) {
+    throw_error( '404', 'No programs found' );
+}
 Timber::render( $templates, $context );
