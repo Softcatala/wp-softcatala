@@ -27,9 +27,10 @@ if( ! empty ( $context['paraula'] ) ) {
         $url = $url . '?lang='. $lang;
         $context['lang'] = $lang;
     }
-    try {
-        $api_response = json_decode( file_get_contents( $url ) );
 
+    $api_response = json_decode( do_json_api_call($url) );
+
+    if ( $api_response ) {
         if ( isset( $api_response[0] ) ) {
             $response['result'] = $api_response[0];
         } else {
@@ -37,9 +38,8 @@ if( ! empty ( $context['paraula'] ) ) {
             $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
         $response['paraula'] = $context['paraula'];
-
         $context['cerca_result'] = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
-    } catch (Exception $e) {
+    } else {
         throw_error('500', 'Error connecting to API server');
         $context['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     }
@@ -47,13 +47,13 @@ if( ! empty ( $context['paraula'] ) ) {
 } else if ( ! empty ( $context['lletra'] ) ) {
     if (strlen( $context['lletra'] ) == '1' ) {
         $url = $url_api.'index/' . $context['lletra'];
-        try {
-            $api_response = json_decode(file_get_contents($url));
+        $api_response = json_decode( do_json_api_call($url) );
+        if ( $api_response ) {
             $response['lletra'] = $context['lletra'];
             $response['result'] = $api_response;
 
             $context['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));
-        } catch (Exception $e) {
+        } else {
             throw_error('500', 'Error connecting to API server');
             $context['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
         }

@@ -727,10 +727,42 @@ function cc_mime_types($mimes) {
 }
 add_filter('upload_mimes', 'cc_mime_types');
 
-//404 and 500 functions
+/**
+ * This function sets specific error headers for 404 and 500 error pages
+ *
+ * @param $code
+ * @param $message
+ */
 function throw_error( $code, $message ) {
     global $wp_query;
     header("HTTP/1.1 " . $code . " " . $message);
     ${"call"} = 'set_'.$code;
     $wp_query->{"call"}();
+}
+
+/**
+ * This function executes an API call of the type 'rest' given a url with all the parameters in it
+ *
+ * @param $url
+ * @return mixed
+ */
+function do_json_api_call( $url ) {
+    $api_call = wp_remote_post(
+        $url,
+        array(
+            'method' => 'GET',
+            'timeout' => 5,
+            'headers' => array(
+                'Content-Type' => 'application/json'
+            )
+        )
+    );
+
+    if ( is_wp_error( $api_call ) ) {
+        $result = false;
+    } else {
+        $result = $api_call['body'];
+    }
+
+    return $result;
 }
