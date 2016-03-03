@@ -61,7 +61,7 @@ class StarterSite extends TimberSite {
     function sc_change_programs_search_url_rewrite() {
         if(get_query_var( 'post_type' ) == 'programa') {
             if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) || isset($_GET['arxivat'])) {
-                $available_query_vars = array( 'cerca' => 'c', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arx' );
+                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arx' );
                 $params_query = '';
                 foreach($available_query_vars as $query_var => $key) {
                     if (get_query_var( $query_var )) {

@@ -17,13 +17,13 @@ function add_rewrite_rules($aRules) {
 
     //Programes
     $aNewRules = array(
-        'programes/c/([^/]+)/so/([^/]+)/cat/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=$matches[4]',
-        'programes/c/([^/]+)/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]',
-        'programes/c/([^/]+)/so/([^/]+)/arx/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=$matches[3]',
-        'programes/c/([^/]+)/cat/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=$matches[3]',
-        'programes/c/([^/]+)/so/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]',
-        'programes/c/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]',
-        'programes/c/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]',
+        'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=$matches[4]',
+        'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]',
+        'programes/p/([^/]+)/so/([^/]+)/arx/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=$matches[3]',
+        'programes/p/([^/]+)/cat/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=$matches[3]',
+        'programes/p/([^/]+)/so/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]',
+        'programes/p/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]',
+        'programes/p/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]',
         'programes/so/([^/]+)/cat/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&arxivat=$matches[3]',
         'programes/so/([^/]+)/arx/([^/]+)?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&arxivat=$matches[2]',
         'programes/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]',
