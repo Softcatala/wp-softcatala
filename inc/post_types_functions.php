@@ -62,8 +62,8 @@ function generate_post_url_link( $post ) {
 function get_top_downloads_home()
 {
     $limit = 5;
-    $json_url = get_home_url()."/top.json";
-    $baixades_json = json_decode( file_get_contents( $json_url ) );
+    $json_path = ABSPATH."top.json";
+    $baixades_json = json_decode( file_get_contents( $json_path ) );
 
     $programari = array();
     if ( $baixades_json ) {
