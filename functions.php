@@ -28,6 +28,7 @@ class StarterSite extends TimberSite {
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
+        add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
@@ -51,6 +52,30 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/shortcodes-llistes.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
         locate_template( array( 'inc/rewrites.php' ), true, true );
+    }
+
+
+    /**
+     * This function implements the rewrite tags for the different sections of the website
+     */
+    function sc_change_programs_search_url_rewrite() {
+        $current_url = get_current_url();
+
+        if (strpos($current_url, '?') !== false) {
+            if(get_query_var( 'post_type' ) == 'programa') {
+                $available_query_vars = array( 'cerca' => 'c', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arx' );
+                $params_query = '';
+                foreach($available_query_vars as $query_var => $key) {
+                    if (get_query_var( $query_var )) {
+                        $params_query .= $key . '/' . get_query_var( $query_var ) . '/';
+                    }
+                }
+
+                if( ! empty( $params_query ) ) {
+                    wp_redirect( home_url( "/programes/" ) . $params_query );
+                }
+            }
+        }
     }
 
     /**
