@@ -8,11 +8,10 @@
 
 
 //Template initialization
-$templates = array( 'archive-author.twig', 'single-author.twig' );
 $data = Timber::get_context();
 
 if ( ! empty ( $wp_query->query_vars['author'] ) ) {
-    array_unshift( $templates, 'single-author.twig' );
+    $template = array( 'single-author.twig' );
     $author = new TimberUser( $wp_query->query_vars['author'] );
     $data['author'] = $author;
     $data['author_role'] = get_user_role( $author );
@@ -20,6 +19,7 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $data['author_image'] = get_avatar( $author->ID, 270 );
     $data['content_title'] = 'Publicades per ' . $author->name();
 } else {
+    $template = array( 'archive-author.twig' );
     $post = new TimberPost();
     $data['post'] = $post;
     //Show only active members
@@ -34,4 +34,4 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $data['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 }
 
-Timber::render( $templates, $data );
+Timber::render( $template, $data );
