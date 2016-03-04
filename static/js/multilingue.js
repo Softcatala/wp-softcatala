@@ -129,26 +129,30 @@ jQuery('#source').typeahead(
         delay: 3500,
         limit: 12,
         async: true,
-        source: function (query, processSync, processAsync) {
-            var lang = jQuery('#lang option:selected').val();
-
-            //Data
-            var post_data = new FormData();
-            post_data.append('paraula', query);
-            post_data.append('lang', lang);
-            post_data.append('action', 'multilingue_autocomplete');
-
-            return jQuery.ajax({
-                url: scajax.ajax_url,
-                type: 'POST',
-                data: post_data,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (json) {
-                    return processAsync(json.words);
-                }
-            });
-        }
+        source: get_autocomplete_words
     }
 );
+
+function get_autocomplete_words (query, processSync, processAsync) {
+    var lang = jQuery('#lang option:selected').val();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('paraula', query);
+    post_data.append('lang', lang);
+    post_data.append('action', 'multilingue_autocomplete');
+
+    setTimeout(function() {
+        return jQuery.ajax({
+            url: scajax.ajax_url,
+            type: 'POST',
+            data: post_data,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (json) {
+                return processAsync(json.words);
+            }
+        });
+    }, 500);
+}

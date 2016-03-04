@@ -747,7 +747,7 @@ function throw_error( $code, $message ) {
  * @return mixed
  */
 function do_json_api_call( $url ) {
-    $api_call = wp_remote_post(
+    $api_call = wp_remote_get(
         $url,
         array(
             'method' => 'GET',
