@@ -40,7 +40,7 @@ function sc_multilingue_autocomplete() {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if($api_response) {
+    if($api_response != 'error') {
         $result = $api_response;
     } else {
         throw_error('500', 'Error connecting to API server');
@@ -65,7 +65,7 @@ function sc_multilingue_search() {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if($api_response) {
+    if($api_response != 'error') {
         if ( isset( $api_response[0] ) ) {
             $response['result'] = $api_response[0];
         } else {
@@ -76,7 +76,6 @@ function sc_multilingue_search() {
 
         $result = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
     } else {
-        throw_error('500', 'Error connecting to API server');
         $response['message'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     }
 
@@ -144,9 +143,14 @@ function sc_find_sinonim() {
     if( ! empty ( $paraula ) ) {
         $url = $url_sinonims_server . $paraula;
         $sinonims_server = json_decode( do_json_api_call($url) );
-        $sinonims['paraula'] = $paraula;
-        $sinonims['response'] = $sinonims_server->synsets;
-        $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+        if($sinonims_server != 'error') {
+            $sinonims['paraula'] = $paraula;
+            $sinonims['response'] = $sinonims_server->synsets;
+            $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+        } else {
+            $result = 'S\'ha produït un error en connectar amb el servidor. Proveu de nou';
+        }
+
     }
 
     $response = json_encode( $result );

@@ -30,7 +30,7 @@ if( ! empty ( $context['paraula'] ) ) {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if ( $api_response ) {
+    if ( $api_response != 'error' ) {
         if ( isset( $api_response[0] ) ) {
             $response['result'] = $api_response[0];
         } else {
@@ -48,7 +48,7 @@ if( ! empty ( $context['paraula'] ) ) {
     if (strlen( $context['lletra'] ) == '1' ) {
         $url = $url_api.'index/' . $context['lletra'];
         $api_response = json_decode( do_json_api_call($url) );
-        if ( $api_response ) {
+        if ( $api_response != 'error' ) {
             $response['lletra'] = $context['lletra'];
             $response['result'] = $api_response;
 

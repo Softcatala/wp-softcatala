@@ -759,7 +759,7 @@ function do_json_api_call( $url ) {
     );
 
     if ( is_wp_error( $api_call ) ) {
-        $result = false;
+        $result = 'error';
     } else {
         $result = $api_call['body'];
     }
