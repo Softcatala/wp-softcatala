@@ -69,7 +69,6 @@ function sc_multilingue_search() {
         if ( isset( $api_response[0] ) ) {
             $response['result'] = $api_response[0];
         } else {
-            throw_error('404', 'No Results For This Search');
             $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
         $response['paraula'] = $paraula;
