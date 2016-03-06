@@ -131,7 +131,9 @@ jQuery('#source').typeahead(
         async: true,
         source: get_autocomplete_words
     }
-);
+).on('typeahead:selected', function(evt, item) {
+    jQuery('#_action_consulta').trigger('click');
+});
 
 function get_autocomplete_words (query, processSync, processAsync) {
     var lang = jQuery('#lang option:selected').val();

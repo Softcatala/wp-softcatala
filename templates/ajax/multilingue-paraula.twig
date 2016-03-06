@@ -22,7 +22,9 @@
     </ul>
 
     {% if response.result.image %}
-    <img src="https://www.softcatala.org/diccionari-multilingue/api/images/{{ response.result.image }}" />
+    <div class="diccionari_image">
+        <img alt="Imatge relacionada amb {{ response.paraula }}" src="https://www.softcatala.org/diccionari-multilingue/api/images/{{ response.result.image }}" />
+    </div>
     {% endif %}
 
         <footer class="contingut-footer">
