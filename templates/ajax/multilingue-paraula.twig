@@ -21,11 +21,35 @@
         {% endif %}
     </ul>
 
-    <p>Font: {{ response.result|get_source_link }}</p>
-
     {% if response.result.image %}
-    <img src="https://www.softcatala.org/diccionari-multilingue/api/images/{{ response.result.image }}">
+    <img src="https://www.softcatala.org/diccionari-multilingue/api/images/{{ response.result.image }}" />
     {% endif %}
+
+        <footer class="contingut-footer">
+            <div class="alerta">
+                <p><strong>Font</strong> | {{ response.result|get_source_link }}</p>
+            </div>
+            {% if response.result.references.wikidata or response.result.references.gec or response.result.references.wikiquote_ca or response.result.references.wikidictionary_ca %}
+            <div class="alerta mini">
+                <p>
+                    <strong>Altres referències</strong><br/>
+                    {% if response.result.references.wikidata %}
+                    Vegeu l'entrada a <a href="https://www.wikidata.org/wiki/{{ response.result.references.wikidata }}">Wikidata</a><br/>
+                    {% endif %}
+                    {% if response.result.references.gec %}
+                    Vegeu l'entrada a <a href="http://www.enciclopedia.cat/EC-GEC-{{ response.result.references.gec }}.xml">l'Enciclopèdia Catalana</a><br/>
+                    {% endif %}
+                    {% if response.result.references.wikiquote_ca %}
+                    Vegeu l'entrada a <a href="https://ca.wikiquote.org/wiki/{{ response.result.references.wikiquote_ca }}">Viquidites</a><br/>
+                    {% endif %}
+                    {% if response.result.references.wikidictionary_ca %}
+                    Vegeu l'entrada a <a href="https://ca.wiktionary.org/wiki/{{ response.result.references.wikidictionary_ca }}">Viccionari</a>
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </footer>
+    <hr class="clara">
 {% endif %}
 {% if response.message %}
     {{ response.message }}

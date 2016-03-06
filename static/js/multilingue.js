@@ -142,17 +142,15 @@ function get_autocomplete_words (query, processSync, processAsync) {
     post_data.append('lang', lang);
     post_data.append('action', 'multilingue_autocomplete');
 
-    setTimeout(function() {
-        return jQuery.ajax({
-            url: scajax.ajax_url,
-            type: 'POST',
-            data: post_data,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function (json) {
-                return processAsync(json.words);
-            }
-        });
-    }, 500);
+    jQuery.ajax({
+        url: scajax.ajax_url,
+        type: 'POST',
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success: function (json) {
+            return processAsync(json.words);
+        }
+    });
 }

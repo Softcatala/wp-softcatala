@@ -40,7 +40,7 @@ function sc_multilingue_autocomplete() {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if($api_response != 'error') {
+    if($api_response) {
         $result = $api_response;
     } else {
         throw_error('500', 'Error connecting to API server');
@@ -65,16 +65,28 @@ function sc_multilingue_search() {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if($api_response != 'error') {
+    if($api_response) {
         if ( isset( $api_response[0] ) ) {
-            $response['result'] = $api_response[0];
+            $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
+            $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
+            foreach ( $api_response as $single_entry ) {
+                $response['paraula'] = $paraula;
+
+                //Unset main source/other sources
+                $refs = (array) $single_entry->references;
+                unset($refs[$single_entry->source]);
+                $single_entry->references = $refs;
+
+                $response['result'] = $single_entry;
+                $result .= Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+            }
         } else {
+            throw_error('404', 'No Results For This Search');
             $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
         $response['paraula'] = $paraula;
-
-        $result = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
     } else {
+        throw_error('500', 'Error connecting to API server');
         $response['message'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     }
 
@@ -142,14 +154,9 @@ function sc_find_sinonim() {
     if( ! empty ( $paraula ) ) {
         $url = $url_sinonims_server . $paraula;
         $sinonims_server = json_decode( do_json_api_call($url) );
-        if($sinonims_server != 'error') {
-            $sinonims['paraula'] = $paraula;
-            $sinonims['response'] = $sinonims_server->synsets;
-            $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
-        } else {
-            $result = 'S\'ha produït un error en connectar amb el servidor. Proveu de nou';
-        }
-
+        $sinonims['paraula'] = $paraula;
+        $sinonims['response'] = $sinonims_server->synsets;
+        $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
     }
 
     $response = json_encode( $result );

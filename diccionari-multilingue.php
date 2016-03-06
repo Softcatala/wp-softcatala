@@ -19,6 +19,7 @@ $post = new TimberPost();
 $context['post'] = $post;
 $context['paraula'] = urldecode( get_query_var('paraula') );
 $context['lletra'] = get_query_var('lletra');
+$context['content_title'] = 'Diccionari multilingüe';
 
 if( ! empty ( $context['paraula'] ) ) {
     $url = $url_api.'search/' . $context['paraula'];
@@ -30,15 +31,26 @@ if( ! empty ( $context['paraula'] ) ) {
 
     $api_response = json_decode( do_json_api_call($url) );
 
-    if ( $api_response != 'error' ) {
+    if ( $api_response ) {
         if ( isset( $api_response[0] ) ) {
-            $response['result'] = $api_response[0];
+            $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
+            $result = 'Resultats de la cerca per: <strong>'.$context['paraula'].'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
+            foreach ( $api_response as $single_entry ) {
+                $response['paraula'] = $context['paraula'];
+
+                //Unset main source/other sources
+                $refs = (array) $single_entry->references;
+                unset($refs[$single_entry->source]);
+                $single_entry->references = $refs;
+
+                $response['result'] = $single_entry;
+                $result .= Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+            }
         } else {
             throw_error('404', 'No Results For This Search');
             $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
-        $response['paraula'] = $context['paraula'];
-        $context['cerca_result'] = Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+        $context['cerca_result'] = $result;
     } else {
         throw_error('500', 'Error connecting to API server');
         $context['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
@@ -48,7 +60,7 @@ if( ! empty ( $context['paraula'] ) ) {
     if (strlen( $context['lletra'] ) == '1' ) {
         $url = $url_api.'index/' . $context['lletra'];
         $api_response = json_decode( do_json_api_call($url) );
-        if ( $api_response != 'error' ) {
+        if ( $api_response ) {
             $response['lletra'] = $context['lletra'];
             $response['result'] = $api_response;
 
@@ -62,7 +74,7 @@ if( ! empty ( $context['paraula'] ) ) {
         $context['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
     }
 }
-$context['content_title'] = 'Diccionari multilingüe';
+
 $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
