@@ -28,6 +28,7 @@ class StarterSite extends TimberSite {
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
+        add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
@@ -72,6 +73,13 @@ class StarterSite extends TimberSite {
         $wp_rewrite->search_base = 'cerca';
     }
 
+    function sc_author_rewrite_base() {
+        global $wp_rewrite;
+        $author_slug = 'membres';
+        $wp_rewrite->author_base = $author_slug;
+        $wp_rewrite->author_structure = '/membres/%author%';
+    }
+
     /**
      * Custom Softcatalà settings
      */
@@ -97,6 +105,8 @@ class StarterSite extends TimberSite {
         global $sc_types;
 
         $sc_types['programes'] = new SC_Programes();
+        $sc_types['projectes'] = new SC_Projectes();
+        $sc_types['user'] = new SC_User();
     }
 
     function register_taxonomies() {
@@ -726,6 +736,21 @@ function cc_mime_types($mimes) {
     return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
+
+/**
+ * Returns the user role for a user
+ *
+ * @param $author
+ * @return mixed
+ */
+function get_user_role( $author )
+{
+    $user = get_user_by('id', $author->ID);
+    $user_roles = $user->roles;
+    $user_role = array_shift($user_roles);
+
+    return $user_role;
+}
 
 /**
  * This function sets specific error headers for 404 and 500 error pages

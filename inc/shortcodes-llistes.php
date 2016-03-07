@@ -8,10 +8,29 @@
 global $sc_preprocessed_shortcodes;
 
 // Add here all shortcodes to avoid wpautop and other processing on them
-$sc_preprocessed_shortcodes = array ('llista-icones' => 'sc_icon_list_shortcode');
+$sc_preprocessed_shortcodes = array ('llista-icones' => 'sc_icon_list_shortcode', 'llista-enllacos' => 'sc_icon_list_links');
 
 add_filter('the_content', 'sc_pre_process_shortcode', 7);
 add_filter('the_content', 'sc_add_dummy_shortcode', 12);
+
+function sc_icon_list_links ( $atts, $content ) {
+	$items = preg_split( '/\R/', $content, -1, PREG_SPLIT_NO_EMPTY );
+
+	$total_items = count($items);
+
+	$html = '<div class="row"><ul class="llista-check col-sm-6">';
+	foreach ( $items as $key => $item ) {
+		if ($key == $total_items/2) {
+			$html .= '</ul><ul class="llista-check col-sm-6">';
+		}
+
+		$values = explode('|', $item);
+		$html .= '<li><a href="'.$values[1].'"><i class="fa fa-check"></i><span>'.$values[0].'</span></a></li>';
+	}
+	$html .= '</ul></div>';
+
+	return $html;
+}
 
 function sc_add_dummy_shortcode( $content = '' )
 {

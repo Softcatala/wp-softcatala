@@ -23,6 +23,13 @@ if ( ! empty ( $project_slug ) ) {
     $projecte->project_requirements = apply_filters('the_content', $projecte->project_requirements);
     $projecte->lectures_recomanades = apply_filters('the_content', $projecte->lectures_recomanades);
     $context['projecte'] = $projecte;
+
+    $args = array(
+        'meta_query' => array(
+            get_meta_query_value('projectes', $projecte->ID, 'like', '')
+        )
+    );
+    $context['membres'] = get_users( $args );
 } else {
     $content_title = 'Vull col·laborar';
     $args = array(

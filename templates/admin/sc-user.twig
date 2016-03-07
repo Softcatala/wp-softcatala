@@ -1,0 +1,16 @@
+<h3>Projectes</h3>
+
+<table class="form-table">
+    <tr>
+        <th><label for="projecte">Projectes associats</label></th>
+        <td>
+            {% for row in options.available_values|batch(options.available_values|length/3) %}
+                <div style="width: 30%; float: left;">
+                {% for option in row %}
+                    <input type="checkbox" name="{{ options.name }}[]" value="{{ option.value }}" {% if option.value in options.stored_values %}checked{% endif %}/>{{ option.title }}<br/>
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
