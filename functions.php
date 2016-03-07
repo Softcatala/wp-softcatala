@@ -429,7 +429,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'meta_query' => array(
-                    get_meta_query_value('wpcf-programa', $filter['post_id'], '=', 'NUMERIC')
+                    get_meta_query_value('wpcf-'.$filter['subpage_type'], $filter['post_id'], '=', 'NUMERIC')
                 )
             );
             break;

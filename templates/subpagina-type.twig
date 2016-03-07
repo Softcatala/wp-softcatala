@@ -4,7 +4,11 @@
     <!-- .main .wrap-blanc -->
     <main class="main wrap-blanc programa cd-main-content">
     <!-- .main-header -->
-    {% include "capcalera_programa.twig" %}
+    {% if post.post_type == 'projecte' %}
+        {% include "capcalera_projecte.twig" %}
+    {% elseif  post.post_type == 'programa' %}
+        {% include "capcalera_programa.twig" %}
+    {% endif %}
     <!--/.main-header -->
 
     <div class="container-fluid">
@@ -15,7 +19,7 @@
 
                 <!-- .contingut-section -->
                 <section class="contingut-section">
-                    {{ post_pmf.content }}
+                    {{ post_subpagina.content }}
                 </section><!--/.contingut-section -->
 
             </div><!--/.contingut -->
