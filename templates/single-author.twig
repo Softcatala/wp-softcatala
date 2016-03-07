@@ -64,6 +64,23 @@
                 <div class="contingut col-sm-12 col-md-9">
                     <!-- .contingut-section - paragraf + llistes -->
                     <section class="contingut-section">{{ author_content }}</section>
+
+                    {% if projectes %}
+                    <section class="contingut-section">
+                    {% for row in projectes|batch(projectes|length/2) %}
+                        <ul class="llista-check col-sm-6">
+                        {% for projecte in row %}
+                            <li>
+                                <a href="{{ projecte.link }}" title="{{ projecte.title }}">
+                                    <i class="fa fa-check"></i>
+                                    <span>{{ projecte.title }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endfor %}
+                    </section>
+                    {% endif %}
                 </div><!--/.contingut -->
 
             </div><!--/.row -->

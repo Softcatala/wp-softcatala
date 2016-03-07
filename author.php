@@ -18,6 +18,18 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $data['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
     $data['author_image'] = get_avatar( $author->ID, 270 );
     $data['content_title'] = 'Publicades per ' . $author->name();
+
+	$projectes_ids = get_user_meta($author->ID, 'projectes', true);
+
+	if($projectes_ids) {
+		$data['projectes'] = array_map( function ($projecte_id) {
+			$_projecte = get_post($projecte_id);
+			return array(
+					'link' => get_post_permalink($projecte_id),
+					'title' => $_projecte->post_title,
+			);
+		}, $projectes_ids );
+	}
 } else {
     $template = array( 'archive-author.twig' );
     $post = new TimberPost();
