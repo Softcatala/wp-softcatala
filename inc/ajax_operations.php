@@ -20,7 +20,79 @@ add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
 /** PROJECTES */
 add_action( 'wp_ajax_subscribe_list', 'sc_subscribe_list' );
 add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
+/** DICCIONARI MULTILINGÜE */
+add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
+add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
+add_action( 'wp_ajax_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
+add_action( 'wp_ajax_nopriv_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
 
+/**
+ * Retrieves the results from the Multilingüe API server given a word + language
+ *
+ * @return json response
+ */
+function sc_multilingue_autocomplete() {
+    $paraula = sanitize_text_field( $_POST["paraula"] );
+    $lang = sanitize_text_field( $_POST["lang"] );
+
+    $url_api = get_option( 'api_diccionari_multilingue' );
+    $url = $url_api.'autocomplete/'.$paraula.'?lang='.$lang;
+
+    $api_response = json_decode( do_json_api_call($url) );
+
+    if($api_response) {
+        $result = $api_response;
+    } else {
+        throw_error('500', 'Error connecting to API server');
+        $result = false;
+    }
+
+    echo json_encode(  $result );
+    die();
+}
+
+/**
+ * Retrieves the results from the Multilingüe API server given a word + language
+ *
+ * @return json response
+ */
+function sc_multilingue_search() {
+    $paraula = sanitize_text_field( $_POST["paraula"] );
+    $lang = sanitize_text_field( $_POST["lang"] );
+
+    $url_api = get_option( 'api_diccionari_multilingue' );
+    $url = $url_api.'search/'.$paraula.'?lang='.$lang;
+
+    $api_response = json_decode( do_json_api_call($url) );
+
+    if($api_response) {
+        if ( isset( $api_response[0] ) ) {
+            $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
+            $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
+            foreach ( $api_response as $single_entry ) {
+                $response['paraula'] = $paraula;
+
+                //Unset main source/other sources
+                $refs = (array) $single_entry->references;
+                unset($refs[$single_entry->source]);
+                $single_entry->references = $refs;
+
+                $response['result'] = $single_entry;
+                $result .= Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+            }
+        } else {
+            throw_error('404', 'No Results For This Search');
+            $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+        }
+        $response['paraula'] = $paraula;
+    } else {
+        throw_error('500', 'Error connecting to API server');
+        $response['message'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+    }
+
+    echo json_encode( $result );
+    die();
+}
 
 /**
  * Function to make the request to synonims dictionary server
@@ -81,7 +153,7 @@ function sc_find_sinonim() {
     $result = '';
     if( ! empty ( $paraula ) ) {
         $url = $url_sinonims_server . $paraula;
-        $sinonims_server = json_decode( file_get_contents( $url ) );
+        $sinonims_server = json_decode( do_json_api_call($url) );
         $sinonims['paraula'] = $paraula;
         $sinonims['response'] = $sinonims_server->synsets;
         $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
