@@ -35,7 +35,7 @@ class SC_User {
      * @param $user
      */
     function extra_user_profile_fields( $user ) {
-        $admin_template = dirname(__FILE__) . '/../templates/admin/sc-user.twig';
+        $admin_template = get_stylesheet_directory() . '/templates/admin/sc-user.twig';
 
         foreach ( $this->custom_user_fields as $user_field ) {
             $options['name'] = $user_field['name'];
@@ -61,7 +61,7 @@ class SC_User {
         }
 
         foreach ( $this->custom_user_fields as $user_field ) {
-            $custom = $_POST[$user_field['name']];
+            $custom = sanitize_text_field_recursively($_POST[$user_field['name']]);
             $old_meta = get_user_meta($user_id, $user_field['name'], true);
 
             if(!empty($old_meta)){

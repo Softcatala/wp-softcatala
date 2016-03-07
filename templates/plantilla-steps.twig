@@ -36,6 +36,30 @@
                 </div>
                 <div id="step_2" class="step_div" style="display: none;">
                     {% if projecte %}{{ projecte.lectures_recomanades }}{% else %}{{ post_lectures.content }}{% endif %}
+
+                    {% if membres %}
+                    <h2>Col·laboradors</h2>
+                    <h3>Aquestes són les persones que actualment col·laboren en el projecte</h3>
+                    <div class="row">
+                        {% for membre in membres %}
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="thumbnail thumbnail-gris-img thumbnail-gris-img-petit">
+                            <a class="member_project" href="/membres/{{ membre.user_nicename }}">
+                                {{function('get_avatar', membre.ID, '127')}}
+                                <div class="caption">
+                                    <h3>{{ membre.first_name }} {{ membre.last_name }}</h3>
+                                    <p>{{ membre.description|truncate(7) }}</p>
+                                    <span class="bt-aneu">
+                                    aneu-hi
+                                    <i class="fa fa-chevron-right"></i>
+                                    </span>
+                                </div>
+                            </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
                 {% if projectes %}
                     <div id="step_3" class="step_div" style="display: none;">
