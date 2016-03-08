@@ -1,0 +1,74 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+
+            <!-- .contingut -->
+            <div class="contingut">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <p>{{ post.content }}</p>
+                </header><!--/.contingut-header -->
+
+
+                <!-- section paragraf + thumb gris img -->
+                <section class="contingut-section">
+
+                    <!-- .row -->
+                    <div class="row">
+                        {% if authors %}
+                            {% for author in authors %}
+                                <div class="col-sm-6">
+                                    <div class="thumbnail thumbnail-gris-img">
+                                        <a href="{{ function( 'get_author_posts_url', author.ID ) }}" title="{{ author.display_name }}">
+                                            {% set avatar = function('get_avatar', author.ID, 180) %}
+                                            {% if avatar %}
+                                                {{ avatar }}
+                                                {% set avatar = '' %}
+                                            {% else %}
+                                                <i style="font-size: 90px" class="fa fa-cogs"></i>
+                                            {% endif %}
+                                            <div class="caption">
+                                                <h3>{{ author.display_name }}</h3>
+                                                <p>{{ author.description|truncate(25) }}</p>
+                                                <span class="bt-aneu">més informació<i class="fa fa-chevron-right"></i></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div><!--/.row -->
+
+                    <!-- .pagination -->
+                    {% include "pagination.twig" %}
+                    <!--/.pagination -->
+                </section><!-- section paragraf + thumb gris img -->
+
+                <!--/.contingut-footer -->
+                <footer class="contingut-footer">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            {% for element in sidebar_elements %}
+                                {% include element %}
+                            {% endfor %}
+                        </div>
+                        {% include "sidebar.twig" %}
+                    </div>
+                </footer><!--/.contingut-footer -->
+
+            </div><!--/.contingut -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}

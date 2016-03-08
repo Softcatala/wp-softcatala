@@ -29,6 +29,7 @@ class StarterSite extends TimberSite {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
         add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
+        add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
@@ -100,11 +101,20 @@ class StarterSite extends TimberSite {
         $wp_rewrite->search_base = 'cerca';
     }
 
+    function sc_author_rewrite_base() {
+        global $wp_rewrite;
+        $author_slug = 'membres';
+        $wp_rewrite->author_base = $author_slug;
+        $wp_rewrite->author_structure = '/membres/%author%';
+    }
+
     /**
      * Custom Softcatalà settings
      */
     function include_sc_settings() {
         register_setting( 'softcatala-group', 'llistes_access' );
+        register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
+        register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
 
         if ( function_exists('add_submenu_page') )
             add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
@@ -123,6 +133,8 @@ class StarterSite extends TimberSite {
         global $sc_types;
 
         $sc_types['programes'] = new SC_Programes();
+        $sc_types['projectes'] = new SC_Projectes();
+        $sc_types['user'] = new SC_User();
     }
 
     function register_taxonomies() {
@@ -143,6 +155,8 @@ class StarterSite extends TimberSite {
         $twig->addExtension( new Twig_Extension_StringLoader() );
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
+        $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
+        $twig->addFilter('get_source_link', new Twig_SimpleFilter( 'get_source_link', 'get_source_link' ));
         return $twig;
     }
 
@@ -271,6 +285,46 @@ function truncate_twig( $string, $size )
     $splitstring = wp_trim_words( str_replace('_', ' ', $string ), $size );
 
     return $splitstring;
+}
+
+/**
+ * Twig function specific for Dictionari multilingüe
+ * Gets the source URL from the given data
+ */
+function get_source_link($result) {
+    if($result->source == 'wikidata') {
+        $value = '<a href="https://www.wikidata.org/wiki/' . $result->references->wikidata . '">Wikidata</a>';
+    } else if ($result->source == 'wikidictionary_ca') {
+        $value = '<a href="https://ca.wiktionary.org/wiki/' . $result->references->wikidictionary_ca . '">Viccionari</a>';
+    }
+
+    return $value;
+}
+
+/**
+ * Twig function specific for Diccionari multilingüe
+ *
+ * @param string
+ * @return string
+ */
+function print_definition( $def ) {
+    $def = trim($def);
+    $pos = strpos($def, '#');
+
+    if ($pos === false) {
+        $result = ' - ' . $def;
+    } else {
+        $def = str_replace('#', '', $def);
+        $entries = explode("\n", $def);
+        $filtered = array_filter(array_map('trim_entries', $entries));
+        $result = ' - ' . implode('<br />- ', $filtered) . '<br />';
+    }
+
+    return $result;
+}
+function trim_entries($entry) {
+    $trimmed = trim($entry);
+    return empty($trimmed) ? null : $trimmed;
 }
 
 /**
@@ -403,7 +457,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'meta_query' => array(
-                    get_meta_query_value('wpcf-programa', $filter['post_id'], '=', 'NUMERIC')
+                    get_meta_query_value('wpcf-'.$filter['subpage_type'], $filter['post_id'], '=', 'NUMERIC')
                 )
             );
             break;
@@ -577,6 +631,8 @@ function add_query_vars_filter( $vars ){
     $vars[] = "tema";
     $vars[] = "data";
     $vars[] = "project";
+    $vars[] = "lletra";
+    $vars[] = "llengua";
 
     return $vars;
 }
@@ -709,3 +765,58 @@ function cc_mime_types($mimes) {
     return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
+
+/**
+ * Returns the user role for a user
+ *
+ * @param $author
+ * @return mixed
+ */
+function get_user_role( $author )
+{
+    $user = get_user_by('id', $author->ID);
+    $user_roles = $user->roles;
+    $user_role = array_shift($user_roles);
+
+    return $user_role;
+}
+
+/**
+ * This function sets specific error headers for 404 and 500 error pages
+ *
+ * @param $code
+ * @param $message
+ */
+function throw_error( $code, $message ) {
+    global $wp_query;
+    header("HTTP/1.1 " . $code . " " . $message);
+    ${"call"} = 'set_'.$code;
+    $wp_query->{"call"}();
+}
+
+/**
+ * This function executes an API call of the type 'rest' given a url with all the parameters in it
+ *
+ * @param $url
+ * @return mixed
+ */
+function do_json_api_call( $url ) {
+    $api_call = wp_remote_get(
+        $url,
+        array(
+            'method' => 'GET',
+            'timeout' => 5,
+            'headers' => array(
+                'Content-Type' => 'application/json'
+            )
+        )
+    );
+
+    if ( is_wp_error( $api_call ) ) {
+        $result = 'error';
+    } else {
+        $result = $api_call['body'];
+    }
+
+    return $result;
+}
