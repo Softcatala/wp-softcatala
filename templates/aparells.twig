@@ -148,8 +148,10 @@
                                                                             {{term.name}}
                                                                         {% endfor %}
                                                                 {% endif %}</li>
+                                                            {% if post.versio %}
                                                             <li><strong>Versió del SO</strong></li>
                                                             <li>{{ post.versio }}</li>
+                                                            {% endif %}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -169,7 +171,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div><!--/detalls -->
+                                        </div>
+                                        <!--/detalls -->
                                         <!-- .comentaris -->
                                         {% include "comentaris.twig" %}
                                         <!-- /.comentaris -->

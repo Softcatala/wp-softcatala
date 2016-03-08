@@ -47,7 +47,7 @@
                                     {% for category in row %}
                                         <div class="checkbox">
                                             <label>
-                                                <input type="radio" name="tipus_aparell" value="{{ category.ID }}"> {{ category.name }}
+                                                <input type="radio" name="tipus_aparell" value="{{ category.ID }}" required> {{ category.name }}
                                             </label>
                                         </div>
                                     {% endfor %}
@@ -80,7 +80,7 @@
                                             {% for category in row %}
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="radio" name="sistema_operatiu" value="{{ category.ID }}"> {{ category.name }}
+                                                        <input type="radio" name="sistema_operatiu" value="{{ category.ID }}" required> {{ category.name }}
                                                     </label>
                                                 </div>
                                             {% endfor %}
@@ -94,9 +94,9 @@
 
                         <!-- camp -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Versió del SO *</label>
+                            <label class="col-sm-3 control-label">Versió del SO</label>
                             <div class="col-sm-6">
-                                <input type="text" name="versio" class="form-control" placeholder="8, 9, 10..." required>
+                                <input type="text" name="versio" class="form-control" placeholder="8, 9, 10..."/>
                             </div>
                         </div>
                         <!-- camp -->
@@ -111,10 +111,10 @@
                                     <div class="col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="radio" name="traduccio_catala" value="1" checked> Sí
+                                                <input type="radio" name="traduccio_catala" value="1" required> Sí
                                             </label>
                                             <label>
-                                                <input type="radio" name="traduccio_catala" value="0"> No
+                                                <input type="radio" name="traduccio_catala" value="0" required> No
                                             </label>
                                         </div>
                                     </div>
@@ -134,10 +134,10 @@
                                     <div class="col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="radio" name="correccio_catala" value="1" checked> Sí
+                                                <input type="radio" name="correccio_catala" value="1" required> Sí
                                             </label>
                                             <label>
-                                                <input type="radio" name="correccio_catala" value="0"> No
+                                                <input type="radio" name="correccio_catala" value="0" required> No
                                             </label>
                                         </div>
                                     </div>
@@ -149,9 +149,9 @@
 
                         <!-- camp de text -->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Comentari *</label>
+                            <label class="col-sm-3 control-label">Comentari</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                                <textarea class="form-control" name="comentari" rows="6" placeholder="Sigueu el més clar possible"></textarea>
                             </div>
                         </div><!--/camp de text -->
 
@@ -167,6 +167,12 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <p>* Camps requerits</p>
                             </div>
                         </div>
 
