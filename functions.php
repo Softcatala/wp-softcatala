@@ -408,7 +408,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $base_args = array(
                 'post_type' => $post_type,
                 'post_status'    => 'publish',
-                'order'          => 'ASC'
+                'order'          => 'ASC',
+                'posts_per_page' => -1
             );
             break;
         case 'programa':
@@ -505,13 +506,13 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
-        if (!empty ($filter['sistema_operatiu_aparell'])) {
+        if (!empty ($filter['so_aparell'])) {
             $filter_args['tax_query'][] = array(
-                'taxonomy' => 'sistema_operatiu_aparell',
+                'taxonomy' => 'so_aparell',
                 'field' => 'slug',
-                'terms' => $filter['sistema_operatiu_aparell']
+                'terms' => $filter['so_aparell']
             );
-            $filter_args['filter_so'] = $filter['sistema_operatiu_aparell'];
+            $filter_args['filter_so'] = $filter['so_aparell'];
         }
 
         if (!empty ($filter['tipus_aparell'])) {

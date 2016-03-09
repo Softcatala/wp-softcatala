@@ -22,7 +22,7 @@ $context['parent_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
 
 //Filters population
-$context['categories']['sistemesoperatius'] = Timber::get_terms('sistema_operatiu_aparell');
+$context['categories']['sistemesoperatius'] = Timber::get_terms('so_aparell');
 $context['categories']['tipus'] = Timber::get_terms('tipus_aparell');
 
 //Search and filters
@@ -33,14 +33,14 @@ $tipus_aparell = get_query_var( 'tipus_aparell' );
 //Generate $args query
 if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) ) {
     $query_aparell['s'] = $search;
-    $query_aparell['sistema_operatiu_aparell'] = $sistema_operatiu;
+    $query_aparell['so_aparell'] = $sistema_operatiu;
     $query_aparell['tipus_aparell'] = $tipus_aparell;
     $args = get_post_query_args( 'aparell', SearchQueryType::Aparell, $query_aparell );
     $context['cerca'] = $search;
     $context['selected_filter_so'] = ( isset ( $args['filter_so'] ) ? $args['filter_so'] : '' );
     $context['selected_filter_tipus'] = ( isset ( $args['filter_tipus'] ) ? $args['filter_tipus'] : '' );
 } else {
-    $args = array( 'post_type' => 'aparell' );
+    $args = array( 'post_type' => 'aparell', 'posts_per_page' => -1 );
 }
 
 //Posts and pagination

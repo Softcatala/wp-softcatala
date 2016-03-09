@@ -434,6 +434,7 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
 
     $post_id = wp_insert_post( $post_data );
     if( $post_id ) {
+
         foreach( $allTerms as $taxonomy => $terms ) {
             wp_set_post_terms( $post_id, $terms, $taxonomy );
         }
@@ -442,7 +443,11 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
 
         if ( $type == 'aparell' ) {
             $featured_image_attach_id = sc_upload_file( 'file', $post_id );
-            $return = sc_set_featured_image( $post_id, $featured_image_attach_id );
+            if($featured_image_attach_id) {
+                $return = sc_set_featured_image( $post_id, $featured_image_attach_id );
+            } else {
+                $return['status'] = 1;
+            }
         } elseif ( $type == 'baixada' ) {
             $return = sc_set_baixada_post_relationship( $post_id, $parent_id );
         } else {
