@@ -380,7 +380,7 @@ function sc_send_aparell() {
 
     $terms = array(
         'tipus_aparell' => array($tipus_aparell),
-        'sistema_operatiu_aparell' => array($sistema_operatiu)
+        'so_aparell' => array($sistema_operatiu)
     );
 
     $metadata = array(

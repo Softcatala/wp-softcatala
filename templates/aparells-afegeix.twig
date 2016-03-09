@@ -35,29 +35,19 @@
                         </div>
                         <!-- camp -->
 
-                        <!-- camp -->
+                        <!-- camp dropdown -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Tipus de dispositiu *</label>
-                            <!-- col-sm-9 -->
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    {% for row in categories.tipus|batch((categories.tipus|length)/3) %}
-                                        <!-- col-sm-4 -->
-                                        <div class="col-sm-4">
-                                    {% for category in row %}
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="radio" name="tipus_aparell" value="{{ category.ID }}" required> {{ category.name }}
-                                            </label>
-                                        </div>
+                            <div class="col-sm-6">
+                                <select class="form-control selectpicker" name="tipus_ap" id="tipus_ap">
+                                    {% for category in categories.tipus %}
+                                        <option value="{{ category.ID }}" {% if loop.first %}selected="selected"{% endif %}>{{ category.name }}</option>
                                     {% endfor %}
-                                        </div>
-                                        <!-- col-sm-4 -->
-                                    {% endfor %}
-                                </div>
-                            </div><!--/col-sm-9 -->
-                        </div>
-                        <!-- camp -->
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                        </div><!-- /camp dropdown -->
 
                         <!-- camp -->
                         <div class="form-group">
@@ -68,29 +58,19 @@
                         </div>
                         <!-- camp -->
 
-                        <!-- camp -->
+                        <!-- camp dropdown -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sistema operatiu *</label>
-                            <!-- col-sm-9 -->
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    {% for row in categories.sistemesoperatius|batch((categories.sistemesoperatius|length)/3) %}
-                                        <!-- col-sm-4 -->
-                                        <div class="col-sm-4">
-                                            {% for category in row %}
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="radio" name="sistema_operatiu" value="{{ category.ID }}" required> {{ category.name }}
-                                                    </label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <!-- col-sm-4 -->
+                            <div class="col-sm-6">
+                                <select class="form-control selectpicker" name="so_aparell" id="so_aparell">
+                                    {% for category in categories.sistemesoperatius %}
+                                        <option value="{{ category.ID }}" {% if loop.first %}selected="selected"{% endif %}>{{ category.name }}</option>
                                     {% endfor %}
-                                </div>
-                            </div><!--/col-sm-9 -->
-                        </div>
-                        <!-- camp -->
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                            </div>
+                        </div><!-- /camp dropdown -->
 
                         <!-- camp -->
                         <div class="form-group">
