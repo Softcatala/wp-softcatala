@@ -30,6 +30,7 @@
       <!-- botons -->
       <div class="form-group">
           <div class="col-sm-12 form-botons">
+                {% if aparells %}<input id="redirect_page" type="hidden" value="{{ current_url }}" name="redirect_page">{% endif %}
                 <input id="comment_post_ID" type="hidden" value="{{ post.ID }}" name="comment_post_ID">
                 <input id="comment_parent_{{ post.ID }}" type="hidden" value="0" name="comment_parent">
                <button class="bt-basic bt-basic-vermell-fosc" type="submit">envia</button>

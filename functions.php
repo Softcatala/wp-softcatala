@@ -792,3 +792,17 @@ function do_json_api_call( $url ) {
 
     return $result;
 }
+
+/**
+ * In case the variable 'redirect_page' is set, the comment form will redirect to that value
+ *
+ * @param $location
+ * @return string
+ */
+function aparell_comment_redirect( $location ) {
+    if ( isset( $_POST['redirect_page'] ) ) // Don't use "redirect_to", internal WP var
+        $location = esc_url($_POST['redirect_page']);
+
+    return $location;
+}
+add_filter( 'comment_post_redirect', 'aparell_comment_redirect' );
