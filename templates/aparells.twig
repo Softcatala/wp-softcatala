@@ -106,8 +106,15 @@
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ post.ID }}" aria-expanded="true" aria-controls="collapse{{ post.ID }}">
                                         <div class="panel-title row">
                                             <div class="col-xs-12 col-sm-5"><h4>{{ post.title }}</h4></div>
-                                            {% if post.terms('sistema_operatiu_aparell') %}
-                                            <div class="col-xxs-12 col-xs-4 col-sm-3"><img src="{{site.theme.link}}/static/images/content/aparells-plus-{{post.terms('sistema_operatiu_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}"><span>{{ post.sistema_operatiu }} {{ post.versio }}</span></div>
+                                            {% if post.terms('so_aparell') %}
+                                            <div class="col-xxs-12 col-xs-4 col-sm-3">
+                                                {% if post.terms('so_aparell')|first.name|lower != 'altre' %}
+                                                <img src="{{site.theme.link}}/static/images/content/aparells-plus-{{post.terms('so_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}">
+                                                {% else %}
+                                                <i class="fa fa-cogs" style="font-size: 30px"></i>
+                                                {% endif %}
+                                                <span>{{ post.sistema_operatiu }} {{ post.versio }}</span>
+                                            </div>
                                             {% endif %}
                                             <div class="col-xxs-12 col-xs-8 col-sm-4">
                                                 <ul class="aparells_detail">
@@ -131,8 +138,8 @@
                                                             <li><strong>Nom</strong></li>
                                                             <li>{{ post.title }}</li>
                                                             <li><strong>Sistema operatiu</strong></li>
-                                                            <li>{% if post.terms('sistema_operatiu_aparell') %}
-                                                                    {% for term in post.terms('sistema_operatiu_aparell') %}
+                                                            <li>{% if post.terms('so_aparell') %}
+                                                                    {% for term in post.terms('so_aparell') %}
                                                                         {{term.name}}
                                                                     {% endfor %}
                                                                 {% endif %}</li>
@@ -166,9 +173,11 @@
                                                             <li>{% if post.correccio_cat %}Sí{% else %}No{% endif %}</li>
                                                         </ul>
                                                     </div>
+                                                    {% if post.thumbnail.src %}
                                                     <div class="col-xs-6">
                                                         <img src="{{post.thumbnail.src}}" height="141" />
                                                     </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
@@ -187,6 +196,13 @@
                     </div><!--/.acordio-aparells  -->
 
                 </section><!--/ section  -->
+
+                <footer class="contingut-footer">
+                    <hr>
+                    <div class="alerta">
+                        <p><strong>Atenció</strong> | La informació d'aquest llistat és orientativa i no se'n pot garantir l'exactitud. Si detecteu qualsevol errada ho podeu adreçar en la fitxa de l'aparell.</p>
+                    </div>
+                </footer>
 
                 <!--/.contingut-footer -->
                 <footer class="contingut-footer">
