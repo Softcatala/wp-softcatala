@@ -65,20 +65,20 @@
                                         <div class="row">
                                             <!-- dropdown sitemes operatius -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="sistema_operatiu_afegeix" name="sistema_operatiu_afegeix">
+                                                <select class="form-control selectpicker" id="sistema_operatiu" name="sistema_operatiu">
                                                     <option value="">Tots els sistemes operatius</option>
                                                     {% for category in categories.sistemesoperatius %}
-                                                        <option value="{{ category.ID }}">{{ category.name }}</option>
+                                                        <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div><!--/dropdown sitemes operatius -->
 
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
-                                                <select class="form-control selectpicker" id="tipus_aparell_afegeix" name="tipus_aparell_afegeix">
+                                                <select class="form-control selectpicker" id="tipus_aparell" name="tipus_aparell">
                                                     <option value="">Totes les categories</option>
                                                     {% for category in categories.tipus %}
-                                                        <option value="{{ category.ID }}">{{ category.name }}</option>
+                                                        <option value="{{ category.slug }}" {% if selected_filter_tipus == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div><!--/dropdown categories -->
