@@ -436,7 +436,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $base_args = array(
                 'post_type' => $post_type,
                 'post_status'    => 'publish',
-                'order'          => 'ASC'
+                'order'          => 'ASC',
+                'posts_per_page' => -1
             );
             break;
         case 'programa':
@@ -534,13 +535,13 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
-        if (!empty ($filter['sistema_operatiu_aparell'])) {
+        if (!empty ($filter['so_aparell'])) {
             $filter_args['tax_query'][] = array(
-                'taxonomy' => 'sistema_operatiu_aparell',
+                'taxonomy' => 'so_aparell',
                 'field' => 'slug',
-                'terms' => $filter['sistema_operatiu_aparell']
+                'terms' => $filter['so_aparell']
             );
-            $filter_args['filter_so'] = $filter['sistema_operatiu_aparell'];
+            $filter_args['filter_so'] = $filter['so_aparell'];
         }
 
         if (!empty ($filter['tipus_aparell'])) {
@@ -820,3 +821,17 @@ function do_json_api_call( $url ) {
 
     return $result;
 }
+
+/**
+ * In case the variable 'redirect_page' is set, the comment form will redirect to that value
+ *
+ * @param $location
+ * @return string
+ */
+function aparell_comment_redirect( $location ) {
+    if ( isset( $_POST['redirect_page'] ) ) // Don't use "redirect_to", internal WP var
+        $location = esc_url($_POST['redirect_page']);
+
+    return $location;
+}
+add_filter( 'comment_post_redirect', 'aparell_comment_redirect' );
