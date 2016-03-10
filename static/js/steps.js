@@ -69,6 +69,7 @@ $collabora_form.on('submit', function(ev){
     post_data.append('llista', llista);
     post_data.append('projecte', projecte);
     post_data.append('action', 'subscribe_list');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_subscribe]').val());
 
     jQuery.ajax({
         type: 'POST',
@@ -108,6 +109,7 @@ $contactForm.on('submit', function(ev){
     post_data.append('nom_from', 'Rebost de Softcatalà');
     post_data.append('assumpte', '[Programes] Contacte des del formulari');
     post_data.append('action', 'contact_form');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce]').val());
 
     jQuery.ajax({
         type: 'POST',

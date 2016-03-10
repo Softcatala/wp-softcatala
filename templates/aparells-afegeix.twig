@@ -136,7 +136,7 @@
                         </div><!--/camp de text -->
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Imatge *</label>
+                            <label class="col-sm-3 control-label">Imatge</label>
                             <div class="col-sm-9 col-md-6">
                                 <div class="row">
                                     <div class="col-xs-4 col-sm-4 bt-puja">
@@ -162,6 +162,7 @@
                             <div class="col-sm-9 form-botons">
                                 <div class="row">
                                     <div class="form-boto col-xs-5">
+                                        {{ function('wp_nonce_field', 'send_aparell', '_wpnonce_aparell') }}
                                         <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
                                     </div>
                                 </div>

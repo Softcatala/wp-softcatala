@@ -786,7 +786,12 @@ function do_json_api_call( $url ) {
     if ( is_wp_error( $api_call ) ) {
         $result = 'error';
     } else {
-        $result = $api_call['body'];
+        if( isset($api_call['body']) && $api_call['body'] != '[]' ) {
+            $result = $api_call['body'];
+        } else {
+            //Return true to inform that the call was OK, but the result was empty
+            $result = $api_call;
+        }
     }
 
     return $result;
