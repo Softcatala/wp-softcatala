@@ -33,19 +33,6 @@ jQuery("#mostra_arxivat").on('click', function() {
     jQuery( "#cerca_programes" ).submit();
 });
 
-var $cerca_form = jQuery('#cerca_programes');
-$cerca_form.on('submit', function(){
-    disable_empty_fields();
-    return true;
-});
-
-function disable_empty_fields() {
-    jQuery('#cerca_programes').find('input, select').each(function(_, inp) {
-        if (jQuery(inp).val() === '' || jQuery(inp).val() === null)
-            inp.disabled = true;
-    });
-}
-
 /** Rating **/
 jQuery('#input_rating').on('change', function () {
     var complexname = jQuery(this).attr('name');
