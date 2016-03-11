@@ -35,7 +35,6 @@
                 <input id="comment_parent_{{ post.ID }}" type="hidden" value="0" name="comment_parent">
                <button class="bt-basic bt-basic-vermell-fosc" type="submit">envia</button>
                <button class="bt-basic bt-basic-gris" type="button" id="hide_clean_form">cancel·la</button>
-              {% if user_info.is_connected == false %}<a href="{{user_info.wp_login_url}}" class="sessio">Inicieu la sessió</a>{% endif %}
           </div>
       </div><!--/botons -->
     </form>

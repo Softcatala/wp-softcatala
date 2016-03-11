@@ -4,7 +4,7 @@
     <header>
       <h3>{{comment.author.name}}</h3>
       <div class="data">
-        <time itemprop="dateCreated" datetime="{{ comment.comment_date|date('Y-n-j')}}">{{ comment.comment_date }}</time>
+        <time itemprop="dateCreated" datetime="{{ comment.comment_date|date('Y-n-j')}}">{{ comment.comment_date|date('l, j F  Y') }}</time>
       </div>
     </header>
     <p>{{comment.comment_content|wpautop}}</p>
