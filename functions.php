@@ -155,7 +155,6 @@ class StarterSite extends TimberSite {
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
-        $twig->addFilter('get_source_link', new Twig_SimpleFilter( 'get_source_link', 'get_source_link' ));
         return $twig;
     }
 

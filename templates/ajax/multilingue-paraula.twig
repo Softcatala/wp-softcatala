@@ -31,7 +31,7 @@
 
     <footer class="contingut-footer">
         <div class="alerta">
-            <p><strong>Font</strong> | {{ response.result|get_source_link }}</p>
+            <p><strong>Font</strong> | {{ response.source }}</p>
         </div>
         {% if response.result.references.wikidata or response.result.references.gec or response.result.references.wikiquote_ca or response.result.references.wikidictionary_ca %}
         <div class="alerta">

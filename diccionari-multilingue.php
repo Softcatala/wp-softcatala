@@ -37,6 +37,7 @@ if( ! empty ( $context['paraula'] ) ) {
             $result = 'Resultats de la cerca per: <strong>'.$context['paraula'].'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
             foreach ( $api_response as $single_entry ) {
                 $response['paraula'] = $context['paraula'];
+                $response['source'] = get_source_link($single_entry);
 
                 //Unset main source/other sources
                 $refs = (array) $single_entry->references;
