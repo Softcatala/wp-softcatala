@@ -298,13 +298,9 @@ function sc_search_program() {
 
     $result = array();
     if( ! empty ( $nom_programa ) ) {
-        $args = array(
-            's'         => $nom_programa,
-            'orders'    => 'DESC',
-            'post_status'    => 'publish',
-            'post_type'        => 'programa',
-        );
-        $result_full = get_posts( $args );
+        $query['s'] = $nom_programa;
+        $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+        $result_full = query_posts( $args );
     }
 
     $programs = array_map( 'generate_post_url_link', $result_full );
