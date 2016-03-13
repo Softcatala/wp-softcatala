@@ -21,6 +21,19 @@ jQuery( document ).ready(function() {
 });
 
 /** Cerca **/
+var $cerca_form = jQuery('#cerca_programes');
+$cerca_form.on('submit', function(){
+    disable_empty_fields();
+    return true;
+});
+
+function disable_empty_fields() {
+    jQuery('#cerca_programes').find('input, select').each(function(_, inp) {
+        if (jQuery(inp).val() === '' || jQuery(inp).val() === null || jQuery(inp).val() === '0')
+            inp.disabled = true;
+    });
+}
+
 jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_programes" ).submit();
 });

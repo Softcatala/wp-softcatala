@@ -21,7 +21,7 @@
                 <!-- .contingut-header -->
                 <header class="contingut-header">
                     <!-- .filtres -->
-                    <form class="searchform" method="get" id="cerca_programes" role="search" action="{{ search_params.current_url }}">
+                    <form class="searchform" method="get" id="cerca_programes" role="search" action="/programes">
                         <div class="filtres row">
                             <div class="col-sm-10">
                                 <div class="input-group">
@@ -35,7 +35,7 @@
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
                                                 <select class="form-control selectpicker" id="sistema_operatiu" name="sistema_operatiu">
-                                                    <option value="{% if current_url_params %}/programes/{{ search_params.current_url_params }}{% endif %}">Tots els sistemes operatius</option>
+                                                    <option value="">Tots els sistemes operatius</option>
                                                     {% for category in categories.sistemes_operatius %}
                                                         <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}

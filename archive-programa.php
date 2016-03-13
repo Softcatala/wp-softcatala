@@ -57,12 +57,11 @@ if( ! empty( $sistema_operatiu ) ) {
     $query['sistema_operatiu'] = $sistema_operatiu;
     $args_so_baixades = get_post_query_args( 'baixada', SearchQueryType::Baixada, $query['sistema_operatiu'] );
 
-
     $baixades_posts = get_posts( $args_so_baixades );
     $programes_baixades_ids = array_map( "extract_post_ids_program", $baixades_posts );
 
-
     if( isset( $args ) ) {
+        $args['posts_per_page'] = -1;
         $all_programs = get_posts( $args );
         $all_programs_ids = array_map("extract_post_ids", $all_programs);
 
