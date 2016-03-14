@@ -1,5 +1,15 @@
 <ul class="cont-llista">
     {% for program in programs %}
-    <li><i class="fa fa-chevron-right"></i>{{ program }}</li>
+        {% if loop.index == 6 %}
+            <div id="mesprogrames" class="collapse">
+        {% endif %}
+        <li><i class="fa fa-chevron-right"></i>{{ program }}</li>
+        {% if loop.last %}
+            </div>
+        {% endif %}
+        {% if loop.index > 5 and loop.last %}
+            <br/>
+            <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mesprogrames">més<i class="fa fa-angle-down"></i></button>
+        {% endif %}
     {% endfor %}
 </ul>

@@ -2,9 +2,11 @@
 
 jQuery( document ).ready(function() {
     var OSName="Unknown OS";
-    if (navigator.appVersion.indexOf("Win")!=-1) OSName="windows";
-    else if (navigator.userAgent.indexOf("Mac")!=-1) OSName="osx";
-    else if (navigator.userAgent.indexOf("Linux")!=-1) OSName="linux";
+    if (navigator.appVersion.indexOf("Win") != -1) OSName="windows";
+    else if (navigator.userAgent.indexOf("Mac") != -1) OSName="osx";
+    else if (navigator.userAgent.indexOf("Android") != -1) OSName="android";
+    else if (navigator.userAgent.indexOf("Linux") != -1) OSName="linux";
+    else if (navigator.userAgent.indexOf("iPad") != -1 || navigator.userAgent.indexOf("iPhone") != -1 || navigator.userAgent.indexOf("iPod") != -1) OSName="ios";
 
     if(jQuery('#baixada_'+OSName).length) {
         jQuery('#baixada_'+OSName).show();
@@ -19,6 +21,19 @@ jQuery( document ).ready(function() {
 });
 
 /** Cerca **/
+var $cerca_form = jQuery('#cerca_programes');
+$cerca_form.on('submit', function(){
+    disable_empty_fields();
+    return true;
+});
+
+function disable_empty_fields() {
+    jQuery('#cerca_programes').find('input, select').each(function(_, inp) {
+        if (jQuery(inp).val() === '' || jQuery(inp).val() === null || jQuery(inp).val() === '0')
+            inp.disabled = true;
+    });
+}
+
 jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_programes" ).submit();
 });
@@ -32,19 +47,6 @@ jQuery("#mostra_arxivat").on('click', function() {
 
     jQuery( "#cerca_programes" ).submit();
 });
-
-var $cerca_form = jQuery('#cerca_programes');
-$cerca_form.on('submit', function(){
-    disable_empty_fields();
-    return true;
-});
-
-function disable_empty_fields() {
-    jQuery('#cerca_programes').find('input, select').each(function(_, inp) {
-        if (jQuery(inp).val() === '' || jQuery(inp).val() === null)
-            inp.disabled = true;
-    });
-}
 
 /** Rating **/
 jQuery('#input_rating').on('change', function () {

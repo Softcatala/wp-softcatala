@@ -21,7 +21,7 @@
                 <!-- .contingut-header -->
                 <header class="contingut-header">
                     <!-- .filtres -->
-                    <form class="searchform" method="get" id="cerca_programes" role="search" action="{{ search_params.current_url }}">
+                    <form class="searchform" method="get" id="cerca_programes" role="search" action="/programes">
                         <div class="filtres row">
                             <div class="col-sm-10">
                                 <div class="input-group">
@@ -35,7 +35,7 @@
                                             <!-- dropdown categories -->
                                             <div class="col-sm-6">
                                                 <select class="form-control selectpicker" id="sistema_operatiu" name="sistema_operatiu">
-                                                    <option value="{% if current_url_params %}/programes/{{ search_params.current_url_params }}{% endif %}">Tots els sistemes operatius</option>
+                                                    <option value="">Tots els sistemes operatius</option>
                                                     {% for category in categories.sistemes_operatius %}
                                                         <option value="{{ category.slug }}" {% if selected_filter_so == category.slug %}selected{% endif %}>{{ category.name }}</option>
                                                     {% endfor %}
@@ -54,10 +54,11 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="hidden" name="arxivat" id="arxivat" value="{% if selected_arxivat %}1{% else %}0{% endif %}"/>
-                                        <a id="mostra_arxivat" href="#" class="mostra">
-                                            {% if selected_arxivat == 1 %}No mostris el programari arxivat{% else %}Mostra el programari arxivat{% endif %}
-                                        </a>
+                                        <input type="hidden" value="{% if selected_arxivat %}1{% else %}0{% endif %}" name="arxivat" id="arxivat" />
+                                        <input id="mostra_arxivat" type="checkbox" name="mostra_arxivat" id="mostra_arxivat" {% if selected_arxivat %}checked="checked"{% endif %} />
+                                        <span style="color: #5c5c5c; font-size: 12px; padding: 5px 0;">
+                                        Mostra el programari arxivat
+                                        </span>
                                     </div>
                                 </div>
 
@@ -81,10 +82,10 @@
                                     {% elseif post.imatge_destacada_1 %}
                                     <img src="{{ post.imatge_destacada_1 }}" alt="logotip {{ post.title }}">
                                     {% else %}
-                                    <i style="font-size: 152px" class="fa fa-cogs"></i>
+                                    <i style="font-size: 115px" class="fa fa-cogs"></i>
                                     {% endif %}
                                     <div class="caption">
-                                        <h3>{{ post.title }}</h3>
+                                        <h3>{{ post.title|truncate(8) }}</h3>
                                         <div class="cont-rating">
                                             <input id="input-id" value="{{ post.valoracio }}" class="rating" data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false" disabled="disabled" data-readonly/>
                                             {% if post.total_baixades_programa %}<em>({{ post.total_baixades_programa }})</em>{% endif %}

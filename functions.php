@@ -28,6 +28,7 @@ class StarterSite extends TimberSite {
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
+        add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
         add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
@@ -51,6 +52,33 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/post_types_functions.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
         locate_template( array( 'inc/rewrites.php' ), true, true );
+    }
+
+
+    /**
+     * This function implements the rewrite tags for the different sections of the website
+     */
+    function sc_change_programs_search_url_rewrite() {
+        if(get_query_var( 'post_type' ) == 'programa') {
+            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) || isset($_GET['arxivat'])) {
+                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arxivats' );
+                $params_query = '';
+                foreach($available_query_vars as $query_var => $key) {
+                    if (get_query_var( $query_var )) {
+                        if($query_var == 'arxivat') {
+                            $params_query .= $key . '/';
+                        } else {
+                            $params_query .= $key . '/' . get_query_var( $query_var ) . '/';
+                        }
+
+                    }
+                }
+
+                if( ! empty( $params_query ) ) {
+                    wp_redirect( home_url( "/programes/" ) . $params_query );
+                }
+            }
+        }
     }
 
     /**
@@ -127,7 +155,6 @@ class StarterSite extends TimberSite {
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
-        $twig->addFilter('get_source_link', new Twig_SimpleFilter( 'get_source_link', 'get_source_link' ));
         return $twig;
     }
 
@@ -445,7 +472,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         case 'baixada':
             $base_args = array(
                 'post_type' => $post_type,
-                'post_status'    => 'publish'
+                'post_status'    => 'publish',
+                'posts_per_page' => -1
             );
             break;
     }

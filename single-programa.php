@@ -24,7 +24,7 @@ $context['links'] = $post->get_field( 'link' );
 $baixades = $post->get_field( 'baixada' );
 
 //Download count
-$download_full = json_decode(file_get_contents(get_home_url().'full.json'), true);
+$download_full = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
 $index = array_search($post->idrebost, array_column($download_full, 'idrebost'));
 $context['total_downloads'] = $download_full[$index]['total'];
 

@@ -60,32 +60,35 @@ function sc_multilingue_autocomplete() {
  *
  * @return json response
  */
-function sc_multilingue_search() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+function sc_multilingue_search()
+{
+    if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], $_POST["action"])) {
         $result = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     } else {
-        $paraula = sanitize_text_field( $_POST["paraula"] );
-        $lang = sanitize_text_field( $_POST["lang"] );
+        $paraula = sanitize_text_field($_POST["paraula"]);
+        $lang = sanitize_text_field($_POST["lang"]);
 
-        $url_api = get_option( 'api_diccionari_multilingue' );
-        $url = $url_api.'search/'.$paraula.'?lang='.$lang;
+        $url_api = get_option('api_diccionari_multilingue');
+        $url = $url_api . 'search/' . $paraula . '?lang=' . $lang;
 
-        $api_response = json_decode( do_json_api_call($url) );
+        $api_call = do_json_api_call($url);
+        $api_response = json_decode($api_call);
 
-        if($api_response) {
-            if ( isset( $api_response[0] ) ) {
-                $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
-                $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
-                foreach ( $api_response as $single_entry ) {
+        if ($api_call) {
+            if (isset($api_response[0])) {
+                $resultat_string = (count($api_response) > 1 ? 'resultats' : 'resultat');
+                $result = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count($api_response) . ' ' . $resultat_string . ') <hr class="clara"/>';
+                foreach ($api_response as $single_entry) {
                     $response['paraula'] = $paraula;
+                    $response['source'] = get_source_link($single_entry);
 
                     //Unset main source/other sources
-                    $refs = (array) $single_entry->references;
+                    $refs = (array)$single_entry->references;
                     unset($refs[$single_entry->source]);
                     $single_entry->references = $refs;
-
                     $response['result'] = $single_entry;
-                    $result .= Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+
+                    $result .= Timber::fetch('ajax/multilingue-paraula.twig', array('response' => $response));
                 }
             } else {
                 throw_error('404', 'No Results For This Search');
@@ -97,10 +100,9 @@ function sc_multilingue_search() {
         }
     }
 
-    echo json_encode( $result );
+    echo json_encode($result);
     die();
 }
-
 /**
  * Function to make the request to synonims dictionary server
  *
@@ -327,13 +329,9 @@ function sc_search_program() {
 
         $result = array();
         if( ! empty ( $nom_programa ) ) {
-            $args = array(
-                's'         => $nom_programa,
-                'orders'    => 'DESC',
-                'post_status'    => 'publish',
-                'post_type'        => 'programa',
-            );
-            $result_full = get_posts( $args );
+            $query['s'] = $nom_programa;
+            $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+            $result_full = query_posts( $args );
         }
 
         $programs = array_map( 'generate_post_url_link', $result_full );
