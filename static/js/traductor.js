@@ -5,34 +5,34 @@ var traductor_json_url = "http://www.softcatala.org/apertium/json/translate";
 (function($) {
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
-    $('#origin_language').val('cat');
-    $('#target_language').val('spa');
+    jQuery('#origin_language').val('cat');
+    jQuery('#target_language').val('spa');
 
     //Left
-    $('#origin-cat').addClass('select');
-    $('#origin-spa').removeClass('select');
-    $('[data-id="origin-select"]').removeClass('select');
+    jQuery('#origin-cat').addClass('select');
+    jQuery('#origin-spa').removeClass('select');
+    jQuery('[data-id="origin-select"]').removeClass('select');
 
     //Right
-    $('#target-cat').attr('disabled', 'disabled');
-    $('#target-spa').removeAttr('disabled');
-    $('[data-id="target-select"]').removeClass('select');
-    $('[data-id="target-select"]').removeAttr('disabled');
+    jQuery('#target-cat').attr('disabled', 'disabled');
+    jQuery('#target-spa').removeAttr('disabled');
+    jQuery('[data-id="target-select"]').removeClass('select');
+    jQuery('[data-id="target-select"]').removeAttr('disabled');
 
     //Mobile (left-right)
-    $('#origin-select-mobil').val('cat');
-    $('#target-select-mobil').val('spa');
-    $('#origin-select-mobil').selectpicker('render');
-    $('#target-select-mobil').selectpicker('render');
-    $('.selectpicker').selectpicker('refresh');
+    jQuery('#origin-select-mobil').val('cat');
+    jQuery('#target-select-mobil').val('spa');
+    jQuery('#origin-select-mobil').selectpicker('render');
+    jQuery('#target-select-mobil').selectpicker('render');
+    jQuery('.selectpicker').selectpicker('refresh');
 
     /** Workaround to solve the issue when the selected language is the same marked in the dropdown **/
-    $('div#div_select_origin  ul.dropdown-menu.inner li').on('click', function() {
-        $('#origin-select').trigger('change');
+    jQuery('div#div_select_origin  ul.dropdown-menu.inner li').on('click', function() {
+        jQuery('#origin-select').trigger('change');
     });
 
-    $('div#div_select_target  ul.dropdown-menu.inner li').on('click', function() {
-        $('#target-select').trigger('change');
+    jQuery('div#div_select_target  ul.dropdown-menu.inner li').on('click', function() {
+        jQuery('#target-select').trigger('change');
     });
     /** End workaround **/
 
@@ -40,7 +40,7 @@ jQuery(document).ready(function(){
     var timer,
         lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
         timeoutPunct = 1000, timeoutOther = 3000;
-    $('.primer-textarea').on('keyup paste', function (event) {
+    jQuery('.primer-textarea').on('keyup paste', function (event) {
         if(lastPunct && event.keyCode === 32 || event.keyCode === 13) {
             // Don't override the short timeout for simple space-after-punctuation
             return;
@@ -68,8 +68,8 @@ jQuery(document).ready(function(){
 
 /** Set the different language pairs and update menus depending on user clicks **/
 //Desktop selectors
-$('#origin-cat').click(function() {
-    var prev_origin_language = $('#origin_language').val();
+jQuery('#origin-cat').click(function() {
+    var prev_origin_language = jQuery('#origin_language').val();
     var final_target_language = 'spa';
 
     set_origin_language('cat');
@@ -87,7 +87,7 @@ $('#origin-cat').click(function() {
     toggle_formes_valencianes('off');
 });
 
-$('#origin-spa').click(function() {
+jQuery('#origin-spa').click(function() {
     set_origin_language('spa');
     set_target_language('cat');
 
@@ -100,8 +100,8 @@ $('#origin-spa').click(function() {
     toggle_formes_valencianes('on');
 });
 
-$('#origin-select').on('change', function() {
-    var origin_language = $('#origin-select').val();
+jQuery('#origin-select').on('change', function() {
+    var origin_language = jQuery('#origin-select').val();
     set_origin_language(origin_language);
     set_target_language('cat');
 
@@ -114,14 +114,14 @@ $('#origin-select').on('change', function() {
     toggle_formes_valencianes('off');
 });
 
-$('#target-spa').click(function() {
+jQuery('#target-spa').click(function() {
     set_target_language('spa');
     set_target_button('spa');
     set_target_button_mobile('spa');
 });
 
-$('#target-select').on('change', function() {
-    var target_language = $('#target-select').val();
+jQuery('#target-select').on('change', function() {
+    var target_language = jQuery('#target-select').val();
     set_target_language(target_language);
 
     set_target_button(target_language);
@@ -129,10 +129,10 @@ $('#target-select').on('change', function() {
 });
 
 //Mobile selectors
-$('#origin-select-mobil').on('change', function() {
-    var prev_origin_language = $('#origin_language').val();
+jQuery('#origin-select-mobil').on('change', function() {
+    var prev_origin_language = jQuery('#origin_language').val();
     var final_target_language = 'cat';
-    var origin_language = $('#origin-select-mobil').val();
+    var origin_language = jQuery('#origin-select-mobil').val();
     set_origin_language(origin_language);
 
     set_origin_button(origin_language);
@@ -152,8 +152,8 @@ $('#origin-select-mobil').on('change', function() {
     }
 });
 
-$('#target-select-mobil').on('change', function() {
-    var target_language = $('#target-select-mobil').val();
+jQuery('#target-select-mobil').on('change', function() {
+    var target_language = jQuery('#target-select-mobil').val();
     set_target_language(target_language);
 
     set_target_button(target_language);
@@ -161,9 +161,9 @@ $('#target-select-mobil').on('change', function() {
 });
 
 //Direction change
-$('.direccio').on('click', function() {
-    var new_target_language = $('#origin_language').val();
-    var new_origin_language = $('#target_language').val();
+jQuery('.direccio').on('click', function() {
+    var new_target_language = jQuery('#origin_language').val();
+    var new_origin_language = jQuery('#target_language').val();
 
     if(new_origin_language == 'spa') {
         toggle_formes_valencianes('on');
@@ -186,19 +186,19 @@ $('.direccio').on('click', function() {
 
 
 /** Translation AJAX action and other related actions **/
-$('#translate').click(function() {
-    var text = $('.primer-textarea').val();
+jQuery('#translate').click(function() {
+    var text = jQuery('.primer-textarea').val();
     if (text.length) {
-        var origin_language = $('#origin_language').val();
-        var target_language = $('#target_language').val();
-        var valencian_forms = ($('#formes_valencianes:checked').length)?'_valencia':'';
+        var origin_language = jQuery('#origin_language').val();
+        var target_language = jQuery('#target_language').val();
+        var valencian_forms = (jQuery('#formes_valencianes:checked').length)?'_valencia':'';
         var adapted_target_language = target_language;
         if (origin_language == 'spa') {
             adapted_target_language = target_language.replace("cat","cat"+valencian_forms);
         }
 
         var langpair = origin_language+"|"+adapted_target_language;
-        var muk = ($('#mark_unknown:checked').length)?'yes':'no';
+        var muk = (jQuery('#mark_unknown:checked').length)?'yes':'no';
 
         $.ajax({
             url:traductor_json_url,
@@ -224,11 +224,11 @@ function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
         translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
-        $('.second-textarea').html(translation_coloured);
+        jQuery('.second-textarea').html(translation_coloured);
 
-        if($(".second-textarea").height() < '270') {
-            $('html, body').animate({
-                scrollTop: $(".second-textarea").offset().top
+        if(jQuery(".second-textarea").height() < '270') {
+            jQuery('html, body').animate({
+                scrollTop: jQuery(".second-textarea").offset().top
             }, 2000);
         }
     } else {
@@ -240,128 +240,129 @@ function trad_ko(dt) {
     //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
     var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
     var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
-    $('#error_title').html(error_title);
-    $('#error_description').html(error_txt);
-    $('#error_pagina').trigger('click');
+    jQuery('#error_title').html(error_title);
+    jQuery('#error_description').html(error_txt);
+    jQuery('#error_pagina').trigger('click');
 }
 
 /* This function just calls the translation */
 function translateText() {
-    if( $('.primer-textarea').val() == '' ) {
-        $(".second-textarea").html(''); //just empty the second area
+    if( jQuery('.primer-textarea').val() == '' ) {
+        jQuery(".second-textarea").html(''); //just empty the second area
     } else {
-        $('#translate').trigger('click');
+        jQuery('#translate').trigger('click');
     }
 }
 
-$('#mark_unknown').click(function() {
+jQuery('#mark_unknown').click(function() {
     translateText();
 });
 /** End translation AJAX action **/
+
 
 /** Start functions to set the different language pairs and update menus depending on user clicks **/
 function toggle_formes_valencianes(status) {
     if ( status == 'on' ) {
         //Enable 'formes valencianes' checkbox
-        $('#formes_valencianes').removeAttr('disabled');
-        $('#formes_valencianes_label').css( "color", "#333" );
+        jQuery('#formes_valencianes').removeAttr('disabled');
+        jQuery('#formes_valencianes_label').css( "color", "#333" );
     } else {
         //Disable 'formes valencianes' checkbox
-        $('#formes_valencianes').attr('disabled', 'disabled');
-        $('#formes_valencianes_label').css( "color", "#AAA" );
+        jQuery('#formes_valencianes').attr('disabled', 'disabled');
+        jQuery('#formes_valencianes_label').css( "color", "#AAA" );
     }
 }
 
 function set_origin_language( language ) {
-    $('#origin_language').val(language);
+    jQuery('#origin_language').val(language);
 }
 
 function set_target_language ( language ) {
-    $('#target_language').val(language);
+    jQuery('#target_language').val(language);
 }
 
 function set_origin_button ( language ) {
     if ( language == 'spa' ) {
-        $('#origin-spa').addClass('select');
-        $('#origin-cat').removeClass('select');
-        $('[data-id="origin-select"]').removeClass('select');
+        jQuery('#origin-spa').addClass('select');
+        jQuery('#origin-cat').removeClass('select');
+        jQuery('[data-id="origin-select"]').removeClass('select');
     } else if ( language == 'cat' ) {
-        $('#origin-cat').addClass('select');
-        $('#origin-spa').removeClass('select');
-        $('[data-id="origin-select"]').removeClass('select');
+        jQuery('#origin-cat').addClass('select');
+        jQuery('#origin-spa').removeClass('select');
+        jQuery('[data-id="origin-select"]').removeClass('select');
     } else {
-        $('[data-id="origin-select"]').addClass('select');
-        $('#origin-spa').removeClass('select');
-        $('#origin-cat').removeClass('select');
+        jQuery('[data-id="origin-select"]').addClass('select');
+        jQuery('#origin-spa').removeClass('select');
+        jQuery('#origin-cat').removeClass('select');
 
-        $('#origin-select').val( language );
-        $('#origin-select').selectpicker('render');
+        jQuery('#origin-select').val( language );
+        jQuery('#origin-select').selectpicker('render');
     }
 }
 
 function set_origin_button_mobile ( language ) {
-    $('#origin-select-mobil').val(language);
-    $('#origin-select-mobil').selectpicker('render');
+    jQuery('#origin-select-mobil').val(language);
+    jQuery('#origin-select-mobil').selectpicker('render');
 
     if( language == 'cat' ) {
-        $('div.btns-llengues-desti .dropdown-menu').css('display', '');
-        $("#target-select-mobil option[value='cat']").css('display', 'none');
-        $('.selectpicker-mobil').selectpicker('refresh');
+        jQuery('div.btns-llengues-desti .dropdown-menu').css('display', '');
+        jQuery("#target-select-mobil option[value='cat']").css('display', 'none');
+        jQuery('.selectpicker-mobil').selectpicker('refresh');
     } else {
-        $("#target-select-mobil option[value='cat']").css('display', '');
-        $('.selectpicker-mobil').selectpicker('refresh');
-        $('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
+        jQuery("#target-select-mobil option[value='cat']").css('display', '');
+        jQuery('.selectpicker-mobil').selectpicker('refresh');
+        jQuery('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
     }
 }
 
 function set_target_button ( language ) {
     if( language == 'cat' ) {
-        $('#target-cat').removeAttr('disabled', 'disabled');
-        $('#target-cat').addClass('select');
-        $('#target-spa').removeClass('select');
-        $('#target-spa').attr('disabled', 'disabled');
-        $('[data-id="target-select"]').removeClass('select');
-        $('[data-id="target-select"]').attr('disabled', 'disabled');
+        jQuery('#target-cat').removeAttr('disabled', 'disabled');
+        jQuery('#target-cat').addClass('select');
+        jQuery('#target-spa').removeClass('select');
+        jQuery('#target-spa').attr('disabled', 'disabled');
+        jQuery('[data-id="target-select"]').removeClass('select');
+        jQuery('[data-id="target-select"]').attr('disabled', 'disabled');
     } else if ( language == 'spa' ) {
-        $('#target-spa').removeAttr('disabled', 'disabled');
-        $('#target-spa').addClass('select');
-        $('#target-cat').removeClass('select');
-        $('#target-cat').attr('disabled', 'disabled');
-        $('[data-id="target-select"]').removeClass('select');
-        $('[data-id="target-select"]').removeAttr('disabled', 'disabled');
+        jQuery('#target-spa').removeAttr('disabled', 'disabled');
+        jQuery('#target-spa').addClass('select');
+        jQuery('#target-cat').removeClass('select');
+        jQuery('#target-cat').attr('disabled', 'disabled');
+        jQuery('[data-id="target-select"]').removeClass('select');
+        jQuery('[data-id="target-select"]').removeAttr('disabled', 'disabled');
     } else {
-        $('#target-select').val( language );
-        $('#target-spa').removeAttr('disabled');
-        $('#target-spa').removeClass('select');
-        $('#target-cat').removeClass('select');
-        $('#target-cat').attr('disabled', 'disabled');
-        $('[data-id="target-select"]').addClass('select');
-        $('[data-id="target-select"]').removeAttr('disabled', 'disabled');
-        $('#target-select').selectpicker('render');
+        jQuery('#target-select').val( language );
+        jQuery('#target-spa').removeAttr('disabled');
+        jQuery('#target-spa').removeClass('select');
+        jQuery('#target-cat').removeClass('select');
+        jQuery('#target-cat').attr('disabled', 'disabled');
+        jQuery('[data-id="target-select"]').addClass('select');
+        jQuery('[data-id="target-select"]').removeAttr('disabled', 'disabled');
+        jQuery('#target-select').selectpicker('render');
     }
 }
 
 function set_target_button_mobile ( language ) {
-    $('#target-select-mobil').val( language );
+    jQuery('#target-select-mobil').val( language );
 
     //Don't display other options than 'cat' in case Catalan is the target language
     if( language == 'cat' ) {
-        $("#target-select-mobil option[value='cat']").css('display', '');
-        $('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
-        $('#div_select_target_mobile .filter-option').next("span").removeClass('caret');
+        jQuery("#target-select-mobil option[value='cat']").css('display', '');
+        jQuery('div.btns-llengues-desti .dropdown-menu').css('display', 'none');
+        jQuery('#div_select_target_mobile .filter-option').next("span").removeClass('caret');
     } else {
-        $("#target-select-mobil option[value='cat']").css('display', 'none');
-        $('div.btns-llengues-desti .dropdown-menu').css('display', '');
-        $('#div_select_target_mobile .filter-option').next("span").addClass('caret');
+        jQuery("#target-select-mobil option[value='cat']").css('display', 'none');
+        jQuery('div.btns-llengues-desti .dropdown-menu').css('display', '');
+        jQuery('#div_select_target_mobile .filter-option').next("span").addClass('caret');
     }
-    $('#target-select-mobil').selectpicker('render');
+    jQuery('#target-select-mobil').selectpicker('render');
 }
 
 function exchange_texts() {
-    var translation_text = $('.second-textarea').html();
-    var original_text = $('.primer-textarea').val();
-    $('.second-textarea').html(original_text);
-    $('.primer-textarea').val(translation_text);
+    var translation_text = jQuery('.second-textarea').html();
+    var original_text = jQuery('.primer-textarea').val();
+    jQuery('.second-textarea').html(original_text);
+    jQuery('.primer-textarea').val(translation_text);
 }
 /** End functions related to language pairs change **/
 

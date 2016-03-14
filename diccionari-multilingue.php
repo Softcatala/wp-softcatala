@@ -30,9 +30,10 @@ if( ! empty ( $context['paraula'] ) ) {
         $context['lang'] = $lang;
     }
 
-    $api_response = json_decode( do_json_api_call($url) );
+    $api_call = do_json_api_call($url);
+    $api_response = json_decode($api_call);
 
-    if ( $api_response ) {
+    if ( $api_call ) {
         if ( isset( $api_response[0] ) ) {
             $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
             $result = 'Resultats de la cerca per: <strong>'.$context['paraula'].'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
@@ -50,7 +51,7 @@ if( ! empty ( $context['paraula'] ) ) {
             }
         } else {
             throw_error('404', 'No Results For This Search');
-            $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+            $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
         $context['cerca_result'] = $result;
     } else {

@@ -30,6 +30,7 @@ jQuery('#_action_consulta').click(function(){
         post_data.append('paraula', query);
         post_data.append('lang', lang);
         post_data.append('action', 'multilingue_search');
+        post_data.append('_wpnonce', jQuery('input[name=_wpnonce_search]').val());
 
         jQuery.ajax({
             url: scajax.ajax_url,
@@ -54,8 +55,10 @@ function print_results(result) {
     jQuery('#results').slideDown();
 }
 
-function ko_function(response) {
-
+function ko_function(result) {
+    jQuery("#loading").hide();
+    jQuery('#results').html(JSON.parse(result.responseText));
+    jQuery('#results').slideDown();
 }
 
 //Function to update share links on ajax calls
@@ -94,6 +97,7 @@ function get_autocomplete_words (query, processSync, processAsync) {
     post_data.append('paraula', query);
     post_data.append('lang', lang);
     post_data.append('action', 'multilingue_autocomplete');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_auto]').val());
 
     jQuery.ajax({
         url: scajax.ajax_url,

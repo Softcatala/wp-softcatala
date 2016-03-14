@@ -59,6 +59,7 @@ jQuery('#input_rating').on('change', function () {
         post_data.append('post_id', name[2]);
         post_data.append('rate', jQuery("#input_rating").val());
         post_data.append('action', 'send_vote');
+        post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program_vote]').val());
 
         jQuery.ajax({
             type: 'POST',
@@ -67,25 +68,24 @@ jQuery('#input_rating').on('change', function () {
             dataType: 'json',
             contentType: false,
             processData: false,
-            success : form_sent_ok,
-            error : form_sent_ko
+            success : vote_sent_ok,
+            error : vote_sent_ko
         });
-
-
-        var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear( ) +10);
-        document.cookie = cookie_id+'=1; expires=' + CookieDate.toGMTString( ) + ';';
     } else {
         var message_text = 'Sembla que ja havies votat abans...';
         show_message(message_text);
     }
 });
 
-function form_sent_ok(result) {
+function vote_sent_ok(result) {
     show_message(result.text);
+
+    var CookieDate = new Date;
+    CookieDate.setFullYear(CookieDate.getFullYear( ) +10);
+    document.cookie = cookie_id+'=1; expires=' + CookieDate.toGMTString( ) + ';';
 }
 
-function form_sent_ko(result) {
+function vote_sent_ko(result) {
     show_message("S'ha produït un error en enviar les dades. Proveu de nou més tard.");
 }
 
@@ -120,6 +120,7 @@ $search_program_form.on('submit', function(ev){
     var post_data = new FormData();
     post_data.append('nom_programa', nom_programa);
     post_data.append('action', 'search_program');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program_search]').val());
 
     jQuery.ajax({
         type: 'POST',
@@ -160,9 +161,9 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('autor_programa', jQuery('input[name=autor]').val());
     post_data.append('lloc_web_programa', jQuery('input[name=lloc_web]').val());
     post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
-    post_data.append('llicencia', jQuery('input[name=llicencia]:checked').val());
+    post_data.append('tipus', jQuery('#llicencia option:selected').val());
     post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
-    post_data.append('autor_traduccio', jQuery('textarea[name=autor_traduccio]').val());
+    post_data.append('autor_traduccio', jQuery('input[name=autor_traduccio]').val());
 
     //Programes
     var urls_baixada = [];
@@ -203,6 +204,7 @@ $add_program_form.on('submit', function(ev) {
 
     post_data.append('baixades', baixadesjson);
     post_data.append('action', 'add_new_program');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program]').val());
 
     var logo = jQuery(document).find('input[name="logo"]');
     var logo_file = logo[0].files[0];

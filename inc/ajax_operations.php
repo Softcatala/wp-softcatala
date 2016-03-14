@@ -32,19 +32,23 @@ add_action( 'wp_ajax_nopriv_multilingue_autocomplete', 'sc_multilingue_autocompl
  * @return json response
  */
 function sc_multilingue_autocomplete() {
-    $paraula = sanitize_text_field( $_POST["paraula"] );
-    $lang = sanitize_text_field( $_POST["lang"] );
-
-    $url_api = get_option( 'api_diccionari_multilingue' );
-    $url = $url_api.'autocomplete/'.$paraula.'?lang='.$lang;
-
-    $api_response = json_decode( do_json_api_call($url) );
-
-    if($api_response) {
-        $result = $api_response;
-    } else {
-        throw_error('500', 'Error connecting to API server');
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
         $result = false;
+    } else {
+        $paraula = sanitize_text_field( $_POST["paraula"] );
+        $lang = sanitize_text_field( $_POST["lang"] );
+
+        $url_api = get_option( 'api_diccionari_multilingue' );
+        $url = $url_api.'autocomplete/'.$paraula.'?lang='.$lang;
+
+        $api_response = json_decode( do_json_api_call($url) );
+
+        if($api_response) {
+            $result = $api_response;
+        } else {
+            throw_error('500', 'Error connecting to API server');
+            $result = false;
+        }
     }
 
     echo json_encode(  $result );
@@ -56,85 +60,93 @@ function sc_multilingue_autocomplete() {
  *
  * @return json response
  */
-function sc_multilingue_search() {
-    $paraula = sanitize_text_field( $_POST["paraula"] );
-    $lang = sanitize_text_field( $_POST["lang"] );
+function sc_multilingue_search()
+{
+    if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], $_POST["action"])) {
+        $result = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+    } else {
+        $paraula = sanitize_text_field($_POST["paraula"]);
+        $lang = sanitize_text_field($_POST["lang"]);
 
-    $url_api = get_option( 'api_diccionari_multilingue' );
-    $url = $url_api.'search/'.$paraula.'?lang='.$lang;
+        $url_api = get_option('api_diccionari_multilingue');
+        $url = $url_api . 'search/' . $paraula . '?lang=' . $lang;
 
-    $api_response = json_decode( do_json_api_call($url) );
+        $api_call = do_json_api_call($url);
+        $api_response = json_decode($api_call);
 
-    if($api_response) {
-        if ( isset( $api_response[0] ) ) {
-            $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
-            $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
-            foreach ( $api_response as $single_entry ) {
-                $response['paraula'] = $paraula;
-                $response['source'] = get_source_link($single_entry);
+        if ($api_call) {
+            if (isset($api_response[0])) {
+                $resultat_string = (count($api_response) > 1 ? 'resultats' : 'resultat');
+                $result = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count($api_response) . ' ' . $resultat_string . ') <hr class="clara"/>';
+                foreach ($api_response as $single_entry) {
+                    $response['paraula'] = $paraula;
+                    $response['source'] = get_source_link($single_entry);
 
-                //Unset main source/other sources
-                $refs = (array) $single_entry->references;
-                unset($refs[$single_entry->source]);
-                $single_entry->references = $refs;
-                $response['result'] = $single_entry;
+                    //Unset main source/other sources
+                    $refs = (array)$single_entry->references;
+                    unset($refs[$single_entry->source]);
+                    $single_entry->references = $refs;
+                    $response['result'] = $single_entry;
 
-                $result .= Timber::fetch('ajax/multilingue-paraula.twig', array( 'response' => $response ) );
+                    $result .= Timber::fetch('ajax/multilingue-paraula.twig', array('response' => $response));
+                }
+            } else {
+                throw_error('404', 'No Results For This Search');
+                $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
             }
         } else {
-            throw_error('404', 'No Results For This Search');
-            $response['message'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+            throw_error('500', 'Error connecting to API server');
+            $result = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
         }
-        $response['paraula'] = $paraula;
-    } else {
-        throw_error('500', 'Error connecting to API server');
-        $response['message'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
     }
 
-    echo json_encode( $result );
+    echo json_encode($result);
     die();
 }
-
 /**
  * Function to make the request to synonims dictionary server
  *
  * @return json response
  */
 function sc_subscribe_list() {
-    $nom = sanitize_text_field( $_POST["nom"] );
-    $correu = sanitize_text_field( $_POST["correu"] );
-    $llista = sanitize_text_field( $_POST["llista"] );
-    $projecte = sanitize_text_field( $_POST["projecte"] );
-
-    if( ! empty ( $llista )) {
-        $password = get_option( 'llistes_access' );
-        if ( ! empty ( $password )){
-            $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload='.$correu.'&adminpw='.$password;
-            $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
-            $url = $list_admin_url . $path;
-            $response_subscription = send_subscription_to_mailinglist($url);
-            if ( $response_subscription['status'] ) {
-                $result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
-            } else {
-                $result['text'] = "S'ha produït un error. " . $response_subscription['message'];
-            }
-        }
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $result['text'] = "S'ha produït un error. Proveu més tard.";
     } else {
-        $to_email = 'web@softcatala.org';
-        $subject = '[Projectes] Demanda de participació al projecte '. $projecte;
-        $message = 'Un usuari ha demanat col·laborar al projecte '. $projecte;
-        $message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
-        $message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: '. $nom . '<br/>Email: '. $correu;
+        $nom = sanitize_text_field( $_POST["nom"] );
+        $correu = sanitize_text_field( $_POST["correu"] );
+        $llista = sanitize_text_field( $_POST["llista"] );
+        $projecte = sanitize_text_field( $_POST["projecte"] );
 
-        //proceed with PHP email.
-        $headers = 'From: '.$nom.' <'.$to_email. ">\r\n" .
-            'Reply-To: '.$correu.'' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-        if ( wp_mail( $to_email, $subject, $message, $headers )) {
-            $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
+        if( ! empty ( $llista )) {
+            $password = get_option( 'llistes_access' );
+            if ( ! empty ( $password )){
+                $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload='.$correu.'&adminpw='.$password;
+                $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
+                $url = $list_admin_url . $path;
+                $response_subscription = send_subscription_to_mailinglist($url);
+                if ( $response_subscription['status'] ) {
+                    $result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
+                } else {
+                    $result['text'] = "S'ha produït un error. " . $response_subscription['message'];
+                }
+            }
         } else {
-            $result['text'] = "S'ha produït un error. Proveu més tard.";
+            $to_email = 'web@softcatala.org';
+            $subject = '[Projectes] Demanda de participació al projecte '. $projecte;
+            $message = 'Un usuari ha demanat col·laborar al projecte '. $projecte;
+            $message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
+            $message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: '. $nom . '<br/>Email: '. $correu;
+
+            //proceed with PHP email.
+            $headers = 'From: '.$nom.' <'.$to_email. ">\r\n" .
+                'Reply-To: '.$correu.'' . "\r\n" .
+                'X-Mailer: PHP/' . phpversion();
+
+            if ( wp_mail( $to_email, $subject, $message, $headers )) {
+                $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
+            } else {
+                $result['text'] = "S'ha produït un error. Proveu més tard.";
+            }
         }
     }
 
@@ -148,16 +160,25 @@ function sc_subscribe_list() {
  * @return json response
  */
 function sc_find_sinonim() {
-    $paraula = sanitize_text_field( $_POST["paraula"] );
-    $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
-
-    $result = '';
-    if( ! empty ( $paraula ) ) {
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $result = '';
+    } else {
+        $paraula = sanitize_text_field( $_POST["paraula"] );
+        $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
         $url = $url_sinonims_server . $paraula;
         $sinonims_server = json_decode( do_json_api_call($url) );
-        $sinonims['paraula'] = $paraula;
-        $sinonims['response'] = $sinonims_server->synsets;
-        $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+
+        if($sinonims_server != 'error') {
+            if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
+                $sinonims['paraula'] = $paraula;
+                $sinonims['response'] = $sinonims_server->synsets;
+                $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+            } else {
+                $result = 'La paraula que esteu cercant no es troba al diccionari.';
+            }
+        } else {
+            $result = 'S\'ha produït un error en el servidor. Proveu més tard';
+        }
     }
 
     $response = json_encode( $result );
@@ -170,40 +191,44 @@ function sc_find_sinonim() {
  * @return json response
  */
 function sc_contact_form() {
-    $to_email       = sanitize_text_field( $_POST["to_email"] );
-    $nom_from       = sanitize_text_field( $_POST["nom_from"] );
-    $assumpte       = sanitize_text_field( $_POST["assumpte"] );
-
-    //check if its an ajax request, exit if not
-    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-        $output = json_encode(array( //create JSON data
-            'type'=>'error',
-            'text' => 'Sorry Request must be Ajax POST'
-        ));
-        die($output); //exit script outputting json data
-    }
-
-    //Sanitize input data using PHP filter_var().
-    $nom      = sanitize_text_field( $_POST["nom"] );
-    $correu     = sanitize_email( $_POST["correu"] );
-    $tipus   = sanitize_text_field( $_POST["tipus"] );
-    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
-
-    //email body
-    $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
-
-    //proceed with PHP email.
-    $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
-        'Reply-To: '.$correu.'' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-
-    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
-
-    if(!$send_mail) {
-        //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
         $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
     } else {
-        $output = json_encode(array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'));
+        $to_email       = sanitize_text_field( $_POST["to_email"] );
+        $nom_from       = sanitize_text_field( $_POST["nom_from"] );
+        $assumpte       = sanitize_text_field( $_POST["assumpte"] );
+
+        //check if its an ajax request, exit if not
+        if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+            $output = json_encode(array( //create JSON data
+                'type'=>'error',
+                'text' => 'Sorry Request must be Ajax POST'
+            ));
+            die($output); //exit script outputting json data
+        }
+
+        //Sanitize input data using PHP filter_var().
+        $nom      = sanitize_text_field( $_POST["nom"] );
+        $correu     = sanitize_email( $_POST["correu"] );
+        $tipus   = sanitize_text_field( $_POST["tipus"] );
+        $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
+
+        //email body
+        $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
+
+        //proceed with PHP email.
+        $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
+            'Reply-To: '.$correu.'' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
+
+        if(!$send_mail) {
+            //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+            $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
+        } else {
+            $output = json_encode(array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'));
+        }
     }
 
     echo $output;
@@ -216,69 +241,72 @@ function sc_contact_form() {
  * @return json response
  */
 function sc_add_new_program() {
-    $nom = sanitize_text_field( $_POST["nom"] );
-    $email_usuari = sanitize_email( $_POST["email_usuari"] );
-    $comentari_usuari = sanitize_text_field( $_POST["comentari_usuari"] );
-    $descripcio = sanitize_text_field( $_POST["descripcio"] );
-    $autor_programa = sanitize_text_field( $_POST["autor_programa"] );
-    $lloc_web_programa = sanitize_text_field( $_POST["lloc_web_programa"] );
-    $llicencia = sanitize_text_field( $_POST["llicencia"] );
-    $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
-    $slug = sanitize_title_with_dashes( $nom );
-    $baixades = json_decode(stripslashes($_POST["baixades"]));
+    $return = array();
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $return['status'] == 0;
+    } else {
+        $nom = sanitize_text_field( $_POST["nom"] );
+        $email_usuari = sanitize_email( $_POST["email_usuari"] );
+        $comentari_usuari = sanitize_text_field( $_POST["comentari_usuari"] );
+        $descripcio = sanitize_text_field( $_POST["descripcio"] );
+        $autor_programa = sanitize_text_field( $_POST["autor_programa"] );
+        $lloc_web_programa = sanitize_text_field( $_POST["lloc_web_programa"] );
+        $llicencia = sanitize_text_field( $_POST["llicencia"] );
+        $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
+        $slug = sanitize_title_with_dashes( $nom );
+        $baixades = json_decode(stripslashes($_POST["baixades"]));
 
-    $terms = array(
-        'categoria-programa' => array($categoria_programa),
-        'llicencia' => array($llicencia)
-    );
-
-    $metadata = array(
-        'autor_programa' => $autor_programa,
-        'lloc_web_programa' => $lloc_web_programa
-    );
-
-    $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
-
-    if( $return['status'] == 1 ) {
-        //Related downloads
-
-        //Logo and screenshot file upload
-        $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
-        $screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
-        $metadata = array(
-            'logotip_programa' => wp_get_attachment_url( $logo_attach_id ),
-            'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
+        $terms = array(
+            'categoria-programa' => array($categoria_programa),
+            'llicencia' => array($llicencia)
         );
-        sc_update_metadata ( $return['post_id'], $metadata );
 
+        $metadata = array(
+            'autor_programa' => $autor_programa,
+            'lloc_web_programa' => $lloc_web_programa
+        );
 
-        foreach ( $baixades as $baixada ) {
-            $terms_baixada = array(
-                'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
+        $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
+
+        if( $return['status'] == 1 ) {
+            //Logo and screenshot file upload
+            $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
+            $screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
+            $metadata = array(
+                'logotip_programa' => wp_get_attachment_url( $logo_attach_id ),
+                'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
             );
+            sc_update_metadata ( $return['post_id'], $metadata );
 
-            $metadata_baixada = array (
-                'url_baixada' => $baixada->url,
-                'versio_baixada' => $baixada->versio,
-                'arquitectura_baixada' => $baixada->arquitectura,
-                'post_id' => $return['post_id']
-            );
-            $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
-        }
+            //Related downloads
+            foreach ( $baixades as $baixada ) {
+                $terms_baixada = array(
+                    'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
+                );
 
-        if( $return_baixada['status'] == 1 ) {
-            $to_email = "web@softcatala.org";
-            $nom_from = "Programes i aplicacions de Softcatalà";
-            $assumpte = "[Programes] Programa enviat per formulari";
+                $metadata_baixada = array (
+                    'url_baixada' => $baixada->url,
+                    'versio_baixada' => $baixada->versio,
+                    'arquitectura_baixada' => $baixada->arquitectura,
+                    'post_id' => $return['post_id']
+                );
+                $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
+            }
 
-            $fields = array(
-                "Nom del programa" => $nom,
-                "Descripció" => $descripcio,
-                "Comentari de l'usuari" => $comentari_usuari,
-                "Email de l'usuari" => $email_usuari,
-                "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
-            );
-            sendEmailForm($to_email, $nom_from, $assumpte, $fields);
+            if( $return_baixada['status'] == 1 ) {
+                $to_email = "web@softcatala.org";
+                $nom_from = "Programes i aplicacions de Softcatalà";
+                $assumpte = "[Programes] Programa enviat per formulari";
+
+                $fields = array(
+                    "Nom del programa" => $nom,
+                    "Descripció" => $descripcio,
+                    "Comentari de l'usuari" => $comentari_usuari,
+                    "Email de l'usuari" => $email_usuari,
+                    "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
+                );
+                sendEmailForm($to_email, $nom_from, $assumpte, $fields);
+            }
         }
     }
 
@@ -293,26 +321,29 @@ function sc_add_new_program() {
  * @return json response
  */
 function sc_search_program() {
-    check_is_ajax_call();
-
-    $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
-
-    $result = array();
-    if( ! empty ( $nom_programa ) ) {
-        $query['s'] = $nom_programa;
-        $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
-        $result_full = query_posts( $args );
-    }
-
-    $programs = array_map( 'generate_post_url_link', $result_full );
-
-    if ( count( $programs ) > 0 ) {
-        $result['programs'] = Timber::fetch('ajax/programs-list.twig', array( 'programs' => $programs ) );
-        $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $result['text'] = "S'ha produït un error en cercar el programa. Podeu cotinuar igualment.";
     } else {
-        $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
-    }
+        check_is_ajax_call();
 
+        $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
+
+        $result = array();
+        if( ! empty ( $nom_programa ) ) {
+            $query['s'] = $nom_programa;
+            $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+            $result_full = query_posts( $args );
+        }
+
+        $programs = array_map( 'generate_post_url_link', $result_full );
+
+        if ( count( $programs ) > 0 ) {
+            $result['programs'] = Timber::fetch('ajax/programs-list.twig', array( 'programs' => $programs ) );
+            $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
+        } else {
+            $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
+        }
+    }
 
     $response = json_encode( $result );
     die( $response );
@@ -325,35 +356,39 @@ function sc_search_program() {
  * @return json response
  */
 function sc_send_vote() {
-    check_is_ajax_call();
-
-    $post_id = intval(sanitize_text_field( $_POST["post_id"] ));
-    $rate = sanitize_text_field( $_POST["rate"] );
-    $single = true;
-
-    $current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
-    $votes = get_post_meta( $post_id, 'wpcf-vots', $single );
-
-    $new_votes = $votes + 1;
-    $new_rate = $current_rating * ( $votes/ $new_votes ) + $rate * ( 1/$new_votes );
-
-    $metadata = array(
-        'valoracio'   => number_format((float)$new_rate, 2, '.', ''),
-        'vots' => $new_votes
-    );
-
-    $result = sc_update_metadata( $post_id, $metadata );
-
-    if ( ! $result ) {
-        $return['status'] = 0;
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
         $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
     } else {
-        $return['status'] = 1;
-        $return['text'] = "Gràcies per enviar-nos la vostra valoració!";
+        check_is_ajax_call();
+
+        $post_id = intval(sanitize_text_field( $_POST["post_id"] ));
+        $rate = sanitize_text_field( $_POST["rate"] );
+        $single = true;
+
+        $current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
+        $votes = get_post_meta( $post_id, 'wpcf-vots', $single );
+
+        $new_votes = $votes + 1;
+        $new_rate = $current_rating * ( $votes/ $new_votes ) + $rate * ( 1/$new_votes );
+
+        $metadata = array(
+            'valoracio'   => number_format((float)$new_rate, 2, '.', ''),
+            'vots' => $new_votes
+        );
+
+        $result = sc_update_metadata( $post_id, $metadata );
+
+        if ( ! $result ) {
+            $return['status'] = 0;
+            $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
+        } else {
+            $return['status'] = 1;
+            $return['text'] = "Gràcies per enviar-nos la vostra valoració!";
+        }
     }
 
-    $response = json_encode( $return );
-    die( $response );
+    echo json_encode( $return );
+    die();
 }
 
 /**
@@ -362,52 +397,68 @@ function sc_send_vote() {
  * @return json response
  */
 function sc_send_aparell() {
-    check_is_ajax_call();
-    
-    $nom = sanitize_text_field( $_POST["nom"] );
-    $tipus_aparell = sanitize_text_field( $_POST["tipus_aparell"] );
-    $fabricant   = sanitize_text_field( $_POST["fabricant"] );
-    $sistema_operatiu = sanitize_text_field( $_POST["sistema_operatiu"] );
-    $versio = sanitize_text_field( $_POST["versio"] );
-    $traduccio_catala = sanitize_text_field( $_POST["traduccio_catala"] );
-    $correccio_catala = sanitize_text_field( $_POST["correccio_catala"] );
-    $slug = sanitize_title_with_dashes( $nom );
+    $return = array();
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $return['status'] = 0;
+    } else {
+        check_is_ajax_call();
 
-    // comentari no s'utilitza
-    $comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
+        $nom = sanitize_text_field( $_POST["nom"] );
+        $tipus_aparell = sanitize_text_field( $_POST["tipus_aparell"] );
+        $fabricant   = sanitize_text_field( $_POST["fabricant"] );
+        $sistema_operatiu = sanitize_text_field( $_POST["sistema_operatiu"] );
+        $versio = sanitize_text_field( $_POST["versio"] );
+        $traduccio_catala = sanitize_text_field( $_POST["traduccio_catala"] );
+        $correccio_catala = sanitize_text_field( $_POST["correccio_catala"] );
+        $slug = sanitize_title_with_dashes( $nom );
 
-    $terms = array(
-        'tipus_aparell' => array($tipus_aparell),
-        'so_aparell' => array($sistema_operatiu)
-    );
+        // comentari no s'utilitza
+        $comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
 
-    $metadata = array(
-        'versio' => $versio,
-        'fabricant' => $fabricant,
-        'conf_cat' => $traduccio_catala,
-        'correccio_cat' => $correccio_catala );
-
-    $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
-
-    if( $return['status'] == 1 ) {
-        $to_email       = "rebost@llistes.softcatala.org";
-        $nom_from       = "Aparells de Softcatalà";
-        $assumpte       = "[Aparells] Aparell enviat per formulari";
-
-        $fields = array (
-            "Nom de l'aparell" => $nom,
-            "Comentari" => $comentari,
-            "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
+        $terms = array(
+            'tipus_aparell' => array($tipus_aparell),
+            'so_aparell' => array($sistema_operatiu)
         );
-        sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+
+        $metadata = array(
+            'versio' => $versio,
+            'fabricant' => $fabricant,
+            'conf_cat' => $traduccio_catala,
+            'correccio_cat' => $correccio_catala );
+
+        $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
+
+        if( $return['status'] == 1 ) {
+            $to_email       = "rebost@llistes.softcatala.org";
+            $nom_from       = "Aparells de Softcatalà";
+            $assumpte       = "[Aparells] Aparell enviat per formulari";
+
+            $fields = array (
+                "Nom de l'aparell" => $nom,
+                "Comentari" => $comentari,
+                "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
+            );
+            sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+        }
     }
 
     $response = json_encode( $return );
     die( $response );
 }
 
+/**
+ * Creates the post based on the basic information provided
+ *
+ *
+ * @param $type
+ * @param $nom
+ * @param $descripcio
+ * @param $slug
+ * @param $allTerms
+ * @param $metadata
+ * @return array|mixed|void
+ */
 function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
-
     $return = array();
     if( isset( $metadata['post_id'] ) ){
         $parent_id = $metadata['post_id'];
@@ -465,6 +516,13 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
     return $return;
 }
 
+/**
+ * This funcions uploads a file to the wordpress media library
+ *
+ * @param $value
+ * @param $post_id
+ * @return bool|int
+ */
 function sc_upload_file( $value, $post_id ) {
     if( isset( $_FILES[$value] ) ) {
         $tmpfile = $_FILES[$value];
@@ -498,6 +556,13 @@ function sc_upload_file( $value, $post_id ) {
     }
 }
 
+/**
+ * Sets the featured image for a specific post
+ *
+ * @param $post_id
+ * @param $attach_id
+ * @return mixed
+ */
 function sc_set_featured_image( $post_id, $attach_id ) {
     if( $attach_id ) {
         set_post_thumbnail( $post_id, $attach_id );

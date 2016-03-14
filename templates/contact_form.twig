@@ -72,6 +72,7 @@
                                <input type="hidden" id="nom_from" value="{{ contact.nom_from }}" />
                                <input type="hidden" id="to_email" value="{{ contact.to_email }}" />
                                <input type="hidden" id="assumpte" value="{{ contact.assumpte }}" />
+                               {{ function('wp_nonce_field', 'contact_form') }}
                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
                              </div>
                              </div>

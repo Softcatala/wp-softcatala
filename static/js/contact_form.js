@@ -14,6 +14,7 @@ $contactForm.on('submit', function(ev){
     post_data.append('nom_from', jQuery('#nom_from').val());
     post_data.append('assumpte', jQuery('#assumpte').val());
     post_data.append('action', 'contact_form');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce]').val());
 
     jQuery.ajax({
         type: 'POST',
