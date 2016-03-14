@@ -37,6 +37,7 @@ $contactForm.on('submit', function(ev){
     post_data.append('correccio_catala', jQuery('input[name=correccio_catala]:checked').val());
     post_data.append('comentari', jQuery('textarea[name=comentari]').val());
     post_data.append('action', 'send_aparell');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_aparell]').val());
 
     var file = jQuery(document).find('input[type="file"]');
     var individual_file = file[0].files[0];

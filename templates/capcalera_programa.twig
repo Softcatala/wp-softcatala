@@ -56,6 +56,7 @@
 
                     <footer class="footer-main-header-gris">
                         <div class="cont-rating">
+                            {{ function('wp_nonce_field', 'send_vote', '_wpnonce_program_vote') }}
                             <input type="hidden" value="{{ post.valoracio }}" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating" class="rating" data-rating-class="rating-fa" data-symbol="&#xf006;" data-glyphicon="false" data-show-caption="false" data-show-clear="false"/>
                             <span class="numero">{{ post.valoracio }}</span>
                             {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}

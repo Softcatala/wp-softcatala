@@ -18,11 +18,21 @@ $post = new TimberPost();
 $context['post'] = $post;
 $context['paraula'] = urldecode( get_query_var('paraula') );
 if( ! empty ( $context['paraula'] ) ) {
+    $paraula = $context['paraula'];
     $url = $url_sinonims_server . $context['paraula'];
     $sinonims_server = json_decode( file_get_contents( $url ) );
-    $sinonims['paraula'] = $context['paraula'];
-    $sinonims['response'] = $sinonims_server->synsets;
-    $context['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+
+    if($sinonims_server != 'error') {
+        if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
+            $sinonims['paraula'] = $paraula;
+            $sinonims['response'] = $sinonims_server->synsets;
+            $context['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+        } else {
+            $context['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
+        }
+    } else {
+        $context['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
+    }
 }
 $context['content_title'] = 'Diccionari de sinònims';
 $context['links'] = $post->get_field( 'link' );

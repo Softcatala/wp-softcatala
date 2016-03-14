@@ -65,6 +65,7 @@
                     <div class="form-horizontal">
                         <div class="form-botons row form-group">
                             <div class="col-xs-4 col-sm-4 bt-puja">
+                                {{ function('wp_nonce_field', 'search_program', '_wpnonce_program_search') }}
                                 <button id="cerca_programa" type="submit" class="form-control bt-basic bt-basic-petit">Cerca... <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
                             </div>
                         </div><!--/botons -->
@@ -115,8 +116,8 @@
                         <!-- camp -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Comentaris</label>
-                            <div class="col-sm-6">
-                                <textarea name="comentari_usuari" class="form-control" placeholder="Afegiu aquí qualsevol comentari que vulgueu donar"> </textarea>
+                            <div class="col-sm-8">
+                                <textarea name="comentari_usuari" rows="2" class="form-control" placeholder="Afegiu aquí qualsevol comentari que vulgueu donar"> </textarea>
                             </div>
                         </div>
                         <!-- camp -->
@@ -151,8 +152,8 @@
                         <!-- camp -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Descripció *</label>
-                            <div class="col-sm-9">
-                                <textarea rows="6" name="descripcio" class="form-control" required></textarea>
+                            <div class="col-sm-8">
+                                <textarea rows="5" name="descripcio" class="form-control" required></textarea>
                             </div>
                         </div>
                         <!-- camp -->
@@ -161,22 +162,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Llicència *</label>
                             <!-- col-sm-9 -->
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    {% for row in categories.llicencies|batch((categories.llicencies|length)/3) %}
-                                        <!-- col-sm-4 -->
-                                        <div class="col-sm-4">
-                                            {% for category in row %}
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="radio" name="llicencia" value="{{ category.ID }}" required> {{ category.name }}
-                                                    </label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <!-- col-sm-4 -->
-                                    {% endfor %}
-                                </div>
+                            <div class="col-sm-6">
+                                    <select class="form-control selectpicker" name="llicencia" id="llicencia">
+                                        {% for category in categories.llicencies %}
+                                            <option value="{{ category.ID }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
                             </div><!--/col-sm-9 -->
                         </div>
                         <!-- camp -->
@@ -250,6 +241,7 @@
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
                                 <div class="form-boto col-xs-6">
+                                    {{ function('wp_nonce_field', 'add_new_program', '_wpnonce_program') }}
                                     <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
                                 </div>
                             </div><!--/botons -->
