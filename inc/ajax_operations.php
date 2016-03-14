@@ -206,7 +206,8 @@ function sc_contact_form() {
         $output = json_encode(array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'));
     }
 
-    die($output);
+    echo $output;
+    die();
 }
 
 /**

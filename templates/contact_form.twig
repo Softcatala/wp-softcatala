@@ -3,7 +3,6 @@
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
               <div class="modal-dialog modal-lg">
 
-
                 <!-- .modal-content -->
                 <div class="modal-content">
 
@@ -30,7 +29,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">El vostre nom *</label>
                           <div class="col-sm-6">
-                            <input type="text" name="nom" class="form-control" placeholder="Nom" required>
+                            <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>
                           </div>
                         </div><!-- camp -->
                         
@@ -38,7 +37,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">El vostre correu electrònic *</label>
                           <div class="col-sm-6">
-                            <input type="email" name="correu" class="form-control" placeholder="Correu electrònic" required>
+                            <input type="email" name="correu_contacte" id="correu_contacte" class="form-control" placeholder="Correu electrònic" required>
                           </div>
                         </div><!-- camp -->
 
@@ -49,6 +48,7 @@
                             <select class="form-control selectpicker" name="tipus" id="tipus_contacte">
                               <option value="millora">Una millora</option>
                               <option value="error" selected>Informar d'un error</option>
+                              <option value="general" selected>Comentari general</option>
                             </select>
                           </div>
                           <div class="col-sm-3">
@@ -59,7 +59,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Comentari *</label>
                           <div class="col-sm-9">
-                            <textarea class="form-control" name="comentari" id="comentari" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                            <textarea class="form-control" name="comentari_contacte" id="comentari_contacte" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
                           </div>
                         </div><!--/camp de text -->
 
@@ -69,6 +69,9 @@
                             <div class="col-sm-9 form-botons">
                               <div class="row">
                              <div class="form-boto col-xs-5">
+                               <input type="hidden" id="nom_from" value="{{ contact.nom_from }}" />
+                               <input type="hidden" id="to_email" value="{{ contact.to_email }}" />
+                               <input type="hidden" id="assumpte" value="{{ contact.assumpte }}" />
                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
                              </div>
                              </div>

@@ -6,6 +6,7 @@
  */
 
 /* JS scripts */
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
 wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.js', array('sc-js-main'), '1.0.0', true );
 wp_enqueue_script( 'sc-js-multilingue', get_template_directory_uri() . '/static/js/multilingue.js', array('sc-js-typeahead'), '1.0.0', true );
 wp_localize_script( 'sc-js-multilingue', 'scajax', array(
@@ -80,4 +81,10 @@ $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
+
+//Contact Form
+$context['contact']['to_email'] = 'recursos@llistes.softcatala.org';
+$context['contact']['nom_from'] = 'Diccionari multilingüe de Softcatalà';
+$context['contact']['assumpte'] = '[Diccionari multilingüe] Contacte des del formulari';
+
 Timber::render( array( 'diccionari-multilingue.twig' ), $context );

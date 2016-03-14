@@ -15,6 +15,11 @@ $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 
+//Contact Form Data
+$context['contact']['to_email'] = 'web@softcatala.org';
+$context['contact']['nom_from'] = 'Projectes de Softcatalà';
+$context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
+
 //Related subpages
 $query = array ( 'post_id' => $post->ID, 'subpage_type' => 'projecte' );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );

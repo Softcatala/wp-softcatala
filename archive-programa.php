@@ -7,6 +7,7 @@
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
 wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main'), '1.0.0', true );
 wp_localize_script( 'sc-js-programes', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
@@ -24,13 +25,17 @@ $context['post_type'] = $post_type;
 $context['conditions_text'] = "Si voleu afegir un programa nou...";
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-$context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
+$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 
 //Filters population
 $context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );
 $context['categories']['categories_programes'] = Timber::get_terms( 'categoria-programa' );
 $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
+//Contact Form
+$context['contact']['to_email'] = 'avis_rebost@softcatala.org';
+$context['contact']['nom_from'] = 'Programes de Softcatalà';
+$context['contact']['assumpte'] = '[Programes] Contacte des del formulari';
 
 //Search and filters
 $search = get_query_var('cerca');
