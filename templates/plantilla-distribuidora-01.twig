@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+    <!-- .main-header -->
+    {% include "contingut-header.twig" %}
+    <!--/.main-header -->
+
+        <div class="container-fluid">
+
+            <!-- .contingut -->
+            <div class="contingut">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <p>{{ post.content }}</p>
+                </header><!--/.contingut-header -->
+
+                <!-- .contingut-section paragraf + thumb gris img -->
+                <section class="contingut-section">
+
+                    <!-- .row -->
+                    <div class="row">
+                    {% if links %}
+                        {% for link in links %}
+                        <div class="col-xxs-12 col-xs-6 col-sm-4 col-md-3">
+                            <div class="thumbnail thumbnail-vertical thumbnail-premsa">
+                                <a href="{{ link.link_url }}" alt="{{ link.link_title }}">
+                                    <div>
+                                        <img src="{{ link.link_image }}" alt="{{ link.link_title }}">
+                                    </div>
+                                    <div class="caption">
+                                        <h3>{{ link.link_title }}</h3>
+                                        <p>{{ link.link_description }}</p>
+                                        <span class="bt-aneu">més<i class="fa fa-chevron-right"></i></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div><!--/.row -->
+
+                </section><!-- section paragraf + thumb gris img -->
+            </div><!--/.contingut -->
+
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}
