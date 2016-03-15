@@ -115,16 +115,29 @@ class StarterSite extends TimberSite {
         register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
         register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
 
+        //Email contact parameters
+        $sections = $this->get_email_sections();
+        foreach ( $sections as $key => $section ) {
+            register_setting( 'softcatala-group', 'email_'.$key );
+        }
+
         if ( function_exists('add_submenu_page') )
             add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
+    }
+
+    function get_email_sections() {
+        $sections = array( 'general' => 'General', 'traductor' => 'Traductor', 'recursos' => 'Recursos', 'rebost' => 'Programes' );
+        return $sections;
     }
 
     /**
      * Renders the Softcatalà dashboard settings page
      */
     function softcatala_dash_page() {
+        wp_enqueue_script( 'sc-js-dash', get_template_directory_uri() . '/static/js/sc-admin.js', array('jquery'), '1.0.0', true );
         $admin_template = dirname(__FILE__) . '/templates/admin/sc-dash.twig';
-        $section_html_content = Timber::fetch( $admin_template );
+        $sections = $this->get_email_sections();
+        $section_html_content = Timber::fetch( $admin_template, array ('sections' => $sections ));
         echo $section_html_content;
     }
 

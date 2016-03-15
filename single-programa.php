@@ -24,9 +24,8 @@ $context['links'] = $post->get_field( 'link' );
 $baixades = $post->get_field( 'baixada' );
 
 //Contact Form
-$context['contact']['to_email'] = 'avis_rebost@softcatala.org';
-$context['contact']['nom_from'] = 'Programes de Softcatalà';
-$context['contact']['assumpte'] = '[Programes] Contacte des del formulari';
+$context['contact']['to_email'] = get_option('email_rebost');
+
 
 //Add program form data
 $context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );

@@ -33,9 +33,7 @@ $context['categories']['categories_programes'] = Timber::get_terms( 'categoria-p
 $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
 //Contact Form
-$context['contact']['to_email'] = 'avis_rebost@softcatala.org';
-$context['contact']['nom_from'] = 'Programes de Softcatalà';
-$context['contact']['assumpte'] = '[Programes] Contacte des del formulari';
+$context['contact']['to_email'] = get_option('email_rebost');
 
 //Search and filters
 $search = get_query_var('cerca');

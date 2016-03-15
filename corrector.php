@@ -28,8 +28,6 @@ $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 
 //Contact Form
-$context['contact']['to_email'] = 'recursos@llistes.softcatala.org';
-$context['contact']['nom_from'] = 'Corrector de Softcatalà';
-$context['contact']['assumpte'] = '[Corrector] Contacte des del formulari';
+$context['contact']['to_email'] = get_option('email_recursos');
 
 Timber::render( array( 'corrector.twig' ), $context );

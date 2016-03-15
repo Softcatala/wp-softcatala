@@ -20,9 +20,7 @@ $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 
 //Contact Form
-$context['contact']['to_email'] = 'traductor@softcatala.org';
-$context['contact']['nom_from'] = 'Traductor de Softcatalà';
-$context['contact']['assumpte'] = '[Traductor] Contacte des del formulari';
+$context['contact']['to_email'] = get_option('email_traductor');
 
 Timber::render( array( 'traductor.twig' ), $context );
     
