@@ -1,34 +1,70 @@
 <div class="wrap">
-    <h2>Paràmetres generals de Softcatalà</h2>
-    <h3>Llistes de correu</h3>
+    <h1>Paràmetres generals de Softcatalà</h1>
+
+    <h2 id="wpseo-tabs" class="nav-tab-wrapper">
+        <a data-id="email_contacte" class="nav-tab nav-tab-active" href="#">E-mails contacte</a>
+        <a data-id="llistes" class="nav-tab" href="#">Llistes de correu</a>
+        <a data-id="servidors_api" class="nav-tab" href="#">Servidors API</a>
+    </h2>
+
     <form method="post" action="options.php">
+        <section>
+            <div id="email_contacte">
+                <h3>Adreces electròniques de contacte per secció</h3>
+                <p>
+                {% for key, section in sections %}
+                    {{ section }}
+                {% endfor %}
+                <table class="form-table">
+                    <thead>
+                    <tr style="border-bottom: 1px solid #CCCCCC;">
+                        <td style="font-weight: bold;">Secció</td>
+                        <td style="font-weight: bold;">E-mail de contacte</td>
+                    </tr>
+                    </thead>
+                    {% for key, section in sections %}
+                    <tr>
+                        {% set section_key %}email_{{ key }}{% endset %}
+                        <td style="font-weight: bold;">{{ section }}</td>
+                        <td><input type="email" style="width:250px;" name="email_{{ key }}" id="email_{{ key }}" value="{{ function( 'get_option', section_key) }}"/></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </p>
+            </div>
+            <div id="llistes" style="display: none;">
+                <h3>Llistes de correu</h3>
 
-        {{ function( 'settings_fields', 'softcatala-group' ) }}
-        {{ function( 'do_settings_sections', 'softcatala-group' ) }}
-        <p>
-        <table class="form-table">
-            <tbody><tr valign="top">
-            <tr>
-                <th scope="row"><label>Contrasenya global</label></th>
-                <td><input type="password" value="{{ function( 'get_option', 'llistes_access') }}" id="llistes_access" name="llistes_access"></td>
-            </tr>
-            </tbody></table>
-        </p>
+                {{ function( 'settings_fields', 'softcatala-group' ) }}
+                {{ function( 'do_settings_sections', 'softcatala-group' ) }}
+                <p>
+                <table class="form-table">
+                    <tbody><tr valign="top">
+                    <tr>
+                        <th scope="row"><label>Contrasenya global</label></th>
+                        <td><input type="password" value="{{ function( 'get_option', 'llistes_access') }}" id="llistes_access" name="llistes_access"></td>
+                    </tr>
+                    </tbody></table>
+                </p>
+            </div>
+            <div id="servidors_api" style="display:none;">
+                <h3>Servidors API</h3>
+                <p>
+                <table class="form-table">
+                    <tbody><tr valign="top">
+                    <tr>
+                        <th scope="row"><label>URL API Diccionari de sinònims</label></th>
+                        <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'api_diccionari_sinonims') }}" id="api_diccionari_sinonims" name="api_diccionari_sinonims"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label>URL API Diccionari multilingüe</label></th>
+                        <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'api_diccionari_multilingue') }}" id="api_diccionari_multilingue" name="api_diccionari_multilingue"></td>
+                    </tr>
+                    </tbody></table>
+                </p>
+            </div>
+        </section>
 
-    <h3>Servidors API</h3>
-        <p>
-        <table class="form-table">
-            <tbody><tr valign="top">
-            <tr>
-                <th scope="row"><label>URL API Diccionari de sinònims</label></th>
-                <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'api_diccionari_sinonims') }}" id="api_diccionari_sinonims" name="api_diccionari_sinonims"></td>
-            </tr>
-            <tr>
-                <th scope="row"><label>URL API Diccionari multilingüe</label></th>
-                <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'api_diccionari_multilingue') }}" id="api_diccionari_multilingue" name="api_diccionari_multilingue"></td>
-            </tr>
-            </tbody></table>
-        </p>
         {{ function('submit_button') }}
     </form>
 </div>

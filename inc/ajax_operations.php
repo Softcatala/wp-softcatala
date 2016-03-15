@@ -231,7 +231,8 @@ function sc_contact_form() {
         }
     }
 
-    die($output);
+    echo $output;
+    die();
 }
 
 /**

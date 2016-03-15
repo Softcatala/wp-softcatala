@@ -6,6 +6,7 @@
  */
 
 /* JS scripts */
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
 wp_enqueue_script( 'sc-js-corrector-1', get_template_directory_uri() . '/inc/languagetool/online-check/tiny_mce/tiny_mce.js', array(), '1.0.0', true );
 wp_enqueue_script( 'sc-js-corrector-2', get_template_directory_uri() . '/inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/editor_plugin.js', array(), '1.0.0', true );
 wp_enqueue_script( 'sc-js-corrector-3', get_template_directory_uri() . '/inc/languagetool/js/ZeroClipboard.js', array(), '1.0.0', true );
@@ -25,4 +26,8 @@ $context['links'] = $post->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
+
+//Contact Form
+$context['contact']['to_email'] = get_option('email_recursos');
+
 Timber::render( array( 'corrector.twig' ), $context );
