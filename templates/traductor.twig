@@ -136,7 +136,17 @@
 
 
     <!-- .seccio-vermella -->
-    {% include "call-to-action-bottom.twig" %}
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        <p>
+          <strong>Baixeu l'aplicació per al vostre telèfon</strong>
+        </p>
+        <div class="intern tradbuttons">
+          <button class="bt-basic bt-basic-vermell-blanc intern-center" onclick="window.location.replace('/programes/traductor-softcatala/');" type="button"><i class="fa fa-android"></i> <span>App per a Android</span></button>
+          <button class="bt-basic bt-basic-vermell-blanc intern-center" onclick="window.location.replace('/programes/traductor-softcatala/');" type="button"><i class="fa fa-apple"></i> <span>App per a iPhone</span></button>
+        </div>
+      </div>
+    </div>
     <!--/.seccio-vermella -->
     
     {% include "contact_form.twig" %}
