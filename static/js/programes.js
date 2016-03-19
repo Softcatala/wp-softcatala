@@ -145,6 +145,11 @@ function form_search_ok(result) {
     jQuery("#pas_2").show();
 }
 
+function form_sent_ko(result) {
+    jQuery("#loading").hide();
+    jQuery("#text_response").html('Proveu més tard');
+}
+
 /** Formulari afegeix programa **/
 var $add_program_form = jQuery('#programa_form');
 
