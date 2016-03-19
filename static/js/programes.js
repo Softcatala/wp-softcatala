@@ -35,7 +35,9 @@ function disable_empty_fields() {
 }
 
 jQuery(".selectpicker").on('change', function() {
-    jQuery( "#cerca_programes" ).submit();
+    if(!jQuery('.bs-afegeixprograma-modal-lg').is(":visible")) {
+        jQuery( "#cerca_programes" ).submit();
+    }
 });
 
 jQuery("#mostra_arxivat").on('click', function() {
