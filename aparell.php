@@ -18,6 +18,7 @@ $context['post'] = $post;
 $parent_data = get_page_parent_title( $post );
 $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 $context['links'] = $post->get_field( 'link' );
+$context['credits'] = $post->get_field( 'credit' );
 $context['parent_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
 

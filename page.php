@@ -12,4 +12,5 @@ $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig'
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 $context['links'] = $post->get_field( 'link' );
+$context['credits'] = $post->get_field( 'credit' );
 Timber::render( array( 'page-' . $post->post_name . '.twig', 'page.twig' ), $context );

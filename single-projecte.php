@@ -14,6 +14,7 @@ $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
+$context['credits'] = $post->get_field( 'credit' );
 
 //Contact Form Data
 $context['contact']['to_email'] = 'web@softcatala.org';

@@ -15,6 +15,7 @@ $post = new TimberPost();
 $context['post'] = $post;
 $context['content_title'] = 'Traductor';
 $context['links'] = $post->get_field( 'link' );
+$context['credits'] = $post->get_field( 'credit' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
