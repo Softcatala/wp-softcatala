@@ -5,23 +5,25 @@ var traductor_json_url = "http://www.softcatala.org/apertium/json/translate";
 (function($) {
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
-    jQuery('#origin_language').val('cat');
-    jQuery('#target_language').val('spa');
+    jQuery('#origin_language').val('spa');
+    jQuery('#target_language').val('cat');
 
     //Left
-    jQuery('#origin-cat').addClass('select');
-    jQuery('#origin-spa').removeClass('select');
+    jQuery('#origin-spa').addClass('select');
+    jQuery('#origin-cat').removeClass('select');
     jQuery('[data-id="origin-select"]').removeClass('select');
 
     //Right
-    jQuery('#target-cat').attr('disabled', 'disabled');
-    jQuery('#target-spa').removeAttr('disabled');
+    jQuery('#target-spa').attr('disabled', 'disabled');
+    jQuery('#target-spa').removeClass('select');
     jQuery('[data-id="target-select"]').removeClass('select');
-    jQuery('[data-id="target-select"]').removeAttr('disabled');
+    jQuery('[data-id="target-select"]').attr('disabled', 'disabled');
+    jQuery('#target-cat').removeAttr('disabled');
+    jQuery('#target-cat').addClass('select');
 
     //Mobile (left-right)
-    jQuery('#origin-select-mobil').val('cat');
-    jQuery('#target-select-mobil').val('spa');
+    jQuery('#origin-select-mobil').val('spa');
+    jQuery('#target-select-mobil').val('cat');
     jQuery('#origin-select-mobil').selectpicker('render');
     jQuery('#target-select-mobil').selectpicker('render');
     jQuery('.selectpicker').selectpicker('refresh');
