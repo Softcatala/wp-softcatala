@@ -1,7 +1,20 @@
 <?php
 // hook add_rewrite_rules function into rewrite_rules_array
-add_filter('rewrite_rules_array', 'add_rewrite_rules');
-function add_rewrite_rules($aRules) {
+add_filter('rewrite_rules_array', 'sc_custom__rewrite_rules');
+add_filter( 'post_type_link', 'sc_catalanitzador_page_link' , 10, 2 );
+
+function sc_catalanitzador_page_link( $permalink, $postId ) {
+        $post = get_post( $postId );
+
+        if ( $post->post_type == 'programa' && $post->post_name == 'catalanitzador-de-softcatala') {
+                return '/catalanitzador/';
+        }
+
+        return $permalink;
+
+}
+
+function sc_custom__rewrite_rules($aRules) {
     //Diccionari de sinònims
     $aNewRules = array('diccionari-de-sinonims/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
@@ -44,6 +57,7 @@ function add_rewrite_rules($aRules) {
         'programes/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&arxivat=1',
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
         'programes/arxivats/?' => 'index.php?post_type=programa&arxivat=1',
+		'catalanitzador/?' => 'index.php?post_type=programa&name=catalanitzador-de-softcatala',
     );
     $aRules = $aNewRules + $aRules;
 
