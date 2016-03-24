@@ -37,9 +37,9 @@ function sc_add_special_pages_rewrite_rules() {
 
 	$catalanitzador = get_option('catalanitzador_post_id');
 
-	if ( !empty( $catalanitador ) && is_numeric( $catalanitzador ) ) {
+	if ( !empty( $catalanitzador ) && is_numeric( $catalanitzador ) ) {
 		add_rewrite_rule( 'catalanitzador/?', 
-							'index.php?post_type=programa&post_id' . (int) $catalanitador, 
+							'index.php?post_type=programa&p=' . (int) $catalanitzador, 
 							'top');
 	}
 
