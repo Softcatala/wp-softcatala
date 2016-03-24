@@ -5,6 +5,7 @@
         <a data-id="email_contacte" class="nav-tab nav-tab-active" href="#">E-mails contacte</a>
         <a data-id="llistes" class="nav-tab" href="#">Llistes de correu</a>
         <a data-id="servidors_api" class="nav-tab" href="#">Servidors API</a>
+        <a data-id="rewrites" class="nav-tab" href="#">Paràmetres de rewrites</a>
     </h2>
 
     <form method="post" action="options.php">
@@ -59,6 +60,22 @@
                     <tr>
                         <th scope="row"><label>URL API Diccionari multilingüe</label></th>
                         <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'api_diccionari_multilingue') }}" id="api_diccionari_multilingue" name="api_diccionari_multilingue"></td>
+                    </tr>
+                    </tbody></table>
+                </p>
+            </div>
+            <div id="rewrites" style="display:none;">
+                <h3>Servidors API</h3>
+                <p>
+                <table class="form-table">
+                    <tbody><tr valign="top">
+                    <tr>
+                        <th scope="row"><label>ID de la pàgina del catalanitzador</label></th>
+                        <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'catalanitzador_post_id') }}" id="catalanitzador_post_id" name="catalanitzador_post_id"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label>ID de la pàgina d'aparells</label></th>
+                        <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'aparells_post_id') }}" id="aparells_post_id" name="aparells_post_id"></td>
                     </tr>
                     </tbody></table>
                 </p>
