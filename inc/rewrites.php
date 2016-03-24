@@ -2,6 +2,7 @@
 // hook add_rewrite_rules function into rewrite_rules_array
 add_filter('rewrite_rules_array', 'sc_custom__rewrite_rules');
 add_filter( 'post_type_link', 'sc_catalanitzador_page_link' , 10, 2 );
+add_filter( 'page_link', 'sc_aparells_page_link' , 10, 2 );
 
 function sc_catalanitzador_page_link( $permalink, $postId ) {
         $post = get_post( $postId );
@@ -12,6 +13,15 @@ function sc_catalanitzador_page_link( $permalink, $postId ) {
 
         return $permalink;
 
+}
+
+function sc_aparells_page_link( $permalink, $postId ) {
+    $post = get_post( $postId );
+    if ( $post->post_name == 'llista-daparells-en-catala') {
+            return '/aparells/';
+    }
+
+    return $permalink;
 }
 
 function sc_custom__rewrite_rules($aRules) {

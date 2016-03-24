@@ -60,9 +60,15 @@ class StarterSite extends TimberSite {
      */
     function sc_change_custom_urls_rewrite() {
         global $wp;
-        if ( ! empty($wp->request) && $wp->request === 'programes/catalanitzador-de-softcatala' ) {
-            wp_redirect(home_url('catalanitzador'), 301);
-            exit;
+        if ( ! empty($wp->request) ) {
+            switch ($wp->request) {
+                case 'programes/catalanitzador-de-softcatala':
+                    wp_redirect(home_url('catalanitzador'), 301);
+                    break;
+                case 'guia-daparells-en-catala/llista-daparells-en-catala':
+                    //wp_redirect(home_url('aparells'), 301);
+                    break;
+            }
         }
     }
 
