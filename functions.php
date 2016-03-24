@@ -114,6 +114,8 @@ class StarterSite extends TimberSite {
         register_setting( 'softcatala-group', 'llistes_access' );
         register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
         register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
+        register_setting( 'softcatala-group', 'catalanitzador_post_id' );
+        register_setting( 'softcatala-group', 'aparells_post_id' );
 
         //Email contact parameters
         $sections = $this->get_email_sections();
