@@ -11,7 +11,7 @@ function sc_catalanitzador_page_link( $permalink, $postId ) {
 
 	$catalanitzador = get_option('catalanitzador_post_id');
 
-	if ( !empty( $catalanitador ) && is_numeric( $catalanitzador )
+	if ( !empty( $catalanitzador ) && is_numeric( $catalanitzador )
 			&& $post->post_type == 'programa' && $post->ID == (int)$catalanitzador ) {
 			return '/catalanitzador/';
 	}
