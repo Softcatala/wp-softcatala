@@ -32,7 +32,6 @@ class StarterSite extends TimberSite {
         add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
-        add_action( 'wp', array( $this, 'sc_change_custom_urls_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
         //SC Dashboard settings
         add_action('admin_menu', array( $this, 'include_sc_settings' ));
@@ -53,23 +52,6 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/post_types_functions.php' ), true, true );
         locate_template( array( 'inc/ajax_operations.php' ), true, true );
         locate_template( array( 'inc/rewrites.php' ), true, true );
-    }
-
-    /**
-     * This function implements the custom url rewrites for specific sections
-     */
-    function sc_change_custom_urls_rewrite() {
-        global $wp;
-        if ( ! empty($wp->request) ) {
-            switch ($wp->request) {
-                case 'programes/catalanitzador-de-softcatala':
-                    wp_redirect(home_url('catalanitzador'), 301);
-                    break;
-                case 'guia-daparells-en-catala/llista-daparells-en-catala':
-                    //wp_redirect(home_url('aparells'), 301);
-                    break;
-            }
-        }
     }
 
     /**
