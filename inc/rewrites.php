@@ -2,16 +2,52 @@
 // hook add_rewrite_rules function into rewrite_rules_array
 add_filter('rewrite_rules_array', 'sc_custom__rewrite_rules');
 add_filter( 'post_type_link', 'sc_catalanitzador_page_link' , 10, 2 );
+add_filter( 'page_link', 'sc_aparells_page_link' , 10, 2 );
+add_action('init', 'sc_add_special_pages_rewrite_rules');
 
 function sc_catalanitzador_page_link( $permalink, $postId ) {
-        $post = get_post( $postId );
 
-        if ( $post->post_type == 'programa' && $post->post_name == 'catalanitzador-de-softcatala') {
-                return '/catalanitzador/';
-        }
+	$post = get_post( $postId );
 
-        return $permalink;
+	$catalanitzador = get_option('catalanitzador_post_id');
 
+	if ( !empty( $catalanitzador ) && is_numeric( $catalanitzador )
+			&& $post->post_type == 'programa' && $post->ID == (int)$catalanitzador ) {
+			return '/catalanitzador/';
+	}
+
+	return $permalink;
+}
+
+function sc_aparells_page_link( $permalink, $postId ) {
+
+	$post = get_post( $postId );
+
+	$aparells = get_option('aparells_post_id');
+
+	if ( !empty( $aparells ) && is_numeric( $aparells )
+			&& $post->post_type == 'page' && $post->ID == (int)$aparells ) {
+			return '/aparells/';
+	}
+
+    return $permalink;
+}
+
+function sc_add_special_pages_rewrite_rules() {
+
+	$catalanitzador = get_option('catalanitzador_post_id');
+
+	if ( !empty( $catalanitzador ) && is_numeric( $catalanitzador ) ) {
+		add_rewrite_rule( 'catalanitzador/?', 
+							'index.php?post_type=programa&p=' . (int) $catalanitzador, 
+							'top');
+	}
+
+	$aparells = get_option('aparells_post_id');
+
+	if ( !empty( $aparells ) && is_numeric( $aparells ) ) {
+		add_rewrite_rule('aparells/?', 'index.php?page_id=' . (int) $aparells, 'top');
+	}
 }
 
 function sc_custom__rewrite_rules($aRules) {
@@ -57,7 +93,6 @@ function sc_custom__rewrite_rules($aRules) {
         'programes/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&arxivat=1',
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
         'programes/arxivats/?' => 'index.php?post_type=programa&arxivat=1',
-		'catalanitzador/?' => 'index.php?post_type=programa&name=catalanitzador-de-softcatala',
     );
     $aRules = $aNewRules + $aRules;
 

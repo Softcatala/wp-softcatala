@@ -54,7 +54,6 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
-
     /**
      * This function implements the rewrite tags for the different sections of the website
      */
