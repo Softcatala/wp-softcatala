@@ -2,6 +2,10 @@
 // hook add_rewrite_rules function into rewrite_rules_array
 add_filter('rewrite_rules_array', 'add_rewrite_rules');
 function add_rewrite_rules($aRules) {
+    //Catalanitzador
+    $aNewRules = array('^catalanitzador?' => 'index.php?post_type=programa&name=catalanitzador-de-softcatala', 'top');
+    $aRules = $aNewRules + $aRules;
+
     //Diccionari de sinònims
     $aNewRules = array('diccionari-de-sinonims/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;

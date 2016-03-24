@@ -32,6 +32,7 @@ class StarterSite extends TimberSite {
         add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
         add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks'), 1);
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
+        add_action( 'wp', array( $this, 'sc_change_custom_urls_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
         //SC Dashboard settings
         add_action('admin_menu', array( $this, 'include_sc_settings' ));
@@ -54,6 +55,16 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
+    /**
+     * This function implements the custom url rewrites for specific sections
+     */
+    function sc_change_custom_urls_rewrite() {
+        global $wp;
+        if ( ! empty($wp->request) && $wp->request === 'programes/catalanitzador-de-softcatala' ) {
+            wp_redirect(home_url('catalanitzador'), 301);
+            exit;
+        }
+    }
 
     /**
      * This function implements the rewrite tags for the different sections of the website
