@@ -6,6 +6,7 @@
         <a data-id="llistes" class="nav-tab" href="#">Llistes de correu</a>
         <a data-id="servidors_api" class="nav-tab" href="#">Servidors API</a>
         <a data-id="rewrites" class="nav-tab" href="#">Paràmetres de rewrites</a>
+        <a data-id="textos" class="nav-tab" href="#">Textos</a>
     </h2>
 
     <form method="post" action="options.php">
@@ -76,6 +77,18 @@
                     <tr>
                         <th scope="row"><label>ID de la pàgina d'aparells</label></th>
                         <td><input type="text" style="width: 50%" value="{{ function( 'get_option', 'aparells_post_id') }}" id="aparells_post_id" name="aparells_post_id"></td>
+                    </tr>
+                    </tbody></table>
+                </p>
+            </div>
+            <div id="textos" style="display:none;">
+                <h3>Textos generals del web</h3>
+                <p>
+                <table class="form-table">
+                    <tbody><tr valign="top">
+                    <tr>
+                        <th scope="row"><label>Text del formulari per afegir programa nou</label></th>
+                            <td><textarea style="width: 50%" id="sc_text_programes" name="sc_text_programes">{{ function( 'get_option', 'sc_text_programes') }}</textarea></td>
                     </tr>
                     </tbody></table>
                 </p>

@@ -144,7 +144,7 @@ function form_search_ok(result) {
         var response = result.text;
     }
     jQuery("#text_response").html(response);
-    jQuery("#pas_2").show();
+    jQuery("#pas_1").show();
 }
 
 function form_sent_ko(result) {
@@ -171,6 +171,60 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('tipus', jQuery('#llicencia option:selected').val());
     post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
     post_data.append('autor_traduccio', jQuery('input[name=autor_traduccio]').val());
+
+    post_data.append('action', 'add_new_program');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program]').val());
+
+    var logo = jQuery(document).find('input[name="logo"]');
+    var logo_file = logo[0].files[0];
+    post_data.append("logo", logo_file);
+
+    var captura = jQuery(document).find('input[name="captura"]');
+    var captura_file = captura[0].files[0];
+    post_data.append("captura", captura_file);
+
+    jQuery.ajax({
+        type: 'POST',
+        url: scajax.ajax_url,
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success : form_add_ok,
+        error : form_sent_ko
+    });
+});
+
+function form_add_ok(result) {
+    jQuery("#loading_program").hide();
+    jQuery("#form_2").hide();
+    jQuery("#form_3").fadeIn();
+    jQuery("#form_3").addClass('actiu');
+    jQuery("#form_2").removeClass('actiu');
+    jQuery("#programa_id").val(result.post_id);
+}
+
+jQuery('#add_new_baixada').on('click', function () {
+    var content = jQuery('#baixada_fields').prop('outerHTML');
+    current_baixada_id = baixada_id;
+    baixada_id = baixada_id + 1;
+    pattern = "[1]";
+    re = new RegExp(pattern, "g");
+    res2 = content.replace(re, baixada_id);
+    jQuery( "#baixada_group").append(res2);
+});
+
+/** Formulari afegeix baixada **/
+var $add_baixades_form = jQuery('#baixades_form');
+
+$add_baixades_form.on('submit', function(ev) {
+    ev.preventDefault();
+    jQuery("#loading_program").fadeIn();
+
+    //Data
+    var post_data = new FormData();
+    post_data.append('programa_id', jQuery('input[name=programa_id]').val());
+    post_data.append('nom', jQuery('input[name=nom]').val());
 
     //Programes
     var urls_baixada = [];
@@ -208,18 +262,9 @@ $add_program_form.on('submit', function(ev) {
     });
 
     baixadesjson = JSON.stringify(baixades);
-
     post_data.append('baixades', baixadesjson);
-    post_data.append('action', 'add_new_program');
-    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program]').val());
-
-    var logo = jQuery(document).find('input[name="logo"]');
-    var logo_file = logo[0].files[0];
-    post_data.append("logo", logo_file);
-
-    var captura = jQuery(document).find('input[name="captura"]');
-    var captura_file = captura[0].files[0];
-    post_data.append("captura", captura_file);
+    post_data.append('action', 'add_new_baixada');
+    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_baixada]').val());
 
     jQuery.ajax({
         type: 'POST',
@@ -228,27 +273,22 @@ $add_program_form.on('submit', function(ev) {
         dataType: 'json',
         contentType: false,
         processData: false,
-        success : form_add_ok,
-        error : form_sent_ko
+        success : form_baixada_add_ok,
+        error : form_baixada_add_ko
     });
 });
 
-function form_add_ok(result) {
+function form_baixada_add_ok() {
     jQuery("#loading_program").hide();
     jQuery("#form_3").hide();
     jQuery("#form_4").fadeIn();
+    jQuery("#form_4").addClass('actiu');
     jQuery("#form_3").removeClass('actiu');
 }
 
-jQuery('#add_new_baixada').on('click', function () {
-    var content = jQuery('#baixada_fields').prop('outerHTML');
-    current_baixada_id = baixada_id;
-    baixada_id = baixada_id + 1;
-    pattern = "[1]";
-    re = new RegExp(pattern, "g");
-    res2 = content.replace(re, baixada_id);
-    jQuery( "#baixada_group").append(res2);
-});
+function form_baixada_add_ko() {
+
+}
 
 jQuery('#afegeix_programa_button').on('click', function () {
     if (!jQuery('#form_3').hasClass('actiu')) {
