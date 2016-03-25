@@ -44,7 +44,11 @@ $query = array ( 'post_id' => $post->ID );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
 query_posts($args);
 $context['related_pages'] = Timber::get_posts($args);
-$context['projecte_relacionat_url'] = false; //Aquí posarem l'url del projecte relacionat per enllaçar-ho des de la pàgina del programa
+$project_id = wpcf_pr_post_get_belongs($post->ID, 'projecte');
+if( $project_id ) {
+    $context['projecte_relacionat_url'] = get_permalink($project_id);
+    $context['projecte_relacionat_name'] =  get_the_title($project_id);
+}
 
 if ( post_password_required( $post->ID ) ) {
     Timber::render( 'single-password.twig', $context );

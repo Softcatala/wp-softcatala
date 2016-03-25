@@ -13,13 +13,19 @@
                     <h1>{{ post.title }}</h1>
                     <h2>{{ post.subtitle_programa }}</h2>
                     <ul>
-                        <li>{{ post.autor_programa }}</li>
-                        <li>{% if post.terms('llicencia') %}
-                                {% for term in post.terms('llicencia') %}
-                                    {{term.name}}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            {% endif %}</li>
-                        <li><a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>
+                        <li><strong>Autor:</strong> {{ post.autor_programa }}</li>
+                        {% if post.terms('llicencia') %}
+                        <li>
+                            <strong>Llicència:</strong>
+                            {% for term in post.terms('llicencia') %}
+                                {{term.name}}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                        {% endif %}
+                        <li><strong>Lloc web:</strong> <a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>
+                        <li></li>
+                        {% if post.autor_traduccio %}<li><strong>Autor de la traducció:</strong> {{ post.autor_traduccio }}</li>{% endif %}
+                        {% if projecte_relacionat_url %}<li><strong>Projecte de traducció:</strong> <a href="{{ projecte_relacionat_url }}" title="{{ projecte_relacionat_name }}">{{ projecte_relacionat_name }}</a></li>{% endif %}
                     </ul>
 
 
