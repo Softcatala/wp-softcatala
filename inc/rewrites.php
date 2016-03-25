@@ -38,8 +38,8 @@ function sc_add_special_pages_rewrite_rules() {
 	$catalanitzador = get_option('catalanitzador_post_id');
 
 	if ( !empty( $catalanitzador ) && is_numeric( $catalanitzador ) ) {
-		add_rewrite_rule( 'catalanitzador/?', 
-							'index.php?post_type=programa&p=' . (int) $catalanitzador, 
+		add_rewrite_rule( 'catalanitzador/?',
+							'index.php?post_type=programa&p=' . (int) $catalanitzador,
 							'top');
 	}
 
@@ -78,20 +78,34 @@ function sc_custom__rewrite_rules($aRules) {
 
     //Programes
     $aNewRules = array(
+		'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=1&paged=$matches[4]',
         'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=1',
+		'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=0&paged=$matches[4]',
         'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&arxivat=0',
-        'programes/p/([^/]+)/so/([^/]+)/arxivats/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=1',
+		'programes/p/([^/]+)/so/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=1&paged=$matches[3]',
+		'programes/p/([^/]+)/cat/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=1&$matches[3]',
         'programes/p/([^/]+)/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=1',
+		'programes/p/([^/]+)/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=0&paged=$matches[3]',
         'programes/p/([^/]+)/so/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&arxivat=0',
+		'programes/p/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=0&paged=$matches[3]',
         'programes/p/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&arxivat=0',
+		'programes/p/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&arxivat=1&paged=$matches[2]',
         'programes/p/([^/]+)/arxivats/?' => 'index.php?post_type=programa&cerca=$matches[1]&arxivat=1',
+		'programes/p/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&arxivat=0&paged=$matches[2]',
         'programes/p/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&arxivat=0',
+		'programes/so/([^/]+)/cat/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&arxivat=1&paged=$matches[3]',
         'programes/so/([^/]+)/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&arxivat=1',
+		'programes/so/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&arxivat=1&paged=$matches[2]',
         'programes/so/([^/]+)/arxivats/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&arxivat=1',
+		'programes/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&arxivat=0&paged=$matches[3]',
         'programes/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&arxivat=0',
+		'programes/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&paged=$matches[2]',
         'programes/so/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]',
+		'programes/cat/([^/]+)/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&arxivat=1&paged=$matches[2]',
         'programes/cat/([^/]+)/arxivats/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&arxivat=1',
+		'programes/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&paged=$matches[2]',
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
+		'programes/arxivats/page/([^/]+)/?' => 'index.php?post_type=programa&arxivat=1&paged=$matches[1]',
         'programes/arxivats/?' => 'index.php?post_type=programa&arxivat=1',
     );
     $aRules = $aNewRules + $aRules;
