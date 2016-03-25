@@ -105,14 +105,7 @@
                         </div>
                         <!-- camp -->
 
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Autor *</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic..." required>
-                            </div>
-                        </div>
-                        <!-- camp -->
+
 
                         <!-- camp -->
                         <div class="form-group">
@@ -129,20 +122,6 @@
                             <div class="col-sm-8">
                                 <textarea rows="5" name="descripcio" class="form-control" required></textarea>
                             </div>
-                        </div>
-                        <!-- camp -->
-
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Llicència *</label>
-                            <!-- col-sm-9 -->
-                            <div class="col-sm-6">
-                                    <select class="form-control selectpicker" name="llicencia" id="llicencia">
-                                        {% for category in categories.llicencies %}
-                                            <option value="{{ category.ID }}">{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                            </div><!--/col-sm-9 -->
                         </div>
                         <!-- camp -->
 
@@ -168,45 +147,77 @@
                                 </div>
                             </div><!--/col-sm-9 -->
                         </div>
-                        <!-- camp -->
+                        <!-- .camp -->
 
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Autor de la traducció</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="autor_traduccio" class="form-control" placeholder="Joan Vicent Moragues...">
+                        <div class="row">
+                            <div class="intern">
+                                <button href="#mes_camps_programa" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse">més camps<i class="fa fa-angle-down"></i></button>
                             </div>
                         </div>
-                        <!-- camp -->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Logo *</label>
-                            <div class="col-sm-9 col-md-6">
-                                <div class="row">
-                                    <div class="col-xs-4 col-sm-4 bt-puja">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="file" name="logo" required>
-                                            </label>
+                        <div id="mes_camps_programa" class="collapse">
+                            <br/><br/>
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Autor del programa</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic...">
+                                </div>
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Llicència</label>
+                                <!-- col-sm-9 -->
+                                <div class="col-sm-6">
+                                        <select class="form-control selectpicker" name="llicencia" id="llicencia">
+                                            {% for category in categories.llicencies %}
+                                                <option value="{{ category.ID }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                </div><!--/col-sm-9 -->
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Autor de la traducció</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="autor_traduccio" class="form-control" placeholder="Joan Vicent Moragues...">
+                                </div>
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Logo</label>
+                                <div class="col-sm-9 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-4 col-sm-4 bt-puja">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="file" name="logo">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Captura de pantalla en català *</label>
-                            <div class="col-sm-9 col-md-6">
-                                <div class="row">
-                                    <div class="col-xs-4 col-sm-4 bt-puja">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="file" name="captura" required>
-                                            </label>
+                            <!-- .camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Captura de pantalla en català</label>
+                                <div class="col-sm-9 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-4 col-sm-4 bt-puja">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="file" name="captura">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- .camp -->
                         </div>
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
