@@ -11,6 +11,8 @@ add_action( 'wp_ajax_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_nopriv_search_program', 'sc_search_program' );
 add_action( 'wp_ajax_add_new_program', 'sc_add_new_program' );
 add_action( 'wp_ajax_nopriv_add_new_program', 'sc_add_new_program' );
+add_action( 'wp_ajax_add_new_baixada', 'sc_add_new_baixada' );
+add_action( 'wp_ajax_nopriv_add_new_baixada', 'sc_add_new_baixada' );
 /** CONTACT FORM **/
 add_action( 'wp_ajax_contact_form', 'sc_contact_form' );
 add_action( 'wp_ajax_nopriv_contact_form', 'sc_contact_form' );
@@ -236,6 +238,44 @@ function sc_contact_form() {
 }
 
 /**
+ * Function to add a download related to a program
+ *
+ * @return json response
+ */
+function sc_add_new_baixada() {
+    $return = array();
+    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
+        $return['status'] = 0;
+    } else {
+        $baixades = json_decode(stripslashes($_POST["baixades"]));
+        $programa_id = sanitize_text_field( $_POST["programa_id"] );
+        $nom = sanitize_text_field( $_POST["nom"] );
+        $slug = sanitize_title_with_dashes( $nom );
+
+        //Related downloads
+        foreach ( $baixades as $baixada ) {
+            $terms_baixada = array(
+                'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
+            );
+
+            $metadata_baixada = array (
+                'url_baixada'           =>  $baixada->url,
+                'versio_baixada'        =>  $baixada->versio,
+                'arquitectura_baixada'  =>  $baixada->arquitectura,
+                'post_id'               =>  $programa_id
+            );
+            $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
+
+            if( $return_baixada['status'] == 1 ) {
+                $return['status'] = 1;
+            }
+        }
+    }
+    $response = json_encode( $return );
+    die( $response );
+}
+
+/**
  * Function to add a new draft program into database
  *
  * @return json response
@@ -243,7 +283,7 @@ function sc_contact_form() {
 function sc_add_new_program() {
     $return = array();
     if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $return['status'] == 0;
+        $return['status'] = 0;
     } else {
         $nom = sanitize_text_field( $_POST["nom"] );
         $email_usuari = sanitize_email( $_POST["email_usuari"] );
@@ -254,7 +294,6 @@ function sc_add_new_program() {
         $llicencia = sanitize_text_field( $_POST["llicencia"] );
         $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
         $slug = sanitize_title_with_dashes( $nom );
-        $baixades = json_decode(stripslashes($_POST["baixades"]));
 
         $terms = array(
             'categoria-programa' => array($categoria_programa),
@@ -278,35 +317,18 @@ function sc_add_new_program() {
             );
             sc_update_metadata ( $return['post_id'], $metadata );
 
-            //Related downloads
-            foreach ( $baixades as $baixada ) {
-                $terms_baixada = array(
-                    'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
-                );
+            $to_email = get_option( 'email_rebost ' );
+            $nom_from = "Programes i aplicacions de Softcatalà";
+            $assumpte = "[Programes] Programa enviat per formulari";
 
-                $metadata_baixada = array (
-                    'url_baixada' => $baixada->url,
-                    'versio_baixada' => $baixada->versio,
-                    'arquitectura_baixada' => $baixada->arquitectura,
-                    'post_id' => $return['post_id']
-                );
-                $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
-            }
-
-            if( $return_baixada['status'] == 1 ) {
-                $to_email = "web@softcatala.org";
-                $nom_from = "Programes i aplicacions de Softcatalà";
-                $assumpte = "[Programes] Programa enviat per formulari";
-
-                $fields = array(
-                    "Nom del programa" => $nom,
-                    "Descripció" => $descripcio,
-                    "Comentari de l'usuari" => $comentari_usuari,
-                    "Email de l'usuari" => $email_usuari,
-                    "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
-                );
-                sendEmailForm($to_email, $nom_from, $assumpte, $fields);
-            }
+            $fields = array(
+                "Nom del programa" => $nom,
+                "Descripció" => $descripcio,
+                "Comentari de l'usuari" => $comentari_usuari,
+                "Email de l'usuari" => $email_usuari,
+                "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
+            );
+            sendEmailForm($to_email, $nom_from, $assumpte, $fields);
         }
     }
 

@@ -25,80 +25,54 @@
                 <section class="contingut-section">
                     <p>{{ conditions_text }}</p>
 
-                    <!-- botons -->
-                    <div class="form-horizontal">
-                        <div class="form-botons row form-group">
-                            <div class="form-boto col-xs-6">
-                                <button id="pas_1" type="submit" class="next_step bt-basic bt-basic-vermell-fosc">D'acord, pas següent</button>
-                            </div>
-                        </div><!--/botons -->
-                    </div>
+                    <!-- .contingut-section - paragraf -->
+                    <form id="second_step">
+                    <section class="contingut-section">
+                        <!-- camp -->
+                        <div class="col-sm-6" style="margin-left: -15px;">
+                            <input type="text" id="nom_programa" class="form-control" placeholder="Libreoffice, VLC..." required>
+                        </div>
+                        <!-- camp -->
+                        <p/>
+                    </section>
+                    <section class="contingut-section">
+                        <div class="form-horizontal">
+                            <div class="form-botons row form-group">
+                                <div class="col-xs-4 col-sm-4 bt-puja">
+                                    {{ function('wp_nonce_field', 'search_program', '_wpnonce_program_search') }}
+                                    <button id="cerca_programa" type="submit" class="form-control bt-basic bt-basic-petit">Cerca... <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
+                                </div>
+                            </div><!--/botons -->
+                        </div>
+                    </section>
+                    </form>
+                    <section class="contingut-section">
+                        <p id="text_response"></p>
+                        <p id="llistat_programes">
+
+                        </p>
+                        <div class="form-horizontal">
+                            <div class="form-botons row form-group">
+                                <div class="form-boto col-xs-6">
+                                    <button id="pas_1" type="submit" class="next_step bt-basic bt-basic-vermell-fosc" style="display: none;">No és a la llista, vés al formulari</button>
+                                </div>
+                            </div><!--/botons -->
+                        </div>
+                    </section>
                 </section><!--/.contingut-section - paragraf -->
             </div><!--/.formulari -->
 
-            <!-- .formulari 2 -->
-            <div class="formulari" id="form_2" style="display: none;">
-                <!-- .contingut-header -->
-                <header class="contingut-header">
-                    <div class="row">
-                        <div class="col-xxs-12 col-xs-9">
-                            <h1>Voleu incorporar un programa nou?</h1>
-                            <p>Comproveu si el programa ja existeix</p>
-                        </div>
-                        <div class="col-xxs-12 col-xs-3">
-                            <span class="contador-formulari">2<i>/</i>4</span>
-                        </div>
-                    </div>
-                </header><!--/.contingut-header -->
-
-                <!-- .contingut-section - paragraf -->
-                <form id="second_step">
-                <section class="contingut-section">
-                    <!-- camp -->
-                    <div class="col-sm-6" style="margin-left: -15px;">
-                        <input type="text" id="nom_programa" class="form-control" placeholder="Libreoffice, VLC..." required>
-                    </div>
-                    <!-- camp -->
-                    <p/>
-                </section>
-                <section class="contingut-section">
-                    <div class="form-horizontal">
-                        <div class="form-botons row form-group">
-                            <div class="col-xs-4 col-sm-4 bt-puja">
-                                {{ function('wp_nonce_field', 'search_program', '_wpnonce_program_search') }}
-                                <button id="cerca_programa" type="submit" class="form-control bt-basic bt-basic-petit">Cerca... <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
-                            </div>
-                        </div><!--/botons -->
-                    </div>
-                </section>
-                </form>
-                <section class="contingut-section">
-                    <p id="text_response"></p>
-                    <p id="llistat_programes">
-
-                    </p>
-                    <div class="form-horizontal">
-                        <div class="form-botons row form-group">
-                            <div class="form-boto col-xs-6">
-                                <button id="pas_2" type="submit" class="next_step bt-basic bt-basic-vermell-fosc" style="display: none;">D'acord, pas següent</button>
-                            </div>
-                        </div><!--/botons -->
-                    </div>
-                </section>
-            </div><!--/.formulari -->
-
             <section class="contingut-section">
-                <!-- .formulari 3 -->
-                <div class="formulari" id="form_3" style="display: none;">
+                <!-- .formulari 2 -->
+                <div class="formulari" id="form_2" style="display: none;">
                     <!-- .contingut-header -->
                     <header class="contingut-header">
                         <div class="row">
                             <div class="col-xxs-12 col-xs-9">
-                                <h1>Voleu incorporar un programa nou?</h1>
-                                <p>Empleneu els camps següents amb la informació del programa</p>
+                                <h1>Empleneu els camps següents amb la informació del programa</h1>
                             </div>
                             <div class="col-xxs-12 col-xs-3">
-                                <span class="contador-formulari">3<i>/</i>4</span>
+                                <span class="contador-formulari">2<i>/</i>4</span>
                             </div>
                         </div>
                     </header><!--/.contingut-header -->
@@ -131,14 +105,7 @@
                         </div>
                         <!-- camp -->
 
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Autor *</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic..." required>
-                            </div>
-                        </div>
-                        <!-- camp -->
+
 
                         <!-- camp -->
                         <div class="form-group">
@@ -155,20 +122,6 @@
                             <div class="col-sm-8">
                                 <textarea rows="5" name="descripcio" class="form-control" required></textarea>
                             </div>
-                        </div>
-                        <!-- camp -->
-
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Llicència *</label>
-                            <!-- col-sm-9 -->
-                            <div class="col-sm-6">
-                                    <select class="form-control selectpicker" name="llicencia" id="llicencia">
-                                        {% for category in categories.llicencies %}
-                                            <option value="{{ category.ID }}">{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                            </div><!--/col-sm-9 -->
                         </div>
                         <!-- camp -->
 
@@ -194,61 +147,119 @@
                                 </div>
                             </div><!--/col-sm-9 -->
                         </div>
-                        <!-- camp -->
+                        <!-- .camp -->
 
-                        <!-- camp -->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Autor de la traducció</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="autor_traduccio" class="form-control" placeholder="Joan Vicent Moragues...">
+                        <div class="row">
+                            <div class="intern">
+                                <button href="#mes_camps_programa" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse">més camps<i class="fa fa-angle-down"></i></button>
                             </div>
                         </div>
-                        <!-- camp -->
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Logo *</label>
-                            <div class="col-sm-9 col-md-6">
-                                <div class="row">
-                                    <div class="col-xs-4 col-sm-4 bt-puja">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="file" name="logo" required>
-                                            </label>
+                        <div id="mes_camps_programa" class="collapse">
+                            <br/><br/>
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Autor del programa</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="autor" class="form-control" placeholder="Microsoft, Automattic...">
+                                </div>
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Llicència</label>
+                                <!-- col-sm-9 -->
+                                <div class="col-sm-6">
+                                        <select class="form-control selectpicker" name="llicencia" id="llicencia">
+                                            {% for category in categories.llicencies %}
+                                                <option value="{{ category.ID }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                </div><!--/col-sm-9 -->
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Autor de la traducció</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="autor_traduccio" class="form-control" placeholder="Joan Vicent Moragues...">
+                                </div>
+                            </div>
+                            <!-- camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Logo</label>
+                                <div class="col-sm-9 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-4 col-sm-4 bt-puja">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="file" name="logo">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Captura de pantalla en català *</label>
-                            <div class="col-sm-9 col-md-6">
-                                <div class="row">
-                                    <div class="col-xs-4 col-sm-4 bt-puja">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="file" name="captura" required>
-                                            </label>
+                            <!-- .camp -->
+                            <!-- camp -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Captura de pantalla en català</label>
+                                <div class="col-sm-9 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-4 col-sm-4 bt-puja">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="file" name="captura">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- .camp -->
                         </div>
-
-                        {% include 'baixades_form.twig' %}
-
-                        <!-- botons -->
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
                                 <div class="form-boto col-xs-6">
                                     {{ function('wp_nonce_field', 'add_new_program', '_wpnonce_program') }}
-                                    <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
+                                    <button type="submit" class="next_step bt-basic bt-basic-vermell-fosc">Envia la informació</button>
                                 </div>
                             </div><!--/botons -->
                         </div>
-                    </form><!--/.contingut-section - paragraf -->
+                    </form>
                 </div><!--/.formulari -->
             </section>
+
+            <!-- .formulari 3 -->
+            <div class="formulari" id="form_3" style="display: none;">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                            <h1>Informació sobre les baixades</h1>
+                            <p>A continuació podeu emplenar la informació sobre els enllaços de baixada, sistema operatiu, etc.</p>
+                        </div>
+                        <div class="col-xxs-12 col-xs-3">
+                            <span class="contador-formulari">3<i>/</i>4</span>
+                        </div>
+                    </div>
+                </header><!--/.contingut-header -->
+                <form id="baixades_form" class="form-horizontal" method="post">
+                    {% include 'baixades_form.twig' %}
+
+                    <!-- botons -->
+                    <div class="form-horizontal">
+                        <div class="form-botons row form-group">
+                            <div class="form-boto col-xs-6">
+                                <input type="hidden" id="programa_id" name="programa_id" value="" />
+                                {{ function('wp_nonce_field', 'add_new_baixada', '_wpnonce_baixada') }}
+                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
+                            </div>
+                        </div><!--/botons -->
+                    </div>
+                </form><!--/.contingut-section - paragraf -->
+            </div><!--/.formulari -->
 
             <!-- .formulari 4 -->
             <div class="formulari" id="form_4" style="display: none;">
