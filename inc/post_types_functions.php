@@ -106,6 +106,10 @@ function generate_url_download( $baixades, $post ) {
             $os = '';
         }
 
+        if( empty( $baixada->versio_baixada )) {
+            $baixada->versio_baixada = '1.0';
+        }
+
         $baixada->download_url = 'https://baixades.softcatala.org/';
         $baixada->download_url .= '?url='.$baixada->url_baixada;
         $baixada->download_url .= '&os='.$os;

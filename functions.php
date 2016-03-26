@@ -67,7 +67,7 @@ class StarterSite extends TimberSite {
                         if($query_var == 'arxivat') {
                             $params_query .= $key . '/';
                         } else {
-                            $params_query .= $key . '/' . get_query_var( $query_var ) . '/';
+                            $params_query .= $key . '/' . urlencode( get_query_var( $query_var )) . '/';
                         }
 
                     }

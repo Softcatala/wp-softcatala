@@ -13,7 +13,7 @@
                     <h1>{{ post.title }}</h1>
                     <h2>{{ post.subtitle_programa }}</h2>
                     <ul>
-                        <li><strong>Autor:</strong> {{ post.autor_programa }}</li>
+                        {% if post.autor_programa %}<li><strong>Autor:</strong> {{ post.autor_programa }}</li>{% endif %}
                         {% if post.terms('llicencia') %}
                         <li>
                             <strong>Llicència:</strong>
@@ -22,7 +22,7 @@
                             {% endfor %}
                         </li>
                         {% endif %}
-                        <li><strong>Lloc web:</strong> <a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>
+                        {% if post.lloc_web_programa %}<li><strong>Lloc web:</strong> <a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>{% endif %}
                         <li></li>
                         {% if post.autor_traduccio %}<li><strong>Autor de la traducció:</strong> {{ post.autor_traduccio }}</li>{% endif %}
                         {% if projecte_relacionat_url %}<li><strong>Projecte de traducció:</strong> <a href="{{ projecte_relacionat_url }}" title="{{ projecte_relacionat_name }}">{{ projecte_relacionat_name }}</a></li>{% endif %}
@@ -37,7 +37,7 @@
                             {% endif %}
                             <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
                                 <i class="fa fa-download"></i>
-                                <span>Baixa'l<em>Per a {{ so_baixada }}, versió {{ baixada.versio_baixada }}</em></span>
+                                <span>Baixa'l<em>Per a {{ so_baixada }}{% if baixada.versio_baixada %}, versió {{ baixada.versio_baixada }}{% endif %}</em></span>
                             </a>
                         {% endfor %}
                         <a class="bt-versions" id="show_more_versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>

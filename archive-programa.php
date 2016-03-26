@@ -35,8 +35,8 @@ $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 //Contact Form
 $context['contact']['to_email'] = get_option('email_rebost');
 
-//Search and filters
-$search = get_query_var('cerca');
+//Search and filter
+$search = urldecode( get_query_var( 'cerca' ));
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $categoria_programa = get_query_var( 'categoria_programa' );
 $arxivat = get_query_var( 'arxivat' );
