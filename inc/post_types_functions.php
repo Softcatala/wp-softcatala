@@ -107,7 +107,9 @@ function generate_url_download( $baixades, $post ) {
         }
 
         if( empty( $baixada->versio_baixada )) {
-            $baixada->versio_baixada = '1.0';
+            $versio_baixada = '1.0';
+        } else {
+            $versio_baixada = $baixada->versio_baixada;
         }
 
         $baixada->download_url = 'https://baixades.softcatala.org/';
@@ -115,7 +117,7 @@ function generate_url_download( $baixades, $post ) {
         $baixada->download_url .= '&os='.$os;
         $baixada->download_url .= '&id='.$post->idrebost;
         $baixada->download_url .= '&wid='.$post->ID;
-        $baixada->download_url .= '&versio='.$baixada->versio_baixada;
+        $baixada->download_url .= '&versio='.$versio_baixada;
         $baixada->download_url .= '&so='.$os;
 
         $baixada->so_icona = get_awesome_icon_so($os);

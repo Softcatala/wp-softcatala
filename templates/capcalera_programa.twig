@@ -37,7 +37,7 @@
                             {% endif %}
                             <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
                                 <i class="fa fa-download"></i>
-                                <span>Baixa'l<em>Per a {{ so_baixada }}{% if baixada.versio_baixada %}, versió {{ baixada.versio_baixada }}{% endif %}</em></span>
+                                <span>Baixa'l<em>{% if so_baixada|lower != 'multiplataforma' %}Per a {% endif %}{{ so_baixada }}{% if baixada.versio_baixada %}, versió {{ baixada.versio_baixada }}{% endif %}</em></span>
                             </a>
                         {% endfor %}
                         <a class="bt-versions" id="show_more_versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
