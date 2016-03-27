@@ -49,7 +49,7 @@
                                     {% for baixada in baixades %}
                                         {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
                                         <div class="col-xxs-12 col-md-3 col-sm-4 col-xs-6">
-                                            <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers baixada_boto"><i class="fa fa-windows"></i><span>Per a {{ so_baixada }}<em>versió {{ baixada.versio_baixada }}</em></span>
+                                            <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url }}" class="bt-download-invers baixada_boto"><i class="fa fa-{{ baixada.so_icona }}"></i><span>{% if so_baixada|lower != 'multiplataforma' %}Per a {% endif %}{{ so_baixada }}<em>versió {{ baixada.versio_baixada }}</em></span>
                                                 <p>{% if baixada.versio_estesa_baixada %}{{ baixada.versio_estesa_baixada }}<br/>{% endif %}{% if baixada.mida_baixada %}{{ baixada.mida_baixada }} MB{% endif %}
                                                 </p>
                                             </a>

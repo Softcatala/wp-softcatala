@@ -117,9 +117,42 @@ function generate_url_download( $baixades, $post ) {
         $baixada->download_url .= '&wid='.$post->ID;
         $baixada->download_url .= '&versio='.$baixada->versio_baixada;
         $baixada->download_url .= '&so='.$os;
+
+        $baixada->so_icona = get_awesome_icon_so($os);
     }
 
     return $baixades;
+}
+
+/**
+ * This function returns the awesome icon corresponding to an operating system
+ *
+ */
+function get_awesome_icon_so( $os ) {
+    switch ($os) {
+        case 'android':
+        case 'linux':
+        case 'windows':
+            $os_icona = $os;
+            break;
+        case 'ios':
+        case 'osx':
+            $os_icona = 'apple';
+            break;
+        case 'web':
+            $os_icona = 'globe';
+            break;
+        case 'windows-phone':
+            $os_icona = 'windows';
+            break;
+        case 'multiplataforma':
+            $os_icona = 'circle-thin';
+            break;
+        default:
+            $os_icona = 'circle-o';
+            break;
+    }
+    return $os_icona;
 }
 
 /**
