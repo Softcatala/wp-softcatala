@@ -487,13 +487,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'posts_per_page' => 10
             );
             break;
-        case 'baixada':
-            $base_args = array(
-                'post_type' => $post_type,
-                'post_status'    => 'publish',
-                'posts_per_page' => -1
-            );
-            break;
     }
 
     $filter_args = array();
@@ -509,16 +502,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             's'         => $filter,
             'meta_query' => array(
                 get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
-            )
-        );
-    } else if ( $queryType == SearchQueryType::Baixada ) {
-        $filter_args = array(
-            'tax_query' => array (
-                array(
-                    'taxonomy' => 'sistema-operatiu-programa',
-                    'field' => 'slug',
-                    'terms' => $filter
-                )
             )
         );
     } else if( $queryType == SearchQueryType::FilteredDate ) {
@@ -572,6 +555,18 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         $filter_args = array();
         if (!empty ($filter['s'])) {
             $filter_args['s'] = $filter['s'];
+        }
+
+        if(!empty ($filter['sistema_operatiu'])) {
+            $filter_args['tax_query'][] = array (
+                'taxonomy' => 'sistema-operatiu-programa',
+                'field' => 'slug',
+                'terms' => array (
+                    $filter['sistema_operatiu'],
+                    'multiplataforma'
+                )
+            );
+            $filter_args['filter_sistema_operatiu'] = $filter['sistema_operatiu'];
         }
 
         if ( ! empty ( $filter['post__in'] ) ) {
