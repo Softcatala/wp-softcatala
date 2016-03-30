@@ -1,0 +1,40 @@
+
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {%if planeta_feed %}
+                    {% for item in planeta_feed %}
+                    <div>
+                        <h2>{{item.entry_title}}</h2>
+                        <h3>{{item.blog_title}} | {{item.date | date('d/m/Y')}}</h3>
+                        <img src="{{item.image}}" />
+                        <div>
+                            {{item.html}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar_planeta.twig" %}
+          
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+{% endblock %}

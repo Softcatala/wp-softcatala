@@ -1,0 +1,13 @@
+<!-- .aside-right -->
+<aside class="aside-right col-sm-12 col-md-4">
+    {{sidebar_top}}
+    {% if gent %}
+        <ul>
+        {% for persona in gent %}
+            <li>{{persona.title}} | {{persona.author}}</li>
+        {% endfor %}
+        </ul>
+    {% endif  %}
+    {{sidebar_bottom}}
+</aside>
+<!--/.aside-right -->
