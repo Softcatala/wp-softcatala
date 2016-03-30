@@ -59,17 +59,12 @@ class StarterSite extends TimberSite {
      */
     function sc_change_programs_search_url_rewrite() {
         if(get_query_var( 'post_type' ) == 'programa') {
-            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) || isset($_GET['arxivat'])) {
-                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat', 'arxivat' => 'arxivats' );
+            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) ) {
+                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat' );
                 $params_query = '';
                 foreach($available_query_vars as $query_var => $key) {
                     if (get_query_var( $query_var )) {
-                        if($query_var == 'arxivat') {
-                            $params_query .= $key . '/';
-                        } else {
-                            $params_query .= $key . '/' . urlencode( get_query_var( $query_var )) . '/';
-                        }
-
+                        $params_query .= $key . '/' . urlencode( get_query_var( $query_var )) . '/';
                     }
                 }
 
@@ -462,10 +457,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'paged' => get_is_paged(),
-                'posts_per_page' => 18,
-                'meta_query' => array(
-                    get_meta_query_value('wpcf-arxivat', 0, '=', 'NUMERIC')
-                )
+                'posts_per_page' => 18
             );
             break;
         case 'page':
@@ -581,13 +573,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             );
             $filter_args['filter_categoria'] = $filter['categoria-programa'];
         }
-
-        //If 'arxivat = 1' that means that all programas should be displayed, arxivats and no arxivats
-        //It's necessary to remove the meta_query filter
-        if( ! empty ($filter['arxivat']) &&  $filter['arxivat'] == 1 ) {
-            unset( $base_args['meta_query'] );
-            $filter_args['arxivat'] = $filter['arxivat'];
-        }
     } else if ( $queryType == SearchQueryType::PagePrograma ) {
         $filter_args = array();
     } else if ( $queryType == SearchQueryType::FilteredTema ) {
@@ -638,7 +623,6 @@ function add_query_vars_filter( $vars ){
     $vars[] = "sistema_operatiu";
     $vars[] = "tipus";
     $vars[] = "categoria_programa";
-    $vars[] = "arxivat";
     $vars[] = "paraula";
     $vars[] = "tema";
     $vars[] = "data";

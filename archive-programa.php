@@ -39,22 +39,19 @@ $context['contact']['to_email'] = get_option('email_rebost');
 $search = urldecode( get_query_var( 'cerca' ));
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $categoria_programa = get_query_var( 'categoria_programa' );
-$arxivat = get_query_var( 'arxivat' );
 
 //Generate $args query
 $flag_search = false;
-if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) || ! empty( $sistema_operatiu ) ) {
+if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $sistema_operatiu ) ) {
     $flag_search = true;
     $query['s'] = $search;
     $query['categoria-programa'] = $categoria_programa;
-    $query['arxivat'] = $arxivat;
     $query['sistema_operatiu'] = $sistema_operatiu;
     $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
 
     //Selected values
     $context['cerca'] = $search;
     $context['selected_filter_categoria'] = ( isset ( $args['filter_categoria'] ) ? $args['filter_categoria'] : '' );
-    $context['selected_arxivat'] = ( isset ( $args['arxivat'] ) ? $args['arxivat'] : '' );
     $context['selected_filter_so'] = ( isset ( $args['filter_sistema_operatiu'] ) ? $args['filter_sistema_operatiu'] : '' );
 } elseif ( ! isset ( $args ) ) {
     $args = get_post_query_args( 'programa', SearchQueryType::Programa );
