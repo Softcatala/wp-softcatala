@@ -39,47 +39,20 @@ $context['contact']['to_email'] = get_option('email_rebost');
 $search = urldecode( get_query_var( 'cerca' ));
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $categoria_programa = get_query_var( 'categoria_programa' );
-$arxivat = get_query_var( 'arxivat' );
 
 //Generate $args query
 $flag_search = false;
-if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $arxivat ) ) {
+if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $sistema_operatiu ) ) {
     $flag_search = true;
     $query['s'] = $search;
     $query['categoria-programa'] = $categoria_programa;
-    $query['arxivat'] = $arxivat;
+    $query['sistema_operatiu'] = $sistema_operatiu;
     $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+
+    //Selected values
     $context['cerca'] = $search;
     $context['selected_filter_categoria'] = ( isset ( $args['filter_categoria'] ) ? $args['filter_categoria'] : '' );
-    $context['selected_arxivat'] = ( isset ( $args['arxivat'] ) ? $args['arxivat'] : '' );
-}
-
-if( ! empty( $sistema_operatiu ) ) {
-    $flag_search = true;
-    $context['selected_filter_so'] = $sistema_operatiu;
-    $query['sistema_operatiu'] = $sistema_operatiu;
-    $args_so_baixades = get_post_query_args( 'baixada', SearchQueryType::Baixada, $query['sistema_operatiu'] );
-
-    $baixades_posts = get_posts( $args_so_baixades );
-    $programes_baixades_ids = array_map( "extract_post_ids_program", $baixades_posts );
-
-    if( isset( $args ) ) {
-        $args['posts_per_page'] = -1;
-        $all_programs = get_posts( $args );
-        $all_programs_ids = array_map("extract_post_ids", $all_programs);
-
-        $programes_ids = array_intersect( $all_programs_ids, $programes_baixades_ids);
-    } else {
-        $programes_ids = $programes_baixades_ids;
-    }
-
-    if( $programes_ids ) {
-        $query['post__in'] = $programes_ids;
-        $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
-    } else {
-        $args = array();
-    }
-
+    $context['selected_filter_so'] = ( isset ( $args['filter_sistema_operatiu'] ) ? $args['filter_sistema_operatiu'] : '' );
 } elseif ( ! isset ( $args ) ) {
     $args = get_post_query_args( 'programa', SearchQueryType::Programa );
 }

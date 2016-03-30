@@ -40,16 +40,6 @@ jQuery(".selectpicker").on('change', function() {
     }
 });
 
-jQuery("#mostra_arxivat").on('click', function() {
-    if(jQuery("#arxivat").val() == 1) {
-        jQuery("#arxivat").val(0);
-    } else {
-        jQuery("#arxivat").val(1);
-    }
-
-    jQuery( "#cerca_programes" ).submit();
-});
-
 /** Rating **/
 jQuery('#input_rating').on('change', function () {
     var complexname = jQuery(this).attr('name');

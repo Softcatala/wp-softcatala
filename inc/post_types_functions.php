@@ -98,29 +98,21 @@ function generate_url_download( $baixades, $post ) {
 
     //https://baixades.softcatala.org/?url=http://download.mozilla.org/?product=firefox-44.0.1&os=linux&lang=ca&id=3522&mirall=&extern=2&versio=44.0.1&so=linux
     foreach ( $baixades as $key => $baixada ) {
-        //OS
-        $term_list = wp_get_post_terms($baixada->ID, 'sistema-operatiu-programa', array("fields" => "all"));
-        if ( $term_list ) {
-            $os = $term_list[0]->slug;
-        } else {
-            $os = '';
-        }
-
-        if( empty( $baixada->versio_baixada )) {
+        if( empty( $baixada['download_version'] )) {
             $versio_baixada = '1.0';
         } else {
-            $versio_baixada = $baixada->versio_baixada;
+            $versio_baixada = $baixada['download_version'];
         }
 
-        $baixada->download_url = 'https://baixades.softcatala.org/';
-        $baixada->download_url .= '?os='.$os;
-        $baixada->download_url .= '&id='.$post->idrebost;
-        $baixada->download_url .= '&wid='.$post->ID;
-        $baixada->download_url .= '&versio='.$versio_baixada;
-        $baixada->download_url .= '&so='.$os;
-        $baixada->download_url .= '&url='.urlencode($baixada->url_baixada);
+        $baixades[$key]['download_url_ext'] = 'https://baixades.softcatala.org/';
+        $baixades[$key]['download_url_ext'] .= '?os='.$baixada['download_os'];
+        $baixades[$key]['download_url_ext'] .= '&id='.$post->idrebost;
+        $baixades[$key]['download_url_ext'] .= '&wid='.$post->ID;
+        $baixades[$key]['download_url_ext'] .= '&versio='.$versio_baixada;
+        $baixades[$key]['download_url_ext'] .= '&so='.$baixada['download_os'];
+        $baixades[$key]['download_url_ext'] .= '&url='.urlencode($baixada['download_url']);
 
-        $baixada->so_icona = get_awesome_icon_so($os);
+        $baixades[$key]['so_icona'] = get_awesome_icon_so($baixada['download_os']);
     }
 
     return $baixades;
