@@ -9,7 +9,13 @@ global $xv_planeta;
 
 $context = Timber::get_context();
 $context['post'] = new TimberPost();
-$context['gent'] = $xv_planeta->get_user_list();
-$context['planeta_feed'] = $xv_planeta->get_feed();
+
+if ( isset( $xv_planeta) ) {
+	$context['gent'] = $xv_planeta->get_user_list();
+	$context['planeta_feed'] = $xv_planeta->get_feed();
+} else {
+	$context['gent'] = array();
+	$context['planeta_feed'] = array();
+}
 
 Timber::render(array('planeta.twig'), $context);
