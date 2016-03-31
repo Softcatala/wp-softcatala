@@ -249,28 +249,27 @@ function sc_add_new_baixada() {
     } else {
         $baixades = json_decode(stripslashes($_POST["baixades"]));
         $programa_id = sanitize_text_field( $_POST["programa_id"] );
-        $nom = sanitize_text_field( $_POST["nom"] );
-        $slug = sanitize_title_with_dashes( $nom );
+        $taxonomy = 'sistema-operatiu-programa';
 
         //Related downloads
-        foreach ( $baixades as $baixada ) {
-            $terms_baixada = array(
-                'sistema-operatiu-programa' => array($baixada->sistema_operatiu)
-            );
-
-            $metadata_baixada = array (
-                'url_baixada'           =>  $baixada->url,
-                'versio_baixada'        =>  $baixada->versio,
-                'arquitectura_baixada'  =>  $baixada->arquitectura,
-                'post_id'               =>  $programa_id
-            );
-            $return_baixada = sc_add_draft_content('baixada', $nom, '', $slug, $terms_baixada, $metadata_baixada);
-
-            if( $return_baixada['status'] == 1 ) {
-                $return['status'] = 1;
-            }
+        $version_info = array();
+        $terms = array();
+        foreach ( $baixades as $key => $baixada ) {
+            $version_info[$key]['download_url'] = $baixada->url;
+            $version_info[$key]['download_version'] = $baixada->versio;
+            $version_info[$key]['download_size'] = '';
+            $version_info[$key]['arquitectura'] = $baixada->arquitectura;
+            $version_info[$key]['download_os'] = map_so($baixada->sistema_operatiu);
+            $terms[] = $baixada->sistema_operatiu;
         }
+
+        $field_key = acf_get_field_key( 'baixada', $programa_id );
+        update_field( $field_key, $version_info, $programa_id );
+        $return['status'] = 1;
     }
+
+    wp_set_post_terms( $programa_id, $terms, $taxonomy );
+
     $response = json_encode( $return );
     die( $response );
 }
@@ -519,8 +518,6 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
             } else {
                 $return['status'] = 1;
             }
-        } elseif ( $type == 'baixada' ) {
-            $return = sc_set_baixada_post_relationship( $post_id, $parent_id );
         } else {
             $return['status'] = 1;
         }
@@ -597,11 +594,6 @@ function sc_set_featured_image( $post_id, $attach_id ) {
     return $return;
 }
 
-function sc_set_baixada_post_relationship( $baixada_id, $program_id ) {
-    update_post_meta( $baixada_id, '_wpcf_belongs_programa_id', $program_id );
-}
-
-
 /** General **/
 function check_is_ajax_call() {
     //check if its an ajax request, exit if not
@@ -633,4 +625,72 @@ function sc_update_metadata( $post_id, $metadata ) {
         $result = true;
     }
     return $result;
+}
+
+/**
+ * Gets the field key from a field_name
+ */
+function acf_get_field_key( $field_name, $post_id ) {
+    global $wpdb;
+    $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT ID,post_parent,post_name FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'acf-field' ) );
+    // get all fields with that name.
+    switch ( count( $acf_fields ) ) {
+        case 0: // no such field
+            return false;
+        case 1: // just one result.
+            return $acf_fields[0]->post_name;
+    }
+    // result is ambiguous
+    // get IDs of all field groups for this post
+    $field_groups_ids = array();
+    $field_groups = acf_get_field_groups( array(
+        'post_id' => $post_id,
+    ) );
+    foreach ( $field_groups as $field_group )
+        $field_groups_ids[] = $field_group['ID'];
+
+    // Check if field is part of one of the field groups
+    // Return the first one.
+    foreach ( $acf_fields as $acf_field ) {
+        if ( in_array($acf_field->post_parent,$field_groups_ids) )
+            return $acf_fields[0]->post_name;
+    }
+    return false;
+}
+
+/**
+ * Maps the category so ID with the program so value
+ */
+function map_so($so_id) {
+    switch ($so_id) {
+        case '67':
+            $value = 'android';
+            break;
+        case '62':
+            $value = 'ios';
+            break;
+        case '64':
+            $value = 'linux';
+            break;
+        case '141':
+            $value = 'multiplataforma';
+            break;
+        case '65':
+            $value = 'osx';
+            break;
+        case '96':
+            $value = 'web';
+            break;
+        case '59':
+            $value = 'windows';
+            break;
+        case '140':
+            $value = 'windows_phone';
+            break;
+        default:
+            $value = '';
+            break;
+    }
+
+    return $value;
 }
