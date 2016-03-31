@@ -31,13 +31,16 @@
 
                     {% if baixades %}
                         {% for baixada in baixades %}
-                            {% if baixada.terms('sistema-operatiu-programa') %}
-                                {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
-                                {% set so_baixada_min = so_baixada|split(' ')|first|lower %}
-                            {% endif %}
-                            <a id="baixada_{{ so_baixada_min }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
+                            <a id="baixada_{{ baixada.download_os|lower }}_{{ baixada.arquitectura|lower }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
                                 <i class="fa fa-download"></i>
-                                <span>Baixa'l<em>{% if so_baixada|lower != 'multiplataforma' %}Per a {% endif %}{{ baixada.download_os }}{% if baixada.download_version %}, versió {{ baixada.download_version }}{% endif %}</em></span>
+                                <span>Baixa'l
+                                    <em>
+                                        {% if baixada.download_os|lower != 'multiplataforma' %}Per a{% endif %}
+                                        {{ baixada.download_os }}
+                                        {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% endif %}
+                                        {% if baixada.download_version %}, versió {{ baixada.download_version }}{% endif %}
+                                    </em>
+                                </span>
                             </a>
                         {% endfor %}
                         <a class="bt-versions" id="show_more_versions" role="button" href="#versions" data-toggle="collapse">Altres versions</a>
@@ -47,10 +50,19 @@
                                 <a class="bt-versions-creu" role="button" href="#versions" data-toggle="collapse"><i class="fa fa-times"></i></a>
                                 <div class="row">
                                     {% for baixada in baixades %}
-                                        {% set so_baixada = baixada.terms('sistema-operatiu-programa')|first.name %}
                                         <div class="col-xxs-12 col-md-3 col-sm-4 col-xs-6">
-                                            <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers baixada_boto"><i class="fa fa-{{ baixada.so_icona }}"></i><span>{% if so_baixada|lower != 'multiplataforma' %}Per a {% endif %}{{ baixada.download_os }}<em>versió {{ baixada.download_version }}</em></span>
-                                                <p>{% if baixada.versio_estesa_baixada %}{{ baixada.versio_estesa_baixada }}<br/>{% endif %}{% if baixada.mida_baixada %}{{ baixada.mida_baixada }} MB{% endif %}
+                                            <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers baixada_boto">
+                                                <i class="fa fa-{{ baixada.so_icona }}"></i>
+                                                <span>
+                                                    {% if baixada.download_os|lower != 'multiplataforma' %}Per a {% endif %}{{ baixada.download_os }}
+                                                    <em>{% if baixada.download_version %}versió {{ baixada.download_version }}{% endif %}
+                                                        {% if baixada.arquitectura == 'x86_64'  %}
+                                                            (64 bits)
+                                                        {% endif %}
+                                                    {% if baixada.download_size %}({{ baixada.download_size }}){% endif %}
+                                                    </em>
+                                                </span>
+                                                <p>{% if baixada.versio_estesa_baixada %}{{ baixada.versio_estesa_baixada }}<br/>{% endif %}
                                                 </p>
                                             </a>
                                         </div>
@@ -64,7 +76,7 @@
                         <div class="cont-rating">
                             {{ function('wp_nonce_field', 'send_vote', '_wpnonce_program_vote') }}
                             <input type="hidden" value="{{ post.valoracio }}" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating" class="rating" data-rating-class="rating-fa" data-symbol="&#xf006;" data-glyphicon="false" data-show-caption="false" data-show-clear="false"/>
-                            <span class="numero">{{ post.valoracio }}</span>
+                            <span class="numero">{{ post.valoracio|number_format(2, ',', '.') }}</span>
                             {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}
                         </div>
                         {% if total_downloads %}
@@ -90,10 +102,10 @@
             </div><!--/.boto-menu-lateral gris - xs -->
             <!-- #menu-lateral -->
             <ul class="nav collapse navbar-collapse" id="menu-lateral">
-                <li><a href="{{ post.link }}">Descripció</a></li>
+                <li><a {% if post.link == current_url %}style="color: #e64b3c" {% endif %}href="{{ post.link }}" title="Descripció del {{ post.title }}">Descripció</a></li>
                 {% if related_pages %}
                 {% for page in related_pages %}
-                <li><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
+                <li><a {% if page.link == current_url %}style="color: #e64b3c" {% endif %}href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
                 {% endfor %}
                 {% endif %}
             </ul><!--/#menu-lateral -->

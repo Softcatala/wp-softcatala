@@ -40,7 +40,7 @@ $context['total_downloads'] = $download_full[$index]['total'];
 $context['baixades'] = generate_url_download( $baixades, $post );
 
 $context['credits'] = $post->get_field( 'credit' );
-$query = array ( 'post_id' => $post->ID );
+$query = array ( 'post_id' => $post->ID , 'subpage_type' => 'programa' );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
 query_posts($args);
 $context['related_pages'] = Timber::get_posts($args);
