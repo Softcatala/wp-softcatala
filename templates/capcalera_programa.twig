@@ -37,7 +37,9 @@
                                     <em>
                                         {% if baixada.download_os|lower != 'multiplataforma' %}Per a{% endif %}
                                         {{ baixada.download_os }}
-                                        {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% endif %}
+                                        {% if baixada.download_os != 'android' and baixada.download_os != 'ios' %}
+                                            {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
+                                        {% endif %}
                                         {% if baixada.download_version %}, versió {{ baixada.download_version }}{% endif %}
                                     </em>
                                 </span>
