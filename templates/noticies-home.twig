@@ -8,7 +8,9 @@
     <div class="col-xs-6 col-sm-4">
       <div class="thumbnail thumbnail-galeria">
         <a href="{{post.link}}" title="{{post.title}}">
+          {% if post.thumbnail.src %}
           <img src="{{post.thumbnail.src|resize(270, 170, 'top')}}" alt="{{post.title}}">
+          {% endif %}
           <p>{{post.title}}</p>
           <time class="data-temps">{{ post.post_date|date}}</time>
         </a>
