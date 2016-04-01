@@ -74,7 +74,7 @@ function get_top_downloads_home()
                 if ($i < $limit) {
                     $link = get_program_link($program);
                     if ( $link ) {
-                        $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 4 );
+                        $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 8 );
                         $programari[$key][$pkey]['link'] = $link;
                         $programari[$key][$pkey]['total_downloads'] = $program->total;
                     }
