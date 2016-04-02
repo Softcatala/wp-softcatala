@@ -11,11 +11,17 @@
 
 //Template initialization
 $templates = array( 'archive-projecte.twig' );
-$context = Timber::get_context();
+
 $post = retrieve_page_data( 'projecte' );
 $post ? $context['links'] = $post->get_field( 'link' ) : '';
+
+$title = 'En què treballem: ' . single_term_title('', false);
+
+$contextFilterer = new SC_ContextFilterer();
+$context = $contextFilterer->get_filtered_context( array( 'title' => $title ) );
+
 $context['post'] = $post;
-$context['content_title'] = 'En què treballem / ' . single_term_title('', false);
+$context['content_title'] = $title;
 $context['post_type'] = $post_type;
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
