@@ -26,6 +26,7 @@ class StarterSite extends TimberSite {
         add_theme_support( 'title-tag' );
         add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
+        add_filter( 'xv_planeta_feed', '__return_true' );
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'sc_rewrite_search' ) );
         add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );

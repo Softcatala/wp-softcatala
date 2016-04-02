@@ -17,8 +17,8 @@
 
             <!-- .contingut-section  -->
             <section class="contingut-section">
-                {%if planeta_feed %}
-                    {% for item in planeta_feed %}
+                {%if feed.entries %}
+                    {% for item in feed.entries %}
                     <div>
                         <h2>{{item.entry_title}}</h2>
                         <h3>{{item.blog_title}} | {{item.date | date('d/m/Y')}}</h3>
