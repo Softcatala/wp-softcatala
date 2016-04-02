@@ -12,10 +12,10 @@ $context['post'] = new TimberPost();
 
 if ( isset( $xv_planeta) ) {
 	$context['gent'] = $xv_planeta->get_user_list();
-	$context['planeta_feed'] = $xv_planeta->get_feed();
+	$context['feed'] = $xv_planeta->get_feed();
 } else {
 	$context['gent'] = array();
-	$context['planeta_feed'] = array();
+	$context['feed'] = array();
 }
 
 Timber::render(array('planeta.twig'), $context);
