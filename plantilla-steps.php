@@ -5,7 +5,7 @@
  * @package wp-softcatala
  */
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-steps', get_template_directory_uri() . '/static/js/steps.js', array(), '1.0.0', true );
+wp_enqueue_script( 'sc-js-steps', get_template_directory_uri() . '/static/js/steps.js', array('sc-js-main'), '1.0.0', true );
 wp_localize_script( 'sc-js-steps', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
