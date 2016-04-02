@@ -836,3 +836,56 @@ function aparell_comment_redirect( $location ) {
     return $location;
 }
 add_filter( 'comment_post_redirect', 'aparell_comment_redirect' );
+
+add_shortcode( 'multilingue-stats', 'multilingue_stats' );
+
+function multilingue_stats() {
+	$url_api = get_option( 'api_diccionari_multilingue' );
+	
+	$api_call = do_json_api_call($url_api . '/statistics');
+    $statistics = json_decode($api_call);
+	
+	$stats = '';
+	
+	if ( $statistics ) {
+		$ca_labels = add_multilingue_stats($statistics, 'ca_labels');
+		$ca_descs = add_multilingue_stats($statistics, 'ca_descs');
+		$en_labels = add_multilingue_stats($statistics, 'en_labels');
+		$en_descs = add_multilingue_stats($statistics, 'en_descs');
+		$fr_labels = add_multilingue_stats($statistics, 'fr_labels');
+		$fr_descs = add_multilingue_stats($statistics, 'fr_descs');
+		$de_labels = add_multilingue_stats($statistics, 'de_labels');
+		$de_descs = add_multilingue_stats($statistics, 'de_descs');
+		$es_labels = add_multilingue_stats($statistics, 'es_labels');
+		$es_descs = add_multilingue_stats($statistics, 'es_descs');
+		$it_labels = add_multilingue_stats($statistics, 'it_labels');
+		$it_descs = add_multilingue_stats($statistics, 'it_descs');
+
+		ob_start();
+
+		?>
+		<i><small>
+			L'índex va ser actualitzat per últim cop el <?= $statistics->wikidata->date ?> i conté: <?=$ca_labels?>
+				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?> 
+				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès, 
+				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i 
+				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions 
+				en espanyol, i <?= $statistics->wikidata->images ?> imatges.
+		</small></i>
+		<?php
+
+		$stats = ob_get_clean();
+	}
+	
+	return $stats;
+}
+
+function add_multilingue_stats($statistics, $key) {
+		$wikidata = (array) $statistics->wikidata;
+		$wikidictionary = (array) $statistics->wikidictionary;
+		$value = $wikidata[$key];
+		if(isset($wikidictionary[$key]) && $wikidictionary[$key]) {
+				$value += $wikidictionary[$key];
+		}
+		return $value;
+}
