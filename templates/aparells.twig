@@ -50,6 +50,9 @@
                             {{ post.content }}
                         </div>
                     </div>
+                    <section class="contingut-section">
+                        Tenim recollits <strong>{{ stats_aparells.total }}</strong> aparells, dels quals <strong>{{ stats_aparells.conf_cat }}</strong> es poden configurar en català i <strong>{{ stats_aparells.correccio_cat }}</strong> tenen correcció ortogràfica en català.
+                    </section>
 
                     <!-- .filtres -->
                     <form class="searchform" method="get" id="cerca_aparells" role="search" action="{{ search_params.current_url }}">

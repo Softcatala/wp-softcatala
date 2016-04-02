@@ -31,6 +31,10 @@ $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $tipus_aparell = get_query_var( 'tipus_aparell' );
 
+//Stats data
+$json_path = ABSPATH."../aparells.json";
+$context['stats_aparells'] = json_decode( file_get_contents( $json_path ) );
+
 //Generate $args query
 if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) ) {
     $query_aparell['s'] = $search;
@@ -41,10 +45,13 @@ if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparel
     $context['selected_filter_so'] = ( isset ( $args['filter_so'] ) ? $args['filter_so'] : '' );
     $context['selected_filter_tipus'] = ( isset ( $args['filter_tipus'] ) ? $args['filter_tipus'] : '' );
 } else {
-    $args = array( 'post_type' => 'aparell', 'posts_per_page' => -1 );
+    $args = array( 'post_type' => 'aparell', 'posts_per_page' => -1, 'order' => 'ASC' );
 }
 
+$context['aparells'] = Timber::get_posts( $args );
+
 //Posts and pagination
-query_posts( $args );
+$test = query_posts( $args );
+
 $context['aparells'] = Timber::get_posts( $args );
 Timber::render( $templates, $context );
