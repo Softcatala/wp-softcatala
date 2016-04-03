@@ -13,12 +13,15 @@ wp_localize_script( 'sc-js-multilingue', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$url_api = 'https://www.softcatala.org/diccionari-multilingue/api/'; get_option( 'api_diccionari_multilingue' );
+$url_api = get_option( 'api_diccionari_multilingue' );
 
 $paraula = urldecode( get_query_var('paraula') );
 $lletra = get_query_var('lletra');
-$title = 'Diccionari multilingüe';
+$content_title = 'Diccionari multilingüe';
+
+$title = '';
 $description = '';
+$canonical = '';
 
 $post = new TimberPost();
 
@@ -41,6 +44,7 @@ if( ! empty ( $paraula ) ) {
             $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
 			
 			$title = 'Diccionari multilingüe: ' . $paraula . '. Definició i traducció al català, anglès, alemany, francès, italià i espanyol | Softcatalà';
+			$content_title =  'Diccionari multilingüe: «' . $paraula . '»';
 			
 			if( isset( $llengua ) ) {
 				$canonical = '/diccionari-multilingue/paraula/' . $api_response[0]->word_ca . '/';
@@ -85,6 +89,7 @@ if( ! empty ( $paraula ) ) {
             $response['result'] = $api_response;
 			
 			$title = $title . ': paraules que comencen per ' . $lletra;
+			$content_title =  'Diccionari multilingüe. Lletra «' . $lletra . '»';
 			
 			$canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
 
@@ -108,7 +113,7 @@ $context = $context_filterer->get_filtered_context( $context_overrides, false );
 $context['post'] = $post;
 $context['paraula'] = $paraula;
 $context['lletra'] = $lletra;
-$context['content_title'] = $title;
+$context['content_title'] = $content_title;
 
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
