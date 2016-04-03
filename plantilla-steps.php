@@ -12,7 +12,6 @@ wp_localize_script( 'sc-js-steps', 'scajax', array(
 
 //Template initialization
 $templates = array('plantilla-steps.twig' );
-$context = Timber::get_context();
 
 //Project
 $project_slug = get_query_var( 'project' );
@@ -22,6 +21,10 @@ if ( ! empty ( $project_slug ) ) {
     $content_title = 'Col·laboreu en el projecte '. $projecte->post_title;
     $projecte->project_requirements = apply_filters('the_content', $projecte->project_requirements);
     $projecte->lectures_recomanades = apply_filters('the_content', $projecte->lectures_recomanades);
+
+    $context_filterer = new SC_ContextFilterer();
+    $context = $context_filterer->get_filtered_context( array('title' => $content_title . '| Softcatalà' ) );
+
     $context['projecte'] = $projecte;
 
     $args = array(
@@ -29,6 +32,7 @@ if ( ! empty ( $project_slug ) ) {
             get_meta_query_value('projectes', $projecte->ID, 'like', '')
         )
     );
+
     $context['membres'] = get_users( $args );
 } else {
     $content_title = 'Vull col·laborar';
@@ -42,6 +46,10 @@ if ( ! empty ( $project_slug ) ) {
             )
         )
     );
+
+    $context_filterer = new SC_ContextFilterer();
+    $context = $context_filterer->get_filtered_context( array('title' => $content_title . '| Softcatalà' ) );
+
     $projectes = Timber::get_posts($args);
     $context['projectes'] = $projectes;
     $context['post_lectures'] = $post = retrieve_page_data( 'lectures-recomanades' ); //looks for the page with slug lectures_recomanades-page
