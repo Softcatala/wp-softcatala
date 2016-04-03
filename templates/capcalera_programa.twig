@@ -37,7 +37,7 @@
                                     <em>
                                         {% if baixada.download_os|lower != 'multiplataforma' %}Per a{% endif %}
                                         {{ baixada.download_os }}
-                                        {% if baixada.download_os != 'android' and baixada.download_os != 'ios' %}
+                                        {% if baixada.arquitectura != 'generic' %}
                                             {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
                                         {% endif %}
                                         {% if baixada.download_version %}, versió {{ baixada.download_version }}{% endif %}
@@ -58,8 +58,8 @@
                                                 <span>
                                                     {% if baixada.download_os|lower != 'multiplataforma' %}Per a {% endif %}{{ baixada.download_os }}
                                                     <em>{% if baixada.download_version %}versió {{ baixada.download_version }}{% endif %}
-                                                        {% if baixada.arquitectura == 'x86_64'  %}
-                                                            (64 bits)
+                                                        {% if baixada.arquitectura != 'generic' %}
+                                                            {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
                                                         {% endif %}
                                                     {% if baixada.download_size %}({{ baixada.download_size }}){% endif %}
                                                     </em>
