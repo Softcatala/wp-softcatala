@@ -96,15 +96,11 @@ if( ! empty ( $paraula ) ) {
     }
 }
 
-$context_filterer = new SC_ContextFilterer();
+$context_filterer = new SC_ContextFilterer( $context_holder );
 
 $context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => $canonical );
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
-
-foreach ($context_holder as $key => $value ) {
-	$context[ $key ] = $value;
-}
 
 $context['post'] = $post;
 $context['paraula'] = $paraula;
