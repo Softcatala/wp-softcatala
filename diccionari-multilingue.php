@@ -40,15 +40,18 @@ if( ! empty ( $paraula ) ) {
             $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
             $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
 			
-			$title = $title . ': «' . $paraula . '» | Softcatalà';
+			$title = 'Diccionari multilingüe: ' . $paraula . '. Definició i traducció al català, anglès, alemany, francès, italià i espanyol | Softcatalà';
 			
-			$canonical = '/diccionari-multilingue/paraula/' . $paraula . '/';
 			if( isset( $llengua ) ) {
-				$canonical .= '?llengua=' . $llengua;
+				$canonical = '/diccionari-multilingue/paraula/' . $api_response[0]->word_ca . '/';
+			} else {
+				$canonical = '/diccionari-multilingue/paraula/' . $paraula . '/';
 			}
 			
 			if ( property_exists( $api_response[0], 'definition_ca' ) ) {
-				$description = 'Definició i traducció de «' . $paraula .'»: ' .  $api_response[0]->definition_ca;
+				$description = 'Definició de «' . $paraula .'»: ' .  $api_response[0]->definition_ca . '. Traduccions al català, anglès, alemany, francès, italià i espanyol';
+			} else {
+				$description = 'Definició de la paraula «' . $paraula .'» i traduccions al català, anglès, alemany, francès, italià i espanyol';
 			}
 			
             foreach ( $api_response as $single_entry ) {
