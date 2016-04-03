@@ -96,6 +96,16 @@ class SC_ContextFilterer {
 	}
 
 	/**
+	 * Prefixes the description
+	 *
+	 * @param string $description Original description.
+	 * @return string
+	 */
+	public function prefix_description ( $description ) {
+		return $this->description . $description;
+	}
+
+	/**
 	 * Replaces the canonical URL
 	 *
 	 * @param string $url Original canonical URL.
@@ -132,6 +142,12 @@ class SC_ContextFilterer {
 			$this->description = $args['description'];
 
 			add_filter( 'wpseo_metadesc', array( $this, 'change_description' ) );
+		}
+
+		if ( isset( $args['prefix_description'] ) ) {
+			$this->description = $args['prefix_description'];
+
+			add_filter( 'wpseo_metadesc', array( $this, 'prefix_description' ) );
 		}
 
 		if ( isset( $args['canonical'] ) ) {

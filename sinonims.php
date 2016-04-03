@@ -14,28 +14,44 @@ wp_localize_script( 'sc-js-sinonims', 'scajax', array(
 
 $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
 
-$context = Timber::get_context();
 $post = new TimberPost();
-$context['post'] = $post;
-$context['paraula'] = urldecode( get_query_var('paraula') );
-if( ! empty ( $context['paraula'] ) ) {
-    $paraula = $context['paraula'];
-    $url = $url_sinonims_server . $context['paraula'];
+$paraula = urldecode( get_query_var('paraula') );
+
+$content_title = 'Diccionari de sinònims';
+
+if( ! empty ( $paraula ) ) {
+
+    $url = $url_sinonims_server . $paraula;
     $sinonims_server = json_decode( file_get_contents( $url ) );
 
-    if($sinonims_server != 'error') {
+    if( $sinonims_server && $sinonims_server != 'error') {
         if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
             $sinonims['paraula'] = $paraula;
             $sinonims['response'] = $sinonims_server->synsets;
-            $context['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+			
+			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
+			$title = 'Diccionari de sinònims en català: «' . $paraula . '»';
+			$prefix_description = 'Sinònims de «' . $paraula . '» en català.';
+			$canonical = get_current_url();
+			
+            $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
         } else {
-            $context['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
+            $context_holder['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
         }
     } else {
-        $context['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
+        $context_holder['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
     }
 }
-$context['content_title'] = 'Diccionari de sinònims';
+
+$context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
+
+$context_filterer = new SC_ContextFilterer( $context_holder );
+
+$context = $context_filterer->get_filtered_context( $context_overrides, false);
+
+$context['post'] = $post;
+$context['paraula'] = $paraula;
+$context['content_title'] = $content_title;
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
