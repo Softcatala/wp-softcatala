@@ -36,9 +36,11 @@ if( ! empty ( $paraula ) ) {
 			
             $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
         } else {
+			throw_error('404', 'No Results For This Search');
             $context_holder['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
         }
     } else {
+		throw_error('500', 'Error connecting to API server');
         $context_holder['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
     }
 }
