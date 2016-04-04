@@ -239,7 +239,7 @@ function softcatala_scripts() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
     wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), '1.0.0', true );
-    wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), '1.0.0', true );
+    //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), '1.0.0', true );
     wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
@@ -888,4 +888,31 @@ function add_multilingue_stats($statistics, $key) {
 				$value += $wikidictionary[$key];
 		}
 		return $value;
+}
+
+
+/**
+ * Generate code for top ads
+ */
+function generate_ads_html( $banner_ids )
+{
+    $html_code = "<script type='text/javascript' src='/wp/../themes/wp-softcatala/static/js/ads.js?ver=1.0.0'></script>
+                    <div class='container-fluid' style='margin-bottom: -5px' class='hidden-xs'>
+                    <div style='float: left; width: 744px;'>
+                    <div style='float: left';>
+                            <img src='https://www.softcatala.org/img/publicitat.jpg'/>
+                            </div>
+                    <script type='text/javascript'>
+                        OA_show($banner_ids[0]);
+                    </script>
+                    </div>
+                    <div style='float: right; width: auto;' class='visible-lg-block'>
+                    <div style='float: left';>
+                            <img src='https://www.softcatala.org/img/publicitat.jpg'/>
+                            </div>
+                    <script type='text/javascript'>
+                        OA_show($banner_ids[1]);
+                    </script></div></div>";
+
+    return $html_code;
 }

@@ -24,6 +24,8 @@ $description = '';
 $canonical = '';
 
 $post = new TimberPost();
+//Ads
+$context['ads_container'] = generate_ads_html( array( '13', '17' ));
 
 $context_holder = array();
 

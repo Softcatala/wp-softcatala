@@ -11,6 +11,8 @@ wp_localize_script( 'sc-js-traductor', 'scajax', array(
 ));
 
 $context = Timber::get_context();
+//Ads
+$context['ads_container'] = generate_ads_html( array( '13', '17' ));
 $post = new TimberPost();
 $context['post'] = $post;
 $context['content_title'] = 'Traductor';
