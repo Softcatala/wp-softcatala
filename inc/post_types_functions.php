@@ -233,3 +233,96 @@ function send_subscription_to_mailinglist( $url ) {
 
     return $result;
 }
+
+/**
+ * Gets the term name from its slug
+ *
+ * @param $term_slug
+ * @param $taxonomy
+ * @return string
+ */
+function get_term_name_by_slug( $slug, $taxonomy ) {
+    $term = get_term_by( 'slug', $slug, $taxonomy );
+
+    return $term->name;
+}
+
+/**
+ * Function to get the category ID given a category slug
+ *
+ * @param $slug
+ * @return $int
+ */
+function get_category_id( $slug ) {
+    $category = get_category_by_slug($slug);
+    $category_id = $category->term_id;
+    return $category_id;
+}
+
+function retrieve_page_data($page_slug = '')
+{
+    //Actions to be taken depending on the post type
+    switch ($page_slug) {
+        case 'noticies':
+            $args = array(
+                'name' => 'noticies',
+                'post_type' => 'page'
+            );
+            $post = Timber::get_post($args);
+            break;
+        default:
+            $args = array(
+                'name' => $page_slug.'-page',
+                'post_type' => 'page'
+            );
+            $post = Timber::get_post($args);
+            break;
+    }
+
+    return $post;
+}
+
+
+/**
+ * Functions related to esdeveniments
+ *
+ * @return array
+ */
+function get_the_event_filters()
+{
+    $filtres = array(
+        array(
+            'link' => 'setmana',
+            'title' => 'Aquesta setmana'
+        ),
+        array(
+            'link' => 'setmanavinent',
+            'title' => 'La setmana vinent',
+        ),
+        array(
+            'link' => 'mes',
+            'title' => 'Aquest mes'
+        )
+    );
+    return $filtres;
+}
+
+/**
+ * Gets the filter date name from the filter date slug
+ *
+ * @param $filter_date_slug
+ * @return mixed
+ */
+function get_the_filter_date_name( $filter_date_slug )
+{
+    $filtres = get_the_event_filters();
+
+    foreach($filtres as $key => $item) {
+        if($item['link'] == $filter_date_slug) {
+            $result = $item['title'];
+            break;
+        }
+    }
+
+    return $result;
+}

@@ -9,9 +9,14 @@
 //JS and Styles related to the page
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
 
-//Template initialization
+$title = 'Projectes - Softcatalà';
+$description = 'Projectes de traducció o propis que Softcatalà ha desenvolupat per a contribuir a la millora del català a les noves tecnologies';
+//Context initialization
+$context_filterer = new SC_ContextFilterer();
+$context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => '' );
+$context = $context_filterer->get_filtered_context( $context_overrides, false );
+
 $templates = array( 'archive-projecte.twig' );
-$context = Timber::get_context();
 $post_type = get_query_var( 'post_type' );
 $post = retrieve_page_data( $post_type );
 $post ? $context['links'] = $post->get_field( 'link' ) : '';

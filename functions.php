@@ -354,65 +354,6 @@ function get_current_url($remove = false)
     return $current_url;
 }
 
-/**
- * Function to get the category ID given a category slug
- *
- * @param $slug
- * @return $int
- */
-function get_category_id( $slug ) {
-    $category = get_category_by_slug($slug);
-    $category_id = $category->term_id;
-    return $category_id;
-}
-
-function retrieve_page_data($page_slug = '')
-{
-    //Actions to be taken depending on the post type
-    switch ($page_slug) {
-        case 'noticies':
-            $args = array(
-                'name' => 'noticies',
-                'post_type' => 'page'
-            );
-            $post = Timber::get_post($args);
-            break;
-        default:
-            $args = array(
-                'name' => $page_slug.'-page',
-                'post_type' => 'page'
-            );
-            $post = Timber::get_post($args);
-            break;
-    }
-
-    return $post;
-}
-
-
-/*
- * Functions related to esdeveniments
- */
-
-function get_the_event_filters()
-{
-    $filtres = array(
-        array(
-            'link' => 'setmana',
-            'title' => 'Aquesta setmana'
-        ),
-        array(
-            'link' => 'setmanavinent',
-            'title' => 'La setmana vinent',
-        ),
-        array(
-            'link' => 'mes',
-            'title' => 'Aquest mes'
-        )
-    );
-    return $filtres;
-}
-
 abstract class SearchQueryType {
     const All = 0;
     const FilteredDate = 1;
@@ -550,16 +491,16 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             $filter_args['s'] = $filter['s'];
         }
 
-        if(!empty ($filter['sistema_operatiu'])) {
+        if(!empty ($filter['sistema-operatiu-programa'])) {
             $filter_args['tax_query'][] = array (
                 'taxonomy' => 'sistema-operatiu-programa',
                 'field' => 'slug',
                 'terms' => array (
-                    $filter['sistema_operatiu'],
+                    $filter['sistema-operatiu-programa'],
                     'multiplataforma'
                 )
             );
-            $filter_args['filter_sistema_operatiu'] = $filter['sistema_operatiu'];
+            $filter_args['filter_sistema_operatiu'] = $filter['sistema-operatiu-programa'];
         }
 
         if ( ! empty ( $filter['post__in'] ) ) {

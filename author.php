@@ -7,22 +7,30 @@
 //JS and Styles related to the page
 
 
-//Template initialization
-$data = Timber::get_context();
+$title = 'Membres - Softcatalà';
+$description = 'Membres, col·laboradors, gent de Softcatalà';
 
 if ( ! empty ( $wp_query->query_vars['author'] ) ) {
+    //Context initialization
     $template = array( 'single-author.twig' );
     $author = new TimberUser( $wp_query->query_vars['author'] );
-    $data['author'] = $author;
-    $data['author_role'] = get_user_role( $author );
-    $data['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
-    $data['author_image'] = get_avatar( $author->ID, 270 );
-    $data['content_title'] = 'Publicades per ' . $author->name();
+    $title = $author->name() . ' - Softcatalà';
+    $description = $author->description();
+
+    $context_filterer = new SC_ContextFilterer();
+    $context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => '' );
+    $context = $context_filterer->get_filtered_context( $context_overrides, false );
+
+    $context['author'] = $author;
+    $context['author_role'] = get_user_role( $author );
+    $context['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
+    $context['author_image'] = get_avatar( $author->ID, 270 );
+    $context['content_title'] = 'Publicades per ' . $author->name();
 
 	$projectes_ids = get_user_meta($author->ID, 'projectes', true);
 
 	if($projectes_ids) {
-		$data['projectes'] = array_map( function ($projecte_id) {
+		$context['projectes'] = array_map( function ($projecte_id) {
 			$_projecte = get_post($projecte_id);
 			return array(
 					'link' => get_post_permalink($projecte_id),
@@ -31,9 +39,13 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
 		}, $projectes_ids );
 	}
 } else {
+    $context_filterer = new SC_ContextFilterer();
+    $context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => '' );
+    $context = $context_filterer->get_filtered_context( $context_overrides, false );
+
     $template = array( 'archive-author.twig' );
     $post = new TimberPost();
-    $data['post'] = $post;
+    $context['post'] = $post;
     //Show only active members
     $args = array(
         'meta_query' => array(
@@ -41,9 +53,9 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
         )
     );
     $authors = get_users($args);
-    $data['authors'] = $authors;
-    $data['content_title'] = 'Membres de Softcatalà';
-    $data['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
+    $context['authors'] = $authors;
+    $context['content_title'] = 'Membres de Softcatalà';
+    $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 }
 
-Timber::render( $template, $data );
+Timber::render( $template, $context );

@@ -90,7 +90,7 @@ if( ! empty ( $paraula ) ) {
             $response['lletra'] = $lletra;
             $response['result'] = $api_response;
 			
-			$title = $title . ': paraules que comencen per ' . $lletra;
+			$title = 'Diccionari multilingüe: paraules que comencen per ' . $lletra;
 			$content_title =  'Diccionari multilingüe. Lletra «' . $lletra . '»';
 			
 			$canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
