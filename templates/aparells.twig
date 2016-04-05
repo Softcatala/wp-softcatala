@@ -122,7 +122,21 @@
                                             <div class="col-xxs-12 col-xs-8 col-sm-4">
                                                 <ul class="aparells_detail">
                                                     <li>Configuració en català<i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
-                                                    <li>Correcció ortogràfica en català<i class="fa {% if post.correccio_cat %}fa-check{% else %}fa-times {% endif %}"></i></li>
+                                                    <li>Correcció ortogràfica en català
+                                                        <i class="fa
+                                                        {% if post.correccio_cat == '1' %}
+                                                        fa-check
+                                                        {% else %}
+                                                        {% if post.correccio_cat == '3' %}
+                                                        fa-question
+                                                        {% else %}
+                                                        {% if post.correccio_cat == '2' %}
+
+                                                        {% else %}fa-times
+                                                        {% endif %}
+                                                        {% endif %}
+                                                        {% endif %}">
+                                                        </i></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -173,7 +187,14 @@
                                                             <li><strong>Fabricant</strong></li>
                                                             <li>{{ post.fabricant }}</li>
                                                             <li><strong>Inclou teclat predictiu en català?</strong></li>
-                                                            <li>{% if post.correccio_cat %}Sí{% else %}No{% endif %}</li>
+                                                            <li>{% if post.correccio_cat == '1' %}Sí
+                                                                {% else %}
+                                                                    {% if post.correccio_cat == '3' %}
+                                                                        Desconegut
+                                                                    {% else %}
+                                                                        No
+                                                                    {% endif %}
+                                                                {% endif %}</li>
                                                         </ul>
                                                     </div>
                                                     {% if post.thumbnail.src %}
