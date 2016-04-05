@@ -1,40 +1,58 @@
-
 {% extends "base.twig" %}
 
 {% block content %}
     <!-- .main .wrap-blanc -->
-    <main class="main wrap-blanc cd-main-content">
-      <!-- .main-header -->
+    <main class="main wrap-blanc">
+
+        <!-- .main-header -->
         {% include "contingut-header.twig" %}
-      <!--/.main-header -->
+        <!--/.main-header -->
 
-      <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
 
-        <div class="row">
+                <!-- .cont-aside-left -->
+                {% include "sidebar_planeta.twig" %}
+                <!--/.cont-aside-left -->
 
-          <!-- .contingut -->
-          <div class="contingut contingut-left col-sm-12 col-md-8">
+                <!-- .contingut -->
+                <div class="contingut blog col-sm-9">
+                    {%if feed.entries %}
+                        {% for item in feed.entries %}
 
-            <!-- .contingut-section  -->
-            <section class="contingut-section">
-                {%if feed.entries %}
-                    {% for item in feed.entries %}
-                    <div>
-                        <h2>{{item.entry_title}}</h2>
-                        <h3>{{item.blog_title}} | {{item.date | date('d/m/Y')}}</h3>
-                        <img src="{{item.image}}" />
-                        <div>
-                            {{item.html}}
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            </section><!--/.contingut-section  -->
-          </div><!--/.contingut -->
+                        <!-- .contingut-article -->
+                        <article class="contingut-article">
+                            <h2><a href="{{ item.entry_link }}">{{item.entry_title}}</a></h2>
+                            <!-- .article-cont - Extracte contingut article -->
+                            <div class="article-cont">
+                                <p>{{item.html|truncate(100)}}</p>
+                            </div><!--/.article-cont - Extracte contingut article -->
+                            <!-- .article-footer -->
+                            <footer class="article-footer">
+                                {% if item.image %}
+                                <img src="{{ item.image }}" height="48" alt="imatge {{ item.blog_title }}">
+                                {% endif %}
+                                <div class="info-usuari">
+                                    <a href="{{ item.entry_link }}">{{ item.blog_title }}</a>
+                                    <time class="data-temps" itemprop="dateCreated" datetime="{{item.date | date('Y-m-d')}}2015-10-03">{{item.date|date}}</time>
+                                </div>
+                            </footer><!--/.article-footer -->
+                            <hr class="clara">
+                        </article><!--/.contingut-article -->
 
-          {% include "sidebar_planeta.twig" %}
-          
-        </div><!--/.row -->
-      </div><!--/.container-fluid -->
+                        {% endfor %}
+                    {% else %}
+                        Actualment no hi ha cap article que mostrar al planeta de Softcatalà
+                    {% endif %}
+
+                </div><!--/.contingut -->
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
 {% endblock %}
