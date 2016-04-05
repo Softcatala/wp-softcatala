@@ -16,18 +16,17 @@ wp_enqueue_script( 'sc-js-noticies', get_template_directory_uri() . '/static/js/
 //Template initialization
 $templates = array( 'index.twig' );
 is_home() ? array_unshift( $templates, 'home.twig' ) : '';
-$context = Timber::get_context();
 $post = Timber::query_post( get_option( 'page_for_posts' ) );
-$context['post'] = $post;
-$context['content_title'] = 'Notícies';
-$context['links'] = $post->get_field( 'link' );
-$context['sidebar_top'] = Timber::get_widgets( 'sidebar_top' );
-$context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
-$context['sidebar_bottom'] = Timber::get_widgets( 'sidebar_bottom' );
+$context_holder['post'] = $post;
+$context_holder['content_title'] = 'Notícies';
+$context_holder['links'] = $post->get_field( 'link' );
+$context_holder['sidebar_top'] = Timber::get_widgets( 'sidebar_top' );
+$context_holder['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
+$context_holder['sidebar_bottom'] = Timber::get_widgets( 'sidebar_bottom' );
 
 //Filters population
-$context['categories']['temes'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'temes' ) ) );
-$context['categories']['tipus'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'tipus' ) ) );
+$context_holder['categories']['temes'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'temes' ) ) );
+$context_holder['categories']['tipus'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'tipus' ) ) );
 
 //Search and filters
 $search = get_query_var( 'cerca' );
@@ -35,10 +34,10 @@ $tipus = get_query_var( 'tipus' );
 $tema = get_query_var( 'tema' );
 
 if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
-	$context['cerca'] = $search;
-	$context['selected_tipus'] = $tipus;
-	$context['selected_tema'] = $tema;
-    $context['title'] = $search;
+	$context_holder['cerca'] = $search;
+	$context_holder['selected_tipus'] = $tipus;
+	$context_holder['selected_tema'] = $tema;
+	$context_holder['title'] = $search;
 
     $query['s'] = $search;
 	$query['categoria'] = array();
@@ -51,14 +50,27 @@ if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
 		$query['categoria'][] = $tipus_cat->term_id;
 	}
 
+	$title = 'Notícies - ';
+	(!empty( $search ) ? $title .= 'cerca: ' . $search . ' - ' : '');
+	(!empty( $tipus ) ? $title .= 'tipus: ' . get_term_name_by_slug ($tipus , 'category' ) . ' - ' : '');
+	(!empty( $tema ) ? $title .= 'tema: ' . get_term_name_by_slug ($tema , 'category' ) . ' - ' : '');
+	$title .= 'Softcatalà';
+
 	$args = get_post_query_args( 'post', SearchQueryType::Post, $query );
 } else {
+	$title = 'Notícies - Softcatalà';
     $args = $wp_query->query;
 }
 
 //Posts and pagination
 query_posts( $args );
-$context['posts'] = Timber::get_posts( $args );
-$context['pagination'] = Timber::get_pagination();
+$context_holder['posts'] = Timber::get_posts( $args );
+$context_holder['pagination'] = Timber::get_pagination();
+
+//Context initialization
+$description = 'Notícies de llengua catalana, tecnologia en català.';
+$context_filterer = new SC_ContextFilterer( $context_holder );
+$context_overrides = array( 'title' => $title, 'description' => $description );
+$context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 Timber::render( $templates, $context );

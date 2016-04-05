@@ -11,29 +11,30 @@ wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/
 
 $title = 'Projectes - Softcatalà';
 $description = 'Projectes de traducció o propis que Softcatalà ha desenvolupat per a contribuir a la millora del català a les noves tecnologies';
-//Context initialization
-$context_filterer = new SC_ContextFilterer();
-$context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => '' );
-$context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 $templates = array( 'archive-projecte.twig' );
 $post_type = get_query_var( 'post_type' );
 $post = retrieve_page_data( $post_type );
-$post ? $context['links'] = $post->get_field( 'link' ) : '';
-$context['post'] = $post;
-$context['content_title'] = 'Projectes';
-$context['post_type'] = $post_type;
-$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
-$context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-$context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
+$post ? $context_holder['links'] = $post->get_field( 'link' ) : '';
+$context_holder['post'] = $post;
+$context_holder['content_title'] = 'Projectes';
+$context_holder['post_type'] = $post_type;
+$context_holder['sidebar_top'] = Timber::get_widgets('sidebar_top');
+$context_holder['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
+$context_holder['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 
 //Contact Form Data
-$context['contact']['to_email'] = 'web@softcatala.org';
-$context['contact']['nom_from'] = 'Projectes de Softcatalà';
-$context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
+$context_holder['contact']['to_email'] = 'web@softcatala.org';
+$context_holder['contact']['nom_from'] = 'Projectes de Softcatalà';
+$context_holder['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
 
 //Posts and pagination
-$context['posts'] = Timber::get_posts();
-$context['pagination'] = Timber::get_pagination();
+$context_holder['posts'] = Timber::get_posts();
+$context_holder['pagination'] = Timber::get_pagination();
+
+//Context initialization
+$context_filterer = new SC_ContextFilterer( $context_holder );
+$context_overrides = array( 'title' => $title, 'description' => $description );
+$context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 Timber::render( $templates, $context );
