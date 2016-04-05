@@ -40,9 +40,13 @@
                                 <i class="fa fa-globe"></i>
                                 <ul class="lloc-web">
                                     <li>LLocs web</li>
-                                    {% for lloc_web in attribute(author,'wpcf-llocs_web') %}
-                                    <li><a href="{{ lloc_web }}">{{ lloc_web }}</a></li>
-                                    {% endfor %}
+                                    {% if attribute(author,'wpcf-llocs_web') is iterable %}
+                                        {% for lloc_web in attribute(author,'wpcf-llocs_web') %}
+                                        <li><a href="{{ lloc_web }}">{{ lloc_web }}</a></li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li><a href="{{ attribute(author,'wpcf-llocs_web') }}">{{ attribute(author,'wpcf-llocs_web') }}</a></li>
+                                    {% endif %}
                                 </ul>
                                 {% endif %}
                                 <hr>
