@@ -15,6 +15,8 @@ wp_localize_script( 'sc-js-sinonims', 'scajax', array(
 $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
 
 $post = new TimberPost();
+//Ads
+$context['ads_container'] = generate_ads_html( array( '13', '17' ));
 $paraula = urldecode( get_query_var('paraula') );
 
 $content_title = 'Diccionari de sinònims';
