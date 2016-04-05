@@ -33,7 +33,7 @@
                                 <img src="{{ item.image }}" height="48" alt="imatge {{ item.blog_title }}">
                                 {% endif %}
                                 <div class="info-usuari">
-                                    <a href="{{ item.entry_link }}">{{ item.blog_title }}</a>
+                                    <a href="{{ item.blog_link }}">{{ item.blog_title }}</a>
                                     <time class="data-temps" itemprop="dateCreated" datetime="{{item.date | date('Y-m-d')}}2015-10-03">{{item.date|date}}</time>
                                 </div>
                             </footer><!--/.article-footer -->
