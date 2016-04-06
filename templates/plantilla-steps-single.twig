@@ -1,0 +1,93 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+<!-- .main .wrap-blanc -->
+<main class="main wrap-blanc cd-main-content">
+
+    <!-- .main-header -->
+    {% include "contingut-header.twig" %}
+    <!--/.main-header -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- .contingut -->
+            <div class="contingut contingut-left col-sm-12 col-md-9">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    {% if steps %}
+                    <div class="bt-grup row">
+                        {% for step in steps %}
+                        <div class="col-xs-4"><button type="button" data-id="step_{{ loop.index }}" class="bt-basic steps {% if loop.first %}active{% endif %} segon"><span><i>0{{ loop.index }}</i><p>{{ step.step_title }}</p></span></button></div>
+                        {% endfor %}
+                        <ul class="titol-xxs visible-xxs-block">
+                            {% for step in steps %}
+                            <li>{{ step.step_title }}</li>
+                            <li {% if not loop.first %}class="hidden"{% endif %}>Lectures recomenades</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </header><!--/.contingut-header -->
+
+                <!-- section paragraf + llista elements icona -->
+                <section class="contingut-section">
+                    <!--.row -->
+                    {% for step in steps %}
+                    <div id="step_{{ loop.index }}" class="step_div" {% if not loop.first %}style="display: none;"{% endif %}>
+                        {{ step.step_content }}
+
+                        {% if loop.last %}
+                            {% if membres %}
+                            <h2>Col·laboradors</h2>
+                            <h3>Aquestes són les persones que actualment col·laboren en el projecte</h3>
+                            <div class="row">
+                                {% for membre in membres %}
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="thumbnail thumbnail-gris-img thumbnail-gris-img-petit">
+                                    <a class="member_project" href="/membres/{{ membre.user_nicename }}">
+                                        {{function('get_avatar', membre.ID, '127')}}
+                                        <div class="caption">
+                                            <h3>{{ membre.first_name }} {{ membre.last_name }}</h3>
+                                            <p>{{ membre.description|truncate(4) }}</p>
+                                            <span class="bt-aneu">
+                                            aneu-hi
+                                            <i class="fa fa-chevron-right"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <!-- .bt-seguent -->
+                    <div class="row">
+                        <div class="intern">
+                            <input type="hidden" name="projecte_id" id="projecte_id" value="{{ projecte.ID }}" />
+                            <button id="bt-next" type="button" class="bt-basic bt-seguent intern-center" {% if steps|length < 2 %}style="display:none"{% endif %}>següent</button>
+                            <button id="bt-last" type="button" data-target=".bs-formjoin-modal-lg" data-toggle="modal" class="bt-basic intern-center" {% if steps|length > 1 %}style="display:none"{% endif %}>Demaneu col·laborar en aquest projecte</button>
+                        </div>
+                    </div><!--/.bt-seguent -->
+                </section><!--/ section paragraf + llista elements icona -->
+            </div><!--/.contingut -->
+
+            {% include "sidebar.twig" %}
+        </div><!--/.row -->
+    </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "form-collaborar.twig" %}
+
+    {% include "template-avis.twig" %}
+
+
+{% endblock %}
