@@ -253,7 +253,7 @@ add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
  * @param string $url
  * @return string $caption
  */
-function get_caption_from_media_url( $attachment_url = '' ) {
+function get_caption_from_media_url( $attachment_url = '', $return_id = false ) {
 
     global $wpdb;
     $attachment_id = false;
@@ -282,6 +282,10 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 
     //Not in the original function from the author
     $attachment_meta = get_post_field('post_excerpt', $attachment_id);
+
+    if( $return_id ) {
+        return $attachment_id;
+    }
 
     return $attachment_meta;
 }
