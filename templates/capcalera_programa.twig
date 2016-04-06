@@ -25,7 +25,12 @@
                         {% if post.lloc_web_programa %}<li><strong>Lloc web:</strong> <a href="{{ post.lloc_web_programa }}">{{ post.lloc_web_programa }}</a></li>{% endif %}
                         <li></li>
                         {% if post.autor_traduccio %}<li><strong>Autor de la traducció:</strong> {{ post.autor_traduccio }}</li>{% endif %}
-                        {% if projecte_relacionat_url %}<li><strong>Projecte de traducció:</strong> <a href="{{ projecte_relacionat_url }}" title="{{ projecte_relacionat_name }}">{{ projecte_relacionat_name }}</a></li>{% endif %}
+                        {% if projecte_relacionat_url or post.external_project_url %}
+                        <li><strong>Projecte de traducció:</strong>
+                            {% if projecte_relacionat_url %}<a href="{{ projecte_relacionat_url }}" title="Projecte de traducció del {{ post.title }}">{{ projecte_relacionat_name }}</a>
+                            {% else %}<a href="{{ post.external_project_url }}" title="Projecte de traducció del {{ post.title }}">{{ post.external_project_url }}</a>{% endif %}
+                        </li>
+                        {% endif %}
                     </ul>
 
 
