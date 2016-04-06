@@ -375,7 +375,7 @@ abstract class SearchQueryType {
     const Post = 6;
     const PagePrograma = 7;
     const FilteredTema = 8;
-    const Baixada = 9;
+    const Projecte = 9;
 }
 
 /*
@@ -410,9 +410,34 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'paged' => get_is_paged(),
-                'posts_per_page' => 18
+                'posts_per_page' => 18,
+                'tax_query' => array(
+                    array (
+                        'taxonomy' => 'classificacio',
+                        'field' => 'slug',
+                        'terms' => 'arxivat',
+                        'operator'  => 'NOT IN'
+                    )
+                )
             );
             break;
+        case 'projecte':
+                $base_args = array(
+                    'post_type' => $post_type,
+                    'post_status'    => 'publish',
+                    'order'          => 'ASC',
+                    'paged' => get_is_paged(),
+                    'posts_per_page' => 18,
+                    'tax_query' => array(
+                        array (
+                            'taxonomy' => 'classificacio',
+                            'field' => 'slug',
+                            'terms' => 'arxivat',
+                            'operator'  => 'NOT IN'
+                        )
+                    )
+                );
+                break;
         case 'page':
             $base_args = array(
                 'post_type' => $post_type,
@@ -498,6 +523,14 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         }
     } else if ( $queryType == SearchQueryType::Programa ) {
         $filter_args = array();
+        //Avoid posts arxivats
+        $filter_args['tax_query'][] = array(
+            'taxonomy' => 'classificacio',
+            'field' => 'slug',
+            'terms' => 'arxivat',
+            'operator'  => 'NOT IN'
+        );
+
         if (!empty ($filter['s'])) {
             $filter_args['s'] = $filter['s'];
         }
@@ -526,7 +559,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             );
             $filter_args['filter_categoria'] = $filter['categoria-programa'];
         }
-    } else if ( $queryType == SearchQueryType::PagePrograma ) {
+    } else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::Projecte ) {
         $filter_args = array();
     } else if ( $queryType == SearchQueryType::FilteredTema ) {
         if (!empty ($filter)) {
