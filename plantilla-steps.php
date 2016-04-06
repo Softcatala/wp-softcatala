@@ -26,6 +26,8 @@ if ( ! empty ( $project_slug ) ) {
     $context = $context_filterer->get_filtered_context( array('title' => $content_title . '| Softcatalà' ) );
 
     $context['projecte'] = $projecte;
+    $context['steps'] = $projecte->get_field( 'steps' );
+    $templates = array('plantilla-steps-single.twig' );
 
     $args = array(
         'meta_query' => array(

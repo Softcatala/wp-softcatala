@@ -3,8 +3,8 @@
         <div class="gris-main-header">
             <div class="row">
                 <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
-                    {% if post.logotip %}
-                        <img class="img-responsive" src="{{ post.logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                    {% if logotip %}
+                        <img class="img-responsive" src="{{ logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
                     {% else %}
                         <i style="font-size: 152px" class="fa fa-cogs"></i>
                     {% endif %}
@@ -13,13 +13,14 @@
                     <h1>{{ post.title }}</h1>
                     <h2>{{ post.subtitle_projecte }}</h2>
                     <ul>
-                        <li>{{ post.autor_projecte }}</li>
-                        <li>{% if post.terms('llicencia') %}
-                                {% for term in post.terms('llicencia') %}
-                                    {{term.name}}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            {% endif %}</li>
-                        <li><a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>
+                        {% if post.lloc_web_projecte %}<li><strong>Lloc web</strong>: <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>{% endif %}
+                        {% if responsables %}
+                        <li><strong>Responsable</strong>:
+                        {% for responsable in responsables %}
+                            <a href="{{ responsable.url }}" title="Responsable del projecte {{ post.title }} - {{ responsable.name }}">{{ responsable.name }}</a>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        </li>
+                        {% endif %}
                     </ul>
                     <a href="/col·laboreu/projecte/{{ post.slug }}" title="Col·laboreu amb el projecte {{ post.title }} de Softcatalà" class="bt-download-invers bt-collaboreu"><i class="fa fa-user-plus"></i><span>Col&middot;laboreu amb el projecte</span></a>
                     <footer class="footer-main-header-gris">

@@ -22,7 +22,7 @@ jQuery('.steps').click(function(){
     }
 
     //Don't show the 'Demaneu col·laborar' button in the 3rd step
-    if(step_id[1] > 3) {
+    if(step_id[1] > 3 && ! jQuery('#projecte_id').length) {
         jQuery("#bt-last").hide();
     }
 });

@@ -29,7 +29,10 @@
                         <div class="thumbnail thumbnail-gris-img">
                             <a href="{{ post.link }}" title="{{ post.title }}">
                                 {% if post.logotip %}
-                                <img src="{{ post.logotip|resize(90, 90, 'top') }}" alt="logotip {{ post.title }}">
+                                {% set project_img = post.logotip|get_img_from_id %}
+                                    <div class="project_list_img">
+                                        <img src="{{ project_img|resize(90, 90, 'top') }}" alt="logotip {{ post.title }}">
+                                    </div>
                                 {% else %}
                                     <i style="font-size: 90px" class="fa fa-cogs"></i>
                                 {% endif %}

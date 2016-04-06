@@ -164,6 +164,7 @@ class StarterSite extends TimberSite {
         /* this is where you can add your own fuctions to twig */
         $twig->addExtension( new Twig_Extension_StringLoader() );
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
+        $twig->addFilter('get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
         return $twig;
@@ -253,7 +254,7 @@ add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
  * @param string $url
  * @return string $caption
  */
-function get_caption_from_media_url( $attachment_url = '' ) {
+function get_caption_from_media_url( $attachment_url = '', $return_id = false ) {
 
     global $wpdb;
     $attachment_id = false;
@@ -282,6 +283,10 @@ function get_caption_from_media_url( $attachment_url = '' ) {
 
     //Not in the original function from the author
     $attachment_meta = get_post_field('post_excerpt', $attachment_id);
+
+    if( $return_id ) {
+        return $attachment_id;
+    }
 
     return $attachment_meta;
 }
@@ -334,9 +339,15 @@ function print_definition( $def ) {
 
     return $result;
 }
+
 function trim_entries($entry) {
     $trimmed = trim($entry);
     return empty($trimmed) ? null : $trimmed;
+}
+
+function get_img_from_id( $img_id ) {
+    $image =  wp_get_attachment_image_src( $img_id );
+    return $image[0];
 }
 
 /**
@@ -364,7 +375,7 @@ abstract class SearchQueryType {
     const Post = 6;
     const PagePrograma = 7;
     const FilteredTema = 8;
-    const Baixada = 9;
+    const Projecte = 9;
 }
 
 /*
@@ -399,9 +410,34 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
                 'paged' => get_is_paged(),
-                'posts_per_page' => 18
+                'posts_per_page' => 18,
+                'tax_query' => array(
+                    array (
+                        'taxonomy' => 'classificacio',
+                        'field' => 'slug',
+                        'terms' => 'arxivat',
+                        'operator'  => 'NOT IN'
+                    )
+                )
             );
             break;
+        case 'projecte':
+                $base_args = array(
+                    'post_type' => $post_type,
+                    'post_status'    => 'publish',
+                    'order'          => 'ASC',
+                    'paged' => get_is_paged(),
+                    'posts_per_page' => 18,
+                    'tax_query' => array(
+                        array (
+                            'taxonomy' => 'classificacio',
+                            'field' => 'slug',
+                            'terms' => 'arxivat',
+                            'operator'  => 'NOT IN'
+                        )
+                    )
+                );
+                break;
         case 'page':
             $base_args = array(
                 'post_type' => $post_type,
@@ -487,6 +523,14 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
         }
     } else if ( $queryType == SearchQueryType::Programa ) {
         $filter_args = array();
+        //Avoid posts arxivats
+        $filter_args['tax_query'][] = array(
+            'taxonomy' => 'classificacio',
+            'field' => 'slug',
+            'terms' => 'arxivat',
+            'operator'  => 'NOT IN'
+        );
+
         if (!empty ($filter['s'])) {
             $filter_args['s'] = $filter['s'];
         }
@@ -515,7 +559,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             );
             $filter_args['filter_categoria'] = $filter['categoria-programa'];
         }
-    } else if ( $queryType == SearchQueryType::PagePrograma ) {
+    } else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::Projecte ) {
         $filter_args = array();
     } else if ( $queryType == SearchQueryType::FilteredTema ) {
         if (!empty ($filter)) {
@@ -782,12 +826,12 @@ add_shortcode( 'multilingue-stats', 'multilingue_stats' );
 
 function multilingue_stats() {
 	$url_api = get_option( 'api_diccionari_multilingue' );
-	
+
 	$api_call = do_json_api_call($url_api . '/statistics');
     $statistics = json_decode($api_call);
-	
+
 	$stats = '';
-	
+
 	if ( $statistics ) {
 		$ca_labels = add_multilingue_stats($statistics, 'ca_labels');
 		$ca_descs = add_multilingue_stats($statistics, 'ca_descs');
@@ -807,17 +851,17 @@ function multilingue_stats() {
 		?>
 		<i><small>
 			L'índex va ser actualitzat per últim cop el <?= $statistics->wikidata->date ?> i conté: <?=$ca_labels?>
-				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?> 
-				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès, 
-				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i 
-				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions 
+				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?>
+				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès,
+				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i
+				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions
 				en espanyol, i <?= $statistics->wikidata->images ?> imatges.
 		</small></i>
 		<?php
 
 		$stats = ob_get_clean();
 	}
-	
+
 	return $stats;
 }
 
