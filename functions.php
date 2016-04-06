@@ -164,6 +164,7 @@ class StarterSite extends TimberSite {
         /* this is where you can add your own fuctions to twig */
         $twig->addExtension( new Twig_Extension_StringLoader() );
         $twig->addFilter('get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ));
+        $twig->addFilter('get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
         return $twig;
@@ -338,9 +339,15 @@ function print_definition( $def ) {
 
     return $result;
 }
+
 function trim_entries($entry) {
     $trimmed = trim($entry);
     return empty($trimmed) ? null : $trimmed;
+}
+
+function get_img_from_id( $img_id ) {
+    $image =  wp_get_attachment_image_src( $img_id );
+    return $image[0];
 }
 
 /**
@@ -786,12 +793,12 @@ add_shortcode( 'multilingue-stats', 'multilingue_stats' );
 
 function multilingue_stats() {
 	$url_api = get_option( 'api_diccionari_multilingue' );
-	
+
 	$api_call = do_json_api_call($url_api . '/statistics');
     $statistics = json_decode($api_call);
-	
+
 	$stats = '';
-	
+
 	if ( $statistics ) {
 		$ca_labels = add_multilingue_stats($statistics, 'ca_labels');
 		$ca_descs = add_multilingue_stats($statistics, 'ca_descs');
@@ -811,17 +818,17 @@ function multilingue_stats() {
 		?>
 		<i><small>
 			L'índex va ser actualitzat per últim cop el <?= $statistics->wikidata->date ?> i conté: <?=$ca_labels?>
-				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?> 
-				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès, 
-				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i 
-				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions 
+				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?>
+				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès,
+				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i
+				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions
 				en espanyol, i <?= $statistics->wikidata->images ?> imatges.
 		</small></i>
 		<?php
 
 		$stats = ob_get_clean();
 	}
-	
+
 	return $stats;
 }
 

@@ -3,8 +3,8 @@
         <div class="gris-main-header">
             <div class="row">
                 <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
-                    {% if post.logotip %}
-                        <img class="img-responsive" src="{{ post.logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                    {% if logotip %}
+                        <img class="img-responsive" src="{{ logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
                     {% else %}
                         <i style="font-size: 152px" class="fa fa-cogs"></i>
                     {% endif %}
@@ -14,10 +14,10 @@
                     <h2>{{ post.subtitle_projecte }}</h2>
                     <ul>
                         {% if post.lloc_web_projecte %}<li><strong>Lloc web</strong>: <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>{% endif %}
-                        {% if post.responsable %}
+                        {% if responsables %}
                         <li><strong>Responsable</strong>:
-                        {% for resp in post.responsable %}
-                            <a href="{{ resp.url }}" title="Responsable del projecte {{ post.title }} - {{ resp.name }}">{{ resp.name }}</a>{% if not loop.last %}, {% endif %}
+                        {% for responsable in responsables %}
+                            <a href="{{ responsable.url }}" title="Responsable del projecte {{ post.title }} - {{ responsable.name }}">{{ responsable.name }}</a>{% if not loop.last %}, {% endif %}
                         {% endfor %}
                         </li>
                         {% endif %}
