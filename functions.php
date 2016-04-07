@@ -35,7 +35,7 @@ class StarterSite extends TimberSite {
         add_action( 'template_redirect', array( $this, 'sc_change_search_url_rewrite' ) );
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
         //SC Dashboard settings
-        add_action('admin_menu', array( $this, 'include_sc_settings' ));
+        add_action( 'admin_menu', array( $this, 'include_sc_settings' ));
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
@@ -902,3 +902,30 @@ function generate_ads_html( $banner_ids )
 
     return $html_code;
 }
+
+/**
+ * Sets the program so depending on the downloads so
+ *
+ */
+function align_downloads_programs_so( $post_id, $post )
+{
+    $slug = 'programa';
+    $post = get_post($post_id);
+
+    // If this isn't a 'book' post, don't update it.
+    if ( $slug != $post->post_type ) {
+        return;
+    }
+
+    $downloads = get_field( 'baixada' );
+
+    foreach ($downloads as $download) {
+        $id = term_exists( $download['download_os'], 'sistema-operatiu-programa' );
+        $terms[] = $id['term_id'];
+    }
+
+    //Set the operating system taxonomy for program
+    $terms = array_map( 'intval', $terms );
+    wp_set_object_terms( $post_id, $terms, 'sistema-operatiu-programa', false );
+}
+add_action( 'save_post', 'align_downloads_programs_so' );
