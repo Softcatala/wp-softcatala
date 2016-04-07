@@ -13,7 +13,7 @@
     <!-- #menu-lateral -->
     <ul class="nav collapse navbar-collapse" id="menu-lateral">
         {% for bloc in gent %}
-            <li><a href="{{ bloc.home }}"><i class="fa fa-angle-right"></i>{{ bloc.title }}</a></li>
+            <li>{{ bloc.rss_feed }}<a href="{{ bloc.home }}"><i class="fa fa-angle-right"></i>{{ bloc.title }}</a></li>
         {% endfor %}
     </ul><!--/#menu-lateral -->
 </aside><!--/.cont-aside-left -->
