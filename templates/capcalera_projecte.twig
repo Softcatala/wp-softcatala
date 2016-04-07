@@ -22,7 +22,17 @@
                         </li>
                         {% endif %}
                     </ul>
+                    {% set is_arxivat = false %}
+                    {% if post.terms('classificacio') %}
+                        {% for term in post.terms('classificacio') %}
+                            {% if term.slug == 'arxivat' %}
+                                {% set is_arxivat = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if not is_arxivat %}
                     <a href="/col·laboreu/projecte/{{ post.slug }}" title="Col·laboreu amb el projecte {{ post.title }} de Softcatalà" class="bt-download-invers bt-collaboreu"><i class="fa fa-user-plus"></i><span>Col&middot;laboreu amb el projecte</span></a>
+                    {% endif %}
                     <footer class="footer-main-header-gris">
                         {% include "share_links.twig" %}
                     </footer>
