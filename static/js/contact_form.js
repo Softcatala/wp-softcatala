@@ -31,7 +31,11 @@ $contactForm.on('submit', function(ev){
 function contact_form_ok(dt) {
     if (dt.type == 'message') {
         jQuery("#contingut-formulari").hide();
-        jQuery("#contingut-formulari-response").empty().html(dt.text).fadeIn();
+        if(!jQuery("#message_response").length) {
+            jQuery("#contingut-formulari-response").empty().html(dt.text).fadeIn();
+        } else {
+            jQuery("#contingut-formulari-response").fadeIn();
+        }
     }
 }
 
