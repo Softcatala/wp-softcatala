@@ -63,9 +63,9 @@ if ( ! empty ( $project_slug ) ) {
 
     $context = Timber::get_context();
 
-	$context['projectes'] = $projectes;
+	$context['projectes'] = $projects;
 
-    $context['steps'] = $projecte->get_field( 'steps' );
+    $context['steps'] = $post->get_field( 'steps' );
 }
 
 $post = new TimberPost();
