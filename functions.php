@@ -883,7 +883,7 @@ function generate_ads_html( $banner_ids )
 {
     $js_path = get_template_directory_uri() . '/static/js/ads.js';
     $html_code = "<script type='text/javascript' src='$js_path'></script>
-                    <div class='container-fluid' style='margin-bottom: -5px' class='hidden-xs'>
+                    <div class='container-fluid hidden-xs' style='margin-bottom: -5px'>
                     <div style='float: left; width: 744px;'>
                     <div style='float: left';>
                             <img src='https://www.softcatala.org/img/publicitat.jpg'/>
