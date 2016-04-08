@@ -1,6 +1,6 @@
 //Constant variables
 
-var traductor_json_url = "http://www.softcatala.org/apertium/json/translate";
+var traductor_json_url = "https://www.softcatala.org/apertium/json/translate";
 
 (function($) {
 //Set the initial default pairs on document ready
