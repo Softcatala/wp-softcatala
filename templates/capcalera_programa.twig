@@ -40,8 +40,10 @@
                                 <i class="fa fa-download"></i>
                                 <span>Baixa'l
                                     <em>
-                                        {% if baixada.download_os|lower != 'multiplataforma' %}Per a{% endif %}
-                                        {{ baixada.download_os }}
+                                        {% if baixada.download_os|lower != 'multiplataforma' %}
+                                        Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al{% endif %}
+                                        {% endif %}
+                                        {{ baixada.download_os|title }}
                                         {% if baixada.arquitectura != 'generic' %}
                                             {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
                                         {% endif %}
@@ -61,7 +63,9 @@
                                             <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers baixada_boto">
                                                 <i class="fa fa-{{ baixada.so_icona }}"></i>
                                                 <span>
-                                                    {% if baixada.download_os|lower != 'multiplataforma' %}Per a {% endif %}{{ baixada.download_os }}
+                                                    {% if baixada.download_os|lower != 'multiplataforma' %}
+                                                    Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al{% endif %}
+                                                    {% endif %}{{ baixada.download_os }}
                                                     <em>{% if baixada.download_version %}versió {{ baixada.download_version }}{% endif %}
                                                         {% if baixada.arquitectura != 'generic' %}
                                                             {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
