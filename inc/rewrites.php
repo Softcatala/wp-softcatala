@@ -68,7 +68,7 @@ function sc_custom__rewrite_rules($aRules) {
     $aRules = $aNewRules + $aRules;
 
     //Plantilla steps
-    $aNewRules = array('col·laboreu/projecte/([^/]+)/?' => 'index.php?post_type=page&pagename=col·laboreu&project=$matches[1]');
+    $aNewRules = array('col·laboreu/projecte/([^/]+)/?' => 'index.php?post_type=page&pagename=col·laboreu/projecte&project=$matches[1]');
     $aRules = $aNewRules + $aRules;
 
     //Plantilla steps

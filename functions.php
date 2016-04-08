@@ -11,6 +11,8 @@ if ( ! class_exists( 'Timber' ) && is_admin() ) {
     die();
 }
 
+include('inc/perfils.php');
+
 Timber::$dirname = array('templates', 'views');
 
 global $sc_types;

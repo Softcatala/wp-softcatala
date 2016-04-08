@@ -37,25 +37,35 @@ if ( ! empty ( $project_slug ) ) {
 
     $context['membres'] = get_users( $args );
 } else {
-    $content_title = 'Vull col·laborar';
-    $args = array(
+	$post = Timber::get_post();
+
+	$profile = $post->get_field('perfil');
+
+	if ( false === $profile || empty($profile)) {
+		wp_redirect( '/col·laboreu/', 302 );
+	}
+
+	$project_args = array(
         'post_type' => 'projecte',
-        'meta_query' => array(
-            array(
-                'key' => 'wpcf-arxivat_pr',
-                'value' => 0,
-                'compare' => '='
-            )
-        )
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'ajuda-projecte',
+				'field'    => 'slug',
+				'terms'    => $profile
+			)
+		),
+		'post_status' => 'publish',
+		'posts_per_page'=>-1
     );
 
-    $context_filterer = new SC_ContextFilterer();
-    $context = $context_filterer->get_filtered_context( array('title' => $content_title . '| Softcatalà' ) );
+	$projects = Timber::get_posts($project_args);
 
-    $projectes = Timber::get_posts($args);
-    $context['projectes'] = $projectes;
-    $context['post_lectures'] = $post = retrieve_page_data( 'lectures-recomanades' ); //looks for the page with slug lectures_recomanades-page
-    $context['post_requirements'] = $post = retrieve_page_data( 'projectes-requeriments' ); //looks for the page with slug projecte_requeriments-page
+
+    $context = Timber::get_context();
+
+	$context['projectes'] = $projectes;
+
+    $context['steps'] = $projecte->get_field( 'steps' );
 }
 
 $post = new TimberPost();
