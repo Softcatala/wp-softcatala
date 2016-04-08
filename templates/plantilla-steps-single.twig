@@ -45,7 +45,7 @@
                                 {% for membre in membres %}
                                 <div class="col-xs-12 col-sm-6">
                                     <div class="thumbnail thumbnail-gris-img thumbnail-gris-img-petit">
-                                    <a class="member_project" href="/membres/{{ membre.user_nicename }}">
+                                    <a class="member_project" href="/membres/{{ membre.user_nicename }}/">
                                         {{function('get_avatar', membre.ID, '127')}}
                                         <div class="caption">
                                             <h3>{{ membre.first_name }} {{ membre.last_name }}</h3>
