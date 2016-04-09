@@ -22,6 +22,7 @@ jQuery('#_action_consulta').click(function(){
 
         var url_history = '/diccionari-multilingue/paraula/'+query+'/' + lang_history;
         history.pushState(null, null, url_history);
+        jQuery("#content_header_title").html('Diccionari multilingüe: «'+query+'»');
 
         update_share_links(query);
 
@@ -85,20 +86,20 @@ jQuery('#source').typeahead(
         async: true,
         source: function(query, processSync, processAsync) {
             var lang = jQuery('#lang option:selected').val();
-   
+
             var xurl = scajax.autocomplete_url + query;
-            
+
             if ( lang ) {
                 xurl += '?lang=' + lang;
             }
-            
+
             jQuery.ajax({
               url: xurl,
               dataType: "json",
               success: function( data ) {
 
                 return processAsync ( data.words );
-              
+
               },
               error: function (textStatus, status, errorThrown) {
                   console.log(textStatus);
@@ -107,7 +108,7 @@ jQuery('#source').typeahead(
                 }
             });
         }
-}    
+}
 ).on('typeahead:selected', function(evt, item) {
     jQuery('#_action_consulta').trigger('click');
 });
