@@ -19,6 +19,8 @@ $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig'
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post_subpagina'] = $post_subpagina;
 $context['post'] = $post;
+$context['current_url'] = get_current_url();
+
 $query = array ( 'post_id' => $post_subpagina->projecte, 'subpage_type' => 'projecte' );
 
 //Related subpages
@@ -27,5 +29,3 @@ query_posts($args);
 $context['related_pages'] = Timber::get_posts($args);
 
 Timber::render( array( 'subpagina-type.twig' ), $context );
-
-

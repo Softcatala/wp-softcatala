@@ -39,6 +39,7 @@
                 </div>
             </div>
         </div>
+        {% if related_pages %}
         <div class="menu-main-header-gris">
             <!-- .boto-menu-lateral gris - xs -->
             <div class="visible-xs-block boto-menu-lateral">
@@ -50,14 +51,12 @@
             </div><!--/.boto-menu-lateral gris - xs -->
             <!-- #menu-lateral -->
             <ul class="nav collapse navbar-collapse" id="menu-lateral">
-                <li><a href="{{ post.link }}">Descripció</a></li>
-                {% if related_pages %}
-                    {% for page in related_pages %}
-                        <li><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
-                    {% endfor %}
-                {% endif %}
+                <li {% if post.link == current_url %}class="active"{% endif %}><a href="{{ post.link }}" title="Descripció del {{ post.title }}">Descripció</a></li>
+                {% for page in related_pages %}
+                <li {% if page.link == current_url %}class="active"{% endif %}><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
+                {% endfor %}
             </ul><!--/#menu-lateral -->
-
         </div>
+        {% endif %}
     </div>
 </header>
