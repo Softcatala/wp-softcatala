@@ -13,7 +13,7 @@ wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js
 wp_enqueue_script( 'sc-js-multilingue', get_template_directory_uri() . '/static/js/multilingue.js', array('sc-js-typeahead'), '1.0.0', true );
 wp_localize_script( 'sc-js-multilingue', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' ),
-	'autocomplete_url' => 'http://softcatala.local/diccionari-multilingue/api/autocomplete/'
+	'autocomplete_url' => $url_api . 'autocomplete/'
 ));
 
 
@@ -28,9 +28,9 @@ $canonical = '';
 
 $post = new TimberPost();
 //Ads
-$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
 
 $context_holder = array();
+$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
 
 if( ! empty ( $paraula ) ) {
     $url = $url_api.'search/' . $paraula;
