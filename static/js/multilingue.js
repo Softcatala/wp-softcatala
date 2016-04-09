@@ -13,8 +13,6 @@ jQuery('#_action_consulta').click(function(){
     var query = jQuery('#source').val();
     var lang = jQuery('#lang option:selected').val();
 
-    return;
-
     if (query) {
         jQuery("#loading").show();
         var lang_history = '';
