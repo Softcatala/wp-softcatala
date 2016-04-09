@@ -11,11 +11,11 @@ var SC_COOKIE = 'sc-languagetool';
       $("#mes_opcions").toggle($(this).is(':checked'));
     });
 
-    $('#submit').click(function() {
+    $('.submit').click(function() {
       doit();
       return false;
     });
-	
+
 	$('#text_prova').click(function() {
 		insertDemoText();
 	});
@@ -83,7 +83,7 @@ var SC_COOKIE = 'sc-languagetool';
     },
     languagetool_i18n_suggest_word :
     {
-    // "Suggest word for dictionary...": 
+    // "Suggest word for dictionary...":
     // *** Also set languagetool_i18n_suggest_word_url below if you set this ***
 	'ca': 'Suggereix un mot per al diccionari...',
 	'ca-ES-valencia': 'Suggereix un mot per al diccionari...'
@@ -233,5 +233,5 @@ var SC_COOKIE = 'sc-languagetool';
 function insertDemoText()
 {
    var myDemoText="Aquests frases servixen per a probar algun de les errades que detecta el corrector gramaticals. Proveu les variants de flexió verbal: penso, pense, pens. L'accentuació valenciana o general: café o cafè. Paraules errònies segons el context: Et menjaràs tots els canalons? Li va infringir un càstig sever. Errors de sintaxi: la persona amb la que vaig parlar. I algunes altres opcions: Quan es celebrarà la festa?";
-   tinyMCE.activeEditor.setContent(myDemoText);   
+   tinyMCE.activeEditor.setContent(myDemoText);
 }
