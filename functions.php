@@ -241,7 +241,10 @@ function softcatala_scripts() {
     wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
     wp_enqueue_script( 'jquery' );
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
+	wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), '1.0' );
     wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), '1.0.0', true );
+	wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), '1.0.0', true );
+	wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), '1.0.0', true );
     //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), '1.0.0', true );
     wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), '1.0.0', true );
 }
