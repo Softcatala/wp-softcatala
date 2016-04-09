@@ -364,7 +364,7 @@ function exchange_texts() {
     var translation_text = jQuery('.second-textarea').html();
     var original_text = jQuery('.primer-textarea').val();
     jQuery('.second-textarea').html(original_text);
-    jQuery('.primer-textarea').val(translation_text);
+    jQuery('.primer-textarea').val(translation_text.replace(/<(?:.|\n)*?>/gm, ''));
 }
 /** End functions related to language pairs change **/
 

@@ -69,10 +69,13 @@
 
                     </section><!--/.formulari-eines  -->
 
+                    {% if post.content %}
                     <!-- .contingut-section  -->
                     <section class="contingut-section">
                         {{post.content}}
-                    </section><!--/.contingut-section  -->
+                    </section>
+                    <!--/.contingut-section  -->
+                    {% endif %}
                 </div><!--/.contingut -->
 
                 {% include "sidebar_recursos.twig" %}

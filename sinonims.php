@@ -16,7 +16,7 @@ $url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=ap
 
 $post = new TimberPost();
 //Ads
-$context['ads_container'] = generate_ads_html( array( '13', '17' ));
+$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
 $paraula = urldecode( get_query_var('paraula') );
 
 $content_title = 'Diccionari de sinònims';
@@ -30,12 +30,12 @@ if( ! empty ( $paraula ) ) {
         if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
             $sinonims['paraula'] = $paraula;
             $sinonims['response'] = $sinonims_server->synsets;
-			
+
 			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
 			$title = 'Diccionari de sinònims en català: «' . $paraula . '»';
 			$prefix_description = 'Sinònims de «' . $paraula . '» en català.';
 			$canonical = get_current_url();
-			
+
             $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
         } else {
 			throw_error('404', 'No Results For This Search');

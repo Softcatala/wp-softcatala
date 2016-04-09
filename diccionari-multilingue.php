@@ -25,7 +25,7 @@ $canonical = '';
 
 $post = new TimberPost();
 //Ads
-$context['ads_container'] = generate_ads_html( array( '13', '17' ));
+$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
 
 $context_holder = array();
 
@@ -44,22 +44,22 @@ if( ! empty ( $paraula ) ) {
         if ( isset( $api_response[0] ) ) {
             $resultat_string = ( count($api_response) > 1 ? 'resultats' : 'resultat');
             $result = 'Resultats de la cerca per: <strong>'.$paraula.'</strong> ('.count($api_response).' '.$resultat_string.') <hr class="clara"/>';
-			
+
 			$title = 'Diccionari multilingüe: ' . $paraula . '. Definició i traducció al català, anglès, alemany, francès, italià i espanyol | Softcatalà';
 			$content_title =  'Diccionari multilingüe: «' . $paraula . '»';
-			
+
 			if( isset( $llengua ) ) {
 				$canonical = '/diccionari-multilingue/paraula/' . $api_response[0]->word_ca . '/';
 			} else {
 				$canonical = '/diccionari-multilingue/paraula/' . $paraula . '/';
 			}
-			
+
 			if ( property_exists( $api_response[0], 'definition_ca' ) ) {
 				$description = 'Definició de «' . $paraula .'»: ' .  $api_response[0]->definition_ca . '. Traduccions al català, anglès, alemany, francès, italià i espanyol';
 			} else {
 				$description = 'Definició de la paraula «' . $paraula .'» i traduccions al català, anglès, alemany, francès, italià i espanyol';
 			}
-			
+
             foreach ( $api_response as $single_entry ) {
                 $response['paraula'] = $paraula;
                 $response['source'] = get_source_link($single_entry);
@@ -89,10 +89,10 @@ if( ! empty ( $paraula ) ) {
         if ( $api_response ) {
             $response['lletra'] = $lletra;
             $response['result'] = $api_response;
-			
+
 			$title = 'Diccionari multilingüe: paraules que comencen per ' . $lletra;
 			$content_title =  'Diccionari multilingüe. Lletra «' . $lletra . '»';
-			
+
 			$canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
 
             $context_holder['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));

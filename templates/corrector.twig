@@ -27,21 +27,24 @@
               </form><!--/.formulari  -->
                 <p class="fons-gris"><strong>Resultats</strong>. Apareixeran subratllats errors ortogràfics, errors gramaticals o tipogràfics i recomanacions d'estil. Fent clic en les paraules assenyalades, obtindreu suggeriments de correcció, si n'hi ha. Els resultats són orientatius i en cap cas poden substituir una revisió experta. </p>
                 <p class="fons-gris">
-                    <strong>Opcions</strong>. Trieu entre formes generals, valencianes i balears. Aquestes opcions afecten principalment la flexió verbal. Podeu configurar altres opcions (més nombroses en el cas valencià) fent clic en «Més opcions». 
-                    També podeu usar LanguageTool com a complement de 
-                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-libreoffice-apache-openoffice/">LibreOffice/OpenOffice</a>, 
-                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-firefox/">Firefox</a>, 
-                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-chrome/">Chrome</a>, 
-                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-microsoft-word/">MS Word (Windows)</a> 
-                    o com a corrector de sistema a 
+                    <strong>Opcions</strong>. Trieu entre formes generals, valencianes i balears. Aquestes opcions afecten principalment la flexió verbal. Podeu configurar altres opcions (més nombroses en el cas valencià) fent clic en «Més opcions».
+                    També podeu usar LanguageTool com a complement de
+                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-libreoffice-apache-openoffice/">LibreOffice/OpenOffice</a>,
+                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-firefox/">Firefox</a>,
+                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-chrome/">Chrome</a>,
+                    <a href="/programes/corrector-gramatical-en-catala-languagetool-per-al-microsoft-word/">MS Word (Windows)</a>
+                    o com a corrector de sistema a
                     <a href="https://play.google.com/store/apps/details?id=org.softcatala.corrector">Android</a>.</p>
             </section><!--/.formulari-eines -->
 
 
+            {% if post.content %}
             <!-- .contingut-section  -->
             <section class="contingut-section">
                 {{post.content}}
-            </section><!--/.contingut-section  -->
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
           </div><!--/.contingut -->
 
           {% include "sidebar_recursos.twig" %}
