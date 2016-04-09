@@ -19,6 +19,8 @@ $context_holder['links'] = $post->get_field( 'link' );
 $context_holder['credits'] = $post->get_field( 'credit' );
 $context_holder['parent_title'] = $parent_data['title'];
 $context_holder['page_hierarchy'] = wp_list_subpages($parent_data['id']);
+//Stats data
+$json_path = ABSPATH."../aparells.json";
 $context_holder['stats_aparells'] = json_decode( file_get_contents( $json_path ) );
 
 //Filters population
@@ -29,9 +31,6 @@ $context_holder['categories']['tipus'] = Timber::get_terms('tipus_aparell');
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $tipus_aparell = get_query_var( 'tipus_aparell' );
-
-//Stats data
-$json_path = ABSPATH."../aparells.json";
 
 //Generate $args query
 if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) ) {
