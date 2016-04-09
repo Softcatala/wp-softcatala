@@ -34,7 +34,7 @@
                 <input id="comment_post_ID" type="hidden" value="{{ post.ID }}" name="comment_post_ID">
                 <input id="comment_parent_{{ post.ID }}" type="hidden" value="0" name="comment_parent">
                <button class="bt-basic bt-basic-vermell-fosc" type="submit">envia</button>
-               <button class="bt-basic bt-basic-gris" type="button" id="hide_clean_form">cancel·la</button>
+               <button class="bt-basic bt-basic-gris hide_clean_form" data-id="{{ post.ID }}" type="button">cancel·la</button>
           </div>
       </div><!--/botons -->
     </form>
