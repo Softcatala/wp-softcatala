@@ -1,8 +1,10 @@
 <?php
-
 $templates = array( 'archive-esdeveniment.twig' );
 
-$context = Timber::get_context();
+$title = 'Esdeveniments: ' . single_term_title('', false). ' - Softcatalà';
+
+$contextFilterer = new SC_ContextFilterer();
+$context = $contextFilterer->get_filtered_context( array( 'title' => $title ) );
 
 $post = retrieve_page_data('esdeveniment');
 $context['cat_link'] = get_term_link( get_query_var( 'term'), 'esdeveniment_cat' );
