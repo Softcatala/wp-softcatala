@@ -23,7 +23,6 @@ $context = Timber::get_context();
 $context['ads_container'] = generate_ads_html( array( '13', '17' ));
 $post = new TimberPost();
 $context['post'] = $post;
-$context['content_title'] = 'Corrector';
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
