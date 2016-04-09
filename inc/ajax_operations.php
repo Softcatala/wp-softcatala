@@ -25,37 +25,6 @@ add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
 /** DICCIONARI MULTILINGÜE */
 add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
 add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
-add_action( 'wp_ajax_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
-add_action( 'wp_ajax_nopriv_multilingue_autocomplete', 'sc_multilingue_autocomplete' );
-
-/**
- * Retrieves the results from the Multilingüe API server given a word + language
- *
- * @return json response
- */
-function sc_multilingue_autocomplete() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $result = false;
-    } else {
-        $paraula = sanitize_text_field( $_POST["paraula"] );
-        $lang = sanitize_text_field( $_POST["lang"] );
-
-        $url_api = get_option( 'api_diccionari_multilingue' );
-        $url = $url_api.'autocomplete/'.$paraula.'?lang='.$lang;
-
-        $api_response = json_decode( do_json_api_call($url) );
-
-        if($api_response) {
-            $result = $api_response;
-        } else {
-            throw_error('500', 'Error connecting to API server');
-            $result = false;
-        }
-    }
-
-    echo json_encode(  $result );
-    die();
-}
 
 /**
  * Retrieves the results from the Multilingüe API server given a word + language

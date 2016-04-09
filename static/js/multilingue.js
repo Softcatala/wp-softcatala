@@ -13,6 +13,8 @@ jQuery('#_action_consulta').click(function(){
     var query = jQuery('#source').val();
     var lang = jQuery('#lang option:selected').val();
 
+    return;
+
     if (query) {
         jQuery("#loading").show();
         var lang_history = '';
@@ -83,31 +85,31 @@ jQuery('#source').typeahead(
         delay: 3500,
         limit: 12,
         async: true,
-        source: get_autocomplete_words
-    }
+        source: function(query, processSync, processAsync) {
+            var lang = jQuery('#lang option:selected').val();
+   
+            var xurl = scajax.autocomplete_url + query;
+            
+            if ( lang ) {
+                xurl += '?lang=' + lang;
+            }
+            
+            jQuery.ajax({
+              url: xurl,
+              dataType: "json",
+              success: function( data ) {
+
+                return processAsync ( data.words );
+              
+              },
+              error: function (textStatus, status, errorThrown) {
+                  console.log(textStatus);
+                  console.log(status);
+                  console.log(errorThrown);
+                }
+            });
+        }
+}    
 ).on('typeahead:selected', function(evt, item) {
     jQuery('#_action_consulta').trigger('click');
 });
-
-function get_autocomplete_words (query, processSync, processAsync) {
-    var lang = jQuery('#lang option:selected').val();
-
-    //Data
-    var post_data = new FormData();
-    post_data.append('paraula', query);
-    post_data.append('lang', lang);
-    post_data.append('action', 'multilingue_autocomplete');
-    post_data.append('_wpnonce', jQuery('input[name=_wpnonce_auto]').val());
-
-    jQuery.ajax({
-        url: scajax.ajax_url,
-        type: 'POST',
-        data: post_data,
-        dataType: 'json',
-        contentType: false,
-        processData: false,
-        success: function (json) {
-            return processAsync(json.words);
-        }
-    });
-}
