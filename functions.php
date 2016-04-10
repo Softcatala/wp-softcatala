@@ -169,6 +169,7 @@ class StarterSite extends TimberSite {
         $twig->addFilter('get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
+		$twig->addFilter('clean_number', new Twig_SimpleFilter( 'clean_number', 'clean_number' ));
         return $twig;
     }
 
@@ -321,6 +322,15 @@ function get_source_link($result) {
     }
 
     return $value;
+}
+
+/**
+ * Removees useless decimal 0
+ * @param string $n number to clean.
+ * @return string
+ */
+function clean_number ( $n ) {
+	return str_replace( ',00', '', $n );
 }
 
 /**
