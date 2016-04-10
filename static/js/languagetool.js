@@ -85,8 +85,8 @@ var SC_COOKIE = 'sc-languagetool';
     {
     // "Suggest word for dictionary...":
     // *** Also set languagetool_i18n_suggest_word_url below if you set this ***
-	'ca': 'Suggereix un mot per al diccionari...',
-	'ca-ES-valencia': 'Suggereix un mot per al diccionari...'
+	'ca': 'Suggereix una paraula per al diccionari...',
+	'ca-ES-valencia': 'Suggereix una paraula per al diccionari...'
     },
     languagetool_i18n_suggest_word_url :
     {
