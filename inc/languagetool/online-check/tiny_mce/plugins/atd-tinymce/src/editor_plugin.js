@@ -108,7 +108,7 @@
          ed.core = core;
 
          /* add a command to request a document check and process the results. */
-         editor.addCommand('mceWritingImprovementTool', function(languageCode)
+         editor.addCommand('mceWritingImprovementTool', function(languageCode, catOptions)
          {
              
             if (plugin.menuVisible) {
@@ -127,7 +127,7 @@
 
             /* send request to our service */
             var textContent = plugin.editor.core.getPlainText();
-            plugin.sendRequest('checkDocument', textContent, languageCode, function(data, request, someObject)
+            plugin.sendRequest('checkDocument', textContent, languageCode, catOptions, function(data, request, someObject)
             {
                /* turn off the spinning thingie */
                plugin.editor.setProgressState(0);
@@ -181,9 +181,9 @@
          editor.onClick.add(plugin._showMenu, plugin);
 
          /* comment this in and comment out the line below to get the browser's standard context menu on right click: */
-         //editor.onContextMenu.add(plugin._showMenu, plugin);
+         editor.onContextMenu.add(plugin._showMenu, plugin);
          // without this, the context menu opens but nothing in it can be selected:
-         editor.onContextMenu.add(plugin._doNotShowMenu, plugin);
+         //editor.onContextMenu.add(plugin._doNotShowMenu, plugin);
 
          /* strip out the markup before the contents is serialized (and do it on a copy of the markup so we don't affect the user experience) */
          editor.onPreProcess.add(function(sender, object) 
@@ -192,7 +192,7 @@
 
             each(dom.select('span', object.node).reverse(), function(n) 
             {
-               if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == "" && !dom.hasClass(n, 'Apple-style-span') && dom.getAttrib(n, 'mce_name') == ""))) 
+               if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenGreenError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == "" && !dom.hasClass(n, 'Apple-style-span') && dom.getAttrib(n, 'mce_name') == ""))) 
                {
                   dom.remove(n, 1);
                }
@@ -309,7 +309,7 @@
 
                for (var i = 0; i < errorDescription["suggestions"].length; i++)
                {
-                  if (i >= 8) { //max number of suggestions shown
+                  if (i >= 10) { //max number of suggestions shown
                       break;
                   }
                   (function(sugg)
@@ -329,10 +329,36 @@
             }
              
             var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
-            var explainText = plugin.editor.getParam('languagetool_i18n_explain')[lang] || "No errors were found.";
+            var explainText = plugin.editor.getParam('languagetool_i18n_explain')[lang] || "Explain...";
             var ignoreThisText = plugin.editor.getParam('languagetool_i18n_ignore_once')[lang] || "Ignore this error";
-            var ignoreThisKindOfErrorText = plugin.editor.getParam('languagetool_i18n_ignore_all')[lang] || "Ignore this kind of error";
-             
+            var ruleImplementation = "Rule implementation";
+            if (plugin.editor.getParam('languagetool_i18n_rule_implementation')) {
+              ruleImplementation = plugin.editor.getParam('languagetool_i18n_rule_implementation')[lang] || "Rule implementation";
+            }
+            var suggestWord = "Suggest word for dictionary...";
+            if (plugin.editor.getParam('languagetool_i18n_suggest_word')) {
+              suggestWord = plugin.editor.getParam('languagetool_i18n_suggest_word')[lang] || "Suggest word for dictionary...";
+            }
+            var suggestWordUrl;
+            if (plugin.editor.getParam('languagetool_i18n_suggest_word_url')) {
+              suggestWordUrl = plugin.editor.getParam('languagetool_i18n_suggest_word_url')[lang];
+            }
+            var ruleId = errorDescription["id"];
+            var isSpellingRule = ruleId.indexOf("MORFOLOGIK_RULE") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
+            if (suggestWord && suggestWordUrl && isSpellingRule) {
+              var newUrl = suggestWordUrl.replace(/{word}/, encodeURIComponent(errorDescription['coveredtext']));
+              (function(url)
+              {
+                m.add({
+                  title : suggestWord,
+                  onclick : function() { window.open(newUrl, '_suggestWord'); }
+                });
+              })(errorDescription[suggestWord]);
+              m.addSeparator();
+            }
+
+            //var ignoreThisKindOfErrorText = plugin.editor.getParam('languagetool_i18n_ignore_all')[lang] || "Ignore this kind of error";
+            
             if (errorDescription != undefined && errorDescription["moreinfo"] != null)
             {
                (function(url)
@@ -342,7 +368,6 @@
                      onclick : function() { window.open(url, '_errorExplain'); }
                   });
                })(errorDescription["moreinfo"]);
-
                m.addSeparator();
             }
 
@@ -354,8 +379,21 @@
                   t._checkDone();
                }
             });
-
+	    /*
+	    var langCode = lang; //$('#lang').val();
+            // NOTE: this link won't work (as of March 2014) for false friend rules:
+            var ruleUrl = "http://community.languagetool.org/rule/show/" +
+              encodeURI(errorDescription["id"]) + "?";
+            if (errorDescription["subid"] && errorDescription["subid"] != 'null') {
+              ruleUrl += "subId=" + encodeURI(errorDescription["subid"]) + "&";
+            }
+            ruleUrl += "lang=" + encodeURI(langCode);
             m.add({
+               title : ruleImplementation,
+               onclick : function() { window.open(ruleUrl, '_blank'); }
+	       });
+	    */
+            /*m.add({
               title : ignoreThisKindOfErrorText,
               onclick : function() 
               {
@@ -364,7 +402,7 @@
                  t._removeWordsByRuleId(ruleId);
                  t._checkDone();
               }
-           });
+           });*/
 
            /* show the menu please */
            ed.selection.select(e.target);
@@ -431,60 +469,101 @@
          plugin.editor.nodeChanged();
       },
 
-      sendRequest : function(file, data, languageCode, success)
+      sendRequest : function(file, data, languageCode, catOptions, success)
       {
          var url = this.editor.getParam("languagetool_rpc_url", "{backend}");
          var plugin = this;
+				 /*alert(data);*/
          if (url == '{backend}') 
          {
             this.editor.setProgressState(0);
             alert('Please specify: languagetool_rpc_url');
             return;
          }
+         
          //Catalan options
          var enable="";
          var disable="";
-         var formes_verbals = plugin.editor.getParam('languagetool_ca_formes_verbals')();
-         var accentuacio = plugin.editor.getParam('languagetool_ca_accentuacio')();
-         switch(formes_verbals)
-					{
-					case "v_valencians":
-						enable = "EXIGEIX_VERBS_VALENCIANS";
-					  disable = "EXIGEIX_VERBS_CENTRAL";
-					  break;
-					case "v_balears":
-					  enable = "EXIGEIX_VERBS_BALEARS";
-					  disable = "EXIGEIX_VERBS_CENTRAL";
-					  break;
-					}
-					switch(accentuacio)
-					{
-					 case "a_valenciana":
-						enable = enable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
-					  disable = disable + ",EXIGEIX_ACCENTUACIO_GENERAL";
-					  break;
-					}
-					url = url + "&enabled="+enable+"&disabled="+disable;
+         if (catOptions.indexOf("formes_generals")>=0)
+		 {
+				enable = "EXIGEIX_VERBS_CENTRAL,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+				disable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_VERBS_BALEARS";
+		 }
+		 else if (catOptions.indexOf("formes_balears")>=0)
+		 {
+				enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+				disable = "EXIGEIX_VERBS_CENTRAL";
+		 }
+		 else if (catOptions.indexOf("formes_valencianes")>=0)
+		 {
+				enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
+				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
+				 
+				//opcions dins de les formes valencianes
+				if (catOptions.indexOf("accentuacio_valenciana")>=0)
+				{
+					enable = enable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+				  disable = disable + ",EXIGEIX_ACCENTUACIO_GENERAL";
+				};
+				if (catOptions.indexOf("incoatius_eix")>=0)
+				{
+					enable = enable + ",EXIGEIX_VERBS_EIX";
+				  disable = disable + ",EXIGEIX_VERBS_IX";
+				}
+				else
+				{
+					enable = enable + ",EXIGEIX_VERBS_IX";
+				  disable = disable + ",EXIGEIX_VERBS_EIX";
+				};
+				if (catOptions.indexOf("incoatius_isc")>=0)
+				{
+					enable = enable + ",EXIGEIX_VERBS_ISC";
+				  disable = disable + ",EXIGEIX_VERBS_ESC";
+				} 
+				else
+				{
+					enable = enable + ",EXIGEIX_VERBS_ESC";
+				  disable = disable + ",EXIGEIX_VERBS_ISC";
+				};
+				if (catOptions.indexOf("demostratius_aquest")>=0)
+				{
+					enable = enable + ",EVITA_DEMOSTRATIUS_ESTE";
+				  disable = disable + ",EVITA_DEMOSTRATIUS_AQUEST";
+				}
+				else
+				{
+					enable = enable + ",EVITA_DEMOSTRATIUS_AQUEST,EVITA_DEMOSTRATIUS_AQUEIX";
+				  disable = disable + ",EVITA_DEMOSTRATIUS_ESTE";
+				};
+		 }
+		 //opcions per a totes les variants territorials
+		 if (catOptions.indexOf("SE_DAVANT_SC")>=0)
+		 {
+				enable = enable + ",SE_DAVANT_SC";
+		 }
+		 else
+		 {
+			  disable = disable + ",SE_DAVANT_SC";
+		 };
+		 if (catOptions.indexOf("CA_UNPAIRED_QUESTION")>=0)
+		 {
+				enable = enable + ",CA_UNPAIRED_QUESTION";
+		 }
+		 else
+		 {
+			  disable = disable + ",CA_UNPAIRED_QUESTION";
+		 };
 				 //End of Catalan options
-   
-        /*
-         jQuery.ajax({
-            url:   url + "/" + file,
-            type:  "POST",
-            data:  "text=" + encodeURI(data).replace(/&/g, '%26') + "&language=" + encodeURI(languageCode),
-            success: success,
-            error: function(jqXHR, textStatus, errorThrown) {
-               plugin.editor.setProgressState(0);
-               alert("Could not send request to\n" + url + "\nError: " + textStatus + "\n" + errorThrown + "\nPlease make sure your network connection works."); 
-            }
-         });*/
+
    
          tinymce.util.XHR.send({
             url          : url + "/" + file,
             content_type : 'text/xml',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26')
-                           + "&language=" + encodeURI(languageCode),
+            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
+                           + "&language=" + encodeURI(languageCode)
+                           + "&enabled=" + enable 
+                           + "&disabled=WHITESPACE_RULE," + disable,
             async        : true,
             success      : success,
             error        : function( type, req, o )

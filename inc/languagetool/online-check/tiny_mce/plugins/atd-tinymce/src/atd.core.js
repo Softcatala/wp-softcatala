@@ -77,6 +77,8 @@ AtDCore.prototype.processXML = function(responseXML) {
        suggestion["errorlength"] = errorLength;
        suggestion["type"]        = errors[i].getAttribute("category");
        suggestion["ruleid"]      = errors[i].getAttribute("ruleId");
+       suggestion["subid"]      = errors[i].getAttribute("subId");
+       suggestion["locqualityissuetype"] = errors[i].getAttribute("locqualityissuetype");
        var url = errors[i].getAttribute("url");
        if (url) {
            suggestion["moreinfo"] = url;
@@ -105,7 +107,10 @@ AtDCore.prototype.findSuggestion = function(element) {
     var text = element.innerHTML;
     var metaInfo = element.getAttribute(this.surrogateAttribute);
     var errorDescription = {};
+    errorDescription["id"] = this.getSurrogatePart(metaInfo, 'id');
+    errorDescription["subid"] = this.getSurrogatePart(metaInfo, 'subid');
     errorDescription["description"] = this.getSurrogatePart(metaInfo, 'description');
+    errorDescription["coveredtext"] = this.getSurrogatePart(metaInfo, 'coveredtext');
     var suggestions = this.getSurrogatePart(metaInfo, 'suggestions');
     if (suggestions) {
         errorDescription["suggestions"] = suggestions.split("#");
@@ -143,15 +148,21 @@ AtDCore.prototype.markMyWords = function() {
             previousSpanStart = spanStart;
             
             var ruleId = suggestion.ruleid;
+            var locqualityissuetype = suggestion.locqualityissuetype;
             var cssName;
-            if (ruleId.indexOf("SPELLER_RULE") >= 0 || ruleId.indexOf("MORFOLOGIK_RULE") == 0 || ruleId == "HUNSPELL_NO_SUGGEST_RULE" || ruleId == "HUNSPELL_RULE") {
+            if (locqualityissuetype == "misspelling") {
                 cssName = "hiddenSpellError";
+            }
+            else if (locqualityissuetype == "style" || locqualityissuetype == "locale-violation") {
+                cssName = "hiddenGreenError";
             }
             else {
                 cssName = "hiddenGrammarError";
             }
             var delim = this.surrogateAttributeDelimiter;
-            var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
+            var coveredText = newText.substring(spanStart, spanEnd);
+            var metaInfo = ruleId + delim + suggestion.subid + delim + suggestion.description + delim + suggestion.suggestions + delim + coveredText;
+	    //            var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
             if (suggestion.moreinfo) {
                 metaInfo += delim + suggestion.moreinfo;
             }
@@ -209,13 +220,18 @@ AtDCore.prototype.getSurrogatePart = function(surrogateString, part) {
     var parts = surrogateString.split(this.surrogateAttributeDelimiter);
     if (part == 'id') {
         return parts[0];
-    } else if (part == 'description') {
+    } else if (part == 'subid') {
         return parts[1];
-    } else if (part == 'suggestions') {
+    } else if (part == 'description') {
         return parts[2];
-    } else if (part == 'url' && parts.length >= 3) {
+    } else if (part == 'suggestions') {
         return parts[3];
+    } else if (part == 'coveredtext') {
+        return parts[4];
+    } else if (part == 'url' && parts.length >= 5) {
+        return parts[5];
     }
+    console.log("No part '" + part + "' found in surrogateString: " + surrogateString);
     return null;
 };
 
@@ -233,7 +249,10 @@ AtDCore.prototype._getPlainText = function(removeCursor) {
             .replace(/<br>/g, "\n")
             .replace(/<br\s*\/>/g, "\n")
             .replace(/<.*?>/g, "")
-            .replace(/&nbsp;/g, " ");  // for Chrome - no idea where this comes from
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            //.replace(/&gt;/g, ">")  // TODO: using '>' still gets converted to '&gt;' for the user - with this line the HTML gets messed up somtimes
+            .replace(/&nbsp;/g, "&#160;");
     if (removeCursor) {
         plainText = plainText.replace(/\ufeff/g, "");  // feff = 65279 = cursor code
     }
@@ -286,7 +305,7 @@ AtDCore.prototype.isEmptySpan = function(node) {
 };
 
 AtDCore.prototype.isMarkedNode = function(node) {
-    return (this.hasClass(node, 'hiddenGrammarError') || this.hasClass(node, 'hiddenSpellError') || this.hasClass(node, 'hiddenSuggestion'));
+    return (this.hasClass(node, 'hiddenGrammarError') || this.hasClass(node, 'hiddenGreenError') || this.hasClass(node, 'hiddenSpellError') || this.hasClass(node, 'hiddenSuggestion'));
 };
 
 /*
