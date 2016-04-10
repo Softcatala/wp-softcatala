@@ -125,7 +125,7 @@ function get_so_from_so( $os, $arch ) {
             if( $arch == 'x86_64') {
                 $os_baixada = 'win64';
             } else {
-                $os_baixada = 'win';
+                $os_baixada = 'win32';
             }
             break;
         case 'linux':
