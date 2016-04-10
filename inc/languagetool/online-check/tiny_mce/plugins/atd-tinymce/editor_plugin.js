@@ -77,6 +77,7 @@ AtDCore.prototype.processXML = function(responseXML) {
        suggestion["errorlength"] = errorLength;
        suggestion["type"]        = errors[i].getAttribute("category");
        suggestion["ruleid"]      = errors[i].getAttribute("ruleId");
+       suggestion["subid"]      = errors[i].getAttribute("subId");
        suggestion["locqualityissuetype"] = errors[i].getAttribute("locqualityissuetype");
        var url = errors[i].getAttribute("url");
        if (url) {
@@ -106,7 +107,10 @@ AtDCore.prototype.findSuggestion = function(element) {
     var text = element.innerHTML;
     var metaInfo = element.getAttribute(this.surrogateAttribute);
     var errorDescription = {};
+    errorDescription["id"] = this.getSurrogatePart(metaInfo, 'id');
+    errorDescription["subid"] = this.getSurrogatePart(metaInfo, 'subid');
     errorDescription["description"] = this.getSurrogatePart(metaInfo, 'description');
+    errorDescription["coveredtext"] = this.getSurrogatePart(metaInfo, 'coveredtext');
     var suggestions = this.getSurrogatePart(metaInfo, 'suggestions');
     if (suggestions) {
         errorDescription["suggestions"] = suggestions.split("#");
@@ -156,7 +160,9 @@ AtDCore.prototype.markMyWords = function() {
                 cssName = "hiddenGrammarError";
             }
             var delim = this.surrogateAttributeDelimiter;
-            var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
+            var coveredText = newText.substring(spanStart, spanEnd);
+            var metaInfo = ruleId + delim + suggestion.subid + delim + suggestion.description + delim + suggestion.suggestions + delim + coveredText;
+	    //            var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
             if (suggestion.moreinfo) {
                 metaInfo += delim + suggestion.moreinfo;
             }
@@ -214,13 +220,18 @@ AtDCore.prototype.getSurrogatePart = function(surrogateString, part) {
     var parts = surrogateString.split(this.surrogateAttributeDelimiter);
     if (part == 'id') {
         return parts[0];
-    } else if (part == 'description') {
+    } else if (part == 'subid') {
         return parts[1];
-    } else if (part == 'suggestions') {
+    } else if (part == 'description') {
         return parts[2];
-    } else if (part == 'url' && parts.length >= 3) {
+    } else if (part == 'suggestions') {
         return parts[3];
+    } else if (part == 'coveredtext') {
+        return parts[4];
+    } else if (part == 'url' && parts.length >= 5) {
+        return parts[5];
     }
+    console.log("No part '" + part + "' found in surrogateString: " + surrogateString);
     return null;
 };
 
@@ -238,7 +249,10 @@ AtDCore.prototype._getPlainText = function(removeCursor) {
             .replace(/<br>/g, "\n")
             .replace(/<br\s*\/>/g, "\n")
             .replace(/<.*?>/g, "")
-            .replace(/&nbsp;/g, " ");  // for Chrome - no idea where this comes from
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            //.replace(/&gt;/g, ">")  // TODO: using '>' still gets converted to '&gt;' for the user - with this line the HTML gets messed up somtimes
+            .replace(/&nbsp;/g, "&#160;");
     if (removeCursor) {
         plainText = plainText.replace(/\ufeff/g, "");  // feff = 65279 = cursor code
     }
@@ -654,10 +668,36 @@ AtDCore.prototype.isIE = function() {
             }
              
             var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
-            var explainText = plugin.editor.getParam('languagetool_i18n_explain')[lang] || "No errors were found.";
+            var explainText = plugin.editor.getParam('languagetool_i18n_explain')[lang] || "Explain...";
             var ignoreThisText = plugin.editor.getParam('languagetool_i18n_ignore_once')[lang] || "Ignore this error";
-            var ignoreThisKindOfErrorText = plugin.editor.getParam('languagetool_i18n_ignore_all')[lang] || "Ignore this kind of error";
-             
+            var ruleImplementation = "Rule implementation";
+            if (plugin.editor.getParam('languagetool_i18n_rule_implementation')) {
+              ruleImplementation = plugin.editor.getParam('languagetool_i18n_rule_implementation')[lang] || "Rule implementation";
+            }
+            var suggestWord = "Suggest word for dictionary...";
+            if (plugin.editor.getParam('languagetool_i18n_suggest_word')) {
+              suggestWord = plugin.editor.getParam('languagetool_i18n_suggest_word')[lang] || "Suggest word for dictionary...";
+            }
+            var suggestWordUrl;
+            if (plugin.editor.getParam('languagetool_i18n_suggest_word_url')) {
+              suggestWordUrl = plugin.editor.getParam('languagetool_i18n_suggest_word_url')[lang];
+            }
+            var ruleId = errorDescription["id"];
+            var isSpellingRule = ruleId.indexOf("MORFOLOGIK_RULE") != -1 || ruleId.indexOf("SPELLER_RULE") != -1;
+            if (suggestWord && suggestWordUrl && isSpellingRule) {
+              var newUrl = suggestWordUrl.replace(/{word}/, encodeURIComponent(errorDescription['coveredtext']));
+              (function(url)
+              {
+                m.add({
+                  title : suggestWord,
+                  onclick : function() { window.open(newUrl, '_suggestWord'); }
+                });
+              })(errorDescription[suggestWord]);
+              m.addSeparator();
+            }
+
+            //var ignoreThisKindOfErrorText = plugin.editor.getParam('languagetool_i18n_ignore_all')[lang] || "Ignore this kind of error";
+            
             if (errorDescription != undefined && errorDescription["moreinfo"] != null)
             {
                (function(url)
@@ -667,7 +707,6 @@ AtDCore.prototype.isIE = function() {
                      onclick : function() { window.open(url, '_errorExplain'); }
                   });
                })(errorDescription["moreinfo"]);
-
                m.addSeparator();
             }
 
@@ -679,8 +718,21 @@ AtDCore.prototype.isIE = function() {
                   t._checkDone();
                }
             });
-
+	    /*
+	    var langCode = lang; //$('#lang').val();
+            // NOTE: this link won't work (as of March 2014) for false friend rules:
+            var ruleUrl = "http://community.languagetool.org/rule/show/" +
+              encodeURI(errorDescription["id"]) + "?";
+            if (errorDescription["subid"] && errorDescription["subid"] != 'null') {
+              ruleUrl += "subId=" + encodeURI(errorDescription["subid"]) + "&";
+            }
+            ruleUrl += "lang=" + encodeURI(langCode);
             m.add({
+               title : ruleImplementation,
+               onclick : function() { window.open(ruleUrl, '_blank'); }
+	       });
+	    */
+            /*m.add({
               title : ignoreThisKindOfErrorText,
               onclick : function() 
               {
@@ -689,7 +741,7 @@ AtDCore.prototype.isIE = function() {
                  t._removeWordsByRuleId(ruleId);
                  t._checkDone();
               }
-           });
+           });*/
 
            /* show the menu please */
            ed.selection.select(e.target);
@@ -784,13 +836,13 @@ AtDCore.prototype.isIE = function() {
 		 else if (catOptions.indexOf("formes_valencianes")>=0)
 		 {
 				enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
-				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE";
+				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
 				 
 				//opcions dins de les formes valencianes
-				if (catOptions.indexOf("accentuacio_general")>=0)
+				if (catOptions.indexOf("accentuacio_valenciana")>=0)
 				{
-				  disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
-				  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
+					enable = enable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+				  disable = disable + ",EXIGEIX_ACCENTUACIO_GENERAL";
 				};
 				if (catOptions.indexOf("incoatius_eix")>=0)
 				{
@@ -847,9 +899,10 @@ AtDCore.prototype.isIE = function() {
             url          : url + "/" + file,
             content_type : 'text/xml',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26')
+            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
                            + "&language=" + encodeURI(languageCode)
-                           + "&enabled=" + enable + "&disabled=" + disable,
+                           + "&enabled=" + enable 
+                           + "&disabled=WHITESPACE_RULE," + disable,
             async        : true,
             success      : success,
             error        : function( type, req, o )
