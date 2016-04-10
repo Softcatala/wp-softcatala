@@ -30,6 +30,6 @@ $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 
 //Contact Form
-$context['contact']['to_email'] = get_option('email_recursos');
+$context['contact']['to_email'] = get_option('email_corrector');
 
 Timber::render( array( 'corrector.twig' ), $context );

@@ -126,7 +126,7 @@ class StarterSite extends TimberSite {
     }
 
     function get_email_sections() {
-        $sections = array( 'general' => 'General', 'traductor' => 'Traductor', 'recursos' => 'Recursos', 'rebost' => 'Programes' );
+        $sections = array( 'general' => 'General', 'traductor' => 'Traductor', 'corrector' => 'Corrector', 'recursos' => 'Recursos', 'rebost' => 'Programes' );
         return $sections;
     }
 
