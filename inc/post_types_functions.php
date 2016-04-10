@@ -104,18 +104,49 @@ function generate_url_download( $baixades, $post ) {
             $versio_baixada = $baixada['download_version'];
         }
 
+
+
         $baixades[$key]['download_url_ext'] = 'https://baixades.softcatala.org/';
-        $baixades[$key]['download_url_ext'] .= '?os='.$baixada['download_os'];
-        $baixades[$key]['download_url_ext'] .= '&id='.$post->idrebost;
+        $baixades[$key]['download_url_ext'] .= '?id='.$post->idrebost;
         $baixades[$key]['download_url_ext'] .= '&wid='.$post->ID;
         $baixades[$key]['download_url_ext'] .= '&versio='.$versio_baixada;
-        $baixades[$key]['download_url_ext'] .= '&so='.$baixada['download_os'];
+        $baixades[$key]['download_url_ext'] .= '&so='.get_so_from_so( $baixada['download_os'], $baixada['arquitectura'] );
         $baixades[$key]['download_url_ext'] .= '&url='.urlencode($baixada['download_url']);
 
         $baixades[$key]['so_icona'] = get_awesome_icon_so($baixada['download_os']);
     }
 
     return $baixades;
+}
+
+function get_so_from_so( $os, $arch ) {
+    switch ( $os ) {
+        case 'windows':
+            if( $arch == 'x86_64') {
+                $os_baixada = 'win64';
+            } else {
+                $os_baixada = 'win';
+            }
+            break;
+        case 'linux':
+            if( $arch == 'x86_64') {
+                $os_baixada = 'linux64';
+            } else {
+                $os_baixada = 'linux';
+            }
+            break;
+        case 'osx':
+            $os_baixada = 'mac';
+            break;
+        case 'android':
+            $os_baixada = 'and';
+            break;
+        default:
+            $os_baixada = $os;
+            break;
+    }
+
+    return $os_baixada;
 }
 
 /**
