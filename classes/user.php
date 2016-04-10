@@ -62,18 +62,15 @@ class SC_User {
 
 		foreach ( $this->custom_user_fields as $user_field ) {
 
-			$old_meta = get_user_meta( $user_id, $user_field['name'], true );
-
 			$new_meta = $_POST[ $user_field['name'] ] ; // Input var okay.
-
-			$custom = sanitize_text_field_recursively( $new_meta );
-
-			if ( ! empty( $old_meta ) ) {
-				update_user_meta( $user_id, $user_field['name'], $custom );
+			
+			if ( $new_meta == null ) {
+				$custom = array();
+			} else {
+				$custom = sanitize_text_field_recursively( $new_meta );
 			}
-			else {
-				add_user_meta( $user_id, $user_field['name'], $custom, true );
-			}
+
+			update_user_meta( $user_id, $user_field['name'], $custom );
 		}
 
 	}
