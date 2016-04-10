@@ -901,7 +901,7 @@ function generate_ads_html( $banner_ids )
                     <div class='container-fluid hidden-xs' style='margin-bottom: -5px'>
                     <div style='float: left; width: 744px;'>
                     <div style='float: left';>
-                            <img src='https://www.softcatala.org/img/publicitat.jpg'/>
+                            <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
                             </div>
                     <script type='text/javascript'>
                         OA_show($banner_ids[0]);
@@ -909,7 +909,7 @@ function generate_ads_html( $banner_ids )
                     </div>
                     <div style='float: right; width: auto;' class='visible-lg-block'>
                     <div style='float: left';>
-                            <img src='https://www.softcatala.org/img/publicitat.jpg'/>
+                            <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
                             </div>
                     <script type='text/javascript'>
                         OA_show($banner_ids[1]);
