@@ -222,6 +222,12 @@ function nl2br(text) {
     return unescape(text.replace(/(%5Cr%5Cn)|(%5Cn%5Cr)|%0A|%5Cr|%5Cn/g,'<br />'));
 }
 
+jQuery('#traductor-neteja').click(function() {
+    jQuery(".primer-textarea").val('');
+    jQuery(".second-textarea").html('');
+});
+
+
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
