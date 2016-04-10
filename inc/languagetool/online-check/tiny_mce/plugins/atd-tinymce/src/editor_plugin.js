@@ -500,10 +500,10 @@
 				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
 				 
 				//opcions dins de les formes valencianes
-				if (catOptions.indexOf("accentuacio_valenciana")>=0)
+				if (catOptions.indexOf("accentuacio_general")>=0)
 				{
-					enable = enable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
-				  disable = disable + ",EXIGEIX_ACCENTUACIO_GENERAL";
+			          disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+				  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
 				};
 				if (catOptions.indexOf("incoatius_eix")>=0)
 				{
