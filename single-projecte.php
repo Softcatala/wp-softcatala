@@ -11,12 +11,17 @@ $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['logotip'] = get_img_from_id( $post->logotip );
-$context['responsables'] = generate_responsables_link($post->responsable);
 $context['post'] = $post;
 $context['comment_form'] = TimberHelper::get_comment_form();
 $post_links = types_child_posts('link', $post->ID);
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
+
+if ( is_array( $post->responsable ) ) {
+    $context['responsables'] = generate_responsables_link($post->responsable);
+} else {
+    $context['responsables'] = false;
+}
 
 //Contact Form Data
 $context['contact']['to_email'] = 'web@softcatala.org';
