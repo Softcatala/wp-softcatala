@@ -43,9 +43,11 @@ function sc_multilingue_search()
         $url = $url_api . 'search/' . $paraula . '?lang=' . $lang;
 
         $api_call = do_json_api_call($url);
-        $api_response = json_decode($api_call);
 
-        if ($api_call) {
+        if ( $api_call && $api_call != 'error' ) {
+
+            $api_response = json_decode($api_call);
+            
             if (isset($api_response[0])) {
                 $resultat_string = (count($api_response) > 1 ? 'resultats' : 'resultat');
                 $result = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count($api_response) . ' ' . $resultat_string . ') <hr class="clara"/>';
