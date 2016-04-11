@@ -1,5 +1,7 @@
 <?php
 
+define('WP_SOFTCATALA_VERSION', '0.6.3');
+
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
         echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
@@ -134,7 +136,7 @@ class StarterSite extends TimberSite {
      * Renders the Softcatalà dashboard settings page
      */
     function softcatala_dash_page() {
-        wp_enqueue_script( 'sc-js-dash', get_template_directory_uri() . '/static/js/sc-admin.js', array('jquery'), '1.0.0', true );
+        wp_enqueue_script( 'sc-js-dash', get_template_directory_uri() . '/static/js/sc-admin.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
         $admin_template = dirname(__FILE__) . '/templates/admin/sc-dash.twig';
         $sections = $this->get_email_sections();
         $section_html_content = Timber::fetch( $admin_template, array ('sections' => $sections ));
@@ -241,13 +243,13 @@ function softcatala_scripts() {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
     wp_enqueue_script( 'jquery' );
-    wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), '1.0' );
-	wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), '1.0' );
-    wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), '1.0.0', true );
-	wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), '1.0.0', true );
-	wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), '1.0.0', true );
-    //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), '1.0.0', true );
-    wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), '1.0.0', true );
+    wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
+	wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), WP_SOFTCATALA_VERSION );
+    wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
+	wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
+	wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), WP_SOFTCATALA_VERSION, true );
+    //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
+    wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 }
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
 
