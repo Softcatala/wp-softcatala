@@ -373,3 +373,8 @@ function generate_responsables_link( $users_ids ) {
 
     return $users;
 }
+
+function get_gravatar_url( $email, $size = '270' ) {
+    $hash = md5( strtolower( trim ( $email ) ) );
+    return 'http://gravatar.com/avatar/' . $hash . '?size=' . $size;
+}

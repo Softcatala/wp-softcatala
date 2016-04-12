@@ -17,7 +17,7 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $context_holder['author'] = $author;
     $context_holder['author_role'] = get_user_role( $author );
     $context_holder['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
-    $context_holder['author_image'] = get_avatar( $author->ID, 270 );
+    $context_holder['author_image'] = get_gravatar_url( $author->user_email );
     $context_holder['content_title'] = 'Publicades per ' . $author->name();
     $title = $author->name() . ' - Softcatalà';
     $description = $author->description();

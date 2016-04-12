@@ -25,7 +25,9 @@
                     <div class="row">
 
                         <div class="img-membre col-xxs-12 col-xs-6 col-md-12">
-                            {{ author_image }}
+                            {% if author_image %}
+                                <img src="{{ author_image }}" alt="{{ author.first_name }} {{ author.last_name }}"/>
+                            {% endif %}
                         </div>
 
                         <div class="col-xxs-12 col-xs-12 col-md-12">
