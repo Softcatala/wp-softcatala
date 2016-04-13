@@ -34,7 +34,7 @@ $tipus = get_query_var( 'tipus' );
 $tema = get_query_var( 'tema' );
 
 if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
-	$context_holder['cerca'] = $search;
+	$context_holder['cerca'] = stripslashes( $search );
 	$context_holder['selected_tipus'] = $tipus;
 	$context_holder['selected_tema'] = $tema;
 	$context_holder['title'] = $search;
