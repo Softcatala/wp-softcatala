@@ -42,7 +42,10 @@ if( ! empty ( $paraula ) ) {
 
     $api_call = do_json_api_call($url);
 
-    if ( $api_call && $api_call != 'error' ) {
+    if ( is_array( $api_call ) ) {
+        throw_error('404', 'No Results For This Search');
+        $context_holder['cerca_result'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+    } else if ( $api_call && $api_call != 'error' ) {
 
         $api_response = json_decode($api_call);
 
@@ -79,7 +82,7 @@ if( ! empty ( $paraula ) ) {
             }
         } else {
             throw_error('404', 'No Results For This Search');
-            $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+            $context_holder['cerca_result'] = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
         }
         $context_holder['cerca_result'] = $result;
     } else {

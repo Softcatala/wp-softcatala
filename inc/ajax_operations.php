@@ -44,10 +44,13 @@ function sc_multilingue_search()
 
         $api_call = do_json_api_call($url);
 
-        if ( $api_call && $api_call != 'error' ) {
+        if ( is_array( $api_call ) ) {
+            throw_error('404', 'No Results For This Search');
+            $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
+        } else if ( $api_call && $api_call != 'error' ) {
 
             $api_response = json_decode($api_call);
-            
+
             if (isset($api_response[0])) {
                 $resultat_string = (count($api_response) > 1 ? 'resultats' : 'resultat');
                 $result = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count($api_response) . ' ' . $resultat_string . ') <hr class="clara"/>';
