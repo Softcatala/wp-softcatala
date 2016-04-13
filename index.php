@@ -29,12 +29,12 @@ $context_holder['categories']['temes'] = Timber::get_terms( 'category', array( '
 $context_holder['categories']['tipus'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'tipus' ) ) );
 
 //Search and filters
-$search = get_query_var( 'cerca' );
+$search = stripslashes(get_query_var( 'cerca' ));
 $tipus = get_query_var( 'tipus' );
 $tema = get_query_var( 'tema' );
 
 if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
-	$context_holder['cerca'] = stripslashes( $search );
+	$context_holder['cerca'] = $search;
 	$context_holder['selected_tipus'] = $tipus;
 	$context_holder['selected_tema'] = $tema;
 	$context_holder['title'] = $search;
