@@ -51,7 +51,8 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
 
 //Context initialization
 $context_filterer = new SC_ContextFilterer( $context_holder );
+
 $context_overrides = array( 'title' => $title, 'description' => $description );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
-Timber::render( $template, $context_holder );
+Timber::render( $template, $context );
