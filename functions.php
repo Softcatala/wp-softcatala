@@ -946,3 +946,13 @@ function align_downloads_programs_so( $post_id, $post )
     wp_set_object_terms( $post_id, $terms, 'sistema-operatiu-programa', false );
 }
 add_action( 'save_post', 'align_downloads_programs_so' );
+
+/**
+ * Set the resize quality to 90
+ *
+ **/
+function sc_image_full_quality( $quality ) {
+    return 90;
+}
+add_filter( 'jpeg_quality', 'sc_image_full_quality' );
+add_filter( 'wp_editor_set_quality', 'sc_image_full_quality' );
