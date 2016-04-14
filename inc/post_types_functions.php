@@ -103,8 +103,7 @@ function generate_url_download( $baixades, $post ) {
         } else {
             $versio_baixada = $baixada['download_version'];
         }
-
-
+        $baixades[$key]['download_os_label'] = get_os_nicename( $baixades[$key]['download_os'] );
 
         $baixades[$key]['download_url_ext'] = 'https://baixades.softcatala.org/';
         $baixades[$key]['download_url_ext'] .= '?id='.$post->idrebost;
@@ -117,6 +116,31 @@ function generate_url_download( $baixades, $post ) {
     }
 
     return $baixades;
+}
+
+function get_os_nicename( $os ) {
+    switch ( $os ) {
+        case 'windows':
+            $os_nicename = 'Windows';
+            break;
+        case 'linux':
+            $os_nicename = 'Linux';
+            break;
+        case 'osx':
+            $os_nicename = 'OS X';
+            break;
+        case 'android':
+            $os_nicename = 'Android';
+            break;
+        case 'ios':
+            $os_nicename = 'iOS';
+            break;
+        default:
+            $os_nicename = $os;
+            break;
+    }
+
+    return $os_nicename;
 }
 
 function get_so_from_so( $os, $arch ) {

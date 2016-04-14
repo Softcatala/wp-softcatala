@@ -41,9 +41,7 @@
                                 <span>Baixa'l
                                     <em>
                                         {% if baixada.download_os|lower != 'multiplataforma' %}
-                                        Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al{% endif %}
-                                        {% endif %}
-                                        {{ baixada.download_os|title }}
+                                        Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al {% endif %}{% endif %}{{ baixada.download_os_label }}
                                         {% if baixada.arquitectura != 'generic' %}
                                             {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
                                         {% endif %}
@@ -64,8 +62,7 @@
                                                 <i class="fa fa-{{ baixada.so_icona }}"></i>
                                                 <span>
                                                     {% if baixada.download_os|lower != 'multiplataforma' %}
-                                                    Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al{% endif %}
-                                                    {% endif %}{{ baixada.download_os }}
+                                                    Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al {% endif %}{% endif %}{{ baixada.download_os_label }}
                                                     <em>{% if baixada.download_version %}versió {{ baixada.download_version }}{% endif %}
                                                         {% if baixada.arquitectura != 'generic' %}
                                                             {% if baixada.arquitectura == 'x86_64'  %}(64 bits){% else %}(32 bits){% endif %}
