@@ -27,7 +27,7 @@
                             <div class="thumbnail thumbnail-vertical thumbnail-premsa">
                                 <a href="{{ link.link_url }}" alt="{{ link.link_title }}">
                                     <div>
-                                        <img src="{% if link.link_image %}{{ link.link_image|resize(270, 270, 'top') }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ link.link_title }}">
+                                        <img src="{% if link.link_image %}{{ link.link_image|resize(270) }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ link.link_title }}">
                                     </div>
                                     <div class="caption">
                                         <h3>{{ link.link_title }}</h3>
