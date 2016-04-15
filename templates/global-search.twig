@@ -51,7 +51,7 @@
                                         <h2><a href="{{post.link}}">{{post.title}}</a></h2>
                                         <!-- .article-cont - Extracte contingut article -->
                                         <div class="article-cont">
-                                            <p>{{post.get_preview(50, false, __('Read more...'))}}</p>
+                                            <p>{{post.get_preview(50, false, 'Llegeix més...')}}</p>
                                         </div><!--/.article-cont - Extracte contingut article -->
                                     </div>
                                     {% if post.main_image_post or post.logotip or post.logotip_programa %}
@@ -62,7 +62,6 @@
                                 </div>
                                 <!-- .article-footer -->
                                 <footer class="article-footer">
-                                    Publicat per <a href="{{post.author.path}}">{{ post.author.name }}</a>
                                     <time class="data-temps" itemprop="dateCreated" datetime="{{ post.post_date|date('Y-n-j')}}">{{ post.post_date|date}}</time>
                                 </footer><!--/.article-footer -->
                                 <hr class="clara">
