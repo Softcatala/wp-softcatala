@@ -924,7 +924,7 @@ function generate_ads_html( $banner_ids )
  * Sets the program so depending on the downloads so
  *
  */
-function align_downloads_programs_so( $post_id, $post )
+function align_downloads_programs_so( $post_id )
 {
     $slug = 'programa';
     $post = get_post($post_id);
