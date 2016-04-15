@@ -20,7 +20,7 @@ function search_post_types($query) {
 add_filter('pre_get_posts','search_post_types');
 
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-search', get_template_directory_uri() . '/static/js/search.js', array(), '1.0.0', true );
+wp_enqueue_script( 'sc-js-search', get_template_directory_uri() . '/static/js/search.js', array('sc-js-main'), '1.0.0', true );
 
 //Template initialization
 $templates = array( 'global-search.twig' );
