@@ -936,14 +936,16 @@ function align_downloads_programs_so( $post_id )
 
     $downloads = get_field( 'baixada' );
 
-    foreach ($downloads as $download) {
-        $id = term_exists( $download['download_os'], 'sistema-operatiu-programa' );
-        $terms[] = $id['term_id'];
-    }
+    if( $downloads ) {
+        foreach ($downloads as $download) {
+            $id = term_exists( $download['download_os'], 'sistema-operatiu-programa' );
+            $terms[] = $id['term_id'];
+        }
 
-    //Set the operating system taxonomy for program
-    $terms = array_map( 'intval', $terms );
-    wp_set_object_terms( $post_id, $terms, 'sistema-operatiu-programa', false );
+        //Set the operating system taxonomy for program
+        $terms = array_map( 'intval', $terms );
+        wp_set_object_terms( $post_id, $terms, 'sistema-operatiu-programa', false );
+    }
 }
 add_action( 'save_post', 'align_downloads_programs_so' );
 
