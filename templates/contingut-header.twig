@@ -1,7 +1,7 @@
 <header class="main-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="{% if post.call_to_action_top_url and post.call_to_action_top_text %}col-xs-8 col-sm-9{% else %}col-xs-12 col-sm-12{% endif %}">
+            <div class="{% if (post.call_to_action_top_url and post.call_to_action_top_text) or post_type == 'programa' %}col-xs-8 col-sm-9{% else %}col-xs-12 col-sm-12{% endif %}">
                 <h1 id="content_header_title">{% if content_title %}{{ content_title }}{% else %}{{ post.title }}{% endif %}</h1>
                 {% if tag %}
                     <span>/</span>
