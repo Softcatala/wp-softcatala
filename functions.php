@@ -906,7 +906,9 @@ function generate_ads_html( $banner_ids )
                             <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
                             </div>
                     <script type='text/javascript'>
+                    if (typeof OA_show == 'function') {
                         OA_show($banner_ids[0]);
+                    }
                     </script>
                     </div>
                     <div style='float: right; width: auto;' class='visible-lg-block'>
@@ -914,7 +916,9 @@ function generate_ads_html( $banner_ids )
                             <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
                             </div>
                     <script type='text/javascript'>
+                    if (typeof OA_show == 'function') {
                         OA_show($banner_ids[1]);
+                    }
                     </script></div></div>";
 
     return $html_code;
