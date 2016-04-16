@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.6.8');
+define('WP_SOFTCATALA_VERSION', '0.6.9');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -242,6 +242,9 @@ new StarterSite();
 function softcatala_scripts() {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
+
+	wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array('jquery'), '20130313', true );
+
     wp_enqueue_script( 'jquery' );
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
 	wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), WP_SOFTCATALA_VERSION );

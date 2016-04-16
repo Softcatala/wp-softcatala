@@ -2,6 +2,8 @@
 
 var traductor_json_url = "https://www.softcatala.org/apertium/json/translate";
 
+var SC_TRADUCTOR_COOKIE = 'sc-traductor';
+
 (function($) {
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
@@ -38,6 +40,42 @@ jQuery(document).ready(function(){
     });
     /** End workaround **/
 
+    /* Handling options */
+    (function() {
+        setCheckboxValue('auto-trad', '#auto-trad');
+        setCheckboxValue('unknown', '#mark_unknown');
+        setCheckboxValue('valencia', '#formes_valencianes');
+
+        jQuery('#auto-trad').change(function() {
+            setCookieValue('#auto-trad', 'auto-trad');
+        });
+
+        jQuery('#mark_unknown').change(function() {
+            setCookieValue('#mark_unknown', 'unknown');
+        });
+
+        jQuery('#formes_valencianes').change(function() {
+            setCookieValue('#formes_valencianes', 'valencia');
+        });
+    })();
+
+    function setCookieValue(htmlId, cookieName) {
+            $newValue = jQuery(htmlId).is(':checked');
+            jQuery.setMetaCookie(cookieName, SC_TRADUCTOR_COOKIE, $newValue.toString());
+    }
+
+    function setCheckboxValue(cookieName, htmlId) {
+        var cookieValue = jQuery.getMetaCookie(cookieName, SC_TRADUCTOR_COOKIE);
+
+        if( typeof cookieValue === 'string' ) {
+            jQuery(htmlId).prop('checked', getBoolean(cookieValue) );
+        }
+    }
+
+    function getBoolean(value) {
+        return value == 'true';
+    }
+
     //Timer for instant translation
     var timer,
         lastPunct = false, punct = [46, 33, 58, 63, 47, 45, 190, 171, 49],
@@ -63,7 +101,9 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
-            translateText();
+            if(jQuery('#auto-trad').is(':checked')) {
+                translateText();
+            }
         }, timeout);
     });
 });
