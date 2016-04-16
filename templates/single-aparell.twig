@@ -17,64 +17,44 @@
                         </div>
                         <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-7 col-md-8">
                             <h1>{{ post.title }}</h1>
-                            <!-- .panel-body -->
-                            <div class="panel-body">
-                                <!-- detalls -->
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6">
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <ul class="aparells_detail">
-                                                    <li><strong>Nom</strong></li>
-                                                    <li>{{ post.title }}</li>
-                                                    <li><strong>Sistema operatiu</strong></li>
-                                                    <li>{% if post.terms('so_aparell') %}
-                                                            {% for term in post.terms('so_aparell') %}
-                                                                {{term.name}}
-                                                            {% endfor %}
-                                                        {% endif %}</li>
-                                                    <li><strong>Està traduït al català?</strong></li>
-                                                    <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <ul class="aparells_detail">
-                                                    <li><strong>Tipus de dispositiu</strong></li>
-                                                    <li>{% if post.terms('tipus_aparell') %}
-                                                                {% for term in post.terms('tipus_aparell') %}
-                                                                    {{term.name}}
-                                                                {% endfor %}
-                                                        {% endif %}</li>
-                                                    {% if post.versio %}
-                                                    <li><strong>Versió del SO</strong></li>
-                                                    <li>{{ post.versio }}</li>
-                                                    {% endif %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-6">
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <ul class="aparells_detail">
-                                                    <li><strong>Fabricant</strong></li>
-                                                    <li>{{ post.fabricant }}</li>
-                                                    <li><strong>Inclou teclat predictiu en català?</strong></li>
-                                                    <li>{% if post.correccio_cat == '1' %}Sí
-                                                        {% else %}
-                                                            {% if post.correccio_cat == '3' %}
-                                                                Desconegut
-                                                            {% else %}
-                                                                No
-                                                            {% endif %}
-                                                        {% endif %}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/detalls -->
-                            </div><!--/.panel-body -->
+                            <h2>
+                                    <ul class="aparells_detail">
+                                        <li>Configuració en català <i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
+                                        <li>Correcció ortogràfica en català
+                                            <i class="fa
+                                            {% if post.correccio_cat == '1' %}
+                                            fa-check
+                                            {% else %}
+                                            {% if post.correccio_cat == '3' %}
+                                            fa-question
+                                            {% else %}
+                                            {% if post.correccio_cat == '2' %}
+
+                                            {% else %}fa-times
+                                            {% endif %}
+                                            {% endif %}
+                                            {% endif %}">
+                                            </i></li>
+                                    </ul>
+                            </h2>
+
+                            <ul class="aparells_detail">
+                                <li><strong>Sistema operatiu</strong> {% if post.terms('so_aparell') %}
+                                        {% for term in post.terms('so_aparell') %}
+                                            {{term.name}}
+                                        {% endfor %}
+                                    {% endif %}</li>
+                                    <li><strong>Tipus de dispositiu</strong>: {% if post.terms('tipus_aparell') %}
+                                                {% for term in post.terms('tipus_aparell') %}
+                                                    {{term.name}}
+                                                {% endfor %}
+                                        {% endif %}</li>
+                                    {% if post.versio %}
+                                    <li><strong>Versió del SO</strong>: {{ post.versio }}</li>
+                                    {% endif %}
+                                    <li><strong>Fabricant</strong>: {{ post.fabricant }}</li>
+                            </ul>
+
                             <footer class="footer-main-header-gris">
                                 {% include "share_links.twig" %}
                             </footer>
