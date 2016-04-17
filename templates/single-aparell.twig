@@ -20,39 +20,45 @@
                             <h2>
                                     <ul class="aparells_detail">
                                         <li>Configuració en català <i class="fa {% if post.conf_cat %}fa-check green-check{% else %}fa-times red-check{% endif %}"></i></li>
+                                        {% if post.correccio_cat != '2' %}
                                         <li>Correcció ortogràfica en català
                                             <i class="fa
                                             {% if post.correccio_cat == '1' %}
-                                            fa-check green-check
-                                            {% else %}
-                                            {% if post.correccio_cat == '3' %}
-                                            fa-question
-                                            {% else %}
-                                            {% if post.correccio_cat == '2' %}
-
-                                            {% else %}fa-times red-check
-                                            {% endif %}
-                                            {% endif %}
+                                                fa-check green-check
+                                                {% else %}
+                                                    {% if post.correccio_cat == '3' %}
+                                                    fa-question
+                                                    {% else %}
+                                                        {% if post.correccio_cat == '0' %}
+                                                        fa-times red-check
+                                                    {% endif %}
+                                                {% endif %}
                                             {% endif %}">
-                                            </i></li>
+                                            </i>
+                                        </li>
+                                        {% endif %}
                                     </ul>
                             </h2>
 
                             <ul class="aparells_detail">
-                                <li><strong>Sistema operatiu</strong> {% if post.terms('so_aparell') %}
-                                        {% for term in post.terms('so_aparell') %}
-                                            {{term.name}}
-                                        {% endfor %}
-                                    {% endif %}</li>
-                                    <li><strong>Tipus de dispositiu</strong>: {% if post.terms('tipus_aparell') %}
-                                                {% for term in post.terms('tipus_aparell') %}
-                                                    {{term.name}}
-                                                {% endfor %}
-                                        {% endif %}</li>
-                                    {% if post.versio %}
-                                    <li><strong>Versió del SO</strong>: {{ post.versio }}</li>
-                                    {% endif %}
-                                    <li><strong>Fabricant</strong>: {{ post.fabricant }}</li>
+                                {% if post.terms('so_aparell') %}
+                                <li><strong>Sistema operatiu</strong>
+                                    {% for term in post.terms('so_aparell') %}
+                                        {{term.name}}
+                                    {% endfor %}
+                                </li>
+                                {% endif %}
+                                {% if post.terms('tipus_aparell') %}
+                                <li><strong>Tipus de dispositiu</strong>:
+                                    {% for term in post.terms('tipus_aparell') %}
+                                        {{term.name}}
+                                    {% endfor %}
+                                </li>
+                                {% endif %}
+                                {% if post.versio %}
+                                <li><strong>Versió del SO</strong>: {{ post.versio }}</li>
+                                {% endif %}
+                                <li><strong>Fabricant</strong>: {{ post.fabricant }}</li>
                             </ul>
 
                             <footer class="footer-main-header-gris">
