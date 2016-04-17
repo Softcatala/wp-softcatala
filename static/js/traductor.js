@@ -4,6 +4,8 @@ var traductor_json_url = "https://www.softcatala.org/apertium/json/translate";
 
 var SC_TRADUCTOR_COOKIE = 'sc-traductor';
 
+jQuery('#translate').data('scroll', false);
+
 (function($) {
 //Set the initial default pairs on document ready
 jQuery(document).ready(function(){
@@ -102,6 +104,7 @@ jQuery(document).ready(function(){
 
         timer = setTimeout(function () {
             if(jQuery('#auto-trad').is(':checked')) {
+                jQuery('#auto-trad').data('translating', true);
                 translateText();
             }
         }, timeout);
@@ -229,6 +232,16 @@ jQuery('.direccio').on('click', function() {
 
 /** Translation AJAX action and other related actions **/
 jQuery('#translate').click(function() {
+    jQuery('#translate').data('scroll', true);
+    translateText();
+});
+
+function translateText() {
+    if( jQuery('.primer-textarea').val() == '' ) {
+        jQuery(".second-textarea").html('');
+        return;
+    }
+
     var text = jQuery('.primer-textarea').val();
     if (text.length) {
         var origin_language = jQuery('#origin_language').val();
@@ -255,7 +268,7 @@ jQuery('#translate').click(function() {
     } else {
         alert('Introduïu algun text');
     }
-});
+}
 
 function nl2br(text) {
     text=escape(text);
@@ -267,14 +280,17 @@ jQuery('#traductor-neteja').click(function() {
     jQuery(".second-textarea").html('');
 });
 
-
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
         translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         jQuery('.second-textarea').html(translation_coloured);
 
-        if(jQuery(".second-textarea").height() < '270') {
+        $scroll = jQuery('#translate').data('scroll');
+
+        jQuery('#translate').data('scroll', false);
+
+        if($scroll && jQuery(".second-textarea").height() < '270') {
             jQuery('html, body').animate({
                 scrollTop: jQuery(".second-textarea").offset().top
             }, 2000);
@@ -294,13 +310,6 @@ function trad_ko(dt) {
 }
 
 /* This function just calls the translation */
-function translateText() {
-    if( jQuery('.primer-textarea').val() == '' ) {
-        jQuery(".second-textarea").html(''); //just empty the second area
-    } else {
-        jQuery('#translate').trigger('click');
-    }
-}
 
 jQuery('#mark_unknown').click(function() {
     translateText();
