@@ -59,24 +59,20 @@ jQuery(document).ready(function(){
         jQuery('#formes_valencianes').change(function() {
             setCookieValue('#formes_valencianes', 'valencia');
         });
-    })();
 
-    function setCookieValue(htmlId, cookieName) {
-            $newValue = jQuery(htmlId).is(':checked');
-            jQuery.setMetaCookie(cookieName, SC_TRADUCTOR_COOKIE, $newValue.toString());
-    }
+        var sourceLanguage = jQuery.getMetaCookie('source-lang', SC_TRADUCTOR_COOKIE);
+        var targetLanguage = jQuery.getMetaCookie('target-lang', SC_TRADUCTOR_COOKIE);
 
-    function setCheckboxValue(cookieName, htmlId) {
-        var cookieValue = jQuery.getMetaCookie(cookieName, SC_TRADUCTOR_COOKIE);
+        if ( typeof sourceLanguage === 'string' && sourceLanguage !== '' ) {
+            set_origin_language(sourceLanguage);
+            set_origin_button(sourceLanguage);
+            set_origin_button_mobile(sourceLanguage);
 
-        if( typeof cookieValue === 'string' ) {
-            jQuery(htmlId).prop('checked', getBoolean(cookieValue) );
+            set_target_language(targetLanguage);
+            set_target_button(targetLanguage);
+            set_target_button_mobile(targetLanguage);
         }
-    }
-
-    function getBoolean(value) {
-        return value == 'true';
-    }
+    })();
 
     //Timer for instant translation
     var timer,
@@ -110,6 +106,23 @@ jQuery(document).ready(function(){
         }, timeout);
     });
 });
+
+function setCookieValue(htmlId, cookieName) {
+        $newValue = jQuery(htmlId).is(':checked');
+        jQuery.setMetaCookie(cookieName, SC_TRADUCTOR_COOKIE, $newValue.toString());
+}
+
+function setCheckboxValue(cookieName, htmlId) {
+    var cookieValue = jQuery.getMetaCookie(cookieName, SC_TRADUCTOR_COOKIE);
+
+    if( typeof cookieValue === 'string' ) {
+        jQuery(htmlId).prop('checked', getBoolean(cookieValue) );
+    }
+}
+
+function getBoolean(value) {
+    return value == 'true';
+}
 
 /** Set the different language pairs and update menus depending on user clicks **/
 //Desktop selectors
@@ -254,6 +267,9 @@ function translateText() {
 
         var langpair = origin_language+"|"+adapted_target_language;
         var muk = (jQuery('#mark_unknown:checked').length)?'yes':'no';
+
+        jQuery.setMetaCookie('source-lang', SC_TRADUCTOR_COOKIE, origin_language);
+        jQuery.setMetaCookie('target-lang', SC_TRADUCTOR_COOKIE, target_language);
 
         $.ajax({
             url:traductor_json_url,
