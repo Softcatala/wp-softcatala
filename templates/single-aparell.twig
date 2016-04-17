@@ -1,0 +1,92 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc programa cd-main-content">
+        <!-- .main-header -->
+        <header class="main-header" id="principi">
+            <div class="container-fluid">
+                <div class="gris-main-header">
+                    <div class="row cap-aparell">
+                        <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-5 col-md-4">
+                            {% if post.thumbnail.src %}
+                                <img class="img-responsive" src="{{ post.thumbnail.src }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                            {% else %}
+                                <i style="font-size: 152px" class="fa fa-cogs"></i>
+                            {% endif %}
+                        </div>
+                        <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-7 col-md-8">
+                            <h1>{{ post.title }}</h1>
+                            <h2>
+                                    <ul class="aparells_detail">
+                                        <li>Configuració en català <i class="fa {% if post.conf_cat %}fa-check green-check{% else %}fa-times red-check{% endif %}"></i></li>
+                                        <li>Correcció ortogràfica en català
+                                            <i class="fa
+                                            {% if post.correccio_cat == '1' %}
+                                            fa-check green-check
+                                            {% else %}
+                                            {% if post.correccio_cat == '3' %}
+                                            fa-question
+                                            {% else %}
+                                            {% if post.correccio_cat == '2' %}
+
+                                            {% else %}fa-times red-check
+                                            {% endif %}
+                                            {% endif %}
+                                            {% endif %}">
+                                            </i></li>
+                                    </ul>
+                            </h2>
+
+                            <ul class="aparells_detail">
+                                <li><strong>Sistema operatiu</strong> {% if post.terms('so_aparell') %}
+                                        {% for term in post.terms('so_aparell') %}
+                                            {{term.name}}
+                                        {% endfor %}
+                                    {% endif %}</li>
+                                    <li><strong>Tipus de dispositiu</strong>: {% if post.terms('tipus_aparell') %}
+                                                {% for term in post.terms('tipus_aparell') %}
+                                                    {{term.name}}
+                                                {% endfor %}
+                                        {% endif %}</li>
+                                    {% if post.versio %}
+                                    <li><strong>Versió del SO</strong>: {{ post.versio }}</li>
+                                    {% endif %}
+                                    <li><strong>Fabricant</strong>: {{ post.fabricant }}</li>
+                            </ul>
+
+                            <footer class="footer-main-header-gris">
+                                {% include "share_links.twig" %}
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-9">
+    			    <!-- .comentaris -->
+                    {% include "comentaris.twig" %}
+                    <!-- /.comentaris -->
+                    <hr>
+                </div><!--/.contingut -->
+                {% include "sidebar.twig" %}
+            </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+        <!-- .seccio-vermella -->
+        {% include "call-to-action-bottom.twig" %}
+        <!--/.seccio-vermella -->
+
+        {% include "contact_form.twig" %}
+
+        <!-- .seccio-blanca -->
+        {% include "credits.twig" %}
+        <!--/.seccio-blanca -->
+{% endblock %}
