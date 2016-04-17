@@ -312,7 +312,7 @@ function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
         
-        raw_text = translation;
+        rawText = translation;
         
         translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         jQuery('.second-textarea').html(translation_coloured);
@@ -456,8 +456,27 @@ function exchange_texts() {
 
 var $clipBoard = new Clipboard('#copy-text', {
     text: function(trigger) {
-        return raw_text;
+        return rawText;
     }
 });
+
+$clipBoard.on('success', function(e) {
+    e.clearSelection();
+    showTooltip("El text s'ha copiat!");
+});
+
+$clipBoard.on('error', function(e) {
+    showTooltip("No s'ha pogut copiar el text :(");
+});
+
+function showTooltip(msg) {
+    jQuery('#copy-text').data('title', msg);
+    jQuery('#copy-text').tooltip('show');
+    jQuery('#copy-text').on({
+        'mouseleave': function() {
+            $(this).tooltip('hide');
+        }
+    });
+}
 
 })(jQuery);
