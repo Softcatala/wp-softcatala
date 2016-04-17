@@ -145,7 +145,12 @@
                                 <div id="collapse{{ post.ID }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                     <!-- .panel-body -->
                                     <div class="panel-body">
-                                        <h2>Detalls</h2>
+                                        <h2>Detalls</h2> <span>/</span>
+                                        <h3>
+                                            <a href="{{ post.permalink }}" title="Detall de l'aparell {{ post.title }}">
+                                            vés a l'aparell <i class="fa fa-chevron-right"></i>
+                                            </a>
+                                        </h3>
                                         <!-- detalls -->
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">

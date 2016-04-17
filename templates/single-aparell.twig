@@ -19,18 +19,18 @@
                             <h1>{{ post.title }}</h1>
                             <h2>
                                     <ul class="aparells_detail">
-                                        <li>Configuració en català <i class="fa {% if post.conf_cat %}fa-check{% else %}fa-times{% endif %}"></i></li>
+                                        <li>Configuració en català <i class="fa {% if post.conf_cat %}fa-check green-check{% else %}fa-times red-check{% endif %}"></i></li>
                                         <li>Correcció ortogràfica en català
                                             <i class="fa
                                             {% if post.correccio_cat == '1' %}
-                                            fa-check
+                                            fa-check green-check
                                             {% else %}
                                             {% if post.correccio_cat == '3' %}
                                             fa-question
                                             {% else %}
                                             {% if post.correccio_cat == '2' %}
 
-                                            {% else %}fa-times
+                                            {% else %}fa-times red-check
                                             {% endif %}
                                             {% endif %}
                                             {% endif %}">
@@ -69,7 +69,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- .contingut -->
-                <div class="contingut contingut-left col-sm-9">                <!-- .comentaris -->
+                <div class="contingut contingut-left col-sm-9">
     			    <!-- .comentaris -->
                     {% include "comentaris.twig" %}
                     <!-- /.comentaris -->
