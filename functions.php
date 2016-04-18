@@ -43,6 +43,8 @@ class StarterSite extends TimberSite {
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
+        add_post_type_support( 'programa', 'woosidebars' );
+
         parent::__construct();
     }
 
