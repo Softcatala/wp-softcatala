@@ -5,7 +5,7 @@
  * @package wp-softcatala
  */
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-aparells', get_template_directory_uri() . '/static/js/aparells.js', array('sc-js-main'), '1.0.0', true );
+wp_enqueue_script( 'sc-js-aparells', get_template_directory_uri() . '/static/js/aparells.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_localize_script( 'sc-js-aparells', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));

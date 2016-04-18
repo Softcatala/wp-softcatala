@@ -11,7 +11,7 @@
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-noticies', get_template_directory_uri() . '/static/js/noticies.js', array('sc-js-main'), '1.0.0', true );
+wp_enqueue_script( 'sc-js-noticies', get_template_directory_uri() . '/static/js/noticies.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 
 //Template initialization
 $templates = array( 'index.twig' );

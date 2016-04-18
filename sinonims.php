@@ -6,8 +6,8 @@
  */
 
 /* JS scripts */
-wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
-wp_enqueue_script( 'sc-js-sinonims', get_template_directory_uri() . '/static/js/sinonims.js', array(), '1.0.0', true );
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-sinonims', get_template_directory_uri() . '/static/js/sinonims.js', array(), WP_SOFTCATALA_VERSION, true );
 wp_localize_script( 'sc-js-sinonims', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));

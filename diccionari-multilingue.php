@@ -8,9 +8,9 @@
 $url_api = get_option( 'api_diccionari_multilingue' );
 
 /* JS scripts */
-wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), '1.0.0', true );
-wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.js', array('sc-js-main'), '1.0.0', true );
-wp_enqueue_script( 'sc-js-multilingue', get_template_directory_uri() . '/static/js/multilingue.js', array('sc-js-typeahead'), '1.0.0', true );
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-multilingue', get_template_directory_uri() . '/static/js/multilingue.js', array('sc-js-typeahead'), WP_SOFTCATALA_VERSION, true );
 wp_localize_script( 'sc-js-multilingue', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' ),
 	'autocomplete_url' => $url_api . 'autocomplete/'
