@@ -312,7 +312,7 @@ function trad_ok(dt) {
     if(dt.responseStatus==200) {
         translation = nl2br(dt.responseData.translatedText);
         
-        rawText = translation;
+        rawText = dt.responseData.translatedText;
         
         translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         jQuery('.second-textarea').html(translation_coloured);
