@@ -35,10 +35,14 @@ $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
 //Download count
 $download_full = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
-$index = array_search($post->ID, array_column($download_full, 'wordpress_id'));
-if ($index) {
-    $context['total_downloads'] = $download_full[$index]['total'];
+$wordpress_ids_column = array_column($download_full, 'wordpress_id');
+if( $wordpress_ids_column ) {
+    $index = array_search($post->ID, $wordpress_ids_column);
+    if ( $index ) {
+        $context['total_downloads'] = $download_full[$index]['total'];
+    }
 }
+
 $context['baixades'] = generate_url_download( $baixades, $post );
 
 $query = array ( 'post_id' => $post->ID , 'subpage_type' => 'programa' );
