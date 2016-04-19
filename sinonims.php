@@ -12,7 +12,7 @@ wp_localize_script( 'sc-js-sinonims', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$url_sinonims_server = 'https://www.softcatala.org/sinonims/api/search?format=application/json&q=';
+$url_sinonims_server = get_option('api_diccionari_sinonims');
 
 $post = new TimberPost();
 //Ads
@@ -22,11 +22,10 @@ $paraula = urldecode( get_query_var('paraula') );
 $content_title = 'Diccionari de sinònims';
 
 if( ! empty ( $paraula ) ) {
-
     $url = $url_sinonims_server . $paraula;
-    $sinonims_server = json_decode( file_get_contents( $url ) );
+    try {
+        $sinonims_server = json_decode( file_get_contents( $url ) );
 
-    if( $sinonims_server && $sinonims_server != 'error') {
         if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
             $sinonims['paraula'] = $paraula;
             $sinonims['response'] = $sinonims_server->synsets;
@@ -41,9 +40,12 @@ if( ! empty ( $paraula ) ) {
 			throw_error('404', 'No Results For This Search');
             $context_holder['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
         }
-    } else {
+    } catch ( Exception $e ) {
 		throw_error('500', 'Error connecting to API server');
         $context_holder['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
+
+        $fieds['Hora'] = current_time( 'mysql' );
+        sendEmailForm( 'web@softcatala.org', 'Diccionari de sinònims', 'El servidor del diccionari de sinònims no està funcionant', $fields );
     }
 }
 

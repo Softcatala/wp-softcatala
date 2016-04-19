@@ -35,11 +35,13 @@ $context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
 //Download count
 $download_full = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
-$wordpress_ids_column = array_column($download_full, 'wordpress_id');
-if( $wordpress_ids_column ) {
-    $index = array_search($post->ID, $wordpress_ids_column);
-    if ( $index ) {
-        $context['total_downloads'] = $download_full[$index]['total'];
+if( $download_full ) {
+    $wordpress_ids_column = array_column($download_full, 'wordpress_id');
+    if( $wordpress_ids_column ) {
+        $index = array_search($post->ID, $wordpress_ids_column);
+        if ( $index ) {
+            $context['total_downloads'] = $download_full[$index]['total'];
+        }
     }
 }
 
