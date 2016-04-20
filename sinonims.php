@@ -24,28 +24,26 @@ $content_title = 'Diccionari de sinònims';
 if( ! empty ( $paraula ) ) {
     $url = $url_sinonims_server . $paraula;
     try {
-        $sinonims_server = json_decode( file_get_contents( $url ) );
+        $sinonims_server = json_decode( do_json_api_call($url) );
 
-        if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
+        if( $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
             $sinonims['paraula'] = $paraula;
             $sinonims['response'] = $sinonims_server->synsets;
 
-			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
-			$title = 'Diccionari de sinònims en català: «' . $paraula . '»';
-			$prefix_description = 'Sinònims de «' . $paraula . '» en català.';
-			$canonical = get_current_url();
+            $content_title = 'Diccionari de sinònims: «' . $paraula . '»';
+            $title = 'Diccionari de sinònims en català: «' . $paraula . '»';
+            $prefix_description = 'Sinònims de «' . $paraula . '» en català.';
+            $canonical = get_current_url();
 
             $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+        } else if ( $sinonims_server == 'error' ) {
+            throw_service_error( $content_title );
         } else {
-			throw_error('404', 'No Results For This Search');
+            throw_error('404', 'No Results For This Search');
             $context_holder['sinonims_result'] = 'La paraula que esteu cercant no es troba al diccionari.';
         }
     } catch ( Exception $e ) {
-		throw_error('500', 'Error connecting to API server');
-        $context_holder['sinonims_result'] = 'S\'ha produït un error en el servidor. Proveu més tard';
-
-        $fieds['Hora'] = current_time( 'mysql' );
-        sendEmailForm( 'web@softcatala.org', 'Diccionari de sinònims', 'El servidor del diccionari de sinònims no està funcionant', $fields );
+        throw_service_error( $content_title );
     }
 }
 

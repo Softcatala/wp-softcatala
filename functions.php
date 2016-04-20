@@ -967,3 +967,20 @@ function sc_image_full_quality( $quality ) {
 }
 add_filter( 'jpeg_quality', 'sc_image_full_quality' );
 add_filter( 'wp_editor_set_quality', 'sc_image_full_quality' );
+
+
+/**
+ * Generic function to inform SC about sections on the website not working properly
+ *
+ **/
+function throw_service_error( $service, $message = '' ) {
+    throw_error('500', 'Error connecting to API server');
+    $result = 'S\'ha produït un error en el servidor. Proveu més tard';
+
+    $fieds['Hora'] = current_time( 'mysql' );
+    if( $message ) {
+        $fieds['Missatge d\'error'] = $message;
+    }
+
+    sendEmailForm( 'web@softcatala.org', $service, 'El servei «' . $service . '» no està funcionant correctament', $fields );
+}

@@ -44,8 +44,8 @@ function print_synonims(result) {
     jQuery('#results').slideDown();
 }
 
-function errorSynsets() {
-    show_message("S'ha produït un error en enviar les dades. Proveu de nou més tard.");
+function errorSynsets(result) {
+    show_message(result.responseJSON);
 }
 
 function show_message(text) {

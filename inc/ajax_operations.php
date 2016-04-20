@@ -136,8 +136,10 @@ function sc_subscribe_list() {
  * @return json response
  */
 function sc_find_sinonim() {
+    $service_name = 'Diccionari de sinònims';
     if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
         $result = 'S\'ha produït un error en el servidor. Proveu més tard';
+        throw_service_error( $service_name, 'Error wp_nonce' );
     } else {
         $paraula = sanitize_text_field( $_POST["paraula"] );
         $url_sinonims_server = get_option('api_diccionari_sinonims');
@@ -146,20 +148,18 @@ function sc_find_sinonim() {
         try {
             $sinonims_server = json_decode( do_json_api_call($url) );
 
-            if( ! empty ( $paraula ) && count($sinonims_server->synsets) > 0) {
+            if( $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
                 $sinonims['paraula'] = $paraula;
                 $sinonims['response'] = $sinonims_server->synsets;
                 $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+            } else if ( $sinonims_server == 'error' ) {
+                throw_service_error( $service_name );
             } else {
                 throw_error('404', 'No Results For This Search');
                 $result = 'La paraula que esteu cercant no es troba al diccionari.';
             }
         } catch ( Exception $e ) {
-            throw_error('500', 'Error connecting to API server');
-            $result = 'S\'ha produït un error en el servidor. Proveu més tard';
-
-            $fieds['Hora'] = current_time( 'mysql' );
-            sendEmailForm( 'web@softcatala.org', 'Diccionari de sinònims', 'El servidor del diccionari de sinònims no està funcionant', $fields );
+            throw_service_error( $service_name );
         }
     }
 
