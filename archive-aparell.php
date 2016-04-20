@@ -11,7 +11,7 @@ wp_localize_script( 'sc-js-aparells', 'scajax', array(
 ));
 
 //Template initialization
-$post = new TimberPost();
+$post = new TimberPost(get_option('aparells_post_id'));
 $context_holder['post'] = $post;
 $parent_data = get_page_parent_title( $post );
 $context_holder['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
@@ -29,7 +29,7 @@ $context_holder['categories']['tipus'] = Timber::get_terms('tipus_aparell');
 
 //Search and filters
 $search = get_query_var('cerca');
-$sistema_operatiu = get_query_var( 'sistema_operatiu' );
+$sistema_operatiu = get_query_var( 'so_aparell' );
 $tipus_aparell = get_query_var( 'tipus_aparell' );
 
 //Generate $args query
@@ -46,7 +46,7 @@ if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparel
     $title .= 'Softcatalà';
 } else {
     $title = 'Aparells - Softcatalà';
-    $args = array( 'post_type' => 'aparell', 'posts_per_page' => -1, 'order' => 'ASC' );
+    $args = array( 'post_type' => 'aparell', 'paged' => get_is_paged(), 'posts_per_page' => 25, 'order' => 'ASC' );
 }
 
 $context_holder['cerca'] = $search;
@@ -56,9 +56,10 @@ $context_holder['selected_filter_tipus'] = ( isset ( $args['filter_tipus'] ) ? $
 //Posts and pagination
 query_posts( $args );
 $context_holder['aparells'] = Timber::get_posts( $args );
+$context_holder['pagination'] = Timber::get_pagination();
 
 //Context initialization
-$templates = array('aparells.twig' );
+$templates = array('archive-aparell.twig' );
 $description = 'Guia col·laborativa on podeu consultar i documentar els aparells (mòbils, tauletes, lectors de llibres electrònics...) que es poden configurar en català"';
 $context_filterer = new SC_ContextFilterer( $context_holder );
 $context_overrides = array( 'title' => $title, 'description' => $description );

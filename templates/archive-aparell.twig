@@ -55,7 +55,7 @@
                     </section>
 
                     <!-- .filtres -->
-                    <form class="searchform" method="get" id="cerca_aparells" role="search" action="{{ search_params.current_url }}">
+                    <form class="searchform" method="get" id="cerca_aparells" role="search" action="/aparells">
                         <div class="filtres row">
                             <div class="col-sm-10">
                                 <div class="input-group">
@@ -148,6 +148,7 @@
                                     <!-- .panel-body -->
                                     <div class="panel-body">
                                         <h2>Detalls</h2>
+                                        <h3><a href="{{ post.permalink }}" title="Detall de {{ post.title }}"> / vés a l'aparell »</a></h3>
                                         <!-- detalls -->
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
@@ -220,6 +221,10 @@
                             </div>
 
                             {% endfor %}
+
+                            <!-- .pagination -->
+                            {% include "pagination.twig" %}
+                            <!--/.pagination -->
                         {% else %}
                             No s'ha trobat cap aparell que coincideixi amb la cerca
                         {% endif %}

@@ -19,20 +19,6 @@ function sc_catalanitzador_page_link( $permalink, $postId ) {
 	return $permalink;
 }
 
-function sc_aparells_page_link( $permalink, $postId ) {
-
-	$post = get_post( $postId );
-
-	$aparells = get_option('aparells_post_id');
-
-	if ( !empty( $aparells ) && is_numeric( $aparells )
-			&& $post->post_type == 'page' && $post->ID == (int)$aparells ) {
-			return '/aparells/';
-	}
-
-    return $permalink;
-}
-
 function sc_add_special_pages_rewrite_rules() {
 
 	$catalanitzador = get_option('catalanitzador_post_id');
@@ -41,12 +27,6 @@ function sc_add_special_pages_rewrite_rules() {
 		add_rewrite_rule( 'catalanitzador/?',
 							'index.php?post_type=programa&p=' . (int) $catalanitzador,
 							'top');
-	}
-
-	$aparells = get_option('aparells_post_id');
-
-	if ( !empty( $aparells ) && is_numeric( $aparells ) ) {
-		add_rewrite_rule('aparells/?', 'index.php?page_id=' . (int) $aparells, 'top');
 	}
 }
 
@@ -94,6 +74,26 @@ function sc_custom__rewrite_rules($aRules) {
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
     );
     $aRules = $aNewRules + $aRules;
+
+	//Aparells
+    $aNewRules = array(
+		'aparells/p/([^/]+)/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&so_aparell=$matches[2]&tipus_aparell=$matches[3]&paged=$matches[4]',
+        'aparells/p/([^/]+)/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&so_aparell=$matches[2]&tipus_aparell=$matches[3]',
+		'aparells/p/([^/]+)/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&so_aparell=$matches[2]&paged=$matches[3]',
+        'aparells/p/([^/]+)/so/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&so_aparell=$matches[2]',
+		'aparells/p/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&tipus_aparell=$matches[2]&paged=$matches[3]',
+        'aparells/p/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&tipus_aparell=$matches[2]',
+		'aparells/p/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]&paged=$matches[2]',
+        'aparells/p/([^/]+)/?' => 'index.php?post_type=aparell&cerca=$matches[1]',
+		'aparells/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&so_aparell=$matches[1]&tipus_aparell=$matches[2]&paged=$matches[3]',
+        'aparells/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=aparell&so_aparell=$matches[1]&tipus_aparell=$matches[2]',
+		'aparells/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&so_aparell=$matches[1]&paged=$matches[2]',
+        'aparells/so/([^/]+)/?' => 'index.php?post_type=aparell&so_aparell=$matches[1]',
+		'aparells/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=aparell&tipus_aparell=$matches[1]&paged=$matches[2]',
+        'aparells/cat/([^/]+)/?' => 'index.php?post_type=aparell&tipus_aparell=$matches[1]',
+    );
+    $aRules = $aNewRules + $aRules;
+	$aRules = $aNewRules + $aRules;
 
     return $aRules;
 }

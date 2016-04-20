@@ -63,9 +63,10 @@ class StarterSite extends TimberSite {
      * This function implements the rewrite tags for the different sections of the website
      */
     function sc_change_programs_search_url_rewrite() {
-        if(get_query_var( 'post_type' ) == 'programa') {
-            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) ) {
-                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat' );
+        $post_type = get_query_var( 'post_type' );
+        if( $post_type == 'programa' or $post_type == 'aparell' ) {
+            if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) || isset($_GET['so_aparell']) || isset($_GET['tipus_aparell']) ) {
+                $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'so_aparell' => 'so', 'categoria_programa' => 'cat', 'tipus_aparell' => 'cat' );
                 $params_query = '';
                 foreach($available_query_vars as $query_var => $key) {
                     if (get_query_var( $query_var )) {
@@ -74,7 +75,14 @@ class StarterSite extends TimberSite {
                 }
 
                 if( ! empty( $params_query ) ) {
-                    wp_redirect( home_url( "/programes/" ) . $params_query );
+                    switch ( $post_type ) {
+                        case 'programa':
+                            wp_redirect( home_url( "/programes/" ) . $params_query );
+                            break;
+                        case 'aparell':
+                            wp_redirect( home_url( "/aparells/" ) . $params_query );
+                            break;
+                    }
                 }
             }
         }
@@ -418,7 +426,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'post_type' => $post_type,
                 'post_status'    => 'publish',
                 'order'          => 'ASC',
-                'posts_per_page' => -1
+                'paged' => get_is_paged(),
+                'posts_per_page' => 25
             );
             break;
         case 'programa':
