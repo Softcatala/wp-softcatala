@@ -3,16 +3,16 @@
 jQuery( document ).ready(function() {
     var OSName="Unknown OS";
     if (navigator.userAgent.indexOf("Win") != -1) OSName="windows_x86";
+    else if (navigator.userAgent.indexOf("iPad") != -1 || navigator.userAgent.indexOf("iPhone") != -1 || navigator.userAgent.indexOf("iPod") != -1) OSName="ios";
     else if (navigator.userAgent.indexOf("Mac") != -1) OSName="osx";
     else if (navigator.userAgent.indexOf("Android") != -1) OSName="android";
     else if (navigator.userAgent.indexOf("Linux") != -1) OSName="linux";
-    else if (navigator.userAgent.indexOf("iPad") != -1 || navigator.userAgent.indexOf("iPhone") != -1 || navigator.userAgent.indexOf("iPod") != -1) OSName="ios";
 
     var OSNamearch="Unknown Arch";
     if (navigator.userAgent.indexOf("x86_64") != -1) OSNamearch=OSName+"_x86_64";
     else OSNamearch=OSName+"_x86";
 
-    show_download_version(OSName+"_x86", OSNamearch)
+    show_download_version(OSName, OSNamearch)
 
     var numItems = jQuery('.baixada_boto').length;
     if ( numItems <= 2 ) {
@@ -20,11 +20,15 @@ jQuery( document ).ready(function() {
     }
 });
 
+
+
 function show_download_version(OSName, OSNamearch) {
     if((jQuery('#baixada_'+OSNamearch).length)) {
         jQuery('#baixada_'+OSNamearch).show();
-    } else if(jQuery('#baixada_'+OSName).length) {
-        jQuery('#baixada_'+OSName).show();
+    } else if(jQuery('#baixada_'+OSName+"_x86").length) {
+        jQuery('#baixada_'+OSName+"_x86").show();
+    } else if(jQuery('#baixada_'+OSName+"_generic").length) {
+        jQuery('#baixada_'+OSName+"_generic").show();
     } else {
         jQuery('.baixada_boto').first().show();
     }
