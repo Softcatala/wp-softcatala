@@ -17,12 +17,12 @@ $url_sinonims_server = get_option('api_diccionari_sinonims');
 $post = new TimberPost();
 //Ads
 $context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
-$paraula = urldecode( get_query_var('paraula') );
+$paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
 
 $content_title = 'Diccionari de sinònims';
 
 if( ! empty ( $paraula ) ) {
-    $url = $url_sinonims_server . $paraula;
+    $url = $url_sinonims_server . urlencode( $paraula );
     try {
         $sinonims_server = json_decode( do_json_api_call($url) );
 

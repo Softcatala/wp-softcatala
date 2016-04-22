@@ -12,6 +12,7 @@ jQuery('#_action_consulta_sinonims').click(function(){
     jQuery("#loading").show();
     var url = 'https://www.softcatala.org/sinonims/api/search';
     var query = jQuery('#sinonims').val();
+    query = query.trim();
 
     var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);

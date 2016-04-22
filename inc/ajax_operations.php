@@ -143,7 +143,7 @@ function sc_find_sinonim() {
     } else {
         $paraula = sanitize_text_field( $_POST["paraula"] );
         $url_sinonims_server = get_option('api_diccionari_sinonims');
-        $url = $url_sinonims_server . $paraula;
+        $url = $url_sinonims_server . urlencode( $paraula );
 
         try {
             $sinonims_server = json_decode( do_json_api_call($url) );
