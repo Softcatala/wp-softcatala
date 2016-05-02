@@ -30,6 +30,9 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 //Posts and pagination
 $args = $wp_query->query;
 //Do not include 'arxivat' projects
+$args['orderby'] = 'title';
+$args['order'] = 'ASC';
+$args['posts_per_page'] = -1;
 $args['tax_query'] = array(
     array (
         'taxonomy' => 'classificacio',
