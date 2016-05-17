@@ -64,6 +64,7 @@ jQuery('#input_rating').on('change', function () {
         var post_data = new FormData();
         post_data.append('post_id', name[2]);
         post_data.append('rate', jQuery("#input_rating").val());
+        post_data.append('cookie_id', cookie_id);
         post_data.append('action', 'send_vote');
         post_data.append('_wpnonce', jQuery('input[name=_wpnonce_program_vote]').val());
 
@@ -88,7 +89,7 @@ function vote_sent_ok(result) {
 
     var CookieDate = new Date;
     CookieDate.setFullYear(CookieDate.getFullYear( ) +10);
-    document.cookie = cookie_id+'=1; expires=' + CookieDate.toGMTString( ) + ';';
+    document.cookie = result.cookie_id+'=1; expires=' + CookieDate.toGMTString( ) + ';';
 }
 
 function vote_sent_ko(result) {

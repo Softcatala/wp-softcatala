@@ -384,6 +384,7 @@ function sc_send_vote() {
             $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
         } else {
             $return['status'] = 1;
+            $return['cookie_id'] = sanitize_text_field( $_POST["cookie_id"] );
             $return['text'] = "Gràcies per enviar-nos la vostra valoració!";
         }
     }
