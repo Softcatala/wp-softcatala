@@ -633,7 +633,7 @@ function acf_get_field_key( $field_name, $post_id ) {
     // Check if field is part of one of the field groups
     // Return the first one.
     foreach ( $acf_fields as $acf_field ) {
-        if ( in_array($acf_field->post_parent,$field_groups_ids) )
+        if ( in_array( $acf_field->post_parent, $field_groups_ids, true ) )
             return $acf_fields[0]->post_name;
     }
     return false;
