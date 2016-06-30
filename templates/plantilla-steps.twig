@@ -19,14 +19,26 @@
                     {% set stepsmax = steps|length + 1 %}
                     <div class="bt-grup row">
                         {% for step in steps %}
-                        <div class="col-xs-4"><button type="button" data-id="step_{{ loop.index }}" class="bt-basic steps {% if loop.first %}active{% endif %} segon"><span><i>0{{ loop.index }}</i><p>{{ step.step_title }}</p></span></button></div>
+                        <div class="col-xs-4">
+                            <button type="button" data-id="step_{{ loop.index }}" class="bt-basic steps {% if loop.first %}active{% endif %} segon">
+                                <span><i>0{{ loop.index }}</i><p>{{ step.step_title }}</p></span>
+                            </button>
+                        </div>
                         {% endfor %}
-                        <div class="col-xs-4"><button type="button" data-id="step_{{ stepsmax }}" class="bt-basic steps segon"><span><i>0{{ stepsmax }}</i><p>On cal ajuda?</p></span></button></div>
+                        {% if projectes %}
+                        <div class="col-xs-4">
+                            <button type="button" data-id="step_{{ stepsmax }}" class="bt-basic steps segon">
+                                <span><i>0{{ stepsmax }}</i><p>On cal ajuda?</p></span>
+                            </button>
+                        </div>
+                        {% endif %}
                         <ul class="titol-xxs visible-xxs-block">
                             {% for step in steps %}
-                            <li>{{ step.step_title }}</li>
-                            <li {% if not loop.first %}class="hidden"{% endif %}>Lectures recomanades</li>
+                                <li>{{ step.step_title }}</li>
                             {% endfor %}
+                            {% if projectes %}
+                                <li>On cal ajuda?</li>
+                            {% endif %}
                         </ul>
                     </div>
                     {% endif %}
