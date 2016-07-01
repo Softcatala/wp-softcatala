@@ -19,7 +19,7 @@ function getOperatingSystem() {
     if (jQuery.browser.ipad || jQuery.browser.iphone) { return 'ios'; }
     if (jQuery.browser.mac) { return 'osx'; }
     if (jQuery.browser.linux) { return 'linux'; }
-    if (jquery.browser.win) { return 'windows' }
+    if (jQuery.browser.win) { return 'windows' }
 
     return 'Unknown OS';
 }
