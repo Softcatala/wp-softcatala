@@ -1,18 +1,12 @@
 /** JS functions related to pages from the post_type 'Programa' **/
 
 jQuery( document ).ready(function() {
-    var OSName="Unknown OS";
-    if (navigator.userAgent.indexOf("Win") != -1) OSName="windows_x86";
-    else if (navigator.userAgent.indexOf("iPad") != -1 || navigator.userAgent.indexOf("iPhone") != -1 || navigator.userAgent.indexOf("iPod") != -1) OSName="ios";
-    else if (navigator.userAgent.indexOf("Mac") != -1) OSName="osx";
-    else if (navigator.userAgent.indexOf("Android") != -1) OSName="android";
-    else if (navigator.userAgent.indexOf("Linux") != -1) OSName="linux";
 
-    var OSNamearch="Unknown Arch";
-    if (navigator.userAgent.indexOf("x86_64") != -1) OSNamearch=OSName+"_x86_64";
-    else OSNamearch=OSName+"_x86";
+    var operatingSystem = getOperatingSystem();
 
-    show_download_version(OSName, OSNamearch)
+    var cpuArchitecture = getCpuArchitecture();
+
+    show_download_version(operatingSystem, cpuArchitecture);
 
     var numItems = jQuery('.baixada_boto').length;
     if ( numItems <= 2 ) {
@@ -20,14 +14,30 @@ jQuery( document ).ready(function() {
     }
 });
 
+function getOperatingSystem() {
+    if (jQuery.browser.android) { return 'android'; }
+    if (jQuery.browser.ipad || jQuery.browser.iphone) { return 'ios'; }
+    if (jQuery.browser.mac) { return 'osx'; }
+    if (jQuery.browser.linux) { return 'linux'; }
+    if (jquery.browser.win) { return 'windows' }
 
+    return 'Unknown OS';
+}
 
-function show_download_version(OSName, OSNamearch) {
-    if((jQuery('#baixada_'+OSNamearch).length)) {
-        jQuery('#baixada_'+OSNamearch).show();
-    } else if(jQuery('#baixada_'+OSName+"_x86").length) {
-        jQuery('#baixada_'+OSName+"_x86").show();
-    } else if(jQuery('#baixada_'+OSName+"_generic").length) {
+function getCpuArchitecture() {
+    if(navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ){
+       return 'x86_64';
+    } else {
+       return 'x86';
+    }
+}
+
+function show_download_version(operatingSystem, cpuArchitecture) {
+    if((jQuery('#baixada_' + operatingSystem + '_' + cpuArchitecture).length)) {
+        jQuery('#baixada_' + operatingSystem + '_' + cpuArchitecture).show();
+    } else if(jQuery('#baixada_' + operatingSystem+"_x86").length) {
+        jQuery('#baixada_'+operatingSystem+"_x86").show();
+    } else if(jQuery('#baixada_'+operatingSystem+"_generic").length) {
         jQuery('#baixada_'+OSName+"_generic").show();
     } else {
         jQuery('.baixada_boto').first().show();
