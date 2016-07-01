@@ -25,7 +25,9 @@ function getOperatingSystem() {
 }
 
 function getCpuArchitecture() {
-    if(navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ){
+    if((navigator.userAgent.indexOf("WOW64") != -1)
+        || (navigator.userAgent.indexOf("Win64") != -1)
+        || (navigator.userAgent.indexOf("x86_64") != -1)) {
        return 'x86_64';
     } else {
        return 'x86';
