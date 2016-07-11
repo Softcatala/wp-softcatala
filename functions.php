@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.7.8');
+define('WP_SOFTCATALA_VERSION', '0.7.9');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {

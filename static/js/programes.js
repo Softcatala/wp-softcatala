@@ -1,16 +1,17 @@
 /** JS functions related to pages from the post_type 'Programa' **/
 
 jQuery( document ).ready(function() {
+    if (jQuery('.baixada_boto').length > 0) {
+        var operatingSystem = getOperatingSystem();
 
-    var operatingSystem = getOperatingSystem();
+        var cpuArchitecture = getCpuArchitecture();
 
-    var cpuArchitecture = getCpuArchitecture();
+        show_download_version(operatingSystem, cpuArchitecture);
 
-    show_download_version(operatingSystem, cpuArchitecture);
-
-    var numItems = jQuery('.baixada_boto').length;
-    if ( numItems <= 2 ) {
-        jQuery("#show_more_versions").hide();
+        var numItems = jQuery('.baixada_boto').length;
+        if ( numItems <= 2 ) {
+            jQuery("#show_more_versions").hide();
+        }
     }
 });
 
