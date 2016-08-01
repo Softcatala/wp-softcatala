@@ -114,9 +114,11 @@ function sc_subscribe_list() {
             $message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: '. $nom . '<br/>Email: '. $correu;
 
             //proceed with PHP email.
-            $headers = 'From: '.$nom.' <'.$to_email. ">\r\n" .
-                'Reply-To: '.$correu.'' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
+            $headers = array();
+            $headers[] = 'From: '.$nom.' <'.$to_email. '>';
+            $headers[] = 'Reply-To: '.$correu;
+            $headers[] = 'X-Mailer: PHP/' . phpversion();
+            $headers[] = 'Content-Type: text/html';
 
             if ( wp_mail( $to_email, $subject, $message, $headers )) {
                 $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
