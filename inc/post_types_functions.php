@@ -400,7 +400,7 @@ function get_users_metadata($users_ids ) {
 }
 
 function get_responsables($project){
-    $project = get_page_by_path(strtolower($project), OBJECT, 'project');
+    $project = get_page_by_path(strtolower($project), OBJECT, 'projecte');
 
     if ($project != null) {
         $responsables = get_field('responsable', $project);

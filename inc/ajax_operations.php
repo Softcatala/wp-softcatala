@@ -124,10 +124,8 @@ function sc_subscribe_list() {
             // if project has responsables email them too
             $responsables = get_responsables($projecte);
             if($responsables) {
-                $users_metadata = get_users_metadata($responsables);
-
-                foreach($users_metadata as $user) {
-                    $to_email .= ','.$user['email'];
+                foreach($responsables as $user) {
+                    $to_email = $to_email . ',' .$user['user_email'];
                 }
             }
 
