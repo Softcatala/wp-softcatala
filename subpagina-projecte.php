@@ -21,6 +21,21 @@ $context['post_subpagina'] = $post_subpagina;
 $context['post'] = $post;
 $context['current_url'] = get_current_url();
 
+$context['logotip'] = get_img_from_id( $post->logotip );
+$context['links'] = $post->get_field( 'link' );
+$context['credits'] = $post->get_field( 'credit' );
+
+if ( is_array( $post->responsable ) ) {
+    $context['responsables'] = get_users_metadata($post->responsable);
+} else {
+    $context['responsables'] = false;
+}
+
+//Contact Form Data
+$context['contact']['to_email'] = 'web@softcatala.org';
+$context['contact']['nom_from'] = 'Projectes de Softcatalà';
+$context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
+
 $query = array ( 'post_id' => $post_subpagina->projecte, 'subpage_type' => 'projecte' );
 
 //Related subpages

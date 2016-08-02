@@ -10,9 +10,9 @@ $post = Timber::query_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-$context['logotip'] = get_img_from_id( $post->logotip );
 $context['post'] = $post;
-$post_links = types_child_posts('link', $post->ID);
+
+$context['logotip'] = get_img_from_id( $post->logotip );
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 
