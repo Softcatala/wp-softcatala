@@ -388,14 +388,29 @@ function get_the_filter_date_name( $filter_date_slug )
  * @array $users array
  * @return $array
  **/
-function generate_responsables_link( $users_ids ) {
+function get_users_metadata($users_ids ) {
     foreach( $users_ids as $key => $user_id ) {
         $user = get_userdata( $user_id );
         $users[$key]['name'] = $user->first_name . ' ' . $user->last_name;
         $users[$key]['url'] = get_author_posts_url( $user_id );
+        $users[$key]['email'] = $user->user_email;
     }
 
     return $users;
+}
+
+function get_responsables($project){
+    $project = get_page_by_path(strtolower($project), OBJECT, 'project');
+
+    if ($project != null) {
+        $responsables = get_field('responsable', $project);
+
+        if(is_array($responsables) && !empty($responsables)) {
+            return $responsables;
+        }
+    }
+
+    return false;
 }
 
 function get_gravatar_url( $email, $size = '270' ) {

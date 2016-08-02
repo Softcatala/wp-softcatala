@@ -17,7 +17,7 @@ $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 
 if ( is_array( $post->responsable ) ) {
-    $context['responsables'] = generate_responsables_link($post->responsable);
+    $context['responsables'] = get_users_metadata($post->responsable);
 } else {
     $context['responsables'] = false;
 }
