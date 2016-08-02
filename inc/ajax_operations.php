@@ -79,6 +79,7 @@ function sc_multilingue_search()
     echo json_encode($result);
     die();
 }
+
 /**
  * Function to make the request to synonims dictionary server
  *
@@ -119,6 +120,16 @@ function sc_subscribe_list() {
             $headers[] = 'Reply-To: '.$correu;
             $headers[] = 'X-Mailer: PHP/' . phpversion();
             $headers[] = 'Content-Type: text/html';
+
+            // if project has responsables email them too
+            $responsables = get_responsables($projecte);
+            if($responsables) {
+                $users_metadata = get_users_metadata($responsables);
+
+                foreach($users_metadata as $user) {
+                    $to_email .= ','.$user['email'];
+                }
+            }
 
             if ( wp_mail( $to_email, $subject, $message, $headers )) {
                 $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";

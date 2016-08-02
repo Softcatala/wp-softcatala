@@ -4,7 +4,7 @@
  */
 
 /**
- * Handles Programes CPT
+ * Handles Projectes CPT
  */
 class SC_Projectes extends SC_TypeBase {
 
