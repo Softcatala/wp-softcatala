@@ -40,7 +40,10 @@ if ( ! empty ( $project_slug ) ) {
 	$post = Timber::get_post();
 
 	$profile = $post->get_field('perfil');
-    $content_title = 'Col·laboreu amb nosaltres - ' . $profile . ' - Softcatalà';
+	$profile_label = get_field_object('perfil', $post->ID);
+	$all_acf_data = get_field_objects($post->ID);
+
+	$content_title = 'Col·laboreu amb nosaltres: ' . $profile_label['choices'][$profile];
 
 	if ( false === $profile || empty($profile)) {
 		wp_redirect( '/col·laboreu/', 302 );
