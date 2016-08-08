@@ -58,34 +58,41 @@ AtDCore.prototype.addI18n = function(localizations) {
  * Setters
  */
 
-AtDCore.prototype.processXML = function(responseXML) {
-
+AtDCore.prototype.processJSON = function(responseJSON) {
+    var json = jQuery.parseJSON(responseJSON);
     this.suggestions = [];
-    var errors = responseXML.getElementsByTagName('error');
-    for (var i = 0; i < errors.length; i++) {
-       var suggestion = {};
-       // I didn't manage to make the CSS break the text, so we add breaks with Javascript:
-       suggestion["description"] = this._wordwrap(errors[i].getAttribute("msg"), 50, "<br/>");
-       suggestion["suggestions"] = [];
-       var suggestionsStr = errors[i].getAttribute("replacements");
-       if (suggestionsStr) {
-           suggestion["suggestions"] = suggestionsStr;
-       }
-       var errorOffset = parseInt(errors[i].getAttribute("offset"));
-       var errorLength = parseInt(errors[i].getAttribute("errorlength"));
-       suggestion["offset"]      = errorOffset;
-       suggestion["errorlength"] = errorLength;
-       suggestion["type"]        = errors[i].getAttribute("category");
-       suggestion["ruleid"]      = errors[i].getAttribute("ruleId");
-       suggestion["subid"]      = errors[i].getAttribute("subId");
-       suggestion["locqualityissuetype"] = errors[i].getAttribute("locqualityissuetype");
-       var url = errors[i].getAttribute("url");
-       if (url) {
-           suggestion["moreinfo"] = url;
-       }
-       this.suggestions.push(suggestion);
+    for (var key in json.matches) {
+        var match = json.matches[key];
+        var suggestion = {};
+        // I didn't manage to make the CSS break the text, so we add breaks with Javascript:
+        suggestion["description"] = this._wordwrap(match.message, 50, "<br/>");
+        suggestion["suggestions"] = [];
+        var suggestions = [];
+        for (var k = 0; k < match.replacements.length; k++) {
+            let repl = match.replacements[k];
+            if (repl.value) {
+                suggestions.push(repl.value);
+            } else {
+                suggestions.push(repl);  //TODO: remove this case, it's for an old API version
+            }
+        }
+        suggestion["suggestions"] = suggestions.join("#");
+        suggestion["offset"]      = match.offset;
+        suggestion["errorlength"] = match.length;
+        suggestion["type"]        = match.rule.category.name;
+        suggestion["ruleid"]      = match.rule.id;
+        suggestion["subid"]       = match.rule.subId;
+        suggestion["its20type"]   = match.rule.issueType;
+        var urls = match.rule.urls;
+        if (urls && urls.length > 0) {
+            if (urls[0].value) {
+                suggestion["moreinfo"] = urls[0].value;
+            } else {
+                suggestion["moreinfo"] = urls[0];  //TODO: remove this case, it's for an old API version
+            }
+        }
+        this.suggestions.push(suggestion);
     }
-
     return this.suggestions;
 };
 
@@ -485,14 +492,7 @@ AtDCore.prototype.isIE = function() {
                   return;
                }
 
-               /* check to see if things are broken first and foremost */
-               if (request.responseXML.getElementsByTagName('message').item(0) != null)
-               {
-                  ed.windowManager.alert(request.responseXML.getElementsByTagName('message').item(0).firstChild.data);
-                  return;
-               }
-
-               var results = core.processXML(request.responseXML);
+               var results = core.processJSON(request.responseText);
 
                if (results.length == 0) {
                   var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
@@ -831,7 +831,7 @@ AtDCore.prototype.isIE = function() {
 	  else if (catOptions.indexOf("formes_balears")>=0)
 	  {
 	      enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-	      disable = "EXIGEIX_VERBS_CENTRAL";
+	      disable = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
 	  }
 	  else if (catOptions.indexOf("formes_valencianes")>=0)
 	  {
@@ -894,15 +894,16 @@ AtDCore.prototype.isIE = function() {
 	  };
 	  //End of Catalan options
 
-   
-         tinymce.util.XHR.send({
+	  
+	  var postData = "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
+              + "&language=" + encodeURI(languageCode)
+              + "&enabledRules=" + enable 
+              + "&disabledRules=WHITESPACE_RULE," + disable;
+          tinymce.util.XHR.send({
             url          : url + "/" + file,
             content_type : 'text/xml',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
-                           + "&language=" + encodeURI(languageCode)
-                           + "&enabled=" + enable 
-                           + "&disabled=WHITESPACE_RULE," + disable,
+            data         : postData,
             async        : true,
             success      : success,
             error        : function( type, req, o )

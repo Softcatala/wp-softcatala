@@ -146,14 +146,7 @@
                   return;
                }
 
-               /* check to see if things are broken first and foremost */
-               if (request.responseXML.getElementsByTagName('message').item(0) != null)
-               {
-                  ed.windowManager.alert(request.responseXML.getElementsByTagName('message').item(0).firstChild.data);
-                  return;
-               }
-
-               var results = core.processXML(request.responseXML);
+               var results = core.processJSON(request.responseText);
 
                if (results.length == 0) {
                   var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
@@ -492,7 +485,7 @@
 	  else if (catOptions.indexOf("formes_balears")>=0)
 	  {
 	      enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-	      disable = "EXIGEIX_VERBS_CENTRAL";
+	      disable = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
 	  }
 	  else if (catOptions.indexOf("formes_valencianes")>=0)
 	  {
@@ -555,15 +548,16 @@
 	  };
 	  //End of Catalan options
 
-   
-         tinymce.util.XHR.send({
+	  
+	  var postData = "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
+              + "&language=" + encodeURI(languageCode)
+              + "&enabledRules=" + enable 
+              + "&disabledRules=WHITESPACE_RULE," + disable;
+          tinymce.util.XHR.send({
             url          : url + "/" + file,
             content_type : 'text/xml',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
-                           + "&language=" + encodeURI(languageCode)
-                           + "&enabled=" + enable 
-                           + "&disabled=WHITESPACE_RULE," + disable,
+            data         : postData,
             async        : true,
             success      : success,
             error        : function( type, req, o )
