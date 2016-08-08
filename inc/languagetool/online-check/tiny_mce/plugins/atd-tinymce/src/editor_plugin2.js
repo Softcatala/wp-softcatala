@@ -146,13 +146,6 @@
                   return;
                }
 
-               /* check to see if things are broken first and foremost */
-               if (request.responseXML.getElementsByTagName('message').item(0) != null)
-               {
-                  ed.windowManager.alert(request.responseXML.getElementsByTagName('message').item(0).firstChild.data);
-                  return;
-               }
-
                var results = core.processJSON(request.responseText);
 
                if (results.length == 0) {
