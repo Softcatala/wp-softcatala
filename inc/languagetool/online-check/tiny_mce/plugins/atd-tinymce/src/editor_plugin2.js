@@ -492,7 +492,7 @@
 	  else if (catOptions.indexOf("formes_balears")>=0)
 	  {
 	      enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-	      disable = "EXIGEIX_VERBS_CENTRAL";
+	      disable = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
 	  }
 	  else if (catOptions.indexOf("formes_valencianes")>=0)
 	  {
