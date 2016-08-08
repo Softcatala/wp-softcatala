@@ -155,7 +155,7 @@ AtDCore.prototype.markMyWords = function() {
             previousSpanStart = spanStart;
             
             var ruleId = suggestion.ruleid;
-            var locqualityissuetype = suggestion.locqualityissuetype;
+            var locqualityissuetype = suggestion.its20type;
             var cssName;
             if (locqualityissuetype == "misspelling") {
                 cssName = "hiddenSpellError";
