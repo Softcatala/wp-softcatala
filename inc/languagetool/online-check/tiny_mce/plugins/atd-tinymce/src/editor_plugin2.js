@@ -153,7 +153,7 @@
                   return;
                }
 
-               var results = core.processXML(request.responseXML);
+               var results = core.processJSON(request.responseText);
 
                if (results.length == 0) {
                   var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
@@ -555,15 +555,16 @@
 	  };
 	  //End of Catalan options
 
-   
-         tinymce.util.XHR.send({
+	  
+	  var postData = "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
+              + "&language=" + encodeURI(languageCode)
+              + "&enabledRules=" + enable 
+              + "&disabledRules=WHITESPACE_RULE," + disable;
+          tinymce.util.XHR.send({
             url          : url + "/" + file,
             content_type : 'text/xml',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
-                           + "&language=" + encodeURI(languageCode)
-                           + "&enabled=" + enable 
-                           + "&disabled=WHITESPACE_RULE," + disable,
+            data         : postData,
             async        : true,
             success      : success,
             error        : function( type, req, o )

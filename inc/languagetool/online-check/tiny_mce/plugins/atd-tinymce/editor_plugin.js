@@ -820,79 +820,79 @@ AtDCore.prototype.isIE = function() {
             return;
          }
          
-         //Catalan options
-         var enable="";
-         var disable="";
-         if (catOptions.indexOf("formes_generals")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_CENTRAL,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-				disable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_VERBS_BALEARS";
-		 }
-		 else if (catOptions.indexOf("formes_balears")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-				disable = "EXIGEIX_VERBS_CENTRAL";
-		 }
-		 else if (catOptions.indexOf("formes_valencianes")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
-				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
-				 
-				//opcions dins de les formes valencianes
-				if (catOptions.indexOf("accentuacio_general")>=0)
-				{
-			          disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
-				  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
-				};
-				if (catOptions.indexOf("incoatius_eix")>=0)
-				{
-					enable = enable + ",EXIGEIX_VERBS_EIX";
-				  disable = disable + ",EXIGEIX_VERBS_IX";
-				}
-				else
-				{
-					enable = enable + ",EXIGEIX_VERBS_IX";
-				  disable = disable + ",EXIGEIX_VERBS_EIX";
-				};
-				if (catOptions.indexOf("incoatius_isc")>=0)
-				{
-					enable = enable + ",EXIGEIX_VERBS_ISC";
-				  disable = disable + ",EXIGEIX_VERBS_ESC";
-				} 
-				else
-				{
-					enable = enable + ",EXIGEIX_VERBS_ESC";
-				  disable = disable + ",EXIGEIX_VERBS_ISC";
-				};
-				if (catOptions.indexOf("demostratius_aquest")>=0)
-				{
-					enable = enable + ",EVITA_DEMOSTRATIUS_ESTE";
-				  disable = disable + ",EVITA_DEMOSTRATIUS_AQUEST";
-				}
-				else
-				{
-					enable = enable + ",EVITA_DEMOSTRATIUS_AQUEST,EVITA_DEMOSTRATIUS_AQUEIX";
-				  disable = disable + ",EVITA_DEMOSTRATIUS_ESTE";
-				};
-		 }
-		 //opcions per a totes les variants territorials
-		 if (catOptions.indexOf("SE_DAVANT_SC")>=0)
-		 {
-				enable = enable + ",SE_DAVANT_SC";
-		 }
-		 else
-		 {
-			  disable = disable + ",SE_DAVANT_SC";
-		 };
-		 if (catOptions.indexOf("CA_UNPAIRED_QUESTION")>=0)
-		 {
-				enable = enable + ",CA_UNPAIRED_QUESTION";
-		 }
-		 else
-		 {
-			  disable = disable + ",CA_UNPAIRED_QUESTION";
-		 };
-				 //End of Catalan options
+          //Catalan options
+          var enable="";
+          var disable="";
+          if (catOptions.indexOf("formes_generals")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_CENTRAL,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+	      disable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_VERBS_BALEARS";
+	  }
+	  else if (catOptions.indexOf("formes_balears")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+	      disable = "EXIGEIX_VERBS_CENTRAL";
+	  }
+	  else if (catOptions.indexOf("formes_valencianes")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
+	      disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
+	      
+	      //opcions dins de les formes valencianes
+	      if (catOptions.indexOf("accentuacio_general")>=0)
+	      {
+		  disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+		  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
+	      };
+	      if (catOptions.indexOf("incoatius_eix")>=0)
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_EIX";
+		  disable = disable + ",EXIGEIX_VERBS_IX";
+	      }
+	      else
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_IX";
+		  disable = disable + ",EXIGEIX_VERBS_EIX";
+	      };
+	      if (catOptions.indexOf("incoatius_isc")>=0)
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_ISC";
+		  disable = disable + ",EXIGEIX_VERBS_ESC";
+	      } 
+	      else
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_ESC";
+		  disable = disable + ",EXIGEIX_VERBS_ISC";
+	      };
+	      if (catOptions.indexOf("demostratius_aquest")>=0)
+	      {
+		  enable = enable + ",EVITA_DEMOSTRATIUS_ESTE";
+		  disable = disable + ",EVITA_DEMOSTRATIUS_AQUEST";
+	      }
+	      else
+	      {
+		  enable = enable + ",EVITA_DEMOSTRATIUS_AQUEST,EVITA_DEMOSTRATIUS_AQUEIX";
+		  disable = disable + ",EVITA_DEMOSTRATIUS_ESTE";
+	      };
+	  }
+	  //opcions per a totes les variants territorials
+	  if (catOptions.indexOf("SE_DAVANT_SC")>=0)
+	  {
+	      enable = enable + ",SE_DAVANT_SC";
+	  }
+	  else
+	  {
+	      disable = disable + ",SE_DAVANT_SC";
+	  };
+	  if (catOptions.indexOf("CA_UNPAIRED_QUESTION")>=0)
+	  {
+	      enable = enable + ",CA_UNPAIRED_QUESTION";
+	  }
+	  else
+	  {
+	      disable = disable + ",CA_UNPAIRED_QUESTION";
+	  };
+	  //End of Catalan options
 
    
          tinymce.util.XHR.send({
