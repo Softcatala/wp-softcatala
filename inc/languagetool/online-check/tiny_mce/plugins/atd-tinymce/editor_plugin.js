@@ -473,7 +473,7 @@ AtDCore.prototype.isIE = function() {
 
             /* send request to our service */
             var textContent = plugin.editor.core.getPlainText();
-            plugin.sendRequest('checkDocument', textContent, languageCode, catOptions, function(data, request, someObject)
+            plugin.sendRequest('', textContent, languageCode, catOptions, function(data, request, someObject)
             {
                /* turn off the spinning thingie */
                plugin.editor.setProgressState(0);
@@ -900,8 +900,8 @@ AtDCore.prototype.isIE = function() {
               + "&enabledRules=" + enable 
               + "&disabledRules=WHITESPACE_RULE," + disable;
           tinymce.util.XHR.send({
-            url          : url + "/" + file,
-            content_type : 'text/xml',
+            url          : url, 
+            content_type : 'text',
             type         : "POST",
             data         : postData,
             async        : true,
