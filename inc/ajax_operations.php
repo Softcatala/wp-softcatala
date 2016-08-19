@@ -93,6 +93,7 @@ function sc_subscribe_list() {
         $correu = sanitize_text_field( $_POST["correu"] );
         $llista = sanitize_text_field( $_POST["llista"] );
         $projecte = sanitize_text_field( $_POST["projecte"] );
+        $projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
 
         if( ! empty ( $llista )) {
             $password = get_option( 'llistes_access' );
@@ -122,7 +123,7 @@ function sc_subscribe_list() {
             $headers[] = 'Content-Type: text/html';
 
             // if project has responsables email them too
-            $responsables = get_responsables($projecte);
+            $responsables = get_responsables($projecte_slug);
             if($responsables) {
                 foreach($responsables as $user) {
                     $to_email = $to_email . ',' .$user['user_email'];

@@ -61,6 +61,7 @@ $collabora_form.on('submit', function(ev){
     var correu = jQuery("#correu_contacte").val();
     var llista = jQuery("#llista").val();
     var projecte = jQuery("#projecte").val();
+    var projecte_slug = jQuery("#projecte_slug").val();
 
     //Data
     var post_data = new FormData();
@@ -68,6 +69,7 @@ $collabora_form.on('submit', function(ev){
     post_data.append('correu', correu);
     post_data.append('llista', llista);
     post_data.append('projecte', projecte);
+    post_data.append('projecte_slug', projecte_slug);
     post_data.append('action', 'subscribe_list');
     post_data.append('_wpnonce', jQuery('input[name=_wpnonce_subscribe]').val());
 

@@ -33,6 +33,7 @@
                                 {{ function('wp_nonce_field', 'subscribe_list', '_wpnonce_subscribe') }}
                                 <input type="hidden" name="llista" id="llista" value="{{ projecte.llista_de_correu }}" />
                                 <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title }}" />
+                                <input type="hidden" name="projecte_slug" id="projecte_slug" value="{{ projecte.slug }}" />
                                 <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>
                             </div>
                         </div><!-- camp -->
