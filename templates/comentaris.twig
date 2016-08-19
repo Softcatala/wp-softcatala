@@ -12,7 +12,7 @@
         <div id="comment-{{ post.ID }}_0"></div>
     </article>
     {% for cmt in post.get_comments() %}
-        {% if loop.index == 4 %}<div id="mescomentaris_{{ post.ID }}" class="collapse">{% endif %}
+        {% if loop.index == 4 %}<div id="mescomentaris_{{ post.ID }}" class="mescomentaris collapse">{% endif %}
         <article class="article-comentari">
             {% include "comment.twig" with {comment:cmt} %}
             {% if cmt.children %}
@@ -29,6 +29,7 @@
                 <div class="row">
                     <div class="intern">
                         <button data-toggle="collapse" class="bt-basic bt-mes intern-center" type="button" href="#mescomentaris_{{ post.ID }}">més<i class="fa fa-angle-down"></i></button>
+                        <button data-toggle="collapse" class="bt-basic bt-mes intern-center" style="display:none" type="button" href="#mescomentaris_{{ post.ID }}">menys<i class="fa fa-angle-up"></i></button>
                     </div>
                 </div>
             {% endif %}

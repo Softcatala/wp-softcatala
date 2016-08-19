@@ -18,3 +18,12 @@ jQuery( ".hide_clean_form" ).click(function() {
     jQuery("#comment").val('Comentari');
     jQuery("#email").val('E-mail');
 });
+
+
+jQuery('.mescomentaris').on('show.bs.collapse',function(){
+        jQuery(".mescomentaris").next().find("button").toggle();
+});
+
+jQuery('.mescomentaris').on('hide.bs.collapse',function(){
+      jQuery(".mescomentaris").next().find("button").toggle();
+});
