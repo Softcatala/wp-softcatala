@@ -11,7 +11,12 @@
     <article class="article-comentari">
         <div id="comment-{{ post.ID }}_0"></div>
     </article>
-    {% for cmt in post.get_comments() %}
+    {% if reverse_comments %}
+    {% set comments = post.get_comments() | reverse %}
+    {% else %}
+    {% set comments = post.get_comments() %}
+    {% endif %}
+    {% for cmt in comments %}
         {% if loop.index == 4 %}<div id="mescomentaris_{{ post.ID }}" class="mescomentaris collapse">{% endif %}
         <article class="article-comentari">
             {% include "comment.twig" with {comment:cmt} %}

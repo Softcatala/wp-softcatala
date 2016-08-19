@@ -64,4 +64,6 @@ $context_filterer = new SC_ContextFilterer( $context_holder );
 $context_overrides = array( 'title' => $title, 'description' => $description );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
+$context['reverse_comments'] = true;
+
 Timber::render( $templates, $context );

@@ -45,6 +45,8 @@ if( $download_full ) {
     }
 }
 
+$context['reverse_comments'] = true;
+
 $context['baixades'] = generate_url_download( $baixades, $post );
 
 $query = array ( 'post_id' => $post->ID , 'subpage_type' => 'programa' );
