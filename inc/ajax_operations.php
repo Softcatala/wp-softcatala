@@ -3,7 +3,6 @@
 /** APARELLS **/
 add_action( 'wp_ajax_send_aparell', 'sc_send_aparell' );
 add_action( 'wp_ajax_nopriv_send_aparell', 'sc_send_aparell' );
-
 /** PROGRAMES **/
 add_action( 'wp_ajax_send_vote', 'sc_send_vote' );
 add_action( 'wp_ajax_nopriv_send_vote', 'sc_send_vote' );
@@ -25,6 +24,26 @@ add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
 /** DICCIONARI MULTILINGÜE */
 add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
 add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
+/** APARELLS DATA LOAD */
+add_action( 'wp_aparell_ajax_load', 'sc_aparell_ajax_load' );
+add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
+
+/**
+ * Retrieves the information from a given aparell
+ *
+ * @return json response
+ */
+function sc_aparell_ajax_load()
+{
+    $aparell_id = intval(sanitize_text_field( $_POST["aparell_id"] ));
+    $post = new TimberPost($aparell_id);
+
+    $result['aparell_id'] = $aparell_id;
+    $result['aparell_detall'] = Timber::fetch('ajax/aparell-detall.twig', array('post' => $post));
+
+    echo json_encode($result);
+    die();
+}
 
 /**
  * Retrieves the results from the Multilingüe API server given a word + language

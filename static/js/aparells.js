@@ -76,3 +76,42 @@ jQuery('#afegeix_aparell_button').click(function() {
     jQuery("#contingut-formulari").show();
 });
 /** End New aparell form action **/
+
+/** Function to load information from given aparell **/
+jQuery('.collapse_aparell').click(function(){
+    var div_id = jQuery(this).attr('href');
+    var aparell_id = div_id.replace("#collapse", "");
+    var collapse_div = jQuery('#collapse'+aparell_id);
+    jQuery("#loading_"+aparell_id).show();
+
+    if (aparell_id && ! jQuery.trim(collapse_div.html()).length ) {
+        jQuery("#loading").show();
+
+        //Data
+        var post_data = new FormData();
+        post_data.append('aparell_id', aparell_id);
+        post_data.append('action', 'aparell_ajax_load');
+
+        jQuery.ajax({
+            url: scajax.ajax_url,
+            type: 'POST',
+            data: post_data,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success : print_results,
+        });
+
+        return false;
+    } else {
+        collapse_div.collapse("toggle");
+        jQuery("#loading_"+aparell_id).hide();
+    }
+});
+
+function print_results(result) {
+    jQuery("#loading_"+result.aparell_id).hide();
+    jQuery('#collapse'+result.aparell_id).html(result.aparell_detall);
+    jQuery('#collapse'+result.aparell_id).collapse("toggle");
+    enable_comments();
+}

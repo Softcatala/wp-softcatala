@@ -54,7 +54,6 @@ $context_holder['selected_filter_so'] = ( isset ( $args['filter_so'] ) ? $args['
 $context_holder['selected_filter_tipus'] = ( isset ( $args['filter_tipus'] ) ? $args['filter_tipus'] : '' );
 
 //Posts and pagination
-query_posts( $args );
 $context_holder['aparells'] = Timber::get_posts( $args );
 
 //Context initialization
