@@ -185,7 +185,11 @@
                                                     <div class="col-xs-6">
                                                         <ul class="aparells_detail">
                                                             <li><strong>Fabricant</strong></li>
-                                                            <li>{{ post.fabricant }}</li>
+                                                            <li>{% if post.terms('fabricant') %}
+                                                                    {% for term in post.terms('fabricant') %}
+                                                                        {{term.name}}
+                                                                    {% endfor %}
+                                                            {% endif %}</li>
                                                             <li><strong>Inclou teclat predictiu en català?</strong></li>
                                                             <li>{% if post.correccio_cat == '1' %}Sí
                                                                 {% else %}
