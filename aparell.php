@@ -26,23 +26,27 @@ $context_holder['stats_aparells'] = json_decode( file_get_contents( $json_path )
 //Filters population
 $context_holder['categories']['sistemesoperatius'] = Timber::get_terms('so_aparell');
 $context_holder['categories']['tipus'] = Timber::get_terms('tipus_aparell');
+$context_holder['categories']['fabricants'] = Timber::get_terms('fabricant');
 
 //Search and filters
 $search = get_query_var('cerca');
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $tipus_aparell = get_query_var( 'tipus_aparell' );
+$fabricant = get_query_var( 'fabricant' );
 
 //Generate $args query
-if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) ) {
+if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparell ) || ! empty( $fabricant ) ) {
     $query_aparell['s'] = $search;
     $query_aparell['so_aparell'] = $sistema_operatiu;
     $query_aparell['tipus_aparell'] = $tipus_aparell;
+    $query_aparell['fabricant'] = $fabricant;
     $args = get_post_query_args( 'aparell', SearchQueryType::Aparell, $query_aparell );
 
     $title = 'Aparells - ';
     (!empty( $search ) ? $title .= 'cerca: ' . $search . ' - ' : '');
     (!empty( $tipus_aparell ) ? $title .= 'tipus: ' . get_term_name_by_slug ($tipus_aparell , 'tipus_aparell' ) . ' - ' : '');
     (!empty( $sistema_operatiu ) ? $title .= 'sistema operatiu: ' . get_term_name_by_slug ($sistema_operatiu , 'so_aparell' ) . ' - ' : '');
+    (!empty( $fabricant ) ? $title .= 'fabricant: ' . get_term_name_by_slug ($fabricant , 'fabricant' ) . ' - ' : '');
     $title .= 'Softcatalà';
 } else {
     $title = 'Aparells - Softcatalà';
@@ -52,9 +56,9 @@ if( ! empty( $search ) || ! empty( $sistema_operatiu ) || ! empty( $tipus_aparel
 $context_holder['cerca'] = $search;
 $context_holder['selected_filter_so'] = ( isset ( $args['filter_so'] ) ? $args['filter_so'] : '' );
 $context_holder['selected_filter_tipus'] = ( isset ( $args['filter_tipus'] ) ? $args['filter_tipus'] : '' );
+$context_holder['selected_filter_fabricant'] = ( isset ( $args['filter_fabricant'] ) ? $args['filter_fabricant'] : '' );
 
 //Posts and pagination
-query_posts( $args );
 $context_holder['aparells'] = Timber::get_posts( $args );
 
 //Context initialization
