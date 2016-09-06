@@ -1,9 +1,5 @@
 //Search form
-jQuery("#tipus_aparell").on('change', function() {
-    jQuery( "#cerca_aparells" ).submit();
-});
-
-jQuery("#sistema_operatiu").on('change', function() {
+jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_aparells" ).submit();
 });
 

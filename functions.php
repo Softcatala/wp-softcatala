@@ -590,6 +590,15 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
             );
             $filter_args['filter_tipus'] = $filter['tipus_aparell'];
         }
+
+        if (!empty ($filter['fabricant'])) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'fabricant',
+                'field' => 'slug',
+                'terms' => $filter['fabricant']
+            );
+            $filter_args['filter_fabricant'] = $filter['fabricant'];
+        }
     } else if ( $queryType == SearchQueryType::Programa ) {
         $filter_args = array();
         //Avoid posts arxivats
