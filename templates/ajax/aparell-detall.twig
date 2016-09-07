@@ -1,0 +1,71 @@
+<!-- .panel-body -->
+<div class="panel-body">
+    <h2>Detalls</h2>
+    <!-- detalls -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <ul class="aparells_detail">
+                        <li><strong>Nom</strong></li>
+                        <li>{{ post.title }}</li>
+                        <li><strong>Sistema operatiu</strong></li>
+                        <li>{% if post.terms('so_aparell') %}
+                                {% for term in post.terms('so_aparell') %}
+                                    {{term.name}}
+                                {% endfor %}
+                            {% endif %}</li>
+                        <li><strong>Està traduït al català?</strong></li>
+                        <li>{% if post.conf_cat %}Sí{% else %}No{% endif %}</li>
+                    </ul>
+                </div>
+                <div class="col-xs-6">
+                    <ul class="aparells_detail">
+                        <li><strong>Tipus de dispositiu</strong></li>
+                        <li>{% if post.terms('tipus_aparell') %}
+                                {% for term in post.terms('tipus_aparell') %}
+                                    {{term.name}}
+                                {% endfor %}
+                            {% endif %}</li>
+                        {% if post.versio %}
+                            <li><strong>Versió del SO</strong></li>
+                            <li>{{ post.versio }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <ul class="aparells_detail">
+                        <li><strong>Fabricant</strong></li>
+                        <li>{% if post.terms('fabricant') %}
+                                {% for term in post.terms('fabricant') %}
+                                    {{term.name}}
+                                {% endfor %}
+                        {% endif %}</li>
+                        <li><strong>Inclou teclat predictiu en català?</strong></li>
+                        <li>{% if post.correccio_cat == '1' %}Sí
+                            {% else %}
+                                {% if post.correccio_cat == '3' %}
+                                    Desconegut
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% endif %}</li>
+                    </ul>
+                </div>
+                {% if post.thumbnail.src %}
+                    <div class="col-xs-6">
+                        <img src="{{post.thumbnail.src}}" height="141" />
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--/detalls -->
+    <!-- .comentaris -->
+    {% include "comentaris.twig" %}
+    <!-- /.comentaris -->
+</div><!--/.panel-body -->
