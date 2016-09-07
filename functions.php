@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.8.2');
+define('WP_SOFTCATALA_VERSION', '0.8.3');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -589,6 +589,15 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                 'terms' => $filter['tipus_aparell']
             );
             $filter_args['filter_tipus'] = $filter['tipus_aparell'];
+        }
+
+        if (!empty ($filter['fabricant'])) {
+            $filter_args['tax_query'][] = array(
+                'taxonomy' => 'fabricant',
+                'field' => 'slug',
+                'terms' => $filter['fabricant']
+            );
+            $filter_args['filter_fabricant'] = $filter['fabricant'];
         }
     } else if ( $queryType == SearchQueryType::Programa ) {
         $filter_args = array();

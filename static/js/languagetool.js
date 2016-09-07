@@ -101,7 +101,7 @@ var SC_COOKIE = 'sc-languagetool';
     },
     /* the URL of your proxy file: */
     //languagetool_rpc_url                 : "/languagetool/online-check/tiny_mce/plugins/atd-tinymce/server/proxy.php?url=",
-    languagetool_rpc_url: "/languagetool/api/checkDocument",
+    languagetool_rpc_url: "/languagetool/api/v2/check",
     /* edit this file to customize how LanguageTool shows errors: */
     languagetool_css_url: "/themes/wp-softcatala/inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
     /* this stuff is a matter of preference: */

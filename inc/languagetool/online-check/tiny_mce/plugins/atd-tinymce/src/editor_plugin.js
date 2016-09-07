@@ -127,7 +127,7 @@
 
             /* send request to our service */
             var textContent = plugin.editor.core.getPlainText();
-            plugin.sendRequest('checkDocument', textContent, languageCode, catOptions, function(data, request, someObject)
+            plugin.sendRequest('', textContent, languageCode, catOptions, function(data, request, someObject)
             {
                /* turn off the spinning thingie */
                plugin.editor.setProgressState(0);
@@ -146,14 +146,7 @@
                   return;
                }
 
-               /* check to see if things are broken first and foremost */
-               if (request.responseXML.getElementsByTagName('message').item(0) != null)
-               {
-                  ed.windowManager.alert(request.responseXML.getElementsByTagName('message').item(0).firstChild.data);
-                  return;
-               }
-
-               var results = core.processXML(request.responseXML);
+               var results = core.processJSON(request.responseText);
 
                if (results.length == 0) {
                   var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
@@ -481,89 +474,90 @@
             return;
          }
          
-         //Catalan options
-         var enable="";
-         var disable="";
-         if (catOptions.indexOf("formes_generals")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_CENTRAL,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-				disable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_VERBS_BALEARS";
-		 }
-		 else if (catOptions.indexOf("formes_balears")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
-				disable = "EXIGEIX_VERBS_CENTRAL";
-		 }
-		 else if (catOptions.indexOf("formes_valencianes")>=0)
-		 {
-				enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
-				disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
-				 
-				//opcions dins de les formes valencianes
-				if (catOptions.indexOf("accentuacio_general")>=0)
-				{
-			          disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
-				  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
-				};
-				if (catOptions.indexOf("incoatius_eix")>=0)
-				{
-					enable = enable + ",EXIGEIX_VERBS_EIX";
-				  disable = disable + ",EXIGEIX_VERBS_IX";
-				}
-				else
-				{
-					enable = enable + ",EXIGEIX_VERBS_IX";
-				  disable = disable + ",EXIGEIX_VERBS_EIX";
-				};
-				if (catOptions.indexOf("incoatius_isc")>=0)
-				{
-					enable = enable + ",EXIGEIX_VERBS_ISC";
-				  disable = disable + ",EXIGEIX_VERBS_ESC";
-				} 
-				else
-				{
-					enable = enable + ",EXIGEIX_VERBS_ESC";
-				  disable = disable + ",EXIGEIX_VERBS_ISC";
-				};
-				if (catOptions.indexOf("demostratius_aquest")>=0)
-				{
-					enable = enable + ",EVITA_DEMOSTRATIUS_ESTE";
-				  disable = disable + ",EVITA_DEMOSTRATIUS_AQUEST";
-				}
-				else
-				{
-					enable = enable + ",EVITA_DEMOSTRATIUS_AQUEST,EVITA_DEMOSTRATIUS_AQUEIX";
-				  disable = disable + ",EVITA_DEMOSTRATIUS_ESTE";
-				};
-		 }
-		 //opcions per a totes les variants territorials
-		 if (catOptions.indexOf("SE_DAVANT_SC")>=0)
-		 {
-				enable = enable + ",SE_DAVANT_SC";
-		 }
-		 else
-		 {
-			  disable = disable + ",SE_DAVANT_SC";
-		 };
-		 if (catOptions.indexOf("CA_UNPAIRED_QUESTION")>=0)
-		 {
-				enable = enable + ",CA_UNPAIRED_QUESTION";
-		 }
-		 else
-		 {
-			  disable = disable + ",CA_UNPAIRED_QUESTION";
-		 };
-				 //End of Catalan options
+          //Catalan options
+          var enable="";
+          var disable="";
+          if (catOptions.indexOf("formes_generals")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_CENTRAL,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+	      disable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_VERBS_BALEARS";
+	  }
+	  else if (catOptions.indexOf("formes_balears")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_BALEARS,EXIGEIX_POSSESSIUS_V,EVITA_PRONOMS_VALENCIANS";
+	      disable = "EXIGEIX_VERBS_CENTRAL,CA_SIMPLE_REPLACE_BALEARIC";
+	  }
+	  else if (catOptions.indexOf("formes_valencianes")>=0)
+	  {
+	      enable = "EXIGEIX_VERBS_VALENCIANS,EXIGEIX_POSSESSIUS_U";
+	      disable = "EXIGEIX_VERBS_CENTRAL,EVITA_DEMOSTRATIUS_EIXE,EXIGEIX_POSSESSIUS_V";
+	      
+	      //opcions dins de les formes valencianes
+	      if (catOptions.indexOf("accentuacio_general")>=0)
+	      {
+		  disable = disable + ",EXIGEIX_ACCENTUACIO_VALENCIANA";
+		  enable = enable + ",EXIGEIX_ACCENTUACIO_GENERAL";
+	      };
+	      if (catOptions.indexOf("incoatius_eix")>=0)
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_EIX";
+		  disable = disable + ",EXIGEIX_VERBS_IX";
+	      }
+	      else
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_IX";
+		  disable = disable + ",EXIGEIX_VERBS_EIX";
+	      };
+	      if (catOptions.indexOf("incoatius_isc")>=0)
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_ISC";
+		  disable = disable + ",EXIGEIX_VERBS_ESC";
+	      } 
+	      else
+	      {
+		  enable = enable + ",EXIGEIX_VERBS_ESC";
+		  disable = disable + ",EXIGEIX_VERBS_ISC";
+	      };
+	      if (catOptions.indexOf("demostratius_aquest")>=0)
+	      {
+		  enable = enable + ",EVITA_DEMOSTRATIUS_ESTE";
+		  disable = disable + ",EVITA_DEMOSTRATIUS_AQUEST";
+	      }
+	      else
+	      {
+		  enable = enable + ",EVITA_DEMOSTRATIUS_AQUEST,EVITA_DEMOSTRATIUS_AQUEIX";
+		  disable = disable + ",EVITA_DEMOSTRATIUS_ESTE";
+	      };
+	  }
+	  //opcions per a totes les variants territorials
+	  if (catOptions.indexOf("SE_DAVANT_SC")>=0)
+	  {
+	      enable = enable + ",SE_DAVANT_SC";
+	  }
+	  else
+	  {
+	      disable = disable + ",SE_DAVANT_SC";
+	  };
+	  if (catOptions.indexOf("CA_UNPAIRED_QUESTION")>=0)
+	  {
+	      enable = enable + ",CA_UNPAIRED_QUESTION";
+	  }
+	  else
+	  {
+	      disable = disable + ",CA_UNPAIRED_QUESTION";
+	  };
+	  //End of Catalan options
 
-   
-         tinymce.util.XHR.send({
-            url          : url + "/" + file,
-            content_type : 'text/xml',
+	  
+	  var postData = "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
+              + "&language=" + encodeURI(languageCode)
+              + "&enabledRules=" + enable 
+              + "&disabledRules=WHITESPACE_RULE," + disable;
+          tinymce.util.XHR.send({
+            url          : url, 
+            content_type : 'text',
             type         : "POST",
-            data         : "text=" + encodeURI(data).replace(/&/g, '%26').replace(/\+/g, '%2B')
-                           + "&language=" + encodeURI(languageCode)
-                           + "&enabled=" + enable 
-                           + "&disabled=WHITESPACE_RULE," + disable,
+            data         : postData,
             async        : true,
             success      : success,
             error        : function( type, req, o )

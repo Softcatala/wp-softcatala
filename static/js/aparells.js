@@ -1,9 +1,5 @@
 //Search form
-jQuery("#tipus_aparell").on('change', function() {
-    jQuery( "#cerca_aparells" ).submit();
-});
-
-jQuery("#sistema_operatiu").on('change', function() {
+jQuery(".selectpicker").on('change', function() {
     jQuery( "#cerca_aparells" ).submit();
 });
 
@@ -76,6 +72,7 @@ jQuery('#afegeix_aparell_button').click(function() {
     jQuery("#contingut-formulari").show();
 });
 /** End New aparell form action **/
+
 
 /** Function to load information from given aparell **/
 jQuery('.collapse_aparell').click(function(){
