@@ -25,7 +25,7 @@ add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
 add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
 add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
 /** APARELLS DATA LOAD */
-add_action( 'wp_aparell_ajax_load', 'sc_aparell_ajax_load' );
+add_action( 'wp_ajax_aparell_ajax_load', 'sc_aparell_ajax_load' );
 add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
 
 /**
