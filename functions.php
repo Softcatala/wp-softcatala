@@ -1024,6 +1024,24 @@ function sc_image_full_quality( $quality ) {
 add_filter( 'jpeg_quality', 'sc_image_full_quality' );
 add_filter( 'wp_editor_set_quality', 'sc_image_full_quality' );
 
+/*
+ * Responsive images
+ */
+function sc_responsive_image_sizes($sizes, $size) {
+
+	$width = $size[0];
+
+	// 1200, 1025, 769, 480
+
+	// Let's assume we'll always have sidebar
+    if ($width > 870) {
+        return '(max-width: 768px) 92vw, (max-width: 1024px) 738px, (max-width: 1200px) 870px, 870x';
+    }
+
+	return $sizes;
+}
+add_filter('wp_calculate_image_sizes', 'sc_responsive_image_sizes', 10 , 2);
+
 
 /**
  * Generic function to inform SC about sections on the website not working properly
