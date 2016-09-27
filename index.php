@@ -12,6 +12,10 @@
  */
 //JS and Styles related to the page
 wp_enqueue_script( 'sc-js-noticies', get_template_directory_uri() . '/static/js/noticies.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-novetats', get_template_directory_uri() . '/static/js/novetats.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_localize_script( 'sc-js-novetats', 'scajax', array(
+    'ajax_url' => admin_url( 'admin-ajax.php' )
+));
 
 //Template initialization
 $templates = array( 'index.twig' );

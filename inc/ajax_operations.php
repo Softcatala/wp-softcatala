@@ -117,7 +117,7 @@ function sc_subscribe_list() {
         if( ! empty ( $llista )) {
             $password = get_option( 'llistes_access' );
             if ( ! empty ( $password )){
-                $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload='.$correu.'&adminpw='.$password;
+                $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload=' .  urlencode($correu) . '&adminpw='.$password;
                 $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
                 $url = $list_admin_url . $path;
                 $response_subscription = send_subscription_to_mailinglist($url);
@@ -354,7 +354,7 @@ function sc_add_new_program() {
  */
 function sc_search_program() {
     if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $result['text'] = "S'ha produït un error en cercar el programa. Podeu cotinuar igualment.";
+        $result['text'] = "S'ha produït un error en cercar el programa. Podeu continuar igualment.";
     } else {
         check_is_ajax_call();
 
