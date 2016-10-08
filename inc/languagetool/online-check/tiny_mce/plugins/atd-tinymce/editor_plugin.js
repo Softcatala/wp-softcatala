@@ -745,7 +745,7 @@ AtDCore.prototype.isIE = function() {
                onclick : function() 
                {
                   dom.remove(e.target, 1);
-                  t._serverLog('IgnoreRule', errorDescription, '', 0);
+                  t._serverLog('IgnoreRule', errorDescription, '', -1);
                   t._checkDone();
                }
             });
