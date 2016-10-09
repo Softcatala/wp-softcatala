@@ -83,6 +83,8 @@ AtDCore.prototype.processJSON = function(responseJSON) {
         suggestion["ruleid"]      = match.rule.id;
         suggestion["subid"]       = match.rule.subId;
         suggestion["its20type"]   = match.rule.issueType;
+        suggestion["context"]     = match.context.text;
+        suggestion["contextoffset"] = match.context.offset;
         var urls = match.rule.urls;
         if (urls && urls.length > 0) {
             if (urls[0].value) {
@@ -118,6 +120,8 @@ AtDCore.prototype.findSuggestion = function(element) {
     errorDescription["subid"] = this.getSurrogatePart(metaInfo, 'subid');
     errorDescription["description"] = this.getSurrogatePart(metaInfo, 'description');
     errorDescription["coveredtext"] = this.getSurrogatePart(metaInfo, 'coveredtext');
+    errorDescription["context"] = this.getSurrogatePart(metaInfo, 'context');
+    errorDescription["contextoffset"] = this.getSurrogatePart(metaInfo, 'contextoffset');
     var suggestions = this.getSurrogatePart(metaInfo, 'suggestions');
     if (suggestions) {
         errorDescription["suggestions"] = suggestions.split("#");
@@ -168,8 +172,9 @@ AtDCore.prototype.markMyWords = function() {
             }
             var delim = this.surrogateAttributeDelimiter;
             var coveredText = newText.substring(spanStart, spanEnd);
-            var metaInfo = ruleId + delim + suggestion.subid + delim + suggestion.description + delim + suggestion.suggestions + delim + coveredText;
-	    //            var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
+            var metaInfo = ruleId + delim + suggestion.subid + delim + suggestion.description + delim 
+		+ suggestion.suggestions + delim + coveredText + delim + suggestion.context + delim + suggestion.contextoffset;
+	    //var metaInfo = ruleId + delim + suggestion.description + delim + suggestion.suggestions;
             if (suggestion.moreinfo) {
                 metaInfo += delim + suggestion.moreinfo;
             }
@@ -235,8 +240,12 @@ AtDCore.prototype.getSurrogatePart = function(surrogateString, part) {
         return parts[3];
     } else if (part == 'coveredtext') {
         return parts[4];
-    } else if (part == 'url' && parts.length >= 5) {
+    } else if (part == 'context') {
         return parts[5];
+    } else if (part == 'contextoffset') {
+        return parts[6];
+    } else if (part == 'url' && parts.length >= 7) {
+        return parts[7];
     }
     console.log("No part '" + part + "' found in surrogateString: " + surrogateString);
     return null;
@@ -556,6 +565,25 @@ AtDCore.prototype.isIE = function() {
       {
       },
 
+      _serverLog : function(type, errorDescription, suggestion, suggestion_position)
+      {
+	  var data = {"type": type,
+		      "rule": errorDescription["id"],
+		      "rule_id": errorDescription["subid"],
+		      "incorrect_text": errorDescription["coveredtext"],
+                      "incorrect_position": errorDescription["contextoffset"],
+		      "context": errorDescription["context"],
+                      "suggestion": suggestion,
+		      "suggestion_position": suggestion_position};
+	  $.ajax({
+	      url: 'https://www.softcatala.org/languagetool/feedback/log',
+	      type: 'POST',
+	      data: JSON.stringify(data),
+	      contentType: 'application/json; charset=utf-8',
+	      dataType: 'json',
+	  });
+      },
+
       _removeWords : function(w) 
       {
          var ed = this.editor, dom = ed.dom, se = ed.selection, b = se.getBookmark();
@@ -653,11 +681,13 @@ AtDCore.prototype.isIE = function() {
                   }
                   (function(sugg)
                    {
+                      var iTmp = i;
                       m.add({
                          title   : sugg, 
                          onclick : function() 
                          {
                             ed.core.applySuggestion(e.target, sugg);
+                            t._serverLog('AcceptCorrection', errorDescription, sugg, iTmp);
                             t._checkDone();
                          }
                       });
@@ -715,11 +745,12 @@ AtDCore.prototype.isIE = function() {
                onclick : function() 
                {
                   dom.remove(e.target, 1);
+                  t._serverLog('IgnoreRule', errorDescription, '', -1);
                   t._checkDone();
                }
             });
-	    /*
-	    var langCode = lang; //$('#lang').val();
+	         /*
+		       var langCode = lang; //$('#lang').val();
             // NOTE: this link won't work (as of March 2014) for false friend rules:
             var ruleUrl = "http://community.languagetool.org/rule/show/" +
               encodeURI(errorDescription["id"]) + "?";
@@ -730,8 +761,8 @@ AtDCore.prototype.isIE = function() {
             m.add({
                title : ruleImplementation,
                onclick : function() { window.open(ruleUrl, '_blank'); }
-	       });
-	    */
+	              });
+		          */
             /*m.add({
               title : ignoreThisKindOfErrorText,
               onclick : function() 
