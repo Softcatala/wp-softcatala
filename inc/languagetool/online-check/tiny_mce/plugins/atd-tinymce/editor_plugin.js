@@ -568,8 +568,8 @@ AtDCore.prototype.isIE = function() {
       _serverLog : function(type, errorDescription, suggestion, suggestion_position)
       {
 	  var data = {"type": type,
-		      "rule": errorDescription["id"],
-		      "rule_id": errorDescription["subid"],
+                      "rule_id": errorDescription["id"],
+                      "rule_sub_id": errorDescription["subid"] || 0,
 		      "incorrect_text": errorDescription["coveredtext"],
                       "incorrect_position": errorDescription["contextoffset"],
 		      "context": errorDescription["context"],
