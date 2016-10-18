@@ -68,8 +68,12 @@ var SC_COOKIE = 'sc-languagetool';
       'ca-ES-valencia': 'Més informació…'
     },
     languagetool_i18n_ignore_once: {
-      'ca': 'És un fals positiu',
-      'ca-ES-valencia': 'És un fals positiu'
+      'ca': 'Crec que no hi ha error',
+      'ca-ES-valencia': 'Crec que no hi ha error'
+    },
+    languagetool_i18n_edit_manually: {
+      'ca': 'Edita manualment',
+      'ca-ES-valencia': 'Edita manualment'
     },
     languagetool_i18n_ignore_all: {
       'ca': 'Ignora aquesta classe d\'errors',
