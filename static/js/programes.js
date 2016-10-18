@@ -40,6 +40,8 @@ function show_download_version(operatingSystem, cpuArchitecture) {
         jQuery('#baixada_' + operatingSystem + '_' + cpuArchitecture).show();
     } else if(jQuery('#baixada_' + operatingSystem+"_x86").length) {
         jQuery('#baixada_'+operatingSystem+"_x86").show();
+    } else if(jQuery('#baixada_' + operatingSystem+"_x86_64").length) {
+        jQuery('#baixada_'+operatingSystem+"_x86_64").show();
     } else if(jQuery('#baixada_'+operatingSystem+"_generic").length) {
         jQuery('#baixada_'+operatingSystem+"_generic").show();
     } else {
