@@ -117,6 +117,14 @@ jQuery(document).ready(function(){
             }
         }, timeout);
     });
+
+    jQuery('.primer-textarea').focus();
+
+    jQuery('.primer-textarea').keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+          translateText();
+        }
+    });
 });
 
 function setCookieValue(htmlId, cookieName) {
