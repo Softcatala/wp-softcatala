@@ -1049,7 +1049,6 @@ add_filter('wp_calculate_image_sizes', 'sc_responsive_image_sizes', 10 , 2);
  **/
 function throw_service_error( $service, $message = '' ) {
     throw_error('500', 'Error connecting to API server');
-    $result = 'S\'ha produït un error en el servidor. Proveu més tard';
 
     $fieds['Hora'] = current_time( 'mysql' );
     if( $message ) {

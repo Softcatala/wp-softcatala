@@ -179,18 +179,20 @@ function sc_find_sinonim() {
         try {
             $sinonims_server = json_decode( do_json_api_call($url) );
 
-            if( $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
+            if( $sinonims_server != null && $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
                 $sinonims['paraula'] = $paraula;
                 $sinonims['response'] = $sinonims_server->synsets;
                 $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
-            } else if ( $sinonims_server == 'error' ) {
+            } else if ( $sinonims_server == 'error' || $sinonims_server == null) {
                 throw_service_error( $service_name );
+                $result = 'S\'ha produït un error en el servidor. Proveu més tard';
             } else {
                 throw_error('404', 'No Results For This Search');
                 $result = 'La paraula que esteu cercant no es troba al diccionari.';
             }
         } catch ( Exception $e ) {
             throw_service_error( $service_name );
+            $result = 'S\'ha produït un error en el servidor. Proveu més tard';
         }
     }
 
