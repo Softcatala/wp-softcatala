@@ -26,7 +26,9 @@
                         {% endfor %}
                         <ul class="titol-xxs visible-xxs-block">
                             {% for step in steps %}
-                            <li>{{ step.step_title }}</li>
+                            <li id="title_step_{{ loop.index }}" {% if not loop.first %}style="display:none"{% endif %}>
+                                {{ step.step_title }}
+                            </li>
                             {% endfor %}
                         </ul>
                     </div>

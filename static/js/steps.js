@@ -3,6 +3,9 @@ jQuery('.steps').click(function(){
     jQuery("#"+data_id).siblings('.step_div').hide();
     jQuery("#"+data_id).show();
 
+    jQuery("#title_"+data_id).siblings().hide();
+    jQuery("#title_"+data_id).show();
+
     jQuery('.steps').each(function() {
         jQuery(this).removeClass('active');
     });

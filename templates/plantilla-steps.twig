@@ -34,10 +34,12 @@
                         {% endif %}
                         <ul class="titol-xxs visible-xxs-block">
                             {% for step in steps %}
-                                <li>{{ step.step_title }}</li>
+                                <li id="title_step_{{ loop.index }}" {% if not loop.first %}style="display:none"{% endif %}>
+                                    {{ step.step_title }}
+                                </li>
                             {% endfor %}
                             {% if projectes %}
-                                <li>On cal ajuda?</li>
+                                <li id="title_step_{{ stepsmax }}" style="display:none">On cal ajuda?</li>
                             {% endif %}
                         </ul>
                     </div>
