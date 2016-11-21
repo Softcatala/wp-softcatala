@@ -496,7 +496,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() )
                     'orderby' => 'title',
                     'order'          => 'ASC',
                     'paged' => get_is_paged(),
-                    'posts_per_page' => 18,
+                    'posts_per_page' => 36,
                     'tax_query' => array(
                         array (
                             'taxonomy' => 'classificacio',

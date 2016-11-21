@@ -29,9 +29,7 @@ $context_holder['contact']['nom_from'] = 'Projectes de Softcatalà';
 $context_holder['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
 
 //Posts and pagination
-$args = get_post_query_args( 'projecte', SearchQueryType::Projecte );
-query_posts( $args );
-$context_holder['posts'] = Timber::get_posts( $args );
+$context_holder['posts'] = $sc_types['projectes']->get_sorted_projects();
 $context_holder['pagination'] = Timber::get_pagination();
 
 //Context initialization
