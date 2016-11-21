@@ -26,7 +26,7 @@
                 {% if posts %}
                     {% for post in posts %}
                     <div class="col-sm-6">
-                        <div class="thumbnail thumbnail-gris-img">
+                        <div class="thumbnail thumbnail-gris-img ribbon-container">
                             <a href="{{ post.link }}" title="{{ post.title }}">
                                 {% if post.logotip %}
                                 {% set project_img = post.logotip|get_img_from_id %}
@@ -42,6 +42,11 @@
                                     <span class="bt-aneu">col·laboreu-hi<i class="fa fa-chevron-right"></i></span>
                                 </div>
                             </a>
+                            {% if post.projecte_destacat %}
+                                <div class="ribbon left orange">
+                                    <a>destacat</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}
