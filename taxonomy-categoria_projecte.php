@@ -29,20 +29,8 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 
 //Posts and pagination
 $args = $wp_query->query;
-//Do not include 'arxivat' projects
-$args['orderby'] = 'title';
-$args['order'] = 'ASC';
-$args['posts_per_page'] = -1;
-$args['tax_query'] = array(
-    array (
-        'taxonomy' => 'classificacio',
-        'field' => 'slug',
-        'terms' => 'arxivat',
-        'operator'  => 'NOT IN'
-    )
-);
-query_posts( $args );
-$context['posts'] = Timber::get_posts($args);
+
+$context['posts'] = $sc_types['projectes']->get_sorted_projects( $args );
 $context['pagination'] = Timber::get_pagination();
 
 Timber::render( $templates, $context );

@@ -15,8 +15,10 @@ class SC_Projectes extends SC_TypeBase {
 		parent::__construct( 'projecte','projectes' );
 	}
 
-	public function get_sorted_projects() {
-		$args = $this->get_query_args();
+	public function get_sorted_projects( $args = array() ) {
+		$default_args = $this->get_query_args();
+
+		$args = array_merge( $default_args, $args );
 
 		query_posts( $args );
 		$projects = Timber::get_posts( $args );
@@ -27,13 +29,12 @@ class SC_Projectes extends SC_TypeBase {
 	}
 
 	private function get_query_args() {
-		return $args = array(
+		return array(
 			'post_type' => $this->singular,
 			'post_status'    => 'publish',
 			'orderby' => 'title',
 			'order'          => 'ASC',
-			'paged' => get_is_paged(),
-			'posts_per_page' => 36,
+			'posts_per_page' => -1,
 			'tax_query' => array(
 				array (
 					'taxonomy' => 'classificacio',

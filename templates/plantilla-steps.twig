@@ -62,7 +62,7 @@
                             <div class="row">
                                 {% for projecte in projectes %}
                                     <div class="col-xs-12 col-sm-6">
-                                        <div class="thumbnail thumbnail-gris-img">
+                                        <div class="thumbnail thumbnail-gris-img ribbon-container">
                                             <a href="#" title="{{ projecte.title }}" data-llista="{{ projecte.llista_de_correu }}" data-projecte="{{ projecte.title }}" class="link_colabora">
                                                 {% if projecte.logotip %}
                                                 {% set project_img = projecte.logotip|get_img_from_id %}
@@ -78,6 +78,11 @@
                                                     <span class="bt-aneu">col·laboreu-hi<i class="fa fa-chevron-right"></i></span>
                                                 </div>
                                             </a>
+                                            {% if projecte.projecte_destacat %}
+                                                <div class="ribbon left orange">
+                                                    <a>destacat</a>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}

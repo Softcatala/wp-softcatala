@@ -50,19 +50,22 @@ if ( ! empty ( $project_slug ) ) {
 	}
 
 	$project_args = array(
-        'post_type' => 'projecte',
 		'tax_query' => array(
 			array(
 				'taxonomy' => 'ajuda-projecte',
 				'field'    => 'slug',
 				'terms'    => $profile
+			),
+			array (
+					'taxonomy' => 'classificacio',
+					'field' => 'slug',
+					'terms' => 'arxivat',
+					'operator'  => 'NOT IN'
 			)
-		),
-		'post_status' => 'publish',
-		'posts_per_page'=>-1
+		)
     );
 
-	$projects = Timber::get_posts($project_args);
+	$projects = $sc_types['projectes']->get_sorted_projects( $project_args );
 
 
     $context = Timber::get_context();
