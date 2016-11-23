@@ -1,5 +1,5 @@
 //Search form
-jQuery(".selectpicker").on('change', function() {
+jQuery("#cerca_aparells .selectpicker").on('change', function() {
     jQuery( "#cerca_aparells" ).submit();
 });
 
