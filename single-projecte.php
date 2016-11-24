@@ -12,7 +12,17 @@ $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig'
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 
-$context['logotip'] = get_img_from_id( $post->logotip );
+$logo = get_img_from_id( $post->logotip );
+
+$context['logotip'] = $logo;
+
+$custom_logo_filter = function ($img) use($logo ) {
+	return $logo;
+};
+
+add_filter( 'wpseo_twitter_image', $custom_logo_filter);
+add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
+
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 

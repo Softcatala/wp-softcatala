@@ -45,6 +45,14 @@ if( $download_full ) {
     }
 }
 
+$logo = $post->logotip_programa;
+$custom_logo_filter = function ($img) use($logo ) {
+	return $logo;
+};
+
+add_filter( 'wpseo_twitter_image', $custom_logo_filter);
+add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
+
 $context['reverse_comments'] = true;
 
 $context['baixades'] = generate_url_download( $baixades, $post );

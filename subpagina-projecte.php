@@ -21,7 +21,17 @@ $context['post_subpagina'] = $post_subpagina;
 $context['post'] = $post;
 $context['current_url'] = get_current_url();
 
-$context['logotip'] = get_img_from_id( $post->logotip );
+$logo = get_img_from_id( $post->logotip );
+
+$context['logotip'] = $logo;
+
+$custom_logo_filter = function ($img) use($logo ) {
+	return $logo;
+};
+
+add_filter( 'wpseo_twitter_image', $custom_logo_filter);
+add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
+
 $context['links'] = $post->get_field( 'link' );
 $context['credits'] = $post->get_field( 'credit' );
 

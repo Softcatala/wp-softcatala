@@ -18,6 +18,14 @@ $context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post_subpagina'] = $post_subpagina;
 $post = new TimberPost( $post_subpagina->programa );
+
+$logo = $post->logotip_programa;
+$custom_logo_filter = function ($img) use($logo ) {
+	return $logo;
+};
+
+add_filter( 'wpseo_twitter_image', $custom_logo_filter);
+add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 $context['post'] = $post;
 $context['content_title'] = $post->title.' - PMF';
 $query = array ( 'post_id' => $post_subpagina->programa, 'subpage_type' => 'programa' );
