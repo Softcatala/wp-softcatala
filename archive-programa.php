@@ -14,15 +14,17 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
+$programes = $sc_types['programes'];
+
 //Template initialization
 $templates = array( 'archive-programa.twig' );
-$post_type = get_query_var( 'post_type' );
-$post = retrieve_page_data( $post_type );
+
+$post = $programes->get_page();
 $post ? $context_holder['links'] = $post->get_field( 'link' ) : '';
 $context_holder['post'] = $post;
 $context_holder['content_title'] = 'Programes i aplicacions';
-$context_holder['post_type'] = $post_type;
-$context_holder['conditions_text'] = get_option( 'sc_text_programes' );
+$context_holder['post_type'] = $programes->singular;
+$context_holder['conditions_text'] = $programes->condicions_afegir_programa;
 $context_holder['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context_holder['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context_holder['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
@@ -68,7 +70,7 @@ $context_holder['posts'] = Timber::get_posts( $args );
 $context_holder['pagination'] = Timber::get_pagination();
 
 //Contact Form
-$context_holder['contact']['to_email'] = get_option('email_rebost');
+$context_holder['contact']['to_email'] = $programes->email;
 
 if (count($context_holder['posts']) == 0 && $flag_search == true ) {
     throw_error( '404', 'No programs found' );

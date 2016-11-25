@@ -71,4 +71,17 @@ class SC_TypeBase {
 		}
 		return $options;
 	}
+
+	/**
+	 * Returns page containing the information of the archive page
+	 * @returns TimberPost
+	 */
+	public function get_page() {
+		$args = array(
+			'name' => $this->singular . '-page',
+			'post_type' => 'page'
+		);
+
+		return Timber::get_post($args);
+	}
 }

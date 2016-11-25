@@ -63,7 +63,7 @@ class SC_User {
 		foreach ( $this->custom_user_fields as $user_field ) {
 
 			$new_meta = $_POST[ $user_field['name'] ] ; // Input var okay.
-			
+
 			if ( $new_meta == null ) {
 				$custom = array();
 			} else {

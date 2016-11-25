@@ -36,26 +36,25 @@ class SC_Projectes extends SC_TypeBase {
 			'order'          => 'ASC',
 			'posts_per_page' => -1,
 			'tax_query' => array(
-				array (
+				array(
 					'taxonomy' => 'classificacio',
 					'field' => 'slug',
 					'terms' => 'arxivat',
-					'operator'  => 'NOT IN'
-				)
-			)
+					'operator'  => 'NOT IN',
+				),
+			),
 		);
 	}
 
 	private function sort_list( & $projects ) {
-		usort( $projects, array($this, 'sort' ) );
+		usort( $projects, array( $this, 'sort' ) );
 	}
 
 	public function sort( $first, $second ) {
-		if ( $first->projecte_destacat != $second->projecte_destacat )
-		{
-			return ( $first->projecte_destacat ) ? -1 : 1;
+		if ( $first->projecte_destacat != $second->projecte_destacat ) {
+			return ( $first->projecte_destacat ) ? (-1) : 1;
 		}
 
-		return strcmp($first->post_title, $second->post_title);
+		return strcmp( $first->post_title, $second->post_title );
 	}
 }
