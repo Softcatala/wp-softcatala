@@ -80,6 +80,17 @@ class StarterSite extends TimberSite {
                     wp_redirect( home_url( "/programes/" ) . $params_query );
                 }
             }
+        } elseif(empty(get_query_var( 'post_type' ))) {
+            if(isset($_GET['cerca'])) {
+                $available_query_vars = array( 'cerca' => 'cerca');
+                foreach($available_query_vars as $query_var => $key) { 
+                    $params_query .= $key . '/' . urlencode( get_query_var( $query_var )) . '/';
+                }
+
+                if( ! empty( $params_query ) ) {
+                    wp_redirect( home_url( "/noticies/" ) . $params_query );
+                }
+            }
         }
     }
 
