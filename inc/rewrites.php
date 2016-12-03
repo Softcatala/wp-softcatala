@@ -73,24 +73,29 @@ function sc_custom__rewrite_rules($aRules) {
 
     //Plantilla steps
     $cerca_base = array('cerca/([^/]+)/?' => 'index.php?s=$matches[1]');
-    $cerca_base_page = array('cerca/([^/]+)/page/([0-9]{1,})/?' => 'index.php?s=$matches[1]&paged=$matches[2]');
+    $cerca_base_page = array('cerca/([^/]+)/pagina/([0-9]{1,})/?' => 'index.php?s=$matches[1]&paged=$matches[2]');
+    $aRules = $cerca_base_page + $cerca_base + $aRules;
+
+    //Plantilla steps
+    $cerca_base = array('noticies/cerca/([^/]+)/?' => 'index.php?cerca=$matches[1]');
+    $cerca_base_page = array('noticies/cerca/([^/]+)/pagina/([0-9]{1,})/?' => 'index.php?cerca=$matches[1]&paged=$matches[2]');
     $aRules = $cerca_base_page + $cerca_base + $aRules;
 
     //Programes
     $aNewRules = array(
-		'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&paged=$matches[4]',
+		'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]&paged=$matches[4]',
         'programes/p/([^/]+)/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&categoria_programa=$matches[3]',
-		'programes/p/([^/]+)/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&paged=$matches[3]',
+		'programes/p/([^/]+)/so/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]&paged=$matches[3]',
         'programes/p/([^/]+)/so/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&sistema_operatiu=$matches[2]',
-		'programes/p/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&paged=$matches[3]',
+		'programes/p/([^/]+)/cat/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]&paged=$matches[3]',
         'programes/p/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&categoria_programa=$matches[2]',
-		'programes/p/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&paged=$matches[2]',
+		'programes/p/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]&paged=$matches[2]',
         'programes/p/([^/]+)/?' => 'index.php?post_type=programa&cerca=$matches[1]',
-		'programes/so/([^/]+)/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&paged=$matches[3]',
+		'programes/so/([^/]+)/cat/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]&paged=$matches[3]',
         'programes/so/([^/]+)/cat/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&categoria_programa=$matches[2]',
-		'programes/so/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&paged=$matches[2]',
+		'programes/so/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]&paged=$matches[2]',
         'programes/so/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]',
-		'programes/cat/([^/]+)/page/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&paged=$matches[2]',
+		'programes/cat/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&paged=$matches[2]',
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
     );
     $aRules = $aNewRules + $aRules;
