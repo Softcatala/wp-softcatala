@@ -294,7 +294,7 @@ function translateText() {
         $.ajax({
             url:traductor_json_url,
             type:"POST",
-            data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'DjnAT2hnZKPHe98Ry/s2dmClDbs'},
+            data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'NmQ3NmMyNThmM2JjNWQxMjkxN2N'},
             dataType: 'json',
             success : trad_ok,
             failure : trad_ko
