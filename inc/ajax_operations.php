@@ -543,7 +543,7 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
 
     if( $return['status'] == 1 ) {
         $return['post_id'] = $post_id;
-        $return['text'] = 'Gràcies per enviar aquesta informació. La publicarem el més aviat possible.';
+        $return['text'] = 'Gràcies per enviar aquesta informació. La publicarem tan aviat com puguem.';
     }
 
     return $return;
