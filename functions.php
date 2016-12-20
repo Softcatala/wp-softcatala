@@ -155,6 +155,7 @@ class StarterSite extends TimberSite {
     function sc_rewrite_search(){
         global $wp_rewrite;
         $wp_rewrite->search_base = 'cerca';
+        $wp_rewrite->pagination_base = 'pagina';
     }
 
     function sc_author_rewrite_base() {
@@ -1068,4 +1069,15 @@ function throw_service_error( $service, $message = '' ) {
     }
 
     sendEmailForm( 'web@softcatala.org', $service, 'El servei «' . $service . '» no està funcionant correctament', $fields );
+}
+
+add_filter( 'rest_authentication_errors', 'sc_only_allow_logged_in_rest_access' );
+
+function sc_only_allow_logged_in_rest_access( $access ) {
+
+	if( ! is_user_logged_in() ) {
+		return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'disable-json-api' ), array( 'status' => rest_authorization_required_code() ) );
+	}
+
+	return $access;	       
 }
