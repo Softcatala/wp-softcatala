@@ -329,7 +329,8 @@ function sc_add_new_program() {
             );
             sc_update_metadata ( $return['post_id'], $metadata );
 
-            $to_email = get_option( 'email_rebost' );
+            $from_email = get_option( 'email_rebost' );
+            $to_email = get_option( 'to_email_rebost' );
             $nom_from = "Programes i aplicacions de Softcatalà";
             $assumpte = "[Programes] Programa enviat per formulari";
 
@@ -340,7 +341,7 @@ function sc_add_new_program() {
                 "Email de l'usuari" => $email_usuari,
                 "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
             );
-            sendEmailForm($to_email, $nom_from, $assumpte, $fields);
+            sendEmailWithFromAndTo($to_email, $from_email, $nom_from, $assumpte, $fields);
         }
     }
 
@@ -464,7 +465,8 @@ function sc_send_aparell() {
         $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
 
         if( $return['status'] == 1 ) {
-            $to_email       = "rebost@llistes.softcatala.org";
+            $from_email = get_option( 'email_rebost' );
+            $to_email = get_option( 'to_email_rebost' );
             $nom_from       = "Aparells de Softcatalà";
             $assumpte       = "[Aparells] Aparell enviat per formulari";
 
@@ -473,7 +475,7 @@ function sc_send_aparell() {
                 "Comentari" => $comentari,
                 "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
             );
-            sendEmailForm( $to_email, $nom_from, $assumpte, $fields );
+            sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields );
         }
     }
 

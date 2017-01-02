@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.9.9');
+define('WP_SOFTCATALA_VERSION', '0.9.10');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -799,10 +799,14 @@ function sc_add_excerpts_to_pages() {
     add_post_type_support( 'page', 'excerpt' );
 }
 
+function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
+	return sendEmailWithFromAndTo($to_email, $to_email, $nom_from, $assumpte, $fields);
+}
+
 /*
  * General 'send email' function
  */
-function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
+function sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields) {
     //email body
     $message_body = '';
     foreach( $fields as $key => $field ) {
@@ -810,7 +814,7 @@ function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
     }
 
     //proceed with PHP email.
-    $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
+    $headers = 'From: '.$nom_from.' <'.$from_email. ">\r\n" .
         'Reply-To: web@softcatala.org' . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
 
