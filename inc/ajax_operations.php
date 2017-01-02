@@ -329,7 +329,7 @@ function sc_add_new_program() {
             );
             sc_update_metadata ( $return['post_id'], $metadata );
 
-            $to_email = get_option( 'email_rebost ' );
+            $to_email = get_option( 'email_rebost' );
             $nom_from = "Programes i aplicacions de Softcatalà";
             $assumpte = "[Programes] Programa enviat per formulari";
 
