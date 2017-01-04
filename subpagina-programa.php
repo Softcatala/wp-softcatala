@@ -27,6 +27,7 @@ $custom_logo_filter = function ($img) use($logo ) {
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
 add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 $context['post'] = $post;
+$context['arxivat'] = $post->has_term('arxivat', 'classificacio');
 $context['content_title'] = $post->title.' - PMF';
 $query = array ( 'post_id' => $post_subpagina->programa, 'subpage_type' => 'programa' );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );

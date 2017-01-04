@@ -34,7 +34,7 @@
                     </ul>
 
 
-                    {% if baixades %}
+                    {% if baixades and not arxivat %}
                         {% for baixada in baixades %}
                             <a id="baixada_{{ baixada.download_os|lower }}_{{ baixada.arquitectura|lower }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
                                 <i class="fa fa-download"></i>
