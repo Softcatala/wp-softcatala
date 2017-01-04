@@ -415,5 +415,5 @@ function get_responsables($project){
 
 function get_gravatar_url( $email, $size = '270' ) {
     $hash = md5( strtolower( trim ( $email ) ) );
-    return 'https://gravatar.com/avatar/' . $hash . '?size=' . $size;
+    return 'https://gravatar.com/avatar/' . $hash . '?size=' . $size . '&d=mm&r=g';
 }
