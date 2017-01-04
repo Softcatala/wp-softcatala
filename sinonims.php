@@ -21,6 +21,9 @@ $paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
 
 $content_title = 'Diccionari de sinònims';
 
+$canonical = '';
+$prefix_description = '';
+
 if( ! empty ( $paraula ) ) {
     $url = $url_sinonims_server . urlencode( $paraula );
     try {
