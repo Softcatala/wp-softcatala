@@ -71,6 +71,9 @@
                              <div class="form-boto col-xs-5">
                                <input type="hidden" id="nom_from" value="{% if content_title %}{{ content_title }}{% else %}Web{% endif %} de Softcatalà" />
                                <input type="hidden" id="to_email" value="{{ contact.to_email }}" />
+                               {% if contact.from_email %}
+                                   <input type="hidden" id="from_email" value="{{ contact.from_email }}" />
+                               {% endif %}
                                <input type="hidden" id="assumpte" value="[{% if content_title %}{{ content_title }}{% else %}{{ post.title }}{% endif %}] Contacte des del formulari" />
                                {{ function('wp_nonce_field', 'contact_form') }}
                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>

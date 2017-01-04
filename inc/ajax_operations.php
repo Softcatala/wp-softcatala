@@ -210,6 +210,7 @@ function sc_contact_form() {
         $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
     } else {
         $to_email       = sanitize_text_field( $_POST["to_email"] );
+        $from_email     = isset($_POST["from_email"]) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
         $nom_from       = sanitize_text_field( $_POST["nom_from"] );
         $assumpte       = sanitize_text_field( $_POST["assumpte"] );
 
@@ -232,7 +233,7 @@ function sc_contact_form() {
         $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
 
         //proceed with PHP email.
-        $headers = 'From: '.$nom_from.' <'.$to_email. ">\r\n" .
+        $headers = 'From: '.$nom_from.' <'.$from_email. ">\r\n" .
             'Reply-To: '.$correu.'' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 

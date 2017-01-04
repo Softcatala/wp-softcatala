@@ -25,7 +25,8 @@ $context['credits'] = $post->get_field( 'credit' );
 $baixades = $post->get_field( 'baixada' );
 
 //Contact Form
-$context['contact']['to_email'] = get_option('email_rebost');
+$context['contact']['to_email'] = get_option('to_email_rebost');
+$context['contact']['from_email'] = get_option('email_rebost');
 
 
 //Add program form data
