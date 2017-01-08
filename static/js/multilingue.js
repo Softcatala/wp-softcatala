@@ -22,6 +22,7 @@ jQuery('#_action_consulta').click(function(){
 
         var url_history = '/diccionari-multilingue/paraula/'+query+'/' + lang_history;
         history.pushState(null, null, url_history);
+
         jQuery("#content_header_title").html('Diccionari multilingüe: «'+query+'»');
 
         update_share_links(query);
@@ -51,15 +52,28 @@ jQuery('#_action_consulta').click(function(){
 });
 
 function print_results(result) {
+    sc_sendTracking(true);
     jQuery("#loading").hide();
     jQuery('#results').html(result);
     jQuery('#results').slideDown();
 }
 
 function ko_function(result) {
+    sc_sendTracking(false);
     jQuery("#loading").hide();
     jQuery('#results').html(JSON.parse(result.responseText));
     jQuery('#results').slideDown();
+}
+
+function sc_sendTracking(success) {
+    if (typeof(ga) == 'function')
+    {
+        var url = success ? '' : '404/';
+
+        url += document.location.pathname;
+
+       ga('send', 'pageview', url);
+    }
 }
 
 //Function to update share links on ajax calls

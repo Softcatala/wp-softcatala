@@ -17,6 +17,8 @@ jQuery('#_action_consulta_sinonims').click(function(){
     var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
+    jQuery("#content_header_title").html('Diccionari de sinònims: «'+query+'»');
+
     update_share_links(query);
 
     //Data
@@ -43,10 +45,23 @@ function print_synonims(result) {
     jQuery("#loading").hide();
     jQuery('#results').html(result);
     jQuery('#results').slideDown();
+    sc_sendTracking(true);
 }
 
 function errorSynsets(result) {
+    sc_sendTracking(false);
     show_message(result.responseJSON);
+}
+
+function sc_sendTracking(success) {
+    if (typeof(ga) == 'function')
+    {
+        var url = success ? '' : '404/';
+
+        url += document.location.pathname;
+
+       ga('send', 'pageview', url);
+    }
 }
 
 function show_message(text) {
