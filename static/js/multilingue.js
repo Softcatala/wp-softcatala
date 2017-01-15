@@ -68,7 +68,7 @@ function ko_function(result) {
 function sc_sendTracking(success) {
     if (typeof(ga) == 'function')
     {
-        var url = success ? '' : '404/';
+        var url = success ? '' : '404';
 
         url += document.location.pathname;
 
