@@ -81,7 +81,7 @@ class StarterSite extends TimberSite {
                 }
             }
         } elseif(empty(get_query_var( 'post_type' ))) {
-            if(isset($_GET['cerca'])) {
+            if(isset($_GET['cerca']) && isset($_GET['form_cerca_noticies'])) {
                 $available_query_vars = array( 'cerca' => 'cerca');
                 foreach($available_query_vars as $query_var => $key) { 
                     $params_query .= $key . '/' . urlencode( get_query_var( $query_var )) . '/';
