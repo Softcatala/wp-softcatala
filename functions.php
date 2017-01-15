@@ -41,6 +41,7 @@ class StarterSite extends TimberSite {
         add_action( 'after_setup_theme', array( $this, 'include_theme_conf' ) );
         //SC Dashboard settings
         add_action( 'admin_menu', array( $this, 'include_sc_settings' ));
+        add_action( 'admin_init', array( $this, 'add_caps' ));
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
@@ -100,54 +101,54 @@ class StarterSite extends TimberSite {
      */
     function sc_change_search_url_rewrite() {
         if ( is_search() ) {
-			if ( ! empty( $_GET['s'] ) ) {
-				wp_redirect( home_url( "/cerca/" ) . urlencode( get_query_var( 's' ) ) . '/' );
-				exit();
-			} else {
-				$real = get_search_query();
-				$converted = $this->convert_smart_quotes($real);
-				$real = html_entity_decode($real, ENT_QUOTES, "UTF-8");
+            if ( ! empty( $_GET['s'] ) ) {
+                wp_redirect( home_url( "/cerca/" ) . urlencode( get_query_var( 's' ) ) . '/' );
+                exit();
+            } else {
+                $real = get_search_query();
+                $converted = $this->convert_smart_quotes($real);
+                $real = html_entity_decode($real, ENT_QUOTES, "UTF-8");
 
-				if ($converted != $real) {
-					wp_redirect( home_url( "/cerca/" ) . urlencode( $converted ) . '/' );
-					exit();
-				}
-			}
+                if ($converted != $real) {
+                    wp_redirect( home_url( "/cerca/" ) . urlencode( $converted ) . '/' );
+                    exit();
+                }
+            }
         }
     }
 
-	function convert_smart_quotes($str)
-	{
-		$chr_map = array(
-			// Windows codepage 1252
-			"\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
-			"\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
-			"\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
-			"\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
-			"\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
-			"\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
-			"\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
-			"\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+    function convert_smart_quotes($str)
+    {
+        $chr_map = array(
+            // Windows codepage 1252
+            "\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
+            "\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
+            "\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+            "\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
+            "\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
+            "\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
+            "\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
+            "\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
 
-			// Regular Unicode     // U+0022 quotation mark (")
-								   // U+0027 apostrophe     (')
-			"\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark
-			"\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark
-			"\xE2\x80\x98" => "'", // U+2018 left single quotation mark
-			"\xE2\x80\x99" => "'", // U+2019 right single quotation mark
-			"\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
-			"\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
-			"\xE2\x80\x9C" => '"', // U+201C left double quotation mark
-			"\xE2\x80\x9D" => '"', // U+201D right double quotation mark
-			"\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
-			"\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
-			"\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
-			"\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
-		 );
-		 $chr = array_keys  ($chr_map); // but: for efficiency you should
-		 $rpl = array_values($chr_map); // pre-calculate these two arrays
-		 return str_replace($chr, $rpl, html_entity_decode($str, ENT_QUOTES, "UTF-8"));
-	}
+            // Regular Unicode     // U+0022 quotation mark (")
+                                   // U+0027 apostrophe     (')
+            "\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark
+            "\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark
+            "\xE2\x80\x98" => "'", // U+2018 left single quotation mark
+            "\xE2\x80\x99" => "'", // U+2019 right single quotation mark
+            "\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
+            "\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
+            "\xE2\x80\x9C" => '"', // U+201C left double quotation mark
+            "\xE2\x80\x9D" => '"', // U+201D right double quotation mark
+            "\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
+            "\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
+            "\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
+            "\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
+         );
+         $chr = array_keys  ($chr_map); // but: for efficiency you should
+         $rpl = array_values($chr_map); // pre-calculate these two arrays
+         return str_replace($chr, $rpl, html_entity_decode($str, ENT_QUOTES, "UTF-8"));
+    }
 
     /**
      * Change "search" by "cerca"
@@ -184,6 +185,18 @@ class StarterSite extends TimberSite {
 
         if ( function_exists('add_submenu_page') )
             add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
+    }
+
+    function add_caps() {
+		$roles = array();
+		$roles[] = get_role( 'contributor' );
+		$roles[] = get_role( 'author' );
+		
+		foreach ( $roles as $role ) {
+			$role->add_cap( 'edit_pages' );
+			$role->add_cap( 'edit_published_pages' );
+			$role->add_cap( 'upload_files' );
+		}
     }
 
     function get_email_sections() {
@@ -230,7 +243,7 @@ class StarterSite extends TimberSite {
         $twig->addFilter('get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ));
         $twig->addFilter('truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ));
         $twig->addFilter('print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ));
-		$twig->addFilter('clean_number', new Twig_SimpleFilter( 'clean_number', 'clean_number' ));
+        $twig->addFilter('clean_number', new Twig_SimpleFilter( 'clean_number', 'clean_number' ));
         return $twig;
     }
 
@@ -302,14 +315,14 @@ function softcatala_scripts() {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
 
-	wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array('jquery'), '20130313', true );
+    wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array('jquery'), '20130313', true );
 
     wp_enqueue_script( 'jquery' );
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
-	wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), WP_SOFTCATALA_VERSION );
+    wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), WP_SOFTCATALA_VERSION );
     wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
-	wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
-	wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), WP_SOFTCATALA_VERSION, true );
+    wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
+    wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), WP_SOFTCATALA_VERSION, true );
     //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
     wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 }
@@ -394,7 +407,7 @@ function get_source_link($result) {
  * @return string
  */
 function clean_number ( $n ) {
-	return str_replace( ',00', '', $n );
+    return str_replace( ',00', '', $n );
 }
 
 /**
@@ -800,7 +813,7 @@ function sc_add_excerpts_to_pages() {
 }
 
 function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
-	return sendEmailWithFromAndTo($to_email, $to_email, $nom_from, $assumpte, $fields);
+    return sendEmailWithFromAndTo($to_email, $to_email, $nom_from, $assumpte, $fields);
 }
 
 /*
@@ -920,54 +933,54 @@ add_filter( 'comment_post_redirect', 'aparell_comment_redirect' );
 add_shortcode( 'multilingue-stats', 'multilingue_stats' );
 
 function multilingue_stats() {
-	$url_api = get_option( 'api_diccionari_multilingue' );
+    $url_api = get_option( 'api_diccionari_multilingue' );
 
-	$api_call = do_json_api_call($url_api . '/statistics');
+    $api_call = do_json_api_call($url_api . '/statistics');
     $statistics = json_decode($api_call);
 
-	$stats = '';
+    $stats = '';
 
-	if ( $statistics ) {
-		$ca_labels = add_multilingue_stats($statistics, 'ca_labels');
-		$ca_descs = add_multilingue_stats($statistics, 'ca_descs');
-		$en_labels = add_multilingue_stats($statistics, 'en_labels');
-		$en_descs = add_multilingue_stats($statistics, 'en_descs');
-		$fr_labels = add_multilingue_stats($statistics, 'fr_labels');
-		$fr_descs = add_multilingue_stats($statistics, 'fr_descs');
-		$de_labels = add_multilingue_stats($statistics, 'de_labels');
-		$de_descs = add_multilingue_stats($statistics, 'de_descs');
-		$es_labels = add_multilingue_stats($statistics, 'es_labels');
-		$es_descs = add_multilingue_stats($statistics, 'es_descs');
-		$it_labels = add_multilingue_stats($statistics, 'it_labels');
-		$it_descs = add_multilingue_stats($statistics, 'it_descs');
+    if ( $statistics ) {
+        $ca_labels = add_multilingue_stats($statistics, 'ca_labels');
+        $ca_descs = add_multilingue_stats($statistics, 'ca_descs');
+        $en_labels = add_multilingue_stats($statistics, 'en_labels');
+        $en_descs = add_multilingue_stats($statistics, 'en_descs');
+        $fr_labels = add_multilingue_stats($statistics, 'fr_labels');
+        $fr_descs = add_multilingue_stats($statistics, 'fr_descs');
+        $de_labels = add_multilingue_stats($statistics, 'de_labels');
+        $de_descs = add_multilingue_stats($statistics, 'de_descs');
+        $es_labels = add_multilingue_stats($statistics, 'es_labels');
+        $es_descs = add_multilingue_stats($statistics, 'es_descs');
+        $it_labels = add_multilingue_stats($statistics, 'it_labels');
+        $it_descs = add_multilingue_stats($statistics, 'it_descs');
 
-		ob_start();
+        ob_start();
 
-		?>
-		<i><small>
-			L'índex va ser actualitzat per últim cop el <?= $statistics->wikidata->date ?> i conté: <?=$ca_labels?>
-				paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?>
-				definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès,
-				<?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i
-				<?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions
-				en espanyol, i <?= $statistics->wikidata->images ?> imatges.
-		</small></i>
-		<?php
+        ?>
+        <i><small>
+            L'índex va ser actualitzat per últim cop el <?= $statistics->wikidata->date ?> i conté: <?=$ca_labels?>
+                paraules i <?=$ca_descs?> definicions en català, <?=$en_labels?> paraules i <?=$en_descs?>
+                definicions en anglès, <?=$fr_labels?> paraules i <?=$fr_descs?> definicions en francès,
+                <?=$it_labels?> paraules i <?=$it_descs?> definicions en italià, <?=$de_labels?> paraules i
+                <?=$de_descs?> definicions en alemany, <?=$es_labels?> paraules i <?=$es_descs?>  definicions
+                en espanyol, i <?= $statistics->wikidata->images ?> imatges.
+        </small></i>
+        <?php
 
-		$stats = ob_get_clean();
-	}
+        $stats = ob_get_clean();
+    }
 
-	return $stats;
+    return $stats;
 }
 
 function add_multilingue_stats($statistics, $key) {
-		$wikidata = (array) $statistics->wikidata;
-		$wikidictionary = (array) $statistics->wikidictionary;
-		$value = $wikidata[$key];
-		if(isset($wikidictionary[$key]) && $wikidictionary[$key]) {
-				$value += $wikidictionary[$key];
-		}
-		return $value;
+        $wikidata = (array) $statistics->wikidata;
+        $wikidictionary = (array) $statistics->wikidictionary;
+        $value = $wikidata[$key];
+        if(isset($wikidictionary[$key]) && $wikidictionary[$key]) {
+                $value += $wikidictionary[$key];
+        }
+        return $value;
 }
 
 
@@ -1046,16 +1059,16 @@ add_filter( 'wp_editor_set_quality', 'sc_image_full_quality' );
  */
 function sc_responsive_image_sizes($sizes, $size) {
 
-	$width = $size[0];
+    $width = $size[0];
 
-	// 1200, 1025, 769, 480
+    // 1200, 1025, 769, 480
 
-	// Let's assume we'll always have sidebar
+    // Let's assume we'll always have sidebar
     if ($width > 870) {
         return '(max-width: 768px) 92vw, (max-width: 1024px) 738px, (max-width: 1200px) 870px, 870x';
     }
 
-	return $sizes;
+    return $sizes;
 }
 add_filter('wp_calculate_image_sizes', 'sc_responsive_image_sizes', 10 , 2);
 
@@ -1079,9 +1092,9 @@ add_filter( 'rest_authentication_errors', 'sc_only_allow_logged_in_rest_access' 
 
 function sc_only_allow_logged_in_rest_access( $access ) {
 
-	if( ! is_user_logged_in() ) {
-		return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'disable-json-api' ), array( 'status' => rest_authorization_required_code() ) );
-	}
+    if( ! is_user_logged_in() ) {
+        return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'disable-json-api' ), array( 'status' => rest_authorization_required_code() ) );
+    }
 
-	return $access;	       
+    return $access;           
 }
