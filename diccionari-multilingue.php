@@ -30,7 +30,7 @@ $post = new TimberPost();
 //Ads
 
 $context_holder = array();
-$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
+$context_holder['ads_container'] = true;
 
 if( ! empty ( $paraula ) ) {
     $url = $url_api.'search/' . $paraula;

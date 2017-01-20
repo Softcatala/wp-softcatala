@@ -985,37 +985,6 @@ function add_multilingue_stats($statistics, $key) {
 
 
 /**
- * Generate code for top ads
- */
-function generate_ads_html( $banner_ids )
-{
-    $js_path = get_template_directory_uri() . '/static/js/ads.js';
-    $html_code = "<script type='text/javascript' src='$js_path'></script>
-                    <div class='container-fluid hidden-xs' style='margin-bottom: -5px'>
-                    <div style='float: left; width: 744px;'>
-                    <div style='float: left';>
-                            <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
-                            </div>
-                    <script type='text/javascript'>
-                    if (typeof OA_show == 'function') {
-                        OA_show($banner_ids[0]);
-                    }
-                    </script>
-                    </div>
-                    <div style='float: right; width: auto;' class='visible-lg-block'>
-                    <div style='float: left';>
-                            <img src='/themes/wp-softcatala/static/images/header/publicitat.jpg'/>
-                            </div>
-                    <script type='text/javascript'>
-                    if (typeof OA_show == 'function') {
-                        OA_show($banner_ids[1]);
-                    }
-                    </script></div></div>";
-
-    return $html_code;
-}
-
-/**
  * Sets the program so depending on the downloads so
  *
  */

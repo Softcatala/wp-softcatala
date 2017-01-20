@@ -16,7 +16,7 @@ $url_sinonims_server = get_option('api_diccionari_sinonims');
 
 $post = new TimberPost();
 //Ads
-$context_holder['ads_container'] = generate_ads_html( array( '13', '17' ));
+$context_holder['ads_container'] = true;
 $paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
 
 $content_title = 'Diccionari de sinònims';

@@ -8,7 +8,7 @@
 //Template initialization
 $templates = array('home-sc.twig' );
 $context = Timber::get_context();
-$context['ads_container'] = generate_ads_html( array( '13', '17' ));
+$context['ads_container'] = true;
 
 //Sections population
 $context['slides'] = Timber::get_posts( array( 'post_type' => 'slide' ) );
