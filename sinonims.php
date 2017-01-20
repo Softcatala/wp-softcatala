@@ -29,7 +29,7 @@ if( ! empty ( $paraula ) ) {
     try {
         $sinonims_server = json_decode( do_json_api_call($url) );
 
-        if( $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
+        if( $sinonims_server != null && $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
             $sinonims['paraula'] = $paraula;
             $sinonims['response'] = $sinonims_server->synsets;
 
@@ -39,7 +39,7 @@ if( ! empty ( $paraula ) ) {
             $canonical = get_current_url();
 
             $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
-        } else if ( $sinonims_server == 'error' ) {
+        } else if ( $sinonims_server == 'error' || $sinonims_server == null) {
             throw_service_error( $content_title );
         } else {
             throw_error('404', 'No Results For This Search');

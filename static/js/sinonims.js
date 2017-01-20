@@ -49,14 +49,14 @@ function print_synonims(result) {
 }
 
 function errorSynsets(result) {
-    sc_sendTracking(false);
+    sc_sendTracking(false, result.status);
     show_message(result.responseJSON);
 }
 
-function sc_sendTracking(success) {
+function sc_sendTracking(success, status) {
     if (typeof(ga) == 'function')
     {
-        var url = success ? '' : '404';
+        var url = success ? '' : status;
 
         url += document.location.pathname;
 

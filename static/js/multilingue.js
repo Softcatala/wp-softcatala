@@ -59,16 +59,16 @@ function print_results(result) {
 }
 
 function ko_function(result) {
-    sc_sendTracking(false);
+    sc_sendTracking(false, result.status);
     jQuery("#loading").hide();
     jQuery('#results').html(JSON.parse(result.responseText));
     jQuery('#results').slideDown();
 }
 
-function sc_sendTracking(success) {
+function sc_sendTracking(success, status) {
     if (typeof(ga) == 'function')
     {
-        var url = success ? '' : '404';
+        var url = success ? '' : status;
 
         url += document.location.pathname;
 
