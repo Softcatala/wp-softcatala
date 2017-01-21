@@ -276,6 +276,11 @@ function translateText() {
     }
 
     var text = jQuery('.primer-textarea').val();
+
+    if (String.prototype.hasOwnProperty('normalize')) {
+         text = text.normalize("NFC");
+    }
+
     if (text.length) {
         var origin_language = jQuery('#origin_language').val();
         var target_language = jQuery('#target_language').val();
@@ -322,7 +327,9 @@ function trad_ok(dt) {
         
         rawText = dt.responseData.translatedText;
         
-        translation_coloured = translation.replace(/\*([^.,;:\t ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
+        encodedText = jQuery('<div/>').text(translation).html();
+
+        translation_coloured = encodedText.replace(/\*([^.,;:\t<>& ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
         jQuery('.second-textarea').html(translation_coloured);
 
         $scroll = jQuery('#translate').data('scroll');
