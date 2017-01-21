@@ -13,11 +13,11 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 
 $logo = get_img_from_id( $post->logotip );
-
 $context['logotip'] = $logo;
 
-$custom_logo_filter = function ($img) use($logo ) {
-	return $logo;
+$yoastlogo = get_the_post_thumbnail_url() || $logo;
+$custom_logo_filter = function ($img) use($yoastlogo) {
+	return $yoastlogo;
 };
 
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);

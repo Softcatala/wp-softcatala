@@ -47,7 +47,7 @@ if( $download_full ) {
     }
 }
 
-$logo = $post->logotip_programa;
+$logo = get_the_post_thumbnail_url() || $post->logotip_programa;
 $custom_logo_filter = function ($img) use($logo ) {
 	return $logo;
 };
