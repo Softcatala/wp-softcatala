@@ -2,7 +2,8 @@
     <h1>Paràmetres generals de Softcatalà</h1>
 
     <h2 id="wpseo-tabs" class="nav-tab-wrapper">
-        <a data-id="email_contacte" class="nav-tab nav-tab-active" href="#">E-mails contacte</a>
+        <a data-id="settings_switches" class="nav-tab nav-tab-active" href="#">Funcionalitat opcional</a>
+        <a data-id="email_contacte" class="nav-tab" href="#">E-mails contacte</a>
         <a data-id="llistes" class="nav-tab" href="#">Llistes de correu</a>
         <a data-id="servidors_api" class="nav-tab" href="#">Servidors API</a>
         <a data-id="rewrites" class="nav-tab" href="#">Paràmetres de rewrites</a>
@@ -10,7 +11,31 @@
     </h2>
 
     <form method="post" action="options.php">
+        {{ function( 'settings_fields', 'softcatala-group' ) }}
         <section>
+            <div id="settings_switches">
+                <h3>Opcions que habiliten o deshabiliten funcionalitat opcional</h3>
+                <p>
+                <table class="form-table">
+                    <tbody><tr valign="top">
+                    <tr>
+                        <th scope="row">
+                            <label>
+                                    <strong>Corrector</strong>
+                                    Habilita/deshabilita el seguiment d'interaccions de l'usuari
+                            </label>
+                        </th>
+                        <td>
+                            {% if function( 'get_option', 'log_corrector_events') %}
+                                <input type="checkbox" checked="checked" id="log_corrector_events" name="log_corrector_events">
+                            {% else %}
+                                <input type="checkbox" id="log_corrector_events" name="log_corrector_events">
+                            {% endif %}
+                        </td>
+                    </tr>
+                    </tbody></table>
+                </p>
+            </div>
             <div id="email_contacte">
                 <h3>Adreces electròniques de contacte per secció</h3>
                 <p>
@@ -36,9 +61,6 @@
             </div>
             <div id="llistes" style="display: none;">
                 <h3>Llistes de correu</h3>
-
-                {{ function( 'settings_fields', 'softcatala-group' ) }}
-                {{ function( 'do_settings_sections', 'softcatala-group' ) }}
                 <p>
                 <table class="form-table">
                     <tbody><tr valign="top">

@@ -63,6 +63,22 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
+	function get_ui_settings() {
+		return array('log_corrector_events');
+	}
+
+	function register_ui_settings() {
+		$ui_settings = $this->get_ui_settings();
+
+		$setting_values = array();
+
+		foreach ($ui_settings as $setting) {
+			$setting_values[$setting] = get_option($setting, false);
+		}
+
+		wp_localize_script('sc-js-main', 'sc_settings', $setting_values);
+	}
+
     /**
      * This function implements the rewrite tags for the different sections of the website
      */
@@ -177,14 +193,20 @@ class StarterSite extends TimberSite {
         register_setting( 'softcatala-group', 'aparells_post_id' );
         register_setting( 'softcatala-group', 'sc_text_programes' );
 
+        $ui_settings = $this->get_ui_settings();
+        foreach ( $ui_settings as $setting ) {
+            register_setting( 'softcatala-group', $setting );
+        }
+
         //Email contact parameters
         $sections = $this->get_email_sections();
         foreach ( $sections as $key => $section ) {
             register_setting( 'softcatala-group', 'email_'.$key );
         }
 
-        if ( function_exists('add_submenu_page') )
+        if ( function_exists('add_submenu_page') ) {
             add_submenu_page('options-general.php', 'Softcatalà Settings', 'Softcatalà Settings', 'manage_options', __FILE__, array ( $this, 'softcatala_dash_page' ));
+        }
     }
 
     function add_caps() {
@@ -309,9 +331,13 @@ class StarterSite extends TimberSite {
 
 }
 
-new StarterSite();
+global $sc_site;
+$sc_site = new StarterSite();
 
 function softcatala_scripts() {
+
+    global $sc_site;
+
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, NULL, true );
 
@@ -321,6 +347,7 @@ function softcatala_scripts() {
     wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
     wp_enqueue_style( 'sc-css-cookies', '/../ssi/css/cookies/cookiecuttr.css', array(), WP_SOFTCATALA_VERSION );
     wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
+    $sc_site->register_ui_settings();
     wp_enqueue_script( 'sc-jquery-cookie', '/../ssi/js/cookies/jquery.cookie.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
     wp_enqueue_script( 'sc-js-cookiecuttr', '/../ssi/js/cookies/jquery.cookiecuttr.js', array('sc-jquery-cookie'), WP_SOFTCATALA_VERSION, true );
     //wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );

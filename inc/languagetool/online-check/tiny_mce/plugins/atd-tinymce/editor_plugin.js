@@ -568,7 +568,7 @@ AtDCore.prototype.isIE = function() {
 
       _serverLog : function(type, errorDescription, suggestion, suggestion_position)
       {
-          if (log_corrector_user_events) {
+          if (sc_settings.log_corrector_user_events) {
               var data = {"type": type,
                           "rule_id": errorDescription["id"],
                           "rule_sub_id": errorDescription["subid"],
