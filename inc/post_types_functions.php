@@ -414,6 +414,15 @@ function get_responsables($project){
 }
 
 function get_gravatar_url( $email, $size = '270' ) {
+
+	$args = array();
+
+	$args = apply_filters ('pre_get_avatar_data', $args, $email);
+
+	if( isset($args['url'] ) ) {
+		return $args['url'];
+	}
+
     $hash = md5( strtolower( trim ( $email ) ) );
     return 'https://gravatar.com/avatar/' . $hash . '?size=' . $size . '&d=mm&r=g';
 }

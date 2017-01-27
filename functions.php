@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.9.14');
+define('WP_SOFTCATALA_VERSION', '0.9.15');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -242,7 +242,6 @@ class StarterSite extends TimberSite {
 
         $sc_types['programes'] = new SC_Programes();
         $sc_types['projectes'] = new SC_Projectes();
-        $sc_types['user'] = new SC_User();
     }
 
     function register_taxonomies() {
@@ -1113,3 +1112,63 @@ function remove_website_row_wpse_94963_css()
 }
 add_action( 'admin_head-user-edit.php', 'remove_website_row_wpse_94963_css' );
 add_action( 'admin_head-profile.php',   'remove_website_row_wpse_94963_css' );
+
+add_filter( 'pre_get_avatar_data', 'sc_set_avatar_based_on_user_meta', 10, 2 );
+function sc_set_avatar_based_on_user_meta( $args, $id_or_email ){
+
+	// Set this to the full meta key set in Save As under Auto Populate tab (for WP Job Manager Field Editor)
+	$user_avatar_meta_key = 'avatar';
+
+	// Check for comment_ID
+	if( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ){
+		$id_or_email = get_comment( $id_or_email );
+	}
+
+	// Check if WP_Post
+	if( $id_or_email instanceof WP_Post ){
+		$user_id = $id_or_email->post_author;
+	}
+
+	// Check if WP_Comment
+	if( $id_or_email instanceof WP_Comment ){
+		if( ! empty( $id_or_email->user_id ) ){
+			$user_id = $id_or_email->user_id;
+		} elseif( ! empty( $id_or_email->comment_author_email ) ){
+			// If user_id not available, set as email address to handle below
+			$id_or_email = $id_or_email->comment_author_email;
+		}
+	}
+
+	if( is_numeric( $id_or_email ) ){
+		$user_id = $id_or_email;
+	} elseif( is_string( $id_or_email ) && strpos( $id_or_email, '@' ) ){
+		$id_or_email = get_user_by( 'email', $id_or_email );
+	}
+
+	// Last check, convert user object to ID
+	if( $id_or_email instanceof WP_User ){
+		$user_id = $id_or_email->ID;
+	}
+
+	// Now that we have a user ID, check meta for avatar file
+	if( ! empty( $user_id ) && is_numeric( $user_id ) ){
+
+		// As long as it's a valid URL, let's go ahead and set it
+		$image_id = get_user_meta($user_id, 'avatar', true); // CHANGE TO YOUR FIELD NAME
+		// Bail if we don't have a local avatar
+		if ( $image_id ) {
+			// Get the file size
+			$image_url  = wp_get_attachment_image_src( $image_id, 'full' ); // Set image size by name
+
+			// Get the file url
+			$avatar_url = $image_url[0];
+
+			if( filter_var( $avatar_url, FILTER_VALIDATE_URL ) ){
+				$args['url'] = $avatar_url;
+			}
+		}
+	}
+
+	return $args;
+}
+
