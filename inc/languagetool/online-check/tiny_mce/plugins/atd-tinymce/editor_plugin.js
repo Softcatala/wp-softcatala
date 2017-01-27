@@ -565,23 +565,26 @@ AtDCore.prototype.isIE = function() {
       {
       },
 
+
       _serverLog : function(type, errorDescription, suggestion, suggestion_position)
       {
-	  var data = {"type": type,
-                      "rule_id": errorDescription["id"],
-                      "rule_sub_id": errorDescription["subid"],
-		      "incorrect_text": errorDescription["coveredtext"],
-                      "incorrect_position": errorDescription["contextoffset"],
-		      "context": errorDescription["context"],
-                      "suggestion": suggestion,
-		      "suggestion_position": suggestion_position};
-	  jQuery.ajax({
-	      url: 'https://www.softcatala.org/languagetool/feedback/log',
-	      type: 'POST',
-	      data: JSON.stringify(data),
-	      contentType: 'application/json; charset=utf-8',
-	      dataType: 'json',
-	  });
+          if (log_corrector_user_events) {
+              var data = {"type": type,
+                          "rule_id": errorDescription["id"],
+                          "rule_sub_id": errorDescription["subid"],
+                          "incorrect_text": errorDescription["coveredtext"],
+                          "incorrect_position": errorDescription["contextoffset"],
+                          "context": errorDescription["context"],
+                          "suggestion": suggestion,
+                          "suggestion_position": suggestion_position};
+              jQuery.ajax({
+                  url: 'https://www.softcatala.org/languagetool/feedback/log',
+                  type: 'POST',
+                  data: JSON.stringify(data),
+                  contentType: 'application/json; charset=utf-8',
+                  dataType: 'json',
+              });
+          }
       },
 
       _removeWords : function(w) 
