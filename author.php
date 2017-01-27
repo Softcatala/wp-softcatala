@@ -16,7 +16,6 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $author = new TimberUser( $wp_query->query_vars['author'] );
     $context_holder['author'] = $author;
     $context_holder['author_role'] = get_user_role( $author );
-    $context_holder['author_content'] = apply_filters('the_content', $author->{'wpcf-descripcio_activitat'});
     $context_holder['author_image'] = get_gravatar_url( $author->user_email );
     $context_holder['content_title'] = 'Publicades per ' . $author->name();
     $title = $author->name() . ' - Softcatalà';
@@ -40,7 +39,9 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     //Show only active members
     $args = array(
         'meta_query' => array(
-            get_meta_query_value('wpcf-status_membre', 0, '>', '')
+			'relation' => 'OR',
+			get_meta_query_value('status_member', 1, '=', ''),
+			get_meta_query_value('status_member', '', 'NOT EXISTS', '')
         )
     );
     $authors = get_users($args);

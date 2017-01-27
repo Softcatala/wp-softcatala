@@ -1067,3 +1067,22 @@ function sc_only_allow_logged_in_rest_access( $access ) {
 
     return $access;           
 }
+
+
+add_filter( 'user_contactmethods', 'update_contact_methods',10,1);
+
+function update_contact_methods( $contactmethods ) {
+	unset($contactmethods['twitter']);
+	unset($contactmethods['facebook']);
+	unset($contactmethods['googleplus']);
+	unset($contactmethods['url']);
+
+	return $contactmethods;
+}
+
+function remove_website_row_wpse_94963_css()
+{
+    echo '<style>tr.user-url-wrap{ display: none; }</style>';
+}
+add_action( 'admin_head-user-edit.php', 'remove_website_row_wpse_94963_css' );
+add_action( 'admin_head-profile.php',   'remove_website_row_wpse_94963_css' );

@@ -37,18 +37,14 @@
                                     <li>Adreça electrònica</li>
                                     <li>{{ author.user_email }}</li>
                                 </ul>
-                                {% if attribute(author,'wpcf-llocs_web') %}
+                                {% if author.get_field('llocs_web') %}
                                 <hr>
                                 <i class="fa fa-globe"></i>
                                 <ul class="lloc-web">
                                     <li>LLocs web</li>
-                                    {% if attribute(author,'wpcf-llocs_web') is iterable %}
-                                        {% for lloc_web in attribute(author,'wpcf-llocs_web') %}
-                                        <li><a href="{{ lloc_web }}">{{ lloc_web }}</a></li>
-                                        {% endfor %}
-                                    {% else %}
-                                        <li><a href="{{ attribute(author,'wpcf-llocs_web') }}">{{ attribute(author,'wpcf-llocs_web') }}</a></li>
-                                    {% endif %}
+                                    {% for element in author.get_field('llocs_web') %}
+                                    <li><a href="{{ element.lloc_web }}">{{ element.lloc_web }}</a></li>
+                                    {% endfor %}
                                 </ul>
                                 {% endif %}
                                 <hr>
@@ -58,11 +54,11 @@
                             </div>
                         </div>
 
-                        {% if attribute(author,'wpcf-ubicacio') %}
+                        {% if author.ubicacio %}
                         <div class="ubicacio col-xxs-12 col-xs-6 col-md-12">
                             <h2>ubicació</h2>
                             <div class="mapa">
-                                {{ attribute(author,'wpcf-ubicacio') }}
+                                {{ author.ubicacio | raw }}
                             </div>
                         </div>
                         {% endif %}
@@ -73,8 +69,8 @@
                 <!-- .contingut -->
                 <div class="contingut col-sm-12 col-md-9">
                     <!-- .contingut-section - paragraf + llistes -->
-                    {% if author_content %}
-                    <section class="contingut-section">{{ author_content }}</section>
+                    {% if author.get_field('descripcio_activitat') %}
+                    <section class="contingut-section">{{ author.get_field('descripcio_activitat') }}</section>
                     {% endif %}
 
                     {% if projectes %}
