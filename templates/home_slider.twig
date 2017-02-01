@@ -14,17 +14,23 @@
     <div class="item {% if loop.first %}active{% endif %}">
       <a href="{{ attribute(slide,'wpcf-slide_link') }}" title="{{ slide.title }}">
         <img src="{{ attribute(slide,'wpcf-slide_image') }}" alt="{{ slide.title }}" />
-        <div class="carousel-caption">
-          <h1>{{ slide.title }}</h1>
-          <h2>{{ slide.post_excerpt }}</h2>
+        {% if slide.title or slide.post_excerpt %}
+          <div class="carousel-caption">
+          {% if slide.title %}
+             <h1>{{ slide.title }}</h1>
+          {% endif %}
+          {% if slide.post_excerpt %}
+            <h2>{{ slide.post_excerpt }}</h2>
+          {% endif %}
           {% if attribute(slide,'wpcf-button_title') %}
             <button href="{{ attribute(slide,'wpcf-slide_link') }}" class="bt-basic bt-blanc">{{ attribute(slide,'wpcf-button_title') }}</button>
           {% endif %}
-        </div>
-        {% if attribute(slide,'wpcf-image_credits') %}
-          <div class="peu-foto">
-            <em>{{ attribute(slide,'wpcf-image_credits') }}</em>
           </div>
+          {% if attribute(slide,'wpcf-image_credits') %}
+            <div class="peu-foto">
+              <em>{{ attribute(slide,'wpcf-image_credits') }}</em>
+            </div>
+          {% endif %}
         {% endif %}
       </a>
     </div>
