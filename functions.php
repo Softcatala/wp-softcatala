@@ -1094,24 +1094,19 @@ function sc_only_allow_logged_in_rest_access( $access ) {
     return $access;           
 }
 
+add_filter( 'user_contactmethods', 'modify_user_contact_methods' );
+function modify_user_contact_methods( $user_contact ) {
 
-add_filter( 'user_contactmethods', 'update_contact_methods',10,1);
+	// Add user contact methods
+	$user_contact['public_email'] = 'Email públic';
+	$user_contact['twitter'] = __( 'Twitter Username' );
 
-function update_contact_methods( $contactmethods ) {
-	unset($contactmethods['twitter']);
-	unset($contactmethods['facebook']);
-	unset($contactmethods['googleplus']);
-	unset($contactmethods['url']);
+	// Remove user contact methods
+	unset($user_contact['facebook']);
+	unset($user_contact['googleplus']);
 
-	return $contactmethods;
+	return $user_contact;
 }
-
-function remove_website_row_wpse_94963_css()
-{
-    echo '<style>tr.user-url-wrap{ display: none; }</style>';
-}
-add_action( 'admin_head-user-edit.php', 'remove_website_row_wpse_94963_css' );
-add_action( 'admin_head-profile.php',   'remove_website_row_wpse_94963_css' );
 
 add_filter( 'pre_get_avatar_data', 'sc_set_avatar_based_on_user_meta', 10, 2 );
 function sc_set_avatar_based_on_user_meta( $args, $id_or_email ){

@@ -32,24 +32,36 @@
 
                         <div class="col-xxs-12 col-xs-12 col-md-12">
                             <div class="fitxa-membre">
+                                {% if author.public_email %}
                                 <i class="fa fa-envelope-o"></i>
                                 <ul class="mail">
                                     <li>Adreça electrònica</li>
-                                    <li>{{ author.user_email }}</li>
+                                    <li>{{ author.public_email }}</li>
                                 </ul>
-                                {% if author.get_field('llocs_web') %}
                                 <hr>
+                                {%  endif %}
+                                {% if author.user_url %}
                                 <i class="fa fa-globe"></i>
                                 <ul class="lloc-web">
-                                    <li>LLocs web</li>
-                                    {% for element in author.get_field('llocs_web') %}
-                                    <li><a href="{{ element.lloc_web }}">{{ element.lloc_web }}</a></li>
-                                    {% endfor %}
+                                    <li>LLoc web</li>
+                                    <li><a href="{{ author.user_url }}">{{ author.user_url }}</a></li>
                                 </ul>
-                                {% endif %}
                                 <hr>
+                                {% endif %}
+                                {% if author.twitter %}
+                                <i class="fa fa-twitter"></i>
+                                <ul class="lloc-web">
+                                    <li>Usuari de twitter</li>
+                                    <li>
+                                        <a href="https://twitter.com/{{ author.twitter }}">
+                                            @{{ author.twitter }}
+                                        </a>
+                                    </li>
+                                </ul>
+                                <hr>
+                                {% endif %}
                                 <ul class="info">
-                                    <li><i class="fa fa-bookmark"></i>{{ author_role }}</li>
+                                    <li><i class="fa fa-bookmark"></i>Membre de Softcatalà</li>
                                 </ul>
                             </div>
                         </div>
