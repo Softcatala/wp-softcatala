@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.9.16');
+define('WP_SOFTCATALA_VERSION', '0.9.17');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -64,7 +64,7 @@ class StarterSite extends TimberSite {
     }
 
 	function get_ui_settings() {
-		return array('log_corrector_events');
+		return array('log_corrector_user_events');
 	}
 
 	function register_ui_settings() {
