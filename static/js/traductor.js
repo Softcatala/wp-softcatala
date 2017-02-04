@@ -323,13 +323,14 @@ jQuery('#traductor-neteja').click(function() {
 
 function trad_ok(dt) {
     if(dt.responseStatus==200) {
-        translation = nl2br(dt.responseData.translatedText);
         
         rawText = dt.responseData.translatedText;
         
-        encodedText = jQuery('<div/>').text(translation).html();
+        encodedText = jQuery('<div/>').text(rawText).html();
 
-        translation_coloured = encodedText.replace(/\*([^.,;:\t<>& ]+)/gi,"<span style='background-color: #f6f291'>$1</span>").replace('*', '');
+        translation = nl2br(encodedText);
+
+        translation_coloured = translation.replace(/\*([^.,;:\t<>& ]+)/gi,"<span style='background-color: #f6f291'>$1</span>");
         jQuery('.second-textarea').html(translation_coloured);
 
         $scroll = jQuery('#translate').data('scroll');

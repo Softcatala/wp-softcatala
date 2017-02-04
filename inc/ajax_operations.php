@@ -452,18 +452,27 @@ function sc_send_aparell() {
         // comentari no s'utilitza
         $comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
 
+		$fabricant_id = get_term_by( 'slug', sanitize_title($fabricant), 'fabricant');
+
+		if ( !$fabricant_id ) {
+			$fabricant_id = wp_insert_term( $fabricant, 'fabricant' );
+		}
+
         $terms = array(
             'tipus_aparell' => array($tipus_aparell),
-            'so_aparell' => array($sistema_operatiu)
-        );
+            'so_aparell' => array($sistema_operatiu),
+		);
+
+		if ( $fabricant_id ) {
+			$terms['fabricant'] = array($fabricant_id['term_id']);
+		}
 
         $metadata = array(
             'versio' => $versio,
-            'fabricant' => $fabricant,
             'conf_cat' => $traduccio_catala,
             'correccio_cat' => $correccio_catala );
 
-        $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata);
+        $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata, true);
 
         if( $return['status'] == 1 ) {
             $from_email = get_option( 'email_rebost' );
@@ -496,7 +505,7 @@ function sc_send_aparell() {
  * @param $metadata
  * @return array|mixed|void
  */
-function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
+function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata, $acf_metadata = false ) {
     $return = array();
     if( isset( $metadata['post_id'] ) ){
         $parent_id = $metadata['post_id'];
@@ -526,7 +535,11 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
             wp_set_post_terms( $post_id, $terms, $taxonomy );
         }
 
-        sc_update_metadata( $post_id, $metadata );
+		if ($acf_metadata) {
+			sc_update_metadata_acf( $post_id, $metadata );
+		} else {
+			sc_update_metadata( $post_id, $metadata );
+		}
 
         if ( $type == 'aparell' ) {
             $featured_image_attach_id = sc_upload_file( 'file', $post_id );
@@ -621,6 +634,26 @@ function check_is_ajax_call() {
         ));
         die($output); //exit script outputting json data
     }
+}
+
+/**
+ * This function updates an array of given post metadata
+ *
+ * @param int $post_id
+ * @param array $metadata
+ * @return boolean
+ */
+function sc_update_metadata_acf( $post_id, $metadata ) {
+    $result = false;
+    if( $post_id ) {
+        global $wpcf;
+
+        foreach ($metadata as $meta_key => $meta_value) {
+            update_field($meta_key, $meta_value, $post_id);
+        }
+        $result = true;
+    }
+    return $result;
 }
 
 /**
