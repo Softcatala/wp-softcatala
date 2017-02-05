@@ -11,7 +11,7 @@ $context = Timber::get_context();
 $context['ads_container'] = true;
 
 //Sections population
-$context['slides'] = Timber::get_posts( array( 'post_type' => 'slide' ) );
+$context['slides'] = Timber::get_posts( array( 'post_type' => 'slider' ) );
 $args = array( 'post_type' => 'post', 'numberposts' => '3', 'post_status' => 'publish' );
 $context['posts'] = Timber::get_posts($args);
 $args = get_post_query_args( 'esdeveniment', SearchQueryType::Highlight );

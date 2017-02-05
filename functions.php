@@ -1,6 +1,6 @@
 <?php
 
-define('WP_SOFTCATALA_VERSION', '0.9.18');
+define('WP_SOFTCATALA_VERSION', '0.9.19');
 
 if ( ! class_exists( 'Timber' ) && is_admin() ) {
     add_action( 'admin_notices', function() {
@@ -45,9 +45,21 @@ class StarterSite extends TimberSite {
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			spl_autoload_register( array( $this, 'autoload_wpcli' ) );
+
+			require __DIR__ . '/wp-cli/loader.php';
+		}
+
         add_post_type_support( 'programa', 'woosidebars' );
 
         parent::__construct();
+    }
+
+    function autoload_wpcli($cls) {
+        $path =  __DIR__ . '/wp-cli/' . strtolower($cls) . '.php';
+
+        is_readable($path) && require_once($path);
     }
 
     function autoload($cls) {
@@ -240,6 +252,7 @@ class StarterSite extends TimberSite {
     function register_post_types() {
         global $sc_types;
 
+		$sc_types['sliders'] = new SC_Slider();
         $sc_types['programes'] = new SC_Programes();
         $sc_types['projectes'] = new SC_Projectes();
     }
