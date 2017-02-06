@@ -38,6 +38,8 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $context_holder['post'] = $post;
     //Show only active members
     $args = array(
+        'orderby' => 'display_name',
+        'order' => 'DESC',
         'meta_query' => array(
 			'relation' => 'OR',
 			get_meta_query_value('status_member', 1, '=', ''),
