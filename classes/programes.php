@@ -17,6 +17,7 @@ class SC_Programes extends SC_TypeBase {
 
 	/**
 	 * Returns text explaining conditions to add a program
+	 *
 	 * @return string
 	 */
 	public function condicions_afegir_programa() {
@@ -25,9 +26,10 @@ class SC_Programes extends SC_TypeBase {
 
 	/**
 	 * Default email of the section
+	 *
 	 * @return type
 	 */
 	public function email() {
-		return get_option('email_rebost');
+		return get_option( 'email_rebost' );
 	}
 }

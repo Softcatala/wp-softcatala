@@ -49,7 +49,11 @@ function print_synonims(result) {
 }
 
 function errorSynsets(result) {
-    sc_sendTracking(false, result.status);
+    
+    status = result.status != '0' ? result.status : 500;
+    
+    sc_sendTracking(false, status);
+    
     show_message(result.responseJSON);
 }
 

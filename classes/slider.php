@@ -1,40 +1,49 @@
 <?php
+/**
+ * @package Softcatala
+ */
 
-
+/**
+ * Class SC_Slider
+ *
+ * Represents a featured slider in the Home Page
+ */
 class SC_Slider {
-	
+
 	public function __construct() {
 		$this->register_custom_post_type();
-		
-		add_action( 'add_meta_boxes', array($this, 'remove_yoast_metabox') , 11 );
-		add_filter('manage_slider_posts_columns' , array($this,'add_columns_to_admin') );
-		add_action( 'manage_slider_posts_custom_column' , array($this, 'custom_columns'), 10, 2 );
+
+		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ) , 11 );
+		add_filter( 'manage_slider_posts_columns' , array( $this, 'add_columns_to_admin' ) );
+		add_action( 'manage_slider_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
-				the_post_thumbnail( '', array('style' => 'max-width:200px;height:auto;'), $post_id);
+				the_post_thumbnail( '', array( 'style' => 'max-width:200px;height:auto;' ), $post_id );
 				break;
 
 			case 'link':
-				echo get_post_meta( $post_id, 'slide_link', true ); 
+				echo get_post_meta( $post_id, 'slide_link', true );
 				break;
 		}
 	}
 
-	
 	public function remove_yoast_metabox() {
 		remove_meta_box( 'wpseo_meta', 'slider', 'normal' );
 	}
-	
+
 	public function add_columns_to_admin( $columns ) {
 
-		return array_merge($columns, 
-              array('image' => 'Imatge',
-                    'link'  => 'URL'));
+		return array_merge($columns,
+			array(
+			'image' => 'Imatge',
+					'link'  => 'URL',
+			  )
+		);
 	}
-	
+
 	public function register_custom_post_type() {
 
 		$labels = array(
@@ -70,7 +79,7 @@ class SC_Slider {
 			'label'                 => __( 'Slider', 'softcatala' ),
 			'description'           => __( 'Destacats de la pàgina d\'inici', 'softcatala' ),
 			'labels'                => $labels,
-			'supports'              => array( 'title', 'excerpt', 'thumbnail', ),
+			'supports'              => array( 'title', 'excerpt', 'thumbnail' ),
 			'hierarchical'          => false,
 			'public'                => true,
 			'show_ui'               => true,
@@ -80,7 +89,7 @@ class SC_Slider {
 			'show_in_admin_bar'     => true,
 			'show_in_nav_menus'     => true,
 			'can_export'            => true,
-			'has_archive'           => false,		
+			'has_archive'           => false,
 			'exclude_from_search'   => true,
 			'publicly_queryable'    => true,
 			'rewrite'               => false,
@@ -89,5 +98,4 @@ class SC_Slider {
 		);
 		register_post_type( 'slider', $args );
 	}
-
 }

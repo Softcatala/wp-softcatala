@@ -15,6 +15,12 @@ class SC_Projectes extends SC_TypeBase {
 		parent::__construct( 'projecte','projectes' );
 	}
 
+	/**
+	 * Gets all projectects sorted
+	 *
+	 * @param array $args to filter out parameters.
+	 * @return array
+	 */
 	public function get_sorted_projects( $args = array() ) {
 		$default_args = $this->get_query_args();
 
@@ -50,6 +56,13 @@ class SC_Projectes extends SC_TypeBase {
 		usort( $projects, array( $this, 'sort' ) );
 	}
 
+	/**
+	 * Sorts two projects based on if they're featured and title
+	 *
+	 * @param Projecte $first project to sort.
+	 * @param Projecte $second project to sort.
+	 * @return int
+	 */
 	public function sort( $first, $second ) {
 		if ( $first->projecte_destacat != $second->projecte_destacat ) {
 			return ( $first->projecte_destacat ) ? (-1) : 1;

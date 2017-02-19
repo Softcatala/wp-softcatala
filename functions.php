@@ -45,11 +45,11 @@ class StarterSite extends TimberSite {
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			spl_autoload_register( array( $this, 'autoload_wpcli' ) );
+        if ( defined( 'WP_CLI' ) && WP_CLI ) {
+            spl_autoload_register( array( $this, 'autoload_wpcli' ) );
 
-			require __DIR__ . '/wp-cli/loader.php';
-		}
+            require __DIR__ . '/wp-cli/loader.php';
+        }
 
         add_post_type_support( 'programa', 'woosidebars' );
 
@@ -75,27 +75,18 @@ class StarterSite extends TimberSite {
         locate_template( array( 'inc/rewrites.php' ), true, true );
     }
 
-	function get_ui_settings() {
-		return array('log_corrector_user_events');
-	}
-
-	function register_ui_settings() {
-		$ui_settings = $this->get_ui_settings();
-
-		$setting_values = array();
-
-		foreach ($ui_settings as $setting) {
-			$setting_values[$setting] = get_option($setting, false);
-		}
-
-		wp_localize_script('sc-js-main', 'sc_settings', $setting_values);
-	}
+    function register_ui_settings() {
+        wp_localize_script('sc-js-main', 'sc_settings', SC_Settings::get_instance()->get_setting_values());
+    }
 
     /**
      * This function implements the rewrite tags for the different sections of the website
      */
     function sc_change_programs_search_url_rewrite() {
-        if(get_query_var( 'post_type' ) == 'programa') {
+		
+		$post_type = get_query_var( 'post_type' );
+		
+        if( $post_type == 'programa') {
             if(isset($_GET['cerca']) || isset($_GET['sistema_operatiu']) || isset($_GET['categoria_programa']) ) {
                 $available_query_vars = array( 'cerca' => 'p', 'sistema_operatiu' => 'so', 'categoria_programa' => 'cat' );
                 $params_query = '';
@@ -109,7 +100,7 @@ class StarterSite extends TimberSite {
                     wp_redirect( home_url( "/programes/" ) . $params_query );
                 }
             }
-        } elseif(empty(get_query_var( 'post_type' ))) {
+        } elseif( empty( $post_type ) ) {
             if(isset($_GET['cerca']) && isset($_GET['form_cerca_noticies'])) {
                 $available_query_vars = array( 'cerca' => 'cerca');
                 foreach($available_query_vars as $query_var => $key) { 
@@ -205,7 +196,7 @@ class StarterSite extends TimberSite {
         register_setting( 'softcatala-group', 'aparells_post_id' );
         register_setting( 'softcatala-group', 'sc_text_programes' );
 
-        $ui_settings = $this->get_ui_settings();
+        $ui_settings = SC_Settings::get_instance()->get_setting_names();
         foreach ( $ui_settings as $setting ) {
             register_setting( 'softcatala-group', $setting );
         }
@@ -222,15 +213,15 @@ class StarterSite extends TimberSite {
     }
 
     function add_caps() {
-		$roles = array();
-		$roles[] = get_role( 'contributor' );
-		$roles[] = get_role( 'author' );
-		
-		foreach ( $roles as $role ) {
-			$role->add_cap( 'edit_pages' );
-			$role->add_cap( 'edit_published_pages' );
-			$role->add_cap( 'upload_files' );
-		}
+        $roles = array();
+        $roles[] = get_role( 'contributor' );
+        $roles[] = get_role( 'author' );
+
+        foreach ( $roles as $role ) {
+            $role->add_cap( 'edit_pages' );
+            $role->add_cap( 'edit_published_pages' );
+            $role->add_cap( 'upload_files' );
+        }
     }
 
     function get_email_sections() {
@@ -245,14 +236,15 @@ class StarterSite extends TimberSite {
         wp_enqueue_script( 'sc-js-dash', get_template_directory_uri() . '/static/js/sc-admin.js', array('jquery'), WP_SOFTCATALA_VERSION, true );
         $admin_template = dirname(__FILE__) . '/templates/admin/sc-dash.twig';
         $sections = $this->get_email_sections();
-        $section_html_content = Timber::fetch( $admin_template, array ('sections' => $sections ));
+        $settings = SC_Settings::get_instance();
+        $section_html_content = Timber::fetch( $admin_template, array ('sections' => $sections, 'settings' => $settings ));
         echo $section_html_content;
     }
 
     function register_post_types() {
         global $sc_types;
 
-		$sc_types['sliders'] = new SC_Slider();
+        $sc_types['sliders'] = new SC_Slider();
         $sc_types['programes'] = new SC_Programes();
         $sc_types['projectes'] = new SC_Projectes();
     }
@@ -1085,12 +1077,19 @@ add_filter('wp_calculate_image_sizes', 'sc_responsive_image_sizes', 10 , 2);
  * Generic function to inform SC about sections on the website not working properly
  *
  **/
-function throw_service_error( $service, $message = '' ) {
+function throw_service_error( $service, $message = '', $sinonims = false ) {
+
+    global $sc_site;
+
     throw_error('500', 'Error connecting to API server');
 
-    $fieds['Hora'] = current_time( 'mysql' );
+    if ( $sinonims &&  $sc_site->get_setting_value(StarterSite::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS)) {
+        return;
+    }
+
+    $fields['Hora'] = current_time( 'mysql' );
     if( $message ) {
-        $fieds['Missatge d\'error'] = $message;
+        $fields['Missatge'] = $message;
     }
 
     sendEmailForm( 'web@softcatala.org', $service, 'El servei «' . $service . '» no està funcionant correctament', $fields );
@@ -1110,73 +1109,73 @@ function sc_only_allow_logged_in_rest_access( $access ) {
 add_filter( 'user_contactmethods', 'modify_user_contact_methods' );
 function modify_user_contact_methods( $user_contact ) {
 
-	// Add user contact methods
-	$user_contact['public_email'] = 'Email públic';
-	$user_contact['twitter'] = __( 'Twitter Username' );
+    // Add user contact methods
+    $user_contact['public_email'] = 'Email públic';
+    $user_contact['twitter'] = __( 'Twitter Username' );
 
-	// Remove user contact methods
-	unset($user_contact['facebook']);
-	unset($user_contact['googleplus']);
+    // Remove user contact methods
+    unset($user_contact['facebook']);
+    unset($user_contact['googleplus']);
 
-	return $user_contact;
+    return $user_contact;
 }
 
 add_filter( 'pre_get_avatar_data', 'sc_set_avatar_based_on_user_meta', 10, 2 );
 function sc_set_avatar_based_on_user_meta( $args, $id_or_email ){
 
-	// Set this to the full meta key set in Save As under Auto Populate tab (for WP Job Manager Field Editor)
-	$user_avatar_meta_key = 'avatar';
+    // Set this to the full meta key set in Save As under Auto Populate tab (for WP Job Manager Field Editor)
+    $user_avatar_meta_key = 'avatar';
 
-	// Check for comment_ID
-	if( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ){
-		$id_or_email = get_comment( $id_or_email );
-	}
+    // Check for comment_ID
+    if( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ){
+        $id_or_email = get_comment( $id_or_email );
+    }
 
-	// Check if WP_Post
-	if( $id_or_email instanceof WP_Post ){
-		$user_id = $id_or_email->post_author;
-	}
+    // Check if WP_Post
+    if( $id_or_email instanceof WP_Post ){
+        $user_id = $id_or_email->post_author;
+    }
 
-	// Check if WP_Comment
-	if( $id_or_email instanceof WP_Comment ){
-		if( ! empty( $id_or_email->user_id ) ){
-			$user_id = $id_or_email->user_id;
-		} elseif( ! empty( $id_or_email->comment_author_email ) ){
-			// If user_id not available, set as email address to handle below
-			$id_or_email = $id_or_email->comment_author_email;
-		}
-	}
+    // Check if WP_Comment
+    if( $id_or_email instanceof WP_Comment ){
+        if( ! empty( $id_or_email->user_id ) ){
+            $user_id = $id_or_email->user_id;
+        } elseif( ! empty( $id_or_email->comment_author_email ) ){
+            // If user_id not available, set as email address to handle below
+            $id_or_email = $id_or_email->comment_author_email;
+        }
+    }
 
-	if( is_numeric( $id_or_email ) ){
-		$user_id = $id_or_email;
-	} elseif( is_string( $id_or_email ) && strpos( $id_or_email, '@' ) ){
-		$id_or_email = get_user_by( 'email', $id_or_email );
-	}
+    if( is_numeric( $id_or_email ) ){
+        $user_id = $id_or_email;
+    } elseif( is_string( $id_or_email ) && strpos( $id_or_email, '@' ) ){
+        $id_or_email = get_user_by( 'email', $id_or_email );
+    }
 
-	// Last check, convert user object to ID
-	if( $id_or_email instanceof WP_User ){
-		$user_id = $id_or_email->ID;
-	}
+    // Last check, convert user object to ID
+    if( $id_or_email instanceof WP_User ){
+        $user_id = $id_or_email->ID;
+    }
 
-	// Now that we have a user ID, check meta for avatar file
-	if( ! empty( $user_id ) && is_numeric( $user_id ) ){
+    // Now that we have a user ID, check meta for avatar file
+    if( ! empty( $user_id ) && is_numeric( $user_id ) ){
 
-		// As long as it's a valid URL, let's go ahead and set it
-		$image_id = get_user_meta($user_id, 'avatar', true); // CHANGE TO YOUR FIELD NAME
-		// Bail if we don't have a local avatar
-		if ( $image_id ) {
-			// Get the file size
-			$image_url  = wp_get_attachment_image_src( $image_id, 'full' ); // Set image size by name
+        // As long as it's a valid URL, let's go ahead and set it
+        $image_id = get_user_meta($user_id, 'avatar', true); // CHANGE TO YOUR FIELD NAME
+        // Bail if we don't have a local avatar
+        if ( $image_id ) {
+            // Get the file size
+            $image_url  = wp_get_attachment_image_src( $image_id, 'full' ); // Set image size by name
 
-			// Get the file url
-			$avatar_url = $image_url[0];
+            // Get the file url
+            $avatar_url = $image_url[0];
 
-			if( filter_var( $avatar_url, FILTER_VALIDATE_URL ) ){
-				$args['url'] = $avatar_url;
-			}
-		}
-	}
+            if( filter_var( $avatar_url, FILTER_VALIDATE_URL ) ){
+                $args['url'] = $avatar_url;
+            }
+        }
+    }
 
-	return $args;
+    return $args;
 }
 
