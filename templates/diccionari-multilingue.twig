@@ -29,8 +29,8 @@
                                 <div class="col-xs-12">
                                     <p>Escriviu el terme que voleu cercar i premeu el botó de cerca.</p>
                                     <div class="input-group">
-                                        {{ function('wp_nonce_field', 'multilingue_search', '_wpnonce_search') }}
-                                        {{ function('wp_nonce_field', 'multilingue_autocomplete', '_wpnonce_auto') }}
+                                        {{ function('wp_nonce_field', 'multilingue_search', '_wpnonce_search', true, false) }}
+                                        {{ function('wp_nonce_field', 'multilingue_autocomplete', '_wpnonce_auto', true, false) }}
                                         <input type="text" id="source" name="source" required class="form-control typeahead" data-provide="typeahead" autocomplete="off" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu el terme">
                                         <a name="_action_consulta" id="_action_consulta" class="input-group-addon bt-basic bt-basic-vermell" href="#">cerca <i style="display: none;" class="fa fa-spinner fa-pulse" id="loading"></i></a>
                                     </div>

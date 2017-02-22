@@ -58,41 +58,9 @@ function sc_multilingue_search()
         $paraula = sanitize_text_field($_POST["paraula"]);
         $lang = sanitize_text_field($_POST["lang"]);
 
-        $url_api = get_option('api_diccionari_multilingue');
-        $url = $url_api . 'search/' . $paraula . '?lang=' . $lang;
+        $multilingue = new SC_Multilingue();
 
-        $api_call = do_json_api_call($url);
-
-        if ( is_array( $api_call ) ) {
-            throw_error('404', 'No Results For This Search');
-            $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
-        } else if ( $api_call && $api_call != 'error' ) {
-
-            $api_response = json_decode($api_call);
-
-            if (isset($api_response[0])) {
-                $resultat_string = (count($api_response) > 1 ? 'resultats' : 'resultat');
-                $result = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count($api_response) . ' ' . $resultat_string . ') <hr class="clara"/>';
-                foreach ($api_response as $single_entry) {
-                    $response['paraula'] = $paraula;
-                    $response['source'] = get_source_link($single_entry);
-
-                    //Unset main source/other sources
-                    $refs = (array)$single_entry->references;
-                    unset($refs[$single_entry->source]);
-                    $single_entry->references = $refs;
-                    $response['result'] = $single_entry;
-
-                    $result .= Timber::fetch('ajax/multilingue-paraula.twig', array('response' => $response));
-                }
-            } else {
-                throw_error('404', 'No Results For This Search');
-                $result = 'Sembla que la paraula que esteu cercant no es troba al diccionari. Heu seleccionat la llengua correcta?';
-            }
-        } else {
-            throw_error('500', 'Error connecting to API server');
-            $result = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
-        }
+        $result = $multilingue->get_paraula($paraula, $lang);
     }
 
     echo json_encode($result);
