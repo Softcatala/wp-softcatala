@@ -1,0 +1,17 @@
+    Sembla que la paraula que esteu cercant no es troba al diccionari.
+    <ul>
+        <li>Heu seleccionat la llengua correcta?</li>
+        {% if suggestions %}
+            <li>Potser estàveu buscant aquestes paraules?
+                <ul class="col-sm-offset-1 col-sm-8" style="">
+                    {% for a in suggestions %}
+                    <li>
+                        <a href="/diccionari-multilingue/paraula/{{ a }}">
+                            {{ a }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {%  endif %}
+    </ul>

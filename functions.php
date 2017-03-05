@@ -24,10 +24,13 @@ $sc_types = array();
 class StarterSite extends TimberSite {
 
     function __construct() {
-        add_theme_support( 'post-formats' );
-        add_theme_support( 'post-thumbnails' );
-        add_theme_support( 'menus' );
-        add_theme_support( 'title-tag' );
+		if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
+		    add_theme_support( 'post-formats' );
+		    add_theme_support( 'post-thumbnails' );
+		    add_theme_support( 'menus' );
+		    add_theme_support( 'title-tag' );
+	    }
+
         add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
         add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
         add_filter( 'xv_planeta_feed', '__return_true' );
@@ -905,10 +908,15 @@ function get_user_role( $author )
  * @param $message
  */
 function throw_error( $code, $message ) {
-    global $wp_query;
-    header("HTTP/1.1 " . $code . " " . $message);
-    ${"call"} = 'set_'.$code;
-    $wp_query->{"call"}();
+	if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
+		header( "HTTP/1.1 " . $code . " " . $message );
+	}
+
+	if ( $code == 404 ) {
+		global $wp_query;
+
+		$wp_query->set_404();
+	}
 }
 
 /**
