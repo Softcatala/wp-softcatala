@@ -41,7 +41,7 @@ class SC_MultilingueTest  extends SCTests {
 		$result = $sc_multilingue->get_paraula( 'foo' , false);
 
 		$this->assertEquals( 404, $result->status );
-		$this->assertContains ( 'Sembla que la paraula que esteu cercant no es troba al diccionari.', $result->html );
+		$this->assertContains ( '«foo», la paraula que heu cercat, no es troba al diccionari.', $result->html );
 
 		$this->assertTrue( $wp_query->is_404 );
 	}
@@ -63,7 +63,7 @@ class SC_MultilingueTest  extends SCTests {
 		$result = $sc_multilingue->get_paraula( 'foo' , false);
 
 		$this->assertEquals( 404, $result->status );
-		$this->assertContains ( 'Sembla que la paraula que esteu cercant no es troba al diccionari.', $result->html);
+		$this->assertContains ( '«foo», la paraula que heu cercat, no es troba al diccionari.', $result->html);
 
 		$this->assertTrue( $wp_query->is_404 );
 	}
