@@ -42,7 +42,7 @@ if( ! empty ( $paraula ) ) {
     $multilingue = new SC_Multilingue();
     $r = $multilingue->get_paraula( $paraula, $lang );
 
-    $canonical = $r_>canonical;
+    $canonical = $r->canonical;
     $title = $r->title;
     $content_title = $r->content_title;
     $description = $r->description;

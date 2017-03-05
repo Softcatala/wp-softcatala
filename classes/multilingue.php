@@ -57,7 +57,33 @@ class SC_Multilingue {
 			return $this->build_results( $result['result'], $paraula, $lang );
 		}
 
-		return $this->return404( array() );
+		$suggestions = array();
+		if ( isset( $result['result'] ) ) {
+			$suggestions = $this->get_suggestions( $lang, $result['result'] );
+		}
+
+		return $this->return404( $paraula, $lang, $suggestions );
+	}
+
+	private function get_suggestions( $lang, $json ) {
+
+		$suggestions = array();
+		$apiResult   = json_decode( $json );
+
+		if ( isset( $apiResult[0] ) ) {
+			foreach ( $apiResult as $single_entry ) {
+
+				$field = 'word_' . $lang;
+
+				$suggestions[] = strtolower( $single_entry->$field );
+			}
+
+			sort( $suggestions );
+
+			$suggestions = array_unique( $suggestions );
+		}
+
+		return $suggestions;
 	}
 
 	private function build_results( $jsonResult, $paraula, $lang ) {
@@ -106,16 +132,37 @@ class SC_Multilingue {
 			return new SC_MultilingueResult( 200, $result, $canonical, $description, $title, $content_title, $result );
 		}//end if
 
-		return $this->return404();
-
+		return $this->return404( $paraula, $lang );
 	}
 
-	private function return404( $suggestions = array() ) {
+	private function return404( $paraula, $lang, $suggestions = array() ) {
 		throw_error( '404', 'No Results For This Search' );
 
-		$html = Timber::fetch( 'ajax/multilingue-paraula-not-found.twig', array( 'suggestions' => $suggestions ) );
+		$langname = $this->get_langname( $lang );
 
-		return new SC_MultilingueResult( 404, $html, '', '', '', '' , $suggestions );
+		$html = Timber::fetch( 'ajax/multilingue-paraula-not-found.twig',
+			array( 'paraula' => $paraula, 'lang' => $langname, 'suggestions' => $suggestions ) );
+
+		return new SC_MultilingueResult( 404, $html, '', '', '', '', $suggestions );
+	}
+
+	private function get_langname( $lang ) {
+		switch ( $lang ) {
+			case 'ca':
+				return 'català';
+			case 'es':
+				return 'espanyol';
+			case 'en':
+				return 'anglès';
+			case 'fr':
+				return 'francès';
+			case 'de':
+				return 'alemany';
+			case 'it':
+				return 'italià';
+			default:
+				return $lang;
+		}
 	}
 
 	private function return500() {

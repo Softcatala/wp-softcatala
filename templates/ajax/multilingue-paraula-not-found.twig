@@ -1,14 +1,20 @@
-    Sembla que la paraula que esteu cercant no es troba al diccionari.
+    «{{  paraula }}», la paraula que heu cercat, no es troba al diccionari.
     <ul>
-        <li>Heu seleccionat la llengua correcta?</li>
+        <li>Heu seleccionat la llengua correcta («<strong>{{ lang }}</strong>»)?</li>
         {% if suggestions %}
             <li>Potser estàveu buscant aquestes paraules?
                 <ul class="col-sm-offset-1 col-sm-8" style="">
-                    {% for a in suggestions %}
+                    {% for suggestion in suggestions %}
                     <li>
-                        <a href="/diccionari-multilingue/paraula/{{ a }}">
-                            {{ a }}
-                        </a>
+                        {%  if lang != 'ca' %}
+                            <a href="/diccionari-multilingue/paraula/{{ suggestion }}/llengua/{{ lang }}/">
+                                {{ suggestion }}
+                            </a>
+                        {% else %}
+                            <a href="/diccionari-multilingue/paraula/{{ suggestion }}/">
+                                {{ a }}
+                            </a>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
