@@ -1,5 +1,7 @@
 # WP-Softcatala
 
+[![Build Status](https://travis-ci.org/Softcatala/wp-softcatala.svg?branch=master)](https://travis-ci.org/Softcatala/wp-softcatala)
+
 **Contributors:** Pau Iranzo (@paugnu), Xavi Ivars (@xavivars) 
 **Requires at least:** WordPress 4.5 
 **Tested up to:** WordPress 4.7 
