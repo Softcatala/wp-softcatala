@@ -3,6 +3,9 @@
  * @package Softcatalà
  */
 
+/**
+ * DTO for Multilingual request
+ */
 class SC_MultilingueResult {
 
 	function __construct( $status, $result, $canonical = '', $description = '', $title = '', $content_title = '' ) {

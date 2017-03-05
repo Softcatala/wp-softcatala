@@ -54,13 +54,13 @@ class SC_Multilingue {
 		}
 
 		if ( $result['code'] == 200 ) {
-			return $this->buildResults( $result['result'], $paraula, $lang );
+			return $this->build_results( $result['result'], $paraula, $lang );
 		}
 
 		return $this->return404( array() );
 	}
 
-	private function buildResults( $jsonResult, $paraula, $lang ) {
+	private function build_results( $jsonResult, $paraula, $lang ) {
 
 		$apiResult = json_decode( $jsonResult );
 
