@@ -41,8 +41,7 @@ function sc_aparell_ajax_load()
     $result['aparell_id'] = $aparell_id;
     $result['aparell_detall'] = Timber::fetch('ajax/aparell-detall.twig', array('post' => $post));
 
-    echo json_encode($result);
-    die();
+    wp_send_json($result);
 }
 
 /**
@@ -63,8 +62,7 @@ function sc_multilingue_search()
         $result = $multilingue->get_paraula($paraula, $lang);
     }
 
-    echo json_encode($result);
-    die();
+    wp_send_json($result);
 }
 
 /**
@@ -125,8 +123,7 @@ function sc_subscribe_list() {
         }
     }
 
-    $response = json_encode( $result );
-    die( $response );
+    wp_send_json( $result );
 }
 
 /**
@@ -164,8 +161,7 @@ function sc_find_sinonim() {
         }
     }
 
-    $response = json_encode( $result );
-    die( $response );
+    wp_send_json( $result );
 }
 
 /**
@@ -175,48 +171,45 @@ function sc_find_sinonim() {
  */
 function sc_contact_form() {
     if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
-    } else {
-        $to_email       = sanitize_text_field( $_POST["to_email"] );
-        $from_email     = isset($_POST["from_email"]) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
-        $nom_from       = sanitize_text_field( $_POST["nom_from"] );
-        $assumpte       = sanitize_text_field( $_POST["assumpte"] );
-
-        //check if its an ajax request, exit if not
-        if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-            $output = json_encode(array( //create JSON data
-                'type'=>'error',
-                'text' => 'Sorry Request must be Ajax POST'
-            ));
-            die($output); //exit script outputting json data
-        }
-
-        //Sanitize input data using PHP filter_var().
-        $nom      = sanitize_text_field( $_POST["nom"] );
-        $correu     = sanitize_email( $_POST["correu"] );
-        $tipus   = sanitize_text_field( $_POST["tipus"] );
-        $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
-
-        //email body
-        $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
-
-        //proceed with PHP email.
-        $headers = 'From: '.$nom_from.' <'.$from_email. ">\r\n" .
-            'Reply-To: '.$correu.'' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-        $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
-
-        if(!$send_mail) {
-            //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
-            $output = json_encode(array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.'));
-        } else {
-            $output = json_encode(array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'));
-        }
+        wp_send_json( array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.') );
+        return;
     }
 
-    echo $output;
-    die();
+    $to_email       = sanitize_text_field( $_POST["to_email"] );
+    $from_email     = isset($_POST["from_email"]) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
+    $nom_from       = sanitize_text_field( $_POST["nom_from"] );
+    $assumpte       = sanitize_text_field( $_POST["assumpte"] );
+
+    //check if its an ajax request, exit if not
+    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+        wp_send_json( array( //create JSON data
+            'type'=>'error',
+            'text' => 'Sorry Request must be Ajax POST'
+        ) );
+    }
+
+    //Sanitize input data using PHP filter_var().
+    $nom      = sanitize_text_field( $_POST["nom"] );
+    $correu     = sanitize_email( $_POST["correu"] );
+    $tipus   = sanitize_text_field( $_POST["tipus"] );
+    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
+
+    //email body
+    $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
+
+    //proceed with PHP email.
+    $headers = 'From: '.$nom_from.' <'.$from_email. ">\r\n" .
+        'Reply-To: '.$correu.'' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
+
+    if(!$send_mail) {
+        //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+        wp_send_json( array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.') );
+    } else {
+        wp_send_json( array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.') );
+    }
 }
 
 /**
@@ -252,8 +245,7 @@ function sc_add_new_baixada() {
 
     wp_set_post_terms( $programa_id, $terms, $taxonomy );
 
-    $response = json_encode( $return );
-    die( $response );
+    wp_send_json( $return );
 }
 
 /**
@@ -314,9 +306,7 @@ function sc_add_new_program() {
         }
     }
 
-    $response = json_encode( $return );
-    die( $response );
-
+    wp_send_json( $return );
 }
 
 /**
@@ -349,8 +339,7 @@ function sc_search_program() {
         }
     }
 
-    $response = json_encode( $result );
-    die( $response );
+    wp_send_json( $result );
 }
 
 /**
@@ -392,8 +381,7 @@ function sc_send_vote() {
         }
     }
 
-    echo json_encode( $return );
-    die();
+    wp_send_json( $return );
 }
 
 /**
@@ -457,8 +445,7 @@ function sc_send_aparell() {
         }
     }
 
-    $response = json_encode( $return );
-    die( $response );
+    wp_send_json( $return );
 }
 
 /**
@@ -596,11 +583,10 @@ function sc_set_featured_image( $post_id, $attach_id ) {
 function check_is_ajax_call() {
     //check if its an ajax request, exit if not
     if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-        $output = json_encode(array( //create JSON data
+        wp_send_json( array( //create JSON data
             'type'=>'error',
             'text' => 'Sorry Request must be Ajax POST'
-        ));
-        die($output); //exit script outputting json data
+        ) );
     }
 }
 
