@@ -1,6 +1,6 @@
     «{{  paraula }}», la paraula que heu cercat, no es troba al diccionari.
     <ul>
-        <li>Heu seleccionat la llengua correcta («<strong>{{ lang }}</strong>»)?</li>
+        <li>Heu seleccionat «<strong>{{ langname }}</strong>». Potser no és la llengua correcta?</li>
         {% if suggestions %}
             <li>Potser estàveu buscant aquestes paraules?
                 <ul class="col-sm-offset-1 col-sm-8" style="">
@@ -12,7 +12,7 @@
                             </a>
                         {% else %}
                             <a href="/diccionari-multilingue/paraula/{{ suggestion }}/">
-                                {{ a }}
+                                {{ suggestion }}
                             </a>
                         {% endif %}
                     </li>
