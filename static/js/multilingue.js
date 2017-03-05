@@ -15,6 +15,9 @@ jQuery('#_action_consulta').click(function(){
 
     if (query) {
         jQuery("#loading").show();
+
+        query = query.toLowerCase();
+
         var lang_history = '';
         if ( lang != 'ca' ) {
             lang_history = 'llengua/' + lang + '/';
@@ -54,14 +57,14 @@ jQuery('#_action_consulta').click(function(){
 function print_results(result) {
     sc_sendTracking(true);
     jQuery("#loading").hide();
-    jQuery('#results').html(result);
+    jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
 }
 
 function ko_function(result) {
     sc_sendTracking(false, result.status);
     jQuery("#loading").hide();
-    jQuery('#results').html(JSON.parse(result.responseText));
+    jQuery('#results').html(result.responseJSON.html);
     jQuery('#results').slideDown();
 }
 

@@ -40,17 +40,14 @@ if( ! empty ( $paraula ) ) {
     }
 
     $multilingue = new SC_Multilingue();
-    $r = $multilingue->get_paraula( $paraula, $lang, true );
+    $r = $multilingue->get_paraula( $paraula, $lang );
 
-    if ( is_array( $r ) ) {
-        $canonical = $r['canonical'];
-        $title = $r['title'];
-        $content_title = $r['content_title'];
-        $description = $r['description'];
-        $context_holder['cerca_result'] = $r['result'];
-    } else {
-        $context_holder['cerca_result'] = $r;
-    }
+    $canonical = $r_>canonical;
+    $title = $r->title;
+    $content_title = $r->content_title;
+    $description = $r->description;
+    $context_holder['cerca_result'] = $r->html;
+
 } else if ( ! empty ( $lletra ) ) {
     if (strlen( $lletra ) == '1' ) {
         $url = $url_api.'index/' . $lletra;

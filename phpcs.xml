@@ -11,6 +11,7 @@
     <arg value="nsp" />
 
     <rule ref="Yoast">
+        <exclude name="Yoast.ControlStructures.IfElseDeclaration.NewLine" />
         <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
     </rule>
 

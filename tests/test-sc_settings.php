@@ -5,19 +5,12 @@
  * @package Softcatala
  */
 
-include_once('functions.php');
+require_once('sc_tests.php');
 
 /**
  * Tests of the settings class
  */
-class SC_SettingsTest extends WP_UnitTestCase {
-
-	function setUp() {
-
-		parent::setUp();
-		switch_theme( 'wp-softcatala', 'wp-softcatala' );
-
-	} // end setup
+class SC_SettingsTest extends SCTests {
 
 	/**
 	 * Testing singleton behavior

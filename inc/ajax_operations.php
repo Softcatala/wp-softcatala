@@ -33,15 +33,14 @@ add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
  *
  * @return json response
  */
-function sc_aparell_ajax_load()
-{
-    $aparell_id = intval(sanitize_text_field( $_POST["aparell_id"] ));
-    $post = new TimberPost($aparell_id);
+function sc_aparell_ajax_load() {
+	$aparell_id = intval( sanitize_text_field( $_POST["aparell_id"] ) );
+	$post       = new TimberPost( $aparell_id );
 
-    $result['aparell_id'] = $aparell_id;
-    $result['aparell_detall'] = Timber::fetch('ajax/aparell-detall.twig', array('post' => $post));
+	$result['aparell_id']     = $aparell_id;
+	$result['aparell_detall'] = Timber::fetch( 'ajax/aparell-detall.twig', array( 'post' => $post ) );
 
-    wp_send_json($result);
+	wp_send_json( $result );
 }
 
 /**
@@ -49,20 +48,19 @@ function sc_aparell_ajax_load()
  *
  * @return json response
  */
-function sc_multilingue_search()
-{
-    if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], $_POST["action"])) {
-        $result = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
-    } else {
-        $paraula = sanitize_text_field($_POST["paraula"]);
-        $lang = sanitize_text_field($_POST["lang"]);
+function sc_multilingue_search() {
+	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["lang"] ) ) {
+		$result = new SC_MultilingueResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+	} else {
+		$paraula = sanitize_text_field( $_POST["paraula"] );
+		$lang    = sanitize_text_field( $_POST["lang"] );
 
-        $multilingue = new SC_Multilingue();
+		$multilingue = new SC_Multilingue();
 
-        $result = $multilingue->get_paraula($paraula, $lang);
-    }
+		$result = $multilingue->get_paraula( $paraula, $lang );
+	}
 
-    wp_send_json($result);
+	wp_send_json( $result );
 }
 
 /**
@@ -71,59 +69,59 @@ function sc_multilingue_search()
  * @return json response
  */
 function sc_subscribe_list() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $result['text'] = "S'ha produït un error. Proveu més tard.";
-    } else {
-        $nom = sanitize_text_field( $_POST["nom"] );
-        $correu = sanitize_text_field( $_POST["correu"] );
-        $llista = sanitize_text_field( $_POST["llista"] );
-        $projecte = sanitize_text_field( $_POST["projecte"] );
-        $projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$result['text'] = "S'ha produït un error. Proveu més tard.";
+	} else {
+		$nom           = sanitize_text_field( $_POST["nom"] );
+		$correu        = sanitize_text_field( $_POST["correu"] );
+		$llista        = sanitize_text_field( $_POST["llista"] );
+		$projecte      = sanitize_text_field( $_POST["projecte"] );
+		$projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
 
-        if( ! empty ( $llista )) {
-            $password = get_option( 'llistes_access' );
-            if ( ! empty ( $password )){
-                $path = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload=' .  urlencode($correu) . '&adminpw='.$password;
-                $list_admin_url = str_replace( 'listinfo', 'admin', $llista );
-                $url = $list_admin_url . $path;
-                $response_subscription = send_subscription_to_mailinglist($url);
-                if ( $response_subscription['status'] ) {
-                    $result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
-                } else {
-                    $result['text'] = "S'ha produït un error. " . $response_subscription['message'];
-                }
-            }
-        } else {
-            $to_email = 'web@softcatala.org';
-            $subject = '[Projectes] Demanda de participació al projecte '. $projecte;
-            $message = 'Un usuari ha demanat col·laborar al projecte '. $projecte;
-            $message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
-            $message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: '. $nom . '<br/>Email: '. $correu;
+		if ( ! empty ( $llista ) ) {
+			$password = get_option( 'llistes_access' );
+			if ( ! empty ( $password ) ) {
+				$path                  = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload=' . urlencode( $correu ) . '&adminpw=' . $password;
+				$list_admin_url        = str_replace( 'listinfo', 'admin', $llista );
+				$url                   = $list_admin_url . $path;
+				$response_subscription = send_subscription_to_mailinglist( $url );
+				if ( $response_subscription['status'] ) {
+					$result['text'] = 'Gràcies per subscriure-vos a la llista. Ara heu de rebre un email de confirmació.';
+				} else {
+					$result['text'] = "S'ha produït un error. " . $response_subscription['message'];
+				}
+			}
+		} else {
+			$to_email = 'web@softcatala.org';
+			$subject  = '[Projectes] Demanda de participació al projecte ' . $projecte;
+			$message  = 'Un usuari ha demanat col·laborar al projecte ' . $projecte;
+			$message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
+			$message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: ' . $nom . '<br/>Email: ' . $correu;
 
-            //proceed with PHP email.
-            $headers = array();
-            $headers[] = 'From: '.$nom.' <'.$to_email. '>';
-            $headers[] = 'Reply-To: '.$correu;
-            $headers[] = 'X-Mailer: PHP/' . phpversion();
-            $headers[] = 'Content-Type: text/html';
+			//proceed with PHP email.
+			$headers   = array();
+			$headers[] = 'From: ' . $nom . ' <' . $to_email . '>';
+			$headers[] = 'Reply-To: ' . $correu;
+			$headers[] = 'X-Mailer: PHP/' . phpversion();
+			$headers[] = 'Content-Type: text/html';
 
-            // if project has responsables email them too
-            $responsables = get_responsables($projecte_slug);
-            if($responsables) {
-                foreach($responsables as $user) {
-                    $to_email = $to_email . ',' .$user['user_email'];
-                }
-            }
+			// if project has responsables email them too
+			$responsables = get_responsables( $projecte_slug );
+			if ( $responsables ) {
+				foreach ( $responsables as $user ) {
+					$to_email = $to_email . ',' . $user['user_email'];
+				}
+			}
 
-            if ( wp_mail( $to_email, $subject, $message, $headers )) {
-                $result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
-            } else {
-                $result['text'] = "S'ha produït un error. Proveu més tard.";
-            }
-        }
-    }
+			if ( wp_mail( $to_email, $subject, $message, $headers ) ) {
+				$result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
+			} else {
+				$result['text'] = "S'ha produït un error. Proveu més tard.";
+			}
+		}
+	}
 
-    wp_send_json( $result );
+	wp_send_json( $result );
 }
 
 /**
@@ -132,36 +130,35 @@ function sc_subscribe_list() {
  * @return json response
  */
 function sc_find_sinonim() {
-    $service_name = 'Diccionari de sinònims';
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $result = 'S\'ha produït un error en el servidor. Proveu més tard';
-        throw_service_error( $service_name, 'Error wp_nonce' );
-    } else {
-        $paraula = sanitize_text_field( $_POST["paraula"] );
-        $url_sinonims_server = get_option('api_diccionari_sinonims');
-        $url = $url_sinonims_server . urlencode( $paraula );
+	$service_name = 'Diccionari de sinònims';
+	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["lang"] ) ) {
+		$result = 'S\'ha produït un error en el servidor. Proveu més tard';
+	} else {
+		$paraula             = sanitize_text_field( $_POST["paraula"] );
+		$url_sinonims_server = get_option( 'api_diccionari_sinonims' );
+		$url                 = $url_sinonims_server . urlencode( $paraula );
 
-        try {
-            $sinonims_server = json_decode( do_json_api_call($url) );
+		try {
+			$sinonims_server = json_decode( do_json_api_call( $url ) );
 
-            if( $sinonims_server != null && $sinonims_server != 'error' && count($sinonims_server->synsets) > 0) {
-                $sinonims['paraula'] = $paraula;
-                $sinonims['response'] = $sinonims_server->synsets;
-                $result = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
-            } else if ( $sinonims_server == 'error' || $sinonims_server == null) {
-                throw_service_error( $service_name, '', true );
-                $result = 'S\'ha produït un error en el servidor. Proveu més tard';
-            } else {
-                throw_error('404', 'No Results For This Search');
-                $result = 'La paraula que esteu cercant no es troba al diccionari.';
-            }
-        } catch ( Exception $e ) {
-            throw_service_error( $service_name, '', true );
-            $result = 'S\'ha produït un error en el servidor. Proveu més tard';
-        }
-    }
+			if ( $sinonims_server != null && $sinonims_server != 'error' && count( $sinonims_server->synsets ) > 0 ) {
+				$sinonims['paraula']  = $paraula;
+				$sinonims['response'] = $sinonims_server->synsets;
+				$result               = Timber::fetch( 'ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+			} else if ( $sinonims_server == 'error' || $sinonims_server == null ) {
+				throw_service_error( $service_name, '', true );
+				$result = 'S\'ha produït un error en el servidor. Proveu més tard';
+			} else {
+				throw_error( '404', 'No Results For This Search' );
+				$result = 'La paraula que esteu cercant no es troba al diccionari.';
+			}
+		} catch ( Exception $e ) {
+			throw_service_error( $service_name, '', true );
+			$result = 'S\'ha produït un error en el servidor. Proveu més tard';
+		}
+	}
 
-    wp_send_json( $result );
+	wp_send_json( $result );
 }
 
 /**
@@ -170,46 +167,50 @@ function sc_find_sinonim() {
  * @return json response
  */
 function sc_contact_form() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        wp_send_json( array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.') );
-        return;
-    }
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		wp_send_json( array( 'type' => 'error', 'text' => 'S\'ha produït un error en enviar el formulari.' ) );
 
-    $to_email       = sanitize_text_field( $_POST["to_email"] );
-    $from_email     = isset($_POST["from_email"]) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
-    $nom_from       = sanitize_text_field( $_POST["nom_from"] );
-    $assumpte       = sanitize_text_field( $_POST["assumpte"] );
+		return;
+	}
 
-    //check if its an ajax request, exit if not
-    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-        wp_send_json( array( //create JSON data
-            'type'=>'error',
-            'text' => 'Sorry Request must be Ajax POST'
-        ) );
-    }
+	$to_email   = sanitize_text_field( $_POST["to_email"] );
+	$from_email = isset( $_POST["from_email"] ) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
+	$nom_from   = sanitize_text_field( $_POST["nom_from"] );
+	$assumpte   = sanitize_text_field( $_POST["assumpte"] );
 
-    //Sanitize input data using PHP filter_var().
-    $nom      = sanitize_text_field( $_POST["nom"] );
-    $correu     = sanitize_email( $_POST["correu"] );
-    $tipus   = sanitize_text_field( $_POST["tipus"] );
-    $comentari   = stripslashes(sanitize_text_field( ( $_POST["comentari"] ) ) );
+	//check if its an ajax request, exit if not
+	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
+		wp_send_json( array( //create JSON data
+			'type' => 'error',
+			'text' => 'Sorry Request must be Ajax POST'
+		) );
+	}
 
-    //email body
-    $message_body = "Tipus: ".$tipus."\r\n\rComentari: ".$comentari."\r\n\rNom: ".$nom."\r\nCorreu electrònic: ".$correu;
+	//Sanitize input data using PHP filter_var().
+	$nom       = sanitize_text_field( $_POST["nom"] );
+	$correu    = sanitize_email( $_POST["correu"] );
+	$tipus     = sanitize_text_field( $_POST["tipus"] );
+	$comentari = stripslashes( sanitize_text_field( ( $_POST["comentari"] ) ) );
 
-    //proceed with PHP email.
-    $headers = 'From: '.$nom_from.' <'.$from_email. ">\r\n" .
-        'Reply-To: '.$correu.'' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
+	//email body
+	$message_body = "Tipus: " . $tipus . "\r\n\rComentari: " . $comentari . "\r\n\rNom: " . $nom . "\r\nCorreu electrònic: " . $correu;
 
-    $send_mail = wp_mail($to_email, $assumpte, $message_body, $headers);
+	//proceed with PHP email.
+	$headers = 'From: ' . $nom_from . ' <' . $from_email . ">\r\n" .
+	           'Reply-To: ' . $correu . '' . "\r\n" .
+	           'X-Mailer: PHP/' . phpversion();
 
-    if(!$send_mail) {
-        //If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
-        wp_send_json( array('type'=>'error', 'text' => 'S\'ha produït un error en enviar el formulari.') );
-    } else {
-        wp_send_json( array('type'=>'message', 'text' => $nom .', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.') );
-    }
+	$send_mail = wp_mail( $to_email, $assumpte, $message_body, $headers );
+
+	if ( ! $send_mail ) {
+		//If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
+		wp_send_json( array( 'type' => 'error', 'text' => 'S\'ha produït un error en enviar el formulari.' ) );
+	} else {
+		wp_send_json( array(
+			'type' => 'message',
+			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
+		) );
+	}
 }
 
 /**
@@ -218,34 +219,34 @@ function sc_contact_form() {
  * @return json response
  */
 function sc_add_new_baixada() {
-    $return = array();
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $return['status'] = 0;
-    } else {
-        $baixades = json_decode(stripslashes($_POST["baixades"]));
-        $programa_id = sanitize_text_field( $_POST["programa_id"] );
-        $taxonomy = 'sistema-operatiu-programa';
+	$return = array();
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$return['status'] = 0;
+	} else {
+		$baixades    = json_decode( stripslashes( $_POST["baixades"] ) );
+		$programa_id = sanitize_text_field( $_POST["programa_id"] );
+		$taxonomy    = 'sistema-operatiu-programa';
 
-        //Related downloads
-        $version_info = array();
-        $terms = array();
-        foreach ( $baixades as $key => $baixada ) {
-            $version_info[$key]['download_url'] = $baixada->url;
-            $version_info[$key]['download_version'] = $baixada->versio;
-            $version_info[$key]['download_size'] = '';
-            $version_info[$key]['arquitectura'] = $baixada->arquitectura;
-            $version_info[$key]['download_os'] = map_so($baixada->sistema_operatiu);
-            $terms[] = $baixada->sistema_operatiu;
-        }
+		//Related downloads
+		$version_info = array();
+		$terms        = array();
+		foreach ( $baixades as $key => $baixada ) {
+			$version_info[ $key ]['download_url']     = $baixada->url;
+			$version_info[ $key ]['download_version'] = $baixada->versio;
+			$version_info[ $key ]['download_size']    = '';
+			$version_info[ $key ]['arquitectura']     = $baixada->arquitectura;
+			$version_info[ $key ]['download_os']      = map_so( $baixada->sistema_operatiu );
+			$terms[]                                  = $baixada->sistema_operatiu;
+		}
 
-        $field_key = acf_get_field_key( 'baixada', $programa_id );
-        update_field( $field_key, $version_info, $programa_id );
-        $return['status'] = 1;
-    }
+		$field_key = acf_get_field_key( 'baixada', $programa_id );
+		update_field( $field_key, $version_info, $programa_id );
+		$return['status'] = 1;
+	}
 
-    wp_set_post_terms( $programa_id, $terms, $taxonomy );
+	wp_set_post_terms( $programa_id, $terms, $taxonomy );
 
-    wp_send_json( $return );
+	wp_send_json( $return );
 }
 
 /**
@@ -254,59 +255,59 @@ function sc_add_new_baixada() {
  * @return json response
  */
 function sc_add_new_program() {
-    $return = array();
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $return['status'] = 0;
-    } else {
-        $nom = sanitize_text_field( $_POST["nom"] );
-        $email_usuari = sanitize_email( $_POST["email_usuari"] );
-        $comentari_usuari = sanitize_text_field( $_POST["comentari_usuari"] );
-        $descripcio = sanitize_text_field( $_POST["descripcio"] );
-        $autor_programa = sanitize_text_field( $_POST["autor_programa"] );
-        $lloc_web_programa = sanitize_text_field( $_POST["lloc_web_programa"] );
-        $llicencia = sanitize_text_field( $_POST["llicencia"] );
-        $categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
-        $slug = sanitize_title_with_dashes( $nom );
+	$return = array();
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$return['status'] = 0;
+	} else {
+		$nom                = sanitize_text_field( $_POST["nom"] );
+		$email_usuari       = sanitize_email( $_POST["email_usuari"] );
+		$comentari_usuari   = sanitize_text_field( $_POST["comentari_usuari"] );
+		$descripcio         = sanitize_text_field( $_POST["descripcio"] );
+		$autor_programa     = sanitize_text_field( $_POST["autor_programa"] );
+		$lloc_web_programa  = sanitize_text_field( $_POST["lloc_web_programa"] );
+		$llicencia          = sanitize_text_field( $_POST["llicencia"] );
+		$categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
+		$slug               = sanitize_title_with_dashes( $nom );
 
-        $terms = array(
-            'categoria-programa' => array($categoria_programa),
-            'llicencia' => array($llicencia)
-        );
+		$terms = array(
+			'categoria-programa' => array( $categoria_programa ),
+			'llicencia'          => array( $llicencia )
+		);
 
-        $metadata = array(
-            'autor_programa' => $autor_programa,
-            'lloc_web_programa' => $lloc_web_programa
-        );
+		$metadata = array(
+			'autor_programa'    => $autor_programa,
+			'lloc_web_programa' => $lloc_web_programa
+		);
 
-        $return = sc_add_draft_content('programa', $nom, $descripcio, $slug, $terms, $metadata);
+		$return = sc_add_draft_content( 'programa', $nom, $descripcio, $slug, $terms, $metadata );
 
-        if( $return['status'] == 1 ) {
-            //Logo and screenshot file upload
-            $logo_attach_id = sc_upload_file( 'logo', $return['post_id'] );
-            $screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
-            $metadata = array(
-                'logotip_programa' => wp_get_attachment_url( $logo_attach_id ),
-                'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
-            );
-            sc_update_metadata ( $return['post_id'], $metadata );
+		if ( $return['status'] == 1 ) {
+			//Logo and screenshot file upload
+			$logo_attach_id       = sc_upload_file( 'logo', $return['post_id'] );
+			$screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
+			$metadata             = array(
+				'logotip_programa'   => wp_get_attachment_url( $logo_attach_id ),
+				'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
+			);
+			sc_update_metadata( $return['post_id'], $metadata );
 
-            $from_email = get_option( 'email_rebost' );
-            $to_email = get_option( 'to_email_rebost' );
-            $nom_from = "Programes i aplicacions de Softcatalà";
-            $assumpte = "[Programes] Programa enviat per formulari";
+			$from_email = get_option( 'email_rebost' );
+			$to_email   = get_option( 'to_email_rebost' );
+			$nom_from   = "Programes i aplicacions de Softcatalà";
+			$assumpte   = "[Programes] Programa enviat per formulari";
 
-            $fields = array(
-                "Nom del programa" => $nom,
-                "Descripció" => $descripcio,
-                "Comentari de l'usuari" => $comentari_usuari,
-                "Email de l'usuari" => $email_usuari,
-                "URL Dashboard" => admin_url("post.php?post=" . $return['post_id'] . "&action=edit")
-            );
-            sendEmailWithFromAndTo($to_email, $from_email, $nom_from, $assumpte, $fields);
-        }
-    }
+			$fields = array(
+				"Nom del programa"      => $nom,
+				"Descripció"            => $descripcio,
+				"Comentari de l'usuari" => $comentari_usuari,
+				"Email de l'usuari"     => $email_usuari,
+				"URL Dashboard"         => admin_url( "post.php?post=" . $return['post_id'] . "&action=edit" )
+			);
+			sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields );
+		}
+	}
 
-    wp_send_json( $return );
+	wp_send_json( $return );
 }
 
 /**
@@ -315,31 +316,31 @@ function sc_add_new_program() {
  * @return json response
  */
 function sc_search_program() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $result['text'] = "S'ha produït un error en cercar el programa. Podeu continuar igualment.";
-    } else {
-        check_is_ajax_call();
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$result['text'] = "S'ha produït un error en cercar el programa. Podeu continuar igualment.";
+	} else {
+		check_is_ajax_call();
 
-        $nom_programa = sanitize_text_field( $_POST["nom_programa"] );
+		$nom_programa = sanitize_text_field( $_POST["nom_programa"] );
 
-        $result = array();
-        if( ! empty ( $nom_programa ) ) {
-            $query['s'] = $nom_programa;
-            $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
-            $result_full = query_posts( $args );
-        }
+		$result = array();
+		if ( ! empty ( $nom_programa ) ) {
+			$query['s']  = $nom_programa;
+			$args        = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
+			$result_full = query_posts( $args );
+		}
 
-        $programs = array_map( 'generate_post_url_link', $result_full );
+		$programs = array_map( 'generate_post_url_link', $result_full );
 
-        if ( count( $programs ) > 0 ) {
-            $result['programs'] = Timber::fetch('ajax/programs-list.twig', array( 'programs' => $programs ) );
-            $result['text'] = "El programa que proposeu és algun dels que es mostren a continuació?";
-        } else {
-            $result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
-        }
-    }
+		if ( count( $programs ) > 0 ) {
+			$result['programs'] = Timber::fetch( 'ajax/programs-list.twig', array( 'programs' => $programs ) );
+			$result['text']     = "El programa que proposeu és algun dels que es mostren a continuació?";
+		} else {
+			$result['text'] = "El programa no està a la nostra base de dades. Podeu continuar!";
+		}
+	}
 
-    wp_send_json( $result );
+	wp_send_json( $result );
 }
 
 /**
@@ -349,39 +350,39 @@ function sc_search_program() {
  * @return json response
  */
 function sc_send_vote() {
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
-    } else {
-        check_is_ajax_call();
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
+	} else {
+		check_is_ajax_call();
 
-        $post_id = intval(sanitize_text_field( $_POST["post_id"] ));
-        $rate = sanitize_text_field( $_POST["rate"] );
-        $single = true;
+		$post_id = intval( sanitize_text_field( $_POST["post_id"] ) );
+		$rate    = sanitize_text_field( $_POST["rate"] );
+		$single  = true;
 
-        $current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
-        $votes = get_post_meta( $post_id, 'wpcf-vots', $single );
+		$current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
+		$votes          = get_post_meta( $post_id, 'wpcf-vots', $single );
 
-        $new_votes = $votes + 1;
-        $new_rate = $current_rating * ( $votes/ $new_votes ) + $rate * ( 1/$new_votes );
+		$new_votes = $votes + 1;
+		$new_rate  = $current_rating * ( $votes / $new_votes ) + $rate * ( 1 / $new_votes );
 
-        $metadata = array(
-            'valoracio'   => number_format((float)$new_rate, 2, '.', ''),
-            'vots' => $new_votes
-        );
+		$metadata = array(
+			'valoracio' => number_format( (float) $new_rate, 2, '.', '' ),
+			'vots'      => $new_votes
+		);
 
-        $result = sc_update_metadata( $post_id, $metadata );
+		$result = sc_update_metadata( $post_id, $metadata );
 
-        if ( ! $result ) {
-            $return['status'] = 0;
-            $return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
-        } else {
-            $return['status'] = 1;
-            $return['cookie_id'] = sanitize_text_field( $_POST["cookie_id"] );
-            $return['text'] = "Gràcies per enviar-nos la vostra valoració!";
-        }
-    }
+		if ( ! $result ) {
+			$return['status'] = 0;
+			$return['text']   = "No s'ha pogut enviar el vot. Proveu més tard.";
+		} else {
+			$return['status']    = 1;
+			$return['cookie_id'] = sanitize_text_field( $_POST["cookie_id"] );
+			$return['text']      = "Gràcies per enviar-nos la vostra valoració!";
+		}
+	}
 
-    wp_send_json( $return );
+	wp_send_json( $return );
 }
 
 /**
@@ -390,62 +391,63 @@ function sc_send_vote() {
  * @return json response
  */
 function sc_send_aparell() {
-    $return = array();
-    if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] )) {
-        $return['status'] = 0;
-    } else {
-        check_is_ajax_call();
+	$return = array();
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
+		$return['status'] = 0;
+	} else {
+		check_is_ajax_call();
 
-        $nom = sanitize_text_field( $_POST["nom"] );
-        $tipus_aparell = sanitize_text_field( $_POST["tipus_aparell"] );
-        $fabricant   = sanitize_text_field( $_POST["fabricant"] );
-        $sistema_operatiu = sanitize_text_field( $_POST["sistema_operatiu"] );
-        $versio = sanitize_text_field( $_POST["versio"] );
-        $traduccio_catala = sanitize_text_field( $_POST["traduccio_catala"] );
-        $correccio_catala = sanitize_text_field( $_POST["correccio_catala"] );
-        $slug = sanitize_title_with_dashes( $nom );
+		$nom              = sanitize_text_field( $_POST["nom"] );
+		$tipus_aparell    = sanitize_text_field( $_POST["tipus_aparell"] );
+		$fabricant        = sanitize_text_field( $_POST["fabricant"] );
+		$sistema_operatiu = sanitize_text_field( $_POST["sistema_operatiu"] );
+		$versio           = sanitize_text_field( $_POST["versio"] );
+		$traduccio_catala = sanitize_text_field( $_POST["traduccio_catala"] );
+		$correccio_catala = sanitize_text_field( $_POST["correccio_catala"] );
+		$slug             = sanitize_title_with_dashes( $nom );
 
-        // comentari no s'utilitza
-        $comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
+		// comentari no s'utilitza
+		$comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
 
-		$fabricant_id = get_term_by( 'slug', sanitize_title($fabricant), 'fabricant');
+		$fabricant_id = get_term_by( 'slug', sanitize_title( $fabricant ), 'fabricant' );
 
-		if ( !$fabricant_id ) {
+		if ( ! $fabricant_id ) {
 			$fabricant_id = wp_insert_term( $fabricant, 'fabricant' );
 		}
 
-        $terms = array(
-            'tipus_aparell' => array($tipus_aparell),
-            'so_aparell' => array($sistema_operatiu),
+		$terms = array(
+			'tipus_aparell' => array( $tipus_aparell ),
+			'so_aparell'    => array( $sistema_operatiu ),
 		);
 
 		if ( $fabricant_id ) {
-			$terms['fabricant'] = array($fabricant_id['term_id']);
+			$terms['fabricant'] = array( $fabricant_id['term_id'] );
 		}
 
-        $metadata = array(
-            'versio' => $versio,
-            'conf_cat' => $traduccio_catala,
-            'correccio_cat' => $correccio_catala );
+		$metadata = array(
+			'versio'        => $versio,
+			'conf_cat'      => $traduccio_catala,
+			'correccio_cat' => $correccio_catala
+		);
 
-        $return = sc_add_draft_content('aparell', $nom, '', $slug, $terms, $metadata, true);
+		$return = sc_add_draft_content( 'aparell', $nom, '', $slug, $terms, $metadata, true );
 
-        if( $return['status'] == 1 ) {
-            $from_email = get_option( 'email_rebost' );
-            $to_email = get_option( 'to_email_rebost' );
-            $nom_from       = "Aparells de Softcatalà";
-            $assumpte       = "[Aparells] Aparell enviat per formulari";
+		if ( $return['status'] == 1 ) {
+			$from_email = get_option( 'email_rebost' );
+			$to_email   = get_option( 'to_email_rebost' );
+			$nom_from   = "Aparells de Softcatalà";
+			$assumpte   = "[Aparells] Aparell enviat per formulari";
 
-            $fields = array (
-                "Nom de l'aparell" => $nom,
-                "Comentari" => $comentari,
-                "URL Dashboard" => admin_url( "post.php?post=".$return['post_id']."&action=edit" )
-            );
-            sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields );
-        }
-    }
+			$fields = array(
+				"Nom de l'aparell" => $nom,
+				"Comentari"        => $comentari,
+				"URL Dashboard"    => admin_url( "post.php?post=" . $return['post_id'] . "&action=edit" )
+			);
+			sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields );
+		}
+	}
 
-    wp_send_json( $return );
+	wp_send_json( $return );
 }
 
 /**
@@ -458,66 +460,67 @@ function sc_send_aparell() {
  * @param $slug
  * @param $allTerms
  * @param $metadata
+ *
  * @return array|mixed|void
  */
-function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $metadata, $acf_metadata = false ) {
-    $return = array();
-    if( isset( $metadata['post_id'] ) ){
-        $parent_id = $metadata['post_id'];
-        unset($metadata['post_id']);
-        $post_status = 'publish';
-    } else {
-        $post_status = 'pending';
-    }
+function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $metadata, $acf_metadata = false ) {
+	$return = array();
+	if ( isset( $metadata['post_id'] ) ) {
+		$parent_id = $metadata['post_id'];
+		unset( $metadata['post_id'] );
+		$post_status = 'publish';
+	} else {
+		$post_status = 'pending';
+	}
 
-    //Generate array data
-    $post_data = array (
-        'post_type'         =>  $type,
-        'post_status'		=>	$post_status,
-        'comment_status'	=>	'open',
-        'ping_status'		=>	'closed',
-        'post_author'		=>	get_current_user_id(),
-        'post_name'		    =>	$slug,
-        'post_title'		=>	$nom,
-        'post_content'      =>  $descripcio,
-        'post_date'         => date('Y-m-d H:i:s')
-    );
+	//Generate array data
+	$post_data = array(
+		'post_type'      => $type,
+		'post_status'    => $post_status,
+		'comment_status' => 'open',
+		'ping_status'    => 'closed',
+		'post_author'    => get_current_user_id(),
+		'post_name'      => $slug,
+		'post_title'     => $nom,
+		'post_content'   => $descripcio,
+		'post_date'      => date( 'Y-m-d H:i:s' )
+	);
 
-    $post_id = wp_insert_post( $post_data );
-    if( $post_id ) {
+	$post_id = wp_insert_post( $post_data );
+	if ( $post_id ) {
 
-        foreach( $allTerms as $taxonomy => $terms ) {
-            wp_set_post_terms( $post_id, $terms, $taxonomy );
-        }
+		foreach ( $allTerms as $taxonomy => $terms ) {
+			wp_set_post_terms( $post_id, $terms, $taxonomy );
+		}
 
-		if ($acf_metadata) {
+		if ( $acf_metadata ) {
 			sc_update_metadata_acf( $post_id, $metadata );
 		} else {
 			sc_update_metadata( $post_id, $metadata );
 		}
 
-        if ( $type == 'aparell' ) {
-            $featured_image_attach_id = sc_upload_file( 'file', $post_id );
-            if($featured_image_attach_id) {
-                $return = sc_set_featured_image( $post_id, $featured_image_attach_id );
-            } else {
-                $return['status'] = 1;
-            }
-        } else {
-            $return['status'] = 1;
-        }
+		if ( $type == 'aparell' ) {
+			$featured_image_attach_id = sc_upload_file( 'file', $post_id );
+			if ( $featured_image_attach_id ) {
+				$return = sc_set_featured_image( $post_id, $featured_image_attach_id );
+			} else {
+				$return['status'] = 1;
+			}
+		} else {
+			$return['status'] = 1;
+		}
 
-    } else {
-        $return['status'] = 0;
-        $return['text'] = "S'ha produït un error en enviar les dades. Proveu de nou.";
-    }
+	} else {
+		$return['status'] = 0;
+		$return['text']   = "S'ha produït un error en enviar les dades. Proveu de nou.";
+	}
 
-    if( $return['status'] == 1 ) {
-        $return['post_id'] = $post_id;
-        $return['text'] = 'Gràcies per enviar aquesta informació. La publicarem tan aviat com puguem.';
-    }
+	if ( $return['status'] == 1 ) {
+		$return['post_id'] = $post_id;
+		$return['text']    = 'Gràcies per enviar aquesta informació. La publicarem tan aviat com puguem.';
+	}
 
-    return $return;
+	return $return;
 }
 
 /**
@@ -525,39 +528,40 @@ function sc_add_draft_content ( $type, $nom, $descripcio, $slug, $allTerms, $met
  *
  * @param $value
  * @param $post_id
+ *
  * @return bool|int
  */
 function sc_upload_file( $value, $post_id ) {
-    if( isset( $_FILES[$value] ) ) {
-        $tmpfile = $_FILES[$value];
+	if ( isset( $_FILES[ $value ] ) ) {
+		$tmpfile = $_FILES[ $value ];
 
-        $upload_overrides = array('test_form' => false);
+		$upload_overrides = array( 'test_form' => false );
 
-        $uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
+		$uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
 
-        if ( $uploaded && ! isset( $uploaded['error']) ) {
+		if ( $uploaded && ! isset( $uploaded['error'] ) ) {
 
-            $wp_filetype = wp_check_filetype(basename($uploaded['file']), null);
+			$wp_filetype = wp_check_filetype( basename( $uploaded['file'] ), null );
 
-            $attachment = array(
-                'post_mime_type' => $wp_filetype['type'],
-                'post_title' => preg_replace('/.[^.]+$/', '', basename($uploaded['file'])),
-                'post_content' => '',
-                'post_status' => 'inherit'
-            );
+			$attachment = array(
+				'post_mime_type' => $wp_filetype['type'],
+				'post_title'     => preg_replace( '/.[^.]+$/', '', basename( $uploaded['file'] ) ),
+				'post_content'   => '',
+				'post_status'    => 'inherit'
+			);
 
-            $attach_id = wp_insert_attachment($attachment, $uploaded['file'], $post_id);
+			$attach_id = wp_insert_attachment( $attachment, $uploaded['file'], $post_id );
 
-            $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded['file']);
-            wp_update_attachment_metadata($attach_id, $attach_data);
+			$attach_data = wp_generate_attachment_metadata( $attach_id, $uploaded['file'] );
+			wp_update_attachment_metadata( $attach_id, $attach_data );
 
-            return $attach_id;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
+			return $attach_id;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -565,29 +569,30 @@ function sc_upload_file( $value, $post_id ) {
  *
  * @param $post_id
  * @param $attach_id
+ *
  * @return mixed
  */
 function sc_set_featured_image( $post_id, $attach_id ) {
-    if( $attach_id ) {
-        set_post_thumbnail( $post_id, $attach_id );
-        $return['status'] = 1;
-    } else {
-        $return['status'] = 0;
-        $return['text'] = "S'ha produït un error en pujar la imatge. Proveu de nou.";
-    }
+	if ( $attach_id ) {
+		set_post_thumbnail( $post_id, $attach_id );
+		$return['status'] = 1;
+	} else {
+		$return['status'] = 0;
+		$return['text']   = "S'ha produït un error en pujar la imatge. Proveu de nou.";
+	}
 
-    return $return;
+	return $return;
 }
 
 /** General **/
 function check_is_ajax_call() {
-    //check if its an ajax request, exit if not
-    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-        wp_send_json( array( //create JSON data
-            'type'=>'error',
-            'text' => 'Sorry Request must be Ajax POST'
-        ) );
-    }
+	//check if its an ajax request, exit if not
+	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
+		wp_send_json( array( //create JSON data
+			'type' => 'error',
+			'text' => 'Sorry Request must be Ajax POST'
+		) );
+	}
 }
 
 /**
@@ -595,19 +600,21 @@ function check_is_ajax_call() {
  *
  * @param int $post_id
  * @param array $metadata
+ *
  * @return boolean
  */
 function sc_update_metadata_acf( $post_id, $metadata ) {
-    $result = false;
-    if( $post_id ) {
-        global $wpcf;
+	$result = false;
+	if ( $post_id ) {
+		global $wpcf;
 
-        foreach ($metadata as $meta_key => $meta_value) {
-            update_field($meta_key, $meta_value, $post_id);
-        }
-        $result = true;
-    }
-    return $result;
+		foreach ( $metadata as $meta_key => $meta_value ) {
+			update_field( $meta_key, $meta_value, $post_id );
+		}
+		$result = true;
+	}
+
+	return $result;
 }
 
 /**
@@ -615,86 +622,91 @@ function sc_update_metadata_acf( $post_id, $metadata ) {
  *
  * @param int $post_id
  * @param array $metadata
+ *
  * @return boolean
  */
 function sc_update_metadata( $post_id, $metadata ) {
-    $result = false;
-    if( $post_id ) {
-        global $wpcf;
+	$result = false;
+	if ( $post_id ) {
+		global $wpcf;
 
-        foreach ($metadata as $meta_key => $meta_value) {
-            $wpcf->field->set( $post_id, $meta_key );
-            $wpcf->field->save( $meta_value );
-        }
-        $result = true;
-    }
-    return $result;
+		foreach ( $metadata as $meta_key => $meta_value ) {
+			$wpcf->field->set( $post_id, $meta_key );
+			$wpcf->field->save( $meta_value );
+		}
+		$result = true;
+	}
+
+	return $result;
 }
 
 /**
  * Gets the field key from a field_name
  */
 function acf_get_field_key( $field_name, $post_id ) {
-    global $wpdb;
-    $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT ID,post_parent,post_name FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'acf-field' ) );
-    // get all fields with that name.
-    switch ( count( $acf_fields ) ) {
-        case 0: // no such field
-            return false;
-        case 1: // just one result.
-            return $acf_fields[0]->post_name;
-    }
-    // result is ambiguous
-    // get IDs of all field groups for this post
-    $field_groups_ids = array();
-    $field_groups = acf_get_field_groups( array(
-        'post_id' => $post_id,
-    ) );
-    foreach ( $field_groups as $field_group )
-        $field_groups_ids[] = $field_group['ID'];
+	global $wpdb;
+	$acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT ID,post_parent,post_name FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s", $field_name, 'acf-field' ) );
+	// get all fields with that name.
+	switch ( count( $acf_fields ) ) {
+		case 0: // no such field
+			return false;
+		case 1: // just one result.
+			return $acf_fields[0]->post_name;
+	}
+	// result is ambiguous
+	// get IDs of all field groups for this post
+	$field_groups_ids = array();
+	$field_groups     = acf_get_field_groups( array(
+		'post_id' => $post_id,
+	) );
+	foreach ( $field_groups as $field_group ) {
+		$field_groups_ids[] = $field_group['ID'];
+	}
 
-    // Check if field is part of one of the field groups
-    // Return the first one.
-    foreach ( $acf_fields as $acf_field ) {
-        if ( in_array( $acf_field->post_parent, $field_groups_ids, true ) )
-            return $acf_fields[0]->post_name;
-    }
-    return false;
+	// Check if field is part of one of the field groups
+	// Return the first one.
+	foreach ( $acf_fields as $acf_field ) {
+		if ( in_array( $acf_field->post_parent, $field_groups_ids, true ) ) {
+			return $acf_fields[0]->post_name;
+		}
+	}
+
+	return false;
 }
 
 /**
  * Maps the category so ID with the program so value
  */
-function map_so($so_id) {
-    switch ($so_id) {
-        case '67':
-            $value = 'android';
-            break;
-        case '62':
-            $value = 'ios';
-            break;
-        case '64':
-            $value = 'linux';
-            break;
-        case '141':
-            $value = 'multiplataforma';
-            break;
-        case '65':
-            $value = 'osx';
-            break;
-        case '96':
-            $value = 'web';
-            break;
-        case '59':
-            $value = 'windows';
-            break;
-        case '140':
-            $value = 'windows_phone';
-            break;
-        default:
-            $value = '';
-            break;
-    }
+function map_so( $so_id ) {
+	switch ( $so_id ) {
+		case '67':
+			$value = 'android';
+			break;
+		case '62':
+			$value = 'ios';
+			break;
+		case '64':
+			$value = 'linux';
+			break;
+		case '141':
+			$value = 'multiplataforma';
+			break;
+		case '65':
+			$value = 'osx';
+			break;
+		case '96':
+			$value = 'web';
+			break;
+		case '59':
+			$value = 'windows';
+			break;
+		case '140':
+			$value = 'windows_phone';
+			break;
+		default:
+			$value = '';
+			break;
+	}
 
-    return $value;
+	return $value;
 }

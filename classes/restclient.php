@@ -4,11 +4,11 @@
  */
 
 /**
- * Abstract class with shared code across SC's dictionaries
+ * Basic rest client
  */
-class SC_Diccionari {
+class SC_RestClient {
 
-	public function do_api_call( $url ) {
+	public function get( $url ) {
 
 		$response = wp_remote_get(
 			$url,
