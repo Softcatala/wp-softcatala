@@ -131,7 +131,7 @@ function sc_subscribe_list() {
  */
 function sc_find_sinonim() {
 	$service_name = 'Diccionari de sinònims';
-	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["lang"] ) ) {
+	if ( ! isset( $_POST["paraula"] ) ) {
 		$result = 'S\'ha produït un error en el servidor. Proveu més tard';
 	} else {
 		$paraula             = sanitize_text_field( $_POST["paraula"] );
