@@ -13,7 +13,8 @@ $all_children = get_posts(
     array(
         'post_type'     => 'page',
         'post_parent'   => $post->ID,
-        'orderby'       => 'menu_order'
+        'orderby'       => 'menu_order',
+        'order'         => 'asc'
     )
 );
 
