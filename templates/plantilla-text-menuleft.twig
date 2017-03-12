@@ -40,7 +40,7 @@
                             <a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fa fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
                         {% endif %}
 
-                        {% if post.thumbnail.src %}
+                        {% if post.thumbnail.src and not post.hide_featured_image_in_header %}
                             {% if not post.text_baixada_principal %}<br/>{% endif %}
                             <img alt="{{post.title}}" src="{{post.thumbnail.src}}" class="headerimg" />
                         {% endif %}
