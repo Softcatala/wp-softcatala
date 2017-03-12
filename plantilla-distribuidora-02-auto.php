@@ -14,7 +14,8 @@ $all_children = get_posts(
         'post_type'     => 'page',
         'post_parent'   => $post->ID,
         'orderby'       => 'menu_order',
-        'order'         => 'asc'
+        'order'         => 'asc',
+        'posts_per_page'=> -1
     )
 );
 
