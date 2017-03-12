@@ -9,7 +9,11 @@
             <div class="container-fluid">
                 <div class="intern">
                     <div class="intern-center">
-                        <i class="fa fa-book"></i>
+                        {% if post.icona_a_mostrar %}
+                            <i class="fa custom-fa fa-{{ post.icona_a_mostrar }}"></i>
+                        {% else %}
+                            <i class="fa fa-book"></i>
+                        {% endif %}
                     </div>
                 </div>
                 <h1>{{ post.title }}</h1>
