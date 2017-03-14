@@ -60,6 +60,18 @@
                                 </ul>
                                 <hr>
                                 {% endif %}
+                                {% if author.telegram %}
+                                <i class="fa fa-telegram"></i>
+                                <ul class="lloc-web">
+                                    <li>Usuari de telegram</li>
+                                    <li>
+                                        <a href="https://telegram.me/{{ author.telegram }}">
+                                            @{{ author.telegram }}
+                                        </a>
+                                    </li>
+                                </ul>
+                                <hr>
+                                {% endif %}
                                 <ul class="info">
                                     <li><i class="fa fa-bookmark"></i>Membre de Softcatalà</li>
                                 </ul>

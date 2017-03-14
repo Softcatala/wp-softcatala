@@ -1107,6 +1107,7 @@ function modify_user_contact_methods( $user_contact ) {
 	// Add user contact methods
 	$user_contact['public_email'] = 'Email públic';
 	$user_contact['twitter']      = __( 'Twitter Username' );
+	$user_contact['telegram']     = 'Usuari de Telegram';
 
 	// Remove user contact methods
 	unset( $user_contact['facebook'] );
