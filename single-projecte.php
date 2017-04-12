@@ -15,7 +15,8 @@ $context['post'] = $post;
 $logo = get_img_from_id( $post->logotip );
 $context['logotip'] = $logo;
 
-$yoastlogo = get_the_post_thumbnail_url() || $logo;
+$yoastlogo = get_the_post_thumbnail_url() ?: $logo;
+
 $custom_logo_filter = function ($img) use($yoastlogo) {
 	return $yoastlogo;
 };
