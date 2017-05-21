@@ -18,7 +18,7 @@ class SC_RestClient {
 			),
 		);
 
-		if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$args['headers']['accept-encoding'] = 'identity';
 		}
 

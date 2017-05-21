@@ -140,8 +140,12 @@ class SC_Multilingue {
 
 		$langname = $this->get_langname( $lang );
 
-		$html = Timber::fetch( 'ajax/multilingue-paraula-not-found.twig',
-			array( 'paraula' => $paraula, 'lang' => $lang, 'langname' => $langname, 'suggestions' => $suggestions ) );
+		$html = Timber::fetch( 'ajax/multilingue-paraula-not-found.twig', array(
+			'paraula'     => $paraula,
+			'lang'        => $lang,
+			'langname'    => $langname,
+			'suggestions' => $suggestions,
+		) );
 
 		return new SC_MultilingueResult( 404, $html, '', '', '', '', $suggestions );
 	}
