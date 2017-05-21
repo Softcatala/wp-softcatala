@@ -46,5 +46,6 @@ function softcatala_widgets_init() {
 			'after_title'   => '</h2>'
 	) );
 
+	register_widget('SC_Catalanitzador_Stats');
 }
 add_action( 'widgets_init', 'softcatala_widgets_init' );
