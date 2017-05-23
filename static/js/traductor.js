@@ -267,7 +267,40 @@ jQuery('.direccio').on('click', function() {
 jQuery('#translate').click(function() {
     jQuery('#translate').data('scroll', true);
     translateText();
+    logSourceText();
 });
+
+function logSourceText() {
+
+    if (!sc_settings.log_traductor_source) {
+        return;
+    }
+
+    if ( jQuery('.primer-textarea').val() == '' ) {
+        return;
+    }
+
+    if (jQuery('#log_traductor_source:checked').length) {
+
+        var source_lang = jQuery.getMetaCookie('source-lang', SC_TRADUCTOR_COOKIE);
+        var target_lang = jQuery.getMetaCookie('target-lang', SC_TRADUCTOR_COOKIE);
+
+        var data = {
+            'source_lang' : source_lang,
+            'source_txt'  : jQuery('.primer-textarea').val(),
+            'target_lang' : target_lang,
+            'target_txt'  : '',
+        };
+
+        jQuery.ajax({
+            url: 'https://www.softcatala.org/api/traductor/feedback/log',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        });
+    }
+}
 
 function translateText() {
     if( jQuery('.primer-textarea').val() == '' ) {

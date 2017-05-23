@@ -13,8 +13,10 @@ class SC_Settings extends SC_Singleton {
 
 	const SETTINGS_LOG_CORRECTOR_USER_EVENTS = 'log_corrector_user_events';
 	const SETTINGS_SEND_EMAILS_THESAURUS_ERRORS = 'send_emails_thesaurus_error';
+	const SETTINGS_LOG_TRADUCTOR_SOURCE = 'log_traductor_source';
 
-	const SETTINGS = array( self::SETTINGS_LOG_CORRECTOR_USER_EVENTS, self::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS );
+	const SETTINGS = array( self::SETTINGS_LOG_CORRECTOR_USER_EVENTS, self::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS,
+		self::SETTINGS_LOG_TRADUCTOR_SOURCE );
 
 	public function get_setting_names() {
 		return self::SETTINGS;
