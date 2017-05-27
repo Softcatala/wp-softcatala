@@ -121,7 +121,7 @@
                                             {% if post.terms('so_aparell') %}
                                                 <div class="col-xxs-12 col-xs-4 col-sm-3 so_aparell_icon">
                                                 {% if post.terms('so_aparell')|first.name|lower != 'altre' %}
-                                                <img src="{{site.theme.uri}}/static/images/content/aparells-plus-{{post.terms('so_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}">
+                                                <img src="{{site.theme.link}}/static/images/content/aparells-plus-{{post.terms('so_aparell')|first.name|lower}}.jpg" class="logo-aparell" alt="logotip {{ post.sistema_operatiu }}">
                                                 {% else %}
                                                 <i class="fa fa-cogs" style="font-size: 30px"></i>
                                                 {% endif %}
