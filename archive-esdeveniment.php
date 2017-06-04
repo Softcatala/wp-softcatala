@@ -57,7 +57,8 @@ if( ! empty( $search ) || ! empty( $tema ) || ! empty( $filter ) ) {
 } else {
     $title = 'Esdeveniments - Softcatalà';
     $description = 'Esdeveniments relacionats amb el món de la tecnologia i el català.';
-    $args = $wp_query->query;
+	$all_args = get_post_query_args( 'esdeveniment', SearchQueryType::All, $tema );
+	$args = wp_parse_args( $all_args, $wp_query->query ); //all filters applied
 }
 
 //Posts and pagination
