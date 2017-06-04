@@ -404,47 +404,27 @@ function sc_send_aparell() {
 		$versio           = sanitize_text_field( $_POST["versio"] );
 		$traduccio_catala = sanitize_text_field( $_POST["traduccio_catala"] );
 		$correccio_catala = sanitize_text_field( $_POST["correccio_catala"] );
-		$slug             = sanitize_title_with_dashes( $nom );
 
-		// comentari no s'utilitza
 		$comentari = stripslashes( sanitize_text_field( $_POST["comentari"] ) );
 
-		$fabricant_id = get_term_by( 'slug', sanitize_title( $fabricant ), 'fabricant' );
+		$sc_aparell = new SC_Aparell( $nom, $tipus_aparell, $fabricant, $sistema_operatiu, $versio, $traduccio_catala, $correccio_catala );
 
-		if ( ! $fabricant_id ) {
-			$fabricant_id = wp_insert_term( $fabricant, 'fabricant' );
-		}
+		if ( $sc_aparell->is_draft() ) {
 
-		$terms = array(
-			'tipus_aparell' => array( $tipus_aparell ),
-			'so_aparell'    => array( $sistema_operatiu ),
-		);
-
-		if ( $fabricant_id ) {
-			$terms['fabricant'] = array( $fabricant_id['term_id'] );
-		}
-
-		$metadata = array(
-			'versio'        => $versio,
-			'conf_cat'      => $traduccio_catala,
-			'correccio_cat' => $correccio_catala
-		);
-
-		$return = sc_add_draft_content( 'aparell', $nom, '', $slug, $terms, $metadata, true );
-
-		if ( $return['status'] == 1 ) {
 			$from_email = get_option( 'email_rebost' );
 			$to_email   = get_option( 'to_email_rebost' );
 			$nom_from   = "Aparells de Softcatalà";
 			$assumpte   = "[Aparells] Aparell enviat per formulari";
 
 			$fields = array(
-				"Nom de l'aparell" => $nom,
+				"Nom de l'aparell" => $sc_aparell->get_nom(),
 				"Comentari"        => $comentari,
-				"URL Dashboard"    => admin_url( "post.php?post=" . $return['post_id'] . "&action=edit" )
+				"URL Dashboard"    => admin_url( "post.php?post=" . $sc_aparell->get_id() . "&action=edit" )
 			);
 			sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields );
 		}
+
+		$return = $sc_aparell->get_return();
 	}
 
 	wp_send_json( $return );

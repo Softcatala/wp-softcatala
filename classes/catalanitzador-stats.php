@@ -9,67 +9,67 @@
 class SC_Catalanitzador_Stats extends WP_Widget
 {
 
-    const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
+	const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
 
-    const TRANSIENT_NAME = 'total_catalanitzador_sessions';
+	const TRANSIENT_NAME = 'total_catalanitzador_sessions';
 
-    /**
-     * Sets up the widgets name etc
-     */
-    public function __construct()
-    {
-        $widget_ops = array(
-            'classname' => 'catalanitzador_stats',
-            'description' => 'Estadístiques del Catalanitzador',
-        );
-        parent::__construct('catalanitzador_stats', 'Estadístiques del Catalanitzador', $widget_ops);
-    }
+	/**
+	 * Sets up the widgets name etc
+	 */
+	public function __construct() {
 
-    /**
-     * Outputs the content of the widget
-     *
-     * @param array $args
-     * @param array $instance
-     */
-    public function widget($args, $instance)
-    {
-        $sessions = $this->get_total_catalanitzador_sessions();
+		$widget_ops = array(
+			'classname' => 'catalanitzador_stats',
+			'description' => 'Estadístiques del Catalanitzador',
+		);
+		parent::__construct( 'catalanitzador_stats', 'Estadístiques del Catalanitzador', $widget_ops );
+	}
 
-        if ( $sessions !== false) {
-            Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format($sessions,0,",","." ) ) );
-        }
-    }
+	/**
+	 * Outputs the content of the widget
+	 *
+	 * @param array $args arguments for the widget.
+	 * @param array $instance widget's instance.
+	 */
+	public function widget($args, $instance) {
 
-    private function get_total_catalanitzador_sessions() {
+		$sessions = $this->get_total_catalanitzador_sessions();
 
-        $stored_sessions = get_transient( self::TRANSIENT_NAME );
+		if ( $sessions !== false ) {
+			Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
+		}
+	}
 
-        if ( $stored_sessions === false ) {
+	private function get_total_catalanitzador_sessions() {
 
-            $stored_sessions = $this->fetch_remote_sessions();
+		$stored_sessions = get_transient( self::TRANSIENT_NAME );
 
-            if ($stored_sessions !== false) {
-                set_transient( self::TRANSIENT_NAME, $stored_sessions, DAY_IN_SECONDS );
-            }
-        }
+		if ( $stored_sessions === false ) {
 
-        return $stored_sessions;
-    }
+			$stored_sessions = $this->fetch_remote_sessions();
 
-    private function fetch_remote_sessions() {
-        $rest_client = new SC_RestClient();
+			if ( $stored_sessions !== false ) {
+				set_transient( self::TRANSIENT_NAME, $stored_sessions, DAY_IN_SECONDS );
+			}
+		}
 
-        $result = $rest_client->get( self::STATS_URL );
+		return $stored_sessions;
+	}
 
-        if ($result['code'] == 200) {
+	private function fetch_remote_sessions() {
+		$rest_client = new SC_RestClient();
 
-            $sessions = $result['result'];
+		$result = $rest_client->get( self::STATS_URL );
 
-            if (is_numeric($sessions)) {
-                return $sessions;
-            }
-        }
+		if ( $result['code'] == 200 ) {
 
-        return false;
-    }
+			$sessions = $result['result'];
+
+			if ( is_numeric( $sessions ) ) {
+				return $sessions;
+			}
+		}
+
+		return false;
+	}
 }
