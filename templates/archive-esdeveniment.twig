@@ -12,51 +12,6 @@
 
                 <!-- .contingut -->
                 <div class="contingut contingut-left col-sm-12 col-md-9">
-                    <!-- .contingut-header -->
-                    <header class="contingut-header">
-                        <!-- .filtres -->
-                        <form class="searchform" method="get" id="cerca_esdeveniments" role="search" action="{{search_params.current_url}}">
-                            <div class="filtres row">
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
-                                        {% if selected_filter %}
-                                            <input type="hidden" value="{{ selected_filter }}" name="filtre" />
-                                        {% endif %}
-                                        <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-10">
-                                            <div class="row">
-                                                <!-- dropdown categories -->
-                                                <div class="col-sm-6">
-                                                    <select class="form-control selectpicker" id="tema" name="tema">
-                                                        <option value="{% if current_url_params %}/esdeveniments/{{ search_params.current_url_params }}{% endif %}">Tots els temes</option>
-                                                        {% for category in categories.temes %}
-                                                            <option value="{{ category.slug }}" {% if selected_filter_tema == category.slug %}selected{% endif %}>{{ category.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div><!--/dropdown sitemes operatius -->
-
-                                                <!-- dropdown date filters -->
-                                                <div class="col-sm-6">
-                                                    <select class="form-control selectpicker" id="data" name="data">
-                                                        <option value="{% if current_url_params %}/esdeveniments/{{ search_params.current_url_params }}{% endif %}">Qualsevol dia</option>
-                                                        {% for filter in filters %}
-                                                            <option value="{{ filter.link }}" {% if selected_filter_data == filter.link %}selected{% endif %}>{{ filter.title }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div><!--/dropdown categories -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div><!--/.filtres -->
-                        </form>
-                    </header><!--/.contingut-header -->
-
                     {% if posts %}
                     {% for esdeveniment in posts %}
                     <section class="llista-esdeveniments">
@@ -77,7 +32,14 @@
                                     <!-- .article-footer -->
                                     <footer class="article-footer">
                                         {{esdeveniment.ciutat}}<br/>
-                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">{{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}{% if attribute(esdeveniment,'wpcf-data_fi') %}{% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %} - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}</time>
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">
+                                            {{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}
+                                            {% if attribute(esdeveniment,'wpcf-data_fi') %}
+                                                {% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %}
+                                                    - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </time>
                                     </footer><!--/.article-footer -->
                                 </div>
                                 {% if esdeveniment.thumbnail.src %}
@@ -95,11 +57,7 @@
                     {% include "pagination.twig" %}
                     <!-- /.pagination -->
                     {% else %}
-                    {% if title %}
-                        No s'ha trobat cap resultat per a la vostra cerca: <strong>{{ title }}</strong>
-                    {% else %}
                         No hi ha cap esdeveniment programat
-                    {% endif %}
                     {% endif %}<!--/.pagination -->
                 </div><!--/.contingut -->
                 {% include "sidebar.twig" %}

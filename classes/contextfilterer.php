@@ -55,7 +55,7 @@ class SC_ContextFilterer {
 	private function add_context_elements( $context ) {
 
 		if ( ! is_array( $this->context_elements ) ) {
-			return;
+			return $context;
 		}
 
 		foreach ( $this->context_elements as $key => $value ) {
