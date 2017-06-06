@@ -13,7 +13,7 @@ wp_localize_script( 'sc-js-aparells', 'scajax', array(
 //Template initialization
 $post = new TimberPost();
 $context_holder['post'] = $post;
-$parent_data = get_page_parent_title( $post );
+$parent_data = get_page_parent_title( $post->ID );
 $context_holder['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
 $context_holder['links'] = $post->get_field( 'link' );
 $context_holder['credits'] = $post->get_field( 'credit' );
