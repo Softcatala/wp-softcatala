@@ -520,7 +520,6 @@ abstract class SearchQueryType {
 	const All = 0;
 	const FilteredDate = 1;
 	const Search = 2;
-	const Highlight = 3;
 	const Aparell = 4;
 	const Programa = 5;
 	const Post = 6;
@@ -535,17 +534,6 @@ abstract class SearchQueryType {
 function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 	//Retrieve posts
 	switch ( $post_type ) {
-		case 'esdeveniment':
-			$base_args = array(
-				'meta_key'       => 'wpcf-data_inici',
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'orderby'        => 'wpcf-data_inici',
-				'order'          => 'ASC',
-				'paged'          => get_is_paged(),
-				'posts_per_page' => 10
-			);
-			break;
 		case 'aparell':
 			$base_args = array(
 				'post_type'      => $post_type,
@@ -637,24 +625,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 				array(
 					get_meta_query_value( 'wpcf-data_inici', $filter['final_time'], '<=', 'NUMERIC' )
 				)
-			)
-		);
-	} else if ( $queryType == SearchQueryType::Highlight ) {
-
-		// due to how Types stores days timestamp (0.00am)
-		// we need to check for "yesterday" at this time
-		// to show events happening today
-		$yesterday = time() - ( 24 * 60 * 60 );
-
-		$filter_args = array(
-			'posts_per_page' => 2,
-			'meta_key'       => 'wpcf-destacat',
-			'orderby'        => 'meta_value',
-			'order'          => 'DESC',
-			'meta_query'     => array(
-				get_meta_query_value( 'wpcf-destacat', '0', '>=', 'NUMERIC' ),
-				get_meta_query_value( 'wpcf-data_inici', '0', '>=', 'NUMERIC' ),
-				get_meta_query_value( 'wpcf-data_fi', $yesterday, '>=', 'NUMERIC' )
 			)
 		);
 	} else if ( $queryType == SearchQueryType::Aparell ) {
@@ -829,34 +799,6 @@ function get_filter_addition( $url ) {
 	}
 
 	return $addition;
-}
-
-/*
- * Returns the start_time and final_time of the time range in UNIX Timestamp
- */
-function get_final_time( $filter ) {
-	$today_unix_time = strtotime( "today" );
-
-	switch ( $filter ) {
-		case 'setmana':
-			$filterdate['start_time'] = $today_unix_time;
-			$filterdate['final_time'] = strtotime( "next Sunday" );
-			break;
-		case 'mes':
-			$filterdate['start_time'] = $today_unix_time;
-			$filterdate['final_time'] = strtotime( "first day of next month" );
-			break;
-		case 'setmanavinent':
-			$filterdate['start_time'] = strtotime( "next Monday" );
-			$filterdate['final_time'] = strtotime( "sunday next week" );
-			break;
-		default:
-			$filterdate['start_time'] = $today_unix_time;
-			$filterdate['final_time'] = strtotime( "+100 weeks" );
-			break;
-	}
-
-	return $filterdate;
 }
 
 /*
