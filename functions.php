@@ -76,12 +76,37 @@ class StarterSite extends TimberSite {
 
 	function autoload( $cls ) {
 
+		$this->tryLoadFromNamespace( $cls )
+			|| $this->tryLoadFromClasses( $cls );
+	}
+
+	function tryLoadFromClasses( $cls ) {
 		$name = str_replace( 'SC_', '', $cls );
 		$name = str_replace( '_', '-', $name );
 
 		$path = __DIR__ . '/classes/' . strtolower( $name ) . '.php';
 
-		is_readable( $path ) && require_once( $path );
+		if ( is_readable( $path ) && require_once( $path ) ) {
+			return;
+		}
+	}
+
+	function tryLoadFromNamespace( $cls ) {
+
+		$path = __DIR__ . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $cls) . '.php';
+
+		$path = $this->decamelize( str_replace( 'Softcatala'.DIRECTORY_SEPARATOR, 'classes'.DIRECTORY_SEPARATOR, $path ) );
+
+		return is_readable( $path ) && require_once( $path );
+	}
+
+	function decamelize( $string ) {
+		return strtolower( 
+			str_replace ( 
+			DIRECTORY_SEPARATOR . '-', DIRECTORY_SEPARATOR,
+				preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $string) 
+			)
+		);
 	}
 
 	function include_theme_conf() {
@@ -276,9 +301,10 @@ class StarterSite extends TimberSite {
 	function register_post_types() {
 		global $sc_types;
 
-		$sc_types['sliders']   = new SC_Slider();
-		$sc_types['programes'] = new SC_Programes();
-		$sc_types['projectes'] = new SC_Projectes();
+		$sc_types['sliders']        = new \Softcatala\TypeRegisters\Slider();
+		$sc_types['esdevenimets']   = new \Softcatala\TypeRegisters\Esdeveniment();
+		$sc_types['programes']      = new SC_Programes();
+		$sc_types['projectes']      = new SC_Projectes();
 	}
 
 	function register_taxonomies() {

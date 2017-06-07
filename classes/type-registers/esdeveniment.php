@@ -3,54 +3,52 @@
  * @package Softcatala
  */
 
+namespace Softcatala\TypeRegisters;
+
 /**
- * Class SC_Slider
+ * Class Esdeveniment
  *
- * Represents a featured slider in the Home Page
+ * Registers the Esdeveniment post type
  */
-class SC_Slider {
+class Esdeveniment {
 
 	public function __construct() {
 		$this->register_custom_post_type();
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ) , 11 );
-		add_filter( 'manage_slider_posts_columns' , array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_slider_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
+		add_filter( 'manage_esdeveniment_posts_columns' , array( $this, 'add_columns_to_admin' ) );
+		add_action( 'manage_esdeveniment_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	function custom_columns( $column, $post_id ) {
-		switch ( $column ) {
-			case 'image':
-				the_post_thumbnail( '', array( 'style' => 'max-width:200px;height:auto;' ), $post_id );
-				break;
-
-			case 'link':
-				echo get_post_meta( $post_id, 'slide_link', true );
-				break;
-		}
+		echo get_field( $column, $post_id );
 	}
 
 	public function remove_yoast_metabox() {
-		remove_meta_box( 'wpseo_meta', 'slider', 'normal' );
+		remove_meta_box( 'wpseo_meta', 'esdeveniment', 'normal' );
 	}
 
 	public function add_columns_to_admin( $columns ) {
 
-		return array_merge($columns,
+		$return = array_merge($columns,
 			array(
-			'image' => 'Imatge',
-					'link'  => 'URL',
-			  )
+				'data_inici' => 'Data de finalització',
+				'data_fi'   => "Data d'inici",
+				'horari'    => 'Horari',
+				'ciutat'    => 'Ciutat',
+			)
 		);
+
+		unset( $return['date'] );
 	}
 
 	public function register_custom_post_type() {
 
 		$labels = array(
-			'name'                  => _x( 'Sliders', 'Post Type General Name', 'softcatala' ),
-			'singular_name'         => _x( 'Slider', 'Post Type Singular Name', 'softcatala' ),
-			'menu_name'             => __( 'Sliders', 'softcatala' ),
-			'name_admin_bar'        => __( 'Sliders', 'softcatala' ),
+			'name'                  => _x( 'Esdeveniments', 'Post Type General Name', 'softcatala' ),
+			'singular_name'         => _x( 'Esdeveniment', 'Post Type Singular Name', 'softcatala' ),
+			'menu_name'             => __( 'Esdeveniments', 'softcatala' ),
+			'name_admin_bar'        => __( 'Esdeveniments', 'softcatala' ),
 			'archives'              => __( 'Item Archives', 'softcatala' ),
 			'attributes'            => __( 'Item Attributes', 'softcatala' ),
 			'parent_item_colon'     => __( 'Parent Item:', 'softcatala' ),
@@ -76,8 +74,8 @@ class SC_Slider {
 			'filter_items_list'     => __( 'Filter items list', 'softcatala' ),
 		);
 		$args = array(
-			'label'                 => __( 'Slider', 'softcatala' ),
-			'description'           => __( 'Destacats de la pàgina d\'inici', 'softcatala' ),
+			'label'                 => __( 'Esdeveniment', 'softcatala' ),
+			'description'           => __( 'Esdeveniments i activitats relacionats amb el món de la tecnologia i el català.', 'softcatala' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'excerpt', 'thumbnail' ),
 			'hierarchical'          => false,
@@ -85,17 +83,17 @@ class SC_Slider {
 			'show_ui'               => true,
 			'show_in_menu'          => true,
 			'menu_position'         => 25,
-			'menu_icon'             => 'dashicons-slides',
+			'menu_icon'             => 'dashicons-calendar-alt',
 			'show_in_admin_bar'     => true,
 			'show_in_nav_menus'     => true,
 			'can_export'            => true,
-			'has_archive'           => false,
+			'has_archive'           => true,
 			'exclude_from_search'   => true,
 			'publicly_queryable'    => true,
-			'rewrite'               => false,
+			'rewrite'               => array( 'slug' => 'esdeveniments', 'with_front' => false ),
 			'capability_type'       => 'page',
 			'show_in_rest'          => true,
 		);
-		register_post_type( 'slider', $args );
+		register_post_type( 'esdeveniment', $args );
 	}
 }

@@ -16,7 +16,7 @@ $args = array( 'post_type' => 'post', 'numberposts' => '3', 'post_status' => 'pu
 $context['posts'] = Timber::get_posts($args);
 add_filter('posts_orderby','orderbyreplace');
 query_posts($args);
-$context['esdeveniments'] = SC_Esdeveniments_Repository::getHighlights();
+$context['esdeveniments'] = \Softcatala\Providers\Esdeveniments::get_highlights();
 remove_filter('posts_orderby','orderbyreplace');
 $context['programari'] = get_top_downloads_home();
 Timber::render( $templates, $context );
