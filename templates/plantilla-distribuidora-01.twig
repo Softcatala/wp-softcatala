@@ -25,13 +25,13 @@
                         {% for link in links %}
                         <div class="col-xxs-12 col-xs-6 col-sm-4 col-md-3">
                             <div class="thumbnail thumbnail-vertical thumbnail-premsa">
-                                <a href="{{ link.link_url }}" alt="{{ link.link_title }}">
+                                <a href="{{ link.external_link ?: link.internal_link }}" alt="{{ link.titol }}">
                                     <div>
-                                        <img src="{% if link.link_image %}{{ link.link_image|resize(270) }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ link.link_title }}">
+                                        <img src="{% if link.imatge %}{{ link.imatge|resize(270) }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ link.titol }}">
                                     </div>
                                     <div class="caption">
-                                        <h3>{{ link.link_title }}</h3>
-                                        <p>{{ link.link_description|truncate(15) }}</p>
+                                        <h3>{{ link.titol }}</h3>
+                                        <p>{{ link.descripcio|truncate(15) }}</p>
                                         <span class="bt-aneu">més<i class="fa fa-chevron-right"></i></span>
                                     </div>
                                 </a>
