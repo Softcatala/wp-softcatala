@@ -41,6 +41,8 @@ class Esdeveniment {
 		);
 
 		unset( $return['date'] );
+
+		return $return;
 	}
 
 	public function register_custom_post_type() {
