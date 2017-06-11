@@ -76,11 +76,15 @@ class StarterSite extends TimberSite {
 
 	function autoload( $cls ) {
 
-		$this->tryLoadFromNamespace( $cls )
-			|| $this->tryLoadFromClasses( $cls );
+		$this->tryLoadFromNamespace( $cls ) || $this->tryLoadFromClasses( $cls );
 	}
 
 	function tryLoadFromClasses( $cls ) {
+
+		if ( 0 !== strpos( $cls, 'SC_' ) ) {
+			return;
+		}
+
 		$name = str_replace( 'SC_', '', $cls );
 		$name = str_replace( '_', '-', $name );
 
@@ -93,18 +97,22 @@ class StarterSite extends TimberSite {
 
 	function tryLoadFromNamespace( $cls ) {
 
-		$path = __DIR__ . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $cls) . '.php';
+		if ( 0 !== strpos( $cls, 'Softcatala' ) && 0 !== strpos( $cls, '\Softcatala' ) ) {
+			return;
+		}
 
-		$path = $this->decamelize( str_replace( 'Softcatala'.DIRECTORY_SEPARATOR, 'classes'.DIRECTORY_SEPARATOR, $path ) );
+		$path = __DIR__ . DIRECTORY_SEPARATOR . str_replace( '\\', DIRECTORY_SEPARATOR, $cls ) . '.php';
+
+		$path = $this->decamelize( str_replace( 'Softcatala' . DIRECTORY_SEPARATOR, 'classes' . DIRECTORY_SEPARATOR, $path ) );
 
 		return is_readable( $path ) && require_once( $path );
 	}
 
 	function decamelize( $string ) {
-		return strtolower( 
-			str_replace ( 
-			DIRECTORY_SEPARATOR . '-', DIRECTORY_SEPARATOR,
-				preg_replace(['/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/'], '$1-$2', $string) 
+		return strtolower(
+			str_replace(
+				DIRECTORY_SEPARATOR . '-', DIRECTORY_SEPARATOR,
+				preg_replace( [ '/([a-z\d])([A-Z])/', '/([^-])([A-Z][a-z])/' ], '$1-$2', $string )
 			)
 		);
 	}
@@ -301,10 +309,10 @@ class StarterSite extends TimberSite {
 	function register_post_types() {
 		global $sc_types;
 
-		$sc_types['sliders']        = new \Softcatala\TypeRegisters\Slider();
-		$sc_types['esdevenimets']   = new \Softcatala\TypeRegisters\Esdeveniment();
-		$sc_types['programes']      = new SC_Programes();
-		$sc_types['projectes']      = new SC_Projectes();
+		$sc_types['sliders']      = new \Softcatala\TypeRegisters\Slider();
+		$sc_types['esdevenimets'] = new \Softcatala\TypeRegisters\Esdeveniment();
+		$sc_types['programes']    = new SC_Programes();
+		$sc_types['projectes']    = new SC_Projectes();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
