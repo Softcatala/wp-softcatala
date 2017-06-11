@@ -307,10 +307,6 @@ class StarterSite extends TimberSite {
 		$sc_types['projectes']      = new SC_Projectes();
 	}
 
-	function register_taxonomies() {
-		//this is where you can register custom taxonomies
-	}
-
 	function add_user_nav_info_to_context( $context ) {
 		$context['user_info']     = $this->get_user_information();
 		$context['search_params'] = $this->get_search_params();
