@@ -3,12 +3,13 @@
  * @package Softcatala
  */
 
+namespace Softcatala\Widgets;
+
 /**
  * Displays stats for Catalanitzador
  */
-class SC_Catalanitzador_Stats extends WP_Widget
+class CatalanitzadorStats extends \WP_Widget
 {
-
 	const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
 
 	const TRANSIENT_NAME = 'total_catalanitzador_sessions';
