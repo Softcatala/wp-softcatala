@@ -20,15 +20,13 @@ $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
 $context['arxivat'] = $post->has_term('arxivat', 'classificacio');
-$post_links = types_child_posts('link', $post->ID);
-$context['links'] = $post->get_field( 'link' );
-$context['credits'] = $post->get_field( 'credit' );
+
+$context['credits'] = $post->get_field( 'credits' );
 $baixades = $post->get_field( 'baixada' );
 
 //Contact Form
 $context['contact']['to_email'] = get_option('to_email_rebost');
 $context['contact']['from_email'] = get_option('email_rebost');
-
 
 //Add program form data
 $context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );
@@ -70,8 +68,4 @@ if( $project_id ) {
     $context['projecte_relacionat_name'] =  get_the_title($project_id);
 }
 
-if ( post_password_required( $post->ID ) ) {
-    Timber::render( 'single-password.twig', $context );
-} else {
-    Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );
-}
+Timber::render( 'single-programa.twig', $context );

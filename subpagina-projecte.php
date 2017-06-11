@@ -32,8 +32,7 @@ $custom_logo_filter = function ($img) use($logo ) {
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
 add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 
-$context['links'] = $post->get_field( 'link' );
-$context['credits'] = $post->get_field( 'credit' );
+$context['credits'] = $post->get_field( 'credits' );
 
 if ( is_array( $post->responsable ) ) {
     $context['responsables'] = get_users_metadata($post->responsable);

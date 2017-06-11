@@ -6,7 +6,13 @@
         <div class="row logos">
             {% for credit in row %}
             <div class="col-xs-12 col-sm-2 {% if loop.first %}col-sm-offset-1{% endif %}">
-                <a href="{{ credit.enllac_credit }}" title="{{ credit.title }}"><img src="{{ credit.imatge_credit }}" alt="{{ credit.title }}" class="img-responsive center-block"></a>
+                {% if credit.enllac_credit %}
+                    <a href="{{ credit.enllac_credit }}" title="{{ credit.title }}">
+                {% endif %}
+                        <img src="{{ credit.imatge_credit }}" alt="{{ credit.title }}" class="img-responsive center-block">
+                {% if credit.enllac_credit %}
+                    </a>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
