@@ -24,11 +24,14 @@ class Slider {
 		switch ( $column ) {
 			case 'image':
 				the_post_thumbnail( '', array( 'style' => 'max-width:200px;height:auto;' ), $post_id );
-				break;
+			break;
 
 			case 'link':
 				echo get_post_meta( $post_id, 'slide_link', true );
-				break;
+			break;
+
+			default:
+			return;
 		}
 	}
 

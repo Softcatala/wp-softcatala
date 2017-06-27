@@ -24,4 +24,8 @@
         <exclude name="Squiz.Commenting.FunctionComment.Missing" />
         <exclude name="Squiz.Commenting.VariableComment.Missing" />
     </rule>
+
+    <rule ref="Squiz.ControlStructures">
+        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine" />
+    </rule>
 </ruleset>

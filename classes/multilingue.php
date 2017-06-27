@@ -153,20 +153,26 @@ class SC_Multilingue {
 	private function get_langname( $lang ) {
 		switch ( $lang ) {
 			case 'ca':
-				return 'català';
+			return 'català';
+
 			case 'es':
-				return 'espanyol';
+			return 'espanyol';
+
 			case 'en':
-				return 'anglès';
+			return 'anglès';
+
 			case 'fr':
-				return 'francès';
+			return 'francès';
+
 			case 'de':
-				return 'alemany';
+			return 'alemany';
+
 			case 'it':
-				return 'italià';
+			return 'italià';
+
 			default:
-				return $lang;
-		}
+			return $lang;
+		}//end switch
 	}
 
 	private function return500() {

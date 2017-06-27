@@ -2,19 +2,13 @@
 
 define( 'WP_SOFTCATALA_VERSION', '0.9.51' );
 
-if ( ! class_exists( 'Timber' ) && is_admin() ) {
-	add_action( 'admin_notices', function () {
-		echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
-	} );
+require __DIR__ . '/vendor/autoload.php';
 
-	return;
-} else if ( ! class_exists( 'Timber' ) && ! is_admin() ) {
-	header( 'HTTP/1.1 500 Internal Server Error' );
-	echo 'Aquest és un error 500. Alguna cosa no funciona bé al servidor.';
-	die();
-}
+$timber = new \Timber\Timber();
 
 include( 'inc/perfils.php' );
+
+
 
 Timber::$dirname = array( 'templates', 'views' );
 
@@ -328,11 +322,11 @@ class StarterSite extends TimberSite {
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter( 'get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
-		$twig->addFilter( 'get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ) );
-		$twig->addFilter( 'truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ) );
-		$twig->addFilter( 'print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ) );
-		$twig->addFilter( 'clean_number', new Twig_SimpleFilter( 'clean_number', 'clean_number' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'truncate_words', 'sc_truncate_words' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'print_definition', 'print_definition' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'clean_number', 'clean_number' ) );
 
 		return $twig;
 	}
@@ -479,7 +473,7 @@ function get_caption_from_media_url( $attachment_url = '', $return_id = false ) 
  *
  * @return string
  */
-function truncate_twig( $string, $size ) {
+function sc_truncate_words( $string, $size ) {
 	$splitstring = wp_trim_words( str_replace( '_', ' ', $string ), $size );
 
 	return $splitstring;
@@ -1088,62 +1082,5 @@ function modify_user_contact_methods( $user_contact ) {
 	return $user_contact;
 }
 
-add_filter( 'pre_get_avatar_data', 'sc_set_avatar_based_on_user_meta', 10, 2 );
-function sc_set_avatar_based_on_user_meta( $args, $id_or_email ) {
-
-	// Set this to the full meta key set in Save As under Auto Populate tab (for WP Job Manager Field Editor)
-	$user_avatar_meta_key = 'avatar';
-
-	// Check for comment_ID
-	if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
-		$id_or_email = get_comment( $id_or_email );
-	}
-
-	// Check if WP_Post
-	if ( $id_or_email instanceof WP_Post ) {
-		$user_id = $id_or_email->post_author;
-	}
-
-	// Check if WP_Comment
-	if ( $id_or_email instanceof WP_Comment ) {
-		if ( ! empty( $id_or_email->user_id ) ) {
-			$user_id = $id_or_email->user_id;
-		} elseif ( ! empty( $id_or_email->comment_author_email ) ) {
-			// If user_id not available, set as email address to handle below
-			$id_or_email = $id_or_email->comment_author_email;
-		}
-	}
-
-	if ( is_numeric( $id_or_email ) ) {
-		$user_id = $id_or_email;
-	} elseif ( is_string( $id_or_email ) && strpos( $id_or_email, '@' ) ) {
-		$id_or_email = get_user_by( 'email', $id_or_email );
-	}
-
-	// Last check, convert user object to ID
-	if ( $id_or_email instanceof WP_User ) {
-		$user_id = $id_or_email->ID;
-	}
-
-	// Now that we have a user ID, check meta for avatar file
-	if ( ! empty( $user_id ) && is_numeric( $user_id ) ) {
-
-		// As long as it's a valid URL, let's go ahead and set it
-		$image_id = get_user_meta( $user_id, 'avatar', true ); // CHANGE TO YOUR FIELD NAME
-		// Bail if we don't have a local avatar
-		if ( $image_id ) {
-			// Get the file size
-			$image_url = wp_get_attachment_image_src( $image_id, 'full' ); // Set image size by name
-
-			// Get the file url
-			$avatar_url = $image_url[0];
-
-			if ( filter_var( $avatar_url, FILTER_VALIDATE_URL ) ) {
-				$args['url'] = $avatar_url;
-			}
-		}
-	}
-
-	return $args;
-}
+add_filter( 'pre_get_avatar_data', array('\Softcatala\Images\Avatar', 'filter'), 10, 2 );
 

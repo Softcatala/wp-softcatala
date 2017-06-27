@@ -68,6 +68,9 @@ class SC_TypeBase {
 			case $this->singular:
 				$options = $this->get_info_for_select();
 			break;
+
+			default:
+			return;
 		}
 		return $options;
 	}
