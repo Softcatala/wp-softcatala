@@ -45,10 +45,13 @@ if( $download_full ) {
     }
 }
 
-$logo = get_the_post_thumbnail_url() ?: $post->logotip_programa;
+$logo = get_img_from_id( $post->logotip_programa );
+$context['logotip'] = $logo;
 
-$custom_logo_filter = function ($img) use($logo ) {
-	return $logo;
+$yoastlogo = get_the_post_thumbnail_url() ?: $logo;
+
+$custom_logo_filter = function ($img) use($yoastlogo) {
+	return $yoastlogo;
 };
 
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
@@ -60,9 +63,13 @@ $context['baixades'] = generate_url_download( $baixades, $post );
 
 $query = array ( 'post_id' => $post->ID , 'subpage_type' => 'programa' );
 $args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+
 query_posts($args);
+
 $context['related_pages'] = Timber::get_posts($args);
-$project_id = wpcf_pr_post_get_belongs($post->ID, 'projecte');
+
+$project_id = get_post_meta( $post->ID, 'projecte_relacionat', true );
+
 if( $project_id ) {
     $context['projecte_relacionat_url'] = get_permalink($project_id);
     $context['projecte_relacionat_name'] =  get_the_title($project_id);

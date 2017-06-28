@@ -356,21 +356,26 @@ function sc_send_vote() {
 		check_is_ajax_call();
 
 		$post_id = intval( sanitize_text_field( $_POST["post_id"] ) );
-		$rate    = sanitize_text_field( $_POST["rate"] );
-		$single  = true;
 
-		$current_rating = get_post_meta( $post_id, 'wpcf-valoracio', $single );
-		$votes          = get_post_meta( $post_id, 'wpcf-vots', $single );
+		$result = false;
+		if ( $post_id ) {
 
-		$new_votes = $votes + 1;
-		$new_rate  = $current_rating * ( $votes / $new_votes ) + $rate * ( 1 / $new_votes );
+			$rate    = sanitize_text_field( $_POST["rate"] );
+			$single  = true;
 
-		$metadata = array(
-			'valoracio' => number_format( (float) $new_rate, 2, '.', '' ),
-			'vots'      => $new_votes
-		);
+			$current_rating = get_post_meta( $post_id, 'valoracio', $single );
+			$votes          = get_post_meta( $post_id, 'vots', $single );
 
-		$result = sc_update_metadata( $post_id, $metadata );
+			$new_votes = $votes + 1;
+			$new_rate  = $current_rating * ( $votes / $new_votes ) + $rate * ( 1 / $new_votes );
+
+			$new_rate = number_format( (float) $new_rate, 2, '.', '' );
+
+			update_field( 'valoracio', $new_rate, $post_id );
+			update_field( 'vots', $new_votes, $post_id );
+
+			$result = true;
+		}
 
 		if ( ! $result ) {
 			$return['status'] = 0;

@@ -19,17 +19,17 @@
                         <div class="row">
                             {% if post.imatge_destacada_1 %}
                             <div class="col-xxs-12 col-xs-4 col-sm-4">
-                                <img class="img-responsive" src="{{ post.imatge_destacada_1 }}" alt="Imatge destacada 1 del {{ post.title }}">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_1 | get_full_img_from_id }}" alt="Imatge destacada 1 del {{ post.title }}">
                             </div>
                             {% endif %}
                             {% if post.imatge_destacada_2 %}
                             <div class="col-xxs-12 col-xs-4 col-sm-4">
-                                <img class="img-responsive" src="{{ post.imatge_destacada_2 }}" alt="Imatge destacada 2 del {{ post.title }}">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_2 | get_full_img_from_id }}" alt="Imatge destacada 2 del {{ post.title }}">
                             </div>
                             {% endif %}
                             {% if post.imatge_destacada_3 %}
                             <div class="col-xxs-12 col-xs-4 col-sm-4">
-                                <img class="img-responsive" src="{{ post.imatge_destacada_3 }}" alt="Imatge destacada 3 del {{ post.title }}">
+                                <img class="img-responsive" src="{{ post.imatge_destacada_3 | get_full_img_from_id }}" alt="Imatge destacada 3 del {{ post.title }}">
                             </div>
                             {% endif %}
                         </div>

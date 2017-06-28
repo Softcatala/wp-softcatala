@@ -324,6 +324,7 @@ class StarterSite extends TimberSite {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
 		$twig->addFilter( new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
 		$twig->addFilter( new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ) );
+		$twig->addFilter( new Twig_SimpleFilter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
 		$twig->addFilter( new Twig_SimpleFilter( 'truncate_words', 'sc_truncate_words' ) );
 		$twig->addFilter( new Twig_SimpleFilter( 'print_definition', 'print_definition' ) );
 		$twig->addFilter( new Twig_SimpleFilter( 'clean_number', 'clean_number' ) );
@@ -519,6 +520,11 @@ function trim_entries( $entry ) {
 	return empty( $trimmed ) ? null : $trimmed;
 }
 
+function get_full_img_from_id( $img_id ) {
+	$image = wp_get_attachment_image_src( $img_id, 'full' );
+
+	return $image[0];
+}
 function get_img_from_id( $img_id ) {
 	$image = wp_get_attachment_image_src( $img_id );
 

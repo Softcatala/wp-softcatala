@@ -3,10 +3,10 @@
         <div class="gris-main-header">
             <div class="row">
                 <div class="img-main-header-gris col-xxs-12 col-xs-3 col-sm-3 col-md-2">
-                    {% if post.logotip_programa %}
-                    <img class="img-responsive" src="{{ post.logotip_programa }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
+                    {% if logotip %}
+                        <img class="img-responsive" src="{{ logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
                     {% else %}
-                    <i style="font-size: 152px" class="fa fa-cogs"></i>
+                        <i style="font-size: 152px" class="fa fa-cogs"></i>
                     {% endif %}
                 </div>
                 <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
@@ -27,8 +27,11 @@
                         {% if post.autor_traduccio %}<li><strong>Autor de la traducció:</strong> {{ post.autor_traduccio }}</li>{% endif %}
                         {% if projecte_relacionat_url or post.external_project_url %}
                         <li><strong>Projecte de traducció:</strong>
-                            {% if projecte_relacionat_url %}<a href="{{ projecte_relacionat_url }}" title="Projecte de traducció del {{ post.title }}">{{ projecte_relacionat_name }}</a>
-                            {% else %}<a href="{{ post.external_project_url }}" title="Projecte de traducció del {{ post.title }}">{{ post.external_project_url }}</a>{% endif %}
+                            {% if projecte_relacionat_url %}
+                                <a href="{{ projecte_relacionat_url }}" title="Projecte de traducció del {{ post.title }}">{{ projecte_relacionat_name }}</a>
+                            {% else %}
+                                <a href="{{ post.external_project_url }}" title="Projecte de traducció del {{ post.title }}">{{ post.external_project_url }}</a>
+                            {% endif %}
                         </li>
                         {% endif %}
                     </ul>

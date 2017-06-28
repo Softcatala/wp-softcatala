@@ -28,13 +28,6 @@ function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order =
 }
 
 /*
- * Function that extracts the post id from a specific post relationship (for use on array_map)
- */
-function extract_post_ids_program( $post ) {
-    return wpcf_pr_post_get_belongs( $post->ID, 'programa' );
-}
-
-/*
  * Function that extracts the post url and title from a specific post (for use on array_map)
  */
 function generate_post_url_link( $post ) {
