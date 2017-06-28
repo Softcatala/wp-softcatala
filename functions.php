@@ -305,6 +305,7 @@ class StarterSite extends TimberSite {
 
 		$sc_types['sliders']      = new \Softcatala\TypeRegisters\Slider();
 		$sc_types['esdevenimets'] = new \Softcatala\TypeRegisters\Esdeveniment();
+		$sc_types['aparells']     = new \Softcatala\TypeRegisters\Aparell();
 		$sc_types['programes']    = new SC_Programes();
 		$sc_types['projectes']    = new SC_Projectes();
 	}
