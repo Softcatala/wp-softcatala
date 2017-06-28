@@ -322,12 +322,12 @@ class StarterSite extends TimberSite {
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter( new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
-		$twig->addFilter( new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ) );
-		$twig->addFilter( new Twig_SimpleFilter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
-		$twig->addFilter( new Twig_SimpleFilter( 'truncate_words', 'sc_truncate_words' ) );
-		$twig->addFilter( new Twig_SimpleFilter( 'print_definition', 'print_definition' ) );
-		$twig->addFilter( new Twig_SimpleFilter( 'clean_number', 'clean_number' ) );
+		$twig->addFilter( new Twig_Filter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
+		$twig->addFilter( new Twig_Filter( 'get_img_from_id', 'get_img_from_id' ) );
+		$twig->addFilter( new Twig_Filter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
+		$twig->addFilter( new Twig_Filter( 'truncate_words', 'sc_truncate_words' ) );
+		$twig->addFilter( new Twig_Filter( 'print_definition', 'print_definition' ) );
+		$twig->addFilter( new Twig_Filter( 'clean_number', 'clean_number' ) );
 
 		return $twig;
 	}
