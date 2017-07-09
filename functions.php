@@ -532,6 +532,12 @@ function get_img_from_id( $img_id ) {
 	return $image[0];
 }
 
+function get_img_id_from_url($image_url) {
+	global $wpdb;
+	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
+	return $attachment[0];
+}
+
 /**
  * This function retrieves the current url, either on http or https format
  * depending on the current navigation

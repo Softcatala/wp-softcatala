@@ -12,7 +12,7 @@
         </div>
         {% if post.main_image_post or post.thumbnail.src %}
         <div class="col-sm-3">
-          <img alt="{{post.title}}" src="{% if post.main_image_post %}{{ post.main_image_post|resize(170, 170, 'top')}}{% else %}{{post.thumbnail.src|resize(170, 170, 'top')}}{% endif %}">
+          <img alt="{{post.title}}" src="{% if post.main_image_post %}{{ post.main_image_post| get_full_img_from_id |resize(170, 170, 'top')}}{% else %}{{post.thumbnail.src|resize(170, 170, 'top')}}{% endif %}">
         </div>
         {% endif %}
       </div>

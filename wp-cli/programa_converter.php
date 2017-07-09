@@ -14,7 +14,12 @@ class Programa_Converter extends WP_CLI_Command {
 		$items = $this->get_all_items();
 
 		foreach ( $items as $item ) {
+
+			echo $item->post_title;
+
 			$this->update_standard_meta( $item );
+
+			echo ".\n";
 		}
 	}
 
