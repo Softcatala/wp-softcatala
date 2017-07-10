@@ -16,13 +16,6 @@ class SC_TypeBase {
 	var $rewriter;
 
 	/**
-	 * Holds the TypeHelper object
-	 *
-	 * @var type SC_TypeHelper
-	 */
-	var $type_helper;
-
-	/**
 	 * Name (singular) of the post type
 	 *
 	 * @var type string
@@ -39,40 +32,6 @@ class SC_TypeBase {
 		$this->singular = $singular;
 		$this->rewriter = new SC_Rewriter( $singular,$plural );
 		$this->rewriter->setup_rewrite();
-
-		$this->type_helper = new SC_TypeHelper( $singular );
-
-		add_filter( 'wpt_field_options', array( $this, 'custom_select' ), 10, 3 );
-	}
-
-	/**
-	 * Returns a list of ID & title of entries of the CPT
-	 *
-	 * @return array
-	 */
-	public function get_info_for_select() {
-		return $this->type_helper->get_info_for_select();
-	}
-
-	/**
-	 * Adds all CPT entries to a HTML select tag
-	 *
-	 * @param array  $options Original set of options.
-	 * @param string $title	Determines the custom field to filter.
-	 * @param string $type Custom field original type.
-	 * @return array
-	 */
-	public function custom_select( $options, $title, $type ) {
-
-		switch ( strtolower( $title ) ) {
-			case $this->singular:
-				$options = $this->get_info_for_select();
-			break;
-
-			default:
-			return;
-		}
-		return $options;
 	}
 
 	/**

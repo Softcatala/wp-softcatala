@@ -65,7 +65,7 @@ class SC_Rewriter {
 			return $permalink;
 		}
 
-		$parent_id = get_post_meta( $page, 'wpcf-'.$this->singular, true );
+		$parent_id = get_post_meta( $page, $this->singular, true );
 
 		$parent_entity = get_post( $parent_id );
 

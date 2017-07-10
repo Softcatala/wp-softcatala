@@ -116,6 +116,7 @@
             <ul class="nav collapse navbar-collapse" id="menu-lateral">
                 <li {% if post.link == current_url %}class="active"{% endif %}><a href="{{ post.link }}" title="Descripció del {{ post.title }}">Descripció</a></li>
                 {% for page in related_pages %}
+                    <!-- XXX {{ page.link }} -->
                 <li {% if page.link == current_url %}class="active"{% endif %}><a href="{{page.link}}" title="{{ page.title }}">{{page.title}}</a></li>
                 {% endfor %}
             </ul><!--/#menu-lateral -->
