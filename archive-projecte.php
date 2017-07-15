@@ -6,6 +6,8 @@
  *
  * @package  wp-softcatala
  */
+use Softcatala\TypeRegisters\Projecte;
+
 //JS and Styles related to the page
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 
@@ -29,7 +31,7 @@ $context_holder['contact']['nom_from'] = 'Projectes de Softcatalà';
 $context_holder['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
 
 //Posts and pagination
-$context_holder['posts'] = $sc_types['projectes']->get_sorted_projects();
+$context_holder['posts'] = Projecte::getInstance()->get_sorted_projects();
 $context_holder['pagination'] = Timber::get_pagination();
 
 //Context initialization

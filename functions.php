@@ -12,10 +12,6 @@ include( 'inc/perfils.php' );
 
 Timber::$dirname = array( 'templates', 'views' );
 
-global $sc_types;
-
-$sc_types = array();
-
 class StarterSite extends TimberSite {
 
 	function __construct() {
@@ -301,13 +297,12 @@ class StarterSite extends TimberSite {
 	}
 
 	function register_post_types() {
-		global $sc_types;
 
-		$sc_types['sliders']      = \Softcatala\TypeRegisters\Slider::getInstance();
-		$sc_types['esdevenimets'] = \Softcatala\TypeRegisters\Esdeveniment::getInstance();
-		$sc_types['aparells']     = \Softcatala\TypeRegisters\Aparell::getInstance();
-		$sc_types['programes']    = \Softcatala\TypeRegisters\Programa::getInstance();
-		$sc_types['projectes']    = new SC_Projectes();
+		\Softcatala\TypeRegisters\Slider::getInstance();
+		\Softcatala\TypeRegisters\Esdeveniment::getInstance();
+		\Softcatala\TypeRegisters\Aparell::getInstance();
+		\Softcatala\TypeRegisters\Programa::getInstance();
+		\Softcatala\TypeRegisters\Projecte::getInstance();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
