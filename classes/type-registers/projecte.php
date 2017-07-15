@@ -73,7 +73,7 @@ class Projecte extends PostType {
 		return strcmp( $first->post_title, $second->post_title );
 	}
 
-	private function custom_columns( $column, $post_id ) {
+	public function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip', true );

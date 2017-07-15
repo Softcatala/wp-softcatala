@@ -289,7 +289,7 @@ function sc_add_new_program() {
 				'logotip_programa'   => wp_get_attachment_url( $logo_attach_id ),
 				'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
 			);
-			sc_update_metadata( $return['post_id'], $metadata );
+			sc_update_metadata_acf( $return['post_id'], $metadata );
 
 			$from_email = get_option( 'email_rebost' );
 			$to_email   = get_option( 'to_email_rebost' );
@@ -448,7 +448,7 @@ function sc_send_aparell() {
  *
  * @return array|mixed|void
  */
-function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $metadata, $acf_metadata = false ) {
+function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $metadata ) {
 	$return = array();
 	if ( isset( $metadata['post_id'] ) ) {
 		$parent_id = $metadata['post_id'];
@@ -478,11 +478,7 @@ function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $meta
 			wp_set_post_terms( $post_id, $terms, $taxonomy );
 		}
 
-		if ( $acf_metadata ) {
-			sc_update_metadata_acf( $post_id, $metadata );
-		} else {
-			sc_update_metadata( $post_id, $metadata );
-		}
+		sc_update_metadata_acf( $post_id, $metadata );
 
 		if ( $type == 'aparell' ) {
 			$featured_image_attach_id = sc_upload_file( 'file', $post_id );
@@ -591,33 +587,9 @@ function check_is_ajax_call() {
 function sc_update_metadata_acf( $post_id, $metadata ) {
 	$result = false;
 	if ( $post_id ) {
-		global $wpcf;
 
 		foreach ( $metadata as $meta_key => $meta_value ) {
 			update_field( $meta_key, $meta_value, $post_id );
-		}
-		$result = true;
-	}
-
-	return $result;
-}
-
-/**
- * This function updates an array of given post metadata
- *
- * @param int $post_id
- * @param array $metadata
- *
- * @return boolean
- */
-function sc_update_metadata( $post_id, $metadata ) {
-	$result = false;
-	if ( $post_id ) {
-		global $wpcf;
-
-		foreach ( $metadata as $meta_key => $meta_value ) {
-			$wpcf->field->set( $post_id, $meta_key );
-			$wpcf->field->save( $meta_value );
 		}
 		$result = true;
 	}

@@ -60,11 +60,11 @@ class PostType {
 		add_action( 'manage_' . $this->singular . '_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
 	}
 
-	public function add_columns_to_admin() {
+	public function add_columns_to_admin( $columns ) {
 
 	}
 
-	public function custom_columns() {
+	public function custom_columns( $column, $post_id ) {
 
 	}
 

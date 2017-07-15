@@ -298,11 +298,11 @@ class StarterSite extends TimberSite {
 
 	function register_post_types() {
 
-		\Softcatala\TypeRegisters\Slider::getInstance();
-		\Softcatala\TypeRegisters\Esdeveniment::getInstance();
-		\Softcatala\TypeRegisters\Aparell::getInstance();
-		\Softcatala\TypeRegisters\Programa::getInstance();
-		\Softcatala\TypeRegisters\Projecte::getInstance();
+		\Softcatala\TypeRegisters\Slider::get_instance();
+		\Softcatala\TypeRegisters\Esdeveniment::get_instance();
+		\Softcatala\TypeRegisters\Aparell::get_instance();
+		\Softcatala\TypeRegisters\Programa::get_instance();
+		\Softcatala\TypeRegisters\Projecte::get_instance();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
@@ -644,7 +644,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 		$filter_args = array(
 			's'          => $filter,
 			'meta_query' => array(
-				get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
 			)
 		);
 	} else if ( $queryType == SearchQueryType::FilteredDate ) {
@@ -652,10 +652,10 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					get_meta_query_value( 'wpcf-data_fi', $filter['start_time'], '>=', 'NUMERIC' )
+					get_meta_query_value( 'data_fi', $filter['start_time'], '>=', 'NUMERIC' )
 				),
 				array(
-					get_meta_query_value( 'wpcf-data_inici', $filter['final_time'], '<=', 'NUMERIC' )
+					get_meta_query_value( 'data_inici', $filter['final_time'], '<=', 'NUMERIC' )
 				)
 			)
 		);
@@ -742,7 +742,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 	} else {
 		$filter_args = array(
 			'meta_query' => array(
-				get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
 			)
 		);
 	}

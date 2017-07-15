@@ -35,7 +35,7 @@ class Programa extends PostType {
 	}
 
 
-	private function custom_columns( $column, $post_id ) {
+	public function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip_programa', true );

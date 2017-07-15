@@ -209,7 +209,7 @@ function get_program_link( $program ) {
             'post_type' => 'programa',
             'meta_query' => array(
                 array(
-                    'key' => 'wpcf-idrebost',
+                    'key' => 'idrebost',
                     'value' => $program->idrebost,
                     'compare' => '='
                 )

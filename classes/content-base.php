@@ -52,17 +52,16 @@ abstract class SC_Content_Base {
 	/**
 	 * Creates the post based on the basic information provided
 	 *
-	 * @param string     $type Type of the content.
-	 * @param string     $nom Name of the content.
-	 * @param string     $descripcio string Description of the content.
-	 * @param string     $slug slug of the content.
-	 * @param array      $all_terms Taxonomy terms for the content.
-	 * @param array      $metadata post_meta.
-	 * @param bool|array $acf_metadata post_meta.
+	 * @param string $type Type of the content.
+	 * @param string $nom Name of the content.
+	 * @param string $descripcio string Description of the content.
+	 * @param string $slug slug of the content.
+	 * @param array  $all_terms Taxonomy terms for the content.
+	 * @param array  $metadata post_meta.
 	 *
 	 * @return array|mixed|void
 	 */
-	function save_as_draft( $type, $nom, $descripcio, $slug, $all_terms, $metadata, $acf_metadata = false ) {
+	function save_as_draft( $type, $nom, $descripcio, $slug, $all_terms, $metadata ) {
 		$return = array();
 		if ( isset( $metadata['post_id'] ) ) {
 			$parent_id = $metadata['post_id'];
@@ -91,11 +90,7 @@ abstract class SC_Content_Base {
 				wp_set_post_terms( $post_id, $terms, $taxonomy );
 			}
 
-			if ( $acf_metadata ) {
-				sc_update_metadata_acf( $post_id, $metadata );
-			} else {
-				sc_update_metadata( $post_id, $metadata );
-			}
+			sc_update_metadata_acf( $post_id, $metadata );
 
 			if ( $type == 'aparell' ) {
 				$attach_id = sc_upload_file( 'file', $post_id );
