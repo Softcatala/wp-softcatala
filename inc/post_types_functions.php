@@ -130,6 +130,11 @@ function get_os_nicename( $os ) {
 }
 
 function get_so_from_so( $os, $arch ) {
+
+	if ( is_array( $os ) ) {
+		$os = 'multiplataforma';
+	}
+
     switch ( $os ) {
         case 'windows':
             if( $arch == 'x86_64') {

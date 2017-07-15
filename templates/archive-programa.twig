@@ -71,9 +71,9 @@
                             <div class="thumbnail thumbnail-vertical thumbnail-programes">
                                 <a href="{{ post.link }}" title="{{ post.title }}">
                                     {% if post.logotip_programa %}
-                                    <img src="{{ post.logotip_programa }}" alt="logotip {{ post.title }}">
+                                    <img src="{{ TimberImage(post.logotip_programa).src }}" alt="logotip {{ post.title }}">
                                     {% elseif post.imatge_destacada_1 %}
-                                    <img src="{{ post.imatge_destacada_1 }}" alt="logotip {{ post.title }}">
+                                    <img src="{{ TimberImage(post.imatge_destacada_1).src }}" alt="logotip {{ post.title }}">
                                     {% else %}
                                     <i style="font-size: 115px" class="fa fa-cogs"></i>
                                     {% endif %}

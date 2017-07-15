@@ -303,10 +303,10 @@ class StarterSite extends TimberSite {
 	function register_post_types() {
 		global $sc_types;
 
-		$sc_types['sliders']      = new \Softcatala\TypeRegisters\Slider();
-		$sc_types['esdevenimets'] = new \Softcatala\TypeRegisters\Esdeveniment();
-		$sc_types['aparells']     = new \Softcatala\TypeRegisters\Aparell();
-		$sc_types['programes']    = new SC_Programes();
+		$sc_types['sliders']      = \Softcatala\TypeRegisters\Slider::getInstance();
+		$sc_types['esdevenimets'] = \Softcatala\TypeRegisters\Esdeveniment::getInstance();
+		$sc_types['aparells']     = \Softcatala\TypeRegisters\Aparell::getInstance();
+		$sc_types['programes']    = \Softcatala\TypeRegisters\Programa::getInstance();
 		$sc_types['projectes']    = new SC_Projectes();
 	}
 
