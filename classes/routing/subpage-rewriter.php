@@ -29,7 +29,7 @@ class SubpageRewriter {
 	 * @param string $singular Singular name of the CPT.
 	 * @param string $plural Singular name of the CPT.
 	 */
-	public function __construct($singular, $plural) {
+	public function __construct( $singular, $plural ) {
 		$this->singular = $singular;
 		$this->plural = $plural;
 	}
@@ -48,7 +48,7 @@ class SubpageRewriter {
 	private function subpages_rewrite() {
 		add_rewrite_rule(
 			"$this->plural/[^&/]+/([a-zA-Z][^/]*)/?",
-			'index.php?post_type=page&pagename='. $this->get_partial_subpages_path().'$matches[1]',
+			'index.php?post_type=page&pagename=' . $this->get_partial_subpages_path() . '$matches[1]',
 			'top'
 		);
 	}

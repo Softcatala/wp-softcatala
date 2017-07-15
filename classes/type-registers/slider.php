@@ -16,8 +16,6 @@ class Slider extends PostType {
 		parent::__construct( 'Slider', 'Sliders' );
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ) , 11 );
-		add_filter( 'manage_slider_posts_columns' , array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_slider_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	function custom_columns( $column, $post_id ) {

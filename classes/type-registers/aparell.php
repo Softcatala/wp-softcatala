@@ -13,21 +13,19 @@ namespace Softcatala\TypeRegisters;
 class Aparell extends PostType {
 
 	public function __construct() {
-		parent::__construct( 'Aparell', 'Aparells');
+		parent::__construct( 'Aparell', 'Aparells' );
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ), 11 );
-		add_filter( 'manage_aparell_posts_columns', array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_aparell_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
 				the_post_thumbnail( '', array( 'style' => 'max-width:100px;height:auto;' ), $post_id );
-				break;
+			break;
 
 			default:
-				return;
+			return;
 		}
 	}
 
@@ -46,7 +44,7 @@ class Aparell extends PostType {
 
 	public function register_custom_post_type() {
 
-		$labels = $this->get_ctp_labels( 'Aparells');
+		$labels = $this->get_ctp_labels( 'Aparells' );
 
 		$args   = array(
 			'label'               => __( 'Aparell', 'softcatala' ),

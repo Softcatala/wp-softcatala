@@ -1,29 +1,32 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: xavi
- * Date: 14/07/17
- * Time: 21:22
+ * @package Softcatala
  */
 
 namespace Softcatala\TypeRegisters;
 
 use Softcatala\Routing\SubpageRewriter;
 
+/**
+ * Class PostType
+ *
+ * Provides generic functionality for registering post types
+ * and taxonomies
+ */
 class PostType {
 
 	private static $_instances = array();
 
-	public static function getInstance() {
+	public static function get_instance() {
 
 		$class = get_called_class();
 
-		if (!isset(self::$_instances[$class])) {
+		if ( ! isset( self::$_instances[ $class ] ) ) {
 
-			self::$_instances[$class] = new $class();
+			self::$_instances[ $class ] = new $class();
 		}
 
-		return self::$_instances[$class];
+		return self::$_instances[ $class ];
 	}
 
 	/**
@@ -41,7 +44,7 @@ class PostType {
 	 */
 	private $subpages_enabled;
 
-	public function __construct($singular, $plural, $enable_subpages = false) {
+	public function __construct( $singular, $plural, $enable_subpages = false ) {
 		$this->singular = $singular;
 		$this->plural = $plural;
 		$this->subpages_enabled = $enable_subpages;
@@ -52,6 +55,16 @@ class PostType {
 		if ( $enable_subpages ) {
 			$this->enable_subpages();
 		}
+
+		add_filter( 'manage_' . $this->singular . '_posts_columns', array( $this, 'add_columns_to_admin' ) );
+		add_action( 'manage_' . $this->singular . '_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
+	}
+
+	public function add_columns_to_admin() {
+
+	}
+
+	public function custom_columns() {
 
 	}
 
@@ -85,10 +98,10 @@ class PostType {
 
 	protected function get_ctp_labels( $menu ) {
 		return array(
-			'name'                  => _x( $this->plural, 'Post Type General Name', 'softcatala' ),
-			'singular_name'         => _x( $this->singular, 'Post Type Singular Name', 'softcatala' ),
-			'menu_name'             => __( $menu, 'softcatala' ),
-			'name_admin_bar'        => __( $menu, 'softcatala' ),
+			'name'                  => $this->plural,
+			'singular_name'         => $this->singular,
+			'menu_name'             => $menu,
+			'name_admin_bar'        => $menu,
 			'archives'              => __( 'Item Archives', 'softcatala' ),
 			'attributes'            => __( 'Item Attributes', 'softcatala' ),
 			'parent_item_colon'     => __( 'Parent Item:', 'softcatala' ),
@@ -117,9 +130,9 @@ class PostType {
 
 	protected function get_taxonomy_labels( $plural, $singular, $menu ) {
 		return array(
-			'name'                       => _x( $plural, 'Taxonomy General Name', 'softcatala' ),
-			'singular_name'              => _x( $singular, 'Taxonomy Singular Name', 'softcatala' ),
-			'menu_name'                  => __( $menu, 'softcatala' ),
+			'name'                       => $plural,
+			'singular_name'              => $singular,
+			'menu_name'                  => $menu,
 			'all_items'                  => __( 'All Items', 'softcatala' ),
 			'parent_item'                => __( 'Parent Item', 'softcatala' ),
 			'parent_item_colon'          => __( 'Parent Item:', 'softcatala' ),

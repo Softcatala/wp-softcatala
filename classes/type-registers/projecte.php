@@ -13,10 +13,7 @@ namespace Softcatala\TypeRegisters;
 class Projecte extends PostType {
 
 	public function __construct() {
-		parent::__construct('Projecte', 'Projectes', true);
-
-		add_filter( 'manage_aparell_posts_columns', array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_aparell_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
+		parent::__construct( 'Projecte', 'Projectes', true );
 	}
 
 	/**
@@ -80,11 +77,11 @@ class Projecte extends PostType {
 		switch ( $column ) {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip', true );
-				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ));
-				break;
+				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
+			break;
 
 			default:
-				return;
+			return;
 		}
 	}
 
@@ -142,7 +139,7 @@ class Projecte extends PostType {
 		$rewrite = array(
 			'slug' => 'en-que-treballem',
 			'with-front' => false,
-			'hierarchical'      => true
+			'hierarchical'      => true,
 		);
 
 		$args    = array(

@@ -71,7 +71,7 @@ class SC_ContextFilterer {
 	 * @param string $title Original title.
 	 * @return string
 	 */
-	public function prefix_title ( $title ) {
+	public function prefix_title( $title ) {
 		return $this->title . ': ' . $title;
 	}
 
@@ -81,7 +81,7 @@ class SC_ContextFilterer {
 	 * @param string $title Original title.
 	 * @return string
 	 */
-	public function change_title ( $title ) {
+	public function change_title( $title ) {
 		return $this->title;
 	}
 
@@ -91,7 +91,7 @@ class SC_ContextFilterer {
 	 * @param string $description Original description.
 	 * @return string
 	 */
-	public function change_description ( $description ) {
+	public function change_description( $description ) {
 		return $this->description;
 	}
 
@@ -101,7 +101,7 @@ class SC_ContextFilterer {
 	 * @param string $description Original description.
 	 * @return string
 	 */
-	public function prefix_description ( $description ) {
+	public function prefix_description( $description ) {
 		return $this->description . $description;
 	}
 
@@ -111,7 +111,7 @@ class SC_ContextFilterer {
 	 * @param string $url Original canonical URL.
 	 * @return string
 	 */
-	public function change_canonical ( $url ) {
+	public function change_canonical( $url ) {
 		return $this->canonical;
 	}
 

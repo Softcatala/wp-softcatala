@@ -13,10 +13,7 @@ namespace Softcatala\TypeRegisters;
 class Programa extends PostType {
 
 	public function __construct() {
-		parent::__construct('Programa', 'Programes', true);
-
-		add_filter( 'manage_aparell_posts_columns', array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_aparell_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
+		parent::__construct( 'Programa', 'Programes', true );
 	}
 
 	/**
@@ -42,11 +39,11 @@ class Programa extends PostType {
 		switch ( $column ) {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip_programa', true );
-				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ));
-				break;
+				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
+			break;
 
 			default:
-				return;
+			return;
 		}
 	}
 
@@ -119,7 +116,7 @@ class Programa extends PostType {
 
 	private function register_llicencies() {
 
-		$labels  = $this->get_taxonomy_labels( 'Llicències', 'Llicència',  'Llicència');
+		$labels  = $this->get_taxonomy_labels( 'Llicències', 'Llicència',  'Llicència' );
 
 		$rewrite = array(
 			'with_front'   => true,

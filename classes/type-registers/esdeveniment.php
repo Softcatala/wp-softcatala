@@ -13,11 +13,9 @@ namespace Softcatala\TypeRegisters;
 class Esdeveniment extends PostType {
 
 	public function __construct() {
-		parent::__construct( 'Esdeveniment', 'Esdeveniments');
+		parent::__construct( 'Esdeveniment', 'Esdeveniments' );
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ), 11 );
-		add_filter( 'manage_esdeveniment_posts_columns', array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_esdeveniment_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	function custom_columns( $column, $post_id ) {

@@ -8,8 +8,8 @@ namespace Softcatala\Widgets;
 /**
  * Displays stats for Catalanitzador
  */
-class CatalanitzadorStats extends \WP_Widget
-{
+class CatalanitzadorStats extends \WP_Widget {
+
 	const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
 
 	const TRANSIENT_NAME = 'total_catalanitzador_sessions';
@@ -32,7 +32,7 @@ class CatalanitzadorStats extends \WP_Widget
 	 * @param array $args arguments for the widget.
 	 * @param array $instance widget's instance.
 	 */
-	public function widget($args, $instance) {
+	public function widget( $args, $instance ) {
 
 		$sessions = $this->get_total_catalanitzador_sessions();
 

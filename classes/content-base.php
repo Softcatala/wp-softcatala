@@ -56,13 +56,13 @@ abstract class SC_Content_Base {
 	 * @param string     $nom Name of the content.
 	 * @param string     $descripcio string Description of the content.
 	 * @param string     $slug slug of the content.
-	 * @param array      $allTerms Taxonomy terms for the content.
+	 * @param array      $all_terms Taxonomy terms for the content.
 	 * @param array      $metadata post_meta.
 	 * @param bool|array $acf_metadata post_meta.
 	 *
 	 * @return array|mixed|void
 	 */
-	function save_as_draft( $type, $nom, $descripcio, $slug, $allTerms, $metadata, $acf_metadata = false ) {
+	function save_as_draft( $type, $nom, $descripcio, $slug, $all_terms, $metadata, $acf_metadata = false ) {
 		$return = array();
 		if ( isset( $metadata['post_id'] ) ) {
 			$parent_id = $metadata['post_id'];
@@ -87,7 +87,7 @@ abstract class SC_Content_Base {
 		$post_id = wp_insert_post( $post_data );
 		if ( $post_id ) {
 
-			foreach ( $allTerms as $taxonomy => $terms ) {
+			foreach ( $all_terms as $taxonomy => $terms ) {
 				wp_set_post_terms( $post_id, $terms, $taxonomy );
 			}
 

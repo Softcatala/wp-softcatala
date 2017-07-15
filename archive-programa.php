@@ -14,7 +14,7 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$cpt_programa = \Softcatala\TypeRegisters\Programa::getInstance();
+$cpt_programa = \Softcatala\TypeRegisters\Programa::get_instance();
 
 //Template initialization
 $templates = array( 'archive-programa.twig' );

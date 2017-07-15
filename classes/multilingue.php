@@ -68,10 +68,10 @@ class SC_Multilingue {
 	private function get_suggestions( $lang, $json ) {
 
 		$suggestions = array();
-		$apiResult   = json_decode( $json );
+		$api_result   = json_decode( $json );
 
-		if ( isset( $apiResult[0] ) ) {
-			foreach ( $apiResult as $single_entry ) {
+		if ( isset( $api_result[0] ) ) {
+			foreach ( $api_result as $single_entry ) {
 
 				$field = 'word_' . $lang;
 
@@ -86,31 +86,31 @@ class SC_Multilingue {
 		return $suggestions;
 	}
 
-	private function build_results( $jsonResult, $paraula, $lang ) {
+	private function build_results( $json_result, $paraula, $lang ) {
 
-		$apiResult = json_decode( $jsonResult );
+		$api_result = json_decode( $json_result );
 
-		if ( isset( $apiResult[0] ) ) {
+		if ( isset( $api_result[0] ) ) {
 
 			$title         = 'Diccionari multilingüe: ' . $paraula . '. Definició i traducció al català, anglès, alemany, francès, italià i espanyol | Softcatalà';
 			$content_title = 'Diccionari multilingüe: «' . $paraula . '»';
 
-			$result_count = ( count( $apiResult ) > 1 ) ? 'resultats' : 'resultat';
-			$result       = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count( $apiResult ) . ' ' . $result_count . ') <hr class="clara"/>';
+			$result_count = ( count( $api_result ) > 1 ) ? 'resultats' : 'resultat';
+			$result       = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count( $api_result ) . ' ' . $result_count . ') <hr class="clara"/>';
 
 			if ( $lang != 'ca' ) {
-				$canonical = '/diccionari-multilingue/paraula/' . $apiResult[0]->word_ca . '/';
+				$canonical = '/diccionari-multilingue/paraula/' . $api_result[0]->word_ca . '/';
 			} else {
 				$canonical = '/diccionari-multilingue/paraula/' . $paraula . '/';
 			}
 
-			if ( property_exists( $apiResult[0], 'definition_ca' ) ) {
-				$description = 'Definició de «' . $paraula . '»: ' . $apiResult[0]->definition_ca . '. Traduccions al català, anglès, alemany, francès, italià i espanyol';
+			if ( property_exists( $api_result[0], 'definition_ca' ) ) {
+				$description = 'Definició de «' . $paraula . '»: ' . $api_result[0]->definition_ca . '. Traduccions al català, anglès, alemany, francès, italià i espanyol';
 			} else {
 				$description = 'Definició de la paraula «' . $paraula . '» i traduccions al català, anglès, alemany, francès, italià i espanyol';
 			}
 
-			foreach ( $apiResult as $single_entry ) {
+			foreach ( $api_result as $single_entry ) {
 
 				$source = $this->get_source_link( $single_entry );
 
