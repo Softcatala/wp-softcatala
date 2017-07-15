@@ -27,7 +27,7 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 //Posts and pagination
 $args = $wp_query->query;
 
-$context['posts'] = Projecte::getInstance()->get_sorted_projects( $args );
+$context['posts'] = Projecte::get_instance()->get_sorted_projects( $args );
 $context['pagination'] = Timber::get_pagination();
 
 Timber::render( 'archive-projecte.twig', $context );

@@ -68,7 +68,7 @@ if ( ! empty ( $project_slug ) ) {
 		)
     );
 
-	$projects = Projecte::getInstance()->get_sorted_projects( $project_args );
+	$projects = Projecte::get_instance()->get_sorted_projects( $project_args );
 
     $context = Timber::get_context();
 
