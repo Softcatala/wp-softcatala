@@ -37,7 +37,7 @@ class CatalanitzadorStats extends \WP_Widget
 		$sessions = $this->get_total_catalanitzador_sessions();
 
 		if ( $sessions !== false ) {
-			Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
+			\Timber\Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
 		}
 	}
 
@@ -58,7 +58,7 @@ class CatalanitzadorStats extends \WP_Widget
 	}
 
 	private function fetch_remote_sessions() {
-		$rest_client = new SC_RestClient();
+		$rest_client = new \SC_RestClient();
 
 		$result = $rest_client->get( self::STATS_URL );
 

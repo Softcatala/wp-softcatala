@@ -103,9 +103,6 @@ class Avatar {
 
 		if ( $image_id ) {
 
-			// Will come via Timber.
-			$args['size'] = 48;
-
 			$image_url = wp_get_attachment_image_src( $image_id, 'full' );
 
 			$avatar_url = $image_url[0];
