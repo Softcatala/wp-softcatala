@@ -93,7 +93,7 @@ class Aparell extends PostType {
 			'rewrite'           => false,
 			'show_in_rest'      => false,
 		);
-		register_taxonomy( 'tipus_aparell', array( 'aparell' ), $args );
+		register_taxonomy( 'fabricant', array( 'aparell' ), $args );
 	}
 
 	private function register_tipus_aparell() {
