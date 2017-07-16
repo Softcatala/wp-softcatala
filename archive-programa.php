@@ -14,17 +14,17 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$programes = $sc_types['programes'];
+$cpt_programa = \Softcatala\TypeRegisters\Programa::get_instance();
 
 //Template initialization
 $templates = array( 'archive-programa.twig' );
 
-$post = $programes->get_page();
+$post = $cpt_programa->get_page();
 $post ? $context_holder['links'] = $post->get_field( 'link' ) : '';
 $context_holder['post'] = $post;
 $context_holder['content_title'] = 'Programes i aplicacions';
-$context_holder['post_type'] = $programes->singular;
-$context_holder['conditions_text'] = $programes->condicions_afegir_programa();
+$context_holder['post_type'] = $cpt_programa->singular;
+$context_holder['conditions_text'] = $cpt_programa->condicions_afegir_programa();
 $context_holder['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context_holder['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context_holder['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );

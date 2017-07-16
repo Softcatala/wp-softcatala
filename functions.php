@@ -2,25 +2,15 @@
 
 define( 'WP_SOFTCATALA_VERSION', '0.9.51' );
 
-if ( ! class_exists( 'Timber' ) && is_admin() ) {
-	add_action( 'admin_notices', function () {
-		echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
-	} );
+require __DIR__ . '/vendor/autoload.php';
 
-	return;
-} else if ( ! class_exists( 'Timber' ) && ! is_admin() ) {
-	header( 'HTTP/1.1 500 Internal Server Error' );
-	echo 'Aquest és un error 500. Alguna cosa no funciona bé al servidor.';
-	die();
-}
+$timber = new \Timber\Timber();
 
 include( 'inc/perfils.php' );
 
+
+
 Timber::$dirname = array( 'templates', 'views' );
-
-global $sc_types;
-
-$sc_types = array();
 
 class StarterSite extends TimberSite {
 
@@ -307,12 +297,12 @@ class StarterSite extends TimberSite {
 	}
 
 	function register_post_types() {
-		global $sc_types;
 
-		$sc_types['sliders']      = new \Softcatala\TypeRegisters\Slider();
-		$sc_types['esdevenimets'] = new \Softcatala\TypeRegisters\Esdeveniment();
-		$sc_types['programes']    = new SC_Programes();
-		$sc_types['projectes']    = new SC_Projectes();
+		\Softcatala\TypeRegisters\Slider::get_instance();
+		\Softcatala\TypeRegisters\Esdeveniment::get_instance();
+		\Softcatala\TypeRegisters\Aparell::get_instance();
+		\Softcatala\TypeRegisters\Programa::get_instance();
+		\Softcatala\TypeRegisters\Projecte::get_instance();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
@@ -328,11 +318,12 @@ class StarterSite extends TimberSite {
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter( 'get_caption_from_media_url', new Twig_SimpleFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
-		$twig->addFilter( 'get_img_from_id', new Twig_SimpleFilter( 'get_img_from_id', 'get_img_from_id' ) );
-		$twig->addFilter( 'truncate_twig', new Twig_SimpleFilter( 'truncate', 'truncate_twig' ) );
-		$twig->addFilter( 'print_definition', new Twig_SimpleFilter( 'print_definition', 'print_definition' ) );
-		$twig->addFilter( 'clean_number', new Twig_SimpleFilter( 'clean_number', 'clean_number' ) );
+		$twig->addFilter( new Twig_Filter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
+		$twig->addFilter( new Twig_Filter( 'get_img_from_id', 'get_img_from_id' ) );
+		$twig->addFilter( new Twig_Filter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
+		$twig->addFilter( new Twig_Filter( 'truncate_words', 'sc_truncate_words' ) );
+		$twig->addFilter( new Twig_Filter( 'print_definition', 'print_definition' ) );
+		$twig->addFilter( new Twig_Filter( 'clean_number', 'clean_number' ) );
 
 		return $twig;
 	}
@@ -479,7 +470,7 @@ function get_caption_from_media_url( $attachment_url = '', $return_id = false ) 
  *
  * @return string
  */
-function truncate_twig( $string, $size ) {
+function sc_truncate_words( $string, $size ) {
 	$splitstring = wp_trim_words( str_replace( '_', ' ', $string ), $size );
 
 	return $splitstring;
@@ -525,10 +516,21 @@ function trim_entries( $entry ) {
 	return empty( $trimmed ) ? null : $trimmed;
 }
 
+function get_full_img_from_id( $img_id ) {
+	$image = wp_get_attachment_image_src( $img_id, 'full' );
+
+	return $image[0];
+}
 function get_img_from_id( $img_id ) {
 	$image = wp_get_attachment_image_src( $img_id );
 
 	return $image[0];
+}
+
+function get_img_id_from_url($image_url) {
+	global $wpdb;
+	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
+	return $attachment[0];
 }
 
 /**
@@ -615,7 +617,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 				'post_status' => 'publish',
 				'order'       => 'ASC',
 				'meta_query'  => array(
-					get_meta_query_value( 'wpcf-' . $filter['subpage_type'], $filter['post_id'], '=', 'NUMERIC' )
+					get_meta_query_value( $filter['subpage_type'], $filter['post_id'], '=', 'NUMERIC' )
 				)
 			);
 			break;
@@ -642,7 +644,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 		$filter_args = array(
 			's'          => $filter,
 			'meta_query' => array(
-				get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
 			)
 		);
 	} else if ( $queryType == SearchQueryType::FilteredDate ) {
@@ -650,10 +652,10 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					get_meta_query_value( 'wpcf-data_fi', $filter['start_time'], '>=', 'NUMERIC' )
+					get_meta_query_value( 'data_fi', $filter['start_time'], '>=', 'NUMERIC' )
 				),
 				array(
-					get_meta_query_value( 'wpcf-data_inici', $filter['final_time'], '<=', 'NUMERIC' )
+					get_meta_query_value( 'data_inici', $filter['final_time'], '<=', 'NUMERIC' )
 				)
 			)
 		);
@@ -740,7 +742,7 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 	} else {
 		$filter_args = array(
 			'meta_query' => array(
-				get_meta_query_value( 'wpcf-data_fi', time(), '>=', 'NUMERIC' )
+				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
 			)
 		);
 	}
@@ -1088,62 +1090,68 @@ function modify_user_contact_methods( $user_contact ) {
 	return $user_contact;
 }
 
-add_filter( 'pre_get_avatar_data', 'sc_set_avatar_based_on_user_meta', 10, 2 );
-function sc_set_avatar_based_on_user_meta( $args, $id_or_email ) {
+add_filter( 'pre_get_avatar_data', array('\Softcatala\Images\Avatar', 'filter'), 10, 2 );
 
-	// Set this to the full meta key set in Save As under Auto Populate tab (for WP Job Manager Field Editor)
-	$user_avatar_meta_key = 'avatar';
+function get_program_context( $programa ) {
 
-	// Check for comment_ID
-	if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
-		$id_or_email = get_comment( $id_or_email );
-	}
+	$context = Timber::get_context();
 
-	// Check if WP_Post
-	if ( $id_or_email instanceof WP_Post ) {
-		$user_id = $id_or_email->post_author;
-	}
+	$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
+	$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
+	$context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
+	$context['post'] = $programa;
 
-	// Check if WP_Comment
-	if ( $id_or_email instanceof WP_Comment ) {
-		if ( ! empty( $id_or_email->user_id ) ) {
-			$user_id = $id_or_email->user_id;
-		} elseif ( ! empty( $id_or_email->comment_author_email ) ) {
-			// If user_id not available, set as email address to handle below
-			$id_or_email = $id_or_email->comment_author_email;
-		}
-	}
+	$context['arxivat'] = $programa->has_term('arxivat', 'classificacio');
+	$context['credits'] = $programa->get_field( 'credits' );
+	$baixades = $programa->get_field( 'baixada' );
+	$context['baixades'] = generate_url_download( $baixades, $programa );
 
-	if ( is_numeric( $id_or_email ) ) {
-		$user_id = $id_or_email;
-	} elseif ( is_string( $id_or_email ) && strpos( $id_or_email, '@' ) ) {
-		$id_or_email = get_user_by( 'email', $id_or_email );
-	}
+	//Contact Form
+	$context['contact']['to_email'] = get_option('to_email_rebost');
+	$context['contact']['from_email'] = get_option('email_rebost');
 
-	// Last check, convert user object to ID
-	if ( $id_or_email instanceof WP_User ) {
-		$user_id = $id_or_email->ID;
-	}
+	//Add program form data
+	$context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );
+	$context['categories']['categories_programes'] = Timber::get_terms( 'categoria-programa' );
+	$context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
-	// Now that we have a user ID, check meta for avatar file
-	if ( ! empty( $user_id ) && is_numeric( $user_id ) ) {
-
-		// As long as it's a valid URL, let's go ahead and set it
-		$image_id = get_user_meta( $user_id, 'avatar', true ); // CHANGE TO YOUR FIELD NAME
-		// Bail if we don't have a local avatar
-		if ( $image_id ) {
-			// Get the file size
-			$image_url = wp_get_attachment_image_src( $image_id, 'full' ); // Set image size by name
-
-			// Get the file url
-			$avatar_url = $image_url[0];
-
-			if ( filter_var( $avatar_url, FILTER_VALIDATE_URL ) ) {
-				$args['url'] = $avatar_url;
+	//Download count
+	$download_full = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
+	if( $download_full ) {
+		$wordpress_ids_column = array_column($download_full, 'wordpress_id');
+		if( $wordpress_ids_column ) {
+			$index = array_search( $programa->ID, $wordpress_ids_column);
+			if ( $index ) {
+				$context['total_downloads'] = $download_full[$index]['total'];
 			}
 		}
 	}
 
-	return $args;
-}
+	$logo = get_img_from_id( $programa->logotip_programa );
+	$context['logotip'] = $logo;
 
+	$yoastlogo = get_the_post_thumbnail_url() ?: $logo;
+
+	$custom_logo_filter = function ($img) use($yoastlogo) {
+		return $yoastlogo;
+	};
+
+	add_filter( 'wpseo_twitter_image', $custom_logo_filter);
+	add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
+
+	$query = array ( 'post_id' => $programa->ID , 'subpage_type' => 'programa' );
+	$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+
+	query_posts($args);
+
+	$context['related_pages'] = Timber::get_posts($args);
+
+	$project_id = get_post_meta( $programa->ID, 'projecte_relacionat', true );
+
+	if( $project_id ) {
+		$context['projecte_relacionat_url'] = get_permalink($project_id);
+		$context['projecte_relacionat_name'] =  get_the_title($project_id);
+	}
+
+	return $context;
+}

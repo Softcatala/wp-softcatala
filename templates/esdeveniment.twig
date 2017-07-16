@@ -36,26 +36,26 @@
                                     Data:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ attribute(post,'wpcf-data_inici')|date('j M Y') }}{% if attribute(post,'wpcf-data_fi') %}{% if attribute(post,'wpcf-data_fi') != attribute(post,'wpcf-data_inici') %} - {{ attribute(post,'wpcf-data_fi')|date('j M Y') }}{% endif %}{% endif %}
+                                    {{ post.data_inici|date('j M Y') }}{% if post.data_fi %}{% if post.data_fi != post.data_inici %} - {{ post.data_fi|date('j M Y') }}{% endif %}{% endif %}
                                 </div>
                             </div>
-                            {% if attribute(post,'wpcf-horari') %}
+                            {% if post.horari %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Hora:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ attribute(post,'wpcf-horari') }}
+                                    {{ post.horari }}
                                 </div>
                             </div>
                             {% endif %}
-                            {% if attribute(post,'wpcf-lloc') %}
+                            {% if post.lloc %}
                             <div class="row">
                                 <div class="col-sm-3">
                                     Lloc:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ attribute(post,'wpcf-lloc') }}
+                                    {{ post.lloc }}
                                 </div>
                             </div>
                             {% endif %}
@@ -64,10 +64,10 @@
                                     Cost:
                                 </div>
                                 <div class="col-sm-9">
-                                {% if not attribute(post,'wpcf-cost') %}
+                                {% if not post.cost %}
                                     Gratuït
                                 {% else %}
-                                    {{ attribute(post,'wpcf-cost') }}€
+                                    {{ post.cost }}€
                                 {% endif %}
                                 </div>
                             </div>
@@ -86,9 +86,9 @@
                     <section class="contingut-section article-cont">
                         {{post.content}}
 
-                        {% if attribute(post,'wpcf-mapa') %}
+                        {% if post.mapa %}
                         <div class="mapa">
-                            {{ attribute(post,'wpcf-mapa') }}
+                            {{ post.mapa }}
                         </div>
                         {% endif %}
                     </section><!--/.contingut-section -->

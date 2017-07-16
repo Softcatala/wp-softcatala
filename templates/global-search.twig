@@ -34,7 +34,7 @@
                     {% if posts %}
                         {% for post in posts %}
                             {% if post.main_image_post %}
-                                {% set post_image = post.main_image_post %}
+                                {% set post_image = post.main_image_post | get_full_img_from_id %}
                                 {% set width_post = '' %}
                             {% elseif post.logotip %}
                                 {% set post_image = post.logotip %}

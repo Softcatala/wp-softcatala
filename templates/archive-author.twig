@@ -36,7 +36,7 @@
                                             {% endif %}
                                             <div class="caption">
                                                 <h3>{{ author.display_name }}</h3>
-                                                <p>{{ author.description|truncate(25) }}</p>
+                                                <p>{{ author.description|truncate_words(25) }}</p>
                                                 <span class="bt-aneu">més informació<i class="fa fa-chevron-right"></i></span>
                                             </div>
                                         </a>

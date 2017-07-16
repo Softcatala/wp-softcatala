@@ -71,14 +71,14 @@
                             <div class="thumbnail thumbnail-vertical thumbnail-programes">
                                 <a href="{{ post.link }}" title="{{ post.title }}">
                                     {% if post.logotip_programa %}
-                                    <img src="{{ post.logotip_programa }}" alt="logotip {{ post.title }}">
+                                    <img src="{{ TimberImage(post.logotip_programa).src }}" alt="logotip {{ post.title }}">
                                     {% elseif post.imatge_destacada_1 %}
-                                    <img src="{{ post.imatge_destacada_1 }}" alt="logotip {{ post.title }}">
+                                    <img src="{{ TimberImage(post.imatge_destacada_1).src }}" alt="logotip {{ post.title }}">
                                     {% else %}
                                     <i style="font-size: 115px" class="fa fa-cogs"></i>
                                     {% endif %}
                                     <div class="caption">
-                                        <h3>{{ post.title|truncate(9) }}</h3>
+                                        <h3>{{ post.title|truncate_words(9) }}</h3>
                                         <div class="cont-rating">
                                             <input id="input-id" value="{{ post.valoracio }}" class="rating" data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false" disabled="disabled" data-readonly/>
                                             {% if post.total_baixades_programa %}<em>({{ post.total_baixades_programa }})</em>{% endif %}

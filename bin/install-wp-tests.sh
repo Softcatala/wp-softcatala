@@ -129,15 +129,7 @@ install_theme() {
 	cp -r . $WP_CORE_THEME_DIR/
 }
 
-install_timber() {
-    rm -rf $WP_CORE_DIR/wp-content/plugins/timber-library/
-    rm -rf $WP_CORE_DIR/wp-content/plugins/timber-library.zip
-    download "https://downloads.wordpress.org/plugin/timber-library.zip" $WP_CORE_DIR/wp-content/plugins/timber-library.zip
-    unzip -o $WP_CORE_DIR/wp-content/plugins/timber-library.zip -d $WP_CORE_DIR/wp-content/plugins/
-}
-
 install_wp
 install_test_suite
 install_db
-install_timber
 install_theme

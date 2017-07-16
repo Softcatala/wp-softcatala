@@ -6,11 +6,8 @@
  *
  * @package  wp-softcatala
  */
-//JS and Styles related to the page
 
-
-//Template initialization
-$templates = array( 'archive-projecte.twig' );
+use Softcatala\TypeRegisters\Projecte;
 
 $post = retrieve_page_data( 'projecte' );
 $post ? $context['links'] = $post->get_field( 'link' ) : '';
@@ -30,7 +27,7 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 //Posts and pagination
 $args = $wp_query->query;
 
-$context['posts'] = $sc_types['projectes']->get_sorted_projects( $args );
+$context['posts'] = Projecte::get_instance()->get_sorted_projects( $args );
 $context['pagination'] = Timber::get_pagination();
 
-Timber::render( $templates, $context );
+Timber::render( 'archive-projecte.twig', $context );

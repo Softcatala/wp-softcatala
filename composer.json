@@ -24,5 +24,8 @@
     },
 	"archive": {
 		"exclude": ["/tests/", "/bin/", "/phpunit.xml"]
+    },
+    "require": {
+        "timber/timber": "^1.3"
     }
 }

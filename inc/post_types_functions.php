@@ -28,13 +28,6 @@ function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order =
 }
 
 /*
- * Function that extracts the post id from a specific post relationship (for use on array_map)
- */
-function extract_post_ids_program( $post ) {
-    return wpcf_pr_post_get_belongs( $post->ID, 'programa' );
-}
-
-/*
  * Function that extracts the post url and title from a specific post (for use on array_map)
  */
 function generate_post_url_link( $post ) {
@@ -137,6 +130,11 @@ function get_os_nicename( $os ) {
 }
 
 function get_so_from_so( $os, $arch ) {
+
+	if ( is_array( $os ) ) {
+		$os = 'multiplataforma';
+	}
+
     switch ( $os ) {
         case 'windows':
             if( $arch == 'x86_64') {
@@ -211,7 +209,7 @@ function get_program_link( $program ) {
             'post_type' => 'programa',
             'meta_query' => array(
                 array(
-                    'key' => 'wpcf-idrebost',
+                    'key' => 'idrebost',
                     'value' => $program->idrebost,
                     'compare' => '='
                 )

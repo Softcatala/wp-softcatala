@@ -16,27 +16,32 @@
                     {% for esdeveniment in posts %}
                     <section class="llista-esdeveniments">
                         {% if loop.first %}
-                            {% set year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
-                            <h2 class="any">{{attribute(esdeveniment,'wpcf-data_inici')|date('Y')}}</h2>
+                            {% set year = esdeveniment.data_inici | date('Y') %}
+                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
                         {% endif %}
-                        {% set current_post_year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
+                        {% set current_post_year = esdeveniment.data_inici | date('Y') %}
                         {% if current_post_year != year %}
-                            {% set year = attribute(esdeveniment,'wpcf-data_inici')|date('Y') %}
-                            <h2 class="any">{{attribute(esdeveniment,'wpcf-data_inici')|date('Y')}}</h2>
+                            {% set year = esdeveniment.data_inici | date('Y') %}
+                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
                         {% endif %}
                         <article class="contingut-article">
                             <div class="row">
                                 <div class="col-sm-9">
-                                    <i><span><strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('j')}}</strong>{{attribute(esdeveniment,'wpcf-data_inici')|date('M')}}</span></i>
+                                    <i>
+                                        <span>
+                                            <strong>{{ esdeveniment.data_inici | date('j')}}</strong>
+                                            {{ esdeveniment.data_inici | date('M')}}
+                                        </span>
+                                    </i>
                                     <h2><a href="{{esdeveniment.link}}">{{esdeveniment.title}}</a></h2>
                                     <!-- .article-footer -->
                                     <footer class="article-footer">
                                         {{esdeveniment.ciutat}}<br/>
-                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ attribute(esdeveniment,'wpcf-data_inici')|date('Y-n-j') }}">
-                                            {{ attribute(esdeveniment,'wpcf-data_inici')|date('j M Y') }}
-                                            {% if attribute(esdeveniment,'wpcf-data_fi') %}
-                                                {% if attribute(esdeveniment,'wpcf-data_fi') != attribute(esdeveniment,'wpcf-data_inici') %}
-                                                    - {{ attribute(esdeveniment,'wpcf-data_fi')|date('j M Y') }}
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ esdeveniment.data_inici | date('Y-n-j') }}">
+                                            {{ esdeveniment.data_inici|date('j M Y') }}
+                                            {% if esdeveniment.data_fi %}
+                                                {% if esdeveniment.data_fi != esdeveniment.data_inici %}
+                                                    - {{ esdeveniment.data_fi|date('j M Y') }}
                                                 {% endif %}
                                             {% endif %}
                                         </time>

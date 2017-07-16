@@ -38,7 +38,7 @@
                                 {% endif %}
                                 <div class="caption">
                                     <h3>{{ post.title }}</h3>
-                                    <p>{{ post.post_excerpt|truncate(20) }}</p>
+                                    <p>{{ post.post_excerpt|truncate_words(20) }}</p>
                                     <span class="bt-aneu">col·laboreu-hi<i class="fa fa-chevron-right"></i></span>
                                 </div>
                             </a>

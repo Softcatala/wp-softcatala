@@ -8,8 +8,8 @@ namespace Softcatala\Widgets;
 /**
  * Displays stats for Catalanitzador
  */
-class CatalanitzadorStats extends \WP_Widget
-{
+class CatalanitzadorStats extends \WP_Widget {
+
 	const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
 
 	const TRANSIENT_NAME = 'total_catalanitzador_sessions';
@@ -32,12 +32,12 @@ class CatalanitzadorStats extends \WP_Widget
 	 * @param array $args arguments for the widget.
 	 * @param array $instance widget's instance.
 	 */
-	public function widget($args, $instance) {
+	public function widget( $args, $instance ) {
 
 		$sessions = $this->get_total_catalanitzador_sessions();
 
 		if ( $sessions !== false ) {
-			Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
+			\Timber\Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
 		}
 	}
 
@@ -58,7 +58,7 @@ class CatalanitzadorStats extends \WP_Widget
 	}
 
 	private function fetch_remote_sessions() {
-		$rest_client = new SC_RestClient();
+		$rest_client = new \SC_RestClient();
 
 		$result = $rest_client->get( self::STATS_URL );
 

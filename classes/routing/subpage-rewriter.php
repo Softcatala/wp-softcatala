@@ -1,13 +1,14 @@
 <?php
 /**
- * @package SC
+ * @package Softcatala
  */
+
+namespace Softcatala\Routing;
 
 /**
  * Handles Rewrite API for CPT subpages
  */
-class SC_Rewriter {
-
+class SubpageRewriter {
 	/**
 	 * Singular name of the CPT
 	 *
@@ -28,7 +29,7 @@ class SC_Rewriter {
 	 * @param string $singular Singular name of the CPT.
 	 * @param string $plural Singular name of the CPT.
 	 */
-	public function __construct($singular, $plural) {
+	public function __construct( $singular, $plural ) {
 		$this->singular = $singular;
 		$this->plural = $plural;
 	}
@@ -47,7 +48,7 @@ class SC_Rewriter {
 	private function subpages_rewrite() {
 		add_rewrite_rule(
 			"$this->plural/[^&/]+/([a-zA-Z][^/]*)/?",
-			'index.php?post_type=page&pagename='. $this->get_partial_subpages_path().'$matches[1]',
+			'index.php?post_type=page&pagename=' . $this->get_partial_subpages_path() . '$matches[1]',
 			'top'
 		);
 	}
@@ -65,7 +66,7 @@ class SC_Rewriter {
 			return $permalink;
 		}
 
-		$parent_id = get_post_meta( $page, 'wpcf-'.$this->singular, true );
+		$parent_id = get_post_meta( $page, $this->singular, true );
 
 		$parent_entity = get_post( $parent_id );
 
