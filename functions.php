@@ -1,8 +1,31 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '0.9.51' );
+define( 'WP_SOFTCATALA_VERSION', '0.9.53' );
 
-require __DIR__ . '/vendor/autoload.php';
+if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
+} else if( file_exists( ABSPATH . '/../vendor/autoload.php' ) ) {
+	require ABSPATH . '/../vendor/autoload.php';
+} else {
+
+	if ( is_admin() ) {
+
+		add_action( 'admin_notices', function () {
+			echo '<div class="error">' .
+			        '<p>Composer autoload is not working. Theme wp-softcatala depends on composer autoloading.</p>' .
+				 '</div>';
+			}
+		);
+
+		return;
+
+	} else if ( ! is_admin() ) {
+
+		header( 'HTTP/1.1 500 Internal Server Error' );
+		echo 'Aquest és un error 500. Alguna cosa no funciona bé al servidor.';
+		die();
+	}
+}
 
 $timber = new \Timber\Timber();
 
