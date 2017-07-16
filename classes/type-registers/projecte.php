@@ -138,7 +138,7 @@ class Projecte extends PostType {
 
 		$rewrite = array(
 			'slug' => 'en-que-treballem',
-			'with-front' => false,
+			'with_front' => false,
 			'hierarchical'      => true,
 		);
 
