@@ -36,7 +36,7 @@
                                     Data:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ post.data_inici|date('j M Y') }}{% if post.data_fi %}{% if post.data_fi != post.data_inici %} - {{ post.data_fi|date('j M Y') }}{% endif %}{% endif %}
+                                    {{ post.data_inici|date }}{% if post.data_fi %}{% if post.data_fi != post.data_inici %} - {{ post.data_fi|date }}{% endif %}{% endif %}
                                 </div>
                             </div>
                             {% if post.horari %}

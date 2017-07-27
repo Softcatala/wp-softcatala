@@ -38,10 +38,10 @@
                                     <footer class="article-footer">
                                         {{esdeveniment.ciutat}}<br/>
                                         <time class="data-temps" itemprop="dateCreated" datetime="{{ esdeveniment.data_inici | date('Y-n-j') }}">
-                                            {{ esdeveniment.data_inici|date('j M Y') }}
+                                            {{ esdeveniment.data_inici|date }}
                                             {% if esdeveniment.data_fi %}
                                                 {% if esdeveniment.data_fi != esdeveniment.data_inici %}
-                                                    - {{ esdeveniment.data_fi|date('j M Y') }}
+                                                    - {{ esdeveniment.data_fi|date }}
                                                 {% endif %}
                                             {% endif %}
                                         </time>
