@@ -373,6 +373,12 @@ function sc_send_vote() {
 			update_field( 'valoracio', $new_rate, $post_id );
 			update_field( 'vots', $new_votes, $post_id );
 
+			if ( class_exists('\rtCamp\WP\Nginx\Purger' ) ){
+				$purger = new \rtCamp\WP\Nginx\Purger();
+
+				$purger->purgeUrl( get_permalink( $post_id ) );
+			}
+
 			$result = true;
 		}
 
@@ -383,6 +389,9 @@ function sc_send_vote() {
 			$return['status']    = 1;
 			$return['cookie_id'] = sanitize_text_field( $_POST["cookie_id"] );
 			$return['text']      = "Gràcies per enviar-nos la vostra valoració!";
+			$return['vots']      = $new_votes;
+			$return['valoracio'] = number_format( (float) $new_rate, 2, ',', '.' );
+			;
 		}
 	}
 

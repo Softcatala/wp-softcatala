@@ -100,11 +100,21 @@ jQuery('#input_rating').on('change', function () {
 });
 
 function vote_sent_ok(result) {
+
     show_message(result.text);
+
+    if (result.status == 1) {
+        update_votes(result);
+    }
 
     var CookieDate = new Date;
     CookieDate.setFullYear(CookieDate.getFullYear( ) +10);
     document.cookie = result.cookie_id+'=1; expires=' + CookieDate.toGMTString( ) + ';';
+}
+
+function update_votes(result) {
+    jQuery('.cont-rating span.numero').html(result.valoracio);
+    jQuery('.cont-rating em').html( "(" + result.vots + " vots)");
 }
 
 function vote_sent_ko(result) {
