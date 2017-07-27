@@ -326,11 +326,10 @@ function sc_search_program() {
 		$result = array();
 		if ( ! empty ( $nom_programa ) ) {
 			$query['s']  = $nom_programa;
-			$args        = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
-			$result_full = query_posts( $args );
+			$posts       = Softcatala\Providers\Programes::get_sorted( $query );
 		}
 
-		$programs = array_map( 'generate_post_url_link', $result_full );
+		$programs = array_map( 'generate_post_url_link', $posts );
 
 		if ( count( $programs ) > 0 ) {
 			$result['programs'] = Timber::fetch( 'ajax/programs-list.twig', array( 'programs' => $programs ) );

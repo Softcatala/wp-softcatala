@@ -32,7 +32,7 @@ function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order =
  */
 function generate_post_url_link( $post ) {
     $title = $post->post_title;
-    $url = get_permalink($post);
+    $url = $post->link;
 
     $return = '<a href="'.$url.'" title="'.$title.'">'.$title.'</a>';
 

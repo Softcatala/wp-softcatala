@@ -7,6 +7,8 @@
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
+use Softcatala\Providers\Programes;
+
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'jquery-browser-plugin', get_template_directory_uri() . '/static/js/jquery.browser.min.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-programes', get_template_directory_uri() . '/static/js/programes.js', array('sc-js-main', 'jquery-browser-plugin'), WP_SOFTCATALA_VERSION, true );
@@ -41,32 +43,32 @@ $categoria_programa = get_query_var( 'categoria_programa' );
 
 //Generate $args query
 $flag_search = false;
+$title = 'Programes - Softcatalà';
+$content_title = 'Programes';
 $description = 'Programari / Software en català / valencià';
+
+$query = array();
+
 if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $sistema_operatiu ) ) {
     $flag_search = true;
     $query['s'] = $search;
     $query['categoria-programa'] = $categoria_programa;
     $query['sistema-operatiu-programa'] = $sistema_operatiu;
-    $args = get_post_query_args( 'programa', SearchQueryType::Programa, $query );
 
     //Selected values
     $context_holder['cerca'] = $search;
-    $context_holder['selected_filter_categoria'] = ( isset ( $args['filter_categoria'] ) ? $args['filter_categoria'] : '' );
-    $context_holder['selected_filter_so'] = ( isset ( $args['filter_sistema_operatiu'] ) ? $args['filter_sistema_operatiu'] : '' );
+    $context_holder['selected_filter_categoria'] = ( isset ( $query['categoria-programa'] ) ? $query['categoria-programa'] : '' );
+    $context_holder['selected_filter_so'] = ( isset ( $query['sistema-operatiu-programa'] ) ? $query['sistema-operatiu-programa'] : '' );
 
     $title = 'Programes - ';
     (!empty( $search ) ? $title .= 'cerca: ' . $search . ' - ' : '');
     (!empty( $categoria_programa ) ? $title .= 'categoria: ' . $categoria_programa . ' - ' : '');
     (!empty( $sistema_operatiu ) ? $title .= 'sistema operatiu: ' . $sistema_operatiu . ' - ' : '');
     $title .= 'Softcatalà';
-} elseif ( ! isset ( $args ) ) {
-    $title = 'Programes - Softcatalà';
-    $args = get_post_query_args( 'programa', SearchQueryType::Programa );
 }
 
-//Posts and pagination
-query_posts( $args );
-$context_holder['posts'] = Timber::get_posts( $args );
+$context_holder['content_title'] = $content_title;
+$context_holder['posts'] = Programes::get_sorted( $query );
 $context_holder['pagination'] = Timber::get_pagination();
 
 if (count($context_holder['posts']) == 0 && $flag_search == true ) {

@@ -68,7 +68,7 @@
                     <div class="row">
                         {% for post in posts %}
                         <div class="col-xxs-12 col-xs-4 col-sm-3 col-md-2">
-                            <div class="thumbnail thumbnail-vertical thumbnail-programes">
+                            <div class="thumbnail thumbnail-vertical thumbnail-programes ribbon-container">
                                 <a href="{{ post.link }}" title="{{ post.title }}">
                                     {% if post.logotip_programa %}
                                     <img src="{{ TimberImage(post.logotip_programa).src }}" alt="logotip {{ post.title }}">
@@ -85,6 +85,11 @@
                                         </div>
                                     </div>
                                 </a>
+                                {% if post.programa_destacat %}
+                                    <div class="ribbon left orange">
+                                        <a>destacat</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}

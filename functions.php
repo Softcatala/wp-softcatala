@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '0.9.56' );
+define( 'WP_SOFTCATALA_VERSION', '0.9.57' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -576,11 +576,9 @@ abstract class SearchQueryType {
 	const FilteredDate = 1;
 	const Search = 2;
 	const Aparell = 4;
-	const Programa = 5;
 	const Post = 6;
 	const PagePrograma = 7;
 	const FilteredTema = 8;
-	const Projecte = 9;
 }
 
 /*
@@ -714,46 +712,6 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 			);
 			$filter_args['filter_fabricant'] = $filter['fabricant'];
 		}
-	} else if ( $queryType == SearchQueryType::Programa ) {
-		$filter_args = array();
-		//Avoid posts arxivats
-		$filter_args['tax_query'][] = array(
-			'taxonomy' => 'classificacio',
-			'field'    => 'slug',
-			'terms'    => 'arxivat',
-			'operator' => 'NOT IN'
-		);
-
-		if ( ! empty ( $filter['s'] ) ) {
-			$filter_args['s'] = $filter['s'];
-		}
-
-		if ( ! empty ( $filter['sistema-operatiu-programa'] ) ) {
-			$filter_args['tax_query'][]             = array(
-				'taxonomy' => 'sistema-operatiu-programa',
-				'field'    => 'slug',
-				'terms'    => array(
-					$filter['sistema-operatiu-programa'],
-					'multiplataforma'
-				)
-			);
-			$filter_args['filter_sistema_operatiu'] = $filter['sistema-operatiu-programa'];
-		}
-
-		if ( ! empty ( $filter['post__in'] ) ) {
-			$filter_args['post__in'] = $filter['post__in'];
-		}
-
-		if ( ! empty ( $filter['categoria-programa'] ) ) {
-			$filter_args['tax_query'][]      = array(
-				'taxonomy' => 'categoria-programa',
-				'field'    => 'slug',
-				'terms'    => $filter['categoria-programa']
-			);
-			$filter_args['filter_categoria'] = $filter['categoria-programa'];
-		}
-	} else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::Projecte ) {
-		$filter_args = array();
 	} else if ( $queryType == SearchQueryType::FilteredTema ) {
 		if ( ! empty ( $filter ) ) {
 			$filter_args['tax_query'][] = array(
