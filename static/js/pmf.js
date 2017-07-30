@@ -99,12 +99,6 @@
 
         var text = h2.text();
 
-        if ( !first ) {
-            jQuery( backToTop ).insertBefore( s2 );
-        }
-
-        first = false;
-
         var h3 = jQuery(s2).find('h3');
 
         items = [];
@@ -127,8 +121,6 @@
         links.push( { 'text': text, 'items' : items  } );
 
     });
-
-    jQuery(innerSection).append(backToTop);
 
     if ( links.length > 0 ) {
         jQuery('.contingut').addClass( 'pmf' );
@@ -155,13 +147,24 @@
         html += '</nav>'
     }
 
-    var innerSection = jQuery('.contingut .contingut-header').append(html);
+    jQuery('.contingut .contingut-header').attr('id','principi').append(html);
 
     reverseSections = newSections.reverse();
 
     reverseSections.forEach(function (s) {
         jQuery(s).insertAfter(innerSection);
     });
+
+    jQuery('.contingut .contingut-section').each( function() {
+
+            hasSubsections = jQuery(this).find('.contingut-article').size() > 0;
+
+            if(hasSubsections) {
+                lastSubsection = jQuery(this).find('.contingut-article').last();
+                jQuery(lastSubsection).append(backToTop);
+            }
+        }
+    )
 
     jQuery("#llista-preguntes").collapse();
 
