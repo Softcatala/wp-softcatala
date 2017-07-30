@@ -5,6 +5,7 @@
  * @package wp-softcatala
  */
 
+
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
