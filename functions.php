@@ -1073,6 +1073,18 @@ function modify_user_contact_methods( $user_contact ) {
 
 add_filter( 'pre_get_avatar_data', array('\Softcatala\Images\Avatar', 'filter'), 10, 2 );
 
+function get_downloads_full() {
+
+	$result = get_transient( 'downloads_full' );
+
+	if ( false === $result ) {
+		$result = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
+		set_transient( 'downloads_full', $result, 2 * HOUR_IN_SECONDS );
+	}
+
+	return $result;
+}
+
 function get_program_context( $programa ) {
 
 	$context = Timber::get_context();
@@ -1097,7 +1109,7 @@ function get_program_context( $programa ) {
 	$context['categories']['llicencies'] = Timber::get_terms('llicencia');
 
 	//Download count
-	$download_full = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
+	$download_full = get_downloads_full();
 	if( $download_full ) {
 		$wordpress_ids_column = array_column($download_full, 'wordpress_id');
 		if( $wordpress_ids_column ) {
