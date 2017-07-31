@@ -5,6 +5,25 @@
     <main class="main wrap-blanc cd-main-content">
     <!-- .main-header -->
     {% embed "contingut-header.twig" %}
+        {% block subpages %}
+            {% if subpages %}
+            <div class="menu-main-header-gris" style="border-bottom: 0;">
+                <!-- .boto-menu-lateral gris - xs -->
+                <div class="visible-xs-block boto-menu-lateral">
+                    <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                        <i class="fa fa-bars"></i>
+                        <p>Taula de continguts</p>
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                </div><!--/.boto-menu-lateral gris - xs -->
+                <!-- #menu-lateral -->
+                <ul class="nav collapse navbar-collapse" id="menu-lateral">
+                    <li {% if not arxivat %}class="active"{% endif %}><a href="/projectes/" title="Projectes">Projectes actius</a></li>
+                    <li {% if arxivat %}class="active"{% endif %}><a href="/projectes/arxivats/" title="Projectes sense activitat">Projectes sense activitat</a></li>
+                </ul><!--/#menu-lateral -->
+            </div>
+            {% endif %}
+        {% endblock %}
     {% endembed %}
     <!--/.main-header -->
 
