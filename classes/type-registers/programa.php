@@ -155,6 +155,7 @@ class Programa extends PostType {
 			'show_tagcloud'     => true,
 			'rewrite'           => false,
 			'show_in_rest'      => false,
+			'meta_box_cb'       => false,
 		);
 
 		register_taxonomy( 'sistema-operatiu-programa', array( 'programa' ), $args );

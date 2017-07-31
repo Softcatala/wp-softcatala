@@ -13,7 +13,7 @@ class Programes {
 	/**
 	 * Gets all programes sorted
 	 *
-	 * @param array $args to filter out parameters.
+	 * @param array $filter to filter out parameters.
 	 * @return array
 	 */
 	public static function get_sorted( $filter = array() ) {
@@ -42,9 +42,9 @@ class Programes {
 					'taxonomy' => 'classificacio',
 					'field'    => 'slug',
 					'terms'    => 'arxivat',
-					'operator' => 'NOT IN'
-				)
-			)
+					'operator' => 'NOT IN',
+				),
+			),
 		);
 
 		$filter_args = self::filter_args( $filter );
@@ -56,31 +56,31 @@ class Programes {
 
 		$filter_args = array();
 
-		if ( ! empty ( $filter['s'] ) ) {
+		if ( ! empty( $filter['s'] ) ) {
 			$filter_args['s'] = $filter['s'];
 		}
 
-		if ( ! empty ( $filter['sistema-operatiu-programa'] ) ) {
+		if ( ! empty( $filter['sistema-operatiu-programa'] ) ) {
 			$filter_args['tax_query'][]             = array(
 				'taxonomy' => 'sistema-operatiu-programa',
 				'field'    => 'slug',
 				'terms'    => array(
 					$filter['sistema-operatiu-programa'],
-					'multiplataforma'
-				)
+					'multiplataforma',
+				),
 			);
 			$filter_args['filter_sistema_operatiu'] = $filter['sistema-operatiu-programa'];
 		}
 
-		if ( ! empty ( $filter['post__in'] ) ) {
+		if ( ! empty( $filter['post__in'] ) ) {
 			$filter_args['post__in'] = $filter['post__in'];
 		}
 
-		if ( ! empty ( $filter['categoria-programa'] ) ) {
+		if ( ! empty( $filter['categoria-programa'] ) ) {
 			$filter_args['tax_query'][]      = array(
 				'taxonomy' => 'categoria-programa',
 				'field'    => 'slug',
-				'terms'    => $filter['categoria-programa']
+				'terms'    => $filter['categoria-programa'],
 			);
 			$filter_args['filter_categoria'] = $filter['categoria-programa'];
 		}
