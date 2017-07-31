@@ -104,6 +104,6 @@ class Programes {
 			return ( $first->programa_destacat ) ? (-1) : 1;
 		}
 
-		return strcmp( $first->post_title, $second->post_title );
+		return strcasecmp( $first->post_title, $second->post_title );
 	}
 }
