@@ -97,6 +97,8 @@ function sc_custom__rewrite_rules($aRules) {
         'programes/so/([^/]+)/?' => 'index.php?post_type=programa&sistema_operatiu=$matches[1]',
 		'programes/cat/([^/]+)/pagina/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]&paged=$matches[2]',
         'programes/cat/([^/]+)/?' => 'index.php?post_type=programa&categoria_programa=$matches[1]',
+        'programes/arxivats/?' => 'index.php?post_type=programa&classificacio=arxivat',
+        'projectes/arxivats/?' => 'index.php?post_type=projecte&classificacio=arxivat',
     );
     $aRules = $aNewRules + $aRules;
 

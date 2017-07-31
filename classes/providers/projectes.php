@@ -14,10 +14,12 @@ class Projectes {
 	 * Gets all projectects sorted
 	 *
 	 * @param array $args to filter out parameters.
+	 * @param boolean $arxivats whether to return (or not) archived projects
 	 * @return array
 	 */
-	public static function get_sorted_projects( $args = array() ) {
-		$default_args = self::get_query_args();
+	public static function get_sorted_projects( $args = array(), $arxivats = false ) {
+
+		$default_args = self::get_query_args( $arxivats );
 
 		$args = array_merge( $default_args, $args );
 
@@ -30,7 +32,7 @@ class Projectes {
 	}
 
 
-	private static function get_query_args() {
+	private static function get_query_args( $arxivats ) {
 		return array(
 			'post_type' => 'projecte',
 			'post_status'    => 'publish',
@@ -42,7 +44,7 @@ class Projectes {
 					'taxonomy' => 'classificacio',
 					'field' => 'slug',
 					'terms' => 'arxivat',
-					'operator'  => 'NOT IN',
+					'operator'  => $arxivats ? 'IN' : 'NOT IN',
 				),
 			),
 		);
