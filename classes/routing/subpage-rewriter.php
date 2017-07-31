@@ -30,8 +30,8 @@ class SubpageRewriter {
 	 * @param string $plural Singular name of the CPT.
 	 */
 	public function __construct( $singular, $plural ) {
-		$this->singular = $singular;
-		$this->plural = $plural;
+		$this->singular = strtolower( $singular );
+		$this->plural = strtolower( $plural );
 	}
 
 	/**

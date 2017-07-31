@@ -720,6 +720,8 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 				'terms'    => $filter
 			);
 		}
+	} else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::Projecte ) {
+			$filter_args = array();
 	} else {
 		$filter_args = array(
 			'meta_query' => array(
