@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '0.9.62' );
+define( 'WP_SOFTCATALA_VERSION', '0.9.63' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -148,6 +148,8 @@ class StarterSite extends TimberSite {
 
 		$post_type = get_query_var( 'post_type' );
 
+		$params_query         = '';
+
 		if ( $post_type == 'programa' ) {
 			if ( isset( $_GET['cerca'] ) || isset( $_GET['sistema_operatiu'] ) || isset( $_GET['categoria_programa'] ) ) {
 				$available_query_vars = array(
@@ -155,7 +157,7 @@ class StarterSite extends TimberSite {
 					'sistema_operatiu'   => 'so',
 					'categoria_programa' => 'cat'
 				);
-				$params_query         = '';
+
 				foreach ( $available_query_vars as $query_var => $key ) {
 					if ( get_query_var( $query_var ) ) {
 						$params_query .= $key . '/' . urlencode( get_query_var( $query_var ) ) . '/';
