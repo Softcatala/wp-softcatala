@@ -5,9 +5,9 @@
  * @package wp-softcatala
  */
 
-use Softcatala\TypeRegisters\Projecte;
-
 //JS and Styles related to the page
+use Softcatala\Providers\Projectes;
+
 wp_enqueue_script( 'sc-js-steps', get_template_directory_uri() . '/static/js/steps.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_localize_script( 'sc-js-steps', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
@@ -68,7 +68,7 @@ if ( ! empty ( $project_slug ) ) {
 		)
     );
 
-	$projects = Projecte::get_instance()->get_sorted_projects( $project_args );
+	$projects = Projectes::get_sorted_projects( $project_args );
 
     $context = Timber::get_context();
 
