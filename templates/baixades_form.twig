@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">Versió</label>
             <div class="col-sm-6">
-                <input type="text" name="versio[1]" class="versio form-control" placeholder="5.1.1" required>
+                <input type="text" name="versio[1]" class="versio form-control" placeholder="5.1.1">
             </div>
         </div>
         <!-- camp -->
@@ -50,18 +50,17 @@
             <!-- col-sm-9 -->
             <div class="col-sm-9">
                 <div class="row">
-                    <!-- col-sm-4 -->
-                    <div class="col-sm-4">
-                        <div class="checkbox">
-                            <label>
-                                <input class="arquitectura" type="radio" name="arquitectura[1]" value="x86"> 32 bits
-                            </label>
-                            <label>
-                                <input class="arquitectura" type="radio" name="arquitectura[1]" value="x86_64" checked> 64 bits
-                            </label>
-                        </div>
+                    <div class="checkbox">
+                        <label>
+                            <input class="arquitectura" type="radio" name="arquitectura[1]" value="generic"> N/A
+                        </label>
+                        <label>
+                            <input class="arquitectura" type="radio" name="arquitectura[1]" value="x86"> 32 bits
+                        </label>
+                        <label>
+                            <input class="arquitectura" type="radio" name="arquitectura[1]" value="x86_64" checked> 64 bits
+                        </label>
                     </div>
-                    <!-- col-sm-4 -->
                 </div>
             </div><!--/col-sm-9 -->
         </div>

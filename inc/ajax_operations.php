@@ -286,8 +286,8 @@ function sc_add_new_program() {
 			$logo_attach_id       = sc_upload_file( 'logo', $return['post_id'] );
 			$screenshot_attach_id = sc_upload_file( 'captura', $return['post_id'] );
 			$metadata             = array(
-				'logotip_programa'   => wp_get_attachment_url( $logo_attach_id ),
-				'imatge_destacada_1' => wp_get_attachment_url( $screenshot_attach_id )
+				'logotip_programa'   => $logo_attach_id,
+				'imatge_destacada_1' => $screenshot_attach_id
 			);
 			sc_update_metadata_acf( $return['post_id'], $metadata );
 
