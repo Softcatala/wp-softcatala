@@ -48,8 +48,10 @@ jQuery('#bt-next').click(function(){
 jQuery('.link_colabora').on('click', function(){
     var llista = jQuery(this).attr("data-llista");
     var projecte = jQuery(this).attr("data-projecte");
+    var projecteslug = jQuery(this).attr("data-projecteslug");
     jQuery('#llista').val(llista);
     jQuery('#projecte').val(projecte);
+    jQuery('#projecte_slug').val(projecteslug);
     jQuery('.bs-formjoin-modal-lg').modal('show');
 });
 
