@@ -31,11 +31,6 @@ $context_holder['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context_holder['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context_holder['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 
-//Filters population
-$context_holder['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );
-$context_holder['categories']['categories_programes'] = Timber::get_terms( 'categoria-programa' );
-$context_holder['categories']['llicencies'] = Timber::get_terms('llicencia');
-
 //Search and filters
 $search = urldecode( get_query_var( 'cerca' ));
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
@@ -74,6 +69,8 @@ $context_holder['pagination'] = Timber::get_pagination();
 if (count($context_holder['posts']) == 0 && $flag_search == true ) {
     throw_error( '404', 'No programs found' );
 }
+
+$context_holder['categories'] = Programes::get_filters( $query );
 
 //Context initialization
 $context_filterer = new SC_ContextFilterer( $context_holder );

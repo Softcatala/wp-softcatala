@@ -20,8 +20,7 @@ class Programes {
 
 		$args = self::get_query_args( $filter );
 
-		query_posts( $args );
-		$programs = \Timber\Timber::get_posts( $args );
+		$programs = Filterer::timber_posts_search_in_title( $args );
 
 		self::sort_programs_list( $programs );
 
@@ -105,5 +104,54 @@ class Programes {
 		}
 
 		return strcasecmp( $first->post_title, $second->post_title );
+	}
+
+	public static function get_filters( $query ) {
+
+		$filters = array();
+
+		$all_so  = \Timber\Timber::get_terms( 'sistema-operatiu-programa' );
+		$all_cat = \Timber\Timber::get_terms( 'categoria-programa' );
+		$filters['llicencies'] = \Timber\Timber::get_terms('llicencia');
+
+		if( ! empty( $query ) ) {
+
+			$filters['sistemes_operatius'] = array();
+
+			foreach ( $all_so as $so ) {
+
+				$temp_filter = $query;
+				$temp_filter['sistema-operatiu-programa'] = $so->slug;
+
+				$query_args = self::get_query_args( $temp_filter );
+
+				$wp_query = new \WP_Query( $query_args );
+				if( !empty($wp_query->posts)) {
+					array_push( $filters['sistemes_operatius'], $so);
+				}
+			}
+
+			$filters['categories_programes'] = array();
+
+			foreach ( $all_cat as $cat ) {
+
+				$temp_filter = $query;
+				$temp_filter['categoria-programa'] = $cat->slug;
+
+				$query_args = self::get_query_args( $temp_filter );
+
+				$wp_query =  Filterer::wp_query_search_in_title( $query_args );
+
+				if( !empty($wp_query->posts)) {
+					array_push( $filters['categories_programes'], $cat);
+				}
+			}
+		} else {
+
+			$filters['sistemes_operatius'] = $all_so;
+			$filters['categories_programes'] = $all_cat;
+		}
+
+		return $filters;
 	}
 }
