@@ -112,9 +112,9 @@ class Programes {
 
 		$all_so  = \Timber\Timber::get_terms( 'sistema-operatiu-programa' );
 		$all_cat = \Timber\Timber::get_terms( 'categoria-programa' );
-		$filters['llicencies'] = \Timber\Timber::get_terms('llicencia');
+		$filters['llicencies'] = \Timber\Timber::get_terms( 'llicencia' );
 
-		if( ! empty( $query ) ) {
+		if ( ! empty( $query ) ) {
 
 			$filters['sistemes_operatius'] = array();
 
@@ -126,8 +126,8 @@ class Programes {
 				$query_args = self::get_query_args( $temp_filter );
 
 				$wp_query = new \WP_Query( $query_args );
-				if( !empty($wp_query->posts)) {
-					array_push( $filters['sistemes_operatius'], $so);
+				if ( ! empty( $wp_query->posts ) ) {
+					array_push( $filters['sistemes_operatius'], $so );
 				}
 			}
 
@@ -140,17 +140,17 @@ class Programes {
 
 				$query_args = self::get_query_args( $temp_filter );
 
-				$wp_query =  Filterer::wp_query_search_in_title( $query_args );
+				$wp_query = Filterer::wp_query_search_in_title( $query_args );
 
-				if( !empty($wp_query->posts)) {
-					array_push( $filters['categories_programes'], $cat);
+				if ( ! empty( $wp_query->posts ) ) {
+					array_push( $filters['categories_programes'], $cat );
 				}
 			}
 		} else {
 
 			$filters['sistemes_operatius'] = $all_so;
 			$filters['categories_programes'] = $all_cat;
-		}
+		}//end if
 
 		return $filters;
 	}

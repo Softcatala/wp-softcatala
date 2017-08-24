@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Softcatala
  */
@@ -15,23 +14,23 @@ class Filterer {
 
 	public static function wp_query_search_in_title( $query ) {
 
-		add_filter( 'posts_search', [self::class, '__search_by_title_only'], 500, 2 );
+		add_filter( 'posts_search', [ self::class, 'search_by_title_only' ], 500, 2 );
 
 		$wp_query = new \WP_Query( $query );
 
-		remove_filter( 'posts_search', [self::class, '__search_by_title_only'], 500 );
+		remove_filter( 'posts_search', [ self::class, 'search_by_title_only' ], 500 );
 
 		return $wp_query;
 	}
 
 	public static function timber_posts_search_in_title( $query ) {
 
-		add_filter( 'posts_search', [self::class, '__search_by_title_only'], 500, 2 );
+		add_filter( 'posts_search', [ self::class, 'search_by_title_only' ], 500, 2 );
 
 		query_posts( $query );
 		$programs = \Timber\Timber::get_posts( $query );
 
-		remove_filter( 'posts_search', [self::class, '__search_by_title_only'], 500 );
+		remove_filter( 'posts_search', [ self::class, 'search_by_title_only' ], 500 );
 
 		return $programs;
 	}
@@ -41,25 +40,27 @@ class Filterer {
 	 *
 	 * @link    http://wordpress.stackexchange.com/a/11826/1685
 	 *
-	 * @param   string $search
-	 * @param   Query $wp_query
+	 * @param   string    $search provided by the user.
+	 * @param   \WP_Query $wp_query built so far.
 	 *
 	 * @return array|string
 	 */
-	public static function __search_by_title_only( $search, $wp_query ) {
+	public static function search_by_title_only( $search, $wp_query ) {
 		if ( ! empty( $search ) && ! empty( $wp_query->query_vars['search_terms'] ) ) {
 			global $wpdb;
 
-			$q = $wp_query->query_vars;
-			$n = ! empty( $q['exact'] ) ? '' : '%';
+			$query = $wp_query->query_vars;
+			$fuzzy = ! empty( $query['exact'] ) ? '' : '%';
 
 			$search = array();
 
-			foreach ( ( array ) $q['search_terms'] as $term )
-				$search[] = $wpdb->prepare( "$wpdb->posts.post_title LIKE %s", $n . $wpdb->esc_like( $term ) . $n );
+			foreach ( ( array ) $query['search_terms'] as $term ) {
+				$search[] = $wpdb->prepare( "$wpdb->posts.post_title LIKE %s", $fuzzy . $wpdb->esc_like( $term ) . $fuzzy );
+			}
 
-			if ( ! is_user_logged_in() )
+			if ( ! is_user_logged_in() ) {
 				$search[] = "$wpdb->posts.post_password = ''";
+			}
 
 			$search = ' AND ' . implode( ' AND ', $search );
 		}

@@ -13,8 +13,8 @@ class Projectes {
 	/**
 	 * Gets all projectects sorted
 	 *
-	 * @param array $args to filter out parameters.
-	 * @param boolean $arxivats whether to return (or not) archived projects
+	 * @param array   $args to filter out parameters.
+	 * @param boolean $arxivats whether to return (or not) archived projects.
 	 * @return array
 	 */
 	public static function get_sorted_projects( $args = array(), $arxivats = false ) {
@@ -44,7 +44,7 @@ class Projectes {
 					'taxonomy' => 'classificacio',
 					'field' => 'slug',
 					'terms' => 'arxivat',
-					'operator'  => $arxivats ? 'IN' : 'NOT IN',
+					'operator'  => ($arxivats) ? 'IN' : 'NOT IN',
 				),
 			),
 		);
