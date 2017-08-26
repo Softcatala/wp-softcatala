@@ -1153,3 +1153,30 @@ function get_program_context( $programa ) {
 	return $context;
 }
 
+function sc_add_excerpt_meta_box( $post_type ) {
+	add_meta_box(
+		'postexcerpt',
+		__( 'Excerpt' ),
+		'post_excerpt_meta_box',
+		$post_type,
+		'sc', // change to something other then normal, advanced or side
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'sc_add_excerpt_meta_box' );
+
+function sc_run_excerpt_meta_box() {
+	# Get the globals:
+	global $post;
+
+	# Output the "advanced" meta boxes:
+	do_meta_boxes( get_current_screen(), 'sc', $post );
+}
+
+add_action( 'edit_form_after_title', 'sc_run_excerpt_meta_box' );
+
+function sc_remove_normal_excerpt() { /*this added on my own*/
+	remove_meta_box( 'postexcerpt' , 'post' , 'normal' );
+}
+add_action( 'admin_menu' , 'sc_remove_normal_excerpt' );
+
