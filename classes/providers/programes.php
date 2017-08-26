@@ -57,6 +57,8 @@ class Programes {
 
 		if ( ! empty( $filter['s'] ) ) {
 			$filter_args['s'] = $filter['s'];
+			$filter_args['orderby']        = 'relevance';
+			$filter_args['order']          = 'DESC';
 		}
 
 		if ( ! empty( $filter['sistema-operatiu-programa'] ) ) {
@@ -124,6 +126,7 @@ class Programes {
 				$temp_filter['sistema-operatiu-programa'] = $so->slug;
 
 				$query_args = self::get_query_args( $temp_filter );
+				$query_args['paged'] = -1;
 
 				$wp_query = new \WP_Query( $query_args );
 				if ( ! empty( $wp_query->posts ) ) {
@@ -139,6 +142,7 @@ class Programes {
 				$temp_filter['categoria-programa'] = $cat->slug;
 
 				$query_args = self::get_query_args( $temp_filter );
+				$query_args['paged'] = -1;
 
 				$wp_query = Filterer::wp_query_search_in_title( $query_args );
 
