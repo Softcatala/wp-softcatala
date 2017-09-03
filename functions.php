@@ -51,6 +51,9 @@ class StarterSite extends TimberSite {
 		add_filter( 'wpseo_twitter_creator_account', function ( $twitter ) {
 			return '@softcatala';
 		} );
+		add_filter( 'wpseo_opengraph_author_facebook', function ( $twitter ) {
+			return 'https://facebook.com/Softcatala';
+		} );
 		add_action( 'init', array( $this, 'sc_rewrite_search' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
