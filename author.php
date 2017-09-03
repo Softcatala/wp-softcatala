@@ -37,9 +37,12 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $post = new TimberPost();
     $context_holder['post'] = $post;
     //Show only active members
+
+	$order = (date('j') % 2 == 0) ? 'ASC' : 'DESC';
+
     $args = array(
         'orderby' => 'display_name',
-        'order' => 'DESC',
+        'order' => $order,
         'meta_query' => array(
 			'relation' => 'OR',
 			get_meta_query_value('status_member', 1, '=', ''),
