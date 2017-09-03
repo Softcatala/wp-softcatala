@@ -62,14 +62,24 @@ class Programes {
 		}
 
 		if ( ! empty( $filter['sistema-operatiu-programa'] ) ) {
+
+			if ( in_array( $filter['sistema-operatiu-programa'], array( 'windows', 'linux', 'osx' ) ) ) {
+				$terms = array(
+					$filter['sistema-operatiu-programa'],
+					'multiplataforma',
+				);
+			} else {
+				$terms = array(
+					$filter['sistema-operatiu-programa']
+				);
+			}
+
 			$filter_args['tax_query'][]             = array(
 				'taxonomy' => 'sistema-operatiu-programa',
 				'field'    => 'slug',
-				'terms'    => array(
-					$filter['sistema-operatiu-programa'],
-					'multiplataforma',
-				),
+				'terms'    => $terms,
 			);
+
 			$filter_args['filter_sistema_operatiu'] = $filter['sistema-operatiu-programa'];
 		}
 
