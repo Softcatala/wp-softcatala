@@ -11,7 +11,11 @@
 			<div class="row">
 
 				<!-- .contingut -->
+				{% if excludeSidebar %}
+				<div class="contingut contingut-left col-sm-12">
+				{%  else %}
 				<div class="contingut contingut-left col-sm-9">
+				{% endif %}
 					<!-- .contingut-header -->
 					<header class="contingut-header">
 						<p>{{  post.post_excerpt }}</p>
@@ -33,7 +37,9 @@
 
 				</div><!--/.contingut -->
 
-				{% include "sidebar.twig" %}
+				{% if not excludeSidebar %}
+					{% include "sidebar.twig" %}
+				{%  endif %}
 			</div><!--/.row -->
 		</div><!--/.container-fluid -->
 	</main><!--/.main .wrap-blanc -->
