@@ -1,3 +1,8 @@
 {% block content %}
+    {% if customAnalytics %}
+        <script>
+            sc_analytics_page = '{{ customAnalytics }}'
+        </script>
+    {% endif %}
 	<!--#include virtual="/ssi/footer-content.html" -->
 {% endblock %}
