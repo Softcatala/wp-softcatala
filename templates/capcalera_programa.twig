@@ -26,7 +26,7 @@
                         <li></li>
                         {% if post.autor_traduccio %}<li><strong>Autor de la traducció:</strong> {{ post.autor_traduccio }}</li>{% endif %}
                         {% if projecte_relacionat_url or post.external_project_url %}
-                        <li><strong>Projecte de traducció:</strong>
+                        <li><strong>Projecte:</strong>
                             {% if projecte_relacionat_url %}
                                 <a href="{{ projecte_relacionat_url }}" title="Projecte de traducció del {{ post.title }}">{{ projecte_relacionat_name }}</a>
                             {% else %}
