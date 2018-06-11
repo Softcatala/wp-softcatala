@@ -3,24 +3,24 @@
 <!-- .btns-corrector -->
 <div class="btns-corrector row">
   <div class="col-xs-12">
-	<!-- .formes  -->
-	<div class="formes">
-	  <p>Formes:</p>
+    <!-- .formes  -->
+    <div class="formes">
+        <p>Formes:</p>
 	  <label class="radio-inline">
-		<input type="radio" name="formes" id="check_formes_generals" value="formes_generals" checked> generals
-	  </label>
-	  <label class="radio-inline">
-		<input type="radio" name="formes" id="check_formes_valencianes" value="formes_valencianes" /> valencianes
-	  </label>
-	  <label class="radio-inline">
-		<input type="radio" name="formes" id="check_formes_balears" value="formes_balears" /> balears
-	  </label>
-	</div><!--/.formes -->
+	    <input type="radio" name="variant" id="variant_general" value="variant_general" checked> generals
+	      </label>
+	    <label class="radio-inline">
+	      <input type="radio" name="variant" id="variant_valencia" value="variant_valencia" /> valencianes
+	        </label>
+	      <label class="radio-inline">
+		<input type="radio" name="variant" id="variant_balear" value="variant_balear" /> balears
+		  </label>
+	      </div><!--/.formes -->
 
-	<div class="btn-right">
-	  <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
-	  <input type="hidden" name="lang" value="ca"/>
-	</div>
+    <div class="btn-right">
+        <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
+        <input type="hidden" name="lang" value="ca"/>
+     </div>
 
   </div>
 </div><!--/.btns-corrector -->
@@ -28,10 +28,10 @@
 <!-- comença el formulari -->
 <div class="textcorrectorgram">
 
-		<p id="checktextpara">
-			<textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="6"></textarea>
-		</p>
-		<textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
+  <p id="checktextpara">
+    <textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="6"></textarea>
+    </p>
+  <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
 
 </div>
 </div>
@@ -39,59 +39,136 @@
 
 <div class="traductor-checkbox form-group">
   <div class="col-sm-12">
-	<div class="checkbox checkbox-corrector">
-	  <a id="text_prova" href="#">Insereix un text de prova</a>
+    <div class="checkbox checkbox-corrector">
+        <a id="text_prova" href="#">Insereix un text de prova</a>
 	  <label class="checkbox-inline">
-		<input type="checkbox" id="CA_UNPAIRED_QUESTION" value="CA_UNPAIRED_QUESTION" name="CA_UNPAIRED_QUESTION"> Exigeix signe d'interrogació inicial «¿»
-	  </label>
-	  <label class="checkbox-inline">
-		<input type="checkbox" id="SE_DAVANT_SC" value="SE_DAVANT_SC" name="SE_DAVANT_SC" checked> Exigeix «se» (se sap, se celebra)
-	  </label>
-	</div>
-	<div id="opcions_valencia">
-	  <div class="btns-corrector row">
-		<div class="col-xs-12">
-		  <div class="formes">
-			<p>Accentuació</p>
-			<label class="radio-inline">
-			  <input type="radio" name="accentuacio" value="accentuacio_general">general (cafè)
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="accentuacio" value="accentuacio_valenciana" checked>valenciana (café)
-			</label>
-		  </div>
-		  <div class="formes">
-			<p>Verbs incoatius</p>
-			<label class="radio-inline">
-			  <input type="radio" name="incoatius" value="incoatius_eix" checked>-eix (serveix)
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="incoatius" value="incoatius_ix">-ix (servix)
-			</label>
-			|
-			<label class="radio-inline">
-			  <input type="radio" name="incoatius2" value="incoatius_esc">-esc (servesc)
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="incoatius2" value="incoatius_isc" checked>-isc (servisc)
-			</label>
-		  </div>
-		  <div class="formes">
-			<p>Demostratius</p>
-			<label class="radio-inline">
-			  <input type="radio" name="demostratius" value="demostratius_aquest" checked>aquest
-			</label>
-			<label class="radio-inline">
-			  <input type="radio" name="demostratius" value="demostratius_este">este
-			</label>
-		  </div>
-		</div>
+	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Mostra més opcions<br/><br/>
+	      </label>
 	  </div>
-	</div>
-  </div>
+
+
+        <!--Opcions-->
+        <div id="opcionscorreccio">
+            <h4>Opcions</h4>
+            <table summary="opcions" border="1">
+                <tr>
+                    <td>Diacrítics</td>
+                    <td><input type="radio" name="diacritics" id="diacritics_tradicional" value="diacritics_tradicional" onchange="doit();" checked>Tradicionals (dóna)</td>
+                    <td><input type="radio" name="diacritics" id="diacritics_iec" value="diacritics_iec" onchange="doit();">IEC 2017 (dona)</td>
+                </tr>
+                <tr>
+                    <td>Pronom 'se'</d>
+                    <td><input type="radio" name="pronom_se" id="pronom_se_centra" value="pronom_se_centra" onchange="doit();" checked>'se centra'</td>
+                    <td><input type="radio" name="pronom_se" id="pronom_se_indiferent" value="pronom_se_indiferent" onchange="doit();">'se/es centra'</td>
+                  </tr>
+            </table>
+            <h5>Tipografia</h5>
+            <table summary="opcions de tipografia" border="1">
+                <tr>
+                    <td>Exigeix</td>
+                    <td colspan="3">
+                        <input type="checkbox" name="espais_blancs" value="espais_blancs" onchange="doit();" checked>no duplicar espais en blanc<br/>
+                        <input type="checkbox" name="prioritza_cometes" value="prioritza_cometes" onchange="doit();">prioritzar cometes (« “ ‘ ’ ” »)<br/>
+                        <input type="checkbox" name="tres_punts" value="tres_punts" onchange="doit();">símbol de tres punts (&hellip;)<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Apòstrof i cometes</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_tipografic" value="apostrof_tipografic" onchange="doit();">tipogràfics (’)</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_recte"      value="apostrof_recte"      onchange="doit();">rectes (')</td>
+                    <td><input type="radio" name="apostrof" id="apostrof_indefinit"  value="apostrof_indefinit"  onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Guió</td>
+                    <td><input type="radio" name="guio" id="guio_llarg"     value="guio_llarg"     onchange="doit();">llarg (&mdash;)</td>
+                    <td><input type="radio" name="guio" id="guio_mitja"     value="guio_mitja"     onchange="doit();">mitjà (&ndash;)</td>
+                    <td><input type="radio" name="guio" id="guio_indefinit" value="guio_indefinit" onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Guió per a</td> 
+                    <td><input type="radio" name="guiopera" id="guiopera_dialegs"      value="guiopera_dialegs"      onchange="doit();">diàlegs</td>
+                    <td><input type="radio" name="guiopera" id="guiopera_enumeracions" value="guiopera_enumeracions" onchange="doit();">enumeracions</td>
+                    <td><input type="radio" name="guiopera" id="guiopera_indefinit"    value="guiopera_indefinit"    onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Interrogant inicial (¿)</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_mai"       value="interrogant_mai"       onchange="doit();">mai</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_sempre"    value="interrogant_sempre"    onchange="doit();">sempre</td>
+                    <td><input type="radio" name="interrogant" id="interrogant_indefinit" value="interrogant_indefinit" onchange="doit();" checked>indefinit</td>
+                </tr>
+                <tr>
+                    <td>Exclamació inicial (¡):</td> 
+                    <td><input type="radio" name="exclamacio" id="exclamacio_mai"       value="exclamacio_mai"       onchange="doit();" checked>mai</td>
+                    <td><input type="radio" name="exclamacio" id="exclamacio_sempre"    value="exclamacio_sempre"    onchange="doit();">sempre</td>
+                    <td><input type="radio" name="exclamacio" id="exclamacio_indefinit" value="exclamacio_indefinit" onchange="doit();">indefinit</td>
+                </tr>
+                <tr>
+                    <td>Percentatge (%)</td>
+                    <td><input type="radio" name="percent" id="percent_senseespai" value="percent_senseespai" onchange="doit();" checked>10%</td>
+                    <td><input type="radio" name="percent" id="percent_ambespai"   value="percent_ambespai"   onchange="doit();">10&nbsp;%</td>
+                    <td><input type="radio" name="percent" id="percent_indefinit"  value="percent_indefinit"  onchange="doit();">indefinit</td>
+                </tr>
+            </table>
+            <div id="opcionscorreccio_valencia"/>
+            <h5>Per al valencià</h5>
+            <table summary="opcions de correcció" border="1">
+                <tr style="display: none;">
+                    <td>Llibre d'estil</td>
+                    <td colspan="2">
+                        <input type="radio" name="opcio_general" id="criteris_gva" value="criteris_gva" onchange="doit();"> <a href="http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf" target="_blank">Criteris de l'Administració de la Generalitat</a><br/>
+                        <input type="radio" name="opcio_general" id="criteris_uv" value="criteris_uv" onchange="doit();"> <a href="https://sl.ua.es/en/assessorament/documentos/criteris-linguistics.pdf" target="_blank">Universitats valencianes</a><br/>
+                        <input type="radio" name="opcio_general" id="criteris_cap" value="criteris_cap" onchange="doit();" checked> Cap<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Verbs incoatius</td>
+                    <td><input type="radio" name="incoatius" id="incoatius_eix" value="incoatius_eix" onchange="doit();" checked>-eix (serveix)</td>
+                    <td><input type="radio" name="incoatius" id="incoatius_ix" value="incoatius_ix" onchange="doit();">-ix (servix)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="radio" name="incoatius2" id="incoatius_isc" value="incoatius_isc" onchange="doit();" checked>-isc (servisc)
+                    <td><input type="radio" name="incoatius2" id="incoatius_esc" value="incoatius_esc" onchange="doit();">-esc (servesc)</td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Demostratius</td>
+                    <td><input type="radio" name="demostratius" id="demostratius_aquest" value="demostratius_aquest" onchange="doit();" checked>aquest</td>
+                    <td><input type="radio" name="demostratius" id="demostratius_este" value="demostratius_este" onchange="doit();">este</td>
+                </tr>
+                <tr>
+                    <td>Accentuació</td>
+                    <td><input type="radio" name="accentuacio" id="accentuacio_valenciana" value="accentuacio_valenciana" onchange="doit();" checked>café</td>
+                    <td><input type="radio" name="accentuacio" id="accentuacio_general" value="accentuacio_general" onchange="doit();">cafè</td>
+                </tr>
+                <tr>
+                    <td>Concordança</td>
+                    <td><input type="radio" name="concorda_dues" id="concorda_dos_dues" value="concorda_dos_dues" checked onchange="doit();">dos/dues</td>
+                    <td><input type="radio" name="concorda_dues" id="concorda_dos" value="concorda_dos" onchange="doit();">dos</td>
+                </tr>
+                <tr>
+                    <td><a href="http://www.avl.gva.es/documents/84900/91479/Denominaci%C3%B3+dels+municipis+valencians/" target="_blank">Municipis valencians</a>:</td>
+                    <td><input type="radio" name="municipis" id="municipi_nom_valencia" value="municipi_nom_valencia" onchange="doit();" checked>nom valencià</td>
+                    <td><input type="radio" name="municipis" id="municipi_nom_oficial" value="municipi_nom_oficial" onchange="doit();">nom oficial</td>
+                </tr>
+                <tr>
+                    <td>Lèxic</td>
+                    <td colspan="2">
+                        <input type="checkbox" name="recomana_preferents" value="recomana_preferents" onchange="doit();" checked> Recomana paraules i formes preferents<br/>
+                        <input type="checkbox" name="evita_colloquials" value="evita_colloquials" onchange="doit();" checked> Evita paraules i formes col·loquials
+                    </td>
+                </tr>
+            </table>
+            </div>
+            <br/>
+            <div id="container">
+                <output></output><br/><br/>
+                <div id="output_text" style="white-space: pre; display: none;"></div><br/>
+            </div>
+        </div> <!-- final opcions -->
 
   <div class="bt-extra visible-xs-block">
-	<input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
+    <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
   </div>
 
 </div>
