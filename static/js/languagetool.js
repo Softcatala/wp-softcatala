@@ -34,11 +34,11 @@ function insertDemoText() {
 }
 
 function showoptions() {
-  if (!$("input[name=mostra_opcions]:checked").val()) {
+  if (!jQuery("input[name=mostra_opcions]:checked").val()) {
     document.getElementById("opcionscorreccio").style.display = "none";
   } else {
       document.getElementById("opcionscorreccio").style.display = "initial";
-      if ($("input[name=variant]:checked").val() == "variant_valencia") {
+      if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
          document.getElementById("opcionscorreccio_valencia").style.display = "initial"; 
       } else {
          document.getElementById("opcionscorreccio_valencia").style.display = "none";
@@ -128,7 +128,7 @@ function dochecktext() {
   var userText = tinyMCE.activeEditor.getContent();
   if (userText.length > maxTextLength) {
     var errorText = "Error: el text és massa llarg (" + userText.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
-    $('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
+      jQuery('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
   } else {
     //normalize text
     if (String.prototype.hasOwnProperty('normalize')) {
@@ -159,7 +159,7 @@ function dooptions() {
     var typo_disabledRules = [];
     var typo_disabledCategories = [];
 
-    if ($("input[name=opcio_general]:checked").val() == "criteris_gva") { 
+    if (jQuery("input[name=opcio_general]:checked").val() == "criteris_gva") {
 
         disabledRules.push("PERCENT_SENSE_ESPAI","AL_INFINITIU","EVITA_INFINITIUS_INDRE","ORTO_IEC2017","CA_SIMPLE_REPLACE_DNV");
 
@@ -167,7 +167,7 @@ function dooptions() {
 
         disabledCategories.push("DNV_PRIMARY_FORM");       
 
-    } else if ($("input[name=opcio_general]:checked").val() == "criteris_uv") {
+    } else if (jQuery("input[name=opcio_general]:checked").val() == "criteris_uv") {
         disabledRules.push("ORTO_IEC2017","EXIGEIX_ACCENTUACIO_VALENCIANA");
 
         enabledRules.push("PRE_IEC2017","VERBS_I_ANTIHIATICA","EVITA_AQUEIX_EIXE","PREFERENCIES_VERBS_VALENCIANS","PARTICIPIS_IT","ORDINALS_E","EXIGEIX_PLURALS_SCOS","EXIGEIX_PLURALS_JOS","EXIGEIX_PLURALS_S","EXIGEIX_INFINITIUS_ALDRE","EXIGEIX_US","EXIGEIX_ACCENTUACIO_GENERAL","EXIGEIX_TENIR_VENIR","LEXIC_VAL","NUMERALS_GENERALS","AVUI","PREFERENCIES_LEXIC_UNIVERSITATS");
@@ -177,87 +177,87 @@ function dooptions() {
         //disabledRules = disabledRules + ",VULLGA,AHI"; //acceptat per AVL no Generalitat
 
         /* incoatius -eix/-ix */
-        if ($("input[name=incoatius]:checked").val() == "incoatius_ix") {
+        if (jQuery("input[name=incoatius]:checked").val() == "incoatius_ix") {
             enabledRules.push("EXIGEIX_VERBS_IX");
             disabledRules.push("EXIGEIX_VERBS_EIX");
         };
         /* incoatius -esc/-isc */
-        if ($("input[name=incoatius2]:checked").val() == "incoatius_esc") {
+        if (jQuery("input[name=incoatius2]:checked").val() == "incoatius_esc") {
             enabledRules.push("EXIGEIX_VERBS_ESC");
             disabledRules.push("EXIGEIX_VERBS_ISC");
         };
         /* demostratius aquest/este */
-        if ($("input[name=demostratius]:checked").val() == "demostratius_este") {
+        if (jQuery("input[name=demostratius]:checked").val() == "demostratius_este") {
             enabledRules.push("EVITA_DEMOSTRATIUS_AQUEST");
             disabledRules.push("EVITA_DEMOSTRATIUS_ESTE");
         };
         /* accentuació café /cafè */
-        if ($("input[name=accentuacio]:checked").val() == "accentuacio_general") {
+        if (jQuery("input[name=accentuacio]:checked").val() == "accentuacio_general") {
             enabledRules.push("EXIGEIX_ACCENTUACIO_GENERAL");
             disabledRules.push("EXIGEIX_ACCENTUACIO_VALENCIANA");
         };
         /* concordança dos/dues */
-        if ($("input[name=concorda_dues]:checked").val() == "concorda_dos") {
+        if (jQuery("input[name=concorda_dues]:checked").val() == "concorda_dos") {
             enabledRules.push("CONCORDANCES_NUMERALS_DOS");
             disabledRules.push("CONCORDANCES_NUMERALS_DUES");
         };
     }
 
     /* municipis nom valencià/oficial */
-    if ($("input[name=municipis]:checked").val() == "municipi_nom_oficial" && $("input[name=opcio_general]:checked").val() != "criteris_uv") {
+    if (jQuery("input[name=municipis]:checked").val() == "municipi_nom_oficial" && jQuery("input[name=opcio_general]:checked").val() != "criteris_uv") {
         enabledRules.push("MUNICIPIS_OFICIAL");
         disabledRules.push("MUNICIPIS_VALENCIA");
     };
 
     // paraules preferents
-    if (!$("input[name=recomana_preferents]:checked").val()) {
+    if (!jQuery("input[name=recomana_preferents]:checked").val()) {
         disabledCategories.push("DNV_SECONDARY_FORM");
         disabledRules.push("CA_SIMPLE_REPLACE_DNV_SECONDARY");
     };
     // terminació -iste
-    if (!$("input[name=recomana_preferents]:checked").val() &&
-        $("input[name=opcio_general]:checked").val() == "criteris_cap") {
+    if (!jQuery("input[name=recomana_preferents]:checked").val() &&
+        jQuery("input[name=opcio_general]:checked").val() == "criteris_cap") {
         disabledRules.push("EVITA_ISTE","AHI","VULLGA");
     }
     // paraules col·loquials
-    if (!$("input[name=evita_colloquials]:checked").val()) {
+    if (!jQuery("input[name=evita_colloquials]:checked").val()) {
         disabledCategories.push("DNV_COLLOQUIAL");
         disabledRules.push("CA_SIMPLE_REPLACE_DNV_COLLOQUIAL");
     };
 
-    if ($("input[name=diacritics]:checked").val() == "diacritics_iec") {typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); };
-    if ($("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
-    if ($("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
-    if ($("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
-    if ($("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
-    if ($("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
-    if ($("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
-    if ($("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules.push("GUIO_ESPAI"); };
-    if ($("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules.push("EVITA_INTERROGACIO_INICIAL"); };
-    if ($("input[name=interrogant]:checked").val() == "interrogant_sempre") {typo_enabledRules.push("CA_UNPAIRED_QUESTION"); };
-    //if ($("input[name=exclamacio]:checked").val() == "exclamacio_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
-    if ($("input[name=exclamacio]:checked").val() == "exclamacio_sempre") {
+    if (jQuery("input[name=diacritics]:checked").val() == "diacritics_iec") {typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); };
+    if (jQuery("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
+    if (jQuery("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
+    if (jQuery("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
+    if (jQuery("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
+    if (jQuery("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
+    if (jQuery("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
+    if (jQuery("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules.push("GUIO_ESPAI"); };
+    if (jQuery("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules.push("EVITA_INTERROGACIO_INICIAL"); };
+    if (jQuery("input[name=interrogant]:checked").val() == "interrogant_sempre") {typo_enabledRules.push("CA_UNPAIRED_QUESTION"); };
+    //if (jQuery("input[name=exclamacio]:checked").val() == "exclamacio_mai") {typo_enabledRules = typo_enabledRules + ",EVITA_EXCLAMACIO_INICIAL"; };
+    if (jQuery("input[name=exclamacio]:checked").val() == "exclamacio_sempre") {
         typo_enabledRules.push("CA_UNPAIRED_EXCLAMATION"); 
         typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
-    if ($("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
-    //if ($("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
-    if ($("input[name=percent]:checked").val() == "percent_ambespai") {
+    if (jQuery("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
+    //if (jQuery("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
+    if (jQuery("input[name=percent]:checked").val() == "percent_ambespai") {
         typo_enabledRules.push("PERCENT_AMB_ESPAI"); 
         typo_disabledRules.push("PERCENT_SENSE_ESPAI");};
-    if ($("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
-    if ($("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
-    if ($("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
-    if (!$("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
+    if (jQuery("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
+    if (jQuery("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
+    if (jQuery("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
+    if (!jQuery("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
 
     //Variant principal: general/valecià/balear
-    if ($("input[name=variant]:checked").val() == "variant_general") {
-    } else if ($("input[name=variant]:checked").val() == "variant_valencia") {
+    if (jQuery("input[name=variant]:checked").val() == "variant_general") {
+    } else if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
       ca_enabledRules.push("EXIGEIX_VERBS_VALENCIANS","EXIGEIX_POSSESSIUS_U");
       ca_disabledRules.push("EXIGEIX_VERBS_CENTRAL","EVITA_DEMOSTRATIUS_EIXE","EXIGEIX_POSSESSIUS_V");
       pushArray(ca_enabledRules, enabledRules);
       pushArray(ca_disabledRules, disabledRules);
       pushArray(ca_disabledCategories, disabledCategories);
-    } else if ($("input[name=variant]:checked").val() == "variant_balear") {
+    } else if (jQuery("input[name=variant]:checked").val() == "variant_balear") {
       ca_enabledRules.push("EXIGEIX_VERBS_BALEARS");
       ca_disabledRules.push("EXIGEIX_VERBS_CENTRAL","CA_SIMPLE_REPLACE_BALEARIC");
     }
@@ -270,7 +270,7 @@ function dooptions() {
     pushArray(disabledCategories, typo_disabledCategories);
 
     var today = new Date();
-    $('#output_text').html(
+    jQuery('#output_text').html(
         "#LanguageTool Catalan configuration\n" +
         "#" + today + "\n" +
         "disabledRules.ca-ES=" + ca_disabledRules.join() + "\n" +
@@ -282,7 +282,7 @@ function dooptions() {
         );
 
     userOptions=""; 
-    if ($("input[name=variant]:checked").val() == "variant_valencia") {
+    if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
   langCode="ca-ES-valencia";
         if (disabledRules.join()) { userOptions += "&disabledRules=" + disabledRules.join(); }
         if (enabledRules.join()) { userOptions += "&enabledRules=" + enabledRules.join(); }
@@ -318,39 +318,39 @@ function pushArray(arr, arr2) {
 
 // COOKIE
 function saveCookieStatus() {
-    if (!$.getCookie(SC_COOKIE)) {
-      $.setCookie(SC_COOKIE, '');
+    if (!jQuery.getCookie(SC_COOKIE)) {
+      jQuery.setCookie(SC_COOKIE, '');
     }
-    $.each(regles_amb_radio, function(index, nom) {
-        var valor = $('[type="radio"][name="' + nom + '"]:checked').val();
-        $.setMetaCookie(nom, SC_COOKIE, valor);
+    jQuery.each(regles_amb_radio, function(index, nom) {
+        var valor = jQuery('[type="radio"][name="' + nom + '"]:checked').val();
+        jQuery.setMetaCookie(nom, SC_COOKIE, valor);
     });
-    $.each(regles_amb_checkbox, function(index, nom) {
-        var valor = $('input[name=' + nom + ']:checked').val();
+    jQuery.each(regles_amb_checkbox, function(index, nom) {
+        var valor = jQuery('input[name=' + nom + ']:checked').val();
         if (valor) {
-            $.setMetaCookie(nom, SC_COOKIE, 1);
+            jQuery.setMetaCookie(nom, SC_COOKIE, 1);
         } else {
-            $.setMetaCookie(nom, SC_COOKIE, -1);
+            jQuery.setMetaCookie(nom, SC_COOKIE, -1);
         }
     });
 }
 
 function readCookieStatus() {
-    if ($.getCookie(SC_COOKIE)) {
-  $.each(regles_amb_radio, function(index, nom) {
-            var valor = $.getMetaCookie(nom, SC_COOKIE);
+    if (jQuery.getCookie(SC_COOKIE)) {
+  jQuery.each(regles_amb_radio, function(index, nom) {
+            var valor = jQuery.getMetaCookie(nom, SC_COOKIE);
             if (valor !== undefined) {
-    $('[type="radio"][name="' + nom + '"][value="' + valor + '"]')
+    jQuery('[type="radio"][name="' + nom + '"][value="' + valor + '"]')
                     .attr('checked', 'checked');
             }
   });
-  $.each(regles_amb_checkbox, function(index, nom) {
-            var valor = $.getMetaCookie(nom, SC_COOKIE);
+  jQuery.each(regles_amb_checkbox, function(index, nom) {
+            var valor = jQuery.getMetaCookie(nom, SC_COOKIE);
             if (valor !== undefined) {
     if (valor > 0) {
-                    $('input[name=' + nom + ']').attr('checked', 'checked');
+                    jQuery('input[name=' + nom + ']').attr('checked', 'checked');
     } else {
-                    $('input[name=' + nom + ']').removeAttr('checked');
+                    jQuery('input[name=' + nom + ']').removeAttr('checked');
     }
             }
   });
@@ -359,7 +359,7 @@ function readCookieStatus() {
 }
 
 function update_enabled_rules() {
-    if ($("input[name=opcio_general]:checked").val() != "criteris_cap") {
+    if (jQuery("input[name=opcio_general]:checked").val() != "criteris_cap") {
         document.getElementById("incoatius_eix").disabled = true;
         document.getElementById("incoatius_ix").disabled = true;
         document.getElementById("incoatius_esc").disabled = true;
@@ -382,7 +382,7 @@ function update_enabled_rules() {
         document.getElementById("concorda_dos_dues").disabled = false;
         document.getElementById("concorda_dos").disabled = false;
     }
-    if ($("input[name=opcio_general]:checked").val() == "criteris_uv") {
+    if (jQuery("input[name=opcio_general]:checked").val() == "criteris_uv") {
         document.getElementById("municipi_nom_valencia").disabled = true;
         document.getElementById("municipi_nom_oficial").disabled = true;
     } else {
