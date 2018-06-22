@@ -58,7 +58,7 @@ AtDCore.prototype.addI18n = function(localizations) {
 AtDCore.prototype.processJSON = function(responseJSON) {
     var json = jQuery.parseJSON(responseJSON);
     if (json.matches.length == 0) {
-       $('#feedbackErrorMessage').html("<div id='green'>No s'ha trobat cap error</div>");
+       jQuery('#feedbackErrorMessage').html("<div id='green'>No s'ha trobat cap error</div>");
     }
     var incompleteResults = json.warnings && json.warnings.incompleteResults;
     this.suggestions = [];
@@ -499,17 +499,17 @@ AtDCore.prototype.isIE = function() {
                plugin.editor.setProgressState(0);
                document.checkform._action_checkText.disabled = false;
 
-               $('#feedbackErrorMessage').html("");  // no severe errors, so clear that error area
+               jQuery('#feedbackErrorMessage').html("");  // no severe errors, so clear that error area
 
                var results = core.processJSON(jqXHR.responseText);
                if (languageCode === "auto") {
                   var json = jQuery.parseJSON(jqXHR.responseText);
                   var detectedLang = json.language.name;
-                  /*var langDiv = $("#lang");
+                  /*var langDiv = jQuery("#lang");
                   langDiv.find('option[value="auto"]').remove();
-                  langDiv.prepend($("<option selected/>").val("auto").text("Auto-detected: " + detectedLang));
+                  langDiv.prepend(jQuery("<option selected/>").val("auto").text("Auto-detected: " + detectedLang));
                   langDiv.dropkick('refresh');*/
-                  $('#feedbackMessage').html("Detected language: " + detectedLang);
+                  jQuery('#feedbackMessage').html("Detected language: " + detectedLang);
                }
 
                if (results.suggestions.length == 0) {
@@ -518,14 +518,14 @@ AtDCore.prototype.isIE = function() {
                   if (languageCode === "auto") {
                      noErrorsText += " Detected language: " + detectedLang;
                   }
-                  $('#feedbackMessage').html(noErrorsText);
+                  jQuery('#feedbackMessage').html(noErrorsText);
                }
                else {
                   plugin.markMyWords();
                   ed.suggestions = results.suggestions; 
                }
                 if (results.incompleteResults) {
-                    $('#feedbackErrorMessage').html("<div id='severeError'>These results may be incomplete due to a server timeout.</div>");
+                    jQuery('#feedbackErrorMessage').html("<div id='severeError'>These results may be incomplete due to a server timeout.</div>");
                     t._trackEvent('CheckError', 'ErrorWithException', "Incomplete Results");
                 }
             });
@@ -838,8 +838,8 @@ AtDCore.prototype.isIE = function() {
                  })(errorDescription[suggestWord]);
              }*/
 
-             var langCode = $('#lang').val();
-             var subLangCode = $('#subLang').val();
+             var langCode = jQuery('#lang').val();
+             var subLangCode = jQuery('#subLang').val();
              if (subLangCode) {
                  langCode = langCode.replace(/-.*/, "") + "-" + subLangCode;
              }
@@ -862,14 +862,14 @@ AtDCore.prototype.isIE = function() {
                             function(data) {
                                 var ruleHtml = "";
                                 var exampleCount = 0;
-                                $.each(data['results'], function(key, val) {
+                                jQuery.each(data['results'], function(key, val) {
                                     if (val.sentence && val.status === 'incorrect' && exampleCount < 5) {
                                         ruleHtml += "<span class='example'>";
                                         ruleHtml += "<img src='/images/cancel.png'>&nbsp;" +
                                             val.sentence.replace(/<marker>(.*?)<\/marker>/, "<span class='error'>$1</span>") + "<br>";
                                         // if there are more corrections we cannot be sure they're all good, so don't show any:
                                         if (val.corrections && val.corrections.length === 1 && val.corrections[0] !== '') {
-                                            var escapedCorr = $('<div/>').text(val.corrections[0]).html();
+                                            var escapedCorr = jQuery('<div/>').text(val.corrections[0]).html();
                                             ruleHtml += "<img src='/images/check.png'>&nbsp;";
                                             ruleHtml += val.sentence.replace(/<marker>(.*?)<\/marker>/, escapedCorr) + "<br>";
                                         }
@@ -883,11 +883,11 @@ AtDCore.prototype.isIE = function() {
                                     t._trackEvent('ShowExamples', 'NoExamples', ruleId);
                                 }
                                 ruleHtml += "<p><a target='_lt_rule_details' href='" + ruleUrl + "'>" + ruleImplementation + "</a></p>";
-                                var $dialog = $("#dialog");
+                                var $dialog = jQuery("#dialog");
                                 $dialog.html(ruleHtml);
                                 $dialog.dialog("open");
                             }).fail(function(e) {
-                                var $dialog = $("#dialog");
+                                var $dialog = jQuery("#dialog");
                                 $dialog.html("Sorry, could not get rules. Server returned error code " + e.status + ".");
                                 $dialog.dialog("open");
                                 t._trackEvent('ShowExamples', 'ServerError');
@@ -915,10 +915,10 @@ AtDCore.prototype.isIE = function() {
            
            m.showMenu(xPos, p1.y + e.target.offsetHeight - vp.y + posWorkaround);
            this.menuVisible =  true;
-           var menuDiv = $('#menu_checktext_spellcheckermenu_co');
+           var menuDiv = jQuery('#menu_checktext_spellcheckermenu_co');
            if (menuDiv) {
                var menuWidth = menuDiv.width();
-               var textBoxWidth = $('#checktextpara').width();  // not sure why we cannot directly use the textarea's width
+               var textBoxWidth = jQuery('#checktextpara').width();  // not sure why we cannot directly use the textarea's width
                if (xPos + menuWidth > textBoxWidth) {
                    // menu runs out of screen, move it to the left
                    var diff = xPos + menuWidth - textBoxWidth;
@@ -1027,7 +1027,7 @@ AtDCore.prototype.isIE = function() {
                                 // This unfortunately means that the limit needs to be configured in the server *and* here.
                                 errorText = "Error: el text és massa llarg (" + data.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
                             }
-                            $('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
+                            jQuery('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
                             t._trackEvent('CheckError', 'ErrorWithException', errorText);
                             t._serverLog(errorText + " (second try)");
                         }
@@ -1054,7 +1054,7 @@ AtDCore.prototype.isIE = function() {
                plugin.editor.setProgressState(0);
                document.checkform._action_checkText.disabled = false;
                var errorMessage = "<div id='severeError'>Error: Could not send request to\n" + o.url + "\nError: " + type + "\nStatus code: " + req.status + "\nPlease make sure your network connection works.</div>";
-               $('#feedbackErrorMessage').html(errorMessage);
+               jQuery('#feedbackErrorMessage').html(errorMessage);
             }
          });*/
       }
