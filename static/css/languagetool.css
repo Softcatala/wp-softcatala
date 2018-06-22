@@ -84,3 +84,10 @@ td img {vertical-align: top;}
     width: 95% !important;
 }
 
+#feedbackErrorMessage {
+    color: green;
+}
+
+.severeError {
+    color: #c43434;
+}

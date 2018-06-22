@@ -57,9 +57,6 @@ AtDCore.prototype.addI18n = function(localizations) {
 
 AtDCore.prototype.processJSON = function(responseJSON) {
     var json = jQuery.parseJSON(responseJSON);
-    if (json.matches.length == 0) {
-       jQuery('#feedbackErrorMessage').html("<div id='green'>No s'ha trobat cap error</div>");
-    }
     var incompleteResults = json.warnings && json.warnings.incompleteResults;
     this.suggestions = [];
     for (var key in json.matches) {
@@ -518,19 +515,19 @@ AtDCore.prototype.isIE = function() {
                   if (languageCode === "auto") {
                      noErrorsText += " Detected language: " + detectedLang;
                   }
-                  jQuery('#feedbackMessage').html(noErrorsText);
+                  jQuery('#feedbackErrorMessage').html(noErrorsText);
                }
                else {
                   plugin.markMyWords();
                   ed.suggestions = results.suggestions; 
                }
                 if (results.incompleteResults) {
-                    jQuery('#feedbackErrorMessage').html("<div id='severeError'>These results may be incomplete due to a server timeout.</div>");
+                    jQuery('#feedbackErrorMessage').html("<div class='severeError'>These results may be incomplete due to a server timeout.</div>");
                     t._trackEvent('CheckError', 'ErrorWithException', "Incomplete Results");
                 }
             });
          });
-          
+
          /* load cascading style sheet for this plugin */
           editor.onInit.add(function() 
          {
@@ -818,48 +815,6 @@ AtDCore.prototype.isIE = function() {
                }
             });
 
-            if (!isSpellingRule) {
-                m.add({
-                    title : ignoreThisText,
-                    onclick : function()
-                    {
-                        //dom.remove(e.target, 1);
-                        var surrogate = e.target.getAttribute(plugin.editor.core.surrogateAttribute);
-                        var ruleId = plugin.editor.core.getSurrogatePart(surrogate, 'id');
-                        ed.core.ignoredRulesIds.push(ruleId);
-                        t._removeWordsByRuleId(ruleId);
-                        //t._trackEvent('IgnoreRule', lang, errorDescription["id"]);
-                        t._trackEvent('IgnoreRule', lang, ruleId);
-                        t._checkDone();
-                        ed.selection.setContent(ed.selection.getContent()); // remove selection (see https://github.com/languagetool-org/languagetool-website/issues/8)
-                        /*var stateObj = {};
-                        if (window.location.href.indexOf("ignore=") === -1) {
-                            history.replaceState(stateObj, "", "/?ignore=" + ruleId);
-                        } else {
-                            history.replaceState(stateObj, "", window.location.search + "," + ruleId);
-                        }*/
-                    }
-                });
-            } else {
-                var ignoreThisKindOfErrorText = "Ignore error for this word";
-                if (plugin.editor.getParam('languagetool_i18n_ignore_all')) {
-                    ignoreThisKindOfErrorText = plugin.editor.getParam('languagetool_i18n_ignore_all')[lang] || "Ignore error for this word";
-                }
-                m.add({
-                    title : ignoreThisKindOfErrorText,
-                    onclick : function()
-                    {
-                        var surrogate = e.target.getAttribute(plugin.editor.core.surrogateAttribute);
-                        var ruleId = plugin.editor.core.getSurrogatePart(surrogate, 'id');
-                        var coveredText = plugin.editor.core.getSurrogatePart(surrogate, 'coveredtext');
-                        ed.core.ignoredSpellingErrors.push(coveredText);
-                        t._removeWordsByRuleId(ruleId, coveredText);
-                        t._trackEvent('IgnoreSpellingError', lang);
-                        t._checkDone();
-                    }
-                });
-            }
-
              var langCode = jQuery('#lang').val();
              var subLangCode = jQuery('#subLang').val();
              if (subLangCode) {
@@ -1042,14 +997,14 @@ AtDCore.prototype.isIE = function() {
                             document.checkform._action_checkText.disabled = false;
                             var errorText = jqXHR.responseText;
                             if (!errorText) {
-                                errorText = "Error: el servei no respon. Torneu a provar-ho d'ací a una estona.";
+                                errorText = "Error: el servei no respon. Proveu d'ací a una estona.";
                             }
                             if (data.length > maxTextLength) {
                                 // Somehow, the error code 413 is lost in Apache, so we show that error here.
                                 // This unfortunately means that the limit needs to be configured in the server *and* here.
                                 errorText = "Error: el text és massa llarg (" + data.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
                             }
-                            jQuery('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
+                            jQuery('#feedbackErrorMessage').html("<div class='severeError'>" + errorText + "</div>");
                             t._trackEvent('CheckError', 'ErrorWithException', errorText);
                             t._serverLog(errorText + " (second try)");
                         }
