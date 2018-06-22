@@ -750,6 +750,7 @@ AtDCore.prototype.isIE = function() {
              
             var explainText = plugin.editor.getParam('languagetool_i18n_explain')[lang] || "Explain...";
             var ignoreThisText = plugin.editor.getParam('languagetool_i18n_ignore_once')[lang] || "Ignore this type of error";
+            var editManually = plugin.editor.getParam('languagetool_i18n_edit_manually')[lang] || "Edit manually";
             var ruleExamples = "Examples...";
             if (plugin.editor.getParam('languagetool_i18n_rule_examples')) {
               ruleExamples = plugin.editor.getParam('languagetool_i18n_rule_examples')[lang] || "Examples...";
@@ -773,6 +774,18 @@ AtDCore.prototype.isIE = function() {
             var isSpellingRule = ruleId.indexOf("MORFOLOGIK_RULE") != -1 || ruleId.indexOf("SPELLER_RULE") != -1 ||
                                  ruleId.indexOf("HUNSPELL_NO_SUGGEST_RULE") != -1 || ruleId.indexOf("HUNSPELL_RULE") != -1;
 
+            if (suggestWord && suggestWordUrl && isSpellingRule) {
+              var newUrl = suggestWordUrl.replace(/{word}/, encodeURIComponent(errorDescription['coveredtext']));
+              (function(url)
+              {
+                m.add({
+                  title : suggestWord,
+                  onclick : function() { window.open(newUrl, '_suggestWord'); }
+                });
+              })(errorDescription[suggestWord]);
+              m.addSeparator();
+            }
+
             if (errorDescription != undefined && errorDescription["moreinfo"] != null)
             {
                (function(url)
@@ -784,6 +797,26 @@ AtDCore.prototype.isIE = function() {
                })(errorDescription["moreinfo"]);
                m.addSeparator();
             }
+
+            m.add({
+               title : editManually,
+               onclick : function() 
+               {
+                  dom.remove(e.target, 1);
+                  t._serverLog('EditManually', errorDescription, '', -1);
+                  t._checkDone();
+               }
+            });
+
+            m.add({
+               title : ignoreThisText,
+               onclick : function() 
+               {
+                  dom.remove(e.target, 1);
+                  t._serverLog('IgnoreRule', errorDescription, '', -1);
+                  t._checkDone();
+               }
+            });
 
             if (!isSpellingRule) {
                 m.add({
@@ -826,17 +859,6 @@ AtDCore.prototype.isIE = function() {
                     }
                 });
             }
-
-             /*if (suggestWord && suggestWordUrl && isSpellingRule) {
-                 var newUrl = suggestWordUrl.replace(/{word}/, encodeURIComponent(errorDescription['coveredtext']));
-                 (function(url)
-                 {
-                     m.add({
-                         title : suggestWord,
-                         onclick : function() { window.open(newUrl, '_suggestWord'); }
-                     });
-                 })(errorDescription[suggestWord]);
-             }*/
 
              var langCode = jQuery('#lang').val();
              var subLangCode = jQuery('#subLang').val();

@@ -70,9 +70,13 @@ tinyMCE.init({
   },
   languagetool_i18n_ignore_once: {
     // "Ignore this error":
-    'ca': 'Ignora aquest error',
-    'ca-ES-valencia': 'Ignora aquest error'
+    'ca': 'Crec que no hi ha error',
+    'ca-ES-valencia': 'Crec que no hi ha error'
   },
+  languagetool_i18n_edit_manually: {
+      'ca': 'Edita manualment',
+      'ca-ES-valencia': 'Edita manualment'
+    },
   languagetool_i18n_ignore_all: {
     // "Ignore this kind of error":
     'ca': 'Ignora aquesta classe d\'errors',
