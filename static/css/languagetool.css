@@ -88,6 +88,9 @@ td img {vertical-align: top;}
     color: green;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+    font-style: italic;
+    transition: all 500ms ease-in-out;
 }
 
 .severeError {
