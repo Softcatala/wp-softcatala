@@ -133,7 +133,7 @@ function dochecktext() {
   if (userText.length > maxTextLength) {
     var errorText = "Error: el text és massa llarg (" + userText.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
       jQuery('#feedbackErrorMessage').html("<div id='severeError'>" + errorText + "</div>");
-  } else {
+  } else if (userText.length > 0) {
     //normalize text
     if (String.prototype.hasOwnProperty('normalize')) {
       var normalizedText = userText.normalize("NFC");
@@ -141,8 +141,7 @@ function dochecktext() {
     }
     //alert(langCode + " " + userOptions);
     tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
-  }
-  
+  } 
 }
 
 function dooptions() {
