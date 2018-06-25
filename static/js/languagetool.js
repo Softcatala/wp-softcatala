@@ -139,9 +139,10 @@ function dochecktext() {
       var normalizedText = userText.normalize("NFC");
       tinyMCE.activeEditor.setContent(normalizedText);
     }
+    //alert(langCode + " " + userOptions);
+    tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
   }
-  //alert(langCode + " " + userOptions);
-  tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
+  
 }
 
 function dooptions() {
