@@ -13,5 +13,10 @@ if ( ! $_tests_dir ) {
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
 
+if (!class_exists('\PHPUnit\Framework\TestCase') &&
+    class_exists('\PHPUnit_Framework_TestCase')) {
+	class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
+
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
