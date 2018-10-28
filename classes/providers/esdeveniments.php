@@ -31,7 +31,7 @@ class Esdeveniments {
 			'paged'          => get_is_paged(),
 			'posts_per_page' => $amount,
 			'meta_query'     => array(
-				get_meta_query_value( 'data_fi', self::get_midnight(), '>=', 'NUMERIC' )
+				get_meta_query_value( 'data_fi', self::get_midnight(), '>=', 'NUMERIC' ),
 			),
 		);
 

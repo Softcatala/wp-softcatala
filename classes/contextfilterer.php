@@ -1,9 +1,5 @@
 <?php
 /**
- * @package SC
- */
-
-/**
  * Filters context for custom pages
  */
 class SC_ContextFilterer {

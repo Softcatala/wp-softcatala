@@ -28,6 +28,10 @@ class SC_RestClient {
 		$result = wp_remote_retrieve_body( $response );
 		$error = is_wp_error( $response );
 
-		return array( 'result' => $result, 'code' => $code, 'error' => $error );
+		return array(
+			'result' => $result,
+			'code' => $code,
+			'error' => $error,
+		);
 	}
 }

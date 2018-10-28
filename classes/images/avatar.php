@@ -18,7 +18,7 @@ class Avatar {
 	 *
 	 * @return mixed
 	 */
-	static function filter( $args, $id_or_email ) {
+	public static function filter( $args, $id_or_email ) {
 
 		$user_id = self::get_user_id( $id_or_email );
 
@@ -26,7 +26,7 @@ class Avatar {
 
 			$image_url = self::get_image_url( $args, $user_id );
 
-			if ( $image_url !== false ) {
+			if ( false !== $image_url ) {
 				$args['url'] = $image_url;
 			}
 		}
@@ -37,7 +37,7 @@ class Avatar {
 	private static function get_user_id( $id_or_email ) {
 
 		return self::try_get_user_id_from_post( $id_or_email ) ?:
-			    self::try_get_user_id_from_comment( $id_or_email ) ?:
+				self::try_get_user_id_from_comment( $id_or_email ) ?:
 				self::try_get_user_id_from_number( $id_or_email ) ?:
 				self::try_get_user_id_from_email( $id_or_email ) ?:
 				self::try_get_user_id_from_user( $id_or_email );

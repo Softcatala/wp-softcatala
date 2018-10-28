@@ -54,7 +54,7 @@ class Filterer {
 
 			$search = array();
 
-			foreach ( ( array ) $query['search_terms'] as $term ) {
+			foreach ( (array) $query['search_terms'] as $term ) {
 				$search[] = $wpdb->prepare( "$wpdb->posts.post_title LIKE %s", $fuzzy . $wpdb->esc_like( $term ) . $fuzzy );
 			}
 

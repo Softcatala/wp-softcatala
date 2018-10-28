@@ -2,7 +2,7 @@
 <ruleset name="WP Softcatala">
     <description>WP Softcatala rules for PHP_CodeSniffer</description>
 
-    <file>shortcodes/</file>
+    <file>classes/</file>
 
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
@@ -10,22 +10,25 @@
     <arg name="extensions" value="php" />
     <arg value="nsp" />
 
-    <rule ref="Yoast">
-        <exclude name="Yoast.ControlStructures.IfElseDeclaration.NewLine" />
-        <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
-    </rule>
+    <config name="testVersion" value="5.6-"/>
 
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
-        <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
+    <rule ref="WordPress">
+        <config name="minimum_supported_wp_version" value="4.9"/>
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+        <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing" />
     </rule>
+    <rule ref="WordPress-Extra" />
 
     <rule ref="Squiz.Commenting">
-	<exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing" />
-        <exclude name="Squiz.Commenting.FunctionComment.Missing" />
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
         <exclude name="Squiz.Commenting.VariableComment.Missing" />
+        <exclude name="Squiz.Commenting.FunctionComment.Missing" />
+        <exclude name="Squiz.Commenting.ClosingDeclarationComment.Incorrect" />
+        <exclude name="Squiz.Commenting.LongConditionClosingComment" />
     </rule>
 
-    <rule ref="Squiz.ControlStructures">
-        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine" />
-    </rule>
 </ruleset>

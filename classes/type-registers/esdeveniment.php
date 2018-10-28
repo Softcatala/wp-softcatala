@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Softcatala
- */
 
 namespace Softcatala\TypeRegisters;
 
@@ -18,8 +15,8 @@ class Esdeveniment extends PostType {
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ), 11 );
 	}
 
-	function custom_columns( $column, $post_id ) {
-		echo get_field( $column, $post_id );
+	public function custom_columns( $column, $post_id ) {
+		echo esc_html( get_field( $column, $post_id ) );
 	}
 
 	public function remove_yoast_metabox() {
@@ -28,7 +25,8 @@ class Esdeveniment extends PostType {
 
 	public function add_columns_to_admin( $columns ) {
 
-		$return = array_merge( $columns,
+		$return = array_merge(
+			 $columns,
 			array(
 				'data_inici' => 'Data de finalització',
 				'data_fi'    => "Data d'inici",
@@ -63,7 +61,10 @@ class Esdeveniment extends PostType {
 			'has_archive'         => true,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => true,
-			'rewrite'             => array( 'slug' => 'esdeveniments', 'with_front' => false ),
+			'rewrite'             => array(
+				'slug' => 'esdeveniments',
+				'with_front' => false,
+			),
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
 		);
@@ -75,7 +76,8 @@ class Esdeveniment extends PostType {
 		$labels  = $this->get_taxonomy_labels(
 			"Categoria de l'esdeveniment",
 			'Categoria dels esdeveniments',
-			'Categoria');
+			'Categoria'
+			);
 
 		$rewrite = array(
 			'slug'         => 'esdeveniments/categoria',

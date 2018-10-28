@@ -70,7 +70,7 @@ class Programes {
 				);
 			} else {
 				$terms = array(
-					$filter['sistema-operatiu-programa']
+					$filter['sistema-operatiu-programa'],
 				);
 			}
 
@@ -112,7 +112,7 @@ class Programes {
 	 */
 	public static function sort_programs( $first, $second ) {
 		if ( $first->programa_destacat != $second->programa_destacat ) {
-			return ( $first->programa_destacat ) ? (-1) : 1;
+			return ( $first->programa_destacat ) ? ( -1 ) : 1;
 		}
 
 		return strcasecmp( $first->post_title, $second->post_title );

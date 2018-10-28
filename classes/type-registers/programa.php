@@ -40,16 +40,17 @@ class Programa extends PostType {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip_programa', true );
 				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
-			break;
+				break;
 
 			default:
-			return;
+				return;
 		}
 	}
 
 	public function add_columns_to_admin( $columns ) {
 
-		return array_merge($columns,
+		return array_merge(
+			$columns,
 			array(
 				'image' => 'Imatge',
 			)
@@ -77,7 +78,10 @@ class Programa extends PostType {
 			'has_archive'         => true,
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
-			'rewrite'             => array( 'slug' => 'programes', 'with_front' => false ),
+			'rewrite'             => array(
+				'slug' => 'programes',
+				'with_front' => false,
+			),
 			'capability_type'     => 'page',
 			'show_in_rest'        => false,
 		);
@@ -98,7 +102,8 @@ class Programa extends PostType {
 		$labels  = $this->get_taxonomy_labels(
 			'Categories del programa',
 			'Categoria del programa',
-			'Categoria programes');
+			'Categoria programes'
+			);
 
 		$args    = array(
 			'labels'            => $labels,

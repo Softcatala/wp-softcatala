@@ -12,8 +12,11 @@ abstract class SC_Content_Base {
 
 	protected $nom;
 
-	function __construct( $nom ) {
-		$this->wp_object = array( 'status' => -1, 'post_id' => -1 );
+	protected function __construct( $nom ) {
+		$this->wp_object = array(
+			'status' => -1,
+			'post_id' => -1,
+		);
 
 		$this->nom = $nom;
 	}
@@ -28,7 +31,7 @@ abstract class SC_Content_Base {
 	 * @return bool
 	 */
 	public function is_draft() {
-		return $this->wp_object['status'] == 1;
+		return 1 == $this->wp_object['status'];
 	}
 
 	/**
@@ -45,7 +48,7 @@ abstract class SC_Content_Base {
 	 *
 	 * @return string
 	 */
-	function get_return() {
+	public function get_return() {
 		return $this->wp_object;
 	}
 
@@ -61,7 +64,7 @@ abstract class SC_Content_Base {
 	 *
 	 * @return array|mixed|void
 	 */
-	function save_as_draft( $type, $nom, $descripcio, $slug, $all_terms, $metadata ) {
+	public function save_as_draft( $type, $nom, $descripcio, $slug, $all_terms, $metadata ) {
 		$return = array();
 		if ( isset( $metadata['post_id'] ) ) {
 			$parent_id = $metadata['post_id'];
@@ -92,9 +95,9 @@ abstract class SC_Content_Base {
 
 			sc_update_metadata_acf( $post_id, $metadata );
 
-			if ( $type == 'aparell' ) {
+			if ( 'aparell' == $type ) {
 				$attach_id = sc_upload_file( 'file', $post_id );
-				if ( $attach_id  ) {
+				if ( $attach_id ) {
 					$return = sc_set_featured_image( $post_id, $attach_id );
 				} else {
 					$return['status'] = 1;
@@ -107,7 +110,7 @@ abstract class SC_Content_Base {
 			$return['text']   = "S'ha produït un error en enviar les dades. Proveu de nou.";
 		}//end if
 
-		if ( $return['status'] == 1 ) {
+		if ( 1 == $return['status'] ) {
 			$return['post_id'] = $post_id;
 			$return['text']    = 'Gràcies per enviar aquesta informació. La publicarem tan aviat com puguem.';
 		}

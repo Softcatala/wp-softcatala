@@ -64,6 +64,18 @@ function sc_multilingue_search() {
 }
 
 /**
+ * Function to prepare mailman URLs for inter-LXC connectivity
+ */
+function prepare_mailman_url ( $llista ) {
+
+	if ( $_SERVER['SERVER_NAME'] == 'www.softcatala.org' ) {
+		$llista = str_replace( 'https://llistes.softcatala.org/', 'http://mail.scnet/', $llista);
+	}
+
+	return $llista;
+}
+
+/**
  * Function to make the request to synonims dictionary server
  *
  * @return json response
@@ -75,6 +87,7 @@ function sc_subscribe_list() {
 		$nom           = sanitize_text_field( $_POST["nom"] );
 		$correu        = sanitize_text_field( $_POST["correu"] );
 		$llista        = sanitize_text_field( $_POST["llista"] );
+		$llista        = prepare_mailman_url( $llista );
 		$projecte      = sanitize_text_field( $_POST["projecte"] );
 		$projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
 

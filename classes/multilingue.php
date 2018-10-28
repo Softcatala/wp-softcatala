@@ -17,7 +17,7 @@ class SC_Multilingue {
 	public function __construct( $client = null ) {
 		add_shortcode( 'multilingue-stats', array( $this, 'multilingue_stats' ) );
 
-		if ( $client != null ) {
+		if ( null != $client ) {
 			$this->rest_client = $client;
 		} else {
 			$this->rest_client = new SC_RestClient();
@@ -53,7 +53,7 @@ class SC_Multilingue {
 			return $this->return500();
 		}
 
-		if ( $result['code'] == 200 ) {
+		if ( 200 == $result['code'] ) {
 			return $this->build_results( $result['result'], $paraula, $lang );
 		}
 
@@ -98,7 +98,7 @@ class SC_Multilingue {
 			$result_count = ( count( $api_result ) > 1 ) ? 'resultats' : 'resultat';
 			$result       = 'Resultats de la cerca per: <strong>' . $paraula . '</strong> (' . count( $api_result ) . ' ' . $result_count . ') <hr class="clara"/>';
 
-			if ( $lang != 'ca' ) {
+			if ( 'ca' != $lang ) {
 				$canonical = '/diccionari-multilingue/paraula/' . $api_result[0]->word_ca . '/';
 			} else {
 				$canonical = '/diccionari-multilingue/paraula/' . $paraula . '/';
@@ -140,12 +140,15 @@ class SC_Multilingue {
 
 		$langname = $this->get_langname( $lang );
 
-		$html = Timber::fetch( 'ajax/multilingue-paraula-not-found.twig', array(
-			'paraula'     => $paraula,
-			'lang'        => $lang,
-			'langname'    => $langname,
-			'suggestions' => $suggestions,
-		) );
+		$html = Timber::fetch(
+			 'ajax/multilingue-paraula-not-found.twig',
+			array(
+				'paraula'     => $paraula,
+				'lang'        => $lang,
+				'langname'    => $langname,
+				'suggestions' => $suggestions,
+			)
+			);
 
 		return new SC_MultilingueResult( 404, $html, '', '', '', '', $suggestions );
 	}
@@ -153,26 +156,26 @@ class SC_Multilingue {
 	private function get_langname( $lang ) {
 		switch ( $lang ) {
 			case 'ca':
-			return 'català';
+				return 'català';
 
 			case 'es':
-			return 'espanyol';
+				return 'espanyol';
 
 			case 'en':
-			return 'anglès';
+				return 'anglès';
 
 			case 'fr':
-			return 'francès';
+				return 'francès';
 
 			case 'de':
-			return 'alemany';
+				return 'alemany';
 
 			case 'it':
-			return 'italià';
+				return 'italià';
 
 			default:
-			return $lang;
-		}//end switch
+				return $lang;
+		}
 	}
 
 	private function return500() {
@@ -182,9 +185,9 @@ class SC_Multilingue {
 	}
 
 	private function get_source_link( $result ) {
-		if ( $result->source == 'wikidata' ) {
+		if ( 'wikidata' == $result->source ) {
 			$value = '<a href="https://www.wikidata.org/wiki/' . $result->references->wikidata . '">Wikidata</a>';
-		} else if ( $result->source == 'wikidictionary_ca' ) {
+		} else if ( 'wikidictionary_ca' == $result->source ) {
 			$value = '<a href="https://ca.wiktionary.org/wiki/' . $result->references->wikidictionary_ca . '">Viccionari</a>';
 		}
 

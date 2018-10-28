@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Softcatala
- */
 
 namespace Softcatala\Widgets;
 
@@ -36,7 +33,7 @@ class CatalanitzadorStats extends \WP_Widget {
 
 		$sessions = $this->get_total_catalanitzador_sessions();
 
-		if ( $sessions !== false ) {
+		if ( false !== $sessions ) {
 			\Timber\Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
 		}
 	}
@@ -45,11 +42,11 @@ class CatalanitzadorStats extends \WP_Widget {
 
 		$stored_sessions = get_transient( self::TRANSIENT_NAME );
 
-		if ( $stored_sessions === false ) {
+		if ( false === $stored_sessions ) {
 
 			$stored_sessions = $this->fetch_remote_sessions();
 
-			if ( $stored_sessions !== false ) {
+			if ( false !== $stored_sessions ) {
 				set_transient( self::TRANSIENT_NAME, $stored_sessions, DAY_IN_SECONDS );
 			}
 		}
@@ -62,7 +59,7 @@ class CatalanitzadorStats extends \WP_Widget {
 
 		$result = $rest_client->get( self::STATS_URL );
 
-		if ( $result['code'] == 200 ) {
+		if ( 200 == $result['code'] ) {
 
 			$sessions = $result['result'];
 

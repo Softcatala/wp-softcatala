@@ -26,7 +26,7 @@ class SC_Multilingue_Stats {
 		return $stats;
 	}
 
-	function count( $statistics, $key ) {
+	private function count( $statistics, $key ) {
 
 		$wikidata       = (array) $statistics->wikidata;
 		$wikidictionary = (array) $statistics->wikidictionary;

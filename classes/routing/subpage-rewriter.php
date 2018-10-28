@@ -70,7 +70,7 @@ class SubpageRewriter {
 
 		$parent_entity = get_post( $parent_id );
 
-		if ( $parent_entity !== null ) {
+		if ( null !== $parent_entity ) {
 
 			$slug = $parent_entity->post_name;
 

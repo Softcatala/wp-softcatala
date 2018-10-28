@@ -1,14 +1,11 @@
 <?php
-/**
- * @package Softcatalà
- **/
 
 /**
  * Represents a single Aparell
  */
 class SC_Aparell extends SC_Content_Base {
 
-	function __construct( $nom, $tipus_aparell, $fabricant, $sistema_operatiu, $versio, $traduccio_catala, $correccio_catala, $comentari ) {
+	public function __construct( $nom, $tipus_aparell, $fabricant, $sistema_operatiu, $versio, $traduccio_catala, $correccio_catala, $comentari ) {
 
 		parent::__construct( $nom );
 

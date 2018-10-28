@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Softcatala
- */
 
 namespace Softcatala\TypeRegisters;
 
@@ -18,14 +15,14 @@ class Aparell extends PostType {
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ), 11 );
 	}
 
-	function custom_columns( $column, $post_id ) {
+	public function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
 				the_post_thumbnail( '', array( 'style' => 'max-width:100px;height:auto;' ), $post_id );
-			break;
+				break;
 
 			default:
-			return;
+				return;
 		}
 	}
 
@@ -35,7 +32,8 @@ class Aparell extends PostType {
 
 	public function add_columns_to_admin( $columns ) {
 
-		return array_merge($columns,
+		return array_merge(
+			$columns,
 			array(
 				'image' => 'Imatge',
 			)
@@ -99,7 +97,8 @@ class Aparell extends PostType {
 		$labels  = $this->get_taxonomy_labels(
 			"Tipus d'aparells",
 			"Tipus d'aparell",
-			'Tipus' );
+			'Tipus'
+			);
 
 		$args    = array(
 			'labels'            => $labels,
@@ -121,7 +120,8 @@ class Aparell extends PostType {
 		$labels  = $this->get_taxonomy_labels(
 			'Sistemes operatius (aparells)',
 			'Sistema operatiu (aparell)',
-			'Sistema operatiu' );
+			'Sistema operatiu'
+			);
 
 		$args    = array(
 			'labels'            => $labels,

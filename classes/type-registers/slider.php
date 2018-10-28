@@ -18,18 +18,18 @@ class Slider extends PostType {
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ) , 11 );
 	}
 
-	function custom_columns( $column, $post_id ) {
+	public function custom_columns( $column, $post_id ) {
 		switch ( $column ) {
 			case 'image':
 				the_post_thumbnail( '', array( 'style' => 'max-width:200px;height:auto;' ), $post_id );
-			break;
+				break;
 
 			case 'link':
-				echo get_post_meta( $post_id, 'slide_link', true );
-			break;
+				echo esc_url( get_post_meta( $post_id, 'slide_link', true ) );
+				break;
 
 			default:
-			return;
+				return;
 		}
 	}
 
@@ -39,11 +39,12 @@ class Slider extends PostType {
 
 	public function add_columns_to_admin( $columns ) {
 
-		return array_merge($columns,
+		return array_merge(
+			$columns,
 			array(
-			'image' => 'Imatge',
-					'link'  => 'URL',
-			  )
+				'image' => 'Imatge',
+				'link'  => 'URL',
+			)
 		);
 	}
 

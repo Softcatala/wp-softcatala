@@ -44,7 +44,7 @@ class Projectes {
 					'taxonomy' => 'classificacio',
 					'field' => 'slug',
 					'terms' => 'arxivat',
-					'operator'  => ($arxivats) ? 'IN' : 'NOT IN',
+					'operator'  => ( $arxivats ) ? 'IN' : 'NOT IN',
 				),
 			),
 		);
@@ -63,7 +63,7 @@ class Projectes {
 	 */
 	public static function sort_projects( $first, $second ) {
 		if ( $first->projecte_destacat != $second->projecte_destacat ) {
-			return ( $first->projecte_destacat ) ? (-1) : 1;
+			return ( $first->projecte_destacat ) ? ( -1 ) : 1;
 		}
 
 		return strcasecmp( $first->post_title, $second->post_title );
