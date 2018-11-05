@@ -1040,7 +1040,7 @@ function throw_service_error( $service, $message = '', $sinonims = false ) {
 
 	throw_error( '500', 'Error connecting to API server' );
 
-	if ( $sinonims && $sc_site->get_setting_value( StarterSite::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS ) ) {
+	if ( $sinonims && $sc_site->get_setting_value( SC_Settings::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS ) ) {
 		return;
 	}
 
