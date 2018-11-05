@@ -32,12 +32,12 @@ class PostType {
 	/**
 	 * @var string
 	 */
-	protected $singular;
+	public $singular;
 
 	/**
 	 * @var string
 	 */
-	protected $plural;
+	public $plural;
 
 	/**
 	 * @var bool
