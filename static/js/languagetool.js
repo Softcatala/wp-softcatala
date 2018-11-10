@@ -4,6 +4,7 @@ var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'esp
 var langCode="ca-ES";
 var userOptions="";
 var SC_COOKIE = 'sc-languagetool';
+var placeholdervisible = false;
 
 (function($) {
     $(document).ready(function() {
@@ -27,10 +28,28 @@ var SC_COOKIE = 'sc-languagetool';
    
 }(jQuery));
 
-
 function insertDemoText() {
   var myDemoText = "Aquests frases servixen per a probar algun de les errades que detecta el corrector gramaticals. Proveu les variants de flexió verbal: penso, pense, pens. L'accentuació valenciana o general: café o cafè. Paraules errònies segons el context: Et menjaràs tots els canalons? Li va infringir un càstig sever. Errors de sintaxi: la persona amb la que vaig parlar. I algunes altres opcions: Quan es celebrarà la festa? Soc un os bru que menja mores. Sóc un ós bru que menja móres.";
   tinyMCE.activeEditor.setContent(myDemoText);
+}
+
+function cursor_at_end() {
+  var ed = tinyMCE.activeEditor;
+  //add an empty span with a unique id
+  var endId = tinymce.DOM.uniqueId();
+  ed.dom.add(ed.getBody(), 'span', {'id': endId}, '');
+  //select that span
+  var newNode = ed.dom.select('span#' + endId);
+  ed.selection.select(newNode[0]);
+}
+
+function myHandleEvent(ev) {
+  if (placeholdervisible) {
+    placeholdervisible = false;
+    tinyMCE.activeEditor.setContent("");
+    cursor_at_end();
+  }
+  return true; // Keep handling
 }
 
 function showoptions() {
@@ -46,15 +65,19 @@ function showoptions() {
   }
 }
 
-
 tinyMCE.init({
   mode: "specific_textareas",
   editor_selector: "lt",
   plugins: "AtD,paste",
   paste_text_sticky: true,
+  handle_event_callback : "myHandleEvent",
   setup: function(ed) {
     ed.onInit.add(function(ed) {
       ed.pasteAsPlainText = true;
+      if (tinyMCE.activeEditor.getContent() == ''){
+        tinyMCE.activeEditor.setContent("Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacrítics) en «Més opcions».");
+        placeholdervisible = true;
+      }
     });
   },
   /* translations: */
