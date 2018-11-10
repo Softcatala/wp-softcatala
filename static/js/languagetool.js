@@ -75,7 +75,8 @@ tinyMCE.init({
     ed.onInit.add(function(ed) {
       ed.pasteAsPlainText = true;
       if (tinyMCE.activeEditor.getContent() == ''){
-        tinyMCE.activeEditor.setContent("Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacrítics) en «Més opcions».");
+        tinyMCE.activeEditor.setContent("<span style='color:#999999'>Introduïu ací el text. Canvieu les preferències (tipografia, estil, diacr\
+ítics) en «Més opcions».</span>");
         placeholdervisible = true;
       }
     });
