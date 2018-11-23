@@ -145,7 +145,7 @@ tinyMCE.init({
   theme_advanced_buttons3: "",
   theme_advanced_toolbar_location: "none",
   theme_advanced_toolbar_align: "left",
-  theme_advanced_statusbar_location: "none", //"bottom",
+  theme_advanced_statusbar_location: "bottom", //"none",
   theme_advanced_path: false,
   theme_advanced_resizing: true,
   theme_advanced_resizing_use_cookie: false,
