@@ -10,13 +10,17 @@
  * Traductor de Softcatalà 
  */
 
-var traductor_json_url = "https://www.softcatala.org/apertium/json/translate";
+var traductor_json_url = "https://www.softcatala.org/api/traductor/translate";
 
 var SC_TRADUCTOR_COOKIE = 'sc-traductor';
 
 var rawText = '';
 
 jQuery('#translate').data('scroll', false);
+
+function enableDev() {
+    traductor_json_url = 'https://www.softcatala.org/api/dev/traductor/translate'
+}
 
 (function($) {
 //Set the initial default pairs on document ready
