@@ -39,11 +39,13 @@ function myHandleEvent() {
   if (userText.length == 0 || userText == '<p></p>') {
     placeholdervisible = true;
     document.getElementById("infoi").style.zIndex = "10";
+    document.getElementById("infoi").style.visibility = "visible";
     tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");
     tinyMCE.get('checktext').focus();
   } else {
     placeholdervisible = false;
-    document.getElementById("infoi").style.zIndex = "-1";
+    document.getElementById("infoi").style.zIndex = "-10";
+    document.getElementById("infoi").style.visibility = "hidden";
     //tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");
     tinyMCE.get('checktext').focus();
   }    
