@@ -21,9 +21,6 @@ var placeholdervisible = true;
       dochecktext();
       return false;
     });
-    $( "#infoi" ).on('click',function() {
-      myHandleEvent();
-    });
   });
 }(jQuery));
 
@@ -32,24 +29,6 @@ function insertDemoText() {
   tinyMCE.get('checktext').setContent(myDemoText);
   tinyMCE.get('checktext').execCommand('mceInsertContent', false,"");
   myHandleEvent();
-}
-
-function myHandleEvent() {
-  var userText = tinyMCE.activeEditor.getContent();
-  if (userText.length == 0 || userText == '<p></p>') {
-    placeholdervisible = true;
-    document.getElementById("infoi").style.zIndex = "10";
-    document.getElementById("infoi").style.visibility = "visible";
-    tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");
-    tinyMCE.get('checktext').focus();
-  } else {
-    placeholdervisible = false;
-    document.getElementById("infoi").style.zIndex = "-10";
-    document.getElementById("infoi").style.visibility = "hidden";
-    //tinyMCE.get('checktext').execCommand('mceInsertContent', false, "");
-    tinyMCE.get('checktext').focus();
-  }    
-  return true; // Continue handling
 }
 
 function showoptions() {
@@ -71,7 +50,6 @@ tinyMCE.init({
   plugins: "AtD,paste",
   paste_text_sticky: true,
   auto_focus : "checktext",
-  handle_event_callback : "myHandleEvent",
 
   /* translations: */
   languagetool_i18n_no_errors: {

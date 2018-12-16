@@ -65,21 +65,6 @@ p#checktextpara table {
     margin: 3px 0px 13px 0px;
 }
 
-#infoi {
-  width: 100%;
-  height: 70%; /* no tapa el resize */
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  color:#AAAAAA;
-  /* lletra similar a inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css */
-  font-family: "Open Sans",Helvetica, Arial,sans-serif !important;
-  margin: 10px 16px;
-  line-height: 25px;
-  font-size: 16px;
-}
-
 .textpetit {
    font-size: 10px;
 }
