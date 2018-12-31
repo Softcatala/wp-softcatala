@@ -50,6 +50,11 @@ tinyMCE.init({
   plugins: "AtD,paste",
   paste_text_sticky: true,
   auto_focus : "checktext",
+  setup: function(ed) {
+    ed.onInit.add(function(ed) {
+      ed.pasteAsPlainText = true;
+    });
+  },
 
   /* translations: */
   languagetool_i18n_no_errors: {
