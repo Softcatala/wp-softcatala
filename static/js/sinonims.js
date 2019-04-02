@@ -79,9 +79,7 @@ function update_share_links(query) {
     var url = window.location.href;
     var url_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
     var url_twitter = 'https://twitter.com/intent/tweet?text=Sinònims de la paraula ' + query + ' al diccionari de sinònims de Softcatalà ' + url;
-    var url_google = 'https://plus.google.com/share?url=' + url;
 
     jQuery('#share_facebook').attr("href", url_facebook);
     jQuery('#share_twitter').attr("href", url_twitter);
-    jQuery('#share_google').attr("href", url_google);
 }
