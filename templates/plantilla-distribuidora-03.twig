@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+    <!-- .main-header -->
+    {% include "contingut-header.twig" %}
+    <!--/.main-header -->
+
+        <div class="container-fluid">
+
+            <!-- .contingut -->
+            <div class="contingut">
+                <!-- .contingut-header -->
+                <header class="contingut-header">
+                    <p>{{ post.content }}</p>
+                </header><!--/.contingut-header -->
+
+                <!-- .contingut-section paragraf + thumb gris img -->
+                <section class="contingut-section">
+
+                    <!-- .row -->
+                    <div class="row">
+                    {% if links %}
+                        {% for link in links %}
+                        <div class="col-xxs-12 col-xs-6 col-sm-4 col-md-3">
+                            <div class="thumbnail thumbnail-vertical thumbnail-premsa">
+                                <a href="{{ link.external_link ?: link.internal_link }}" alt="{{ link.titol }}">
+                                    <div>
+                                        <img src="{% if link.imatge %}{{ link.imatge|resize(270) }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ link.titol }}">
+                                    </div>
+                                    <div class="caption">
+                                        <h3>{{ link.titol }}</h3>
+                                        <p>{{ link.descripcio|truncate_words(15) }}</p>
+                                        <span class="bt-aneu">més<i class="fa fa-chevron-right"></i></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    </div><!--/.row -->
+
+                </section><!-- section paragraf + thumb gris img -->
+            </div><!--/.contingut -->
+
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}
