@@ -996,9 +996,9 @@ AtDCore.prototype.isIE = function() {
                             plugin.editor.setProgressState(0);
                             document.checkform._action_checkText.disabled = false;
                             var errorText = jqXHR.responseText;
-                            if (!errorText) {
-                                errorText = "Error: el servei no respon. Proveu d'ací a una estona.";
-                            }
+                            //if (!errorText) {
+                            errorText = "Error: el servei no respon. Proveu d'ací a una estona.";
+                            //}
                             if (data.length > maxTextLength) {
                                 // Somehow, the error code 413 is lost in Apache, so we show that error here.
                                 // This unfortunately means that the limit needs to be configured in the server *and* here.
