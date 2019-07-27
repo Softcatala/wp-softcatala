@@ -17,24 +17,24 @@
                             <li>
                                 <strong>
                                     <i class="fa fa-window-maximize" aria-hidden="true"></i>
-                                    Lloc web
-                                </strong>:
+                                    Lloc web:
+                                </strong>
                                 <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>
                         {% endif %}
                         {% if post.telegram %}
                             <li>
                                 <strong>
                                     <i class="fa fa-telegram" aria-hidden="true"></i>
-                                    Grup de Telegram:
-                                </strong>:
-                                <a href="{{ post.telegram }}">{{ post.telegram }}</a></li>
+                                    Grup del Telegram:
+                                </strong>
+                                <a href="https://t.me/{{ post.telegram }}">{{ post.telegram }}</a></li>
                         {% endif %}
                         {% if responsables %}
                             <li>
                                 <strong>
                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                    Responsable
-                                </strong>:
+                                    Responsable:
+                                </strong>
                                 {% for responsable in responsables %}
                                     <a href="{{ responsable.url }}" title="Responsable del projecte {{ post.title }} - {{ responsable.name }}">{{ responsable.name }}</a>{% if not loop.last %}, {% endif %}
                                 {% endfor %}
