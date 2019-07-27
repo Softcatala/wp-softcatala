@@ -57,7 +57,24 @@
 
                     {% if projectes %}
                         <div id="step_{{ stepsmax }}" class="step_div" style="display: none;">
-                            <p>A continuació teniu la llista de tots els projectes de Softcatalà que requereixen col·laboradors. Feu clic a «Col·laboreu-hi» per apuntar-vos.</p>
+                            <header class="contingut-header" style="text-align: center;background: #eae8e8;padding: 10px 20px 20px 20px;">
+                                <p>
+                                    La manera més senzilla de col·laborar amb nosaltres és
+                                    a través del nostre grup de Telegram.
+                                </p>
+                                <p style="font-size: 1.2em;">
+                                    <a href="https://t.me/Softcatala_Collaboradors">
+                                        <span style="color:#0088cc"><i class="fa fa-telegram"></i>&nbsp;</span>
+                                        Uniu-vos al grup del Telegram fent clic aquí
+                                    </a>
+                                </p>
+                            </header>
+                            <p>
+                                Si preferiu involucrar-vos en algun projecte específic, a
+                                continuació teniu la llista de tots els projectes de Softcatalà que
+                                requereixen col·laboradors del vostre perfil.
+                                Feu clic a «Col·laboreu-hi» per apuntar-vos.
+                            </p>
                             <!-- .row -->
                             <div class="row">
                                 {% for projecte in projectes %}
