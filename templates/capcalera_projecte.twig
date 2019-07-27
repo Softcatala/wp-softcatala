@@ -13,13 +13,18 @@
                     <h1>{{ post.title }}</h1>
                     <h2>{{ post.subtitle_projecte }}</h2>
                     <ul>
-                        {% if post.lloc_web_projecte %}<li><strong>Lloc web</strong>: <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>{% endif %}
+                        {% if post.lloc_web_projecte %}
+                            <li><strong>Lloc web</strong>: <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>
+                        {% endif %}
+                        {% if post.telegram %}
+                            <li><strong>Grup de Telegram:</strong>: <a href="{{ post.telegram }}">{{ post.telegram }}</a></li>
+                        {% endif %}
                         {% if responsables %}
-                        <li><strong>Responsable</strong>:
-                        {% for responsable in responsables %}
-                            <a href="{{ responsable.url }}" title="Responsable del projecte {{ post.title }} - {{ responsable.name }}">{{ responsable.name }}</a>{% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                        </li>
+                            <li><strong>Responsable</strong>:
+                                {% for responsable in responsables %}
+                                    <a href="{{ responsable.url }}" title="Responsable del projecte {{ post.title }} - {{ responsable.name }}">{{ responsable.name }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </li>
                         {% endif %}
                     </ul>
                     {% set is_arxivat = false %}
