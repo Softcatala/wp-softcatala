@@ -14,8 +14,30 @@
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Col·laboreu en aquest projecte</h1>
-                            <p>Per col·laborar en aquest projecte només cal que us inscriviu a la llista de correu. Digueu-nos quina és la vostra adreça electrònica i
-                            us inscriurem a la llista de correu automàticament.</p>
+                            {%  if projecte.telegram %}
+                                <p>
+                                    La manera més senzilla de començar a col·laborar en este projecte és a través del
+                                    grup de Telegram. Podeu unir-vos al grup i, una vegada dins, presenteu-vos. La gent
+                                    que ja hi col·labora us indicarà quins són els passos a seguir.
+                                </p>
+                                <p style="font-size: 1.2em;">
+                                    <a href="https://t.me/{{ projecte.telegram }}">
+                                        <span style="color:#0088cc"><i class="fa fa-telegram"></i>&nbsp;</span>
+                                        Feu clic aquí per a unir-vos
+                                    </a>
+                                </p>
+                                <p>
+                                    També podeu inscriure-vos en una llista de correu electrònic. Digueu-nos quina és
+                                    la vostra adreça electrònica i us inscriurem a la llista de correu automàticament.
+                                </p>
+                            {%  else %}
+                                <p>
+                                    Per col·laborar en aquest projecte només cal que us
+                                    inscriviu a la llista de correu. Digueu-nos quina és
+                                    la vostra adreça electrònica i us inscriurem a la llista
+                                    de correu automàticament.
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </header><!--/.contingut-header -->
