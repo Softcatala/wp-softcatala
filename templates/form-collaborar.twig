@@ -20,15 +20,27 @@
                                     grup de Telegram. Podeu unir-vos al grup i, una vegada dins, presenteu-vos. La gent
                                     que ja hi col·labora us indicarà quins són els passos a seguir.
                                 </p>
-                                <p style="font-size: 1.2em;">
-                                    <a href="https://t.me/{{ projecte.telegram }}">
-                                        <span style="color:#0088cc"><i class="fa fa-telegram"></i>&nbsp;</span>
-                                        Feu clic aquí per a unir-vos
+                                <p style="text-align: center; font-size: 1.2em;">
+                                    <a href="https://t.me/{{ projecte.telegram }}"
+                                       class="bt-basic bt-basic-vermell">
+                                        <span><i class="fa fa-telegram"></i>&nbsp;</span>
+                                        Entreu al grup de Telegram!
                                     </a>
+                                    <br /><br />
                                 </p>
                                 <p>
                                     També podeu inscriure-vos en una llista de correu electrònic. Digueu-nos quina és
                                     la vostra adreça electrònica i us inscriurem a la llista de correu automàticament.
+                                </p>
+                                <p style="text-align: center;">
+                                    <button class="bt-basic bt-basic-gris"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#contingut-formulari-projecte"
+                                            aria-expanded="false"
+                                            aria-controls="contingut-formulari-projecte">
+                                        Apunteu-vos a la llista de correu
+                                    </button>
                                 </p>
                             {%  else %}
                                 <p>
@@ -46,7 +58,7 @@
                 </section>
 
                 <!-- section -->
-                <section class="contingut-section" id="contingut-formulari-projecte">
+                <section class="contingut-section {%  if projecte.telegram %}collapse{% endif %}" id="contingut-formulari-projecte">
                     <form class="form-horizontal" id="collabora_form" method="post">
                         <!-- camp -->
                         <div class="form-group">
