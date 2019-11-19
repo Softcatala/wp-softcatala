@@ -251,7 +251,8 @@ function dooptions() {
     if (jQuery("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
     if (jQuery("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
     if (jQuery("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
-    if (!jQuery("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
+    //if (!jQuery("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
+   typo_disabledRules.push("WHITESPACE_RULE"); //disable always WHITESPACE_RULE 
 
     //Variant principal: general/valecià/balear
     if (jQuery("input[name=variant]:checked").val() == "variant_general") {
