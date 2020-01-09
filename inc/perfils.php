@@ -18,7 +18,7 @@ function get_telegram_group_for_profile( $profile ) {
 
     $telegram = $term->get_field('telegram');
 
-    return $telegram || 'Softcatala_Collaboradors';
+    return $telegram ? $telegram : 'Softcatala_Collaboradors';
 }
 
 add_filter('acf/load_field/name=perfil', 'sc_get_all_profiles');
