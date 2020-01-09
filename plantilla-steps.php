@@ -75,6 +75,8 @@ if ( ! empty ( $project_slug ) ) {
 	$context['projectes'] = $projects;
 
     $context['steps'] = $post->get_field( 'steps' );
+
+    $context['telegram'] = get_telegram_group_for_profile( $profile );
 }
 
 $post = new TimberPost();
