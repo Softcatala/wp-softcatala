@@ -14,15 +14,22 @@
           <!-- .contingut -->
           <div class="contingut contingut-left col-sm-12 col-md-8">
 
-            
-            <section class="contingut-section">
-                    <p>Introduïu una paraula, una frase o un poema sencer, i us mostrarem la separació i el recompte de síl·labes.</p>
+            <p>Introduïu una paraula, una frase o un poema sencer, i us mostrarem la separació i el recompte de síl·labes.</p>
                     
-                    <textarea rows="4" cols="50" class="form-control" placeholder="Introduïu una paraula, una frase o un poema" id="text_to_hyphen" oninput="onChangeFunction()"></textarea>
-
-                    <p><span id="result"></span></p>
-                    <p><span id="warning"></span></p>
-              
+            <section class="contingut-section">
+                    <div class="row">
+                      <div class="col-md-11">
+                        <textarea rows="4" cols="40" class="form-control" placeholder="Introduïu una paraula, una frase o un poema" id="text_to_hyphen" oninput="onChangeFunction()"></textarea>
+                      </div>
+                    </div> 
+                 
+                    <div class="row">
+                         <div class="col-md-11">
+                            <p class="border bg-success">
+                                <span id="result"></span></p>
+                            <p class="border bg-warning"><span id="warning"></span></p>
+                        </div>
+                    </div> 
             </section>
 
             {% if post.content %}
