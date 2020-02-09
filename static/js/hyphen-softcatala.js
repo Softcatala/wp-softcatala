@@ -80,8 +80,8 @@ function onChangeFunction() {
     if (ambiguities.count >= 1) {
         hintStr = "<br/>";
         if (ambiguities.count == 1) {
-            hintStr += "Partició sil·làbica dubtosa\n<ul>\n"
-        } else hintStr += "Particions sil·làbiques dubtoses\n<ul>\n"
+            hintStr += "<strong>Partició sil·làbica dubtosa</strong>\n<ul>\n"
+        } else hintStr += "<strong>Particions sil·làbiques dubtoses</strong>\n<ul>\n"
         hintStr += ambiguities.hints;
         hintStr += "</ul>\n"
         //hintStr+="<br/><br/>";
@@ -164,14 +164,14 @@ function getMessageOneLine(s) {
         return "";
     }
     var result = "";
-    result += r.hyphenated_line;
+    result += "<strong>Resultat: </strong>" + r.hyphenated_line;
     result += "<br/><br/>";
-    result += "Recompte gràfic: " + r.count_graphical + sillabes(r.count_graphical) + "<br/>";
+    result += "<strong>Recompte gràfic: </strong>" + r.count_graphical + sillabes(r.count_graphical) + "<br/>";
     if (r.count_graphical != r.count_phonetical) {
-        result += "Recompte fonètic: " + r.count_phonetical + sillabes(r.count_phonetical) + " (amb elisions i sinalefes)<br/>";
+        result += "<strong>Recompte fonètic: </strong>" + r.count_phonetical + sillabes(r.count_phonetical) + " (amb elisions i sinalefes)<br/>";
     }
     if (r.numwords > 1) {
-	    result += "Recompte poètic: ";
+	    result += "<strong>Recompte poètic: </strong>";
 	    result += (r.count_poetical1);
 	    if (r.count_poetical1 != r.count_poetical2) {
 	        result += " (" + r.count_poetical2 + ")";
