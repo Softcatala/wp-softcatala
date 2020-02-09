@@ -1,0 +1,86 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+
+            <p>Introduïu una paraula, una frase o un poema sencer, i us mostrarem la separació i el recompte de síl·labes.</p>
+                    
+            <section class="contingut-section">
+                    <div class="row">
+                      <div class="col-md-6">
+                             <input type="text" class="form-control" id="cerca_principal" name="cerca_principal" placeholder="Cerqueu una paraula o expressió regular" size="30"> <a href="">(?)</a>
+                      </div>
+                      <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="maj_min" name="maj_min"/>Diferencia maj./min.
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="diacritics" name="diacritics"/>Té en compte diacrítics <a href="">(?)</a>
+                                </label>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                      <div class="col-md-6">
+                            <label for="cerca_en">Cerca en:</label>
+                             <select id="cerca_en" name="cerca_en">
+                                    <option value="formes" selected>formes</option>
+                                    <option value="lemes">lemes</option><br/> 
+                            </select>
+                      </div>
+                      <div class="col-md-6">
+                            <label for="mostra">Mostra:</label>
+                            <select id="mostra" name="mostra">
+                            <option value="formes" selected>formes</option>
+                            <option value="lemes">lemes</option><br/> 
+                            </select> <a href="">(?)</a>
+                        </div>
+                    </div> 
+
+
+                    <div class="row">
+                         <div class="col-md-11">
+                            <p class="border bg-success">
+                                <span id="result"></span></p>
+                            <p class="border bg-warning"><span id="warning"></span></p>
+                        </div>
+                    </div> 
+            </section>
+
+            {% if post.content %}
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
