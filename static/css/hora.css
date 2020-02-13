@@ -1,0 +1,32 @@
+/*
+.hora div.part div.dins-part {
+    background-color: #eae8e8;
+    height:270px;
+    padding: 20px;
+}
+
+.hora .rellotge #canvas {
+    background-color: #333;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+*/
+
+#hora, .rellotge {
+    text-align: center;
+}
+
+.consulta{
+    border-radius: 10px;
+    padding-bottom:10px;   
+}
+.consulta p{
+    
+    font-size:14px;
+}
+
+#requested_hours, #requested_minutes{
+
+    width: 42px;
+}

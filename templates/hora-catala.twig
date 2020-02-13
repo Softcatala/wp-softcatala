@@ -1,0 +1,83 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+            Aquesta pàgina mostra l'hora en els diferents sistemes existents en català: hora de rellotge i hora de campanar.
+
+            <section class="contingut-section">
+
+                  
+                     
+                  <div class="hora row">
+                        <div class="part col-md-4 col-xs-4">
+                            <div class="rellotge dins-part">
+                                <canvas id="canvas" style="background-color: #333;" width="200" height="200"></canvas>
+                                <p id="hora"></p>
+                            </div>
+                        </div>
+                        <div class="part col-md-8 col-xs-4">
+                            <div class="dins-part text-hora">
+                              <form><b>Sistema rellotge:</b> <span id="text_rellotge"></span> <input id="text_rellotge_parla" class="btn btn-default" type="submit" value="&#128266;" onclick="speak_text('text_rellotge', 'text_rellotge_parla');return false;"></form>
+                              <form><b>Sistema campanar:</b> <span id="text_campanar"></span> <input id="text_campanar_parla" class="btn btn-default" type="submit" value="&#128266;" onclick="speak_text('text_campanar', 'text_campanar_parla');return false;"></form>
+                              <form><b>Sistema campanar tradicional:</b> <span id="text_campanar_tradicional"></span> <input input id="text_campanar_tradicional_parla" class="btn btn-default" type="submit" value="&#128266;" onclick="speak_text('text_campanar_tradicional', 'text_campanar_tradicional_parla');return false;"></form>
+                            </div>
+                        </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-8 col-xs-8 bg-success consulta">
+                        <p></span>Podeu consultar una hora específica</p>
+                        <form class="form-inline">
+                          <div class="form-group">
+                              <input type="text" class="form-control" size="2" name="requested_hours" id="requested_hours"> 
+                          </div>
+                          <div class="form-group">
+                              : <input type="text" class="form-control" size="2" name="requested_minutes" id="requested_minutes">
+                         </div>
+                          <div class="form-group">
+                              <input type="submit" class="btn btn-success" value="Consulta" onclick="set_clock(document.getElementById('requested_hours').value, document.getElementById('requested_minutes').value);show_requested_time(document.getElementById('requested_hours').value, document.getElementById('requested_minutes').value); document.getElementById('current_time').disabled = current_time_btn_disabled;return false;">
+                          </div>
+                          <div class="form-group">
+                              <input type="submit" class="btn btn-info" value="Hora actual" id="current_time" onclick="start_timer();start_clock();document.getElementById('current_time').disabled = current_time_btn_disabled;return false;">
+                          </div>
+                         </form>
+                    </div>
+                  </div>
+
+            </section>
+                  
+
+            {% if post.content %}
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
