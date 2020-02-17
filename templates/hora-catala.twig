@@ -15,12 +15,12 @@
           <div class="contingut contingut-left col-sm-12 col-md-8">
             Aquesta pàgina mostra l'hora en els diferents sistemes existents en català: hora de rellotge i hora de campanar.
 
-            <section class="contingut-section lhora">
+            <section class="contingut-section">
 
                   
                   <div class="row consulta">
                     <div class="col-12">
-                        <p></span>Introduiu una hora específica per saber com cal dir-la en català:</p>
+                        <p>Introduiu una hora específica per saber com cal dir-la en català:</p>
                         <form class="form-inline">
                           <div class="form-group">
                               <input type="text" class="form-control" size="2" name="requested_hours" id="requested_hours"> 
@@ -32,22 +32,22 @@
                               <input type="submit" class="bt-basic bt-basic-vermell submit" value="Consulta" onclick="set_clock(document.getElementById('requested_hours').value, document.getElementById('requested_minutes').value);show_requested_time(document.getElementById('requested_hours').value, document.getElementById('requested_minutes').value); document.getElementById('current_time').disabled = current_time_btn_disabled;return false;">
                           </div>
                           <div class="form-group">
-                              <input type="submit" class="" value="Hora actual" id="current_time" onclick="start_timer();start_clock();document.getElementById('current_time').disabled = current_time_btn_disabled;return false;">
+                              <input type="submit" class="" value="Establiu l'hora actual" id="current_time" onclick="start_timer();start_clock();document.getElementById('current_time').disabled = current_time_btn_disabled;return false;">
                           </div>
                          </form>
                     </div>
                   </div>
-                  <div class="hora row">
-                        <div class="part col-12 col-sm-4">
-                            <div class="rellotge dins-part">
+                  <div class="resultat row">
+                        <div class="col-12 col-sm-4 test">
+                            <div class="rellotge">
                                 <p id="horaconsulta"></p>
                                 <p id="hora"></p>
                                 <canvas id="canvas" style="background-color: #333;" width="200" height="200"></canvas>
                                 
                             </div>
                         </div>
-                        <div class="part col-12 col-sm-8">
-                            <div class="dins-part text-hora">
+                        <div class="col-12 col-sm-8">
+                            <div class="text-hora">
                               <form><input id="text_rellotge_parla" class="btn so" type="submit" value="&#128266;" onclick="speak_text('text_rellotge', 'text_rellotge_parla');return false;"><b><span id="text_rellotge"></span></b>- Sistema rellotge </form>
                               <form><input id="text_campanar_parla" class="btn so" type="submit" value="&#128266;" onclick="speak_text('text_campanar', 'text_campanar_parla');return false;"><b><span id="text_campanar"></span></b>- Sistema campanar</form>
                               <form><input input id="text_campanar_tradicional_parla" class="btn so" type="submit" value="&#128266;" onclick="speak_text('text_campanar_tradicional', 'text_campanar_tradicional_parla');return false;"><b><span id="text_campanar_tradicional"></span></b>- Sistema campanar tradicional</form>

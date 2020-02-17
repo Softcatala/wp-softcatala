@@ -1,17 +1,16 @@
 
 
 .consulta{
-    background-color: #eae8e8;
-    
+    background-color: #eae8e8; 
     padding:40px;
-    
     padding-top: 15px;
 }
-.hora{
+.resultat{
     background-color: #eae8e8;
     padding-left:20px;
     padding-bottom: 30px;
 }
+
 
 .form-group {
     display:inline-block !important;
@@ -34,35 +33,31 @@
 }
 .so{
     background-color: #eae8e8;
-
+    width: 50px;
+    height: 50px;
+    font-size: 2.5rem;
 }
 
 #requested_hours{
 
-        margin-right:15px;
+        margin-right:0.5rem;
 
 }
 
 #requested_minutes{
 
-        margin-left:15px;
-        margin-right:15px;
+        margin-left:0.5rem;
+        margin-right:1rem;
 }
-@media (min-width: 768px) { 
-   
+#current_time{
 
-
- }
-
-
-@media (min-width: 992px) { 
-
-
- }
-
-
-@media (min-width: 1200px) {  
-
+        margin-left:5rem;
+        
+        color:#c43434;
+        background: none!important;
+        border: none;
+        padding: 0!important;
+        cursor: pointer;
 
 }
 
