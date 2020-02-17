@@ -1,0 +1,57 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+            Aquesta pàgina mostra l'hora en els diferents sistemes existents en català: hora de rellotge i hora de campanar.
+
+            <section class="contingut-section">
+
+                  
+                     
+                  Introduïu una xifra, fracció o divisa, i us mostrarem l'equivalent escrit amb paraules i altres formes relacionades. Cal usar la coma com a separador decimal.<br/>
+                    <p><strong>Nota</strong>: En algunes formes s'indiquen la variant valenciana (val.) i la balear (bal.) que també es poden usar, juntament amb les generals.</p>
+                    <b>Nombre en xifres</b><br/>
+                    <input id="nombre" type="text" oninput="ConvertNumberToText()"/><br/><br/>
+
+                    <b>Nombre en lletres</b><br/><br/>
+                    <span id="resultat"></span>
+                    <br/>
+                    <span id="warning"></span>
+
+            </section>
+                  
+
+            {% if post.content %}
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}

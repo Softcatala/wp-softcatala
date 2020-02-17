@@ -247,6 +247,7 @@ function get_text_hora(hours, minutes, seconds) {
     return hours + ":" + minutes + ":" + seconds;
 }
 
+
 function get_all_times(hours, min, sistema) {
 
     var list = "";
@@ -279,15 +280,24 @@ function show_timer() {
     var hours = today.getHours();
     var minutes = today.getMinutes();
     var seconds = today.getSeconds();
-    show_hour(hours, minutes, seconds);
+    show_hour(hours, minutes, seconds, 'hora');
 }
 
-function show_hour(hours, minutes, seconds) {
+function show_hour(hours, minutes, seconds, div) {
 
     var text = get_time_campanar(hours, minutes);
-    var element = document.getElementById("hora");
+    var element = document.getElementById(div);
 
-    element.innerHTML = get_text_hora(hours, minutes, seconds);
+    if (div == 'hora'){
+        element.innerHTML = get_text_hora(hours, minutes, seconds);
+        document.getElementById('horaconsulta').style.display = 'none'; 
+        document.getElementById('hora').style.display = 'block'; 
+
+    }else{
+        element.innerHTML = 'Heu introduit:<b> ' + get_text_hora(hours, minutes, seconds) + '</b>';
+        document.getElementById('hora').style.display = 'none'; 
+        document.getElementById('horaconsulta').style.display = 'block';
+    }
 
     element = document.getElementById("text_campanar");
     element.innerHTML = text;
@@ -314,9 +324,8 @@ function show_requested_time(text_hours, text_minutes) {
     {
         return;
     }
-
     stop_timer();
-    show_hour(hours, minutes, 0);
+    show_hour(hours, minutes, 0, 'horaconsulta');
 }
 
 var time_timer_id = null;

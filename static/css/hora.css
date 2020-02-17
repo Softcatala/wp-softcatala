@@ -1,32 +1,69 @@
-/*
-.hora div.part div.dins-part {
-    background-color: #eae8e8;
-    height:270px;
-    padding: 20px;
-}
 
-.hora .rellotge #canvas {
-    background-color: #333;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-*/
-
-#hora, .rellotge {
-    text-align: center;
-}
 
 .consulta{
-    border-radius: 10px;
-    padding-bottom:10px;   
-}
-.consulta p{
+    background-color: #eae8e8;
     
-    font-size:14px;
+    padding:40px;
+    
+    padding-top: 15px;
+}
+.hora{
+    background-color: #eae8e8;
+    padding-left:20px;
+    padding-bottom: 30px;
 }
 
-#requested_hours, #requested_minutes{
-
-    width: 42px;
+.form-group {
+    display:inline-block !important;
 }
+.form-control {
+    width:50px !important;
+    display:inline-block !important;
+    height: 42px;
+    font-size: 16px;
+    color:black;
+}
+#hora{
+
+    padding-left:60px;
+}
+
+.text-hora{
+    padding-top:45px;
+    font-size: 1.5rem;
+}
+.so{
+    background-color: #eae8e8;
+
+}
+
+#requested_hours{
+
+        margin-right:15px;
+
+}
+
+#requested_minutes{
+
+        margin-left:15px;
+        margin-right:15px;
+}
+@media (min-width: 768px) { 
+   
+
+
+ }
+
+
+@media (min-width: 992px) { 
+
+
+ }
+
+
+@media (min-width: 1200px) {  
+
+
+}
+
+
