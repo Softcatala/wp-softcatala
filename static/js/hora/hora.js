@@ -294,7 +294,7 @@ function show_hour(hours, minutes, seconds, div) {
         document.getElementById('hora').style.display = 'block'; 
 
     }else{
-        element.innerHTML = 'Heu introduit:<b> ' + get_text_hora(hours, minutes, seconds) + '</b>';
+        element.innerHTML = 'Heu introduït:<b> ' + get_text_hora(hours, minutes, seconds) + '</b>';
         document.getElementById('hora').style.display = 'none'; 
         document.getElementById('horaconsulta').style.display = 'block';
     }
