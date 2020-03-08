@@ -153,11 +153,19 @@
       }
     }
   }  
-  document.getElementById("resultat").innerHTML=resultat;
+  if (resultat){
+    document.getElementById("resultatp").style.display = "block";
+    document.getElementById("resultat").innerHTML=resultat;
+  }else{
+    document.getElementById("resultatp").style.display = "none";
+  }
   
   if(flag_one) {
     warning = "<b>Atenció</b>:";
     warning += " els nombres acabats en \"un\" s'usen acabats en \"u\" si indiquen ordre d'aparició, de col·locació o de successió, com a sinònim de primer. També es pot usar la forma acabada en \"u\" per a referir-se al nom del nombre natural o per a comptar.";
+    document.getElementById("alerta").style.display = "block";
+  }else{
+    document.getElementById("alerta").style.display = "none";
   }
   document.getElementById("warning").innerHTML=warning;
 }

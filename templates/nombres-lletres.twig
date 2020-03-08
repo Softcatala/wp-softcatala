@@ -16,18 +16,21 @@
             Aquesta pàgina mostra l'hora en els diferents sistemes existents en català: hora de rellotge i hora de campanar.
 
             <section class="contingut-section">
-
-                  
-                     
+         
                   Introduïu una xifra, fracció o divisa, i us mostrarem l'equivalent escrit amb paraules i altres formes relacionades. Cal usar la coma com a separador decimal.<br/>
                     <p><strong>Nota</strong>: En algunes formes s'indiquen la variant valenciana (val.) i la balear (bal.) que també es poden usar, juntament amb les generals.</p>
                     <b>Nombre en xifres</b><br/>
-                    <input id="nombre" type="text" oninput="ConvertNumberToText()"/><br/><br/>
+                    <input id="nombre" class="form-control" type="text" oninput="ConvertNumberToText()"/><br/><br/>
 
                     <b>Nombre en lletres</b><br/><br/>
-                    <span id="resultat"></span>
+                    <p class="border bg-success" id="resultatp">
+                      <span id="resultat"></span>
+                    </p>
+                    
                     <br/>
-                    <span id="warning"></span>
+                    <p class="border bg-warning" id="alerta">
+                      <span id="warning"></span>
+                    </p>
 
             </section>
                   

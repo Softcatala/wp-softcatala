@@ -1,0 +1,8 @@
+#resultatp, #alerta{
+    padding:1rem;
+    display:none;
+}
+
+#nombre{
+    width: 100px;
+}
