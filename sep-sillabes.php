@@ -4,10 +4,10 @@
  *
  * @package wp-softcatala
  */
-wp_enqueue_script( 'sc-js-sillabesca', get_template_directory_uri() . '/static/js/sillabes-ca.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-hyphen', get_template_directory_uri() . '/static/js/hyphen.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-hyphen-softcatala', get_template_directory_uri() . '/static/js/hyphen-softcatala.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-
+wp_enqueue_script( 'sc-js-sillabesca', get_template_directory_uri() . '/static/js/sep-sillabes/sillabes-ca.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-hyphen', get_template_directory_uri() . '/static/js/sep-sillabes/hyphen.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-hyphen-softcatala', get_template_directory_uri() . '/static/js/sep-sillabes/hyphen-softcatala.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_style( 'sc-css-sillabesca', get_template_directory_uri() . '/static/css/sep-sillabes.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
 $context = Timber::get_context();
 $post = new TimberPost();

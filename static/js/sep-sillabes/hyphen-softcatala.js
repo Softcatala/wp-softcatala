@@ -59,18 +59,22 @@ String.prototype.isErraSensible = function() {
 }
 
 
+
 onChangeFunction(); //first time
 
 function onChangeFunction() {
     var original_text = normalizeNFC(document.getElementById("text_to_hyphen").value.trim()).replace(/_/g, " ");
     var lc = original_text.lineCount();
     if (lc < 1) {
+        document.getElementById("resultat").style.display = "none";
         document.getElementById("result").innerHTML = "";
 	return;
     } else if ( lc == 1) {
+        document.getElementById("resultat").style.display = "block";
         hyphenated_text = hyphenate(original_text).adjustHyphenatedText();
         document.getElementById("result").innerHTML = getMessageOneLine(hyphenated_text);
     } else if (lc > 1) {
+        document.getElementById("resultat").style.display = "block";
         document.getElementById("result").innerHTML = getMessageMultipleLines(original_text);
     }
 
@@ -85,9 +89,13 @@ function onChangeFunction() {
         hintStr += ambiguities.hints;
         hintStr += "</ul>\n"
         //hintStr+="<br/><br/>";
+        document.getElementById("alerta").style.display = "block";
         document.getElementById("warning").innerHTML = hintStr;
         document.getElementById("warning").style.display = "inline";
-    } else document.getElementById("warning").style.display = "none";
+    } else {
+        document.getElementById("warning").style.display = "none";
+        document.getElementById("alerta").style.display = "none";
+    }
 }
 
 
