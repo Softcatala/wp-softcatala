@@ -325,6 +325,7 @@ function show_requested_time(text_hours, text_minutes) {
         return;
     }
     stop_timer();
+    document.getElementById('current_time').disabled = false;
     show_hour(hours, minutes, 0, 'horaconsulta');
 }
 
