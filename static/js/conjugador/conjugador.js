@@ -1,5 +1,10 @@
 var $conjugador_form = jQuery('#conjugador_form');
 
+$conjugador_form.on('submit', function(ev) {
+    ev.preventDefault();
+
+    jQuery('#_action_consulta').trigger('click');
+});
 
 
 jQuery('#_action_consulta').click(function(){
@@ -16,7 +21,7 @@ jQuery('#_action_consulta').click(function(){
         var url_history = '/conjugador-de-verbs/verb/'+query+'/';
         history.pushState(null, null, url_history);
 
-        jQuery("#content_header_title").html('Conjugador de verbs: «'+query+'»');
+        
 
         update_share_links(query);
 
@@ -46,6 +51,7 @@ jQuery('#_action_consulta').click(function(){
 function print_results(result) {
     sc_sendTracking(true);
     jQuery("#loading").hide();
+    jQuery("#content_header_title").html(result.content_title);
     jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
 }
@@ -90,7 +96,7 @@ jQuery('#source').typeahead(
         source: function(query, processSync, processAsync) {
             
             var xurl = scajax.autocomplete_url + query;
-            console.log(xurl);
+            //console.log(xurl);
             
             jQuery.ajax({
               url: xurl,

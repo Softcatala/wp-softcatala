@@ -18,7 +18,7 @@ div.result-conjugador table  {
     margin: 0;
 }
 div.result-conjugador table th {
-    width: 25%;
+    width: 30%;
     font-weight: normal;
 }
 
@@ -44,7 +44,7 @@ div.result-conjugador table th {
                                                              <th>{{ temps[1] }}</th>
                                                              <td>
                                                         {% for verb in attribute(verbs, temps[0]) %}
-                                                                    {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}            
+                                                                    {{ verb.word }}{% if loop.last == false  %},{% endif %}            
                                                         {% endfor %}
                                                             </td>
                                                         </tr>
@@ -71,7 +71,7 @@ div.result-conjugador table th {
                                                              <th>{{ temps[1] }}</th>
                                                              <td>
                                                         {% for verb in attribute(verbs, temps[0]) %}
-                                                                    {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}            
+                                                                    {{ verb.word }}{% if loop.last == false  %},{% endif %}            
                                                         {% endfor %}
                                                             </td>
                                                         </tr>
@@ -96,7 +96,7 @@ div.result-conjugador table th {
                             <td>
                             {% for temps in response.temps %}
                                     {% for verb in attribute(verbs, temps[0]) %}        
-                                        {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}                                                
+                                        {{ verb.word }}{% if loop.last == false  %}. {% else %}.{% endif %}                                                
                                     {% endfor %}
                             {% endfor %}
                             

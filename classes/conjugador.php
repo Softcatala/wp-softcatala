@@ -51,22 +51,24 @@ class SC_Conjugador {
 
 		if ( isset( $api_result[0] ) ) {
 			
-			$title         = 'Conjugador de verbs: ' . $verb . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $verb . '»';
+			$verbinf = array_key_first($api_result[0]);
+
+			$title         = 'Conjugador de verbs: ' . $verbinf . '| Softcatalà';
+			$content_title = 'Conjugador de verbs: «' . $verbinf . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $verb .'/';
 			
-			$theverb = array_key_first($api_result[0]);
 			
-			$verbs = $api_result[0][$theverb];
+			
+			$verbs = $api_result[0][$verbinf];
 
 			$temps = array (
-					array('singular1', 'Jo'),
-					array('singular2', 'Tu'),
-					array('singular3', 'Ell'),
-					array('plural1', 'Nosaltres'),
-					array('plural2', 'Vosaltres'),
-					array('plural3', 'Ells')
+					array('singular1', 'jo'),
+					array('singular2', 'tu'),
+					array('singular3', 'ell, ella, vostès'),
+					array('plural1', 'nosaltres'),
+					array('plural2', 'vosaltres'),
+					array('plural3', 'ells, elles, vostès')
 			);
 						
 			$model = array(
@@ -74,7 +76,8 @@ class SC_Conjugador {
 				'temps' => $temps			
 			);
 			
-			$result .= Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
+			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
+			
 			
 			$description = "description";
 						
