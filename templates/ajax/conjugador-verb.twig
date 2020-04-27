@@ -148,16 +148,20 @@ div.result-conjugador table th {
                     <table class="table">
                     {% for verbs in response.result if verbs.group == 'Formes no personals'  %}
                         <tr>
-                            <th>{{ verbs.form }}</th>
+                            <th>{{ verbs.form }} </th>
                             <td>
-                            {% for clau, subjecte in response.temps %}
-                                    {% for verb in attribute(verbs, clau) %}        
-                                        {{- verb.word -}}
-                                        {%- if attribute(response.variants, verb.variant) is defined -%}
-                                            <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                        {%- endif -%}
-                                        {% if loop.last == false  %}. {% else %}.{% endif %}                                                
-                                    {% endfor %}
+                            {% for clau, subjecte in response.temps if  attribute(verbs, clau) | length > 0 %}
+                                   
+                                   {% if loop.index > 1 %}, {% endif %}
+                                   {% for verb in attribute(verbs, clau) if verb.word is defined %}  
+                                            {{- verb.word -}}
+                                              
+                                            {%- if attribute(response.variants, verb.variant) is defined -%}
+                                                <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
+                                            {%- endif -%}                                                
+                                  {% endfor %}
+                                  
+                                   
                             {% endfor %}
                             </td>
                         </tr>

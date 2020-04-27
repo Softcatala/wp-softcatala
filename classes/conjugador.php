@@ -74,7 +74,7 @@ class SC_Conjugador {
 							'singular2' => 'tu',
 							'singular3' => 'ell, ella, vostè',
 							'plural1' => 'nosaltres',
-							'plural2' => 'vosaltres',
+							'plural2' => 'vosaltres, vós',
 							'plural3' => 'ells, elles, vostès'
 						);
 
