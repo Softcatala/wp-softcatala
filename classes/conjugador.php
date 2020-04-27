@@ -58,28 +58,45 @@ class SC_Conjugador {
 
 			$canonical = '/conjugador-de-verbs/verb/'. $verb .'/';
 			
-			
-			
 			$verbs = $api_result[0][$verbinf];
 
+			/*
 			$temps = array (
 					array('singular1', 'jo'),
 					array('singular2', 'tu'),
-					array('singular3', 'ell, ella, vostès'),
+					array('singular3', 'ell, ella, vostè'),
 					array('plural1', 'nosaltres'),
 					array('plural2', 'vosaltres'),
 					array('plural3', 'ells, elles, vostès')
 			);
+			*/
+			$temps = array(	'singular1' => 'jo',
+							'singular2' => 'tu',
+							'singular3' => 'ell, ella, vostè',
+							'plural1' => 'nosaltres',
+							'plural2' => 'vosaltres',
+							'plural3' => 'ells, elles, vostès'
+						);
+
+			$variants = array(	'3' => '(val)',
+								'4' => '(bal)',
+								'6' => '(val,bal)',
+								'7' => '(val,bal)',
+								'B' => '(bal)',
+								'V' => '(val)',
+								'Z' => '(val,bal)'
+								);
 						
 			$model = array(
 				'result' => $verbs,
-				'temps' => $temps			
+				'temps' => $temps,
+				'verbinf' => $verbinf,
+				'variants'=> $variants	
 			);
 			
 			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
-			
-			
-			$description = "description";
+					
+			$description = "";
 						
 			return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 		

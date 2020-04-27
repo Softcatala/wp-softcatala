@@ -83,6 +83,7 @@ $context = $context_filterer->get_filtered_context( $context_overrides, false );
 $context['post'] = $post;
 $context['verb'] = $verb;
 $context['lletra'] = $lletra;
+$context['description'] = $description;
 $context['content_title'] = $content_title;
 
 
