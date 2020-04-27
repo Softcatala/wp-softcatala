@@ -43,7 +43,7 @@ div.result-conjugador table th {
 </ul>
 <div class="tab-content">
   <div id="indicatiu" class="result-conjugador col-md-12 tab-pane in active">
-            <h2>{{ response.verbinf }}</h2>
+            <h2>{{ response.verbinf|capitalize }}</h2>
             <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
                             <div class="col-md-12">
@@ -75,7 +75,7 @@ div.result-conjugador table th {
     </div>
 
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
-            <h2>{{ response.verbinf }}</h2>
+            <h2>{{ response.verbinf|capitalize }}</h2>
             <h4>Mode subjuntiu</h4>
             {% for verbs in response.result if verbs.group == 'Subjuntiu'  %}
                             <div class="col-md-12">
@@ -107,7 +107,7 @@ div.result-conjugador table th {
     </div>
     <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
             
-            <h2>{{ response.verbinf }}</h2>
+            <h2>{{ response.verbinf|capitalize }}</h2>
             <h4>Imperatiu</h4>
             {% for verbs in response.result if verbs.group == 'Imperatiu'  %}
                             <div class="col-md-12">
@@ -140,7 +140,7 @@ div.result-conjugador table th {
             {% endfor %}
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
-        <h2>{{ response.verbinf }}</h2>
+        <h2>{{ response.verbinf|capitalize }}</h2>
         <h4>Formes no personals</h4>
            <div class="col-md-12">
                 <div class="panel panel-primary">                           
