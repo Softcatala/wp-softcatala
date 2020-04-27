@@ -1,0 +1,121 @@
+<style>
+.result-conjugador{
+   
+}
+
+.result-conjugador h2 {
+
+    margin-bottom: 3rem;
+}
+
+div.result-conjugador > div  {
+    padding: 0;
+    margin: 0;
+}
+
+div.result-conjugador table  {
+    padding: 0;
+    margin: 0;
+}
+div.result-conjugador table th {
+    width: 25%;
+    font-weight: normal;
+}
+
+
+</style>
+<ul class="nav nav-tabs">
+        
+        <li class="active"><a data-toggle="tab" href="#indicatiu">Mode Indicatiu</a></li>
+        <li><a data-toggle="tab" href="#subjuntiu">Mode Subjuntiu</a></li>
+        <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
+</ul>
+<div class="tab-content">
+  <div id="indicatiu" class="result-conjugador col-md-10 tab-pane in active">
+            <h2>Mode Indicatiu</h2>
+            {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
+                            <div class="col-md-12">
+                                            <div class="panel panel-primary">
+                                            
+                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <table class="table">
+                                                    {% for temps in response.temps %}
+                                                        <tr>
+                                                             <th>{{ temps[1] }}</th>
+                                                             <td>
+                                                        {% for verb in attribute(verbs, temps[0]) %}
+                                                                    {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}            
+                                                        {% endfor %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+
+                                                    
+                                            </div>
+                            </div>      
+            {% endfor %}
+
+    </div>
+
+    <div id = "subjuntiu" class="result-conjugador col-md-10 tab-pane">
+            <h2>Mode Subjuntiu</h2>
+            {% for verbs in response.result if verbs.group == 'Subjuntiu'  %}
+                            <div class="col-md-12">
+                                            <div class="panel panel-primary">
+                                            
+                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <table class="table">
+                                                    {% for temps in response.temps %}
+                                                        <tr>
+                                                             <th>{{ temps[1] }}</th>
+                                                             <td>
+                                                        {% for verb in attribute(verbs, temps[0]) %}
+                                                                    {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}            
+                                                        {% endfor %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+
+                                                    
+                                            </div>
+                            </div>   
+                
+            {% endfor %}
+    </div>
+    <div id = "nopersonals" class="result-conjugador col-md-10 tab-pane">
+        <h2>Formes no personals</h2>
+           <div class="col-md-12">
+                <div class="panel panel-primary">                           
+                    <div class="panel-heading">Formes no personals</div>
+                    <table class="table">
+                    {% for verbs in response.result if verbs.group == 'Formes no personals'  %}
+                        <tr>
+                            <th>{{ verbs.form }}</th>
+                            <td>
+                            {% for temps in response.temps %}
+                                    {% for verb in attribute(verbs, temps[0]) %}        
+                                        {{ verb.word }}{% if loop.last == false  %}, {% else %}.{% endif %}                                                
+                                    {% endfor %}
+                            {% endfor %}
+                            
+                            
+                            </td>
+                        </tr>
+
+
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+

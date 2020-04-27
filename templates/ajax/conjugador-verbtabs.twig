@@ -1,0 +1,69 @@
+
+<div class="col-xs-12">
+
+    <ul class="nav nav-tabs">
+        
+        <li class="active"><a data-toggle="tab" href="#indicatiu">Mode Indicatiu</a></li>
+        <li><a data-toggle="tab" href="#subjuntiu">Mode Subjuntiu</a></li>
+        <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
+    </ul>
+
+    <div class="tab-content">
+    
+        
+        {% set sections = {
+                "first": 'indicatiu',
+                "first2": 'subjuntiu'
+
+        } %}
+        
+        {% for section in sections %}
+   
+            <div id="{{ section }}" class="tab-pane {% if section == 'indicatiu' %} in active{% endif %}">
+    
+            <br>
+            <h2>Mode {{ section }}</h2>
+            {% for verbs in attribute(response, section)  %}
+                            <div class="col-md-6">
+                                            <div class="panel panel-primary">
+                                            
+                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <table class="table">
+                                                    {% for temps in response.temps %}
+
+                                                        {% for verb in attribute(verbs, temps[0]) %}
+                                                                <tr>
+                                                                        <td>{{ temps[1] }}</td>
+                                                                        <td>    
+                                                                            {{ verb.word }}  <span class="badge">Balear</span>   
+                                                                        </td>
+                                                                    </tr>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                </table>
+
+                                                    
+                                            </div>
+                            </div>
+            
+                
+            {% endfor %}
+        </div>
+  
+        {% endfor %}
+       
+        <div id="nopersonals" class="tab-pane">
+        <h3>Menu 2</h3>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+

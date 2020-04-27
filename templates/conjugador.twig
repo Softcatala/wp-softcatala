@@ -1,0 +1,89 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-8">
+                    {% if post.content %}
+                    <!-- .contingut-section  -->
+                    <section class="contingut-section">
+                        {{post.content}}
+                    </section>
+                    <!--/.contingut-section  -->
+                    {% endif %}
+
+                    <section class="formulari-eines contingut-section">
+
+                        <form id="conjugador_form" class="form-horizontal">
+                            <!-- .btns-diccionari  -->
+                            <div class="btns-diccionari row">
+                                <div class="col-xs-12">
+                                    <p>Escriviu el verb que voleu cercar i premeu el botó de cerca.</p>
+                                    <div class="input-group">
+                                        <input type="text" id="source" name="source" required class="form-control typeahead" data-provide="typeahead" autocomplete="off" {% if verb %}value="{{ verb }}"{% endif %} placeholder="Introduïu el verb a conjugar">
+                                        <a name="_action_consulta" id="_action_consulta" class="input-group-addon bt-basic bt-basic-vermell" href="#">cerca <i style="display: none;" class="fa fa-spinner fa-pulse" id="loading"></i></a>
+                                    </div>
+                                </div>
+                            </div><!--/.btns-diccionari  -->
+                            <header class="contingut-header">
+                                <div class="filtres row">
+                                    <div class="col-sm-5">
+                                        <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i>
+                                    </div>
+                            </div>
+                            </header>
+
+                            <input type="submit" style="display:none;" />
+                        </form>
+
+                        {% include "static/index-lletres-conjugador.twig" %}
+
+                    </section>
+
+
+
+                    
+                    
+                    <section class="formulari-eines contingut-section2">
+
+                        
+                        
+                        
+                        <!-- .conjugador-resultat  -->
+                        <div class="diccionari-resultat2" id="results" {% if not cerca_result %}style="display:none"{% endif %}>
+                            
+                            {% if cerca_result %}
+                                {{ cerca_result }}
+                            {% endif %}
+                        </div><!--/.conjugador-resultat  -->
+
+                    </section><!--/.formulari-eines  -->
+
+                </div><!--/.contingut -->
+
+                {% include "sidebar_recursos.twig" %}
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "static/multilingue-logos.twig" %}
+
+    {% include "template-avis.twig" %}
+
+{% endblock %}

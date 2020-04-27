@@ -1,0 +1,13 @@
+{% if response %}
+    <h1>Verbs que comencen per <strong>{{ response.lletra }}</strong></h1>
+    {%for row in response.result|batch((response.result|length)/4) %}
+        <div class="col-xs-6 col-md-3">
+            <ul class="multilingue_lletres">
+            
+            {% for word in row %}
+                <li><a href="/conjugador-de-verbs/verb/{{ word }}/">{{ word }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endif %}
