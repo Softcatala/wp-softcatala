@@ -262,6 +262,7 @@ class StarterSite extends TimberSite {
 		register_setting( 'softcatala-group', 'llistes_access' );
 		register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
 		register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
+		register_setting( 'softcatala-group', 'api_conjugador' );
 		register_setting( 'softcatala-group', 'catalanitzador_post_id' );
 		register_setting( 'softcatala-group', 'aparells_post_id' );
 		register_setting( 'softcatala-group', 'sc_text_programes' );
@@ -773,6 +774,7 @@ function add_query_vars_filter( $vars ) {
 	$vars[] = "project";
 	$vars[] = "lletra";
 	$vars[] = "llengua";
+	$vars[] = "verb";
 
 	return $vars;
 }

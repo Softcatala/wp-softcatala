@@ -102,5 +102,15 @@ function sc_custom__rewrite_rules($aRules) {
     );
     $aRules = $aNewRules + $aRules;
 
+
+    // Conjugador
+    $aNewRules = array(
+        'conjugador-de-verbs/verb/([^/]+)/?' => 'index.php?post_type=page&pagename=conjugador-de-verbs&verb=$matches[1]',
+        'conjugador-de-verbs/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=conjugador-de-verbs&lletra=$matches[1]'
+    );
+    
+    $aRules = $aNewRules + $aRules;
+
+
     return $aRules;
 }

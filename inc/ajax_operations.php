@@ -28,6 +28,10 @@ add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
 add_action( 'wp_ajax_aparell_ajax_load', 'sc_aparell_ajax_load' );
 add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
 
+/** CONJUGADOR  */
+add_action( 'wp_ajax_conjugador_search', 'sc_conjugador_search' );
+add_action( 'wp_ajax_nopriv_conjugador_search', 'sc_conjugador_search' );
+
 /**
  * Retrieves the information from a given aparell
  *
@@ -62,6 +66,27 @@ function sc_multilingue_search() {
 
 	wp_send_json( $result );
 }
+
+/**
+ * Retrieves the results from the Multilingüe API server given a word + language
+ *
+ * @return json response
+ */
+function sc_conjugador_search() {
+	if ( ! isset( $_POST["verb"] ) ) {
+		$result = new SC_SingleResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+	} else {
+		$verb = sanitize_text_field( $_POST["verb"] );
+		
+
+		$conjugador = new SC_Conjugador();
+		
+		$result = $conjugador->get_verb( $verb );
+	}
+
+	wp_send_json( $result );
+}
+
 
 /**
  * Function to prepare mailman URLs for inter-LXC connectivity
