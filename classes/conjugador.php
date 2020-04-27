@@ -65,9 +65,9 @@ class SC_Conjugador {
 			$temps = array (
 					array('singular1', 'jo'),
 					array('singular2', 'tu'),
-					array('singular3', 'ell, ella, vostès'),
+					array('singular3', 'ell, ella, vostè'),
 					array('plural1', 'nosaltres'),
-					array('plural2', 'vosaltres'),
+					array('plural2', 'vosaltres, vós'),
 					array('plural3', 'ells, elles, vostès')
 			);
 						
