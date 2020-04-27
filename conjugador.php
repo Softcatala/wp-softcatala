@@ -81,7 +81,7 @@ $context_overrides = array( 'title' => $title, 'description' => $description, 'c
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 $context['post'] = $post;
-$context['paraula'] = $paraula;
+$context['verb'] = $verb;
 $context['lletra'] = $lletra;
 $context['content_title'] = $content_title;
 
