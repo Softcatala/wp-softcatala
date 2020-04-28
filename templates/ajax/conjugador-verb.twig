@@ -1,40 +1,4 @@
-<style>
-.result-conjugador{
-   
-}
-
-.result-conjugador h2 {
-    margin-bottom: 0;
-}
-.result-conjugador h3 {
-    margin-bottom: 3rem;
-}
-
-div.result-conjugador > div  {
-    padding: 0;
-    margin: 0;
-}
-
-div.result-conjugador table  {
-    padding: 0;
-    margin: 0;
-}
-div.result-conjugador table th {
-    width: 30%;
-    font-weight: normal;
-}
-
-.variant{
-
-    font-size: 12px;
-    font-weight:normal;
-    vertical-align:middle;
-    color:#333
-}
-
-
-</style>
-<ul class="nav nav-tabs">
+<ul id="tabsconjugador" class="nav nav-tabs">
         
         <li class="active"><a data-toggle="tab" href="#indicatiu">Mode indicatiu</a></li>
         <li><a data-toggle="tab" href="#subjuntiu">Mode subjuntiu</a></li>
@@ -152,14 +116,13 @@ div.result-conjugador table th {
                             <td>
                             {% for clau, subjecte in response.temps if  attribute(verbs, clau) | length > 0 %}
                                    
-                                   {% if loop.index > 1 %}, {% endif %}
-                                   {% for verb in attribute(verbs, clau) if verb.word is defined %}  
+                                   {%- if loop.index > 1 -%}, {% endif %}
+                                   {%- for verb in attribute(verbs, clau) if verb.word is defined -%}  
                                             {{- verb.word -}}
-                                              
                                             {%- if attribute(response.variants, verb.variant) is defined -%}
                                                 <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
                                             {%- endif -%}                                                
-                                  {% endfor %}
+                                  {%- endfor -%}
                                   
                                    
                             {% endfor %}

@@ -51,25 +51,18 @@ class SC_Conjugador {
 
 		if ( isset( $api_result[0] ) ) {
 			
-			$verbinf = array_key_first($api_result[0]);
-
-			$title         = 'Conjugador de verbs: ' . $verbinf . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $verbinf . '»';
+			$title         = 'Conjugador de verbs: ' . $verb . '| Softcatalà';
+			$content_title = 'Conjugador de verbs: «' . $verb . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $verb .'/';
 			
-			$verbs = $api_result[0][$verbinf];
+			$key = array_key_first($api_result[0]);
+			$verbs = $api_result[0][$key];
+			
+			// Cerquem l'infinitiu real pel títol
+			$key = array_search('Infinitiu', array_column($verbs, 'form'));
+			$verbinf =$verbs[$key]['singular1']['0']['word'];
 
-			/*
-			$temps = array (
-					array('singular1', 'jo'),
-					array('singular2', 'tu'),
-					array('singular3', 'ell, ella, vostè'),
-					array('plural1', 'nosaltres'),
-					array('plural2', 'vosaltres'),
-					array('plural3', 'ells, elles, vostès')
-			);
-			*/
 			$temps = array(	'singular1' => 'jo',
 							'singular2' => 'tu',
 							'singular3' => 'ell, ella, vostè',
