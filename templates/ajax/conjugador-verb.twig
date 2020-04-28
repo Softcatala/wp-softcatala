@@ -7,7 +7,7 @@
 </ul>
 <div class="tab-content">
   <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
-            <h2>{{ response.verbinf|capitalize }}</h2>
+            <h2>{{ response.verbinf|upper }}</h2>
             <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
                             <div class="col-md-12">
