@@ -6,7 +6,7 @@
         <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
 </ul>
 <div class="tab-content">
-  <div id="indicatiu" class="result-conjugador col-md-12 tab-pane">
+  <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.verbinf|capitalize }}</h2>
             <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
@@ -102,7 +102,7 @@
                 
             {% endfor %}
     </div>
-    <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane in active">
+    <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.verbinf|capitalize }}</h2>
         <h4>Formes no personals</h4>
              <div class="col-md-12">
