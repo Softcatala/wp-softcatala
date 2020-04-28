@@ -6,7 +6,7 @@
         <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
 </ul>
 <div class="tab-content">
-  <div id="indicatiu" class="result-conjugador col-md-12 tab-pane in active">
+  <div id="indicatiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.verbinf|capitalize }}</h2>
             <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
@@ -24,6 +24,7 @@
                                                                 {%- if attribute(response.variants, verb.variant) is defined -%}
                                                                  <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
                                                                 {%- endif -%}
+                                                                
                                                                 {%- if loop.last == false  %}, {% endif -%}
                                                         {% endfor -%}
                                                             </td>
@@ -79,8 +80,7 @@
                                             
                                                 <div class="panel-heading">{{ verbs.form }}</div>
                                                 <table class="table">
-                                                    {% for clau, subjecte in response.temps %}
-                                                        {% if loop.index > 1 %}
+                                                    {% for clau, subjecte in response.temps %}    
                                                         <tr>
                                                              <th>{{ subjecte|e }}</th>
                                                              <td>
@@ -92,8 +92,7 @@
                                                                 {%- if loop.last == false  %}, {% endif -%}
                                                         {% endfor -%}
                                                             </td>
-                                                        </tr>
-                                                        {% endif %}  
+                                                        </tr>  
                                                     {% endfor %}
                                                 </table>
 
@@ -103,28 +102,32 @@
                 
             {% endfor %}
     </div>
-    <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
+    <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane in active">
         <h2>{{ response.verbinf|capitalize }}</h2>
         <h4>Formes no personals</h4>
-           <div class="col-md-12">
+             <div class="col-md-12">
                 <div class="panel panel-primary">                           
                     <div class="panel-heading">Formes no personals</div>
+                                     
+                    
+                    
                     <table class="table">
                     {% for verbs in response.result if verbs.group == 'Formes no personals'  %}
                         <tr>
                             <th>{{ verbs.form }} </th>
                             <td>
+                            {% set i = 1 %}
                             {% for clau, subjecte in response.temps if  attribute(verbs, clau) | length > 0 %}
-                                   
-                                   {%- if loop.index > 1 -%}, {% endif %}
-                                   {%- for verb in attribute(verbs, clau) if verb.word is defined -%}  
+                            
+                                   {%- for verb in attribute(verbs, clau)  -%} 
+                                            {% if i > 1 %}, {% endif %} 
                                             {{- verb.word -}}
+                                            {% set i = i + 1%}
                                             {%- if attribute(response.variants, verb.variant) is defined -%}
                                                 <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                            {%- endif -%}                                                
-                                  {%- endfor -%}
-                                  
-                                   
+                                            {%- endif -%}   
+                                                                                         
+                                  {%- endfor -%}                  
                             {% endfor %}
                             </td>
                         </tr>

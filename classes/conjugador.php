@@ -79,7 +79,7 @@ class SC_Conjugador {
 								'V' => '(val)',
 								'Z' => '(val,bal)'
 								);
-						
+
 			$model = array(
 				'result' => $verbs,
 				'temps' => $temps,

@@ -63,6 +63,7 @@ if( ! empty ( $verb ) ) {
         $canonical = '/conjugador-de-verbs/lletra/' . $lletra . '/';
 
         if ( $api_response ) {
+            print_r( $api_response);
             
             if(is_string($api_response)){
                 
