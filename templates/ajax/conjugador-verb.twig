@@ -80,7 +80,8 @@
                                             
                                                 <div class="panel-heading">{{ verbs.form }}</div>
                                                 <table class="table">
-                                                    {% for clau, subjecte in response.temps %}    
+                                                    {% for clau, subjecte in response.temps %}   
+                                                    {% if loop.index > 1 %} 
                                                         <tr>
                                                              <th>{{ subjecte|e }}</th>
                                                              <td>
@@ -93,6 +94,7 @@
                                                         {% endfor -%}
                                                             </td>
                                                         </tr>  
+                                                    {% endif %}
                                                     {% endfor %}
                                                 </table>
 
