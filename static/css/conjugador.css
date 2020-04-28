@@ -1,0 +1,28 @@
+.result-conjugador h2 {
+    margin-bottom: 0;
+}
+.result-conjugador h3 {
+    margin-bottom: 3rem;
+}
+
+div.result-conjugador > div  {
+    padding: 0;
+    margin: 0;
+}
+
+div.result-conjugador table  {
+    padding: 0;
+    margin: 0;
+}
+div.result-conjugador table th {
+    width: 30%;
+    font-weight: normal;
+}
+
+.variant{
+
+    font-size: 12px;
+    font-weight:normal;
+    vertical-align:middle;
+    color:#333
+}
