@@ -244,7 +244,8 @@ class SC_Conjugador {
 		$description = 'Conjugador de verbs.  «' . $verb . '»';
 		
 		$model = array(
-			'verbs' =>  $api_result
+			'verbs' =>  $api_result,
+			'verb' => $verb
 		);
 		$result = Timber::fetch( 'ajax/conjugador-infinitius.twig', array( 'response' => $model ) );
 		
