@@ -50,23 +50,12 @@
                     </section>
 
 
-
+                    <section id="resultats-conjugador" {% if not cerca_result %}style="display:none"{% endif %}>
                     
-                    
-                    <section class="formulari-eines contingut-section2">
-
-                        
-                        
-                        
-                        <!-- .conjugador-resultat  -->
-                        <div class="diccionari-resultat2" id="results" {% if not cerca_result %}style="display:none"{% endif %}>
-                            
-                            {% if cerca_result %}
+                               {% if cerca_result %}
                                 {{ cerca_result }}
                             {% endif %}
-                        </div><!--/.conjugador-resultat  -->
-
-                    </section><!--/.formulari-eines  -->
+                   </section><!--/.resultats conjugador  -->
 
                 </div><!--/.contingut -->
 

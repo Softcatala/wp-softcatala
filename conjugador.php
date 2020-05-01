@@ -49,45 +49,17 @@ if( ! empty ( $verb ) ) {
     $context_holder['cerca_result'] = $r->html;
 
 } else if ( ! empty ( $lletra ) ) {
+  
+        $conjugador = new SC_Conjugador();
+    
+        $r = $conjugador->get_lletra( $lletra );
+
+        $canonical = $r->canonical;
+        $title = $r->title;
+        $content_title = $r->content_title;
+        $description = $r->description;
+        $context_holder['cerca_result'] = $r->html;
    
-    if (strlen( $lletra ) == '1' ) {
-        
-        $url = $url_api.'index/' . $lletra;
-        
-        $api_response = do_json_api_call($url);
-
-        
-        $title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
-        $content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
-
-        $canonical = '/conjugador-de-verbs/lletra/' . $lletra . '/';
-
-        if ( $api_response ) {
-            
-            
-            if(is_string($api_response)){
-                
-                $api_response = json_decode( $api_response );
-                $response['lletra'] = $lletra;
-                $response['result'] = $api_response;
-                $context_holder['cerca_result'] = Timber::fetch('ajax/conjugador-lletra.twig', array('response' => $response));
-
-            }else{
-                
-                $context_holder['cerca_result'] = 'No hi ha verbs que comecin amb la lletra <strong>'. $lletra . '</strong>.';
-            }
-            
-        } else {
-
-
-            throw_error('500', 'Error connecting to API server');
-            $context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
-        }
-        
-    } else {
-        throw_error('404', 'No Results For This Search');
-        $context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
-    }
 }
 
 $context_filterer = new SC_ContextFilterer( $context_holder );

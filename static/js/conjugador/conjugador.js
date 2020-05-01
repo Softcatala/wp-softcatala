@@ -8,23 +8,17 @@ $conjugador_form.on('submit', function(ev) {
 
 
 jQuery('#_action_consulta').click(function(){
+    
     jQuery('.typeahead').typeahead('close');
 
     var query = jQuery('#source').val();
     
 
     if (query) {
+        
         jQuery("#loading").show();
 
         query = query.toLowerCase();
-
-        var url_history = '/conjugador-de-verbs/verb/'+query+'/';
-        history.pushState(null, null, url_history);
-
-        
-
-        update_share_links(query);
-
         //Data
         var post_data = new FormData();
         post_data.append('verb', query);
@@ -49,18 +43,23 @@ jQuery('#_action_consulta').click(function(){
 });
 
 function print_results(result) {
+
+    var url_history = result.canonical;
+    history.pushState(null, null, url_history);
+    update_share_links(result.canonical);
+
     sc_sendTracking(true);
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
-    jQuery('#results').html(result.html);
-    jQuery('#results').slideDown();
+    jQuery('#resultats-conjugador').html(result.html);
+    jQuery('#resultats-conjugador').slideDown();
 }
 
 function ko_function(result) {
     sc_sendTracking(false, result.status);
     jQuery("#loading").hide();
-    jQuery('#results').html(result.responseJSON.html);
-    jQuery('#results').slideDown();
+    jQuery('#resultats-conjugador').html(result.html);
+    jQuery('#resultats-conjugador').slideDown();
 }
 
 function sc_sendTracking(success, status) {
@@ -102,8 +101,13 @@ jQuery('#source').typeahead(
               url: xurl,
               dataType: "json",
               success: function( data ) {
+                console.log('autocomplete');
                 console.log(data);
-                return processAsync ( data );
+                dialog = new Array();
+                data.forEach(function(verb) {
+                    dialog.push(verb.verb_form);
+                });
+                return processAsync ( dialog );
 
               },
               error: function (textStatus, status, errorThrown) {

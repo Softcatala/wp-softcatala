@@ -20,9 +20,15 @@ div.result-conjugador table th {
 }
 
 .variant{
-
     font-size: 12px;
     font-weight:normal;
     vertical-align:middle;
     color:#333
 }
+
+#conjugador-verb-caixa, #conjugador-verb{
+    margin-top:0;
+    border-top: 0;
+}
+
+
