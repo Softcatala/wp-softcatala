@@ -246,17 +246,6 @@ class SC_Conjugador {
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
 		$description = 'Conjugador de verbs.  «' . $verb . '»';
 		
-		/*
-			foreach($api_result as $verbs){
-				
-				$infititiu = array_key_first($verbs);
-
-				$resposta .="<li>";
-				$resposta .= $verb . ' amb l\'infitiu <a href="/conjugador-de-verbs/verb/'.$infititiu.'">'.$infititiu.'</a>';
-				$resposta .="</li>";
-			}
-		*/
-
 		$model = array(
 			'verbs' =>  $api_result
 		);
