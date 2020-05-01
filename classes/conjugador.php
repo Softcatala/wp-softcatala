@@ -99,12 +99,9 @@ class SC_Conjugador {
 			if($autocomplete){
 				return $this->returnInfinitives( $verb, $api_result );
 			}else{
-
 				return $this->returnInfinitive( $verb, $api_result );
 			}
-
-			
-		
+	
 		}//end if
 
 		$resposta = " El verb «".$verb."» que heu cercat, no es troba al conjugador.";
@@ -250,8 +247,7 @@ class SC_Conjugador {
 			'verbs' =>  $api_result
 		);
 		$result = Timber::fetch( 'ajax/conjugador-infinitius.twig', array( 'response' => $model ) );
-		//$result .= print_r($api_result,1);
-
+		
 		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 	
 	}
