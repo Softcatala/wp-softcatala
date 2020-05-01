@@ -77,11 +77,16 @@ function sc_conjugador_search() {
 		$result = new SC_SingleResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
 	} else {
 		$verb = sanitize_text_field( $_POST["verb"] );
-		
 
+		if ( isset( $_POST["autocomplete"] ) ) {
+			$autocomplete = sanitize_text_field( $_POST["autocomplete"] );
+		}else{
+			$autocomplete = false;
+		}
+		
 		$conjugador = new SC_Conjugador();
 		
-		$result = $conjugador->get_verb( $verb );
+		$result = $conjugador->get_verb( $verb, $autocomplete );
 	}
 
 	wp_send_json( $result );

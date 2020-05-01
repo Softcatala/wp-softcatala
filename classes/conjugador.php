@@ -24,7 +24,7 @@ class SC_Conjugador {
 		}
 	}
 
-	public function get_verb( $verb) {
+	public function get_verb( $verb, $autocomplete = false) {
 
 		$verb = strtolower( $verb );
 		
@@ -38,7 +38,7 @@ class SC_Conjugador {
 		}
 
 		if ( 200 == $result['code'] ) {
-			return $this->build_results( $result['result'], $verb );
+			return $this->build_results( $result['result'], $verb, $autocomplete );
 		}
 
 		return $this->return404( $verb );
@@ -70,7 +70,7 @@ class SC_Conjugador {
 	}
 
 
-	private function build_results( $json_result, $verb) {
+	private function build_results( $json_result, $verb, $autocomplete) {
 
 		if(!is_string($json_result)){
 			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
@@ -89,55 +89,21 @@ class SC_Conjugador {
 		
 		if(count($api_result) == 1){
 			
-			$key = array_key_first($api_result[0]);
-			$verbs = $api_result[0][$key];
-			
-			$title         = 'Conjugador de verbs: ' . $verb . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $verb . '»';
-
-			$canonical = '/conjugador-de-verbs/verb/'. $key .'/';
-			
-						
-			// Cerquem l'infinitiu real pel títol
-			$key = array_search('Infinitiu', array_column($verbs, 'form'));
-			$verbinf =$verbs[$key]['singular1']['0']['word'];
-
-			$temps = array(	'singular1' => 'jo',
-							'singular2' => 'tu',
-							'singular3' => 'ell, ella, vostè',
-							'plural1' => 'nosaltres',
-							'plural2' => 'vosaltres, vós',
-							'plural3' => 'ells, elles, vostès'
-						);
-
-			$variants = array(	'3' => '(val)',
-								'4' => '(bal)',
-								'6' => '(val,bal)',
-								'7' => '(val,bal)',
-								'B' => '(bal)',
-								'V' => '(val)',
-								'Z' => '(val,bal)'
-								);
-
-			$model = array(
-				'result' => $verbs,
-				'temps' => $temps,
-				'verbinf' => $verbinf,
-				'variants'=> $variants	
-			);
-			
-			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
-					
-			$description = "";
-						
-			return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
+			return $this->returnInfinitive( $verb, $api_result );
 
 
 		}
 				
 		if(count($api_result) > 1){
 
-			return $this->returnInfinitives( $verb, $api_result );
+			if($autocomplete){
+				return $this->returnInfinitives( $verb, $api_result );
+			}else{
+
+				return $this->returnInfinitive( $verb, $api_result );
+			}
+
+			
 		
 		}//end if
 
@@ -207,6 +173,56 @@ class SC_Conjugador {
 		return new SC_SingleResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu de nou." );
 	}
 
+
+	private function returnInfinitive($verb, $api_result){
+
+			$key = array_key_first($api_result[0]);
+			$verbs = $api_result[0][$key];
+			
+			$title         = 'Conjugador de verbs: ' . $verb . '| Softcatalà';
+			$content_title = 'Conjugador de verbs: «' . $verb . '»';
+
+			$canonical = '/conjugador-de-verbs/verb/'. $key .'/';
+			
+						
+			// Cerquem l'infinitiu real pel títol
+			$key = array_search('Infinitiu', array_column($verbs, 'form'));
+			$verbinf =$verbs[$key]['singular1']['0']['word'];
+
+			$temps = array(	'singular1' => 'jo',
+							'singular2' => 'tu',
+							'singular3' => 'ell, ella, vostè',
+							'plural1' => 'nosaltres',
+							'plural2' => 'vosaltres, vós',
+							'plural3' => 'ells, elles, vostès'
+						);
+
+			$variants = array(	'3' => '(val)',
+								'4' => '(bal)',
+								'6' => '(val,bal)',
+								'7' => '(val,bal)',
+								'B' => '(bal)',
+								'V' => '(val)',
+								'Z' => '(val,bal)'
+								);
+
+			$model = array(
+				'result' => $verbs,
+				'temps' => $temps,
+				'verbinf' => $verbinf,
+				'variants'=> $variants	
+			);
+			
+			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
+					
+			$description = "";
+						
+			return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
+
+
+
+	}
+
 	private function returnNoindexresults( $lletra ){
 
 		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
@@ -230,8 +246,7 @@ class SC_Conjugador {
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
 		$description = 'Conjugador de verbs.  «' . $verb . '»';
 		
-		
-			$resposta .="<ul>";
+		/*
 			foreach($api_result as $verbs){
 				
 				$infititiu = array_key_first($verbs);
@@ -240,18 +255,18 @@ class SC_Conjugador {
 				$resposta .= $verb . ' amb l\'infitiu <a href="/conjugador-de-verbs/verb/'.$infititiu.'">'.$infititiu.'</a>';
 				$resposta .="</li>";
 			}
-			$resposta .="</ul>";	
-		
-		
-		$result = Timber::fetch('ajax/conjugador-verb-not-found.twig', array('resposta' => $resposta));
+		*/
+
+		$model = array(
+			'verbs' =>  $api_result
+		);
+		$result = Timber::fetch( 'ajax/conjugador-infinitius.twig', array( 'response' => $model ) );
+		//$result .= print_r($api_result,1);
 
 		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 	
 	}
 
-	private function get_infitive($api_result){
-
-
-	}
+	
 
 }

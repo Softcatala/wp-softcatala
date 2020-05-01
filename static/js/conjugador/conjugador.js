@@ -22,6 +22,7 @@ jQuery('#_action_consulta').click(function(){
         //Data
         var post_data = new FormData();
         post_data.append('verb', query);
+        post_data.append('autocomplete', true);
         post_data.append('action', 'conjugador_search');
         post_data.append('_wpnonce', jQuery('input[name=_wpnonce_search]').val());
 
