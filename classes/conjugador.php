@@ -81,24 +81,24 @@ class SC_Conjugador {
 	private function build_results( $json_result, $verb, $infinitiu = "", $ajaxquery = false) {
 
 		if(!is_string($json_result)){
-			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
+			return $this->return404('No hem trobat la forma verbal «'.$verb.'» en el conjugador');
 		}
 				
 		$api_result = json_decode( $json_result , true);
 
 		if( !is_array($api_result)){
-			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');	
+			return $this->return404('No hem trobat la forma verbal «'.$verb.'» en el conjugador');	
 		}
 
 		if(count($api_result) == 0){
-			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
+			return $this->return404('No hem trobat la forma verbal «'.$verb.'» en el conjugador');
 		}
 
 		if(!$ajaxquery){
 			if (array_key_exists ( $verb , $api_result[0] )){
 				return $this->returnInfinitive( $api_result, $verb, $verb  );
 			}else{
-				return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
+				return $this->return404('No hem trobat la forma verbal «'.$verb.'» en el conjugador');
 			}
 		}
 
