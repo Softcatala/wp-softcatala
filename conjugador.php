@@ -22,13 +22,13 @@ wp_localize_script( 'sc-js-conjugador', 'scajax', array(
 
 
 $verb = urldecode( get_query_var('verb') );
+$infinitiu = urldecode( get_query_var('infinitiu') );
 $lletra = get_query_var('lletra');
 $content_title = 'Conjugador de verbs';
 
 $title = '';
 $description = '';
 $canonical = '';
-
 $post = new TimberPost();
 //Ads
 
@@ -40,8 +40,7 @@ if( ! empty ( $verb ) ) {
  
     $conjugador = new SC_Conjugador();
     
-    $r = $conjugador->get_verb( $verb );
-
+    $r = $conjugador->get_verb( $verb, $infinitiu, false );
     $canonical = $r->canonical;
     $title = $r->title;
     $content_title = $r->content_title;
@@ -51,9 +50,7 @@ if( ! empty ( $verb ) ) {
 } else if ( ! empty ( $lletra ) ) {
   
         $conjugador = new SC_Conjugador();
-    
         $r = $conjugador->get_lletra( $lletra );
-
         $canonical = $r->canonical;
         $title = $r->title;
         $content_title = $r->content_title;

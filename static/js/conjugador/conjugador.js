@@ -2,27 +2,35 @@ var $conjugador_form = jQuery('#conjugador_form');
 
 $conjugador_form.on('submit', function(ev) {
     ev.preventDefault();
-
+    jQuery('#infinitiu').val('');
     jQuery('#_action_consulta').trigger('click');
 });
 
 
 jQuery('#_action_consulta').click(function(){
-    
+    jQuery('#infinitiu').val('');
+    do_ajax();
+});
+
+function do_ajax (){
+
     jQuery('.typeahead').typeahead('close');
-
-    var query = jQuery('#source').val();
     
-
-    if (query) {
+    var verb_form = jQuery('#source').val();
+    var infinitiu = jQuery('#infinitiu').val();
+    var ajaxquery = true;
+    
+    if (verb_form) {
         
         jQuery("#loading").show();
 
-        query = query.toLowerCase();
+        verb_form = verb_form.toLowerCase();
+        infinitiu = infinitiu.toLowerCase();
         //Data
         var post_data = new FormData();
-        post_data.append('verb', query);
-        post_data.append('autocomplete', true);
+        post_data.append('verb', verb_form);
+        post_data.append('ajaxquery', ajaxquery);
+        post_data.append('infinitiu', infinitiu);
         post_data.append('action', 'conjugador_search');
         post_data.append('_wpnonce', jQuery('input[name=_wpnonce_search]').val());
 
@@ -41,7 +49,7 @@ jQuery('#_action_consulta').click(function(){
     } else {
         jQuery('#results').html('Introduïu un verb per conjugar');
     }
-});
+}
 
 function print_results(result) {
 
@@ -59,7 +67,7 @@ function print_results(result) {
 function ko_function(result) {
     sc_sendTracking(false, result.status);
     jQuery("#loading").hide();
-    jQuery('#resultats-conjugador').html(result.html);
+    jQuery('#resultats-conjugador').html(result.responseJSON.html);
     jQuery('#resultats-conjugador').slideDown();
 }
 
@@ -87,7 +95,7 @@ function update_share_links(query) {
 jQuery('#source').typeahead(
     {
         minLength: 3,
-        hint: true,
+        hint: false,
     },
     {
         delay: 3500,
@@ -102,13 +110,19 @@ jQuery('#source').typeahead(
               url: xurl,
               dataType: "json",
               success: function( data ) {
-                console.log('autocomplete');
-                console.log(data);
-                dialog = new Array();
+                items = [];
+                infinitives = {};
+                form_verb = {};
+                
                 data.forEach(function(verb) {
-                    dialog.push(verb.verb_form);
+                    str = verb.verb_form + ' (' + verb.infinitive + ')'
+                    items.push(str);
+                    infinitives[str] = verb.infinitive;
+                    form_verb[str] = verb.verb_form;
+                    
                 });
-                return processAsync ( dialog );
+                
+                return processAsync ( items );
 
               },
               error: function (textStatus, status, errorThrown) {
@@ -120,5 +134,12 @@ jQuery('#source').typeahead(
         }
 }
 ).on('typeahead:selected', function(evt, item) {
-    jQuery('#_action_consulta').trigger('click');
-});
+   
+        jQuery('#infinitiu').val(infinitives[item]);
+        jQuery('#source').val(form_verb[item]);
+        jQuery('#source').typeahead('val', form_verb[item]);
+        //jQuery('#_action_consulta').trigger('click');
+        do_ajax();
+}
+);
+       

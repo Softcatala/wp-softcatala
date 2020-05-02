@@ -24,12 +24,18 @@ class SC_Conjugador {
 		}
 	}
 
-	public function get_verb( $verb, $autocomplete = false) {
+	public function get_verb( $verb , $infinitiu = "", $ajaxquery = false) {
 
 		$verb = strtolower( $verb );
+		$infinitiu = strtolower( $infinitiu );
 		
 		$url_api = get_option( 'api_conjugador' );
-		$url     = $url_api . 'search/' . $verb;
+		
+		if($infinitiu){
+			$url     = $url_api . 'search/' . $infinitiu;
+		}else{
+			$url     = $url_api . 'search/' . $verb;
+		}
 
 		$result = $this->rest_client->get( $url );
 
@@ -38,9 +44,11 @@ class SC_Conjugador {
 		}
 
 		if ( 200 == $result['code'] ) {
-			return $this->build_results( $result['result'], $verb, $autocomplete );
+			
+			return $this->build_results( $result['result'], $verb, $infinitiu, $ajaxquery );
 		}
-
+		
+		
 		return $this->return404( $verb );
 	}
 
@@ -70,7 +78,7 @@ class SC_Conjugador {
 	}
 
 
-	private function build_results( $json_result, $verb, $autocomplete) {
+	private function build_results( $json_result, $verb, $infinitiu = "", $ajaxquery = false) {
 
 		if(!is_string($json_result)){
 			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
@@ -86,22 +94,25 @@ class SC_Conjugador {
 			return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
 		}
 
-		
-		if(count($api_result) == 1){
-			
-			return $this->returnInfinitive( $verb, $api_result );
-
-
-		}
-				
-		if(count($api_result) > 1){
-
-			if($autocomplete){
-				return $this->returnInfinitives( $verb, $api_result );
+		if(!$ajaxquery){
+			if (array_key_exists ( $verb , $api_result[0] )){
+				return $this->returnInfinitive( $api_result, $verb, $verb  );
 			}else{
-				return $this->returnInfinitive( $verb, $api_result );
+				return $this->return404('No hem trobat el verb '.$verb.' al conjugador');
 			}
-	
+		}
+
+		if(count($api_result) == 1){
+			return $this->returnInfinitive( $api_result, $verb, $infinitiu,  );	
+		}
+			
+		if(count($api_result) > 1){
+			if($infinitiu){
+				return $this->returnInfinitive( $api_result, $verb, $infinitiu );
+			}else{	
+				return $this->returnInfinitives( $api_result, $verb );	
+			}
+			
 		}//end if
 
 		$resposta = " El verb «".$verb."» que heu cercat, no es troba al conjugador.";
@@ -171,15 +182,19 @@ class SC_Conjugador {
 	}
 
 
-	private function returnInfinitive($verb, $api_result){
-
-			$key = array_key_first($api_result[0]);
-			$verbs = $api_result[0][$key];
+	private function returnInfinitive($api_result, $verb, $infinitiu = ""){
+		
 			
-			$title         = 'Conjugador de verbs: ' . $verb . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $verb . '»';
+			if(!$infinitiu){
+				$infinitiu = array_key_first($api_result[0]);
+			}
+			
+			$verbs = $api_result[0][$infinitiu];
+			
+			$title         = 'Conjugador de verbs: ' . $infinitiu . '| Softcatalà';
+			$content_title = 'Conjugador de verbs: «' . $infinitiu . '»';
 
-			$canonical = '/conjugador-de-verbs/verb/'. $key .'/';
+			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
 			
 						
 			// Cerquem l'infinitiu real pel títol
@@ -229,16 +244,15 @@ class SC_Conjugador {
 		
 		$resposta = 'No hi ha verbs que comecin amb la lletra <strong>'. $lletra . '</strong>.';	
 		
-		
 		$result = Timber::fetch('ajax/conjugador-verb-not-found.twig', array('resposta' => $resposta));
 
 		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 	
 	}
 
-	private function returnInfinitives( $verb, $api_result ){
-
-		$canonical = '/conjugador-de-verbs/cerca/'. $verb .'/';
+	private function returnInfinitives( $api_result , $verb ){
+		
+		$canonical = '/conjugador-de-verbs/';
 		$title = 'Conjugador de verbs:  ' . $verb;
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
 		$description = 'Conjugador de verbs.  «' . $verb . '»';
