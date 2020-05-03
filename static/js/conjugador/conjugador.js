@@ -6,7 +6,6 @@ $conjugador_form.on('submit', function(ev) {
     jQuery('#_action_consulta').trigger('click');
 });
 
-
 jQuery('#_action_consulta').click(function(){
     jQuery('#infinitiu').val('');
     do_ajax();
@@ -61,6 +60,7 @@ function print_results(result) {
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
     jQuery('#resultats-conjugador').html(result.html);
+    document.title = result.title;
     jQuery('#resultats-conjugador').slideDown();
 }
 
@@ -98,8 +98,8 @@ jQuery('#source').typeahead(
         hint: false,
     },
     {
-        delay: 3500,
-        limit: 12,
+        delay: 1500,
+        limit: 20,
         async: true,
         source: function(query, processSync, processAsync) {
             
