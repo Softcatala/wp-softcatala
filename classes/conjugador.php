@@ -169,14 +169,19 @@ class SC_Conjugador {
 		
 		throw_error( '404', 'No Results For This Search' );
 
+		$canonical = '/conjugador-de-verbs/';
+		$title = 'Conjugador de verbs | Softcatalà';
+		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
+		$description = '';
+
 		$html = Timber::fetch(
 			 'ajax/conjugador-verb-not-found.twig',
 			array(
 				'resposta'     =>  'No hem trobat la forma verbal «'.$verb.'» en el conjugador',
 			)
 			);
-
-		return new SC_SingleResult( 404, $html, '', '', '', '' );
+		return new SC_SingleResult( 404, $html, $canonical, $description, $title, $content_title );
+		
 	}
 	
 	
@@ -200,9 +205,12 @@ class SC_Conjugador {
 			}
 			
 			$verbs = $api_result[$infinitiu];
+
+			$cinf = array_search('Infinitiu', array_column($verbs, 'tense'));
+			$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
 			
-			$title         = 'Conjugador de verbs: ' . $infinitiu . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $infinitiu . '»';
+			$title         = 'Conjugador de verbs: ' . $infinitive_title . '| Softcatalà';
+			$content_title = 'Conjugador de verbs: «' . $verb . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
 			
@@ -227,7 +235,8 @@ class SC_Conjugador {
 				'result' => $verbs,
 				'temps' => $temps,
 				'verbinf' => $infinitiu,
-				'variants'=> $variants	
+				'variants'=> $variants,
+				'infinitive_title' => $infinitive_title	
 			);
 			
 			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );

@@ -55,8 +55,9 @@ function print_results(result) {
     var url_history = result.canonical;
     history.pushState(null, null, url_history);
     update_share_links(result.canonical);
-
     sc_sendTracking(true);
+    jQuery('#source').val('');
+    jQuery('#infinitiu').focus();
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
     jQuery('#resultats-conjugador').html(result.html);
@@ -65,7 +66,14 @@ function print_results(result) {
 }
 
 function ko_function(result) {
-    sc_sendTracking(false, result.status);
+    
+    var url_history = result.responseJSON.canonical;
+    history.pushState(null, null, url_history);
+    sc_sendTracking(false, result.responseJSON.status);
+    jQuery('#source').focus();
+    jQuery('#source').val();
+    jQuery("#content_header_title").html(result.responseJSON.content_title);
+    document.title = result.responseJSON.title;
     jQuery("#loading").hide();
     jQuery('#resultats-conjugador').html(result.responseJSON.html);
     jQuery('#resultats-conjugador').slideDown();
