@@ -9,7 +9,7 @@
         <div class="col-xs-6 col-md-3">
             <ul class="multilingue_lletres">
             {% for word in row %}
-                <li><a href="/conjugador-de-verbs/verb/{{ word }}/">{{ word }}</a></li>
+                <li><a href="/conjugador-de-verbs/verb/{% if word.infinitive %}{{word.infinitive}}{% else %}{{word.verb_form}}{% endif %}/">{{ word.verb_form }}</a></li>
             {% endfor %}
             </ul>
         </div>

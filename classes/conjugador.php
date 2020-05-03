@@ -160,7 +160,7 @@ class SC_Conjugador {
 		$description = "'Conjugador de verbs: verbs que comencen per ' . $lletra;";
 		
 		$result = Timber::fetch( 'ajax/conjugador-lletra.twig', array( 'response' => $model ) );
-
+		
 		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 
 	}
