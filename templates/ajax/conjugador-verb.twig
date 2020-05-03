@@ -15,11 +15,11 @@
   <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.verbinf }}</h2>
             <h4>Mode indicatiu</h4>
-            {% for verbs in response.result if verbs.group == 'Indicatiu'  %}
+            {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
                                             
-                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <div class="panel-heading">{{ verbs.tense }}</div>
                                                 <table class="table">
                                                     {% for clau, subjecte in response.temps %}
                                                         <tr>
@@ -48,11 +48,11 @@
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.verbinf }}</h2>
             <h4>Mode subjuntiu</h4>
-            {% for verbs in response.result if verbs.group == 'Subjuntiu'  %}
+            {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
                                             
-                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <div class="panel-heading">{{ verbs.tense }}</div>
                                                 <table class="table">
                                                     {% for clau, subjecte in response.temps %}
                                                         <tr>
@@ -80,11 +80,11 @@
             
             <h2>{{ response.verbinf }}</h2>
             <h4>Imperatiu</h4>
-            {% for verbs in response.result if verbs.group == 'Imperatiu'  %}
+            {% for verbs in response.result if verbs.mode == 'Imperatiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
                                             
-                                                <div class="panel-heading">{{ verbs.form }}</div>
+                                                <div class="panel-heading">{{ verbs.tense }}</div>
                                                 <table class="table">
                                                     {% for clau, subjecte in response.temps %}   
                                                     {% if loop.index > 1 %} 
@@ -120,9 +120,9 @@
                     
                     
                     <table class="table">
-                    {% for verbs in response.result if verbs.group == 'Formes no personals'  %}
+                    {% for verbs in response.result if verbs.mode == 'Formes no personals'  %}
                         <tr>
-                            <th>{{ verbs.form }} </th>
+                            <th>{{ verbs.tense }} </th>
                             <td>
                             {% set i = 1 %}
                             {% for clau, subjecte in response.temps if  attribute(verbs, clau) | length > 0 %}
