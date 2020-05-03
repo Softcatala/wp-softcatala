@@ -41,11 +41,21 @@ if( ! empty ( $verb ) ) {
     $conjugador = new SC_Conjugador();
     
     $r = $conjugador->get_verb( $verb, $infinitiu, false );
-    $canonical = $r->canonical;
-    $title = $r->title;
-    $content_title = $r->content_title;
-    $description = $r->description;
-    $context_holder['cerca_result'] = $r->html;
+    $show404 = false;
+
+    if($r){
+        
+        $canonical = $r->canonical;
+        $title = $r->title;
+        $content_title = $r->content_title;
+        $description = $r->description;
+        $context_holder['cerca_result'] = $r->html;
+        
+    }else{
+        $show404 = true; // Cal mostrar un 404
+    }
+
+    
 
 } else if ( ! empty ( $lletra ) ) {
   
@@ -79,4 +89,6 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 //Contact Form
 $context['contact']['to_email'] = get_option('email_recursos');
 
-Timber::render( array( 'conjugador.twig' ), $context );
+if($show404) Timber::render( array( '404.twig' ), $context );
+
+else Timber::render( array( 'conjugador.twig' ), $context );

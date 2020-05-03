@@ -98,7 +98,7 @@ jQuery('#source').typeahead(
         hint: false,
     },
     {
-        delay: 1500,
+        delay: 3600,
         limit: 20,
         async: true,
         source: function(query, processSync, processAsync) {

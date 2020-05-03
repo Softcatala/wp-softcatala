@@ -49,7 +49,7 @@ class SC_Conjugador {
 		}
 		
 		
-		return $this->return404( $verb );
+		return $this->notFound( $verb );
 	}
 
 	public function get_lletra( $lletra ) {
@@ -57,7 +57,7 @@ class SC_Conjugador {
 		
 		if (strlen( $lletra ) != '1' ) {
 			$resposta = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $lletra . '</strong>. La cerca només pot contenir una lletra';
-			return $this->return404( $resposta );
+			return $this->notFound( $resposta );
 		}
 
 		$lletra = strtolower( $lletra );
@@ -74,7 +74,7 @@ class SC_Conjugador {
 			return $this->build_index( $result['result'], $lletra );
 		}
 			
-		return $this->return404( $lletra );
+		return $this->notFound( $lletra );
 	}
 
 
@@ -82,17 +82,17 @@ class SC_Conjugador {
 
 		
 		if(!is_string($json_result)){
-			return $this->return404($verb);
+			return $this->notFound($verb);
 		}
 				
 		$api_result = json_decode( $json_result , true);
 
 		if( !is_array($api_result)){
-			return $this->return404($verb);	
+			return $this->notFound($verb);	
 		}
 
 		if(count($api_result) == 0){
-			return $this->return404($verb);
+			return $this->notFound($verb);
 		}
 		
 		if(!$ajaxquery){
@@ -102,7 +102,7 @@ class SC_Conjugador {
 			if ($true_infinitive){
 				return $this->returnInfinitive( $true_infinitive, $verb, $verb  );
 			}else{
-				return $this->return404($verb);
+				return $this->return404();
 			}
 			
 		}
@@ -121,7 +121,7 @@ class SC_Conjugador {
 			
 		}
 
-			return $this->return404( $verb );
+			return $this->notFound( $verb );
 		
 	}
 	private function build_index ( $json_result, $lletra) {
@@ -165,7 +165,7 @@ class SC_Conjugador {
 
 	}
 
-	private function return404( $verb ) {
+	private function notFound( $verb ) {
 		
 		throw_error( '404', 'No Results For This Search' );
 
@@ -177,6 +177,12 @@ class SC_Conjugador {
 			);
 
 		return new SC_SingleResult( 404, $html, '', '', '', '' );
+	}
+	
+	
+	private function return404() {
+		
+		return false;
 	}
 
 	private function return500() {
