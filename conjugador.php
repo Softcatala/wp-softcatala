@@ -35,13 +35,14 @@ $post = new TimberPost();
 $context_holder = array();
 $context_holder['ads_container'] = true;
 
+$show404 = false; // si no existeix el verb mostre 404 al final
 
 if( ! empty ( $verb ) ) {
  
     $conjugador = new SC_Conjugador();
     
     $r = $conjugador->get_verb( $verb, $infinitiu, false );
-    $show404 = false;
+    
 
     if($r){
         
