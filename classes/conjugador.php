@@ -108,7 +108,7 @@ class SC_Conjugador {
 		}
 
 		if(count($api_result) == 1){
-			return $this->returnInfinitive( $api_result[0], $verb, $infinitiu,  );	
+			return $this->returnInfinitive( $api_result[0], $verb, $infinitiu );
 		}
 			
 		if(count($api_result) > 1){

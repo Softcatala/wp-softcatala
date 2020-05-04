@@ -2,6 +2,8 @@
 
 define( 'WP_SOFTCATALA_VERSION', '1.0.24' );
 
+include ('php73.php');
+
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 } else if( file_exists( ABSPATH . '/../vendor/autoload.php' ) ) {
