@@ -223,13 +223,13 @@ class SC_Conjugador {
 						);
 
 			$variants = array(	'3' => '(val)',
-								'4' => '(bal)',
-								'6' => '(val,bal)',
-								'7' => '(val,bal)',
-								'C' => '(cent)',					  
-								'B' => '(bal)',
-								'V' => '(val)',
-								'Z' => '(val,bal)'
+								'4' => '(bal.)',
+								'6' => '(val.,bal.)',
+								'7' => '(val.,bal.)',
+								'C' => '(cent.)',					  
+								'B' => '(bal.)',
+								'V' => '(val.)',
+								'Z' => '(val.,bal.)'
 								);
 
 			$model = array(
