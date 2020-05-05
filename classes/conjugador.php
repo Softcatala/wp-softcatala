@@ -222,14 +222,14 @@ class SC_Conjugador {
 							'plural3' => 'ells, elles, vostès'
 						);
 
-			$variants = array(	'3' => '(val)',
+			$variants = array(	                '3' => '(val.)',
 								'4' => '(bal.)',
-								'6' => '(val.,bal.)',
-								'7' => '(val.,bal.)',
+								'6' => '(val., bal.)',
+								'7' => '(val., bal.)',
 								'C' => '(cent.)',					  
 								'B' => '(bal.)',
 								'V' => '(val.)',
-								'Z' => '(val.,bal.)'
+								'Z' => '(val., bal.)'
 								);
 
 			$model = array(
