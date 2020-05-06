@@ -209,8 +209,8 @@ class SC_Conjugador {
 			$cinf = array_search('Infinitiu', array_column($verbs, 'tense'));
 			$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
 			
-			$title         = 'Conjugador de verbs: ' . $infinitive_title . '| Softcatalà';
-			$content_title = 'Conjugador de verbs: «' . $verb . '»';
+			$title         = 'Conjugació del verb ' . $infinitive_title . '| Softcatalà';
+			$content_title = 'Conjugació del verb «' . $verb . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
 			
@@ -268,9 +268,9 @@ class SC_Conjugador {
 	private function returnInfinitives( $api_result , $verb ){
 		
 		$canonical = '/conjugador-de-verbs/';
-		$title = 'Conjugador de verbs:  ' . $verb;
-		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
-		$description = 'Conjugador de verbs.  «' . $verb . '»';
+		$title = 'Conjugació del verb ' . $verb;
+		$content_title =  'Conjugació del verb «' . $verb . '»';
+		$description = 'Conjugació del verb «' . $verb . '»';
 		
 		$model = array(
 			'verbs' =>  $api_result,
