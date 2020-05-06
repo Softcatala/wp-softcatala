@@ -12,7 +12,7 @@ jQuery('#_action_consulta').click(function(){
 });
 
 function do_ajax (){
-
+    
     jQuery('.typeahead').typeahead('close');
     
     var verb_form = jQuery('#source').val();
@@ -57,6 +57,7 @@ function print_results(result) {
     update_share_links(result.canonical);
     sc_sendTracking(true);
     jQuery('#source').val('');
+    jQuery('#source').typeahead('val', '');
     jQuery('#infinitiu').focus();
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
@@ -71,7 +72,6 @@ function ko_function(result) {
     history.pushState(null, null, url_history);
     sc_sendTracking(false, result.responseJSON.status);
     jQuery('#source').focus();
-    jQuery('#source').val();
     jQuery("#content_header_title").html(result.responseJSON.content_title);
     document.title = result.responseJSON.title;
     jQuery("#loading").hide();
