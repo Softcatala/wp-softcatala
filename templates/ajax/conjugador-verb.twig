@@ -46,7 +46,7 @@
     </div>
 
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
-            <h2>{{ response.verbinf }}</h2>
+            <h2>{{ response.infinitive_title }}</h2>
             <h4>Mode subjuntiu</h4>
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
                             <div class="col-md-12">
@@ -78,7 +78,7 @@
     </div>
     <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
             
-            <h2>{{ response.verbinf }}</h2>
+            <h2>{{ response.infinitive_title }}</h2>
             <h4>Imperatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Imperatiu'  %}
                             <div class="col-md-12">
@@ -111,7 +111,7 @@
             {% endfor %}
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
-        <h2>{{ response.verbinf }}</h2>
+        <h2>{{ response.infinitive_title }}</h2>
         <h4>Formes no personals</h4>
              <div class="col-md-12">
                 <div class="panel panel-primary">                           
