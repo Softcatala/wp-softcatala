@@ -1,5 +1,5 @@
 var rules_ca = `
-^0 zero
+"0" zero
 #1$ u
 1 un
 2 dos
