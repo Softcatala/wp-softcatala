@@ -54,9 +54,9 @@
   }
   else {
     if(/\d[ ]?[A-Z]{3}$/.test(num) || /^[A-Z]{3}[ ]?[-−]?\d/.test(num) || /\d[ ]?[€\$£¥₩₽ɱ₿]$/.test(num)){
-    resultat = "<b>Divisa</b><br/>";
-    if ((currency == "") || (currency == " amb ")) {
-      resultat += "El codi de divisa no es reconeix.<br/>" 
+      resultat = "<b>Divisa</b><br/>";
+      if ((currency == "") || (currency == " amb ")) {
+        resultat += "El codi de divisa no es reconeix.<br/>" 
       }
     else {
     resultat += currency + "<br/>";
@@ -66,30 +66,30 @@
       if (cardinal_masc) {
         resultat = "<b>Cardinal</b><br/>";
         if (cardinal_masc === cardinal_fem){
-          resultat += cardinal_masc;
+          resultat += "<span id=\"card\">" + cardinal_masc + "</span> <input id=\"card_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card', 'card_parla');return false;\">";
         if (cardinal_masc_val !== cardinal_masc) {
-          resultat += ", " + cardinal_masc_val + " (val.)";
+          resultat += ", <span id=\"card_val\">" + cardinal_masc_val + "</span> (val.) <input id=\"card_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_val', 'card_val_parla');return false;\">";
         }
   	    if (cardinal_masc_bal !== cardinal_masc) {
-  	      resultat += ", " + cardinal_masc_bal + " (bal.)";
+  	      resultat += ", <span id=\"card_bal\">" + cardinal_masc_bal + "</span> (bal.) <input id=\"card_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_bal', 'card_bal_parla');return false;\">";
         }
         resultat += "<br/>";      
       }
       else {
-        resultat += "Masculí: " + cardinal_masc;
+        resultat += "Masculí: <span id=\"card\">" + cardinal_masc + "</span> <input id=\"card_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card', 'card_parla');return false;\">";
         if (cardinal_masc_val !== cardinal_masc) {
-          resultat += ", " + cardinal_masc_val + " (val.)";
+          resultat += ", <span id=\"card_val\">" + cardinal_masc_val + "</span> (val.) <input id=\"card_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_val', 'card_val_parla');return false;\">";
         }
         if (cardinal_masc_bal !== cardinal_masc) {
-          resultat += ", " + cardinal_masc_bal + " (bal.)";
+          resultat += ", <span id=\"card_bal\">" + cardinal_masc_bal + "</span> (bal.) <input id=\"card_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_bal', 'card_bal_parla');return false;\">";
         }
         resultat += "<br/>";
-        resultat += "Femení: " + cardinal_fem; 
+        resultat += "Femení: <span id=\"card_f\">" + cardinal_fem + "</span> <input id=\"card_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_f', 'card_f_parla');return false;\">"; 
         if (cardinal_fem_val !== cardinal_fem) {
-          resultat += ", " + cardinal_fem_val + " (val.)";
+          resultat += ", <span id=\"card_f_val\">" + cardinal_fem_val + "</span> (val.) <input id=\"card_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_f_val', 'card_f_val_parla');return false;\">";
         }
         if (cardinal_fem_bal !== cardinal_fem) {
-          resultat += ", " + cardinal_fem_bal + " (bal.)";
+          resultat += ", <span id=\"card_f_bal\">" + cardinal_fem_bal + "</span> (bal.) <input id=\"card_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('card_b_val', 'card_f_bal_parla');return false;\">";
         }
         resultat += "<br/>";
       }
@@ -98,20 +98,20 @@
         }
         if (ordinal) {
           resultat += "<b>Ordinal</b><br/>";
-          resultat += "Masculí: " + ordinal + " " + ordinal_number;
+          resultat += "Masculí: <span id=\"ord\">" + ordinal + "</span> " + ordinal_number + "</span> <input id=\"ord_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord', 'ord_parla');return false;\">";
           if (ordinal_val !== ordinal) {
-            resultat += ", " + ordinal_val + " " + ordinal_number_val + " (val.)";
+            resultat += ", <span id=\"ord_val\">" + ordinal_val + "</span> " + ordinal_number_val + " (val.)</span> <input id=\"ord_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_val', 'ord_val_parla');return false;\">";
           }
           if (ordinal_bal !== ordinal) {
-            resultat += ", " + ordinal_bal + " " + ordinal_number_bal + " (bal.)";
+            resultat += ", <span id=\"ord_bal\">" + ordinal_bal + "</span> " + ordinal_number_bal + " (bal.)</span> <input id=\"ord_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_bal', 'ord_bal_parla');return false;\">";
           }
           resultat += "<br/>";
-          resultat += "Femení: " + ordinal_fem + " " + ordinal_number_fem;
+          resultat += "Femení: <span id=\"ord_f\">" + ordinal_fem + "</span> " + ordinal_number_fem + "</span> <input id=\"ord_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f', 'ord_f_parla');return false;\">";
           if (ordinal_fem_val !== ordinal_fem) {
-            resultat += ", " + ordinal_fem_val + " " + ordinal_number_fem_val + " (val.)";
+            resultat += ", <span id=\"ord_f_val\">" + ordinal_fem_val + "</span> " + ordinal_number_fem_val + " (val.)</span> <input id=\"ord_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_val', 'ord_f_val_parla');return false;\">";
           }
           if (ordinal_fem_bal !== ordinal_fem) {
-            resultat += ", " + ordinal_fem_bal + " " + ordinal_number_fem_bal + " (bal.)";
+            resultat += ", <span id=\"ord_f_bal\">" + ordinal_fem_bal + "</span> " + ordinal_number_fem_bal + " (bal.)</span> <input id=\"ord_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_bal', 'ord_f_bal_parla');return false;\">";
           }
           resultat += "<br/>";
         }
@@ -121,15 +121,15 @@
 	    }
         if (collective) {
           resultat += "<b>Col·lectiu</b><br/>";
-          resultat += collective + "<br/>";
+          resultat += "<span id=\"coll\">" + collective + "</span> <input id=\"coll_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('coll', 'coll_parla');return false;\"><br/>";
         }
         if (multiplicative) {
           resultat += "<b>Multiplicatiu</b><br/>";
-          resultat += multiplicative + "<br/>";
+          resultat += "<span id=\"mult\">" + multiplicative + "</span> <input id=\"mult_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('mult', 'mult_parla');return false;\"><br/>";
         }
         if (years) {
           resultat += "<b>Període d'anys</b><br/>";
-          resultat += years + "<br/>";
+          resultat += "<span id=\"anys\">" + years + "</span> <input id=\"anys_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('anys', 'anys_parla');return false;\"><br/>";
         }
       }
       if (fraction && (!cardinal_masc)) {
@@ -153,19 +153,29 @@
       }
     }
   }  
-  if (resultat){
-    document.getElementById("resultatp").style.display = "block";
-    document.getElementById("resultat").innerHTML=resultat;
-  }else{
-    document.getElementById("resultatp").style.display = "none";
-  }
+  document.getElementById("resultat").innerHTML=resultat;
   
   if(flag_one) {
     warning = "<b>Atenció</b>:";
     warning += " els nombres acabats en \"un\" s'usen acabats en \"u\" si indiquen ordre d'aparició, de col·locació o de successió, com a sinònim de primer. També es pot usar la forma acabada en \"u\" per a referir-se al nom del nombre natural o per a comptar.";
-    document.getElementById("alerta").style.display = "block";
-  }else{
-    document.getElementById("alerta").style.display = "none";
   }
   document.getElementById("warning").innerHTML=warning;
 }
+
+function speak_text(id, element) {
+
+    text = document.getElementById(id).innerHTML;
+    hash = md5(text).substring(0, 8);
+    
+    document.getElementById(element).disabled = true;
+    url = `https://www.softcatala.org/veu/speak/?text=${text}&token=${hash}`;
+    aud = new Audio(url)
+
+    aud.onended = function() {
+        document.getElementById(element).disabled = false;
+    }; 
+
+    aud.play();
+
+}
+
