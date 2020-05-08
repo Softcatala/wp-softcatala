@@ -4,6 +4,7 @@
  *
  * @package wp-softcatala
  */
+wp_enqueue_script( 'sc-js-nombres-md5', get_template_directory_uri() . '/static/js/nombres-lletres/md5.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-nombres-soros', get_template_directory_uri() . '/static/js/nombres-lletres/Soros.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-nombres-ca-numbers', get_template_directory_uri() . '/static/js/nombres-lletres/ca-numbertext.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-nombres-roman', get_template_directory_uri() . '/static/js/nombres-lletres/roman-numbertext.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
