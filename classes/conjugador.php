@@ -209,7 +209,7 @@ class SC_Conjugador {
 			$cinf = array_search('Infinitiu', array_column($verbs, 'tense'));
 			$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
 			
-			$title         = 'Conjugació del verb ' . $infinitive_title . '| Softcatalà';
+			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
