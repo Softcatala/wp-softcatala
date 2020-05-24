@@ -51,7 +51,6 @@ function do_ajax (){
 }
 
 function print_results(result) {
-
     var url_history = result.canonical;
     history.pushState(null, null, url_history);
     update_share_links(result.canonical);
@@ -67,16 +66,25 @@ function print_results(result) {
 }
 
 function ko_function(result) {
-    
     var url_history = result.responseJSON.canonical;
     history.pushState(null, null, url_history);
-    sc_sendTracking(false, result.responseJSON.status);
+    sc_404sendTracking(false, result.responseJSON.status, result.responseJSON.description);
     jQuery('#source').focus();
     jQuery("#content_header_title").html(result.responseJSON.content_title);
     document.title = result.responseJSON.title;
     jQuery("#loading").hide();
     jQuery('#resultats-conjugador').html(result.responseJSON.html);
     jQuery('#resultats-conjugador').slideDown();
+}
+function sc_404sendTracking(success, status, verb) {
+    if (typeof(ga) == 'function')
+    {
+        var url = success ? '' : status;
+
+        url += document.location.pathname + verb;
+
+       ga('send', 'pageview', url);
+    }
 }
 
 function sc_sendTracking(success, status) {

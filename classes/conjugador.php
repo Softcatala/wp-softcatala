@@ -172,7 +172,7 @@ class SC_Conjugador {
 		$canonical = '/conjugador-de-verbs/';
 		$title = 'Conjugador de verbs | Softcatalà';
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
-		$description = '';
+		$description = $verb;
 
 		$html = Timber::fetch(
 			 'ajax/conjugador-verb-not-found.twig',
