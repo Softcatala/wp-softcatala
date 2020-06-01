@@ -1,0 +1,19 @@
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            {% for key in keys %}
+                <td>{{ attribute(titles, key) }}</td>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in rows %}
+            <tr>
+                {% for key in keys %}
+                    <td>{{ attribute(item, key) }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

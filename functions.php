@@ -84,6 +84,7 @@ class StarterSite extends TimberSite {
 
 	public function init_services() {
 		SC_Multilingue::init();
+		\Softcatala\Content\JsonToTable::init();
 	}
 
 	function autoload_wpcli( $cls ) {
@@ -93,7 +94,6 @@ class StarterSite extends TimberSite {
 	}
 
 	function autoload( $cls ) {
-
 		$this->tryLoadFromNamespace( $cls ) || $this->tryLoadFromClasses( $cls );
 	}
 
@@ -120,7 +120,6 @@ class StarterSite extends TimberSite {
 		}
 
 		$path = __DIR__ . DIRECTORY_SEPARATOR . str_replace( '\\', DIRECTORY_SEPARATOR, $cls ) . '.php';
-
 		$path = $this->decamelize( str_replace( 'Softcatala' . DIRECTORY_SEPARATOR, 'classes' . DIRECTORY_SEPARATOR, $path ) );
 
 		return is_readable( $path ) && require_once( $path );
