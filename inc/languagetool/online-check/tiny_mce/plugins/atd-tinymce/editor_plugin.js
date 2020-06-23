@@ -149,6 +149,9 @@ AtDCore.prototype.markMyWords = function() {
     var textWithCursor = this.getPlainTextWithCursorMarker();
     var cursorPos = textWithCursor.indexOf("\ufeff");
     var newText = this.getPlainText();
+  
+    newText = newText.replace(/</g, "\ue001");
+    newText = newText.replace(/>/g, "\ue002");
     
     var previousSpanStart = -1;
     // iterate backwards as we change the text and thus modify positions:
