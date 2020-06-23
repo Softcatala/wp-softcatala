@@ -204,6 +204,9 @@ AtDCore.prototype.markMyWords = function() {
     newText = newText.replace(/^\n/, "");
     newText = newText.replace(/^\n/, "");
     newText = newText.replace(/\n/g, "<br/>");
+    newText = newText.replace(/\ue001/g, '&lt;');
+    newText = newText.replace(/\ue002/g, '&gt;');
+
     ed.setContent(newText);
     // now place the cursor where it was:
     ed.selection.select(ed.dom.select('span#caret_pos_holder')[0]);
@@ -272,7 +275,7 @@ AtDCore.prototype._getPlainText = function(removeCursor) {
             .replace(/&amp;/g, "&")
             .replace(/&lt;/g, "<")
             // TODO: using '>' still gets converted to '&gt;' for the user - with this line the HTML gets messed up when '<' or '>' are used in the text to check:
-            //.replace(/&gt;/g, ">") 
+            .replace(/&gt;/g, ">") // buggy?
             .replace(/&nbsp;/g, " ");  // see issue #10
     if (removeCursor) {
         plainText = plainText.replace(/\ufeff/g, "");  // feff = 65279 = cursor code
