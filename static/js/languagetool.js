@@ -50,10 +50,25 @@ tinyMCE.init({
   plugins: "AtD,paste",
   paste_text_sticky: true,
   auto_focus : "checktext",
-  setup: function(ed) {
-    ed.onInit.add(function(ed) {
-      ed.pasteAsPlainText = true;
-    });
+  setup:function(ed) {
+      ed.onInit.add(function(ed) {
+          ed.pasteAsPlainText = true;
+      });
+      ed.onKeyDown.add(function(ed, e) {
+          if (e.ctrlKey && e.keyCode == 13) {  // Ctrl+Return
+              dochecktext();
+              tinymce.dom.Event.cancel(e);
+          } 
+      });
+      // remove any 'no errors found' message:
+      ed.onKeyUp.add(function(ed, e) {
+          if (!e.keyCode || e.keyCode != 17) {  // don't hide if user used Ctrl+Return
+              $('#feedbackMessage').html('');
+          }
+      });
+      ed.onPaste.add(function(ed, e) {
+          $('#feedbackMessage').html('');
+      });
   },
 
   /* translations: */
