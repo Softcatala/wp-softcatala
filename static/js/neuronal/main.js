@@ -21,6 +21,12 @@ var neuronalVista = ( function (){
         /* Mobil */
         slsourcemob: '#origin-select-mobil',
         sltargetmob: '#target-select-mobil',
+
+        /*Enviament fitxers*/
+        email: '#n_email',
+        file: '#n_file',
+        model_name: '#n_model_name',
+        btntradfile: '#translate_file',
     }
 
     var direction;
@@ -34,15 +40,15 @@ var neuronalVista = ( function (){
         initDOM: function(){
             
             document.querySelector(elementsDOM.btntrad).disabled = true;
-            document.querySelector(elementsDOM.btncopy).disabled = true;
+            //document.querySelector(elementsDOM.btncopy).disabled = true;
 
             document.querySelector(elementsDOM.btntrad).style.width = '130px';
-            document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
+            //document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
             
             jQuery(elementsDOM.slsourcemob).selectpicker();
             jQuery(elementsDOM.sltargetmob).selectpicker();
 
-            this.switchCatEng();
+            this.switchEngCat();
                  
             
         },
@@ -121,7 +127,7 @@ var neuronalVista = ( function (){
             document.querySelector(elementsDOM.secondtext).innerHTML = translation.translated_text;
             document.querySelector(elementsDOM.time).innerHTML = translation.time;
             document.querySelector(elementsDOM.btntrad).innerHTML = "Tradueix";
-            document.querySelector(elementsDOM.btncopy).disabled = false;
+            //document.querySelector(elementsDOM.btncopy).disabled = false;
         }
             
     }
@@ -173,13 +179,13 @@ var neuronalApp = ( function (vistaCtrl){
         document.querySelector(elementsDOM.firsttext).addEventListener('input', function(e){
             vistaCtrl.enableTrad();
         });
-
+/*
         document.querySelector(elementsDOM.btncopy).addEventListener('input', function(e){
             document.execCommand('copy');
             var copytext = document.querySelector(elementsDOM.secondtext).textContent;
             copyToClipBoard(copyText);
         });
-
+*/
         document.querySelector(elementsDOM.btntrad).addEventListener('click', function(e){
         
            document.querySelector(elementsDOM.btntrad).innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
@@ -189,9 +195,19 @@ var neuronalApp = ( function (vistaCtrl){
                 translated_text: "",
                 time: ""
             }
-            translate(translation)
+            translate(translation);
      
         });
+        document.querySelector(elementsDOM.btntradfile).addEventListener('click', function(e){
+            
+             var translation = {
+                 file: document.querySelector(elementsDOM.file).files[0],
+                 email: document.querySelector(elementsDOM.email).value,
+                 model_name: document.querySelector(elementsDOM.model_name).value
+             }
+             translate_file(translation);
+      
+         });
     
     }
 
@@ -216,6 +232,41 @@ var neuronalApp = ( function (vistaCtrl){
         });
 
         xhr.send(payload);
+    }
+
+    var translate_file = function (translation)
+    {
+        
+        var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function()
+            {
+                if(xmlHttp.readyState != 4)
+                {
+                    return;
+                }
+    
+                if (xmlHttp.status == 200)
+                {
+                    alert("En una estona rebeu el fitxer traduÃ¯t per correu electrÃ²nic");
+                }
+                else
+                {
+                    json = JSON.parse(xmlHttp.responseText);
+                    alert(json['error']);
+                }
+            }
+    
+            /*
+            var formData = new FormData(document.getElementById('form-id'));
+            */
+            url = neuronal_json_url + `/translate_file/`;
+            
+            var formData = new FormData();
+            formData.append("email", translation.email);
+            formData.append("model_name", translation.model_name);
+            formData.append("file", translation.file);
+            xmlHttp.open("post", url);
+            xmlHttp.send(formData); 
     }
    
     return {

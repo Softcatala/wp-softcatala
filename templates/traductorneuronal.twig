@@ -20,8 +20,9 @@
                 <div class="col-xs-12">
                   <!-- .btns-llengues-origen -->
                   <div class="btns-llengues-origen btn-group" role="group">
-                    <button type="button" class="btn bt select" id="origin-cat">Català</button>
                     <button type="button" class="btn bt" id="origin-en">Anglès</button>
+                    <button type="button" class="btn bt select" id="origin-cat">Català</button>
+                    
                     
                       
 
@@ -42,8 +43,9 @@
 
                     <!-- .btns-llengues-desti  -->
                     <div class="btns-llengues-desti btn-group" role="group">
-                      <button type="button" class="btn bt" id="target-cat">Català</button>
                       <button type="button" class="btn bt select" id="target-en">Anglès</button>
+                      <button type="button" class="btn bt" id="target-cat">Català</button>
+                      
                       
                       <div class="btn-group" role="group">
                                               
@@ -57,7 +59,7 @@
                         </div><!--/dropdown llengues mòbil -->
                       </div>
                     </div><!-- .btns-llengues-desti -->
-                    <button type="button" class="btn bt select" id="btncopy"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
+                    <!--<button type="button" class="btn bt select" id="btncopy"><i class="fa fa-clipboard" aria-hidden="true"></i></button>-->
                     
 
                     <button id="translate" type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
@@ -82,6 +84,49 @@
               </form><!--/.formulari -->
 
             </section><!--/.formulari-eines -->
+
+            <section><!-- traduccio de fitxer de text -->
+
+            <div class="panel panel-default">
+              <div class="panel-heading">Traducció de fitxers de text</div>
+              <div class="panel-body">
+                  <p>També pots enviar-nos un fitxer en format de text pla (extensió .txt) en codificació utf-8 i te’l tornem traduït per correu electrònic. Disposem d’una cua que anem processant, llavors pot trigar més o menys dependent del nombre de traduccions pendents a enviar. Mida màxima del fitxer 256Kb.</p>
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <label for="n_model_name">Sentit de la traducció</label>
+                         <select class="form-control selectpicker" name="n_model_name" id="n_model_name">
+                          <option value="cat-eng">Català -> Anglès</option>
+                          <option value="eng-cat" selected>Anglès -> Català</option>            
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-7">
+                      <div class="form-group">
+                        <label for="n_email">Adreça electrònica:</label>
+                        <input type="email" class="form-control" id="n_email" name="n_email" placeholder="Adreça electrònica">
+                        <p class="help-block">Adreça electrònica on voleu que us enviem la traducció:</p>
+                      </div>
+                    </div>   
+                  </div><!-- /.row -->
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <label for="n_file">Seleccioneu un fitxer de text</label>
+                        <input type="file" id="n_file">
+                        <p class="help-block">Mida màxima del fitxer 256Kb.</p>
+                      </div>
+                    </div>
+                    <div class="col-sm-7">
+                      <div class="form-group">
+                        <button type="button" id="translate_file" class="bt-basic bt-basic-vermell">Demaneu traducció</button>
+                      </div>
+                    </div>    
+                  </div><!-- /.row -->
+                </div>
+              </div>
+              
+            </section>
 
             <!-- .contingut-section  
             <section class="contingut-section">
