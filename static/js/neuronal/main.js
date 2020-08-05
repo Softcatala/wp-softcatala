@@ -43,11 +43,13 @@ var neuronalVista = (function () {
         initDOM: function () {
 
             jQuery(elementsDOM.btntrad).prop('disabled', true);
-            //document.querySelector(elementsDOM.btncopy).disabled = true;
+            jQuery(elementsDOM.btncopy).prop('disabled', true);
+            
 
             document.querySelector(elementsDOM.btntrad).style.width = '130px';
-            //document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
-            //document.querySelector(elementsDOM.btntradfile).style.margin = '230px';
+            document.querySelector(elementsDOM.btntradfile).style.width = '250px';
+            document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
+            
 
             jQuery(elementsDOM.slsourcemob).selectpicker();
             jQuery(elementsDOM.sltargetmob).selectpicker();
@@ -106,6 +108,9 @@ var neuronalVista = (function () {
         getDirection: function () {
             return direction;
         },
+        getTrad: function (){
+            return jQuery(elementsDOM.secondtext).html();
+        },
         enableTrad: function () {
 
             if (jQuery(elementsDOM.firsttext))
@@ -120,11 +125,11 @@ var neuronalVista = (function () {
             jQuery(elementsDOM.secondtext).html(translation.translated_text);
             jQuery(elementsDOM.time).html(translation.time);
             jQuery(elementsDOM.btntrad).html("Tradueix");
-
-            //document.querySelector(elementsDOM.btncopy).disabled = false;
+        
+            jQuery(elementsDOM.btncopy).prop('disabled', false);
         },
         sentFileAlert: function () {
-
+            jQuery(elementsDOM.btntradfile).html("Demaneu traducció");
             jQuery(elementsDOM.error).hide();
             jQuery(elementsDOM.info).removeClass('hidden');
             jQuery(elementsDOM.info).show('slow');
@@ -150,6 +155,11 @@ var neuronalApp = (function (vistaCtrl) {
 
         var elementsDOM = vistaCtrl.elementsDOM();
 
+        var $clipBoard = new Clipboard(elementsDOM.btncopy, {
+            text: function(trigger) {
+                return jQuery(elementsDOM.secondtext).html();
+            }
+        });
 
         document.querySelector(elementsDOM.slsourcemob).addEventListener('change', function (e) {
 
@@ -189,15 +199,7 @@ var neuronalApp = (function (vistaCtrl) {
         document.querySelector(elementsDOM.firsttext).addEventListener('input', function (e) {
             vistaCtrl.enableTrad();
         });
-
-        /*
-        document.querySelector(elementsDOM.btncopy).addEventListener('input', function(e){
-            document.execCommand('copy');
-            var copytext = document.querySelector(elementsDOM.secondtext).textContent;
-            copyToClipBoard(copyText);
-        });
-
-        */
+  
         document.querySelector(elementsDOM.error + '> button').addEventListener('click', function (e) {
             jQuery(elementsDOM.error).hide('slow');
         });
@@ -218,6 +220,8 @@ var neuronalApp = (function (vistaCtrl) {
 
         });
         document.querySelector(elementsDOM.btntradfile).addEventListener('click', function (e) {
+
+            document.querySelector(elementsDOM.btntradfile).innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
 
             if (!validateEmail(document.querySelector(elementsDOM.email).value)) {
 
@@ -241,7 +245,7 @@ var neuronalApp = (function (vistaCtrl) {
                     email: document.querySelector(elementsDOM.email).value,
                     model_name: document.querySelector(elementsDOM.model_name).value
                 }
-
+                
                 translate_file(translation);
 
             }
@@ -325,6 +329,9 @@ var neuronalApp = (function (vistaCtrl) {
 
             vistaCtrl.initDOM();
             initEventsDoom();
+            
+            
+
             console.log('app iniciada');
         }
     }
@@ -333,3 +340,5 @@ var neuronalApp = (function (vistaCtrl) {
 })(neuronalVista);
 
 neuronalApp.init();
+
+

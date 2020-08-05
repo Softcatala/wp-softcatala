@@ -5,10 +5,8 @@
  * @package wp-softcatala
  */
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/neuronal/main.js', array('sc-js-main', 'sc-js-metacookie'), WP_SOFTCATALA_VERSION, true );
-wp_localize_script( 'sc-js-traductor', 'scajax', array(
-    'ajax_url' => admin_url( 'admin-ajax.php' )
-));
+wp_enqueue_script( 'sc-js-clipboard', get_template_directory_uri() . '/static/js/clipboard.min.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-neuronal', get_template_directory_uri() . '/static/js/neuronal/main.js', array('sc-js-main', 'sc-js-metacookie'), WP_SOFTCATALA_VERSION, true );
 
 $context = Timber::get_context();
 //Ads
