@@ -6,6 +6,7 @@ var neuronal_json_url = "https://www.softcatala.org/sc/v2/api/nmt-engcat";
 
 var neuronalVista = ( function (){
 
+    
     var elementsDOM = {
         btncatsource: '#origin-cat',
         btncattarget: '#target-cat',
@@ -18,8 +19,8 @@ var neuronalVista = ( function (){
         time: '#time',
         btncopy: '#btncopy',
         /* Mobil */
-        slsourcemob: 'origin-select-mobil',
-        sltargetmob: 'target-select-mobil',
+        slsourcemob: '#origin-select-mobil',
+        sltargetmob: '#target-select-mobil',
     }
 
     var direction;
@@ -31,19 +32,25 @@ var neuronalVista = ( function (){
             return elementsDOM;
         },
         initDOM: function(){
-            this.switchCatEng();
+            
             document.querySelector(elementsDOM.btntrad).disabled = true;
             document.querySelector(elementsDOM.btncopy).disabled = true;
+
             document.querySelector(elementsDOM.btntrad).style.width = '130px';
             document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
+            
+            jQuery(elementsDOM.slsourcemob).selectpicker();
+            jQuery(elementsDOM.sltargetmob).selectpicker();
 
-            direction = 'cat-eng';
+            this.switchCatEng();
+                 
+            
         },
         switch: function(){
-            document.querySelector(elementsDOM.btncatsource).classList.toggle('select');
-            document.querySelector(elementsDOM.btnengsource).classList.toggle('select');
-            document.querySelector(elementsDOM.btncattarget).classList.toggle('select');
-            document.querySelector(elementsDOM.btnengtarget).classList.toggle('select');
+            //document.querySelector(elementsDOM.btncatsource).classList.toggle('select');
+            //document.querySelector(elementsDOM.btnengsource).classList.toggle('select');
+            //document.querySelector(elementsDOM.btncattarget).classList.toggle('select');
+            //document.querySelector(elementsDOM.btnengtarget).classList.toggle('select');
 
             firsttext = document.querySelector(elementsDOM.firsttext).value;
             secondtext = document.querySelector(elementsDOM.secondtext).innerHTML;
@@ -51,16 +58,34 @@ var neuronalVista = ( function (){
             document.querySelector(elementsDOM.firsttext).value = secondtext;
             document.querySelector(elementsDOM.secondtext).innerHTML = firsttext;
             
-            if (direction == 'eng-cat') direction = 'cat-eng' 
-            else direction = 'eng-cat'
+            if (direction == 'eng-cat') {
+
+                direction = 'cat-eng';
+                this.switchCatEng();
+
+
+            }else{  
+                direction = 'eng-cat';
+                this.switchEngCat();   
+            }
             
         },
         switchCatEng: function(){
+            
             document.querySelector(elementsDOM.btncatsource).classList.add('select');
             document.querySelector(elementsDOM.btnengsource).classList.remove('select');
             document.querySelector(elementsDOM.btncattarget).classList.remove('select');
             document.querySelector(elementsDOM.btnengtarget).classList.add('select');
+
+            //document.querySelector(elementsDOM.slsourcemob).value = 'cat';
+            //document.querySelector(elementsDOM.sltargetmob).value = 'eng';
+            
+            jQuery(elementsDOM.slsourcemob).selectpicker('val', 'cat');
+            jQuery(elementsDOM.sltargetmob).selectpicker('val', 'eng');
+
             direction = 'cat-eng';
+            
+            
         },
         switchEngCat: function(){
             
@@ -68,7 +93,16 @@ var neuronalVista = ( function (){
             document.querySelector(elementsDOM.btnengsource).classList.add('select');
             document.querySelector(elementsDOM.btncattarget).classList.add('select');
             document.querySelector(elementsDOM.btnengtarget).classList.remove('select');
+
+            //document.querySelector(elementsDOM.slsourcemob).value = 'eng';
+            //document.querySelector(elementsDOM.sltargetmob).value = 'cat';
+
+            jQuery(elementsDOM.slsourcemob).selectpicker('val', 'eng');
+            jQuery(elementsDOM.sltargetmob).selectpicker('val', 'cat');
+
             direction = 'eng-cat';
+            
+            
         },
         getDirection: function(){
 
@@ -83,7 +117,7 @@ var neuronalVista = ( function (){
             
         },
         updateTrad: function(translation){
-            console.log(translation);
+            
             document.querySelector(elementsDOM.secondtext).innerHTML = translation.translated_text;
             document.querySelector(elementsDOM.time).innerHTML = translation.time;
             document.querySelector(elementsDOM.btntrad).innerHTML = "Tradueix";
@@ -99,7 +133,26 @@ var neuronalApp = ( function (vistaCtrl){
     var initEventsDoom = function (){
       
         var elementsDOM = vistaCtrl.elementsDOM();
-
+        
+        
+        document.querySelector(elementsDOM.slsourcemob).addEventListener('change', function(e){
+            
+            if (document.querySelector(elementsDOM.slsourcemob).value == 'eng')
+                vistaCtrl.switchEngCat()
+            else
+                vistaCtrl.switchCatEng()
+             
+        });
+        
+        document.querySelector(elementsDOM.sltargetmob).addEventListener('change', function(e){
+            
+            if (document.querySelector(elementsDOM.sltargetmob).value == 'eng')
+                vistaCtrl.switchCatEng();
+            else
+                vistaCtrl.switchEngCat();   
+             
+        });
+        
         // Event switch
         document.querySelector(elementsDOM.btnswitch).addEventListener('click', function(e){
             vistaCtrl.switch();
@@ -146,7 +199,6 @@ var neuronalApp = ( function (vistaCtrl){
  
         var xhr = new XMLHttpRequest();
         url = neuronal_json_url + `/translate/`;
-        console.log(url);
         xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -172,8 +224,6 @@ var neuronalApp = ( function (vistaCtrl){
             
             vistaCtrl.initDOM();
             initEventsDoom();
-
-            //console.log(neuronal_json_url);
             console.log('app iniciada');
         }
     }
