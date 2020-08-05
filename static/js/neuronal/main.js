@@ -138,6 +138,7 @@ var neuronalVista = (function () {
 
         },
         displayError: function (errortxt) {
+            jQuery(elementsDOM.btntradfile).html("Demaneu traducció");
             jQuery(elementsDOM.info).hide();
             jQuery(elementsDOM.error).removeClass('hidden');
             jQuery(elementsDOM.errormessage).html(errortxt);
