@@ -18,7 +18,9 @@ function do_ajax (){
     var verb_form = jQuery('#source').val();
     var infinitiu = jQuery('#infinitiu').val();
     var ajaxquery = true;
+
     
+
     if (verb_form) {
         
         jQuery("#loading").show();
@@ -115,7 +117,7 @@ jQuery('#source').typeahead(
     },
     {
         delay: 3600,
-        limit: 20,
+        limit: 200,
         async: true,
         source: function(query, processSync, processAsync) {
             
@@ -130,12 +132,15 @@ jQuery('#source').typeahead(
                 infinitives = {};
                 form_verb = {};
                 
+                var i = 0;
+
                 data.forEach(function(verb) {
+                
                     str = verb.verb_form + ' (' + verb.infinitive + ')'
-                    items.push(str);
                     infinitives[str] = verb.infinitive;
                     form_verb[str] = verb.verb_form;
-                    
+                    items.push(str);
+                
                 });
                 
                 return processAsync ( items );
@@ -150,7 +155,18 @@ jQuery('#source').typeahead(
         }
 }
 ).on('typeahead:selected', function(evt, item) {
-   
+        
+        
+        var regExp = /\(([^)]+)\)/;
+        var matches = regExp.exec(item);
+        
+        
+        if(!infinitives[item])
+            infinitives[item] = matches[1]
+        
+        if(!form_verb[item])
+            form_verb[item] = matches[1]
+        
         jQuery('#infinitiu').val(infinitives[item]);
         jQuery('#source').val(form_verb[item]);
         jQuery('#source').typeahead('val', form_verb[item]);
