@@ -61,8 +61,8 @@ var neuronalVista = (function () {
         },
         switch: function () {
 
-            firsttext = jQuery(elementsDOM.firsttext).val();
-            secondtext = jQuery(elementsDOM.secondtext).html();
+            firsttext = jQuery(elementsDOM.firsttext).val().replace(/\n/g, "<br />");
+            secondtext = jQuery(elementsDOM.secondtext).html().replace(/<br\s*\/?>/gim, "\n");
 
             jQuery(elementsDOM.firsttext).val(secondtext);
             jQuery(elementsDOM.secondtext).html(firsttext);
@@ -122,10 +122,9 @@ var neuronalVista = (function () {
         },
         updateTrad: function (translation) {
 
-            jQuery(elementsDOM.secondtext).html(translation.translated_text);
+            jQuery(elementsDOM.secondtext).html(translation.translated_text.replace(/\n/g, "<br />"));
             jQuery(elementsDOM.time).html(translation.time);
             jQuery(elementsDOM.btntrad).html("Tradueix");
-        
             jQuery(elementsDOM.btncopy).prop('disabled', false);
         },
         sentFileAlert: function () {
@@ -144,7 +143,6 @@ var neuronalVista = (function () {
             jQuery(elementsDOM.errormessage).html(errortxt);
             jQuery(elementsDOM.error).show('slow');
         }
-
 
     }
 
@@ -204,6 +202,7 @@ var neuronalApp = (function (vistaCtrl) {
         document.querySelector(elementsDOM.error + '> button').addEventListener('click', function (e) {
             jQuery(elementsDOM.error).hide('slow');
         });
+        
         document.querySelector(elementsDOM.info + '> button').addEventListener('click', function (e) {
             jQuery(elementsDOM.info).hide('slow');
         });
