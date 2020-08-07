@@ -313,7 +313,7 @@ var neuronalApp = (function (vistaCtrl) {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 json = JSON.parse(xhr.responseText);
                 translation.translated_text = json["translated"];
-                translation.time = 'Traducció realitzada en un temps de: ' + json["time"];
+                translation.time = 'Traducció feta en: ' + json["time"];
                 vistaCtrl.updateTrad(translation);
             }
         }
