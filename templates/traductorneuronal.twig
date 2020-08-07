@@ -42,12 +42,8 @@
                     <!-- .btns-llengues-desti  -->
                     <div class="btns-llengues-desti btn-group" role="group">
                       <button type="button" class="btn bt" id="target-en">Anglès</button>
-                      <button type="button" class="btn bt select" id="target-cat">Català</button>
-                      
-                      
-                      <div class="btn-group" role="group">
-                                              
-
+                      <button type="button" class="btn bt select" id="target-cat">Català</button>               
+                      <div class="btn-group" role="group">                               
                         <!-- dropdown llengues mòbil -->
                         <div id="div_select_target_mobile">
                         <select class="form-control selectpicker selectpicker-mobil visible-xs-inline-block" id="target-select-mobil">
@@ -57,9 +53,6 @@
                         </div><!--/dropdown llengues mòbil -->
                       </div>
                     </div><!-- .btns-llengues-desti -->
-                    <button type="button" class="btn bt select" id="btncopy"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
-                    
-
                     <button id="translate" type="button" class="bt-basic bt-basic-vermell">Tradueix</button>
                   </div>
                 </div>
@@ -70,13 +63,38 @@
                 <div class="traductor-textarea form-group">
                   
                   <div class="textarea-origen col-xs-12 col-sm-6">
-                     <textarea class="form-control primer-textarea" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
+                     <textarea class="form-control primer-textarea" rows="12" maxlength="7000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
                   </div>
 
                   <div class="textarea-desti col-xs-12 col-sm-6">
                     <div id="copy" class="form-control second-textarea"></div>
                     <div id="time" class="pull-right small"></div>
                   </div>
+                </div>
+                <div class="traductor-checkbox form-group">
+                      <div class="row">
+                          <div class="col-sm-offset-2 col-sm-5">
+                            <span id="erase-text" data-trigger="manual" data-placement="right" class="icon-inline">
+                              <i class="fa fa-eraser" aria-hidden="true"></i>Neteja
+                          </span>
+                        </div>
+                        <div class="col-sm-5">
+                          <span id="copy-text" data-trigger="manual" data-placement="right" class="icon-inline">
+                              <i class="fa fa-clipboard" aria-hidden="true"></i> Copia el text
+                          </span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <label class="checkbox-inline" id="log_traductor_source_label">
+                                <input type="checkbox" id="log_traductor_source" checked="checked" />
+                                    Permet l'ús del text
+                                    <strong><a style="color:inherit;" href="/traductor/millora-anonima-servei/">de manera anònima</a></strong>
+                                    per a millorar el servei de traducció
+                            </label>
+                        </div>
+                        <br /><br />
+                    </div>
                 </div>
 
               </form><!--/.formulari -->
@@ -129,8 +147,18 @@
                       </div>
                     </div>
                     <div class="col-sm-6">
-                      <div class="form-group text-center">
+                      <div class="form-group">
+                      <div>
+                        <label class="checkbox-inline" id="log_traductor_source_label">
+                                <input type="checkbox" id="log_traductor_source_file" checked="checked" />
+                                    Permet l'ús del text
+                                    <strong><a style="color:inherit;" href="/traductor/millora-anonima-servei/">de manera anònima</a></strong>
+                                    per a millorar el servei de traducció
+                            </label>
+                      </div>
+                      <div class="text-center">
                            <button type="button" id="translate_file" class="bt-basic bt-basic-vermell">Demana la traducció</button>
+                      </div>
                       </div>
                     </div>    
                   </div><!-- /.row -->

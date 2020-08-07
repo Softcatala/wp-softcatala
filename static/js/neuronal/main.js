@@ -17,7 +17,12 @@ var neuronalVista = (function () {
         firsttext: '.primer-textarea',
         secondtext: '.second-textarea',
         time: '#time',
-        btncopy: '#btncopy',
+        btncopy: '#copy-text',
+        btnerase: '#erase-text',
+        chklogform: '#log_traductor_source',
+        chklogfile: '#log_traductor_source_file',
+
+
         /* Mobil */
         slsourcemob: '#origin-select-mobil',
         sltargetmob: '#target-select-mobil',
@@ -46,10 +51,9 @@ var neuronalVista = (function () {
             jQuery(elementsDOM.btncopy).prop('disabled', true);
             
 
-            document.querySelector(elementsDOM.btntrad).style.width = '130px';
+            document.querySelector(elementsDOM.btntrad).style.width = '120px';
             document.querySelector(elementsDOM.btntradfile).style.width = '250px';
-            document.querySelector(elementsDOM.btncopy).style.marginTop = '10px';
-            
+            document.querySelector(elementsDOM.btntradfile).style.marginTop = '20px';
 
             jQuery(elementsDOM.slsourcemob).selectpicker();
             jQuery(elementsDOM.sltargetmob).selectpicker();
@@ -142,6 +146,18 @@ var neuronalVista = (function () {
             jQuery(elementsDOM.error).removeClass('hidden');
             jQuery(elementsDOM.errormessage).html(errortxt);
             jQuery(elementsDOM.error).show('slow');
+        }, 
+        eraseForms: function(){
+            jQuery(elementsDOM.firsttext).val("");
+            jQuery(elementsDOM.secondtext).html("");
+            jQuery(elementsDOM.firsttext).focus();
+        },
+        displayTooltip: function(msg){
+
+            jQuery(elementsDOM.btncopy).data('title', msg);
+            jQuery(elementsDOM.btncopy).tooltip('show');
+            setTimeout(function(){jQuery(elementsDOM.btncopy).tooltip('hide'); },1500);
+            
         }
 
     }
@@ -158,6 +174,21 @@ var neuronalApp = (function (vistaCtrl) {
             text: function(trigger) {
                 return jQuery(elementsDOM.secondtext).html();
             }
+        });
+
+        $clipBoard.on('success', function(e) {
+            e.clearSelection();
+            vistaCtrl.displayTooltip("El text s'ha copiat!");
+        });
+        
+        $clipBoard.on('error', function(e) {
+            vistaCtrl.displayTooltip("No s'ha pogut copiar el text :(");
+        });
+        
+        
+
+        document.querySelector(elementsDOM.btnerase).addEventListener('click', function (e) {
+            vistaCtrl.eraseForms();   
         });
 
         document.querySelector(elementsDOM.slsourcemob).addEventListener('change', function (e) {
@@ -214,6 +245,7 @@ var neuronalApp = (function (vistaCtrl) {
                 source_text: document.querySelector(elementsDOM.firsttext).value,
                 direction: vistaCtrl.getDirection(),
                 translated_text: "",
+                savetext: document.querySelector(elementsDOM.chklogform).checked,
                 time: ""
             }
             translate(translation);
@@ -243,7 +275,8 @@ var neuronalApp = (function (vistaCtrl) {
                 var translation = {
                     file: document.querySelector(elementsDOM.file).files[0],
                     email: document.querySelector(elementsDOM.email).value,
-                    model_name: document.querySelector(elementsDOM.model_name).value
+                    model_name: document.querySelector(elementsDOM.model_name).value,
+                    savetext: document.querySelector(elementsDOM.chklogfile).checked
                 }
                 
                 translate_file(translation);
@@ -287,6 +320,7 @@ var neuronalApp = (function (vistaCtrl) {
         payload = JSON.stringify({
             "languages": translation.direction,
             "text": translation.source_text,
+            "savetext": translation.savetext
         });
 
         xhr.send(payload);
@@ -317,6 +351,7 @@ var neuronalApp = (function (vistaCtrl) {
         formData.append("email", translation.email);
         formData.append("model_name", translation.model_name);
         formData.append("file", translation.file);
+        formData.append("savetext", translation.savetext);
         xmlHttp.open("post", url);
         xmlHttp.send(formData);
 
