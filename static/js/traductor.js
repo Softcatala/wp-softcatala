@@ -416,10 +416,13 @@ function toggle_formes_valencianes(status) {
 
 function set_origin_language( language ) {
     jQuery('#origin_language').val(language);
+    show_neuronal_info();
+    
 }
 
 function set_target_language ( language ) {
     jQuery('#target_language').val(language);
+    show_neuronal_info();
 }
 
 function set_origin_button ( language ) {
@@ -504,6 +507,23 @@ function exchange_texts() {
     var original_text = jQuery('.primer-textarea').val();
     jQuery('.second-textarea').html(original_text);
     jQuery('.primer-textarea').val(translation_text.replace(/<(?:.|\n)*?>/gm, ''));
+}
+
+function show_neuronal_info(){
+   
+    var origin_lang  = jQuery('#origin_language').val();
+    var target_lang = jQuery('#target_language').val();
+    
+    if (origin_lang == 'en'){
+        jQuery('#info-neuronal').removeClass('hidden');
+        jQuery('#info-neuronal').show();
+    }else if (target_lang == 'en'){
+        jQuery('#info-neuronal').removeClass('hidden');
+        jQuery('#info-neuronal').show();
+    }else{
+        jQuery('#info-neuronal').hide();
+    }
+    
 }
 /** End functions related to language pairs change **/
 

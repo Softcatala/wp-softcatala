@@ -9,6 +9,7 @@ wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js
 wp_localize_script( 'sc-js-traductor', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
+wp_enqueue_style( 'sc-js-traductor', get_template_directory_uri() . '/static/css/traductor.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
 $context = Timber::get_context();
 //Ads
