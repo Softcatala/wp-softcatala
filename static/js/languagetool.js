@@ -17,6 +17,9 @@ var placeholdervisible = true;
     $('#text_prova').click(function() {
         insertDemoText();
     });
+    $('#clear_text').click(function() {
+        clearText();
+    });
     $('.submit').click(function() {
       dochecktext();
       return false;
