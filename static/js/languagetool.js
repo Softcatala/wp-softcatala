@@ -38,6 +38,14 @@ function clearText() {
   tinyMCE.get('checktext').execCommand('mceInsertContent', false,"");
 }
 
+function getPlainText() {
+    var userText = tinyMCE.activeEditor.getContent();
+    var tag = document.createElement('div');
+    tag.innerHTML = userText;
+    return tag.innerText;                                                                                                                     
+}
+
+
 function showoptions() {
   if (!jQuery("input[name=mostra_opcions]:checked").val()) {
     document.getElementById("opcionscorreccio").style.display = "none";
