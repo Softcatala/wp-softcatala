@@ -302,6 +302,7 @@ class StarterSite extends TimberSite {
 	function get_email_sections() {
 		$sections = array(
 			'general'   => 'General',
+			'traductor_neuronal' => 'Traductor Neuronal',
 			'traductor' => 'Traductor',
 			'corrector' => 'Corrector',
 			'recursos'  => 'Recursos',
