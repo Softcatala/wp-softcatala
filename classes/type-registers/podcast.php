@@ -65,4 +65,30 @@ class Podcast extends PostType {
 
         register_post_type( 'podcast', $args );
     }
+
+    protected function register_custom_taxonomies() {
+        $this->register_podcast_programa();
+    }
+
+    private function register_podcast_programa() {
+
+        $labels  = $this->get_taxonomy_labels(
+            'Programes de Podcast',
+            'Programa de podcast',
+            'Programa de podcast'
+        );
+
+        $args    = array(
+            'labels'            => $labels,
+            'hierarchical'      => true,
+            'public'            => true,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'show_in_nav_menus' => true,
+            'show_tagcloud'     => true,
+            'rewrite'           => false,
+            'show_in_rest'      => false,
+        );
+        register_taxonomy( 'podcast-programa', array( 'podcast' ), $args );
+    }
 }
