@@ -58,7 +58,10 @@ class Podcast extends PostType {
             'has_archive'           => false,
             'exclude_from_search'   => true,
             'publicly_queryable'    => true,
-            'rewrite'               => false,
+            'rewrite'             => array(
+                'slug' => 'podcasts/%podcastprograma%',
+                'with_front' => false,
+            ),
             'capability_type'       => 'post',
             'show_in_rest'          => true,
         );
@@ -86,9 +89,24 @@ class Podcast extends PostType {
             'show_admin_column' => true,
             'show_in_nav_menus' => true,
             'show_tagcloud'     => true,
-            'rewrite'           => false,
+            'rewrite'           => array(
+                'slug' => 'podcasts',
+            ),
             'show_in_rest'      => false,
         );
         register_taxonomy( 'podcast-programa', array( 'podcast' ), $args );
+
+        add_filter( 'post_type_link', array($this, 'permalink_podcastprograma'), 1, 3 );
+    }
+
+    public function permalink_podcastprograma( $post_link, $id = 0 ){
+        $post = get_post($id);
+        if ( is_object( $post ) ){
+            $terms = wp_get_object_terms( $post->ID, 'podcast-programa' );
+            if( $terms ){
+                return str_replace( '%podcastprograma%' , $terms[0]->slug , $post_link );
+            }
+        }
+        return $post_link;
     }
 }
