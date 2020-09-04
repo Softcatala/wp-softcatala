@@ -334,6 +334,7 @@ class StarterSite extends TimberSite {
 		\Softcatala\TypeRegisters\Aparell::get_instance();
 		\Softcatala\TypeRegisters\Programa::get_instance();
 		\Softcatala\TypeRegisters\Projecte::get_instance();
+		\Softcatala\TypeRegisters\Podcast::get_instance();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
