@@ -91,6 +91,7 @@ class Podcast extends PostType {
             'show_tagcloud'     => true,
             'rewrite'           => array(
                 'slug' => 'podcasts',
+                'with_front' => false
             ),
             'show_in_rest'      => false,
         );
