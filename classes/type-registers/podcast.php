@@ -58,7 +58,7 @@ class Podcast extends PostType {
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
             'rewrite'             => array(
-                'slug' => 'podcasts/%podcastprograma%/%postname%/',
+                'slug' => 'podcasts/%podcastprograma%',
                 'with_front' => false,
             ),
             'capability_type'       => 'post',
