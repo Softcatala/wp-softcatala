@@ -19,17 +19,6 @@ function sc_catalanitzador_page_link( $permalink, $postId ) {
 	return $permalink;
 }
 
-function permalink_podcastprograma( $post_link, $id = 0 ){
-    $post = get_post($id);
-    if ( is_object( $post ) ){
-        $terms = wp_get_object_terms( $post->ID, 'podcast-programa' );
-        if( $terms ){
-            return str_replace( '%podcastprograma%' , $terms[0]->slug , $post_link );
-        }
-    }
-    return $post_link;
-}
-
 function sc_aparells_page_link( $permalink, $postId ) {
 
 	$post = get_post( $postId );

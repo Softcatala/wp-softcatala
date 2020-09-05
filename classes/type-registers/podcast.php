@@ -45,7 +45,6 @@ class Podcast extends PostType {
             'label'                 => __( 'Podcast', 'softcatala' ),
             'description'           => __( 'Podcasts', 'softcatala' ),
             'labels'                => $labels,
-            'supports'              => array( 'title', 'excerpt', 'thumbnail' ),
             'hierarchical'          => false,
             'public'                => true,
             'show_ui'               => true,
@@ -56,10 +55,10 @@ class Podcast extends PostType {
             'show_in_nav_menus'     => true,
             'can_export'            => true,
             'has_archive'           => 'podcasts',
-            'exclude_from_search'   => true,
+            'exclude_from_search'   => false,
             'publicly_queryable'    => true,
             'rewrite'             => array(
-                'slug' => 'podcasts/%podcastprograma%',
+                'slug' => 'podcasts/%podcastprograma%/%postname%/',
                 'with_front' => false,
             ),
             'capability_type'       => 'post',
@@ -67,6 +66,8 @@ class Podcast extends PostType {
         );
 
         register_post_type( 'podcast', $args );
+        add_filter( 'query_vars', array( $this, 'add_query_vars' ));
+        add_filter( 'post_type_link', array( $this, 'podcast_programa_link'), 10, 2 );
     }
 
     protected function register_custom_taxonomies() {
@@ -96,6 +97,34 @@ class Podcast extends PostType {
             'show_in_rest'      => false,
         );
         register_taxonomy( 'podcast-programa', array( 'podcast' ), $args );
-        add_filter( 'post_type_link', 'permalink_podcastprograma', 10, 2 );
     }
+
+    public function add_query_vars($vars) {
+        $vars[] = 'podcastprograma';
+
+        return $vars;
+    }
+
+    function podcast_programa_link( $post_link, $id = 0 ){
+        $post = get_post($id);
+        if ( is_object( $post ) ){
+            $terms = wp_get_object_terms( $post->ID, 'podcast-programa' );
+            if( $terms ){
+                return str_replace( '%podcastprograma%' , $terms[0]->slug , $post_link );
+            }
+        }
+        return $post_link;
+    }
+
+    public function podcast_programa_rewrite_rule()
+    {
+        $catalanitzador = get_option('catalanitzador_post_id');
+
+        if (!empty($catalanitzador) && is_numeric($catalanitzador)) {
+            add_rewrite_rule('catalanitzador/?',
+                'index.php?post_type=programa&p=' . (int)$catalanitzador,
+                'top');
+        }
+    }
+
 }
