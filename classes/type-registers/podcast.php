@@ -58,7 +58,7 @@ class Podcast extends PostType {
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
             'rewrite'             => array(
-                'slug' => 'podcasts/%podcastprograma%',
+                'slug' => 'podcasts/%podcast-programa%',
                 'with_front' => false,
             ),
             'capability_type'       => 'post',
@@ -99,32 +99,14 @@ class Podcast extends PostType {
         register_taxonomy( 'podcast-programa', array( 'podcast' ), $args );
     }
 
-    public function add_query_vars($vars) {
-        $vars[] = 'podcastprograma';
-
-        return $vars;
-    }
-
     function podcast_programa_link( $post_link, $id = 0 ){
         $post = get_post($id);
         if ( is_object( $post ) ){
             $terms = wp_get_object_terms( $post->ID, 'podcast-programa' );
             if( $terms ){
-                return str_replace( '%podcastprograma%' , $terms[0]->slug , $post_link );
+                return str_replace( '%podcast-programa%' , $terms[0]->slug , $post_link );
             }
         }
         return $post_link;
     }
-
-    public function podcast_programa_rewrite_rule()
-    {
-        $catalanitzador = get_option('catalanitzador_post_id');
-
-        if (!empty($catalanitzador) && is_numeric($catalanitzador)) {
-            add_rewrite_rule('catalanitzador/?',
-                'index.php?post_type=programa&p=' . (int)$catalanitzador,
-                'top');
-        }
-    }
-
 }
