@@ -66,7 +66,6 @@ class Podcast extends PostType {
         );
 
         register_post_type( 'podcast', $args );
-        add_filter( 'query_vars', array( $this, 'add_query_vars' ));
         add_filter( 'post_type_link', array( $this, 'podcast_programa_link'), 10, 2 );
     }
 
