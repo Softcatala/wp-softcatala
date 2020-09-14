@@ -1,0 +1,25 @@
+{% extends "tease.twig" %}
+
+{% block content %}
+    <article class="contingut-article post-type-{{post.post_type}}" id="post-{{post.ID}}">
+      <div class="row">
+        <div class="col-sm-9">
+          <h2><a href="{{post.link}}">{{post.title}}</a></h2>
+          <!-- .article-cont - Extracte contingut article -->
+          <div class="article-cont">
+            <p>{{post.get_preview(50, false, __('Read more...'))}}</p>
+          </div><!--/.article-cont - Extracte contingut article -->
+        </div>
+        {% if post.main_image_post or post.thumbnail.src %}
+        <div class="col-sm-3">
+          <img alt="{{post.title}}" src="{% if post.main_image_post %}{{ post.main_image_post| get_full_img_from_id |resize(170, 170, 'top')}}{% else %}{{post.thumbnail.src|resize(170, 170, 'top')}}{% endif %}">
+        </div>
+        {% endif %}
+      </div>
+      <!-- .article-footer -->
+      <footer class="article-footer">
+        <time class="data-temps" itemprop="dateCreated" datetime="{{ post.post_date|date('Y-n-j')}}">{{ post.post_date|date}}</time>
+      </footer><!--/.article-footer -->
+      <hr class="clara">
+    </article>
+{% endblock %}
