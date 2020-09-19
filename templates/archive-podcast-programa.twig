@@ -10,9 +10,9 @@
         <div class="container-fluid">
             <div class="contingut">
                 <div class="podcast">
-                    <h2>{{ post.title }}</h2>
+                    <h2>{{ term.title }}</h2>
                     <div>
-                        {{ post.content }}
+                        {{ term.description }}
                     </div>
 
                 <!-- .contingut -->
@@ -21,7 +21,6 @@
                     {% for episode in posts %}
                     <section class="episodes">
                         <h3>{{ episode.season }}x{{ episode.program }}</h3>
-                        {% endif %}
                         <article class="contingut-article">
                             <div class="row">
                                 <div class="col-sm-9">

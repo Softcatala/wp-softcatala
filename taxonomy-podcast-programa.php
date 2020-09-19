@@ -15,15 +15,14 @@
 $templates = array( 'archive-podcast-programa.twig' );
 
 $context['title'] = single_term_title('', false);
-$post = Timber::get_post();
 
 //Context initialization
 $context_filterer = new SC_ContextFilterer();
-$context_overrides = array( 'title' => $title, 'description' => $description );
+$context_overrides = array( 'title' => $title );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 
-$context['post'] = $post;
+$context['term'] = Timber::get_term();
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
