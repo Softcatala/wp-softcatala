@@ -1,0 +1,58 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <h1 id="content_header_title">Els Podcasts de Softcatalà <i class="fa fa-microphone"></i></h1>
+                        {% include "share_links.twig" %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+                <!-- .contingut -->
+                <div class="contingut">
+                    <header class="contingut-header">
+                        <p>Benvinguts als Podcasts de Softcatalà!</p>
+                        <p>
+                            En aquesta secció podeu trobar els programes de podcast que, des de Softcatalà, gravem, editem
+                            i distribuir per contribuir a una millora de la salut del català a Internet.
+                        </p>
+                    </header><!--/.contingut-header -->
+                    <section class="contingut-section">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="/podcasts/quinze-glacons-hidrogen/">
+                                    <img style="width: 100%" src="/themes/wp-softcatala/static/images/podcasts/ice-archive.jpg" />
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <h2>
+                                    <a href="/podcasts/quinze-glacons-hidrogen/">Quinze glaçons d'hidrogen</a>
+                                </h2>
+                                <p>
+                                    <strong><em>Quinze glaçons d'hidrògen</em></strong> és el primer podcast de Softcatalà.
+                                    Es tracta d'un podcast sobre llengua i tecnologia que inicialment tindrà periodicitat
+                                    mensual. Es tracta de petits episodis d’uns quinze minuts de durada que contenen
+                                    píndoles informatives i d’entreteniment al voltant de la llengua en el seu àmbit més tecnològic.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div><!--/.contingut -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "form-novetats.twig" %}
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}
