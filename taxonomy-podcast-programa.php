@@ -18,10 +18,10 @@ $title = single_term_title('', false);
 
 //Context initialization
 $context_filterer = new SC_ContextFilterer();
-$context_overrides = array( 'title' => $title, 'content_title' => $title );
+$context_overrides = array( 'title' => $title );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
-
+$context['content_title'] = $title;
 $context['term'] = new Timber\Term();
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['posts'] = Timber::get_posts();

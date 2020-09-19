@@ -8,21 +8,21 @@
         <!--/.main-header -->
 
         <div class="container-fluid">
-            <div class="contingut">
-                <div class="podcast">
+            <div class="contingut row">
+                <div class="podcast col-md-6">
                     <h2>{{ term.title }}</h2>
                     <div>
                         {{ term.description }}
                     </div>
                 </div>
 
-                {% for episode in posts %}
                 <section class="episodes">
-                    <article class="episode">
-                    <h3>{{ episode.episode_season }}x{{ episode.episode_number }}</h3>
+                {% for episode in posts %}
+                    <article class="episode col-md-6">
+                        <h3>{{ episode.episode_season }}x{{ episode.episode_number }}</h3>
                     </article>
-                </section>
                 {% endfor %}
+                </section>
 
             </div><!--/.contingut -->
         </div><!--/.container-fluid -->
