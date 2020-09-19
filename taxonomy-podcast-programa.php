@@ -22,7 +22,7 @@ $context_overrides = array( 'title' => $title, 'content_title' => $title );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 
-$context['term'] = Timber::get_term();
+$context['term'] = new Timber\Term();
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['posts'] = Timber::get_posts();
 $context['pagination'] = Timber::get_pagination();
