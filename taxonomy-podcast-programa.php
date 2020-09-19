@@ -14,11 +14,11 @@
 
 $templates = array( 'archive-podcast-programa.twig' );
 
-$context['title'] = single_term_title('', false);
+$title = single_term_title('', false);
 
 //Context initialization
 $context_filterer = new SC_ContextFilterer();
-$context_overrides = array( 'title' => $title );
+$context_overrides = array( 'title' => $title, 'content_title' => $title );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 

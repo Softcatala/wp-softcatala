@@ -14,56 +14,46 @@
                     <div>
                         {{ term.description }}
                     </div>
+                </div>
 
-                <!-- .contingut -->
-
-                    {% if posts %}
-                    {% for episode in posts %}
-                    <section class="episodes">
-                        <h3>{{ episode.season }}x{{ episode.program }}</h3>
-                        <article class="contingut-article">
-                            <div class="row">
-                                <div class="col-sm-9">
-                                    <i>
-                                        <span>
-                                            <strong>{{ esdeveniment.data_inici | date('j')}}</strong>
-                                            {{ esdeveniment.data_inici | date('M')}}
-                                        </span>
-                                    </i>
-                                    <h2><a href="{{esdeveniment.link}}">{{esdeveniment.title}}</a></h2>
-                                    <!-- .article-footer -->
-                                    <footer class="article-footer">
-                                        {{esdeveniment.ciutat}}<br/>
-                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ esdeveniment.data_inici | date('Y-n-j') }}">
-                                            {{ esdeveniment.data_inici|date }}
-                                            {% if esdeveniment.data_fi %}
-                                                {% if esdeveniment.data_fi != esdeveniment.data_inici %}
-                                                    - {{ esdeveniment.data_fi|date }}
-                                                {% endif %}
+                {% for episode in posts %}
+                <section class="episodes">
+                    <h3>{{ episode.season }}x{{ episode.program }}</h3>
+                    <article class="contingut-article">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <i>
+                                    <span>
+                                        <strong>{{ esdeveniment.data_inici | date('j')}}</strong>
+                                        {{ esdeveniment.data_inici | date('M')}}
+                                    </span>
+                                </i>
+                                <h2><a href="{{esdeveniment.link}}">{{esdeveniment.title}}</a></h2>
+                                <!-- .article-footer -->
+                                <footer class="article-footer">
+                                    {{esdeveniment.ciutat}}<br/>
+                                    <time class="data-temps" itemprop="dateCreated" datetime="{{ esdeveniment.data_inici | date('Y-n-j') }}">
+                                        {{ esdeveniment.data_inici|date }}
+                                        {% if esdeveniment.data_fi %}
+                                            {% if esdeveniment.data_fi != esdeveniment.data_inici %}
+                                                - {{ esdeveniment.data_fi|date }}
                                             {% endif %}
-                                        </time>
-                                    </footer><!--/.article-footer -->
-                                </div>
-                                {% if esdeveniment.thumbnail.src %}
-                                <div class="col-sm-3">
-                                    <img width="170" alt="{{esdeveniment.title}}" src="{{esdeveniment.thumbnail.src}}">
-                                </div>
-                                {% endif %}
+                                        {% endif %}
+                                    </time>
+                                </footer><!--/.article-footer -->
                             </div>
-                            <hr class="clara">
-                        </article>
-                    </section>
-                    {% endfor %}
+                            {% if esdeveniment.thumbnail.src %}
+                            <div class="col-sm-3">
+                                <img width="170" alt="{{esdeveniment.title}}" src="{{esdeveniment.thumbnail.src}}">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr class="clara">
+                    </article>
+                </section>
+                {% endfor %}
 
-                    <!-- .pagination -->
-                    {% include "pagination.twig" %}
-                    <!-- /.pagination -->
-                    {% else %}
-                        No hi ha cap esdeveniment programat
-                    {% endif %}<!--/.pagination -->
-                </div><!--/.contingut -->
-                {% include "sidebar.twig" %}
-            </div><!--/.row -->
+            </div><!--/.contingut -->
         </div><!--/.container-fluid -->
     </main><!--/.main .wrap-blanc -->
 
