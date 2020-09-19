@@ -1,0 +1,78 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    {% if posts %}
+                    {% for esdeveniment in posts %}
+                    <section class="llista-esdeveniments">
+                        {% if loop.first %}
+                            {% set year = esdeveniment.data_inici | date('Y') %}
+                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
+                        {% endif %}
+                        {% set current_post_year = esdeveniment.data_inici | date('Y') %}
+                        {% if current_post_year != year %}
+                            {% set year = esdeveniment.data_inici | date('Y') %}
+                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
+                        {% endif %}
+                        <article class="contingut-article">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <i>
+                                        <span>
+                                            <strong>{{ esdeveniment.data_inici | date('j')}}</strong>
+                                            {{ esdeveniment.data_inici | date('M')}}
+                                        </span>
+                                    </i>
+                                    <h2><a href="{{esdeveniment.link}}">{{esdeveniment.title}}</a></h2>
+                                    <!-- .article-footer -->
+                                    <footer class="article-footer">
+                                        {{esdeveniment.ciutat}}<br/>
+                                        <time class="data-temps" itemprop="dateCreated" datetime="{{ esdeveniment.data_inici | date('Y-n-j') }}">
+                                            {{ esdeveniment.data_inici|date }}
+                                            {% if esdeveniment.data_fi %}
+                                                {% if esdeveniment.data_fi != esdeveniment.data_inici %}
+                                                    - {{ esdeveniment.data_fi|date }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </time>
+                                    </footer><!--/.article-footer -->
+                                </div>
+                                {% if esdeveniment.thumbnail.src %}
+                                <div class="col-sm-3">
+                                    <img width="170" alt="{{esdeveniment.title}}" src="{{esdeveniment.thumbnail.src}}">
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr class="clara">
+                        </article>
+                    </section>
+                    {% endfor %}
+
+                    <!-- .pagination -->
+                    {% include "pagination.twig" %}
+                    <!-- /.pagination -->
+                    {% else %}
+                        No hi ha cap esdeveniment programat
+                    {% endif %}<!--/.pagination -->
+                </div><!--/.contingut -->
+                {% include "sidebar.twig" %}
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "form-novetats.twig" %}
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}

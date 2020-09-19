@@ -14,16 +14,15 @@
 
 $templates = array( 'archive-podcast.twig' );
 
-$context['post'] = $post;
+$title = 'Els Podcasts de Softcatalà';
+$description = 'Tots els podcasts que, des de Softcatalà, gravem, editem i distribuïm per contribuir a la difusió del català a Internet.';
+$post = Timber::get_post();
 
-
-
-$context['posts'] = Timber::get_posts();
+//Context initialization
+$context_filterer = new SC_ContextFilterer();
+$context_overrides = array( 'title' => $title, 'description' => $description );
+$context = $context_filterer->get_filtered_context( $context_overrides, false );
 
 
 Timber::render( $templates, $context );
-
-
-
-/* Functions */
 
