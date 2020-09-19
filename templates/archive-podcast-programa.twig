@@ -8,21 +8,19 @@
         <!--/.main-header -->
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="contingut">
+                <div class="podcast">
+                    <h2>{{ post.title }}</h2>
+                    <div>
+                        {{ post.content }}
+                    </div>
 
                 <!-- .contingut -->
-                <div class="contingut contingut-left col-sm-12 col-md-9">
+
                     {% if posts %}
-                    {% for esdeveniment in posts %}
-                    <section class="llista-esdeveniments">
-                        {% if loop.first %}
-                            {% set year = esdeveniment.data_inici | date('Y') %}
-                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
-                        {% endif %}
-                        {% set current_post_year = esdeveniment.data_inici | date('Y') %}
-                        {% if current_post_year != year %}
-                            {% set year = esdeveniment.data_inici | date('Y') %}
-                            <h2 class="any">{{ esdeveniment.data_inici | date('Y')}}</h2>
+                    {% for episode in posts %}
+                    <section class="episodes">
+                        <h3>{{ episode.season }}x{{ episode.program }}</h3>
                         {% endif %}
                         <article class="contingut-article">
                             <div class="row">
