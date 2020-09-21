@@ -20,9 +20,12 @@
                     <article class="episode col-sm-6">
                         <div class="thumbnail thumbnail-gris-img">
                             <a href="{{ episode.link }}">
+                                <img src="{{ episode.thumbnail.src | resize(180)}}" />
                                 <div class="caption" style="padding-left: 17px">
-                                    <h3>{{ episode.episode_season }}x{{ episode.episode_number }}: {{ episode.title }}</h3>
-                                    <div>{{ episode.excerpt }}</div>
+                                    <h3 style="width: 100%;text-align: center">
+                                        {{ episode.episode_season }}x{{ episode.episode_number }}: {{ episode.title }}
+                                    </h3>
+                                    <div>{{ episode.post_excerpt | wpautop }}</div>
                                     <div style="text-align: center;margin-top: 40px;position: relative;">
                                         <span
                                             class="bt-aneu"
