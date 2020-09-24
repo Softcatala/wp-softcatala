@@ -20,8 +20,13 @@
               <header class="contingut-header">
                 <div class="row">
                     <div class="col-md-6" style="text-align: center;">
+                        <style>
+                            .box-shadow {
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                            }
+                        </style>
                       {% if post.thumbnail.src %}
-                          <img style="width: auto" alt="{{post.title}}" src="{{post.thumbnail.src | resize(300)}}">
+                          <img class="box-shadow" style="width: auto" alt="{{post.title}}" src="{{post.thumbnail.src | resize(300)}}">
                       {% endif %}
                     </div>
                     <div class="col-md-4">
