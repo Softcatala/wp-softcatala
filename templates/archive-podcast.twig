@@ -1,0 +1,55 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <h1 id="content_header_title">Els Podcasts de Softcatalà <i class="fa fa-microphone"></i></h1>
+                        {% include "share_links.twig" %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+                <!-- .contingut -->
+                <div class="contingut">
+                    <header class="contingut-header">
+                        <p>Benvinguts als Podcasts de Softcatalà!</p>
+                        <p>
+                            En aquesta secció podeu trobar els podcasts que, des de Softcatalà, gravem,
+                            editem i distribuïm per contribuir a la difusió del català a Internet.
+                        </p>
+                    </header><!--/.contingut-header -->
+                    <section class="contingut-section">
+                        <div class="row">
+                            {% for programa in programes %}
+                                <div class="col-md-4">
+                                    <a href="{{ programa.link }}">
+                                        <img style="width: 100%" src="{{ Image(programa.image.id).src | resize(400,400) }}" />
+                                    </a>
+                                </div>
+                                <div class="col-md-8">
+                                    <h2>
+                                        <a href="{{ programa.link }}">{{ programa.title }}</a>
+                                    </h2>
+                                    {{{ programa.short_description }}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div><!--/.contingut -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "form-novetats.twig" %}
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}

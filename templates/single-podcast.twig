@@ -1,0 +1,65 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc blog">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+      <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-9">
+
+            <!-- .contingut-article -->
+            <article class="contingut-article">
+
+              <!-- .contingut-header -->
+              <header class="contingut-header">
+                {% if post.thumbnail.src %}
+                    <img alt="{{post.title}}" src="{{post.thumbnail.src}}">
+                    {% if post.thumbnail.caption %}
+                    <em class="peu-foto">{{post.thumbnail.caption}}</em>
+                    {% endif %}
+                {% endif %}
+                {% if post.terms('tags') %}
+                    <div class="bt-grup">
+                    {% for term in post.terms('tags') %}
+                      <a class="bt-basic active" href="{{term.link}}">{{term.name}}</a>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="data">
+                  <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-n-j')}}">{{post.post_date|date}}</time>
+                </div>
+                <hr class="clara">
+              </header><!--/.contingut-header -->
+
+              <!-- .contingut-section -->
+              <section class="contingut-section">
+                  {{ function('do_shortcode', '[audio mp3=' ~ post.enclosure.url  ~ ']') }}
+                  {{post.content}}
+              </section><!--/.contingut-section -->
+
+            </article><!--/.contingut-article -->
+
+            <!-- .comentaris -->
+              {% include "comentaris.twig" %}
+            <!-- .comentaris -->
+            <hr>
+
+
+          </div><!--/.contingut -->
+
+          {% include "sidebar.twig" %}
+          </div><!--/.row -->
+  </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+{% endblock %}
