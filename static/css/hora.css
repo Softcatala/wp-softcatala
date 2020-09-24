@@ -59,5 +59,9 @@
         cursor: pointer;
 
 }
-
+@media (max-width: 480px) {
+    #current_time {
+        margin-left: 0;
+    }
+}
 
