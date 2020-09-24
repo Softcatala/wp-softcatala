@@ -20,7 +20,13 @@
                     <article class="episode col-sm-6">
                         <div class="thumbnail thumbnail-gris-img">
                             <a href="{{ episode.link }}">
-                                <img src="{{ episode.thumbnail.src | resize(180)}}" />
+                                <style>
+                                    .box-shadow {
+                                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                                    }
+                                </style>
+                                <img class="box-shadow" style="margin:25px;margin-right: 28px;padding:0px;"
+                                        src="{{ episode.thumbnail.src | resize(180)}}" />
                                 <div class="caption" style="padding-left: 17px">
                                     <h3 style="width: 100%;text-align: center">
                                         {{ episode.episode_season }}x{{ episode.episode_number }}: {{ episode.title }}

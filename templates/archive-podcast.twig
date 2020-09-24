@@ -23,7 +23,7 @@
                         <p>Benvinguts als Podcasts de Softcatalà!</p>
                         <p>
                             En aquesta secció podeu trobar els podcasts que, des de Softcatalà, gravem,
-                            editem i distribuïm per contribuir a la difusió del català a Internet.
+                            editem i distribuïm per a contribuir a la difusió del català a Internet.
                         </p>
                     </header><!--/.contingut-header -->
                     <section class="contingut-section">
@@ -31,7 +31,12 @@
                             {% for programa in programes %}
                                 <div class="col-md-4">
                                     <a href="{{ programa.link }}">
-                                        <img style="width: 100%" src="{{ Image(programa.image_id).src | resize(400,400) }}" />
+                                        <style>
+                                            .box-shadow {
+                                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                                            }
+                                        </style>
+                                        <img class="box-shadow" style="width: 100%" src="{{ Image(programa.image_id).src | resize(400,400) }}" />
                                     </a>
                                 </div>
                                 <div class="col-md-8">
