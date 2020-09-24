@@ -28,21 +28,19 @@
                     </header><!--/.contingut-header -->
                     <section class="contingut-section">
                         <div class="row">
-                            <div class="col-md-4">
-                                <a href="/podcasts/quinze-glacons-hidrogen/">
-                                    <img style="width: 100%" src="/themes/wp-softcatala/static/images/podcasts/ice-archive.jpg" />
-                                </a>
-                            </div>
+                            {% for programa in programes %}
+                                <div class="col-md-4">
+                                    <a href="{{ programa.link }}">
+                                        <img style="width: 100%" src="{{ Image(programa.image.id).src || resize(400,400) }}" />
+                                    </a>
+                                </div>
+                            {% endfor %}
+
                             <div class="col-md-8">
                                 <h2>
-                                    <a href="/podcasts/quinze-glacons-hidrogen/">Quinze glaçons d'hidrogen</a>
+                                    <a href="{{ programa.link }}">{{ programa.title }}</a>
                                 </h2>
-                                <p>
-                                    <strong><em>Quinze glaçons d'hidrògen</em></strong> és el primer podcast de Softcatalà.
-                                    Es tracta d'un podcast sobre llengua i tecnologia que inicialment tindrà periodicitat
-                                    mensual. Es tracta de petits episodis d’uns quinze minuts de durada que contenen
-                                    píndoles informatives i d’entreteniment al voltant de la llengua en el seu àmbit més tecnològic.
-                                </p>
+                                {{{ programa.short_description }}}
                             </div>
                         </div>
                     </section>

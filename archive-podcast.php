@@ -23,6 +23,7 @@ $context_filterer = new SC_ContextFilterer();
 $context_overrides = array( 'title' => $title, 'description' => $description );
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
+$context['programes'] = new XVPodcastModel($term->slug, $term);
 
 Timber::render( $templates, $context );
 
