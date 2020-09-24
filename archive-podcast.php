@@ -28,7 +28,7 @@ $programes = [];
 foreach ($terms as $term) {
     $programes[] = new XVPodcastModel($term->slug, $term);
 }
-$context['programes'] =
+$context['programes'] = $programes;
 
 Timber::render( $templates, $context );
 
