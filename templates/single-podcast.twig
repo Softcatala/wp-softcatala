@@ -25,8 +25,8 @@
                       {% endif %}
                     </div>
                     <div class="col-md-4">
-                      <div class="data">
-                          <div>Temporada {{ episode.episode_season }} - Episodi {{ episode.episode_number }}</div>
+                      <div class="data" style="margin-top:100px;font-variant: all-small-caps;font-weight: bold;text-align: center;font-size: 1.2em;">
+                          <div>Temporada {{ post.episode_season }} - Episodi {{ post.episode_number }}</div>
                           <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-m-j')}}">
                               {{post.post_date|date('F \d\e Y')}}
                           </time>
