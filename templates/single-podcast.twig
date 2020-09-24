@@ -21,14 +21,14 @@
                 <div class="row">
                     <div class="col-md-6" style="text-align: center;">
                       {% if post.thumbnail.src %}
-                          <img alt="{{post.title}}" src="{{post.thumbnail.src | resize(300)}}">
+                          <img style="width: auto" alt="{{post.title}}" src="{{post.thumbnail.src | resize(300)}}">
                       {% endif %}
                     </div>
                     <div class="col-md-4">
                       <div class="data" style="margin-top:100px;font-variant: all-small-caps;font-weight: bold;text-align: center;font-size: 1.2em;">
                           <div>Temporada {{ post.episode_season }} - Episodi {{ post.episode_number }}</div>
                           <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-m-j')}}">
-                              {{post.post_date|date('F \d\e Y')}}
+                              {{post.post_date|date}}
                           </time>
                       </div>
                       {% if post.terms('tags') %}
