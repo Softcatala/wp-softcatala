@@ -478,7 +478,9 @@ AtDCore.prototype.isIE = function() {
          /* add a command to request a document check and process the results. */
          editor.addCommand('mceWritingImprovementTool', function(languageCode, userOptions)
          {
-             
+            disableRevisa();
+            setTimeout(enableRevisa, 5000);
+
             if (plugin.menuVisible) {
               plugin._menu.hideMenu();
             }
@@ -531,6 +533,7 @@ AtDCore.prototype.isIE = function() {
                     jQuery('#feedbackErrorMessage').html("<div class='severeError'>These results may be incomplete due to a server timeout.</div>");
                     t._trackEvent('CheckError', 'ErrorWithException', "Incomplete Results");
                 }
+                enableRevisa();
             });
          });
 

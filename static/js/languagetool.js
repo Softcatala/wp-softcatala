@@ -78,11 +78,11 @@ tinyMCE.init({
       // remove any 'no errors found' message:
       ed.onKeyUp.add(function(ed, e) {
           if (!e.keyCode || e.keyCode != 17) {  // don't hide if user used Ctrl+Return
-              $('#feedbackMessage').html('');
+              jQuery('#feedbackMessage').html('');
           }
       });
       ed.onPaste.add(function(ed, e) {
-          $('#feedbackMessage').html('');
+          jQuery('#feedbackMessage').html('');
       });
   },
 
@@ -157,7 +157,34 @@ tinyMCE.init({
   gecko_spellcheck: false
 });
 
+function disableRevisa() {
+    if(!checkinprogress) {
+        checkinprogress = true;
+
+        jQuery(".submit").prop('disabled', true);
+        jQuery(".submit").addClass('bt-basic-gris');
+        jQuery(".submit").removeClass('bt-basic-vermell');
+    }
+}
+
+function enableRevisa() {
+    if(checkinprogress) {
+        checkinprogress = false;
+
+        jQuery(".submit").prop('disabled', false);
+        jQuery(".submit").addClass('bt-basic-vermell');
+        jQuery(".submit").removeClass('bt-basic-gris');
+    }
+}
+
+let checkinprogress = false;
 function dochecktext() {
+  if(checkinprogress) {
+      return;
+  }
+
+  disableRevisa();
+
   var maxTextLength = 30000;
   var userText = tinyMCE.activeEditor.getContent();
   if (userText.length > maxTextLength) {
