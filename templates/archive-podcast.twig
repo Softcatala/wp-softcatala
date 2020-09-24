@@ -34,14 +34,13 @@
                                         <img style="width: 100%" src="{{ Image(programa.image.id).src | resize(400,400) }}" />
                                     </a>
                                 </div>
+                                <div class="col-md-8">
+                                    <h2>
+                                        <a href="{{ programa.link }}">{{ programa.title }}</a>
+                                    </h2>
+                                    {{{ programa.short_description }}}
+                                </div>
                             {% endfor %}
-
-                            <div class="col-md-8">
-                                <h2>
-                                    <a href="{{ programa.link }}">{{ programa.title }}</a>
-                                </h2>
-                                {{{ programa.short_description }}}
-                            </div>
                         </div>
                     </section>
                 </div><!--/.contingut -->
