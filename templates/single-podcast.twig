@@ -50,7 +50,7 @@
 
               <!-- .contingut-section -->
               <section class="contingut-section">
-                  {{ function('do_shortcode', '[audio mp3=' ~ post.enclosure.url  ~ ']') }}
+                  {{ function('do_shortcode', '[audio preload="auto" mp3=' ~ episode.enclosure.url  ~ ']') }}
                   <hr class="clara">
                   {{post.content}}
               </section><!--/.contingut-section -->

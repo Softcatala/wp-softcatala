@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '1.0.54' );
+define( 'WP_SOFTCATALA_VERSION', '1.0.55' );
 
 include ('php73.php');
 
@@ -50,6 +50,20 @@ class StarterSite extends TimberSite {
 		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'xv_planeta_feed', '__return_true' );
+		add_filter( 'xv_podcasts_log_file', function( $v ) {
+			return ABSPATH . '../podcast.log';
+		} );
+		add_filter( 'xv_podcasts_log_fields', function( $f ) {
+			return array_merge( $f, [
+				'ip' => $_SERVER['HTTP_X_REAL_IP'],
+				'accept' => $_SERVER['HTTP_ACCEPT'],
+				'encoding' => $_SERVER['HTTP_ACCEPT_ENCODING'],
+				'charset' => $_SERVER['HTTP_ACCEPT_CHARSET'],
+				'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
+				'referer' => $_SERVER['HTTP_REFERER'],
+				'ua' => $_SERVER['HTTP_USER_AGENT']
+			]);
+		} );
 		add_filter( 'wpseo_twitter_creator_account', function ( $twitter ) {
 			return '@softcatala';
 		} );
