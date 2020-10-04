@@ -1,0 +1,4 @@
+div.contingut section.contingut-section ul.chosen-choices li:before,
+div.contingut section.contingut-section ul.chosen-results li:before{
+    content:none;
+}
