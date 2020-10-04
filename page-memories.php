@@ -1,4 +1,9 @@
 <?php
+/**
+ * Template Name: Memòries de traducció
+ *
+ * @package wp-softcatala
+ */
 
 $context = Timber::get_context();
 $post = new TimberPost();
