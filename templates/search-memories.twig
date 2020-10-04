@@ -1,0 +1,44 @@
+<div class="search-box">
+    <p>Escriviu el text que voleu cercar a les memòries de traducció i
+        premeu el botó de cerca
+    </p>
+    <form id="form" name="form">
+        Anglès <input type="text" name="source" size="60" value="" autofocus="">
+        <br>
+        Català <input type="text" name="target" size="60" value="">
+        <div>
+            Àmbit de cerca:
+            <select name="project" class="chosen" multiple="true">
+                <option value="tots" selected="selected">Tots els projectes</option>
+                <option value="softcatala">Tots els projectes de Softcatalà</option>
+                {% for project in projects %}
+                <option value="{{ project.name }}">{{ project.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Cerca"></div>
+    </form>
+</div>
+<div class="search-samples">
+    <p>Exemples de cerques</p>
+    <ul>
+        <li>
+            "<a data-search="'Audio+file'&amp;project=tots">Audio file</a>"
+            - Cerca el text complet com una cadena (exemple de cerca en anglès)
+        </li>
+        <li>
+            <a data-search="Audio OR music&amp;project=tots">Audio OR music</a>
+            - Cerca cadenes amb el terme «audio» o bé «music» (exemple de cerca en anglès)
+        </li>
+        <li>
+            <a data-search="Audio+NOT+music&amp;project=tots">Audio NOT music</a>
+            - Cerca cadenes amb el terme «audio» però sense «music» (exemple de cerca en anglès)</li>
+        <li>
+            <a data-search="target=entrellaça*&amp;project=tots">entrellaça*</a>
+            - Cerca cadenes amb paraules que comencin per «entrellaça» (exemple de cerca en català)
+        </li>
+        <li>
+            <a data-search="File&amp;target=arxiu&amp;project=tots">file arxiu</a>
+            - Cerca cadenes que en anglès conten «file» i en català han estat traduïdes per «arxiu» (exemple de cerca en anglès i català)
+        </li>
+    </ul>
+</div>
