@@ -34,4 +34,26 @@ class SC_Memory {
 
         return $result;
     }
+
+    public function get_index_data() {
+
+        $result = wp_cache_get( 'memory_index', 'sc' );
+
+        if ( false === $result ) {
+
+            $base_url    = get_option( 'api_memory_base' );
+            $r           = $this->rest_client->get( $base_url . '/index' );
+
+            if ( $r['error'] ) {
+                throw_error( '500', 'Error connecting to API server' );
+            }
+
+            if ( $r['code'] == 200 ) {
+                $result = json_decode( $r['result'] );
+                wp_cache_set( 'memory_index', $result, 'sc', ( 3600 * 2 ) );
+            }
+        }
+
+        return $result;
+    }
 }
