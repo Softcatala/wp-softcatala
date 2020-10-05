@@ -1,21 +1,42 @@
-<div class="search-box">
+<div class="search-box formulari">
     <p>Escriviu el text que voleu cercar a les memòries de traducció i
         premeu el botó de cerca
     </p>
-    <form id="form" name="form">
-        Anglès <input type="text" name="source" size="60" value="" autofocus="">
-        <br>
-        Català <input type="text" name="target" size="60" value="">
-        <div>
-            Àmbit de cerca:
-            <select name="project" class="chosen" multiple="true">
-                <option value="tots" selected="selected">Tots els projectes</option>
-                <option value="softcatala">Tots els projectes de Softcatalà</option>
-                {% for project in projects %}
-                <option value="{{ project.project_id }}">{{ project.name }}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" value="Cerca"></div>
+    <form id="form" name="form" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 col-sm-offset-2 control-label">Anglès</label>
+            <div class="col-sm-6">
+                <input name="source" type="text" class="form-control" placeholder="" autofocus>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 col-sm-offset-2 control-label">Català</label>
+            <div class="col-sm-6">
+                <input name="target" type="text" class="form-control" placeholder="" autofocus>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 col-sm-offset-2 control-label">Àmbit de cerca:</label>
+            <div class="col-sm-6">
+                <select name="project" class="chosen" multiple="true">
+                    <option value="tots" selected="selected">Tots els projectes</option>
+                    <option value="softcatala">Tots els projectes de Softcatalà</option>
+                    {% for project in projects %}
+                    <option value="{{ project.project_id }}">{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9 form-botons">
+                    <div class="row">
+                         <div class="form-boto col-xs-5">
+                            <input type="submit" class="bt-basic bt-basic-vermell-fosc">Cerca</input>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </form>
 </div>
 <div class="search-samples">
