@@ -4,5 +4,5 @@ jQuery(document).ready(function(){
 });
 
 function showHelp() {
-    jQuery('#show-samples').toggle();
+    jQuery('#search-samples').toggle("slow");
 }
