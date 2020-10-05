@@ -1,6 +1,6 @@
 <div class="search-box formulari">
-    <p>Escriviu el text que voleu cercar a les memòries de traducció i
-        premeu el botó de cerca
+    <p>
+        Escriviu el text que voleu cercar a les memòries de traducció i premeu el botó de cerca
     </p>
     <form id="form" name="form" class="form-horizontal">
         <div class="form-group">
@@ -26,22 +26,21 @@
                     {% endfor %}
                 </select>
             </div>
-
-            <div class="form-group">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-9 form-botons">
-                    <div class="row">
-                         <div class="form-boto col-xs-5">
-                            <input type="submit" class="bt-basic bt-basic-vermell-fosc">Cerca</input>
-                        </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-7 col-sm-offset-5 form-botons">
+                <div class="row">
+                     <div class="form-boto col-xs-5">
+                        <input type="submit" class="bt-basic bt-basic-vermell-fosc" value="Cerca"></input>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 </div>
-<div class="search-samples">
-    <p>Exemples de cerques</p>
-    <ul>
+<div class="search-samples" id="search-samples-area">
+    <p>Exemples de cerques <span class="fa fa-info-circle"></span> </p>
+    <ul id="search-samples">
         <li>
             "<a data-search="'Audio+file'&amp;project=tots">Audio file</a>"
             - Cerca el text complet com una cadena (exemple de cerca en anglès)
