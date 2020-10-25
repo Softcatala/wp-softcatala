@@ -101,6 +101,7 @@ function print_results(results) {
     page = jQuery('#show-more').data('page');
     if(page < results.pages) {
         jQuery('#show-more').data('max', results.pages);
+        jQuery('#show-more').show();
     } else {
         jQuery('#show-more')
             .data('page', 0)
