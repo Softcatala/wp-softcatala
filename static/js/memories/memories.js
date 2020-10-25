@@ -16,17 +16,17 @@ jQuery('#memories').submit(function(event) {
 
     toSearch = false;
     if(source) {
-        url +=  'source=' + source;
+        url +=  '&source=' + source;
         toSearch = true;
     }
 
     if(target) {
-        url +=  'target=' + target;
+        url +=  '&target=' + target;
         toSearch = true;
     }
 
     if(source) {
-        url +=  'project=' + project;
+        url +=  '&project=' + project;
         toSearch = true;
     }
 
