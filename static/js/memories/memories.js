@@ -106,14 +106,21 @@ function print_results(results) {
         jQuery('#search-results').append(h);
     });
     page = jQuery('#show-more').data('page');
-    if(page < results.pages) {
+    if(page <= results.pages) {
         jQuery('#show-more').data('max', results.pages);
 
         const params = new URLSearchParams(location.search);
         params.set('page', page);
         window.history.pushState({}, '', `${location.pathname}?${params}`);
 
-        jQuery('#show-more').show();
+        if (page<results.pages) {
+            jQuery('#show-more').show();
+        } else {
+            jQuery('#show-more')
+                .data('page', 0)
+                .data('max', 0)
+                .hide();
+        }
     } else {
         window.history.pushState({}, '', `${location.pathname}`);
         jQuery('#show-more')
