@@ -79,7 +79,7 @@ function print_results(results) {
     page = jQuery('#show-more').data('page');
 
     jQuery('#search-results')
-        .append(jQuery(`<a style="display:none" name="page-${page}"></a>`));
+        .append(jQuery(`<a name="page-${page}"></a>`));
 
     results.results.forEach(function(r) {
         project = `<tr>
@@ -110,6 +110,9 @@ function print_results(results) {
         `)
         jQuery('#search-results').append(h);
     });
+
+    pos = jQuery(`a[name="page-${page}"]`);
+    jQuery('html,body').animate({scrollTop: pos.offset().top},'slow');
 
     if(page <= results.pages) {
         jQuery('#show-more').data('max', results.pages);
