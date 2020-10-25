@@ -7,12 +7,8 @@ function showHelp() {
     jQuery('#search-samples').toggle("slow");
 }
 
-jQuery('#memories').submit(function(event) {
+function searchMemories(source, target, project, page) {
     url = "https://api.softcatala.org/memories/v1/search?";
-    event.preventDefault();
-    const source = jQuery("#source").val();
-    const target = jQuery("#target").val();
-    const project = jQuery("#project").val();
 
     toSearch = false;
     if(source) {
@@ -29,8 +25,9 @@ jQuery('#memories').submit(function(event) {
         url +=  '&project=' + project;
         toSearch = true;
     }
-    jQuery('#search-results').html('');
+
     if(toSearch) {
+        url += '&page=' + page
         jQuery.ajax({
             url: url,
             type: 'GET',
@@ -38,7 +35,34 @@ jQuery('#memories').submit(function(event) {
             error : ko_function
         });
 
+        jQuery('#show-more').data('page', page);
+        return true;
     } else {
+        return false;
+    }
+}
+
+jQuery('#show-more').click(function() {
+    page = jQuery(this).data('page');
+    max = jQuery(this).data('max');
+    if(page > 0 && page < max && document.location.search) {
+        s = URLSearchParams(document.location.search)
+        searchMemories(s.get('source'), s.get('target'), s.get('project'), page);
+    }
+});
+
+jQuery('#memories').submit(function(event) {
+
+    event.preventDefault();
+
+    const source = jQuery("#source").val();
+    const target = jQuery("#target").val();
+    const project = jQuery("#project").val();
+    jQuery('#search-results').html('');
+
+    searched = searchMemories(source, target, project, 1);
+
+    if (!searched) {
         jQuery('#search-results').hide();
         jQuery('#search-results').remove();
     }
@@ -72,11 +96,24 @@ function print_results(results) {
                 </table>
             </div>
         `)
-        jQuery('#search-results').append(h)
+        jQuery('#search-results').append(h);
     });
+    page = jQuery('#show-more').data('page');
+    if(page < results.pages) {
+        jQuery('#show-more').data('max', results.pages);
+    } else {
+        jQuery('#show-more')
+            .data('page', 0)
+            .data('max', 0)
+            .hide();
+    }
     jQuery('#search-results').show();
 }
 
 function ko_function(e) {
     console.log('error', e);
+    jQuery('#show-more')
+        .data('page', 0)
+        .data('max', 0)
+        .hide();
 }
