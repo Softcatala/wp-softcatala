@@ -29,7 +29,7 @@ jQuery('#memories').submit(function(event) {
         url +=  '&project=' + project;
         toSearch = true;
     }
-
+    jQuery('#search-results').html('');
     if(toSearch) {
         jQuery.ajax({
             url: url,
