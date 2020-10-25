@@ -76,6 +76,11 @@ jQuery('#memories').submit(function(event) {
 });
 
 function print_results(results) {
+    page = jQuery('#show-more').data('page');
+
+    jQuery('#search-results')
+        .append(jQuery(`<a style="display:none" name="page-${page}"></a>`));
+
     results.results.forEach(function(r) {
         project = `<tr>
                     <td>Projecte</td>
@@ -105,13 +110,13 @@ function print_results(results) {
         `)
         jQuery('#search-results').append(h);
     });
-    page = jQuery('#show-more').data('page');
+
     if(page <= results.pages) {
         jQuery('#show-more').data('max', results.pages);
 
         const params = new URLSearchParams(location.search);
         params.set('page', page);
-        window.history.pushState({}, '', `${location.pathname}?${params}`);
+        window.history.pushState({}, '', `${location.pathname}?${params}#page-${page}`);
 
         if (page<results.pages) {
             jQuery('#show-more').show();
