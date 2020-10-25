@@ -42,7 +42,8 @@ function searchMemories(source, target, project, page) {
     }
 }
 
-jQuery('#show-more').click(function() {
+jQuery('#show-more').click(function(e) {
+    e.preventDefault();
     page = jQuery(this).data('page');
     max = jQuery(this).data('max');
     if(page > 0 && page < max && document.location.search) {
