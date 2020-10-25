@@ -48,7 +48,7 @@ jQuery('#show-more').click(function(e) {
     max = jQuery(this).data('max');
     if(page > 0 && page < max && document.location.search) {
         s = new URLSearchParams(document.location.search)
-        searchMemories(s.get('source'), s.get('target'), s.get('project'), page);
+        searchMemories(s.get('source'), s.get('target'), s.get('project'), page+1);
     }
 });
 
