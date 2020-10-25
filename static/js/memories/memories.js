@@ -67,7 +67,7 @@ function print_results(results) {
             <div class="single-result">
                 <table class="table table-bordered taula-2col">
                     <tbody>
-                       ${projects}${comments}${source}${target}
+                       ${project}${comments}${source}${target}
                     </tbody>
                 </table>
             </div>
