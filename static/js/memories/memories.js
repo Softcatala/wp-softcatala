@@ -46,7 +46,7 @@ jQuery('#show-more').click(function() {
     page = jQuery(this).data('page');
     max = jQuery(this).data('max');
     if(page > 0 && page < max && document.location.search) {
-        s = URLSearchParams(document.location.search)
+        s = new URLSearchParams(document.location.search)
         searchMemories(s.get('source'), s.get('target'), s.get('project'), page);
     }
 });
@@ -110,7 +110,6 @@ function print_results(results) {
 
         const params = new URLSearchParams(location.search);
         params.set('page', page);
-        params.set('max', results.pages);
         window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         jQuery('#show-more').show();
