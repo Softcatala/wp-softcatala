@@ -132,3 +132,13 @@ function ko_function(e) {
         .data('max', 0)
         .hide();
 }
+
+
+function tryPredefinedQuery() {
+    if(document.location.search) {
+        s = new URLSearchParams(document.location.search)
+        searchMemories(s.get('source'), s.get('target'), s.get('project'), s.get('page') || 1);
+    }
+}
+
+tryPredefinedQuery();
