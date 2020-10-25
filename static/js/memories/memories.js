@@ -60,6 +60,12 @@ jQuery('#memories').submit(function(event) {
     const project = jQuery("#project").val();
     jQuery('#search-results').html('');
 
+    const params = new URLSearchParams(location.search);
+    params.set('source', source);
+    params.set('target', target);
+    params.set('project', project);
+    window.history.pushState({}, '', `${location.pathname}?${params}`);
+
     searched = searchMemories(source, target, project, 1);
 
     if (!searched) {
@@ -101,8 +107,15 @@ function print_results(results) {
     page = jQuery('#show-more').data('page');
     if(page < results.pages) {
         jQuery('#show-more').data('max', results.pages);
+
+        const params = new URLSearchParams(location.search);
+        params.set('page', page);
+        params.set('max', results.pages);
+        window.history.pushState({}, '', `${location.pathname}?${params}`);
+
         jQuery('#show-more').show();
     } else {
+        window.history.pushState({}, '', `${location.pathname}`);
         jQuery('#show-more')
             .data('page', 0)
             .data('max', 0)
@@ -113,6 +126,7 @@ function print_results(results) {
 
 function ko_function(e) {
     console.log('error', e);
+    window.history.pushState({}, '', `${location.pathname}`);
     jQuery('#show-more')
         .data('page', 0)
         .data('max', 0)
