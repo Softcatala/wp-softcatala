@@ -21,7 +21,7 @@
                         {% include 'search-memories.twig' %}
                     </section>
                     <!-- section paragraf -->
-                    <section class="contingut-section">
+                    <section class="contingut-section baixada-memories">
                         <h2>Baixa les memòries de traducció</h2>
                         {{  post.content }}
                         <table>
@@ -58,8 +58,8 @@
                                             {{ project.tmx_file_text }}
                                         </a>
                                     </td>
-                                    <td>
-                                        {{ project.words }}
+                                    <td class="num-words">
+                                        {{ project.words | number_format(0, ',', '.') }}
                                     </td>
                                     <td>
                                         {{ project.last_fetch }}

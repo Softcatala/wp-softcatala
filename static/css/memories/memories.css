@@ -2,3 +2,12 @@ div.contingut section.contingut-section ul.chosen-choices li:before,
 div.contingut section.contingut-section ul.chosen-results li:before{
     content:none;
 }
+
+section.baixada-memories table>tbody>tr>td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.baixada-memories table td.num-words {
+    text-align: right;
+}

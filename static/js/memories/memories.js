@@ -81,13 +81,26 @@ function print_results(results) {
     jQuery('#search-results')
         .append(jQuery(`<a name="page-${page}"></a>`));
 
+    jQuery('#search-results').show();
+
+    if (results.num_results == 0) {
+        jQuery('#search-results')
+            .append(jQuery(`<div><em>No hi ha resultat amb els termes de cerca</em></div>`));
+        return;
+    }
+
+    if (page == 1) {
+        jQuery('#search-results')
+            .append(jQuery(`<div><em>S'han trobat ${results.num_results}</em></div>`));
+    }
+
     results.results.forEach(function(r) {
         project = `<tr>
                     <td>Projecte</td>
                     <td>${r.project}</td>
                     </tr>`;
         comments = r.context ?
-            `<tr><td>Comentaris:</td><td>${r.comments}<br></td></tr>` :
+            `<tr><td>Comentaris:</td><td>${r.comment}<br></td></tr>` :
             '';
 
         source = `<tr>
@@ -136,7 +149,6 @@ function print_results(results) {
             .data('max', 0)
             .hide();
     }
-    jQuery('#search-results').show();
 }
 
 function ko_function(e) {
