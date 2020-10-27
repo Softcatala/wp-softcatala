@@ -114,7 +114,7 @@ function print_results(results) {
                     </tr>`
         h = jQuery(`
             <div class="single-result">
-                <table class="table table-bordered taula-2col">
+                <table class="table table-bordered taula-2col" style="margin:10px">
                     <tbody>
                        ${project}${comments}${source}${target}
                     </tbody>
