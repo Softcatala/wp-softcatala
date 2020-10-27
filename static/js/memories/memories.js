@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-    jQuery(".chosen").chosen();
+    jQuery(".chosen").chosen({width: "100%"});
     jQuery("#search-samples-area").click(showHelp);
 });
 
