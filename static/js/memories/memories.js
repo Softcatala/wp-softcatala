@@ -100,7 +100,7 @@ function print_results(results) {
                     <td>${r.project}</td>
                     </tr>`;
         comments = r.context ?
-            `<tr><td>Comentaris:</td><td>${r.comment}<br></td></tr>` :
+            `<tr><td>Comentaris:</td><td>${r.comment}</td></tr>` :
             '';
 
         source = `<tr>
