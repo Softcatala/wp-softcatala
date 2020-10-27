@@ -91,7 +91,7 @@ function print_results(results) {
 
     if (page == 1) {
         jQuery('#search-results')
-            .append(jQuery(`<div><em>S'han trobat ${results.num_results}</em></div>`));
+            .append(jQuery(`<div><em>S'han trobat ${results.num_results} resultats</em></div>`));
     }
 
     results.results.forEach(function(r) {
