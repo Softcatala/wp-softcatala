@@ -4,20 +4,20 @@
     </p>
     <form id="memories" name="memories" class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-3 col-sm-offset-2 control-label">Anglès</label>
-            <div class="col-sm-6">
+            <label class="col-sm-2 control-label">Anglès</label>
+            <div class="col-sm-7">
                 <input id="source" name="source" type="text" class="form-control" placeholder="" autofocus>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 col-sm-offset-2 control-label">Català</label>
-            <div class="col-sm-6">
+            <label class="col-sm-2 control-label">Català</label>
+            <div class="col-sm-7">
                 <input id="target" name="target" type="text" class="form-control" placeholder="" autofocus>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 col-sm-offset-2 control-label">Àmbit de cerca:</label>
-            <div class="col-sm-6">
+            <label class="col-sm-2 control-label">Àmbit de cerca:</label>
+            <div class="col-sm-7">
                 <select id="project" name="project" class="chosen" multiple="true">
                     {% for project in projects %}
                         <option value="{{ project.project_id }}"
@@ -29,9 +29,7 @@
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-7 col-sm-offset-5 form-botons">
+            <div class="col-sm-7 col-sm-offset-2 form-botons">
                 <div class="row">
                      <div class="form-boto col-xs-5">
                         <input type="submit" class="bt-basic bt-basic-vermell-fosc" value="Cerca"></input>
@@ -41,7 +39,7 @@
         </div>
     </form>
 </div>
-<div class="search-samples wp-caption" id="search-samples-area" style="cursor: pointer">
+<div class="search-samples caixa-gris" id="search-samples-area" style="cursor: pointer;width:100%">
     <p>Fes clic per a veure exemples de cerca <span class="fa fa-info-circle"></span></p>
     <ul id="search-samples" style="display: none; text-align:left">
         <li>
