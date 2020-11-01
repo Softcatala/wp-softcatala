@@ -47,6 +47,11 @@
                                         {% if project.projectweb %}
                                             </a>
                                         {% endif %}
+                                        {% if project.license %}
+                                            <span style="font-size: 0.8em">
+                                                Llicència: {{ project.license }}
+                                            </span>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <a href="{{ project.po_file_link }}">
