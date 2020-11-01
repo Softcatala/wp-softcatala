@@ -26,7 +26,7 @@ function searchMemories(source, target, project, page) {
         toSearch = true;
     }
 
-    if(source) {
+    if(project) {
         url +=  '&project=' + project;
         toSearch = true;
     }
