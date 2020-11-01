@@ -20,12 +20,11 @@
             <div class="col-sm-7">
                 <select id="project" name="project" class="chosen" multiple="true">
                     {% for project in projects %}
-                        <option value="{{ project.project_id }}"
-                            {% if loop.first %}
-                                selected="selected"
-                            {% endif %} >
-                        {{ project.name }}
-                        </option>
+                        {% if project.project_id != 'tots' %}
+                            <option value="{{ project.project_id }}">
+                                {{ project.name }}
+                            </option>
+                        {% endif %} >
                     {% endfor %}
                 </select>
             </div>
@@ -40,7 +39,7 @@
     </form>
 </div>
 <div class="search-samples caixa-gris" id="search-samples-area" style="cursor: pointer;width:100%">
-    <p>Fes clic per a veure exemples de cerca <span class="fa fa-info-circle"></span></p>
+    <p>Feu clic per a veure exemples de cerca <span class="fa fa-info-circle"></span></p>
     <ul id="search-samples" style="display: none; text-align:left">
         <li>
             "<a data-search="'Audio+file'&amp;project=tots">Audio file</a>"

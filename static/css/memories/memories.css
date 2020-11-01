@@ -11,3 +11,8 @@ section.baixada-memories table>tbody>tr>td {
 .baixada-memories table td.num-words {
     text-align: right;
 }
+
+#search-samples a {
+    display: inline;
+    font-size: 1em;
+}
