@@ -1,7 +1,11 @@
 jQuery(document).ready(function(){
     tryPredefinedQuery();
     jQuery(".chosen").chosen({width: "100%"});
-    jQuery("#search-samples-area").click(showHelp);
+    jQuery("#search-samples-area a.show-samples").click(showHelp);
+    jQuery('#search-samples a').click(function(e) {
+        e.preventDefault();
+        tryPredefinedQuery(jQuery(this).data('search'));
+    });
 });
 
 function showHelp() {
@@ -162,9 +166,13 @@ function ko_function(e) {
 }
 
 
-function tryPredefinedQuery() {
-    if(document.location.search) {
-        s = new URLSearchParams(document.location.search)
+function tryPredefinedQuery(u) {
+    if (!u && document.location.search) {
+        u = document.location.search
+    }
+
+    if (u) {
+        s = new URLSearchParams(u)
         fillForm(s.get('source'), s.get('target'), s.get('project'))
         searchMemories(s.get('source'), s.get('target'), s.get('project'), s.get('page') || 1);
     }
@@ -173,8 +181,11 @@ function tryPredefinedQuery() {
 function fillForm(source, target, project) {
     jQuery('#source').val(source);
     jQuery('#target').val(target);
-    projects = project.split(',');
-    for(const pr of projects) {
-        jQuery(`#project option[value=${pr}]`).attr('selected', 'selected')
+    if(project) {
+        projects = project.split(',');
+        for(const pr of projects) {
+            jQuery(`#project option[value=${pr}]`).attr('selected', 'selected')
+        }
     }
 }
+

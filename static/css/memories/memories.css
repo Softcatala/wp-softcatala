@@ -12,7 +12,12 @@ section.baixada-memories table>tbody>tr>td {
     text-align: right;
 }
 
-#search-samples a {
+#search-samples-area a {
     display: inline;
     font-size: 1em;
+}
+
+#search-samples-area a span {
+    display: inline;
+    margin-left: 0;
 }
