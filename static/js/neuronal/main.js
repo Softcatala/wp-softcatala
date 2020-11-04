@@ -34,7 +34,9 @@ var neuronalVista = (function () {
         btntradfile: '#translate_file',
         info: '#info',
         error: '#error',
-        errormessage: '#errormessage'
+        errormessage: '#errormessage',
+        message: '#message',
+        messageinfo: '#messageinfo'
     }
 
     var direction;
@@ -54,12 +56,14 @@ var neuronalVista = (function () {
             document.querySelector(elementsDOM.btntrad).style.width = '120px';
             document.querySelector(elementsDOM.btntradfile).style.width = '250px';
             document.querySelector(elementsDOM.btntradfile).style.marginTop = '20px';
+            
 
             jQuery(elementsDOM.slsourcemob).selectpicker();
             jQuery(elementsDOM.sltargetmob).selectpicker();
             jQuery(elementsDOM.info).hide();
             jQuery(elementsDOM.error).hide();
-
+            jQuery(elementsDOM.messageinfo).hide();
+            
             this.switchEngCat();
 
         },
@@ -130,6 +134,16 @@ var neuronalVista = (function () {
             jQuery(elementsDOM.time).html(translation.time);
             jQuery(elementsDOM.btntrad).html("Tradueix");
             jQuery(elementsDOM.btncopy).prop('disabled', false);
+
+            if(translation.message)
+                this.displayMessage(translation.message);
+            
+        },
+        displayMessage: function(message){
+            console.log('aqui arribo');
+            jQuery(elementsDOM.messageinfo).removeClass('hidden');
+            jQuery(elementsDOM.messageinfo).show('slow');
+            jQuery(elementsDOM.message).html(message);
         },
         sentFileAlert: function () {
             jQuery(elementsDOM.btntradfile).html("Demaneu traducció");
@@ -238,7 +252,13 @@ var neuronalApp = (function (vistaCtrl) {
             jQuery(elementsDOM.info).hide('slow');
         });
 
+        document.querySelector(elementsDOM.messageinfo + '> button').addEventListener('click', function (e) {
+            jQuery(elementsDOM.messageinfo).hide('slow');
+        });
+
         document.querySelector(elementsDOM.btntrad).addEventListener('click', function (e) {
+
+            jQuery(elementsDOM.messageinfo).hide();
 
             document.querySelector(elementsDOM.btntrad).innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
             var translation = {
@@ -313,6 +333,8 @@ var neuronalApp = (function (vistaCtrl) {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 json = JSON.parse(xhr.responseText);
                 translation.translated_text = json["translated"];
+                translation.message = json["message"];
+                console.log(translation.message);
                 translation.time = 'Traducció feta en: ' + json["time"];
                 vistaCtrl.updateTrad(translation);
             }
@@ -375,5 +397,3 @@ var neuronalApp = (function (vistaCtrl) {
 })(neuronalVista);
 
 neuronalApp.init();
-
-
