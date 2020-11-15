@@ -15,6 +15,7 @@ section.baixada-memories table>tbody>tr>td {
 #search-samples-area a {
     display: inline;
     font-size: 1em;
+    cursor: pointer;
 }
 
 #search-samples-area a span {

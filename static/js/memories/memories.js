@@ -32,6 +32,13 @@ function searchMemories(source, target, project, page) {
     }
 
     if(toSearch) {
+
+        const params = new URLSearchParams();
+        params.set('source', source);
+        params.set('target', target);
+        params.set('project', project);
+        window.history.pushState({}, '', `${location.pathname}?${params}`);
+
         url += '&page=' + page
         jQuery.ajax({
             url: url,
@@ -65,12 +72,6 @@ jQuery('#memories').submit(function(event) {
     const target = jQuery("#target").val();
     const project = jQuery("#project").val();
     jQuery('#search-results').html('');
-
-    const params = new URLSearchParams(location.search);
-    params.set('source', source);
-    params.set('target', target);
-    params.set('project', project);
-    window.history.pushState({}, '', `${location.pathname}?${params}`);
 
     searched = searchMemories(source, target, project, 1);
 
