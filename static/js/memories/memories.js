@@ -37,7 +37,6 @@ function searchMemories(source, target, project, page) {
         if(source)params.set('source', source);
         if(target)params.set('target', target);
         if(project)params.set('project', project);
-        window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         url += '&page=' + page
         jQuery.ajax({
