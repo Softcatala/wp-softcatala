@@ -34,9 +34,9 @@ function searchMemories(source, target, project, page) {
     if(toSearch) {
 
         const params = new URLSearchParams();
-        params.set('source', source);
-        params.set('target', target);
-        params.set('project', project);
+        if(source)params.set('source', source);
+        if(target)params.set('target', target);
+        if(project)params.set('project', project);
         window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         url += '&page=' + page
@@ -138,7 +138,7 @@ function print_results(results) {
 
         const params = new URLSearchParams(location.search);
         params.set('page', page);
-        window.history.pushState({}, '', `${location.pathname}?${params}#page-${page}`);
+        window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         if (page<results.pages) {
             jQuery('#show-more').show();
