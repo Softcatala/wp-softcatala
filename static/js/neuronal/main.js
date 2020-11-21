@@ -296,7 +296,7 @@ var neuronalApp = (function (vistaCtrl) {
                     file: document.querySelector(elementsDOM.file).files[0],
                     email: document.querySelector(elementsDOM.email).value,
                     model_name: document.querySelector(elementsDOM.model_name).value,
-                    savetext: document.querySelector(elementsDOM.chklogfile).checked
+                    //savetext: document.querySelector(elementsDOM.chklogfile).checked
                 }
                 
                 translate_file(translation);
