@@ -174,17 +174,7 @@ function tryPredefinedQuery(u) {
     if (u) {
         s = new URLSearchParams(u)
         fillForm(s.get('source'), s.get('target'), s.get('project'))
-        const parsed = Number.parseInt(s.get('pg'));
-        if (Number.isInteger(parsed) && parsed > 1) {
-            const total = parsed;
-            searchMemories(s.get('source'), s.get('target'), s.get('project'), 1);
-            for(let i = 1; i <= total; i++) {
-                jQuery("show-more").click();
-            }
-
-        } else {
-            searchMemories(s.get('source'), s.get('target'), s.get('project'), s.get('pg') || 1);
-        }
+        jQuery('#memories').submit();
     }
 }
 
