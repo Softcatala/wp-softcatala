@@ -88,21 +88,22 @@ function print_results(results) {
 
     jQuery('#search-results').show();
 
-    if (results.glossary) {
+    if (results.glossary && page == 1) {
         const entries = results.glossary.map(e => {
-            return `${e.translation} (usada ${parseFloat(e.percentage).toFixed(2)}, coincidències ${e.frequency})`
-        }).join();
+            const word = parseInt(e.termcat) ? `<span class="word-termcat">${e.translation}</span>` : e.translation;
+            return `<li>${word} (usada ${parseFloat(e.percentage).toFixed(2)}, coincidències ${e.frequency})</li>`
+        }).join('');
         const glossary = `
-            <div>
+            <div class="wp-caption glossary-termcat">
                 <strong>Resum de l'extracció automàtica terminològica sobre el corpus de Softcatalà del terme:</strong>
-                ${entries}
-                <div class="glossary-llegenda">
-                    Llegenda:<br />
+                <ul>${entries}</ul>
+                <p class="glossary-llegenda">
+                    <strong>Llegenda:</strong><br />
                     Per a cada opció, entre parèntesis, usada indica el percentatge d'ús respecte a altres opcions i 
                     coincidències els cops que s'ha trobat en cadenes de 3 o menys paraules.<br />
                     Les formes en <span class="word-termcat">color verd</span> són les documentades en els recursos 
                     en línia del TERMCAT.
-                </div>
+                </p>
             </div>
         `;
         jQuery('#search-results').append(jQuery(glossary));
