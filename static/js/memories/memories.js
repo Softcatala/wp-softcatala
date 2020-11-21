@@ -88,6 +88,26 @@ function print_results(results) {
 
     jQuery('#search-results').show();
 
+    if (results.glossary) {
+        const entries = results.glossary.map(e => {
+            return `${e.translation} (usada ${parseFloat(e.percentage).toFixed(2)}, coincidències ${e.frequency})`
+        }).join();
+        const glossary = `
+            <div>
+                <strong>Resum de l'extracció automàtica terminològica sobre el corpus de Softcatalà del terme:</strong>
+                ${entries}
+                <div class="glossary-llegenda">
+                    Llegenda:<br />
+                    Per a cada opció, entre parèntesis, usada indica el percentatge d'ús respecte a altres opcions i 
+                    coincidències els cops que s'ha trobat en cadenes de 3 o menys paraules.<br />
+                    Les formes en <span class="word-termcat">color verd</span> són les documentades en els recursos 
+                    en línia del TERMCAT.
+                </div>
+            </div>
+        `;
+        jQuery('#search-results').append(jQuery(glossary));
+    }
+
     if (results.num_results == 0) {
         jQuery('#search-results')
             .append(jQuery(`<div><em>No hi ha resultat amb els termes de cerca</em></div>`));

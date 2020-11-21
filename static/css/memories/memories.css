@@ -22,3 +22,8 @@ section.baixada-memories table>tbody>tr>td {
     display: inline;
     margin-left: 0;
 }
+
+span.word-termcat {
+    font-weight: bold;
+    color: #5cb85c; /* brand success */
+}
