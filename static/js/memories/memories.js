@@ -39,7 +39,7 @@ function searchMemories(source, target, project, page) {
         if(project)params.set('project', project);
         window.history.pushState({}, '', `${location.pathname}?${params}`);
 
-        url += '&page=' + page
+        url += '&pg=' + page
         jQuery.ajax({
             url: url,
             type: 'GET',
@@ -47,7 +47,7 @@ function searchMemories(source, target, project, page) {
             error : ko_function
         });
 
-        jQuery('#show-more').data('page', page);
+        jQuery('#show-more').data('pg', page);
         return true;
     } else {
         return false;
@@ -56,7 +56,7 @@ function searchMemories(source, target, project, page) {
 
 jQuery('#show-more').click(function(e) {
     e.preventDefault();
-    page = jQuery(this).data('page');
+    page = jQuery(this).data('pg');
     max = jQuery(this).data('max');
     if(page > 0 && page < max && document.location.search) {
         s = new URLSearchParams(document.location.search)
@@ -82,10 +82,10 @@ jQuery('#memories').submit(function(event) {
 });
 
 function print_results(results) {
-    page = jQuery('#show-more').data('page');
+    page = jQuery('#show-more').data('pg');
 
     jQuery('#search-results')
-        .append(jQuery(`<a name="page-${page}"></a>`));
+        .append(jQuery(`<a name="pg-${page}"></a>`));
 
     jQuery('#search-results').show();
 
@@ -130,28 +130,28 @@ function print_results(results) {
         jQuery('#search-results').append(h);
     });
 
-    pos = jQuery(`a[name="page-${page}"]`);
+    pos = jQuery(`a[name="pg-${page}"]`);
     jQuery('html,body').animate({scrollTop: pos.offset().top},'slow');
 
     if(page <= results.pages) {
         jQuery('#show-more').data('max', results.pages);
 
         const params = new URLSearchParams(location.search);
-        params.set('page', page);
+        params.set('pg', page);
         window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         if (page<results.pages) {
             jQuery('#show-more').show();
         } else {
             jQuery('#show-more')
-                .data('page', 0)
+                .data('pg', 0)
                 .data('max', 0)
                 .hide();
         }
     } else {
         window.history.pushState({}, '', `${location.pathname}`);
         jQuery('#show-more')
-            .data('page', 0)
+            .data('pg', 0)
             .data('max', 0)
             .hide();
     }
@@ -161,7 +161,7 @@ function ko_function(e) {
     console.log('error', e);
     window.history.pushState({}, '', `${location.pathname}`);
     jQuery('#show-more')
-        .data('page', 0)
+        .data('pg', 0)
         .data('max', 0)
         .hide();
 }
@@ -175,7 +175,7 @@ function tryPredefinedQuery(u) {
     if (u) {
         s = new URLSearchParams(u)
         fillForm(s.get('source'), s.get('target'), s.get('project'))
-        searchMemories(s.get('source'), s.get('target'), s.get('project'), s.get('page') || 1);
+        searchMemories(s.get('source'), s.get('target'), s.get('project'), s.get('pg') || 1);
     }
 }
 
