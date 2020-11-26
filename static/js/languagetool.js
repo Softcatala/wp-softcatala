@@ -289,10 +289,12 @@ function dooptions() {
     if (jQuery("input[name=diacritics]:checked").val() == "diacritics_iec") {
        typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); // unnecessary after update
        typo_disabledRules.push("DIACRITICS_TRADITIONAL_RULES");
+       typo_disabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_TRADITIONAL");
        typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
     }
     else {
        typo_enabledRules.push("DIACRITICS_TRADITIONAL_RULES");
+       typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_TRADITIONAL");
        typo_disabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
     }
     if (jQuery("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
