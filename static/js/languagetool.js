@@ -286,7 +286,15 @@ function dooptions() {
         disabledRules.push("CA_SIMPLE_REPLACE_DNV_COLLOQUIAL");
     };
 
-    if (jQuery("input[name=diacritics]:checked").val() == "diacritics_iec") {typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); };
+    if (jQuery("input[name=diacritics]:checked").val() == "diacritics_iec") {
+       typo_disabledCategories.push("DIACRITICS_TRADITIONAL"); // unnecessary after update
+       typo_disabledRules.push("DIACRITICS_TRADITIONAL_RULES");
+       typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
+    }
+    else {
+       typo_enabledRules.push("DIACRITICS_TRADITIONAL_RULES");
+       typo_disabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
+    }
     if (jQuery("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
     if (jQuery("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
     if (jQuery("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
