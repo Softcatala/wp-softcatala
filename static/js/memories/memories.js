@@ -38,6 +38,8 @@ function searchMemories(source, target, project, page) {
         if(target)params.set('target', target);
         if(project)params.set('project', project);
 
+        window.history.pushState({}, '', `${location.pathname}?${params}`);
+
         url += '&page=' + page
         jQuery.ajax({
             url: url,
@@ -88,7 +90,7 @@ function print_results(results) {
 
     jQuery('#search-results').show();
 
-    if (results.glossary && page == 1) {
+    if (results.glossary && results.glossary.length && page == 1) {
         const entries = results.glossary.map(e => {
             const word = parseInt(e.termcat) ? `<span class="word-termcat">${e.translation}</span>` : e.translation;
             return `<li>${word} (usada ${parseFloat(e.percentage).toFixed(2)}, coincidències ${e.frequency})</li>`
@@ -155,10 +157,6 @@ function print_results(results) {
 
     if(page <= results.pages) {
         jQuery('#show-more').data('max', results.pages);
-
-        const params = new URLSearchParams(location.search);
-        params.set('pg', page);
-        window.history.pushState({}, '', `${location.pathname}?${params}`);
 
         if (page<results.pages) {
             jQuery('#show-more').show();
