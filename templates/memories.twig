@@ -1,0 +1,98 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12">
+                <!-- .contingut-header -->
+                    <header class="contingut-header">
+                        <p>{{  post.post_excerpt }}</p>
+                    </header>
+                    <!--/.contingut-header -->
+                    <section class="contingut-section">
+                        <h2>Cerca a les memòries de traducció</h2>
+                        {% include 'search-memories.twig' %}
+                    </section>
+                    <!-- section paragraf -->
+                    <section class="contingut-section baixada-memories">
+                        <h2>Baixa les memòries de traducció</h2>
+                        {{  post.content }}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Projecte</th>
+                                    <th>Fitxer PO</th>
+                                    <th>Fitxer TMX</th>
+                                    <th>Paraules traduïdes</th>
+                                    <th>Última baixada de la memòria</th>
+                                    <th>Última actualització de la traducció (des que la baixem</th>
+                                    <th>Informes de qualitat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for project in projects %}
+                                <tr>
+                                    <td>
+                                        {% if project.projectweb %}
+                                            <a href="project.projectweb">
+                                        {% endif %}
+                                        {{ project.name }}
+                                        {% if project.projectweb %}
+                                            </a>
+                                        {% endif %}
+                                        {% if project.license %}
+                                            <span style="font-size: 0.8em">
+                                                Llicència: {{ project.license }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ project.po_file_link }}">
+                                            {{ project.po_file_text }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ project.tmx_file_link }}">
+                                            {{ project.tmx_file_text }}
+                                        </a>
+                                    </td>
+                                    <td class="num-words">
+                                        {{ project.words | number_format(0, ',', '.') }}
+                                    </td>
+                                    <td>
+                                        {{ project.last_fetch }}
+                                    </td>
+                                    <td>
+                                        {{ project.last_translation_update }}
+                                    </td>
+                                    <td>
+                                        {% if project.quality_file_link %}
+                                            <a href="{{ project.quality_file_link }}">
+                                                Informe de qualitat
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        Data de generació d'aquesta pàgina: {{ last_generation }}
+                    </section>
+                    <!--/ section paragraf -->
+                </div><!--/.contingut -->
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+{% endblock %}

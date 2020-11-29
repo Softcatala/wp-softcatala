@@ -1,0 +1,44 @@
+div.contingut section.contingut-section ul.chosen-choices li:before,
+div.contingut section.contingut-section ul.chosen-results li:before{
+    content:none;
+}
+
+section.baixada-memories table>tbody>tr>td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.baixada-memories table td.num-words {
+    text-align: right;
+}
+
+#search-samples-area a {
+    display: inline;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#search-samples-area a span {
+    display: inline;
+    margin-left: 0;
+}
+
+b.match {
+    color: #c43434;
+}
+
+span.word-termcat {
+    font-weight: bold;
+    color: #5cb85c; /* brand success */
+}
+
+body .glossary-termcat {
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+body .glossary-termcat p.glossary-llegenda {
+    font-size: 0.7em;
+}

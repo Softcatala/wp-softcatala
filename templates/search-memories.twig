@@ -1,0 +1,71 @@
+<div class="search-box formulari">
+    <p>
+        Escriviu el text que voleu cercar a les memòries de traducció i premeu el botó de cerca
+    </p>
+    <form id="memories" name="memories" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Anglès</label>
+            <div class="col-sm-7">
+                <input id="source" name="source" type="text" class="form-control" placeholder="" autofocus>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Català</label>
+            <div class="col-sm-7">
+                <input id="target" name="target" type="text" class="form-control" placeholder="" autofocus>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Àmbit de cerca:</label>
+            <div class="col-sm-7">
+                <select id="project" name="project" class="chosen" multiple="true">
+                    {% for project in projects %}
+                        {% if project.project_id != 'tots' %}
+                            <option value="{{ project.project_id }}">
+                                {{ project.name }}
+                            </option>
+                        {% endif %} >
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-7 col-sm-offset-2 form-botons">
+                <div class="row">
+                     <div class="form-boto col-xs-5">
+                        <input type="submit" class="bt-basic bt-basic-vermell-fosc" value="Cerca"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="search-samples caixa-gris" id="search-samples-area" style="cursor: pointer;width:100%">
+    <a class="show-samples" >Feu clic per a veure exemples de cerca <span class="fa fa-info-circle"></span></a>
+    <ul id="search-samples" style="display: none; text-align:left">
+        <li>
+            "<a data-search="source='Audio+file'">Audio file</a>"
+            - Cerca el text complet com una cadena (exemple de cerca en anglès)
+        </li>
+        <li>
+            <a data-search="source=Audio OR music">Audio OR music</a>
+            - Cerca cadenes amb el terme «audio» o bé «music» (exemple de cerca en anglès)
+        </li>
+        <li>
+            <a data-search="source=Audio+NOT+music">Audio NOT music</a>
+            - Cerca cadenes amb el terme «audio» però sense «music» (exemple de cerca en anglès)</li>
+        <li>
+            <a data-search="target=entrellaça*">entrellaça*</a>
+            - Cerca cadenes amb paraules que comencin per «entrellaça» (exemple de cerca en català)
+        </li>
+        <li>
+            <a data-search="source=File&amp;target=arxiu">file arxiu</a>
+            - Cerca cadenes que en anglès conten «file» i en català han estat traduïdes per «arxiu» (exemple de cerca en anglès i català)
+        </li>
+    </ul>
+</div>
+<p>
+    Darrera actualització: {{ index.date }}. Inclou {{ index.projects}} projectes amb un total de {{ index.words | number_format(0, ',', '.') }} paraules.
+</p>
+<div id="search-results" style="display: none"></div>
+<div id="show-more" style="display: none">
+    <a href="#">Mostra més resultats</a>
+</div>
