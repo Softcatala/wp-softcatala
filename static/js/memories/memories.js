@@ -127,8 +127,12 @@ function print_results(results) {
                     <td>Projecte</td>
                     <td>${r.project}</td>
                     </tr>`;
-        comments = r.context ?
+        comments = r.comment ?
             `<tr style="font-size:0.9em"><td>Comentaris:</td><td>${r.comment}</td></tr>` :
+            '';
+
+        context = r.context ?
+            `<tr style="font-size:0.9em"><td>Context:</td><td>${r.context}</td></tr>` :
             '';
 
         source = `<tr>
@@ -144,7 +148,7 @@ function print_results(results) {
             <div class="single-result">
                 <table class="table table-bordered taula-2col" style="margin:10px">
                     <tbody>
-                       ${project}${comments}${source}${target}
+                       ${project}${comments}${context}${source}${target}
                     </tbody>
                 </table>
             </div>
