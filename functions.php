@@ -370,6 +370,7 @@ class StarterSite extends TimberSite {
 		$twig->addFilter( new Twig_Filter( 'truncate_words', 'sc_truncate_words' ) );
 		$twig->addFilter( new Twig_Filter( 'print_definition', 'print_definition' ) );
 		$twig->addFilter( new Twig_Filter( 'clean_number', 'clean_number' ) );
+		$twig->addFilter( new Twig_filter( 'home_thumb', 'home_thumb' ) );
 
 		return $twig;
 	}
@@ -523,7 +524,7 @@ function sc_truncate_words( $string, $size ) {
 }
 
 /**
- * Removees useless decimal 0
+ * Removes useless decimal 0
  *
  * @param string $n number to clean.
  *
@@ -532,6 +533,25 @@ function sc_truncate_words( $string, $size ) {
 function clean_number( $n ) {
 	return str_replace( ',00', '', $n );
 }
+
+/**
+ * Creates home thumbnail style
+ *
+ * @param string $img img for background.
+ *
+ * @return string
+ */
+function home_thumb( $original ) {
+
+	$img = \Timber\ImageHelper::resize( $original, 370, 150 );
+
+	$style = <<<STYLE
+	background: url("$img") no-repeat center left #eae8e8; height: 150px; margin-bottom: 70px;
+STYLE;
+
+	return $style;
+}
+
 
 /**
  * Twig function specific for Diccionari multilingüe
