@@ -11,17 +11,19 @@
         <div class="container-fluid">
           <!-- .recursos-serveis  -->
           <section class="contingut-section recursos-serveis">
-            {% include "static/recursos-home.twig" %}
+            <h3>Recursos i serveis</h3>
+            <h1>Viure i treballar en català</h1>
+            <div class="row">
+              {% include "home/recursos.twig" %}
 
-            {% include "programari-home.twig" %}
-            
-
+              {% include "home/programari.twig" %}
+            </div><!--/.row  -->
           </section><!--/.recursos-serveis -->
         </div><!--/.container-fluid -->
       </div><!--/.wrap-blanc -->
 
-      {% include "static/qui-som-home.twig" %}
-      {% include "static/voleu-ajudar-home.twig" %}
+      {% include "home/qui-som.twig" %}
+      {% include "home/voleu-ajudar.twig" %}
       
 
       <!-- .wrap-blanc -->
@@ -33,9 +35,9 @@
           <section class="contingut-section actualitat">
             <h3>Actualitat</h3>
             <div class="row">
-              {% include "noticies-home.twig" %}
+              {% include "home/noticies.twig" %}
 
-              {% include "podcasts-home.twig" %}
+              {% include "home/podcasts.twig" %}
             </div><!--/.row -->
           </section><!--/.actualitat -->
 

@@ -1,0 +1,17 @@
+{% if recursos %}
+
+    <!-- .home-thumbs  -->
+    <div class="home-thumbs col-md-12 col-lg-8">
+      <div class="row">
+        {% for recurs in recursos %}
+        <div class="col-xxs-12 col-xs-6 col-sm-6">
+          <a href="{{ recurs.link }}" title="{{ recurs.title | striptags }}" style="{{ recurs.image | home_thumb }}">
+            <h2>{{ recurs.title }}</h2>
+            <p>{{ recurs.description }}</p>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div><!--/.home-thumbs  -->
+
+{% endif %}
