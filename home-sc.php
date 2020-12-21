@@ -37,7 +37,7 @@ $context['recursos'] = array(
 	),
 	array(
 		"link" => "/aparells/",
-		"title" => "Guia d'aparells<br />en català",
+		"title" => "Guia d'aparells <br />en català",
 		"description" => "Voleu saber quins mòbils i tauletes funcionen en català? Us n'informem en aquesta guia.",
 		"image" => "https://www.softcatala.org/themes/wp-softcatala/static/images/content/img-thumb-home-04.jpg"
 	)
