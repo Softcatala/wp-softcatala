@@ -546,7 +546,7 @@ function home_thumb( $original ) {
 	$img = \Timber\ImageHelper::resize( $original, 370, 150 );
 
 	$style = <<<STYLE
-	background: url("$img") no-repeat center left #eae8e8; height: 150px; margin-bottom: 70px;
+	background: url('$img') no-repeat center left #eae8e8; height: 150px; margin-bottom: 70px;
 STYLE;
 
 	return $style;
