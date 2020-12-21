@@ -541,9 +541,9 @@ function clean_number( $n ) {
  *
  * @return string
  */
-function home_thumb( $original ) {
+function home_thumb( $img ) {
 
-	$img = \Timber\ImageHelper::resize( $original, 370, 150 );
+	// $img: 370x150
 
 	$style = <<<STYLE
 	background: url('$img') no-repeat center left #eae8e8; height: 150px; margin-bottom: 70px;
