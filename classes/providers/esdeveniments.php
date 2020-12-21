@@ -20,7 +20,12 @@ class Esdeveniments {
 
 		global $wp_query;
 
-		$amount = ( $featured ) ? 3 : ( - 1 );
+		$amount = -1;
+
+		if ( $featured ) {
+			add_filter( 'posts_orderby', 'orderbyreplace' );
+			$amount = 3;
+		}
 
 		$base_args = array(
 			'meta_key'       => 'data_inici',
@@ -35,11 +40,19 @@ class Esdeveniments {
 			),
 		);
 
+		if ( $featured ) {
+			$base_args['meta_query'][] = get_meta_query_value( 'destacat', '0', '>=', 'NUMERIC' );
+		}
+
 		$args = wp_parse_args( $base_args, $wp_query->query );
 
-		query_posts( $args );
+		$posts = \Timber::get_posts( $args );
 
-		return \Timber::get_posts( $args );
+		if ( $featured ){
+			remove_filter( 'posts_orderby', 'orderbyreplace' );
+		}
+
+		return $posts;
 	}
 
 	private static function get_midnight() {
