@@ -1,0 +1,30 @@
+<!-- .podcasts -->
+<div class="podcasts col-xs-12 col-sm-6 col-md-3">
+  <h2>Podcasts</h2>
+    <!-- .row -->
+    {% if podcasts %}
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            {% for podcast in podcasts %}
+              <div class="thumbnail thumbnail-galeria">
+                <a href="{{podcast.link}}" title="{{podcast.title}}">
+                  {% if podcast.thumbnail.src %}
+                    <img src="{{podcast.thumbnail.src|resize(270, 170, 'top')}}" alt="{{podcast.title}}">
+                  {% endif %}
+                  <p>{{podcast.title}}</p>
+                  <time class="data-temps">{{ podcast.post_date|date}}</time>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+      </div><!--/.row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <a href="/podcasts/" title="Més podcasts" class="bt-basic">Més podcasts</a>
+        </div>
+      </div>
+    {% else %}
+    No hi ha cap podcast
+  {% endif %}
+</div>
+<!--/.podcasts -->
