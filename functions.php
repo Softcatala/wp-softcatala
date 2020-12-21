@@ -41,7 +41,6 @@ class StarterSite extends TimberSite {
 
 	function __construct() {
 		if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
-			add_theme_support( 'post-formats' );
 			add_theme_support( 'post-thumbnails' );
 			add_theme_support( 'menus' );
 			add_theme_support( 'title-tag' );

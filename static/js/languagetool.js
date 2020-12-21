@@ -198,7 +198,9 @@ function dochecktext() {
     }
     //alert(langCode + " " + userOptions);
     tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
-  } 
+  } else {
+    enableRevisa();
+  }
 }
 
 function dooptions() {
