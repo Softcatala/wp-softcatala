@@ -72,7 +72,7 @@ class StarterSite extends TimberSite {
 		} );
 		add_action( 'init', array( $this, 'sc_rewrite_search' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
-		add_action( 'init', array( $this, 'register_editors' ) );
+		add_action( 'admin_head', array( $this, 'register_editors' ) );
 		add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
 		add_action( 'init', array( $this, 'sc_author_rewrite_base' ) );
 		add_action( 'template_redirect', array( $this, 'fix_woosidebar_hooks' ), 1 );
