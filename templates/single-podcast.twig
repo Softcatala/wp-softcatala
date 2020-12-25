@@ -31,7 +31,14 @@
                     </div>
                     <div class="col-md-4">
                       <div class="data" style="margin-top:100px;font-variant: all-small-caps;font-weight: bold;text-align: center;font-size: 1.2em;">
-                          <div>Temporada {{ post.episode_season }} - Episodi {{ post.episode_number }}</div>
+                          <div>
+                              Temporada {{ post.episode_season }}
+                              {% if post.episode_type == 'full' %}
+                              - Episodi {{ post.episode_number }}
+                              {% elseif post.episode_type == 'bonus' %}
+                              - Extra
+                              {% endif %}
+                          </div>
                           <time itemprop="dateCreated" datetime="{{post.post_date|date('Y-m-j')}}">
                               {{post.post_date|date}}
                           </time>
