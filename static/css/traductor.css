@@ -1,36 +1,18 @@
-.alert-neuronal {
-    padding: 25px;
-    margin-bottom: 10px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color:#faebcc;
-    
+  #message_info{
+    padding: 10px 25px !important;
   }
-  .alert-neuronal h4 {
-    margin-top: 0;
-    color: inherit;
+
+  #translate_file{
+    margin-top:20px;
   }
-  .alert-neuronal .alert-link {
-    font-weight: bold;
-    color: #8a6d3b !important;
+
+  #info{
+    display:none;
   }
-  .alert-neuronal > p,
-  .alert-neuronal > ul {
-    margin-bottom: 0;
+  #error{
+    display:none;
   }
-  .alert-neuronal > p + p {
-    margin-top: 5px;
-  }
-  .alert-dismissable,
-  .alert-dismissible {
-    padding-right: 35px;
-  }
-  .alert-dismissable .close,
-  .alert-dismissible .close {
-    position: relative;
-    top: -2px;
-    right: -21px;
-    color: inherit;
+
+  #message_info{
+    display:none;
   }

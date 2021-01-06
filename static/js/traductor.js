@@ -11,6 +11,7 @@
  */
 
 var traductor_json_url = "https://www.softcatala.org/api/traductor/translate";
+var neuronal_json_url = "https://www.softcatala.org/sc/v2/api/nmt-engcat";
 
 var SC_TRADUCTOR_COOKIE = 'sc-traductor';
 
@@ -115,7 +116,7 @@ jQuery(document).ready(function(){
         }
 
         timer = setTimeout(function () {
-            if(jQuery('#auto-trad').is(':checked')) {
+            if((jQuery('#auto-trad').is(':checked')) && (!neuronalApp.isActive())){
                 jQuery('#auto-trad').data('translating', true);
                 translateText();
             }
@@ -332,15 +333,37 @@ function translateText() {
 
         jQuery.setMetaCookie('source-lang', SC_TRADUCTOR_COOKIE, origin_language);
         jQuery.setMetaCookie('target-lang', SC_TRADUCTOR_COOKIE, target_language);
+  
+        if (neuronalApp.isActive()){
+              
+           languages = langpair.replace("|", "-");
+           languages = languages.replace("en", "eng");
+           var savetext = false;
 
-        $.ajax({
-            url:traductor_json_url,
-            type:"POST",
-            data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'NmQ3NmMyNThmM2JjNWQxMjkxN2N'},
-            dataType: 'json',
-            success : trad_ok,
-            failure : trad_ko
-        });
+           if (jQuery('#log_traductor_source:checked').length)
+                savetext = true;
+            
+            $.ajax({
+                type: "POST",
+                url: neuronal_json_url + `/translate/`,
+                async: false,
+                data: JSON.stringify({ 'text': text, 'languages':languages,'savetext':savetext }),
+                contentType: "application/json",
+                success : neuronalApp.process_result,
+                error : trad_ko
+            });
+
+        }else{
+
+            $.ajax({
+                url:traductor_json_url,
+                type:"POST",
+                data : {'langpair':langpair,'q':text,'markUnknown':muk,'key':'NmQ3NmMyNThmM2JjNWQxMjkxN2N'},
+                dataType: 'json',
+                success : trad_ok,
+                failure : trad_ko
+            });
+        }
 
         return false;
     } else {
@@ -359,10 +382,29 @@ jQuery('#traductor-neteja').click(function() {
 });
 
 function trad_ok(dt) {
+
     if(dt.responseStatus==200) {
         
         rawText = dt.responseData.translatedText;
-        
+        update_result(rawText);
+
+    } else {
+        trad_ko();
+    }
+}
+
+function trad_ko(dt) {
+    //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
+    var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
+    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
+    jQuery('#error_title').html(error_title);
+    jQuery('#error_description').html(error_txt);
+    jQuery('#error_pagina').trigger('click');
+}
+
+
+function update_result(rawText){
+
         encodedText = jQuery('<div/>').text(rawText).html();
 
         translation = nl2br(encodedText);
@@ -379,18 +421,7 @@ function trad_ok(dt) {
                 scrollTop: jQuery(".second-textarea").offset().top
             }, 2000);
         }
-    } else {
-        trad_ko();
-    }
-}
 
-function trad_ko(dt) {
-    //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
-    var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
-    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
-    jQuery('#error_title').html(error_title);
-    jQuery('#error_description').html(error_txt);
-    jQuery('#error_pagina').trigger('click');
 }
 
 /* This function just calls the translation */
@@ -416,13 +447,13 @@ function toggle_formes_valencianes(status) {
 
 function set_origin_language( language ) {
     jQuery('#origin_language').val(language);
-    show_neuronal_info();
+    neuronalApp.show_neuronal();
     
 }
 
 function set_target_language ( language ) {
     jQuery('#target_language').val(language);
-    show_neuronal_info();
+    neuronalApp.show_neuronal();
 }
 
 function set_origin_button ( language ) {
@@ -509,23 +540,272 @@ function exchange_texts() {
     jQuery('.primer-textarea').val(translation_text.replace(/<(?:.|\n)*?>/gm, ''));
 }
 
-function show_neuronal_info(){
-   
-    var origin_lang  = jQuery('#origin_language').val();
-    var target_lang = jQuery('#target_language').val();
+/** End functions related to language pairs change **/
+
+
+/* Start with neuronal app functions */
+
+var neuronalApp = (function () {
+
+    var initEventsDoom = function () {
+
+        jQuery('#message_info').hide();
+
+        jQuery('input[type=radio][name=rneuronal]').change(function() {    
+            if (jQuery("#rneuronal").is(':checked')) 
+                show_neuronal_menu();      
+            else    
+                hide_neuronal_menu();          
+        });
+
+        document.querySelector('#message_info' + '> button').addEventListener('click', function (e) {
+            jQuery('#message_info').hide('slow');
+        });
+
+        document.querySelector('#error' + '> button').addEventListener('click', function (e) {
+            jQuery('#error').hide('slow');
+        });
+
+        document.querySelector('#info' + '> button').addEventListener('click', function (e) {
+            jQuery('#info').hide('slow');
+        });
+        document.querySelector('#translate_file').addEventListener('click', function (e) {
+
+           if (!validateEmail(document.querySelector('#n_email').value)) {
+
+                display_error('Reviseu la vostra adreça electrònica.');
+                document.querySelector('#n_email').focus();
+
+            } else if (!document.querySelector('#n_file').files[0]) {
+
+                display_error('Cal que trieu un fitxer del vostre ordinador.');
+                document.querySelector('#n_file').focus();
+
+            } else if (document.querySelector('#n_file').files[0].size > 256000) {
+
+                display_error('La mida màxima és de 256Kb. El vostre fitxer ocupa ' + returnFileSize(document.querySelector('#n_file').files[0].size) + '.')
+                document.querySelector('#n_file').focus();
+
+            } else {
+      
+                document.querySelector('#translate_file').innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
+                
+                var translation = {
+                    file: document.querySelector('#n_file').files[0],
+                    email: document.querySelector('#n_email').value,
+                    model_name: document.querySelector('#n_model_name').value
+                }
+                
+                translate_file(translation);
+                
+            }
+        
+        });
+
+
+    }
+ 
+    /* Check is neuronal is currently active */
+    var isActive = function (){
+
+        var origin_language = jQuery('#origin_language').val();
+        var target_language = jQuery('#target_language').val();
+        var rneuronalchecked = jQuery("#rneuronal").is(':checked');
+
+        if (((origin_language == 'en') || (target_language == 'en')) & rneuronalchecked)
+            return true;
+        else
+            return false;
     
-    if (origin_lang == 'en'){
-        jQuery('#info-neuronal').removeClass('hidden');
-        jQuery('#info-neuronal').show();
-    }else if (target_lang == 'en'){
-        jQuery('#info-neuronal').removeClass('hidden');
-        jQuery('#info-neuronal').show();
-    }else{
-        jQuery('#info-neuronal').hide();
+    }
+    /* Decide to show or not neuronal app */
+    var show_neuronal = function (){
+
+        var origin_lang  = jQuery('#origin_language').val();
+        var target_lang = jQuery('#target_language').val();
+        var rneuronalchecked = jQuery("#rneuronal").is(':checked');
+        
+        if ((origin_lang == 'en') || (target_lang == 'en')){
+        
+            // Show radiobuttons for neuronal vs apertium
+            jQuery('#panel-radioneuronal').removeClass('hidden');
+            jQuery('#panel-radioneuronal').show();
+    
+            if (rneuronalchecked){       
+                show_neuronal_menu();
+            }else{
+                hide_neuronal_menu();
+            }
+      
+        }else{
+    
+            // Hide radiobuttons
+            jQuery('#panel-radioneuronal').hide();
+            jQuery('#info-neuronal').hide();
+    
+            // Hide neuronal widgets
+            jQuery('.english').hide();
+            toggle_mark_unknown('on');
+            toggle_formes_valencianes('on');
+            toggle_autotrad('on');
+        }
+        
+    
     }
     
+    /* Show neuronal options */
+    var show_neuronal_menu = function (){
+
+        jQuery('.neuronal').removeClass('hidden');
+        jQuery('.neuronal').show();
+        toggle_mark_unknown('off');
+        toggle_formes_valencianes('off');
+        toggle_autotrad('off');
+    
+    }
+    /* Hide neuronal options */
+    var hide_neuronal_menu = function (){
+
+        toggle_mark_unknown('on');
+        toggle_autotrad('on');
+        jQuery('.neuronal').hide();
+        jQuery('#message_info').hide();
+
+    
+    }
+
+    var process_result = function(translation){
+        /* Global function to show translation */
+        update_result(translation.translated);
+
+        if (translation.message){
+            jQuery('#message_info').removeClass('hidden');
+            jQuery('#message_info').show('slow');
+            jQuery('#message').html(translation.message);
+        }
+    }
+
+    var display_error = function(msg){
+
+            jQuery('#translate_file').html("Demaneu traducció");
+            jQuery('#info').hide();
+            jQuery('#error').removeClass('hidden');
+            jQuery('#errormessage').html(msg);
+            jQuery('#error').show('slow');
+    }
+
+    var display_ok_file = function(){
+
+            jQuery('#translate_file').html("Demaneu traducció");
+            jQuery('#error').hide();
+            jQuery('#info').removeClass('hidden');
+            jQuery('#info').show('slow');
+            jQuery('#n_email').val('');
+            jQuery('#n_file').val('');
+
+    }
+    var translate_file = function(translation){
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState != 4) {
+                    return;
+                }
+                if (xmlHttp.status == 200) {
+                    display_ok_file();
+                }
+                else {
+                    json = JSON.parse(xmlHttp.responseText);
+                    displayError(json['error']);
+                }
+            }
+    
+    
+            url = neuronal_json_url + `/translate_file/`;
+    
+            var formData = new FormData();
+            formData.append("email", translation.email);
+            formData.append("model_name", translation.model_name);
+            formData.append("file", translation.file);
+            formData.append("savetext", translation.savetext);
+            xmlHttp.open("post", url);
+            xmlHttp.send(formData);
+    }
+
+
+    /* Helper functions */
+    var validateEmail = function (email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    var returnFileSize = function (number) {
+        if (number < 1024) {
+            return number + 'bytes';
+        } else if (number >= 1024 && number < 1048576) {
+            return (number / 1024).toFixed(1) + 'KB';
+        } else if (number >= 1048576) {
+            return (number / 1048576).toFixed(1) + 'MB';
+        }
+    }
+
+    
+return {
+
+    init: function () {
+        initEventsDoom();
+    },
+    
+    isActive: function(){
+        return isActive();
+    },
+    show_neuronal: function (){
+        show_neuronal();
+    },
+    show_neuronal_menu: function(){
+        show_neuronal_menu();
+    },
+    hide_neuronal_menu: function(){
+        hide_neuronal_menu();
+    },
+    process_result: function(translation){
+        process_result(translation)
+    }
+
 }
-/** End functions related to language pairs change **/
+
+})();
+
+neuronalApp.init();
+
+// Toggle functions for panel
+
+function toggle_mark_unknown(status) {
+    if ( status == 'on' ) {
+        //Enable 'formes valencianes' checkbox
+        jQuery('#mark_unknown').removeAttr('disabled');
+        jQuery('#mark_unknown_label').css( "color", "#333" );
+    } else {
+        //Disable 'formes valencianes' checkbox
+        jQuery('#mark_unknown').attr('disabled', 'disabled');
+        jQuery('#mark_unknown_label').css( "color", "#AAA" );
+    }
+}
+
+function toggle_autotrad(status) {
+    if ( status == 'on' ) {
+        //Enable 'formes valencianes' checkbox
+        jQuery('#auto-trad').removeAttr('disabled');
+        jQuery('#tradueix_online_label').css( "color", "#333" );
+    } else {
+        //Disable 'formes valencianes' checkbox
+        jQuery('#auto-trad').attr('disabled', 'disabled');
+        jQuery('#tradueix_online_label').css( "color", "#AAA" );
+    }
+}
+
+
+/* End with neuronal app */
+
 
 var $clipBoard = new Clipboard('#copy-text', {
     text: function(trigger) {
