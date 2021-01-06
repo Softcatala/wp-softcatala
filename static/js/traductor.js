@@ -336,21 +336,19 @@ function translateText() {
   
         if (neuronalApp.isActive()){
               
-           languages = langpair.replace("|", "-");
-           languages = languages.replace("en", "eng");
            var savetext = false;
 
            if (jQuery('#log_traductor_source:checked').length)
                 savetext = true;
             
-            $.ajax({
-                type: "POST",
-                url: neuronal_json_url + `/translate/`,
-                async: false,
-                data: JSON.stringify({ 'text': text, 'languages':languages,'savetext':savetext }),
-                contentType: "application/json",
-                success : neuronalApp.process_result,
-                error : trad_ko
+            
+           $.ajax({
+                url:neuronal_json_url + `/translate/`,
+                type:"POST",
+                data : {'langpair':langpair,'q':text,'savetext':savetext},
+                dataType: 'json',
+                success : trad_ok,
+                failure : trad_ko
             });
 
         }else{
@@ -386,25 +384,16 @@ function trad_ok(dt) {
     if(dt.responseStatus==200) {
         
         rawText = dt.responseData.translatedText;
-        update_result(rawText);
 
-    } else {
-        trad_ko();
-    }
-}
+        /* Message from neuronal engine */ 
+        infoText = dt.responseData.message;
 
-function trad_ko(dt) {
-    //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
-    var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
-    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
-    jQuery('#error_title').html(error_title);
-    jQuery('#error_description').html(error_txt);
-    jQuery('#error_pagina').trigger('click');
-}
-
-
-function update_result(rawText){
-
+        if (infoText){
+            jQuery('#message_info').removeClass('hidden');
+            jQuery('#message_info').show('slow');
+            jQuery('#message').html(infoText);            
+        }
+        
         encodedText = jQuery('<div/>').text(rawText).html();
 
         translation = nl2br(encodedText);
@@ -422,6 +411,18 @@ function update_result(rawText){
             }, 2000);
         }
 
+    } else {
+        trad_ko();
+    }
+}
+
+function trad_ko(dt) {
+    //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
+    var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
+    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
+    jQuery('#error_title').html(error_title);
+    jQuery('#error_description').html(error_txt);
+    jQuery('#error_pagina').trigger('click');
 }
 
 /* This function just calls the translation */
