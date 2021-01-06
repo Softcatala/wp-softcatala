@@ -386,7 +386,7 @@ function trad_ok(dt) {
         rawText = dt.responseData.translatedText;
 
         /* Message from neuronal engine */ 
-        infoText = dt.responseData.message;
+        infoText = dt.message;
 
         if (infoText){
             jQuery('#message_info').removeClass('hidden');
