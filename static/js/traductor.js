@@ -645,7 +645,7 @@ var neuronalApp = (function () {
             jQuery('#info-neuronal').hide();
     
             // Hide neuronal widgets
-            jQuery('.english').hide();
+            jQuery('.neuronal').hide();
             toggle_mark_unknown('on');
             toggle_formes_valencianes('on');
             toggle_autotrad('on');
