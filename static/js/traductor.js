@@ -333,6 +333,8 @@ function translateText() {
 
         jQuery.setMetaCookie('source-lang', SC_TRADUCTOR_COOKIE, origin_language);
         jQuery.setMetaCookie('target-lang', SC_TRADUCTOR_COOKIE, target_language);
+
+        document.querySelector('#translate').innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
   
         if (neuronalApp.isActive()){
               
@@ -380,6 +382,8 @@ jQuery('#traductor-neteja').click(function() {
 });
 
 function trad_ok(dt) {
+
+    document.querySelector('#translate').innerHTML = "Tradueix";
 
     if(dt.responseStatus==200) {
         
