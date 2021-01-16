@@ -415,7 +415,7 @@ XBT:(.+),(.+) $(\\2mm: bitcoin, bitcoins, de bitcoins, satoshi, satoshis, \\1) #
 == collective ==
 2 parell, parella o duo
 3 tern, terna, tercet, trio, tríada o treset
-4 qüern, tètrada, quartet, quatreta o quàdruple
+4 qüern, tètrada, quartet, quarteta o quàdruple
 5 quintern, quintet, cinquet o quíntuple
 6 sextet, siset o sèxtuple
 7 septet, setet o sèptuple
