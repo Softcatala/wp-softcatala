@@ -374,7 +374,7 @@ function dooptions() {
     var output_text = document.querySelector('#output_text');
     var bb = new Blob([output_text.textContent], {type: MIME_TYPE});
     var a = document.createElement('a');
-    a.download = "languagetool-ooo.cfg"; 
+    a.download = "Languagetool.cfg"; 
     a.href = window.URL.createObjectURL(bb);
     a.textContent = 'Baixa la configuració com a fitxer';
     a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
