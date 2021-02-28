@@ -6,7 +6,8 @@ function get_time_campanar_tradicional(hour, minute) {
     if (minute > 6)
         hour = hour + 1;
 
-    if (minute == 0 || minute == 1) return get_article(hour) + " " + get_hour(hour) + " en punt";
+    if (minute == 0) return get_article(hour) + " " + get_hour(hour) + " en punt";
+    if (minute == 1) return get_article(hour) + " " + get_hour(hour);
     if (minute == 2 || minute == 3 || minute == 4) return get_article(hour) + " " + get_hour(hour) + " " + get_tocades(hour);
     if (minute == 5 || minute == 6) return get_article(hour) + " " + get_hour(hour) + " ben " + get_tocades(hour);
     if (minute == 7 || minute == 8) return "Mig quart " + get_de(hour) + get_hour(hour);
@@ -337,7 +338,7 @@ function speak_text(id, element) {
     hash = md5(text).substring(0, 8);
     
     document.getElementById(element).disabled = true;
-    url = `https://www.softcatala.org/veu/speak/?text=${text}&token=${hash}`;
+    url = `https://api.softcatala.org/tts-service/v1/speak/?text=${text}&token=${hash}`;
     aud = new Audio(url)
 
     aud.onended = function() {

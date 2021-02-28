@@ -177,7 +177,7 @@ function speak_text(id, element) {
     hash = md5(text).substring(0, 8);
     
     document.getElementById(element).disabled = true;
-    url = `https://www.softcatala.org/veu/speak/?text=${text}&token=${hash}`;
+    url = `https://api.softcatala.org/tts-service/v1/speak/?text=${text}&token=${hash}`;
     aud = new Audio(url)
 
     aud.onended = function() {
