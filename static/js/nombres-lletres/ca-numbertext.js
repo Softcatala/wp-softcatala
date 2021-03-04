@@ -433,7 +433,7 @@ XBT:(.+),(.+) $(\\2mm: bitcoin, bitcoins, de bitcoins, satoshi, satoshis, \\1) #
 3 trienni
 4 quadrienni
 5 quinquenni o lustre
-6 sesenni
+6 sexenni
 7 septenni
 10 dècada o decenni
 12 duodecenni
