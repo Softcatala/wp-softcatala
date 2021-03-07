@@ -140,6 +140,7 @@ tinyMCE.init({
      as the text form, make sure the server gets started with '--allow-origin ...' 
      and use 'https://your-server/v2/check' as URL: */
   languagetool_rpc_url: "/languagetool/api/v2/check",
+  //languagetool_rpc_url: "https://www.softcatala.org/languagetool/api/v2/check",
   /* edit this file to customize how LanguageTool shows errors: */
   languagetool_css_url: "/themes/wp-softcatala/inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
   /* this stuff is a matter of preference: */
@@ -198,6 +199,10 @@ function dochecktext() {
     }
     //alert(langCode + " " + userOptions);
     tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode, userOptions);
+    // Actualizem mètriques
+    mostraMetriques(tinyMCE.activeEditor.getContent({ format: "text" }));
+
+
   } else {
     enableRevisa();
   }
@@ -463,4 +468,30 @@ function update_enabled_rules() {
         document.getElementById("municipi_nom_valencia").disabled = false;
         document.getElementById("municipi_nom_oficial").disabled = false;
     }
+}
+
+
+function mostraMetriques(text){
+
+  jQuery('.resultatmetriques').html('');
+
+  jQuery.ajax({
+    url: "https://api.softcatala.org/style-checker/v1/metrics",
+    type:"GET",
+    data : {'text':text},
+    dataType: 'json',
+    success : function(a){
+        //console.log(a.metrics);
+        for (const metrica in a.metrics){
+          jQuery('.resultatmetriques').append(metrica+':'+a.metrics[metrica]+" ");
+        }
+        jQuery('.metriques').show();
+      
+    },
+    failure : function(){
+        jQuery('.metriques').hide();
+    }
+  });
+
+
 }

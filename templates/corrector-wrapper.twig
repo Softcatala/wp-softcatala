@@ -1,3 +1,17 @@
+
+<style>
+.metriques{
+    padding-left:16px;
+    line-height:1;
+    margin:0;
+    display:none;
+}
+.metriques p{
+    font-size:12px;
+    line-height:1.5;
+    margin:0;
+}
+</style>
 <div class="corrector-textarea form-group">
   <div class="col-xs-12">
 <!-- .btns-corrector -->
@@ -25,6 +39,8 @@
 </div><!--/.btns-corrector -->
 <div id="feedbackErrorMessage"></div>
 <!-- comença el formulari -->
+
+
 <div class="textcorrectorgram">
 
   <div id="navii">
@@ -33,13 +49,18 @@
   </p>
   <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
   </div>
-
+  <div class="metriques">
+  <p><b>Mètriques</b></p>
+  <p class="resultatmetriques"></p>
+  </div>
+  
 </div>
 </div>
 </div>
 
 <div class="traductor-checkbox form-group">
-  <div class="col-sm-12">
+
+    <div class="col-sm-12">
     <div class="checkbox checkbox-corrector">
         <a id="text_prova" href="#">Text de prova</a>&nbsp;&nbsp;<a id="clear_text" href="#">Esborra el text</a>
 	  <label class="checkbox-inline">
