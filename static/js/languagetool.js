@@ -473,7 +473,9 @@ function update_enabled_rules() {
 
 function mostraMetriques(text){
 
-  jQuery('.resultatmetriques').html('');
+  jQuery('#resultatmetriques').html('');
+  jQuery('#metriques-col1').html('');
+  jQuery('#metriques-col2').html('');
 
   jQuery.ajax({
     url: "https://api.softcatala.org/style-checker/v1/metrics",
@@ -481,15 +483,30 @@ function mostraMetriques(text){
     data : {'text':text},
     dataType: 'json',
     success : function(a){
+        col1 = true;
         //console.log(a.metrics);
         for (const metrica in a.metrics){
-          jQuery('.resultatmetriques').append(metrica+':'+a.metrics[metrica]+" ");
+          jQuery('#resultatmetriques').append(a.metrics[metrica].name +':'+a.metrics[metrica].score +" ");
+          
+          str = `${a.metrics[metrica].name}: <span>${a.metrics[metrica].score}</span><br> `;
+          
+          if (col1 === true){ 
+              jQuery('#metriques-col1').append(str);
+              col1 = false;
+          }else{
+              jQuery('#metriques-col2').append(str);
+              col1 = true;
+          }
+
+          
         }
-        jQuery('.metriques').show();
+        jQuery('#metriques').show();
+        jQuery('#metriques-lat').show();
       
     },
     failure : function(){
-        jQuery('.metriques').hide();
+        jQuery('#metriques').hide();
+        jQuery('#metriques-lat').hide();
     }
   });
 

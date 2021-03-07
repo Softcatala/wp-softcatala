@@ -1,16 +1,41 @@
 
 <style>
-.metriques{
+
+/* Estils caixa sota textbox */
+#metriques{
     padding-left:16px;
     line-height:1;
     margin:0;
     display:none;
 }
-.metriques p{
+
+#metriques p{
     font-size:12px;
+    font-weight:normal;
     line-height:1.5;
     margin:0;
 }
+/* Línia sepadadora caixa */
+#sep-stats{
+    margin:0;
+    margin-bottom: 10px;
+}
+
+/* Estils caixa lateral */
+#metriques-lat{
+    font-weight:bold;
+    font-size:12px;
+    display:none;
+    
+}
+#metriques-lat span{
+    font-weight:normal;
+    font-size:12px;
+    
+}
+
+
+
 </style>
 <div class="corrector-textarea form-group">
   <div class="col-xs-12">
@@ -49,9 +74,9 @@
   </p>
   <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
   </div>
-  <div class="metriques">
+  <div id="metriques">
   <p><b>Mètriques</b></p>
-  <p class="resultatmetriques"></p>
+  <p id="resultatmetriques"></p>
   </div>
   
 </div>
