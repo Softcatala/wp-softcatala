@@ -369,7 +369,7 @@ function dooptions() {
         "disabledCategories.ca-ES-valencia=" + disabledCategories.join() + "\n"
         );
 
-    userOptions=""; 
+    userOptions="&level=picky"; 
     if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
   langCode="ca-ES-valencia";
         if (disabledRules.join()) { userOptions += "&disabledRules=" + disabledRules.join(); }
