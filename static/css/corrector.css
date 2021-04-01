@@ -1,0 +1,43 @@
+/* Estils afegit per a les mètriques */
+
+/* Estils caixa sota textbox */
+#metriques{
+    padding-left:16px;
+    line-height:1;
+    margin:0;
+    display:none;
+}
+
+#metriques p{
+    font-size:12px;
+    font-weight:normal;
+    line-height:1.5;
+    margin:0;
+    color: #777777;
+}
+#metriques p strong{
+    font-size:12px;
+    font-weight:bold;
+    line-height:1.5;
+    margin:0;
+    color: #777777;
+}
+
+/* Línia sepadadora caixa */
+#sep-stats{
+    margin:0;
+    margin-bottom: 10px;
+}
+
+/* Estils caixa lateral */
+#metriques-lat{
+    font-weight:bold;
+    font-size:12px;
+    display:none;
+    
+}
+#metriques-lat span{
+    font-weight:normal;
+    font-size:12px;
+    
+}

@@ -1,42 +1,3 @@
-
-<style>
-
-/* Estils caixa sota textbox */
-#metriques{
-    padding-left:16px;
-    line-height:1;
-    margin:0;
-    display:none;
-}
-
-#metriques p{
-    font-size:12px;
-    font-weight:normal;
-    line-height:1.5;
-    margin:0;
-}
-/* Línia sepadadora caixa */
-#sep-stats{
-    margin:0;
-    margin-bottom: 10px;
-}
-
-/* Estils caixa lateral */
-#metriques-lat{
-    font-weight:bold;
-    font-size:12px;
-    display:none;
-    
-}
-#metriques-lat span{
-    font-weight:normal;
-    font-size:12px;
-    
-}
-
-
-
-</style>
 <div class="corrector-textarea form-group">
   <div class="col-xs-12">
 <!-- .btns-corrector -->
@@ -74,9 +35,9 @@
   </p>
   <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
   </div>
-  <div id="metriques">
+  <div id="metriques" class="hidden-md hidden-lg">
   <p><b>Mètriques</b></p>
-  <p id="resultatmetriques"></p>
+  <p id="resultatmetriques" class="formes"></p>
   </div>
   
 </div>
@@ -87,7 +48,13 @@
 
     <div class="col-sm-12">
     <div class="checkbox checkbox-corrector">
-        <a id="text_prova" href="#">Text de prova</a>&nbsp;&nbsp;<a id="clear_text" href="#">Esborra el text</a>
+        <span id="copy-text" data-trigger="manual" data-placement="right" class="icon-inline">
+                <i class="fa fa-clipboard" aria-hidden="true"></i> Copia el text
+        </span>&nbsp;&nbsp;
+        <span id="clear_text" data-trigger="manual" data-placement="right" class="icon-inline">
+                              <i class="fa fa-eraser" aria-hidden="true"></i> Neteja
+        </span>&nbsp;&nbsp;
+        <a id="text_prova" href="#">Text de prova</a>&nbsp;&nbsp;
 	  <label class="checkbox-inline">
 	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Més opcions<br/><br/>
 	      </label>
