@@ -2,26 +2,35 @@
 
 /* Estils caixa sota textbox */
 #metriques{
-    padding-left:16px;
+    padding: 7px 25px 14px 15px;
     line-height:1;
     margin:0;
     display:none;
+    background-color: #f8f8f8;
 }
-
 #metriques p{
     font-size:12px;
-    font-weight:normal;
-    line-height:1.5;
     margin:0;
-    color: #777777;
+    color:#777777;
+    font-weight: bold;
 }
-#metriques p strong{
-    font-size:12px;
-    font-weight:bold;
-    line-height:1.5;
-    margin:0;
-    color: #777777;
+
+#resultatmetriques{
+    font-size:11px !important;
+    font-weight:normal !important;
+    color:black !important;
 }
+#significat{
+    
+    text-align: right;
+    color: #c43434;
+}
+#significat>a{
+    font-size: 8px;
+    
+}
+
+
 
 /* Línia sepadadora caixa */
 #sep-stats{
@@ -39,5 +48,14 @@
 #metriques-lat span{
     font-weight:normal;
     font-size:12px;
-    
+}
+
+#metriques-lat>p>a{
+    font-size: 8px;
+    text-align: right;
+    color: #c43434;
+}
+
+#metriques-lat>p>a:hover{
+    text-decoration: underline;
 }
