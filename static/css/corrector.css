@@ -9,14 +9,14 @@
     background-color: #f8f8f8;
 }
 #metriques p{
-    font-size:12px;
+    font-size:13px;
     margin:0;
     color:#777777;
     font-weight: bold;
 }
 
 #resultatmetriques{
-    font-size:11px !important;
+    font-size:12px !important;
     font-weight:normal !important;
     color:black !important;
 }
