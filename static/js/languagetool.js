@@ -519,7 +519,7 @@ function mostraMetriques(text){
         jQuery('#metriques-lat').show();
       
     },
-    failure : function(){
+    error : function(){
         jQuery('#metriques').hide();
         jQuery('#metriques-lat').hide();
     }
