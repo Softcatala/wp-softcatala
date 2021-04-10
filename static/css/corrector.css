@@ -20,6 +20,10 @@
     font-weight:normal !important;
     color:black !important;
 }
+#resultatmetriques>span{
+    margin-left:0.25rem;
+    margin-right:3.5rem;
+}
 #significat{
     
     text-align: right;
@@ -29,7 +33,11 @@
     font-size: 8px;
     
 }
-
+#msg-metriques{
+    font-size:12px !important;
+    font-weight:normal !important;
+    color:black !important;
+}
 
 
 /* Línia sepadadora caixa */
@@ -39,19 +47,32 @@
 }
 
 /* Estils caixa lateral */
-#metriques-lat{
-    font-weight:bold;
-    font-size:12px;
-    display:none;
-    
-}
-#metriques-lat span{
+#msg-metriques-lat{
     font-weight:normal;
-    font-size:12px;
+    font-size:13px;
 }
 
+.metriques-col span{
+    
+    font-weight:normal;
+    font-size:13px;
+
+}
+.metriques-col{
+    
+    font-weight:bold;
+    font-size:13px;
+
+}
+
+#metriques-lat{  
+    
+   display:none; 
+}
+
+
 #metriques-lat>p>a{
-    font-size: 8px;
+    font-size: 9px;
     text-align: right;
     color: #c43434;
 }

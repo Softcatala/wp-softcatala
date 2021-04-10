@@ -485,29 +485,35 @@ function mostraMetriques(text){
   jQuery('#resultatmetriques').html('');
   jQuery('#metriques-col1').html('');
   jQuery('#metriques-col2').html('');
+  jQuery('#msg-metriques').html('');
+  jQuery('#msg-metriques-lat').html('');
 
   jQuery.ajax({
     url: "https://api.softcatala.org/style-checker/v1/metrics",
-    type:"GET",
+    type:"POST",
     data : {'text':text},
     dataType: 'json',
     success : function(a){
         col1 = true;
         //console.log(a.metrics);
         for (const metrica in a.metrics){
-          jQuery('#resultatmetriques').append(''+a.metrics[metrica].name +':'+a.metrics[metrica].value +" ");
-          
-          str = `${a.metrics[metrica].name}:<span>${a.metrics[metrica].value}</span><br> `;
-          
-          if (col1 === true){ 
-              jQuery('#metriques-col1').append(str);
-              col1 = false;
-          }else{
-              jQuery('#metriques-col2').append(str);
-              col1 = true;
-          }
 
-          
+          if(metrica == "message"){
+              jQuery('#msg-metriques-lat').append(a.metrics[metrica]);
+              jQuery('#msg-metriques').append(a.metrics[metrica]);
+          }else{
+              jQuery('#resultatmetriques').append(''+a.metrics[metrica].name +':<span>'+a.metrics[metrica].value +"</span> ");
+              
+              str = `${a.metrics[metrica].name}: <span>${a.metrics[metrica].value}</span><br> `;
+              
+              if (col1 === true){ 
+                  jQuery('#metriques-col1').append(str);
+                  col1 = false;
+              }else{
+                  jQuery('#metriques-col2').append(str);
+                  col1 = true;
+              }
+          }
         }
         jQuery('#metriques').show();
         jQuery('#metriques-lat').show();
