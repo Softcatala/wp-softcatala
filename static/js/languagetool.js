@@ -8,7 +8,7 @@
 
 
 var regles_amb_radio = Array('opcio_general', 'incoatius', 'incoatius2', 'demostratius', 'accentuacio', 'concorda_dues', 
-   'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent', 'diacritics', 'pronom_se');
+   'municipis', 'variant', 'apostrof', 'guio', 'guiopera', 'interrogant', 'exclamacio', 'percent', 'hores', 'diacritics', 'pronom_se');
 var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'espais_blancs', 'prioritza_cometes', 'tres_punts', 'mostra_opcions');
 var langCode="ca-ES";
 var userOptions="";
@@ -236,6 +236,11 @@ function dooptions() {
     var typo_disabledRules = [];
     var typo_disabledCategories = [];
 
+    // deshabilita algunes regles del mode "picky"
+    typo_disabledRules.push("ESPAI_FI");
+    typo_disabledRules.push("ADVERBIS_MENT");
+    typo_disabledRules.push("TOO_LONG_SENTENCE");
+
     if (jQuery("input[name=opcio_general]:checked").val() == "criteris_gva") {
 
         disabledRules.push("PERCENT_SENSE_ESPAI","AL_INFINITIU","EVITA_INFINITIUS_INDRE","CA_SIMPLE_REPLACE_DNV");
@@ -332,6 +337,15 @@ function dooptions() {
         typo_enabledRules.push("PERCENT_AMB_ESPAI"); 
         typo_disabledRules.push("PERCENT_SENSE_ESPAI");};
     if (jQuery("input[name=percent]:checked").val() == "percent_indefinit") {typo_disabledRules.push("PERCENT_SENSE_ESPAI"); };
+    if (jQuery("input[name=hores]:checked").val() == "hores_punt") {
+        typo_enabledRules.push("PUNT_EN_HORES"); 
+        typo_disabledRules.push("DOSPUNTS_EN_HORES");};
+    if (jQuery("input[name=hores]:checked").val() == "hores_dospunts") {
+        typo_enabledRules.push("DOSPUNTS_EN_HORES"); 
+        typo_disabledRules.push("PUNT_EN_HORES");};
+    if (jQuery("input[name=hores]:checked").val() == "hores_indefinit") {
+        typo_disabledRules.push("DOSPUNTS_EN_HORES"); 
+        typo_disabledRules.push("PUNT_EN_HORES");};
     if (jQuery("input[name=tres_punts]:checked").val()) { typo_enabledRules.push("PUNTS_SUSPENSIUS"); };
     if (jQuery("input[name=prioritza_cometes]:checked").val()) { typo_enabledRules.push("PRIORITZAR_COMETES"); };
     //if (!jQuery("input[name=espais_blancs]:checked").val()) { typo_disabledRules.push("WHITESPACE_RULE"); };
