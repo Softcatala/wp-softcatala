@@ -11,7 +11,7 @@
  */
 
 var traductor_json_url = "https://www.softcatala.org/api/traductor/translate";
-var neuronal_json_url = "https://www.softcatala.org/sc/v2/api/nmt-engcat";
+var neuronal_json_url = "https://api.softcatala.org/v2/nmt";
 
 var SC_TRADUCTOR_COOKIE = 'sc-traductor';
 
