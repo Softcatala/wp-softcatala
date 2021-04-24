@@ -332,7 +332,9 @@ function dooptions() {
         typo_enabledRules.push("CA_UNPAIRED_EXCLAMATION"); 
         typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
     if (jQuery("input[name=exclamacio]:checked").val() == "exclamacio_indefinit") {typo_disabledRules.push("EVITA_EXCLAMACIO_INICIAL"); };
-    //if (jQuery("input[name=percent]:checked").val() == "percent_senseespai") {typo_enabledRules = typo_enabledRules + ",PERCENT_SENSE_ESPAI"; };
+    if (jQuery("input[name=percent]:checked").val() == "percent_senseespai") {
+        typo_enabledRules.push("PERCENT_SENSE_ESPAI"); 
+        typo_disabledRules.push("PERCENT_AMB_ESPAI");};
     if (jQuery("input[name=percent]:checked").val() == "percent_ambespai") {
         typo_enabledRules.push("PERCENT_AMB_ESPAI"); 
         typo_disabledRules.push("PERCENT_SENSE_ESPAI");};
