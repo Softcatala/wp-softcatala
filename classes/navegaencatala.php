@@ -19,7 +19,7 @@ class SC_NavegaEnCatala {
 	public function shortcode() {
 		$languageHeader = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 
-		echo <<<NAVEGA
+		$out = <<<NAVEGA
 		<div class="navega"><div class="navega-user-agent">$languageHeader</div></div>
 		<script>
 		 	document.addEventListener("DOMContentLoaded", function(event) {
@@ -36,8 +36,10 @@ class SC_NavegaEnCatala {
 				        }
 				    }
 				}
-			}
+			});
 		</script>
 NAVEGA;
+
+		return $out;
 	}
 }
