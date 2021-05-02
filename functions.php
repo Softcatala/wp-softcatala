@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '1.0.82' );
+define( 'WP_SOFTCATALA_VERSION', '1.0.87' );
 
 include ('php73.php');
 
@@ -97,6 +97,7 @@ class StarterSite extends TimberSite {
 
 	public function init_services() {
 		SC_Multilingue::init();
+		SC_NavegaEnCatala::init();
 		\Softcatala\Content\JsonToTable::init();
 	}
 

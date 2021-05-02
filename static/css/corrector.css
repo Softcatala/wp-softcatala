@@ -1,5 +1,7 @@
 /* Estils afegit per a les mètriques */
 
+
+
 /* Estils caixa sota textbox */
 #metriques{
     padding: 7px 25px 14px 15px;
@@ -19,11 +21,16 @@
     font-size:12px !important;
     font-weight:normal !important;
     color:black !important;
+    display:flex;
+    flex-wrap: wrap;
 }
-#resultatmetriques>span{
-    margin-left:0.25rem;
-    margin-right:2rem;
+
+.metrica{
+    padding-right:1.5rem;
+    white-space: pre-wrap;
 }
+
+
 #significat{
     
     text-align: right;
