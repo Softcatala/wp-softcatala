@@ -26,7 +26,7 @@ class SC_Sinonims {
 
 		$paraula = strtolower( $paraula );
 
-		$url_api = get_option( 'api_diccionari_sinonyms' );
+		$url_api = get_option( 'api_diccionari_sinonims' );
 		$url     = $url_api . 'search/' . $paraula;
 
 		$result = $this->rest_client->get( $url );
@@ -73,8 +73,8 @@ class SC_Sinonims {
 			$result_count = ( count( $result['results'] ) > 1 ) ? 'resultats' : 'resultat';
 			$result       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . count( $result['results'] ) . ' ' . $result_count . ') <hr class="clara"/>';
 
-
-			$canonical = '/diccionari-de-sinonims/paraula/' . $paraula . '/';
+			$canonical_lemma = isset($result['canonicalLemma']) ? $result['canonicalLemma'] : $paraula;
+			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
 			if ( isset($result['alternatives']) && count($result['alternatives']) > 1 ) {
 				$result .= Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result['alternatives'] ) );
@@ -90,7 +90,7 @@ class SC_Sinonims {
 				$result .= Timber::fetch( 'ajax/sinonims-paraula.twig', array( 'response' => $model ) );
 			}
 
-			return new SC_SinonimsResult( 200, $result, $canonical, $title, $content_title, $result );
+			return new SC_SinonimsResult( 200, $result, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}//end if
 
 		return $this->return404( $paraula );
