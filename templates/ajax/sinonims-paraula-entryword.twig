@@ -1,13 +1,12 @@
-{% if word.link %}
-    <a href="/diccionari-de-sinonims/paraula/{{ word.wordString }}">
-        {{ word.wordString }}
-        {% include 'ajax/sinonims-paraula-feminine.twig' with {'word': word.feminineForm } only %}
-    </a>
-{% else %}
-    {{ word.wordString }}
-    {% include 'ajax/sinonims-paraula-feminine.twig' with {'word': word.feminineForm } only %}
-{% endif %}
-{% if word.comment %}
+{% if word.link -%}
+	<a href="/diccionari-de-sinonims/paraula/{{ word.wordString }}">
+		{{- word.wordString -}}
+		{%- include 'ajax/sinonims-paraula-feminine.twig' with {'word': word.feminineForm } only -%}</a>
+{%- else -%}
+	{{ word.wordString -}}
+	{% include 'ajax/sinonims-paraula-feminine.twig' with {'word': word.feminineForm } only -%}
+{%- endif %}
+{%- if word.comment -%}
     (<i>{{ word.comment }}</i>)
-{% endif %}
+{%- endif -%}
 {% if not last %}, {% endif %}
