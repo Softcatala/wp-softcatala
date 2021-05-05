@@ -55,8 +55,8 @@ class SC_Sinonims {
 
 		$suggestions = array();
 
-		if ( isset( $result['alternatives'] ) ) {
-			return $result['alternatives'];
+		if ( isset( $result->alternatives ) ) {
+			return $result->alternatives;
 		}
 
 		return $suggestions;
