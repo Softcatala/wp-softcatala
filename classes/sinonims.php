@@ -69,8 +69,9 @@ class SC_Sinonims {
 			$title         = 'Diccionari de sinònims: ' . $paraula . '. Diccionari de sinònims de català en línia | Softcatalà';
 			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
 
-			$result_count = ( count( $result->results ) > 1 ) ? 'resultats' : 'resultat';
-			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . count( $result->results ) . ' ' . $result_count . ') <hr class="clara"/>';
+			$result_count = count( $result->results );
+			$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
+			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
@@ -79,11 +80,11 @@ class SC_Sinonims {
 				$html .= Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) );
 			}
 
-			foreach ( $result->results as $single_entry ) {
-
+			foreach ( $result->results as $index => $single_entry ) {
 				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array(
 					'paraula' => $paraula,
 					'result'  => $single_entry,
+					'last'    => $index == $result_count - 1
 				));
 			}
 

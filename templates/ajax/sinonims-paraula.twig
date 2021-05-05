@@ -16,7 +16,10 @@
             </div>
         {% endif %}
     </div>
-    <hr class="clara">
+    <div class="clearfix"></div>
+    {% if not last %}
+        <hr class="clara">
+    {% endif %}
 {% endif %}
 {% if message %}
     {{ message }}
