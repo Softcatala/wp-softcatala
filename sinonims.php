@@ -38,7 +38,7 @@ if( ! empty ( $paraula ) ) {
             $prefix_description = 'Sinònims de «' . $paraula . '» en català.';
             $canonical = get_current_url();
 
-            $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
+            $context_holder['sinonims_result'] = Timber::fetch('ajax/sinonims-paraula.twig', array( 'sinonims' => $sinonims ) );
         } else if ( $sinonims_server == 'error' || $sinonims_server == null) {
             throw_service_error( $content_title, '', true );
         } else {

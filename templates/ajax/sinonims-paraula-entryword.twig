@@ -1,0 +1,13 @@
+{% if word.link %}
+    <a href="/diccionari-de-sinonims/paraula/{{ word.wordString }}">
+        {{ word.wordString }}
+        {% include 'ajax/sinonims-paraula.twig' with {'word': word.feminineForm } only %}
+    </a>
+{% else %}
+    {{ word.wordString }}
+    {% include 'ajax/sinonims-paraula.twig' with {'word': word.feminineForm } only %}
+{% endif %}
+{% if word.comment %}
+    (<i>{{ word.comment }}</i>)
+{% endif %}
+{% if not last %}, {% endif %}

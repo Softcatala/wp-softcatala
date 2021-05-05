@@ -1,0 +1,6 @@
+{% if alternatives %}
+    Volíeu dir
+    {% for word in alternatives %}
+        <a href="/diccionari-de-sinonims/paraula/{{ word }}">{{ word }}</a>{% if not loop.last %},{% endif %}
+    {% endfor %}
+{% endif %}
