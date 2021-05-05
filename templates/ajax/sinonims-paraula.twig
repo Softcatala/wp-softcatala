@@ -1,6 +1,6 @@
-{% if response.result %}
-    <h3 style="text-transform: none">{{ response.paraula }}
-        {% include 'ajax/sinonims-paraula.twig' with {'word': response.feminineLemma } only %}
+{% if result %}
+    <h3 style="text-transform: none">{{ paraula }}
+        {% include 'ajax/sinonims-paraula.twig' with {'word': result.feminineLemma } only %}
     </h3>
     <div class="col-sm-8 col-sm-offset-1 multilingue_list">
         {% for entry in result.synonymEntries %}
@@ -18,6 +18,6 @@
     </div>
     <hr class="clara">
 {% endif %}
-{% if response.message %}
-    {{ response.message }}
+{% if message %}
+    {{ message }}
 {% endif %}

@@ -11,16 +11,16 @@ class SC_SinonimsResult {
 	 * SC_SinonimsResult constructor.
 	 *
 	 * @param int $int
-	 * @param string $result
+	 * @param string $html
 	 * @param string $canonical_lemma
 	 * @param string $canonical
 	 * @param string $title
 	 * @param string $content_title
 	 * @param string $result1
 	 */
-	public function __construct( $status, $result, $canonical_lemma, $canonical = '', $title = '', $content_title = '' ) {
+	public function __construct( $status, $html, $canonical_lemma, $canonical = '', $title = '', $content_title = '' ) {
 		$this->status = $status;
-		$this->html = $result;
+		$this->html = $html;
 		$this->canonical = $canonical;
 		$this->title = $title;
 		$this->content_title = $content_title;

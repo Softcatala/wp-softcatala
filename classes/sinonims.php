@@ -81,11 +81,10 @@ class SC_Sinonims {
 
 			foreach ( $result->results as $single_entry ) {
 
-				$model = array(
+				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array(
 					'paraula' => $paraula,
 					'result'  => $single_entry,
-				);
-				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array( 'response' => $model ) );
+				));
 			}
 
 			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
