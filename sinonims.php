@@ -34,7 +34,6 @@ if( ! empty ( $paraula ) ) {
 	    $canonical = $r->canonical;
 	    $title = $r->title;
 	    $content_title = $r->content_title;
-	    $description = $r->description;
 	    $prefix_description = 'Sinònims de «' . $r->canonical_lemma . '» en català.';
 	    $context_holder['sinonims_result'] = $r->html;
     } catch ( Exception $e ) {

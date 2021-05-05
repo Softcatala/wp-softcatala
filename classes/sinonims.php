@@ -39,12 +39,11 @@ class SC_Sinonims {
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
-
-			if ( isset($api_result['results']) && count($api_result['results']) > 0) {
+			if ( isset($api_result->results) && count($api_result->results) > 0) {
 				return $this->build_results( $api_result, $paraula );
 			}
 
-			if  ( isset($api_result['alternatives']) && count($api_result['alternatives']) > 0) {
+			if  ( isset($api_result->alternatives) && count($api_result->alternatives) > 0) {
 				$suggestions = $this->get_suggestions( $api_result );
 			}
 		}
@@ -65,32 +64,31 @@ class SC_Sinonims {
 
 	private function build_results( $result, $paraula ) {
 
-		if ( isset( $result['results']) && count($result['results']) > 0  ) {
+		if ( isset( $result->results) && count($result->results) > 0  ) {
 
 			$title         = 'Diccionari de sinònims: ' . $paraula . '. Diccionari de sinònims de català en línia | Softcatalà';
 			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
 
-			$result_count = ( count( $result['results'] ) > 1 ) ? 'resultats' : 'resultat';
-			$result       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . count( $result['results'] ) . ' ' . $result_count . ') <hr class="clara"/>';
+			$result_count = ( count( $result->results ) > 1 ) ? 'resultats' : 'resultat';
+			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . count( $result->results ) . ' ' . $result_count . ') <hr class="clara"/>';
 
-			$canonical_lemma = isset($result['canonicalLemma']) ? $result['canonicalLemma'] : $paraula;
+			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
-			if ( isset($result['alternatives']) && count($result['alternatives']) > 1 ) {
-				$result .= Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result['alternatives'] ) );
+			if ( isset($result->alternatives) && count($result->alternatives) > 1 ) {
+				$html .= Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) );
 			}
 
-			foreach ( $result['results'] as $single_entry ) {
+			foreach ( $result->results as $single_entry ) {
 
 				$model = array(
 					'paraula' => $paraula,
 					'result'  => $single_entry,
 				);
-
-				$result .= Timber::fetch( 'ajax/sinonims-paraula.twig', array( 'response' => $model ) );
+				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array( 'response' => $model ) );
 			}
 
-			return new SC_SinonimsResult( 200, $result, $canonical_lemma, $canonical, $title, $content_title, $result );
+			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}//end if
 
 		return $this->return404( $paraula );
