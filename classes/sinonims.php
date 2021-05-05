@@ -82,7 +82,6 @@ class SC_Sinonims {
 
 			foreach ( $result->results as $index => $single_entry ) {
 				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array(
-					'paraula' => $paraula,
 					'result'  => $single_entry,
 					'last'    => $index == $result_count - 1
 				));

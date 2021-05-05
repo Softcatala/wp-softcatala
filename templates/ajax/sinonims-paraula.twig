@@ -1,5 +1,5 @@
 {% if result %}
-    <h3 style="text-transform: none">{{ paraula }}
+    <h3 style="text-transform: none">{{ result.lemma }}
         {% include 'ajax/sinonims-paraula.twig' with {'word': result.feminineLemma } only %}
     </h3>
     <div class="col-sm-8 col-sm-offset-1 multilingue_list">
