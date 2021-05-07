@@ -6,7 +6,7 @@
 	{{ word.wordString -}}
 	{% include 'ajax/sinonims-paraula-feminine.twig' with {'word': word.feminineForm } only -%}
 {%- endif %}
-{%- if word.comment -%}
-    (<i>{{ word.comment }}</i>)
+{%- if word.wordComment -%}
+    (<i>{{ word.wordComment }}</i>)
 {%- endif -%}
 {% if not last %}, {% endif %}
