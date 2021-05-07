@@ -93,7 +93,7 @@ class SC_Sinonims {
 
 		$html       = 'Paraules que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
-		$canonical = '/diccionari-de-sinonims/lletra/' . $lletra . '/';
+		$canonical = '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
 
 		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
 			array(
