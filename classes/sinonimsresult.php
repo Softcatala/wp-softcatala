@@ -20,7 +20,7 @@ class SC_SinonimsResult {
 	 */
 	public function __construct( $status, $html, $canonical_lemma, $canonical = '', $title = '', $content_title = '' ) {
 		$this->status = $status;
-		$this->html = $html;
+		$this->html = $html.str_replace("'", '’');
 		$this->canonical = $canonical;
 		$this->title = $title;
 		$this->content_title = $content_title;
