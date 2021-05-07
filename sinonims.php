@@ -17,6 +17,7 @@ $timberPost = new TimberPost();
 //Ads
 $context_holder['ads_container'] = true;
 $paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
+$lletra = sanitize_text_field( urldecode( get_query_var('lletra') ) );
 
 $content_title = 'Diccionari de sinònims';
 
@@ -24,8 +25,6 @@ $canonical = '';
 $prefix_description = '';
 
 if( ! empty ( $paraula ) ) {
-
-
     try {
 	    $sinonims = new SC_Sinonims();
 
@@ -39,6 +38,28 @@ if( ! empty ( $paraula ) ) {
     } catch ( Exception $e ) {
         throw_service_error( $content_title, '', true );
     }
+} else if ( ! empty ( $lletra ) ) {
+	if (strlen( $lletra ) == '1' ) {
+		$url = $url_api.'index/' . $lletra;
+		$api_response = json_decode( do_json_api_call($url) );
+		if ( $api_response ) {
+			$response['lletra'] = $lletra;
+			$response['result'] = $api_response;
+
+			$title = 'Diccionari multilingüe: paraules que comencen per ' . $lletra;
+			$content_title =  'Diccionari multilingüe. Lletra «' . $lletra . '»';
+
+			$canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
+
+			$context_holder['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));
+		} else {
+			throw_error('500', 'Error connecting to API server');
+			$context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+		}
+	} else {
+		throw_error('404', 'No Results For This Search');
+		$context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
+	}
 }
 
 $context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
@@ -49,6 +70,7 @@ $context = $context_filterer->get_filtered_context( $context_overrides, false);
 
 $context['post'] = $timberPost;
 $context['paraula'] = $paraula;
+$context['lletra'] = $lletra;
 $context['content_title'] = $content_title;
 $context['credits'] = $timberPost->get_field( 'credits' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');

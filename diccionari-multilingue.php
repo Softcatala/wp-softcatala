@@ -68,7 +68,7 @@ if( ! empty ( $paraula ) ) {
         }
     } else {
         throw_error('404', 'No Results For This Search');
-        $context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
+        $context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $lletra . '</strong>. La cerca només pot contenir una lletra';
     }
 }
 
