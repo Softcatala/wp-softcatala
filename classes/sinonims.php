@@ -77,7 +77,7 @@ class SC_Sinonims {
 			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
 			if ( isset($result->alternatives) && count($result->alternatives) > 1 ) {
-				$html .= Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) );
+				$html .= '<em>' . Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) ) . '</em>';
 			}
 
 			foreach ( $result->results as $index => $single_entry ) {
@@ -89,8 +89,6 @@ class SC_Sinonims {
 
 			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}//end if
-
-		return $this->return404( $paraula );
 	}
 
 	private function return404( $paraula, $suggestions = array() ) {
