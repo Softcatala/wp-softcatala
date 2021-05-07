@@ -97,7 +97,7 @@ class SC_Sinonims {
 
 		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
 			array(
-				'url'=> '/diccionari-multilingue/paraula',
+				'url'=> '/diccionari-de-sinonims/paraula',
 				'response' => array( 'lletra' => $lletra, 'result' => array('words' => $paraules ) )
 			)
 		);
