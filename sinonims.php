@@ -40,21 +40,17 @@ if( ! empty ( $paraula ) ) {
     }
 } else if ( ! empty ( $lletra ) ) {
 	if (strlen( $lletra ) == '1' ) {
-		$url = $url_api.'index/' . $lletra;
-		$api_response = json_decode( do_json_api_call($url) );
-		if ( $api_response ) {
-			$response['lletra'] = $lletra;
-			$response['result'] = $api_response;
+		try {
+			$sinonims = new SC_Sinonims();
+			$r = $sinonims->get_lletra($lletra);
 
-			$title = 'Diccionari multilingüe: paraules que comencen per ' . $lletra;
-			$content_title =  'Diccionari multilingüe. Lletra «' . $lletra . '»';
-
-			$canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
-
-			$context_holder['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));
-		} else {
-			throw_error('500', 'Error connecting to API server');
-			$context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+			$canonical = $r->canonical;
+			$title = $r->title;
+			$content_title = $r->content_title;
+			$prefix_description = 'Sinònims que comencen per «' . $lletra . '» en català.';
+			$context_holder['sinonims_result'] = $r->html;
+		} catch ( Exception $e ) {
+			throw_service_error( $content_title, '', true );
 		}
 	} else {
 		throw_error('404', 'No Results For This Search');

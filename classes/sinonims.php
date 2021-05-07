@@ -22,6 +22,28 @@ class SC_Sinonims {
 		}
 	}
 
+	public function get_lletra( $lletra ) {
+
+		$lletra = strtolower( $lletra );
+
+		$url_api = get_option( 'api_diccionari_sinonims' );
+		$url     = $url_api . 'index/' . $lletra;
+
+		$result = $this->rest_client->get( $url );
+
+		if ( $result['error'] ) {
+			return $this->return500();
+		}
+
+		if ( 200 == $result['code'] && isset($result['result'])) {
+			$api_result   = json_decode( $result['result'] );
+
+			return $this->build_index($lletra, $api_result->words);
+		}
+
+		return $this->return404( $lletra, array() );
+	}
+
 	public function get_paraula( $paraula ) {
 
 		$paraula = strtolower( $paraula );
@@ -60,6 +82,27 @@ class SC_Sinonims {
 		}
 
 		return $suggestions;
+	}
+
+	private function build_index($lletra, $paraules) {
+		$title         = 'Diccionari de sinònims: ' . $lletra . '. Diccionari de sinònims de català en línia | Softcatalà';
+		$content_title = 'Diccionari de sinònims: «' . $lletra . '»';
+
+		$result_count = count( $paraules );
+		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
+
+		$html       = 'Paraules que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+
+		$canonical = '/diccionari-de-sinonims/lletra/' . $lletra . '/';
+
+		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
+			array(
+				'url'=> '/diccionari-multilingue/paraula',
+				'response' => array( 'lletra' => $lletra, 'words' => $paraules )
+			)
+		);
+
+		return new SC_SinonimsResult( 200, $html, $lletra, $canonical, $title, $content_title );
 	}
 
 	private function build_results( $result, $paraula ) {
