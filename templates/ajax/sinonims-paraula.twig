@@ -11,7 +11,7 @@
         {% if result.antonymEntries %}
             <div>&mdash;ANTÒNIMS&mdash;<br/>
             {% for entry in result.antonymEntries %}
-                {% include 'ajax/sinonims-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}
+                <p>{% include 'ajax/sinonims-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}</p>
             {% endfor %}
             </div>
         {% endif %}
