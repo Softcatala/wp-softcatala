@@ -10,6 +10,8 @@
 {% if entry.antonymWords %}
     ‖
     <span>ANTÒNIMS:
-        {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+        {% for word in entry.antonymWords %}
+            {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+        {% endfor %}
     </span>
 {% endif %}
