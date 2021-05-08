@@ -61,15 +61,19 @@ p#checktextpara table {
   position:relative;
 }
 .textcorrectorgram p, .textcorrectorgram form {
-    font: 13px/20px Verdana;
-    margin: 3px 0px 13px 0px;
+    font-family: "Open Sans",Helvetica, Arial,sans-serif !important;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 3px 0px 13px 0px;   
 }
 
 .textpetit {
    font-size: 10px;
 }
 .textexplicacions p {
-    font: 12px/19px Verdana;
+    font-family: "Open Sans",Helvetica, Arial,sans-serif !important;
+    font-size: 12px;
+    line-height: 19px;
     margin: 3px 0px 13px 0px;
 }
 td {vertical-align:top;}
