@@ -16,7 +16,7 @@ $timberPost = new TimberPost();
 
 //Ads
 $context_holder['ads_container'] = true;
-$paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
+$paraula = stripslashes( sanitize_text_field( urldecode( get_query_var('paraula') ) ) );
 $lletra = sanitize_text_field( urldecode( get_query_var('lletra') ) );
 
 $content_title = 'Diccionari de sinònims';
