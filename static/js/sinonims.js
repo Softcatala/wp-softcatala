@@ -102,9 +102,10 @@ enableInlineLinks();
 
 
 //Autocomplete
+/*
 jQuery('#sinonims').typeahead(
     {
-        minLength: 1,
+        minLength: 3,
         hint: true,
     },
     {
@@ -134,3 +135,4 @@ jQuery('#sinonims').typeahead(
 ).on('typeahead:selected', function(evt, item) {
     jQuery('#_action_consulta_sinonims').trigger('click');
 });
+*/
