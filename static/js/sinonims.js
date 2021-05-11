@@ -47,13 +47,13 @@ function print_synonims(result) {
     sc_sendTracking(true);
 }
 
-function errorSynsets(result) {
+function errorSynsets(response) {
     
-    status = result.status != '0' ? result.status : 500;
+    status = response.status != '0' ? response.status : 500;
     
     sc_sendTracking(false, status);
     
-    show_message(result.html);
+    show_message(response.result.html);
 }
 
 function sc_sendTracking(success, status) {
