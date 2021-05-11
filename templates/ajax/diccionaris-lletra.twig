@@ -1,6 +1,7 @@
 {% if response %}
     <h1>Paraules que comencen per <strong>{{ response.lletra }}</strong></h1>
-    {% for row in response.result.words|batch((response.result.words|length)/4) %}
+    {% set columns = cols|default(4) %}
+    {% for row in response.result.words|batch((response.result.words|length)/columns) %}
         <div class="col-xs-6 col-md-3">
             <ul class="multilingue_lletres">
             {% for word in row %}

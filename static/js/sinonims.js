@@ -103,6 +103,7 @@ enableInlineLinks();
 
 //Autocomplete
 /*
+http://www.runningcoder.org/jquerytypeahead/documentation/
 jQuery('#sinonims').typeahead(
     {
         minLength: 3,
