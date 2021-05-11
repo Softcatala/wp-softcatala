@@ -113,7 +113,7 @@ jQuery('#sinonims').typeahead(
         async: true,
         source: function(query, processSync, processAsync) {
 
-            var xurl = "https://api.softcatala.org/sinonims/v1/api/autocomplete" + query;
+            var xurl = "https://api.softcatala.org/sinonims/v1/api/autocomplete/" + query;
 
             jQuery.ajax({
                 url: xurl,
