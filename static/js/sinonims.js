@@ -82,3 +82,15 @@ function update_share_links(query) {
     jQuery('#share_facebook').attr("href", url_facebook);
     jQuery('#share_twitter').attr("href", url_twitter);
 }
+
+jQuery('.diccionari-resultat#results a').click(function(ev) {
+    var sinonim = jQuery(this).data('sinonim');
+
+    if(sinonim) {
+        jQuery('#sinonims').val(sinonim)
+
+        ev.preventDefault();
+
+        jQuery('#_action_consulta_sinonims').trigger('click');
+    }
+})
