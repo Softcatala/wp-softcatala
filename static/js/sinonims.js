@@ -45,6 +45,7 @@ function print_synonims(result) {
     jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
     sc_sendTracking(true);
+    enableInlineLinks();
 }
 
 function errorSynsets(response) {
@@ -83,14 +84,18 @@ function update_share_links(query) {
     jQuery('#share_twitter').attr("href", url_twitter);
 }
 
-jQuery('.diccionari-resultat#results a').click(function(ev) {
-    var sinonim = jQuery(this).data('sinonim');
+function enableInlineLinks() {
+    jQuery('.diccionari-resultat#results a').click(function(ev) {
+        var sinonim = jQuery(this).data('sinonim');
 
-    if(sinonim) {
-        jQuery('#sinonims').val(sinonim)
+        if(sinonim) {
+            jQuery('#sinonims').val(sinonim)
 
-        ev.preventDefault();
+            ev.preventDefault();
 
-        jQuery('#_action_consulta_sinonims').trigger('click');
-    }
-})
+            jQuery('#_action_consulta_sinonims').trigger('click');
+        }
+    })
+}
+
+enableInlineLinks();
