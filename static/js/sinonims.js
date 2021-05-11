@@ -42,7 +42,7 @@ jQuery('#_action_consulta_sinonims').click(function(){
 
 function print_synonims(result) {
     jQuery("#loading").hide();
-    jQuery('#results').html(result);
+    jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
     sc_sendTracking(true);
 }
@@ -53,7 +53,7 @@ function errorSynsets(result) {
     
     sc_sendTracking(false, status);
     
-    show_message(result.responseJSON);
+    show_message(result.html);
 }
 
 function sc_sendTracking(success, status) {
