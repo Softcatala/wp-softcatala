@@ -99,7 +99,9 @@ class SC_Sinonims {
 			array(
 				'url'=> '/diccionari-de-sinonims/paraula',
 				'response' => array( 'lletra' => $lletra, 'result' => array('words' => $paraules ) ),
-				'cols' => 3
+				'cols' => 3,
+				'topic' => 'Paraules o expressions',
+				'hidetitle' => true
 			)
 		);
 
