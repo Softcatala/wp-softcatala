@@ -48,6 +48,25 @@ function sc_aparell_ajax_load() {
 }
 
 /**
+ * Function to make the request to synonims dictionary server
+ *
+ * @return json response
+ */
+function sc_find_sinonim() {
+	if ( ! isset( $_POST["paraula"] ) ) {
+		$result = new SC_SinonimsResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu de nou." );
+	} else {
+		$paraula = str_replace("'", '’', stripslashes( sanitize_text_field( $_POST["paraula"] ) ) );
+
+		$sinonims = new SC_Sinonims();
+
+		$result = $sinonims->get_paraula( $paraula );
+	}
+
+	wp_send_json( $result );
+}
+
+/**
  * Retrieves the results from the Multilingüe API server given a word + language
  *
  * @return json response
@@ -156,43 +175,6 @@ function sc_subscribe_list() {
 			} else {
 				$result['text'] = "S'ha produït un error. Proveu més tard.";
 			}
-		}
-	}
-
-	wp_send_json( $result );
-}
-
-/**
- * Function to make the request to synonims dictionary server
- *
- * @return json response
- */
-function sc_find_sinonim() {
-	$service_name = 'Diccionari de sinònims';
-	if ( ! isset( $_POST["paraula"] ) ) {
-		$result = 'S\'ha produït un error en el servidor. Proveu més tard';
-	} else {
-		$paraula             = sanitize_text_field( $_POST["paraula"] );
-		$url_sinonims_server = get_option( 'api_diccionari_sinonims' );
-		$url                 = $url_sinonims_server . urlencode( $paraula );
-
-		try {
-			$sinonims_server = json_decode( do_json_api_call( $url ) );
-
-			if ( $sinonims_server != null && $sinonims_server != 'error' && count( $sinonims_server->synsets ) > 0 ) {
-				$sinonims['paraula']  = $paraula;
-				$sinonims['response'] = $sinonims_server->synsets;
-				$result               = Timber::fetch( 'ajax/sinonims-list.twig', array( 'sinonims' => $sinonims ) );
-			} else if ( $sinonims_server == 'error' || $sinonims_server == null ) {
-				throw_service_error( $service_name, '', true );
-				$result = 'S\'ha produït un error en el servidor. Proveu més tard';
-			} else {
-				throw_error( '404', 'No Results For This Search' );
-				$result = 'La paraula que esteu cercant no es troba al diccionari.';
-			}
-		} catch ( Exception $e ) {
-			throw_service_error( $service_name, '', true );
-			$result = 'S\'ha produït un error en el servidor. Proveu més tard';
 		}
 	}
 
