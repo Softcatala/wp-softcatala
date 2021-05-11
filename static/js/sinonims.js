@@ -54,7 +54,7 @@ function errorSynsets(response) {
     
     sc_sendTracking(false, status);
     
-    show_message(response.result.html);
+    show_message(response.responseJSON.html);
 }
 
 function sc_sendTracking(success, status) {
@@ -99,3 +99,38 @@ function enableInlineLinks() {
 }
 
 enableInlineLinks();
+
+
+//Autocomplete
+jQuery('#sinonims').typeahead(
+    {
+        minLength: 1,
+        hint: true,
+    },
+    {
+        delay: 3500,
+        limit: 12,
+        async: true,
+        source: function(query, processSync, processAsync) {
+
+            var xurl = "https://api.softcatala.org/sinonims/v1/api/autocomplete" + query;
+
+            jQuery.ajax({
+                url: xurl,
+                dataType: "json",
+                success: function( data ) {
+
+                    return processAsync ( data.words );
+
+                },
+                error: function (textStatus, status, errorThrown) {
+                    console.log(textStatus);
+                    console.log(status);
+                    console.log(errorThrown);
+                }
+            });
+        }
+    }
+).on('typeahead:selected', function(evt, item) {
+    jQuery('#_action_consulta_sinonims').trigger('click');
+});
