@@ -91,7 +91,7 @@ class SC_Sinonims {
 		$result_count = count( $paraules );
 		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
 
-		$html       = 'Paraules que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+		$html       = 'Paraules i expressions que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
 		$canonical = '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
 
