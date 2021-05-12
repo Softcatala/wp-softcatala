@@ -631,6 +631,15 @@ var neuronalApp = (function () {
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
         
         if ((origin_lang == 'en') || (target_lang == 'en') || (origin_lang == 'de') || (target_lang == 'de')){
+
+        if ((origin_lang == 'de') || (target_lang == 'de')){
+
+            jQuery('#rneuronal').prop("checked", true);
+            jQuery('#rapertium').attr('disabled', true);
+
+        }else{
+            jQuery('#rapertium').attr('disabled', false);
+        }
         
             // Show radiobuttons for neuronal vs apertium
             jQuery('#panel-radioneuronal').removeClass('hidden');
@@ -638,6 +647,9 @@ var neuronalApp = (function () {
     
             if (rneuronalchecked){       
                 show_neuronal_menu();
+
+                
+
             }else{
                 hide_neuronal_menu();
             }
