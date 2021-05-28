@@ -6,8 +6,7 @@
  */
 
 $context = Timber::get_context();
-$post = new TimberPost();
-$context['post'] = $post;
+$context['post'] = new TimberPost();
 
 $sc_memory = new SC_Memory();
 $generation_data = $sc_memory->get_generation_data();

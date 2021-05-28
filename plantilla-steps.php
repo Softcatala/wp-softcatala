@@ -40,11 +40,11 @@ if ( ! empty ( $project_slug ) ) {
 
     $context['membres'] = get_users( $args );
 } else {
-	$post = Timber::get_post();
+	$timberPost = Timber::get_post();
 
-	$profile = $post->get_field('perfil');
-	$profile_label = get_field_object('perfil', $post->ID);
-	$all_acf_data = get_field_objects($post->ID);
+	$profile = $timberPost->get_field('perfil');
+	$profile_label = get_field_object('perfil', $timberPost->ID);
+	$all_acf_data = get_field_objects($timberPost->ID);
 
 	$content_title = 'Col·laboreu amb nosaltres: ' . $profile_label['choices'][$profile];
 
@@ -74,15 +74,15 @@ if ( ! empty ( $project_slug ) ) {
 
 	$context['projectes'] = $projects;
 
-    $context['steps'] = $post->get_field( 'steps' );
+    $context['steps'] = $timberPost->get_field( 'steps' );
 
     $context['telegram'] = get_telegram_group_for_profile( $profile );
 }
 
-$post = new TimberPost();
-$context['post'] = $post;
+$timberPost = new TimberPost();
+$context['post'] = $timberPost;
 $context['content_title'] = $content_title;
-$context['links'] = $post->get_field( 'link' );
+$context['links'] = $timberPost->get_field( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');

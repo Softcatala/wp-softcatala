@@ -6,23 +6,23 @@
  */
 
 $context = Timber::get_context();
-$post = new TimberPost();
-$context['post'] = $post;
+$timberPost = new TimberPost();
+$context['post'] = $timberPost;
 
 $all_children = get_posts(
     array(
         'post_type'     => 'page',
-        'post_parent'   => $post->ID,
+        'post_parent'   => $timberPost->ID,
         'orderby'       => 'menu_order',
         'order'         => 'asc',
         'posts_per_page'=> -1
     )
 );
 
-$context['links'] = array_map( function ( $post ) {
+$context['links'] = array_map( function ( $timberPost ) {
     return array(
-        'link_url'      => get_permalink( $post ),
-        'link_title'    => get_the_title( $post ) 
+        'link_url'      => get_permalink( $timberPost ),
+        'link_title'    => get_the_title( $timberPost )
     );
 } , $all_children );
 

@@ -10,12 +10,12 @@
  ));
 
 $context = Timber::get_context();
-$post = new TimberPost();
+$timberPost = new TimberPost();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-$context['post'] = $post;
-$context['credits'] = $post->get_field( 'credits' );
+$context['post'] = $timberPost;
+$context['credits'] = $timberPost->get_field( 'credits' );
 
 //Contact Form Data
 $context['contact']['to_email'] = 'web@softcatala.org';

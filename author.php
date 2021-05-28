@@ -34,8 +34,7 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     }
 } else {
     $template = array( 'archive-author.twig' );
-    $post = new TimberPost();
-    $context_holder['post'] = $post;
+    $context_holder['post'] = new TimberPost();
     //Show only active members
 
 	$order = (date('j') % 2 == 0) ? 'ASC' : 'DESC';

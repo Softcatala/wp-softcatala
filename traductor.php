@@ -14,10 +14,10 @@ wp_enqueue_style( 'sc-js-traductor', get_template_directory_uri() . '/static/css
 $context = Timber::get_context();
 //Ads
 $context['ads_container'] = true;
-$post = new TimberPost();
-$context['post'] = $post;
+$timberPost = new TimberPost();
+$context['post'] = $timberPost;
 $context['content_title'] = 'Traductor';
-$context['credits'] = $post->get_field( 'credits' );
+$context['credits'] = $timberPost->get_field( 'credits' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');

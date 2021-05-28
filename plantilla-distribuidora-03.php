@@ -6,7 +6,7 @@
  */
 
 $context = Timber::get_context();
-$post = new TimberPost();
-$context['post'] = $post;
-$context['links'] = $post->get_field( 'distribuidora' );
+$timberPost = new TimberPost();
+$context['post'] = $timberPost;
+$context['links'] = $timberPost->get_field( 'distribuidora' );
 Timber::render( array( 'plantilla-distribuidora-03.twig' ), $context );

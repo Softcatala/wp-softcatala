@@ -24,7 +24,7 @@ $title = '';
 $description = '';
 $canonical = '';
 
-$post = new TimberPost();
+$timberPost = new TimberPost();
 //Ads
 
 $context_holder = array();
@@ -78,12 +78,12 @@ $context_overrides = array( 'title' => $title, 'description' => $description, 'c
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
-$context['post'] = $post;
+$context['post'] = $timberPost;
 $context['paraula'] = $paraula;
 $context['lletra'] = $lletra;
 $context['content_title'] = $content_title;
 
-$context['credits'] = $post->get_field( 'credits' );
+$context['credits'] = $timberPost->get_field( 'credits' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');

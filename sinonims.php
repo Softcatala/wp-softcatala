@@ -14,7 +14,7 @@ wp_localize_script( 'sc-js-sinonims', 'scajax', array(
 
 $url_sinonims_server = get_option('api_diccionari_sinonims');
 
-$post = new TimberPost();
+$timberPost = new TimberPost();
 //Ads
 $context_holder['ads_container'] = true;
 $paraula = sanitize_text_field( urldecode( get_query_var('paraula') ) );
@@ -56,10 +56,10 @@ $context_filterer = new SC_ContextFilterer( $context_holder );
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false);
 
-$context['post'] = $post;
+$context['post'] = $timberPost;
 $context['paraula'] = $paraula;
 $context['content_title'] = $content_title;
-$context['credits'] = $post->get_field( 'credits' );
+$context['credits'] = $timberPost->get_field( 'credits' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');

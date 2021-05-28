@@ -29,7 +29,6 @@ $content_title = 'Conjugador de verbs';
 $title = '';
 $description = '';
 $canonical = '';
-$post = new TimberPost();
 //Ads
 
 $context_holder = array();
@@ -76,7 +75,7 @@ $context_overrides = array( 'title' => $title, 'description' => $description, 'c
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
-$context['post'] = $post;
+$context['post'] = new TimberPost();
 $context['verb'] = $verb;
 $context['lletra'] = $lletra;
 $context['description'] = $description;

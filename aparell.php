@@ -11,12 +11,12 @@ wp_localize_script( 'sc-js-aparells', 'scajax', array(
 ));
 
 //Template initialization
-$post = new TimberPost();
-$context_holder['post'] = $post;
-$parent_data = get_page_parent_title( $post->ID );
+$timberPost = new TimberPost();
+$context_holder['post'] = $timberPost;
+$parent_data = get_page_parent_title( $timberPost->ID );
 $context_holder['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig', 'links.twig' );
-$context_holder['links'] = $post->get_field( 'link' );
-$context_holder['credits'] = $post->get_field( 'credit' );
+$context_holder['links'] = $timberPost->get_field( 'link' );
+$context_holder['credits'] = $timberPost->get_field( 'credit' );
 $context_holder['parent_title'] = $parent_data['title'];
 $context_holder['page_hierarchy'] = wp_list_subpages($parent_data['id']);
 //Stats data

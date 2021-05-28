@@ -6,8 +6,7 @@
  */
 
 $context = Timber::get_context();
-$post = new TimberPost();
-$context['post'] = $post;
+$context['post'] = new TimberPost();
 $context['links'] = array (
   array (
     'link_title' => 'Guia d\'estil',
