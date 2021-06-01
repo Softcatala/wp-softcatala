@@ -5,9 +5,9 @@
  * @package wp-softcatala
  */
 
-$post = new \Timber\Post();
+$timberPost = new \Timber\Post();
 
-if( $post->pmf ) {
+if( $timberPost->pmf ) {
 	wp_enqueue_script(
 		'sc-js-pmf',
 		get_template_directory_uri() . '/static/js/pmf.js',
@@ -17,11 +17,11 @@ if( $post->pmf ) {
 	);
 }
 
-$parent_data = get_page_parent_title( $post->ID );
+$parent_data = get_page_parent_title( $timberPost->ID );
 
 $context = \Timber\Timber::get_context();
 $context['content_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
-$context['post'] = $post;
+$context['post'] = $timberPost;
 \Timber\Timber::render( array( 'plantilla-text-menuleft.twig' ), $context );
 
