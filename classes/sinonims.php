@@ -64,7 +64,11 @@ class SC_Sinonims {
 			if ( isset($api_result->results) && count($api_result->results) > 0) {
 				return $this->build_results( $api_result, $paraula );
 			}
+		}
 
+		if ( 404 == $result['code'] && isset($result['result'])) {
+
+			$api_result   = json_decode( $result['result'] );
 			if  ( isset($api_result->alternatives) && count($api_result->alternatives) > 0) {
 				$suggestions = $this->get_suggestions( $api_result );
 			}
