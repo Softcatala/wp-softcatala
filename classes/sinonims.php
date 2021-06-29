@@ -126,7 +126,7 @@ class SC_Sinonims {
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
-			if ( isset($result->alternatives) && count($result->alternatives) > 1 ) {
+			if ( isset($result->alternatives) && count($result->alternatives) >= 1 ) {
 				$html .= '<em>' . Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) ) . '</em>';
 			}
 
