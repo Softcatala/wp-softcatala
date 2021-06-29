@@ -50,7 +50,8 @@ function print_synonims(result) {
 }
 
 function removeInputSearchQuery() {
-    var query = jQuery('#sinonims').val('');
+    jQuery('#sinonims').val('');
+    jQuery('#sinonims').focus();
 }
 
 function errorSynsets(response) {
