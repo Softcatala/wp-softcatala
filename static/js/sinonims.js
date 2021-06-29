@@ -46,6 +46,11 @@ function print_synonims(result) {
     jQuery('#results').slideDown();
     sc_sendTracking(true);
     enableInlineLinks();
+    removeInputSearchQuery();
+}
+
+function removeInputSearchQuery() {
+    var query = jQuery('#sinonims').val('');
 }
 
 function errorSynsets(response) {
