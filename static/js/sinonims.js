@@ -51,7 +51,13 @@ function print_synonims(result) {
 
 function removeInputSearchQuery() {
     jQuery('#sinonims').val('');
-    jQuery('#sinonims').focus();
+    if(!synonimsIsMobile()) {
+        jQuery('#sinonims').focus();
+    }
+}
+
+function synonimsIsMobile() {
+    return window.matchMedia("only screen and (max-width: 768px)").matches;
 }
 
 function errorSynsets(response) {
