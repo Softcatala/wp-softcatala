@@ -21,13 +21,14 @@
                             <!-- .btns-diccionari  -->
                             <div class="btns-diccionari row">
                                 <div class="col-xs-12">
-                                    <p>Introduïu a continuació la paraula de la qual voleu cercar els sinònims i feu clic al botó de cerca.</p>
+                                    <p>Introduïu la paraula que voleu cercar i feu clic en el botó de cerca.</p>
                                     <div class="input-group">
-                                        <input type="text" name="sinonims" id="sinonims" class="form-control" {% if paraula %}value="{{ paraula }}"{% endif %} placeholder="Introduïu una paraula"/>
+                                        <input autofocus type="text" name="sinonims" id="sinonims" class="form-control" placeholder="Introduïu una paraula"/>
                                         <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_sinonims" name="_action_consulta_sinonims">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
                                     </div>
                                 </div>
                             </div><!--/.btns-diccionari  -->
+                            {% include "static/index-lletres.twig" with { token: 'les paraules o expressions', url: '/diccionari-de-sinonims/lletra'} only %}
                         </form>
 
                         <!-- .diccionari-resultat  -->
@@ -57,7 +58,7 @@
 
     {% include "contact_form.twig" %}
 
-    {% include "static/sinonims-logos.twig" %}
+    {# include "static/sinonims-logos.twig" #}
 
     {% include "template-avis.twig" %}
 

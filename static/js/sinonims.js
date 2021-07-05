@@ -10,9 +10,8 @@ $sinonims_form.on('submit', function(ev) {
 jQuery('#_action_consulta_sinonims').click(function(){
 
     jQuery("#loading").show();
-    var url = 'https://www.softcatala.org/sinonims/api/search';
     var query = jQuery('#sinonims').val();
-    query = query.trim();
+    query = query.trim().replace("'", "’");
 
     var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);
@@ -43,18 +42,31 @@ jQuery('#_action_consulta_sinonims').click(function(){
 
 function print_synonims(result) {
     jQuery("#loading").hide();
-    jQuery('#results').html(result);
+    jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
     sc_sendTracking(true);
+    enableInlineLinks();
+    removeInputSearchQuery();
 }
 
-function errorSynsets(result) {
+function removeInputSearchQuery() {
+    jQuery('#sinonims').val('');
+    if(!synonimsIsMobile()) {
+        jQuery('#sinonims').focus();
+    }
+}
+
+function synonimsIsMobile() {
+    return window.matchMedia("only screen and (max-width: 768px)").matches;
+}
+
+function errorSynsets(response) {
     
-    status = result.status != '0' ? result.status : 500;
+    status = response.status != '0' ? response.status : 500;
     
     sc_sendTracking(false, status);
     
-    show_message(result.responseJSON);
+    show_message(response.responseJSON.html);
 }
 
 function sc_sendTracking(success, status) {
@@ -83,3 +95,57 @@ function update_share_links(query) {
     jQuery('#share_facebook').attr("href", url_facebook);
     jQuery('#share_twitter').attr("href", url_twitter);
 }
+
+function enableInlineLinks() {
+    jQuery('.diccionari-resultat#results a').click(function(ev) {
+        var sinonim = jQuery(this).data('sinonim');
+
+        if(sinonim) {
+            jQuery('#sinonims').val(sinonim)
+
+            ev.preventDefault();
+
+            jQuery('#_action_consulta_sinonims').trigger('click');
+        }
+    })
+}
+
+enableInlineLinks();
+
+
+//Autocomplete
+/*
+http://www.runningcoder.org/jquerytypeahead/documentation/
+jQuery('#sinonims').typeahead(
+    {
+        minLength: 3,
+        hint: true,
+    },
+    {
+        delay: 3500,
+        limit: 12,
+        async: true,
+        source: function(query, processSync, processAsync) {
+
+            var xurl = "https://api.softcatala.org/sinonims/v1/api/autocomplete/" + query;
+
+            jQuery.ajax({
+                url: xurl,
+                dataType: "json",
+                success: function( data ) {
+
+                    return processAsync ( data.words );
+
+                },
+                error: function (textStatus, status, errorThrown) {
+                    console.log(textStatus);
+                    console.log(status);
+                    console.log(errorThrown);
+                }
+            });
+        }
+    }
+).on('typeahead:selected', function(evt, item) {
+    jQuery('#_action_consulta_sinonims').trigger('click');
+});
+*/

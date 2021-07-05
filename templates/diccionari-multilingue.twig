@@ -60,7 +60,7 @@
                             <input type="submit" style="display:none;" />
                         </form>
 
-                        {% include "static/index-lletres.twig" %}
+                        {% include "static/index-lletres.twig" with { token: 'les paraules', url: '/diccionari-multilingue/lletra'} only %}
 
                     </section>
 

@@ -1,0 +1,26 @@
+{% if result %}
+    <h3 style="text-transform: none">{{ result.lemma }}
+        {% include 'ajax/sinonims-paraula-feminine.twig' with {'word': result.feminineLemma } only %}
+    </h3>
+    <div class="col-sm-10 col-sm-offset-1 multilingue_list">
+        {% for entry in result.synonymEntries %}
+            <p>
+                {% include 'ajax/sinonims-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}
+            </p>
+        {% endfor %}
+        {% if result.antonymEntries %}
+            <div>&mdash;ANTÒNIMS&mdash;<br/>
+            {% for entry in result.antonymEntries %}
+                <p>{% include 'ajax/sinonims-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}</p>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="clearfix"></div>
+    {% if not last %}
+        <hr class="clara">
+    {% endif %}
+{% endif %}
+{% if message %}
+    {{ message }}
+{% endif %}

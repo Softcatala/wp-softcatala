@@ -1,0 +1,17 @@
+<b>{{ index }}.</b>
+<i>{{ entry.grammarCategory }}</i>
+
+{% if entry.comment %}
+    (<i>{{ entry.comment }}</i>)
+{% endif %}
+{% for word in entry.synonimWords %}
+    {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+{% endfor %}
+{% if entry.antonymWords %}
+    ‖
+    <span>ANTÒNIMS:
+        {% for word in entry.antonymWords %}
+            {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+        {% endfor %}
+    </span>
+{% endif %}

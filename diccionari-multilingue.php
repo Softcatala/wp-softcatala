@@ -61,14 +61,14 @@ if( ! empty ( $paraula ) ) {
 
             $canonical = '/diccionari-multilingue/lletra/' . $lletra . '/';
 
-            $context_holder['cerca_result'] = Timber::fetch('ajax/multilingue-lletra.twig', array('response' => $response));
+            $context_holder['cerca_result'] = Timber::fetch('ajax/diccionaris-lletra.twig', array( 'url' => '/diccionari-multilingue/paraula', 'response' => $response));
         } else {
             throw_error('500', 'Error connecting to API server');
             $context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
         }
     } else {
         throw_error('404', 'No Results For This Search');
-        $context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $context['lletra'] . '</strong>. La cerca només pot contenir una lletra';
+        $context_holder['cerca_result'] = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $lletra . '</strong>. La cerca només pot contenir una lletra';
     }
 }
 

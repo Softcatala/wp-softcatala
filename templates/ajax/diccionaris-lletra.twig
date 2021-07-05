@@ -1,0 +1,16 @@
+{% if response %}
+    {% if not hidetitle %}
+        <h1>{{ topic|default('Paraules') }} que comencen per <strong>{{ response.lletra }}</strong></h1>
+    {% endif %}
+    {% set columns = cols|default(4) %}
+    {% set csscols = 12/columns %}
+    {% for row in response.result.words|batch((response.result.words|length)/columns) %}
+        <div class="col-xs-6 col-md-{{ csscols }}">
+            <ul class="multilingue_lletres">
+            {% for word in row %}
+                <li><a href="{{ url }}/{{ word }}/">{{ word }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endif %}

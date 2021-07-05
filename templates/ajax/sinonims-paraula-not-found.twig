@@ -1,0 +1,6 @@
+    «{{  paraula }}», la paraula que heu cercat, no es troba al diccionari.
+    <ul>
+        {% if suggestions %}
+            {% include 'ajax/sinonims-alternatives.twig' with { 'alternatives': suggestions } only %}
+        {%  endif %}
+    </ul>

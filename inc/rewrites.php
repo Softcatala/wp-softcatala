@@ -55,7 +55,11 @@ function sc_custom__rewrite_rules($aRules) {
     $aNewRules = array('diccionari-de-sinonims/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
 
-    //Diccionari multilingue
+	//Diccionari de sinònims
+	$aNewRules = array('diccionari-de-sinonims/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&lletra=$matches[1]');
+	$aRules = $aNewRules + $aRules;
+
+	//Diccionari multilingue
     $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
 
