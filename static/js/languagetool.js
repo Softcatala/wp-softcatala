@@ -502,6 +502,7 @@ function mostraMetriques(text){
     data : {'text':text},
     dataType: 'json',
     success : function(a){
+
         col1 = true;
         //console.log(a.metrics);
         for (const metrica in a.metrics){
@@ -542,8 +543,12 @@ function mostraMetriques(text){
 
 }
 function amagaMetriques(){
-      jQuery('#metriques').empty();
-      jQuery('#metriques-lat').empty();
+
+      jQuery('#resultatmetriques').html('');
+      jQuery('#metriques-col1').html('');
+      jQuery('#metriques-col2').html('');
+      jQuery('#msg-metriques').html('');
+      jQuery('#msg-metriques-lat').html('');
       jQuery('#metriques').hide();
       jQuery('#metriques-lat').hide();
 }
