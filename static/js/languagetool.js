@@ -36,6 +36,7 @@ function insertDemoText() {
 function clearText() {
   tinyMCE.get('checktext').setContent("");
   tinyMCE.get('checktext').execCommand('mceInsertContent', false,"");
+  amagaMetriques();
 }
 
 function getPlainText() {
@@ -534,12 +535,17 @@ function mostraMetriques(text){
       
     },
     error : function(){
-        jQuery('#metriques').hide();
-        jQuery('#metriques-lat').hide();
+            amagaMetriques();
     }
   });
 
 
+}
+function amagaMetriques(){
+      jQuery('#metriques').empty();
+      jQuery('#metriques-lat').empty();
+      jQuery('#metriques').hide();
+      jQuery('#metriques-lat').hide();
 }
 
 var $clipBoard = new Clipboard('#copy-text', {
