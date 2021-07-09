@@ -207,7 +207,14 @@ class SC_Conjugador {
 			$verbs = $api_result[$infinitiu];
 
 			$cinf = array_search('Infinitiu', array_column($verbs, 'tense'));
-			$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
+			//$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
+			
+			$infinitive_title = $infinitiu;
+			if(isset($verbs[0]['definition']))
+					$definition = $verbs[0]['definition'];
+			
+			if(isset($verbs[0]['definition_credits']))
+				$definition_credits = $verbs[0]['definition_credits'];
 			
 			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
@@ -237,7 +244,9 @@ class SC_Conjugador {
 				'temps' => $temps,
 				'verbinf' => $infinitiu,
 				'variants'=> $variants,
-				'infinitive_title' => $infinitive_title	
+				'infinitive_title' => $infinitive_title,
+				'definition' => $definition,
+				'definition_credits' => $definition_credits	
 			);
 			
 			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
