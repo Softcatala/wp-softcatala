@@ -212,9 +212,13 @@ class SC_Conjugador {
 			$infinitive_title = $infinitiu;
 			if(isset($verbs[0]['definition']))
 					$definition = $verbs[0]['definition'];
+			else	
+					$definition = "";
 			
 			if(isset($verbs[0]['definition_credits']))
 				$definition_credits = $verbs[0]['definition_credits'];
+			else
+				$definition_credits = "";
 			
 			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
