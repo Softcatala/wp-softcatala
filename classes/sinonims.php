@@ -123,7 +123,7 @@ class SC_Sinonims {
 			$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
 			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
-			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
+			$canonical_lemma = isset($result->canonical) ? $result->canonical : $paraula;
 			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
 			if ( isset($result->alternatives) && count($result->alternatives) >= 1 ) {
