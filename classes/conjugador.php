@@ -220,10 +220,7 @@ class SC_Conjugador {
 			else
 				$definition_credits = "";
 
-			/* temp */
-			$definition = "";
-			$definition_credits = "";
-			
+						
 			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
 
