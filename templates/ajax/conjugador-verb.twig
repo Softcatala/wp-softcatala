@@ -1,9 +1,12 @@
 <ul id="tabsconjugador" class="nav nav-tabs" {% if not response.verbinf %}style="display:none"{% endif %}>
-        <li class="active"><a data-toggle="tab" href="#indicatiu">Mode indicatiu</a></li>
-        <li><a data-toggle="tab" href="#subjuntiu">Mode subjuntiu</a></li>
+        <li class="active"><a data-toggle="tab" href="#indicatiu">Indicatiu</a></li>
+        <li><a data-toggle="tab" href="#subjuntiu">Subjuntiu</a></li>
         <li><a data-toggle="tab" href="#imperatiu">Imperatiu</a></li>
         <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
-        <li><a data-toggle="tab" href="#definicions">Definicions</a></li>
+        {% if response.definition %}
+            <li><a data-toggle="tab" href="#definicions">Definició</a></li>
+        {% endif %}
+        
 </ul>
 
 <section id="conjugador-verb" class="formulari-eines contingut-section">
@@ -16,7 +19,7 @@
   <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.infinitive_title }}</h2>
            
-            <h4>Mode indicatiu</h4>
+            <h4>Mode Indicatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
@@ -52,7 +55,7 @@
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.infinitive_title }}</h2>
            
-            <h4>Mode subjuntiu</h4>
+            <h4>Mode Subjuntiu</h4>
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
@@ -120,9 +123,7 @@
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.infinitive_title }}</h2>
-        {% if response.definition %}
-                   <p> {{ response.definition }} </p>
-        {% endif %}
+        
         <h4>Formes no personals</h4>
              <div class="col-md-12">
                 <div class="panel panel-primary">                           
@@ -159,17 +160,15 @@
         
 
     </div>
+    {% if response.definition %}
      <div id = "definicions" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.infinitive_title }}</h2>
-           
-         {% if response.definition %}
-                   <p> {{ response.definition }} </p>
-        {% endif %}
-        {% if response.definition_credits %}
-                        <p> {{ response.definition_credits }} </p>
-        {% endif %}
+           {{ response.definition }}
+           {% if response.definition_credits %}
+              <p style="font-weight: 300">{{ response.definition_credits }}</p>
+            {% endif %}
      </div>
-
+    {% endif %}
 </div>
 
   </div><!--/.conjugador-resultat  -->
