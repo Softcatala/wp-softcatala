@@ -16,13 +16,16 @@ class SC_RestClient {
 			'headers' => array(
 				'Content-Type' => 'application/json',
 			),
-			'user-agent' => $_SERVER['HTTP_USER_AGENT']
 		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$args['headers']['accept-encoding'] = 'identity';
 		}
 
+		if (defined($_SERVER['HTTP_USER_AGENT'])){
+			$args['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
+		}
+		
 		$response = wp_remote_get( $url, $args );
 
 		$code = wp_remote_retrieve_response_code( $response );
