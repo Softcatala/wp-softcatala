@@ -16,6 +16,7 @@ class SC_RestClient {
 			'headers' => array(
 				'Content-Type' => 'application/json',
 			),
+			'user-agent' => $_SERVER['HTTP_USER_AGENT']
 		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
