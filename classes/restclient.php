@@ -22,7 +22,7 @@ class SC_RestClient {
 			$args['headers']['accept-encoding'] = 'identity';
 		}
 
-		if (defined($_SERVER['HTTP_USER_AGENT'])){
+		if (isset($_SERVER['HTTP_USER_AGENT'])){
 			$args['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
 		}
 		
