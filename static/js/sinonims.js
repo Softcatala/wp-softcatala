@@ -13,6 +13,10 @@ jQuery('#_action_consulta_sinonims').click(function(){
     var query = jQuery('#sinonims').val();
     query = query.trim().replace("'", "’");
 
+    if (query == "") {
+        return;
+    }
+
     var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
