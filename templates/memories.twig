@@ -28,6 +28,7 @@
                             <thead>
                                 <tr>
                                     <th>Projecte</th>
+                                    <th>Cerca</th>
                                     <th>Fitxer PO</th>
                                     <th>Fitxer TMX</th>
                                     <th>Paraules traduïdes</th>
@@ -52,6 +53,13 @@
                                                 Llicència: {{ project.license }}
                                             </span>
                                         {% endif %}
+                                    </td>
+                                    <td>
+                                        <em class="fa fa-search"
+                                            title="Cerca només en aquest projecte (pestanya nova)"
+                                            style="cursor: pointer;color: maroon;"
+                                            onclick="filteredSearch('{{  project.project_id }}')"
+                                        ></em>
                                     </td>
                                     <td>
                                         <a href="{{ project.po_file_link }}">

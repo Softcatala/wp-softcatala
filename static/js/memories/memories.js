@@ -8,6 +8,20 @@ jQuery(document).ready(function(){
     });
 });
 
+function filteredSearch(id) {
+    const source = jQuery("#source").val().trim();
+    const target = jQuery("#target").val().trim();
+
+    const params = new URLSearchParams();
+
+    if(source)params.set('source', source);
+    if(target)params.set('target', target);
+    if(id)params.set('project', id);
+
+    const url = location.pathname
+    window.open(`${location.pathname}?${params}`,'_blank');
+}
+
 function showHelp() {
     jQuery('#search-samples').toggle("slow");
 }
