@@ -7,6 +7,17 @@ $sinonims_form.on('submit', function(ev) {
     jQuery('#_action_consulta').trigger('click');
 });
 
+function removeInputSearchQuery() {
+    jQuery('#source').val('');
+    if(!multilingualIsMobile()) {
+        jQuery('#source').focus();
+    }
+}
+
+function multilingualIsMobile() {
+    return window.matchMedia("only screen and (max-width: 768px)").matches;
+}
+
 jQuery('#_action_consulta').click(function(){
     jQuery('.typeahead').typeahead('close');
 
@@ -59,6 +70,7 @@ function print_results(result) {
     jQuery("#loading").hide();
     jQuery('#results').html(result.html);
     jQuery('#results').slideDown();
+    removeInputSearchQuery();
 }
 
 function ko_function(result) {
