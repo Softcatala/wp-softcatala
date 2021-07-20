@@ -1,0 +1,58 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+        <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+            <section class="contingut-section">
+         
+                <b>Text a resumir</b><br/>
+                <div class="textarea-origen col-xs-12 col-sm-6">
+                    <textarea class="form-control primer-textarea" id="source_text" name="source_text" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
+
+            <span>
+                <p>Nombre de frases: <input type="number" id="num_sentences" name="num_sentences" min="3" value="5"></p>
+            </span>
+
+                <p><input id="send_button" type="submit" onclick="summarize_text();return false;"></p>
+                <br/><br/>
+                <div class="textarea-origen col-xs-12 col-sm-6">
+                    <textarea class="form-control primer-textarea" readonly id="translated_text" name="translated_text" rows="12"></textarea>
+               </div>
+
+            </section>
+                  
+                  
+
+            {% if post.content %}
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
