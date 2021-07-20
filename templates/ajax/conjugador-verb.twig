@@ -16,74 +16,23 @@
 
 
 <div class="tab-content">
-  <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
+    <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.infinitive_title }}</h2>
            
             <h4>Mode Indicatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
-                            <div class="col-md-12">
-                                            <div class="panel panel-primary">
-                                            
-                                                <div class="panel-heading">{{ verbs.tense }}</div>
-                                                <table class="table">
-                                                    {% for clau, subjecte in response.temps %}
-                                                        <tr>
-                                                             <th>{{ subjecte|e }}</th>
-                                                             <td>
-                                                        {% for verb in attribute(verbs, clau) %}
-                                                                 {{- verb.word -}} 
-                                                                {%- if attribute(response.variants, verb.variant) is defined -%}
-                                                                 <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                                                {%- endif -%}
-                                                                
-                                                                {%- if loop.last == false  %}, {% endif -%}
-                                                        {% endfor -%}
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </table>
-
-                                                    
-                                            </div>
-                            </div>      
-              
+                {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
             
-
     </div>
-
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.infinitive_title }}</h2>
            
             <h4>Mode Subjuntiu</h4>
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
-                            <div class="col-md-12">
-                                            <div class="panel panel-primary">
-                                            
-                                                <div class="panel-heading">{{ verbs.tense }}</div>
-                                                <table class="table">
-                                                    {% for clau, subjecte in response.temps %}
-                                                        <tr>
-                                                             <th>{{ subjecte|e }}</th>
-                                                             <td>
-                                                        {% for verb in attribute(verbs, clau) %}
-                                                                 {{- verb.word -}} 
-                                                                {%- if attribute(response.variants, verb.variant) is defined -%}
-                                                                 <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                                                {%- endif -%}
-                                                                {%- if loop.last == false  %}, {% endif -%}
-                                                        {% endfor -%}
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </table>
-
-                                                    
-                                            </div>
-                            </div>   
-                
+              {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
-            
+          
     </div>
     <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
             
@@ -102,11 +51,7 @@
                                                              <th>{{ subjecte|e }}</th>
                                                              <td>
                                                         {% for verb in attribute(verbs, clau) %}
-                                                                 {{- verb.word -}} 
-                                                                {%- if attribute(response.variants, verb.variant) is defined -%}
-                                                                 <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                                                {%- endif -%}
-                                                                {%- if loop.last == false  %}, {% endif -%}
+                                                               {% include 'ajax/conjugador-verb-word.twig' %}
                                                         {% endfor -%}
                                                             </td>
                                                         </tr>  
@@ -119,7 +64,6 @@
                             </div>   
                 
             {% endfor %}
-           
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.infinitive_title }}</h2>
@@ -141,11 +85,31 @@
                             
                                    {%- for verb in attribute(verbs, clau)  -%} 
                                             {% if i > 1 %}, {% endif %} 
-                                            {{- verb.word -}}
                                             {% set i = i + 1%}
+                                            
+                                            {{- verb.word -}}
+                                            
+                                            {%- set opentag = false -%} 
+
                                             {%- if attribute(response.variants, verb.variant) is defined -%}
-                                                <span class="variant"> {{ attribute(response.variants, verb.variant) }}</span>
-                                            {%- endif -%}   
+                                                {%- if opentag == false -%}
+                                                    <span class="variant"> ({{ attribute(response.variants, verb.variant) }}
+                                                    {%- set opentag = true -%}  
+                                                {%- else -%}
+                                                    ({{ attribute(response.variants, verb.variant) }}
+                                                {%- endif -%}
+                                            {%- endif -%}
+
+                                            {%- if verb.diacritic == true -%}
+                                                {%- if opentag == false -%}
+                                                    <span class="variant"> (ortografia pre-2017
+                                                    {%- set opentag = true -%}  
+                                                {%- else -%}
+                                                    , ortografia pre-2017 
+                                                {%- endif -%}
+                                            {%- endif -%}
+
+                                            {%- if opentag == true -%})</span>{%- endif -%} 
                                                                                          
                                   {%- endfor -%}                  
                             {% endfor %}

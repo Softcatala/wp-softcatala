@@ -1,0 +1,25 @@
+{{- verb.word -}} 
+
+{%- set opentag = false -%} 
+
+{%- if attribute(response.variants, verb.variant) is defined -%}
+    {%- if opentag == false -%}
+        <span class="variant"> ({{ attribute(response.variants, verb.variant) }}
+        {%- set opentag = true -%}  
+    {%- else -%}
+        ({{ attribute(response.variants, verb.variant) }}
+    {%- endif -%}
+{%- endif -%}
+
+{%- if verb.diacritic == true -%}
+    {%- if opentag == false -%}
+        <span class="variant"> (ortografia pre-2017
+        {%- set opentag = true -%}  
+    {%- else -%}
+        , ortografia pre-2017 
+    {%- endif -%}
+{%- endif -%}
+
+{%- if opentag == true -%})</span>{%- endif -%}
+                                                             
+{%- if loop.last == false  %}, {% endif -%}
