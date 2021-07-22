@@ -14,6 +14,8 @@
         <!-- .contingut -->
           <div class="contingut contingut-left col-sm-12 col-md-8">
             <section class="contingut-section">
+
+             <p>Aquesta pàgina en proves ofereix un servei de resum de textos en català. Introduïu un text al quadre i provarem de fer-ne un resum. Com en el cas de la traducció automàtica o d'altres tecnologies de la llengua, és possible que aquests resums no siguin perfectes i cal revisar-los sempre.</p>
          
                 <b>Text a resumir</b><br/>
                 <div class="textarea-origen col-xs-12">
@@ -26,7 +28,8 @@
                     <p><input id="send_button" type="submit" onclick="summarize_text();return false;"></p>
                     <br/><br/>
                     <div class="textarea-origen col-xs-12">
-                      <textarea class="form-control primer-textarea" readonly id="translated_text" name="translated_text" rows="12"></textarea>
+                        <textarea class="form-control primer-textarea" readonly id="translated_text" name="translated_text" rows="12"></textarea>
+                        <p><i>Temps: <span id="time_used" name="time_used"></span></i></p> 
                     </div>
 
             </section>
