@@ -64,7 +64,7 @@ class Projecte extends PostType {
 				'with_front' => false,
 			),
 			'capability_type'     => 'page',
-			'show_in_rest'        => false,
+			'show_in_rest'        => true,
 		);
 		register_post_type( 'projecte', $args );
 	}

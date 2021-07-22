@@ -1,0 +1,21 @@
+<div class="col-md-12">
+                                            <div class="panel panel-primary">
+                                            
+                                                <div class="panel-heading">{{ verbs.tense }}</div>
+                                                <table class="table">
+                                                    {% for clau, subjecte in response.temps %}
+                                                        <tr>
+                                                             <th>{{ subjecte|e }}</th>
+                                                             <td>
+                                                        
+                                                        {% for verb in attribute(verbs, clau) %}
+                                                                {% include 'ajax/conjugador-verb-word.twig' %}
+                                                        {% endfor -%}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+
+                                                    
+                                            </div>
+</div>    

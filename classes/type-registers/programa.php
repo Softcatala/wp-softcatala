@@ -83,7 +83,7 @@ class Programa extends PostType {
 				'with_front' => false,
 			),
 			'capability_type'     => 'page',
-			'show_in_rest'        => false,
+			'show_in_rest'        => true,
 		);
 		register_post_type( 'programa', $args );
 	}
@@ -183,7 +183,7 @@ class Programa extends PostType {
 			'show_in_nav_menus' => true,
 			'show_tagcloud'     => true,
 			'rewrite'           => false,
-			'show_in_rest'      => false,
+			'show_in_rest'      => true,
 		);
 
 		register_taxonomy( 'classificacio', array( 'programa', 'projecte' ), $args );

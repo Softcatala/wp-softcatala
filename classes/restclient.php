@@ -22,6 +22,10 @@ class SC_RestClient {
 			$args['headers']['accept-encoding'] = 'identity';
 		}
 
+		if (isset($_SERVER['HTTP_USER_AGENT'])){
+			$args['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
+		}
+		
 		$response = wp_remote_get( $url, $args );
 
 		$code = wp_remote_retrieve_response_code( $response );
