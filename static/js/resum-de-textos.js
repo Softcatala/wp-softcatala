@@ -28,7 +28,7 @@ function print_results(result) {
     jQuery('#summarized_text').val(text)
 
     text = result['time']
-    jQuery('#time_used').val(text)
+    jQuery('#time_used').text(text)
 }
 
 function ko_function(result) {
