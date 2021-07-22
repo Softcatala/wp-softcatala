@@ -26,11 +26,13 @@
                 <p><input id="send_button" type="submit" onclick="summarize_text();return false;"></p>
                 <br/><br/>
                 <div class="textarea-origen col-xs-12 col-sm-6">
-                    <textarea class="form-control primer-textarea" readonly id="translated_text" name="translated_text" rows="12"></textarea>
+                    <textarea class="form-control primer-textarea" readonly id="summarized_text" name="summarized_text" rows="12"></textarea>
+                   <p><i>Temps: <span id="time_used" name="time_used"></span></i></p> 
                </div>
 
+
             </section>
-                  
+
                   
 
             {% if post.content %}
