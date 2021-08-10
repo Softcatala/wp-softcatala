@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '1.1.03' );
+define( 'WP_SOFTCATALA_VERSION', '1.1.04' );
 
 include ('php73.php');
 
@@ -321,7 +321,8 @@ class StarterSite extends TimberSite {
 			'traductor' => 'Traductor',
 			'corrector' => 'Corrector',
 			'recursos'  => 'Recursos',
-			'rebost'    => 'Programes'
+			'rebost'    => 'Programes',
+			'sinonims'  => 'Sinonims'
 		);
 
 		return $sections;
