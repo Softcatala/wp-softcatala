@@ -13,29 +13,7 @@
 
         <!-- .contingut -->
           <div class="contingut contingut-left col-sm-12 col-md-8">
-            <section class="contingut-section">
-
-             <p>Aquesta pàgina en proves ofereix un servei de resum de textos en català. Introduïu un text al quadre i provarem de fer-ne un resum. Com en el cas de la traducció automàtica o d'altres tecnologies de la llengua, és possible que aquests resums no siguin perfectes i cal revisar-los sempre.</p>
-         
-                <b>Text a resumir</b><br/>
-                <div class="textarea-origen col-xs-12">
-                    <textarea class="form-control primer-textarea" id="source_text" name="source_text" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
-
-                    <span>
-                        <p>Nombre de frases: <input type="number" id="num_sentences" name="num_sentences" min="3" value="5"></p>
-                    </span>
-
-                    <p><input id="send_button" type="submit" onclick="summarize_text();return false;"></p>
-                    <br/><br/>
-                    <div class="textarea-origen col-xs-12">
-                        <textarea class="form-control primer-textarea" readonly id="translated_text" name="translated_text" rows="12"></textarea>
-                        <p><i>Temps: <span id="time_used" name="time_used"></span></i></p> 
-                    </div>
-
-            </section>
-                  
-                  
-
+            
             {% if post.content %}
             <!-- .contingut-section  -->
             <section class="contingut-section">
@@ -43,6 +21,27 @@
             </section>
             <!--/.contingut-section  -->
             {% endif %}
+            
+            <section class="contingut-section">
+
+              
+                    <label for="source_text">Text a resumir</label>
+                    <textarea class="form-control" id="source_text" name="source_text" rows="12" maxlength="20000" placeholder="Introduïu aquí el text que voleu traduir"></textarea>
+                    <form class="form-inline">
+                      <div class="form-group" style="margin:10px 0 10px 0">
+                            <label for="num_sentences">Nombre de frases: </label>
+                            <input type="number" style="width:50px" class="form-control input-sm" id="num_sentences" name="num_sentences" min="3" value="5">
+                      </div>
+                      <input id="send_button" style="margin:10px 0 10px 0" class="bt-basic bt-basic-vermell pull-right" type="submit" onclick="summarize_text();return false;">
+                    </form>
+                    <textarea class="form-control form-inline" readonly id="translated_text" name="translated_text" rows="12"></textarea>
+                    <p><i>Temps: <span id="time_used" name="time_used"></span></i></p> 
+          
+            </section>
+                  
+                  
+
+            
           </div><!--/.contingut -->
 
           {% include "sidebar_recursos.twig" %}

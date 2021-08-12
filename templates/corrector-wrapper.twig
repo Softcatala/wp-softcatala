@@ -1,66 +1,64 @@
 <div class="corrector-textarea form-group">
   <div class="col-xs-12">
-<!-- .btns-corrector -->
-<div class="btns-corrector row">
-  <div class="col-xs-12">
-    <!-- .formes  -->
-    <div class="formes">
-        <p>Formes verbals:</p>
-	  <label class="radio-inline">
-	    <input type="radio" name="variant" id="variant_general" value="variant_general" checked> centrals
-	      </label>
-	    <label class="radio-inline">
-	      <input type="radio" name="variant" id="variant_valencia" value="variant_valencia" /> valencianes
-	        </label>
-	      <label class="radio-inline">
-		<input type="radio" name="variant" id="variant_balear" value="variant_balear" /> balears
-		  </label>
-	</div><!--/.formes -->
+        <!-- .btns-corrector -->
+        <div class="btns-corrector row">
+            <div class="col-xs-12">
+                <!-- .formes  -->
+                <div class="formes">
+                    <p>Formes verbals:</p>
+	                <label class="radio-inline">
+	                    <input type="radio" name="variant" id="variant_general" value="variant_general" checked> centrals
+	                </label>
+	                <label class="radio-inline">
+	                    <input type="radio" name="variant" id="variant_valencia" value="variant_valencia" /> valencianes
+	                </label>
+	                <label class="radio-inline">
+		                <input type="radio" name="variant" id="variant_balear" value="variant_balear" /> balears
+		            </label>
+	            </div>
+                <!--/.formes -->
 
-    <div class="btn-right">
-        <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
-        <input type="hidden" name="lang" value="ca"/>
-     </div>
-  </div>
-</div><!--/.btns-corrector -->
-<div id="feedbackErrorMessage"></div>
-<!-- comença el formulari -->
-
-
-<div class="textcorrectorgram">
-
-  <div id="navii">
-  <p id="checktextpara">
-    <textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="8"></textarea>
-  </p>
-  <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
-  </div>
-  <div id="metriques" class="hidden-md hidden-lg">
-    <p>Mètriques del text</p>
-    <p id="resultatmetriques"></p>
-    <p id="msg-metriques"></p>
-    <p id="significat"><a href="/corrector/metriques">Significat d'aquestes mètriques</a></p>
-  </div>
-  
-</div>
-</div>
+                <div class="btn-right">
+                    <input type="submit" class="bt-basic bt-basic-vermell submit" name="_action_checkText" value="Revisa">
+                    <input type="hidden" name="lang" value="ca"/>
+                </div>
+            </div>
+        </div>
+        <!--/.btns-corrector -->
+        <div id="feedbackErrorMessage"></div>
+        <!-- comença el formulari -->
+        <div class="textcorrectorgram">
+            <div id="navii">
+                <p id="checktextpara">
+                    <textarea spellcheck="false" id="checktext" class="lt" name="text" style="width: 100%" rows="8"></textarea>
+                </p>
+                <textarea id="copytextarea" name="copytextarea" style="width: 100%;display:none" rows="6" readonly="readonly"></textarea>
+            </div>
+            <div id="metriques" class="hidden-md hidden-lg">
+                <p>Mètriques del text</p>
+                <p id="resultatmetriques"></p>
+                <p id="msg-metriques"></p>
+                <p id="significat"><a href="/corrector/metriques">Significat d'aquestes mètriques</a></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="traductor-checkbox form-group">
 
     <div class="col-sm-12">
-    <div class="checkbox checkbox-corrector">
-        <span id="copy-text" data-trigger="manual" data-placement="right" class="icon-inline">
+        <div class="checkbox checkbox-corrector">
+            <span id="copy-text" data-trigger="manual" data-placement="right" class="icon-inline">
                 <i class="fa fa-clipboard" aria-hidden="true"></i> Copia el text
-        </span>&nbsp;&nbsp;
-        <span id="clear_text" data-trigger="manual" data-placement="right" class="icon-inline">
+            </span>&nbsp;&nbsp;
+            <span id="clear_text" data-trigger="manual" data-placement="right" class="icon-inline">
                               <i class="fa fa-eraser" aria-hidden="true"></i> Neteja
-        </span>&nbsp;&nbsp;
-        <a id="text_prova" href="#">Text de prova</a>&nbsp;&nbsp;
-	  <label class="checkbox-inline">
-	    <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Més opcions<br/><br/>
+            </span>&nbsp;&nbsp;
+            <a id="text_prova" href="#">Text de prova</a>&nbsp;&nbsp;
+	        <label class="checkbox-inline">
+	            <input type="checkbox" name="mostra_opcions" id="mostra_opcions" value="mostra_opcions">Més opcions<br/><br/>
 	      </label>
-	  </div>
+	    </div>
 
 
         <!--Opcions-->
