@@ -16,7 +16,7 @@ wp_localize_script( 'sc-js-multilingue', 'scajax', array(
     'autocomplete_url' => $url_api . 'autocomplete/'
 ));
 
-$paraula = urldecode( get_query_var('paraula') );
+$paraula = wp_kses( urldecode( get_query_var('paraula') ), array() );
 $lletra = get_query_var('lletra');
 $content_title = 'Diccionari multilingüe';
 
