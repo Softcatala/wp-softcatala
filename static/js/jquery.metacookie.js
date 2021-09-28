@@ -93,7 +93,7 @@ jQuery.extend(true, ( function () {
     + ((permCookie) ? "; expires=" + expDate.toGMTString() : "") 
     + "; path=" + ((path) ? path : "/")
     + "; domain=" + ((domain) ? domain : gDomain)
-    + ((secure) ? "; secure" : "");
+    + "; SameSite=Strict; Secure";
 	
     document.cookie = cookieStr;
   }
@@ -150,9 +150,13 @@ jQuery.extend(true, ( function () {
    * @param {String} subName The name of the cookie subfield
    * @param {String} name The name of the cookie
    * @param {String} value The value to set
+   * @param {String} expires The duration of the cookie; accepts strings like "2 years", "2 months"; defaults to "1 year"
+   * @param {String} path The path for the cookie; defaults to "/"
+   * @param {String} domain The domain for the cookie; defaults to the current domain
+   * @param {Boolean} secure Toggles the security setting for the cookie
    * @return {Void}
-   */  
-  function setMetaCookie(subName, name, value) {
+   */
+  function setMetaCookie(subName, name, value, expires, path, domain, secure) {
     var currentCookieVal = getCookie(name),
     subCookies = [],
     temp = [],
@@ -188,7 +192,7 @@ jQuery.extend(true, ( function () {
         }
       }
 	  }
-    return(setCookie(name, newCookieVal));
+    return(setCookie(name, newCookieVal, expires, path, domain, secure));
   }
 
   /**

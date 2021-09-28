@@ -450,7 +450,7 @@ function softcatala_scripts() {
 	wp_deregister_script( 'jquery' );
 	wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, null, true );
 
-	wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array( 'jquery' ), '20130313', true );
+	wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array( 'jquery' ), '20210928', true );
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
