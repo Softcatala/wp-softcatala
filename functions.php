@@ -153,6 +153,7 @@ class StarterSite extends TimberSite {
 		locate_template( array( 'inc/post_types_functions.php' ), true, true );
 		locate_template( array( 'inc/ajax_operations.php' ), true, true );
 		locate_template( array( 'inc/rewrites.php' ), true, true );
+		load_theme_textdomain('softcatala', get_template_directory() . '/languages');
 	}
 
 	function register_ui_settings() {
@@ -350,6 +351,7 @@ class StarterSite extends TimberSite {
 		\Softcatala\TypeRegisters\Aparell::get_instance();
 		\Softcatala\TypeRegisters\Programa::get_instance();
 		\Softcatala\TypeRegisters\Projecte::get_instance();
+		\Softcatala\TypeRegisters\DadesObertes::get_instance();
 	}
 
 	function add_user_nav_info_to_context( $context ) {
