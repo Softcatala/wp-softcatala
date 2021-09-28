@@ -1,0 +1,407 @@
+# Copyright (C) 2021 Softcatalà
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Softcatala 1.1.04\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/wp-softcatala\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-09-27T19:37:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: softcatala\n"
+
+#. Theme Name of the theme
+msgid "Softcatala"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "https://www.softcatala.org"
+msgstr ""
+
+#. Description of the theme
+msgid "Softcatala WordPress Theme"
+msgstr ""
+
+#. Author of the theme
+msgid "Softcatalà"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.softcatala.org/"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Aparells"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Plantilla Membres"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Cercador avançat de paraules"
+msgstr ""
+
+#: classes/type-registers/aparell.php:48
+msgid "Aparell"
+msgstr ""
+
+#: classes/type-registers/aparell.php:49
+msgid "Aparells: Llistat d'aparells\t(telèfons, tauletes, rellotges,...)"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:53
+msgid "Dades Obertes"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:54
+msgid "Dades Obertes: Llistat de dades obertes"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:81
+msgid "Open Data Archives"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:82
+msgid "Open Data Attributes"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:83
+msgid "Parent Open Data:"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:84
+msgid "All Open Datas"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:85
+msgid "Add New Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:86
+#: classes/type-registers/post-type.php:110
+msgid "Add New"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:87
+msgid "New Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:88
+msgid "Edit Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:89
+msgid "Update Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:90
+#: classes/type-registers/dades-obertes.php:91
+msgid "View Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:92
+msgid "Search Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:93
+#: classes/type-registers/post-type.php:117
+msgid "Not found"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:94
+#: classes/type-registers/post-type.php:118
+msgid "Not found in Trash"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:95
+#: classes/type-registers/post-type.php:119
+msgid "Featured Image"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:96
+#: classes/type-registers/post-type.php:120
+msgid "Set featured image"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:97
+#: classes/type-registers/post-type.php:121
+msgid "Remove featured image"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:98
+#: classes/type-registers/post-type.php:122
+msgid "Use as featured image"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:99
+msgid "Insert into Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:100
+msgid "Uploaded to this Open Data"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:101
+msgid "Open Data list"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:102
+msgid "Open Data list navigation"
+msgstr ""
+
+#: classes/type-registers/dades-obertes.php:103
+msgid "Filter Open Data list"
+msgstr ""
+
+#: classes/type-registers/esdeveniment.php:48
+msgid "Esdeveniment"
+msgstr ""
+
+#: classes/type-registers/esdeveniment.php:49
+msgid "Esdeveniments i activitats relacionats amb el món de la tecnologia i el català."
+msgstr ""
+
+#: classes/type-registers/post-type.php:105
+msgid "Item Archives"
+msgstr ""
+
+#: classes/type-registers/post-type.php:106
+msgid "Item Attributes"
+msgstr ""
+
+#: classes/type-registers/post-type.php:107
+#: classes/type-registers/post-type.php:138
+msgid "Parent Item:"
+msgstr ""
+
+#: classes/type-registers/post-type.php:108
+#: classes/type-registers/post-type.php:136
+msgid "All Items"
+msgstr ""
+
+#: classes/type-registers/post-type.php:109
+#: classes/type-registers/post-type.php:140
+msgid "Add New Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:111
+msgid "New Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:112
+#: classes/type-registers/post-type.php:141
+msgid "Edit Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:113
+#: classes/type-registers/post-type.php:142
+msgid "Update Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:114
+#: classes/type-registers/post-type.php:143
+msgid "View Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:115
+msgid "View Items"
+msgstr ""
+
+#: classes/type-registers/post-type.php:116
+msgid "Search Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:123
+msgid "Insert into item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:124
+msgid "Uploaded to this item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:125
+#: classes/type-registers/post-type.php:151
+msgid "Items list"
+msgstr ""
+
+#: classes/type-registers/post-type.php:126
+#: classes/type-registers/post-type.php:152
+msgid "Items list navigation"
+msgstr ""
+
+#: classes/type-registers/post-type.php:127
+msgid "Filter items list"
+msgstr ""
+
+#: classes/type-registers/post-type.php:137
+msgid "Parent Item"
+msgstr ""
+
+#: classes/type-registers/post-type.php:139
+msgid "New Item Name"
+msgstr ""
+
+#: classes/type-registers/post-type.php:144
+msgid "Separate items with commas"
+msgstr ""
+
+#: classes/type-registers/post-type.php:145
+msgid "Add or remove items"
+msgstr ""
+
+#: classes/type-registers/post-type.php:146
+msgid "Choose from the most used"
+msgstr ""
+
+#: classes/type-registers/post-type.php:147
+msgid "Popular Items"
+msgstr ""
+
+#: classes/type-registers/post-type.php:148
+msgid "Search Items"
+msgstr ""
+
+#: classes/type-registers/post-type.php:149
+msgid "Not Found"
+msgstr ""
+
+#: classes/type-registers/post-type.php:150
+msgid "No items"
+msgstr ""
+
+#: classes/type-registers/programa.php:65
+msgid "Programa"
+msgstr ""
+
+#: classes/type-registers/programa.php:66
+msgid "Programes: Rebost d'aplicacions."
+msgstr ""
+
+#: classes/type-registers/projecte.php:46
+msgid "Projecte"
+msgstr ""
+
+#: classes/type-registers/projecte.php:47
+msgid "Projecte de Softcatalà."
+msgstr ""
+
+#: classes/type-registers/slider.php:56
+msgid "Slider"
+msgstr ""
+
+#: classes/type-registers/slider.php:57
+msgid "Destacats de la pàgina d'inici"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Conjugador"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contacte"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Corrector Softcatala"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Diccionari Multilingüe"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Dist - eines consulta lingüística"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Dist - recursos per a traductors"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Home Softcatala"
+msgstr ""
+
+#. Template Name of the theme
+msgid "L’hora en català"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Nombres en lletres"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Memòries de traducció"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Plantilla text sense menú"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Plantilla text amb menú dreta"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Planeta"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora automàtica amb blocs verticals"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora blocs verticals"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora automàtica amb capçalera/enllaços"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora amb capçalera/enllaços"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora automàtica amb text i blocs verticals"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Distribuïdora text i blocs verticals"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Plantilla Steps Softcatala"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Plantilla text amb menú esquerra"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Resum de textos"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Separador i comptador de síl·labes"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Sinònims Softcatala OpenThesaurus"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Subpàgina Programa"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Subpàgina Projecte"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Traductor Softcatala"
+msgstr ""
