@@ -343,7 +343,6 @@ function translateText() {
            if (jQuery('#log_traductor_source:checked').length)
                 savetext = true;
             
-            
            $.ajax({
                 url:neuronal_json_url + `/translate/`,
                 type:"POST",
@@ -616,8 +615,10 @@ var neuronalApp = (function () {
         var origin_language = jQuery('#origin_language').val();
         var target_language = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
+        var neuronal_langs = ["en", "deu", "ita", "nld", "fr", "pt"]
 
-        if (((origin_language == 'en') || (target_language == 'en') || (origin_language == 'de') || (target_language == 'de')) & rneuronalchecked)
+        if ((jQuery.inArray(origin_language, neuronal_langs) !== -1 || jQuery.inArray(target_language, neuronal_langs) !== -1)
+            & rneuronalchecked)
             return true;
         else
             return false;
@@ -629,33 +630,24 @@ var neuronalApp = (function () {
         var origin_lang  = jQuery('#origin_language').val();
         var target_lang = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
+        var langs_with_both_translators = ["en", "fr", "pt"]
         
-        if ((origin_lang == 'en') || (target_lang == 'en') || (origin_lang == 'de') || (target_lang == 'de')){
-
-        if ((origin_lang == 'de') || (target_lang == 'de')){
+        if (jQuery.inArray(origin_lang, langs_with_both_translators) !== -1 ||
+            jQuery.inArray(target_lang, langs_with_both_translators) !== -1) {
 
             jQuery('#rneuronal').prop("checked", true);
-            jQuery('#rapertium').attr('disabled', true);
 
-        }else{
-            jQuery('#rapertium').attr('disabled', false);
-        }
-        
             // Show radiobuttons for neuronal vs apertium
             jQuery('#panel-radioneuronal').removeClass('hidden');
             jQuery('#panel-radioneuronal').show();
     
             if (rneuronalchecked){       
                 show_neuronal_menu();
-
-                
-
             }else{
                 hide_neuronal_menu();
             }
       
         }else{
-    
             // Hide radiobuttons
             jQuery('#panel-radioneuronal').hide();
             jQuery('#info-neuronal').hide();
