@@ -1,3 +1,7 @@
+  /*
+    Estils personalització traductor
+  */
+  
   #message_info{
     padding: 10px 25px !important;
   }
@@ -21,4 +25,16 @@
   }
   #translate_file{
     width: 241px;
+  }
+
+  /* Nous botons */
+  .formulari-eines .btns-llengues .btn{
+    
+    font-weight: bold;
+    
+  }
+  .formulari-eines .btns-llengues .select{
+      color:#e64b3c;
+      font-weight: bold;
+      border-bottom:3px solid #e64b3c;
   }
