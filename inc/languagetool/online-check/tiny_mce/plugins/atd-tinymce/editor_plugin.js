@@ -1007,7 +1007,7 @@ AtDCore.prototype.isIE = function() {
                             var errorText = jqXHR.responseText;
                             //if (!errorText) {
                             errorText = "Error: el servei no respon. Proveu més tard. " 
-                              + "Consulteu: " +
+                              + "Consulteu: "
                               + "<a href=\"https://www.softcatala.org/tutorials/configuracio-dels-navegadors/problemes-amb-els-certificats-per-a-accedir-a-la-web-en-mode-segur/\">problemes amb els certificats</a> "
                               + " i <a href=\"https://www.softcatala.org/wiki/Projectes/LanguageTool/PMF\">preguntes més freqüents</a>.";
                             //}
