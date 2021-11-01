@@ -101,4 +101,9 @@ td img {vertical-align: top;}
 
 .severeError {
     /*color: #c43434;*/
+    color: #333;
+}
+
+.severeError a {
+    color: #c43434;
 }
