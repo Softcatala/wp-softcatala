@@ -502,6 +502,9 @@ function set_target_button ( language ) {
         jQuery('#target-spa').attr('disabled', 'disabled');
         jQuery('[data-id="target-select"]').removeClass('select');
         jQuery('[data-id="target-select"]').attr('disabled', 'disabled');
+
+        jQuery('#div_select_target > div').removeClass('select');
+
     } else if ( language == 'spa' ) {
         jQuery('#target-spa').removeAttr('disabled', 'disabled');
         jQuery('#target-spa').addClass('select');
@@ -509,6 +512,10 @@ function set_target_button ( language ) {
         jQuery('#target-cat').attr('disabled', 'disabled');
         jQuery('[data-id="target-select"]').removeClass('select');
         jQuery('[data-id="target-select"]').removeAttr('disabled', 'disabled');
+        
+        jQuery('#div_select_target > div').removeClass('select');
+        
+
     } else {
         jQuery('#target-select').val( language );
         jQuery('#target-spa').removeAttr('disabled');
