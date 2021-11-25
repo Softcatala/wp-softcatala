@@ -1,0 +1,67 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc blog">
+		<!-- .main-header -->
+		{% include "contingut-header.twig" %}
+		<!--/.main-header -->
+
+      <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-9">
+                  <div class="info-esdeveniment">
+                            {% if creators %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                      Autor:
+                                </div>
+                                {% for creator in creators %}
+                                <div class="col-sm-12">
+                                    <span>{{ creator.creator_name }}</span</a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% if post.license_license_name %}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        Llicència:
+                                    </div>
+                                    <div class="col-sm-12">
+                                    {% if post.license_license_url %} <a href="{{post.license_license_url}}"> {% endif %}
+                                        {{ post.license_license_name }}
+                                    {% if post.license_license_url %} </a> {% endif %}  
+                                    </div>
+                                </div>
+                             {% endif %}
+                            {% if post.download_url %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    Adreça de descàrrega:
+                                </div>
+                                <div class="col-sm-12">
+                                  <a href="{{post.download_url}}">{{post.download_url}}</a>
+                                </div>
+                            </div>
+                            {% endif %}   
+                            <div class="row">
+                                <div class="contingut-section col-sm-12"><p>{{post.description}}</p></div>
+                           </div>                    
+                            
+                  </div><!--/.info-esdeveniment -->
+  
+          </div>
+              <!-- .contingut-section -->
+         {% include "sidebar.twig" %}
+		  </div><!--/.row -->
+  </div><!--/.container-fluid -->
+</main><!--/.main .wrap-blanc -->
+
+
+	<!-- .seccio-vermella -->
+	{% include "call-to-action-bottom.twig" %}
+	<!--/.seccio-vermella -->
+{% endblock %}

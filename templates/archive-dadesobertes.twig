@@ -1,0 +1,43 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main blog wrap-blanc">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+                 <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    {% if posts %}
+                    {% for dadesobertes in posts %}
+                    <div class="contingut-article">
+                        <h2><a href="{{dadesobertes.link}}">{{ dadesobertes.title }}</a></h2>
+                        <div class="article-cont">
+                                <p>{{ dadesobertes.short_description }}</p>
+                        </div><!-- Extracte dades obertes -->
+                        <hr class="clara">
+                    </div>
+                    {% endfor %}
+
+                    <!-- .pagination -->
+                    {% include "pagination.twig" %}
+                    <!-- /.pagination -->
+                    {% else %}
+                        No hi ha cap dada oberta per mostrar
+                    {% endif %}<!--/.pagination -->
+                </div><!--/.contingut -->
+                
+                {% include "sidebar.twig" %}
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "form-novetats.twig" %}
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+{% endblock %}

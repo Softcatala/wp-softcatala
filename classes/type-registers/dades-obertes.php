@@ -66,6 +66,10 @@ class DadesObertes extends PostType {
 			'has_archive'         => true,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => true,
+			'rewrite'             => array(
+				'slug' => 'dades-obertes',
+				'with_front' => false,
+			),
 			'rewrite'             => false,
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
