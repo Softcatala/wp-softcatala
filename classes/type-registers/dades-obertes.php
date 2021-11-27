@@ -70,7 +70,6 @@ class DadesObertes extends PostType {
 				'slug' => 'dades-obertes',
 				'with_front' => false,
 			),
-			'rewrite'             => false,
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
 		);
