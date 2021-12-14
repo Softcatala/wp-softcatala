@@ -35,6 +35,12 @@
   var ordinal_number_fem = numlang.run("ordinal-number-feminine " + num).replace(/\n/g,"<br>");
   var ordinal_number_fem_val = numlang_val.run("ordinal-number-feminine " + num).replace(/\n/g,"<br>");
   var ordinal_number_fem_bal = numlang_bal.run("ordinal-number-feminine " + num).replace(/\n/g,"<br>");
+  var partitive = numlang.run("partitive " + num).replace(/\n/g,"<br>");
+  var partitive_val = numlang_val.run("partitive " + num).replace(/\n/g,"<br>");
+  var partitive_bal = numlang_bal.run("partitive " + num).replace(/\n/g,"<br>");
+  var partitive_fem = numlang.run("partitive-feminine " + num).replace(/\n/g,"<br>");
+  var partitive_fem_val = numlang_val.run("partitive-feminine " + num).replace(/\n/g,"<br>");
+  var partitive_fem_bal = numlang_bal.run("partitive-feminine " + num).replace(/\n/g,"<br>");
   var fraction = numlang.run("fraction " + num).replace(/\n/g,"<br>");
   var fraction_val = numlang_val.run("fraction " + num).replace(/\n/g,"<br>");
   var fraction_bal = numlang_bal.run("fraction " + num).replace(/\n/g,"<br>");
@@ -115,6 +121,27 @@
           }
           resultat += "<br/>";
         }
+        if (partitive) {
+          resultat += "<b>Fraccionari</b>";
+          if(partitive !== "unitat") {
+             resultat += "<br/>Masculí: <span id=\"part\">" + partitive + "</span> <input id=\"part_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part', 'part_parla');return false;\">";
+          }
+          if (partitive_val !== partitive) {
+            resultat += ", <span id=\"part_val\">" + partitive_val + " (val.)</span> <input id=\"part_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_val', 'part_val_parla');return false;\">";
+          }
+          if (partitive_bal !== partitive) {
+            resultat += ", <span id=\"part_bal\">" + partitive_bal + " (bal.)</span> <input id=\"part_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_bal', 'part_bal_parla');return false;\">";
+          }
+          resultat += "<br/>";
+          resultat += "Femení: <span id=\"part_f\">" + partitive_fem + "</span> <input id=\"part_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f', 'part_f_parla');return false;\">";
+          if (partitive_fem_val !== partitive_fem) {
+            resultat += ", <span id=\"part_f_val\">" + partitive_fem_val + " (val.)</span> <input id=\"part_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_val', 'part_f_val_parla');return false;\">";
+          }
+          if (partitive_fem_bal !== partitive_fem) {
+            resultat += ", <span id=\"part_f_bal\">" + partitive_fem_bal + " (bal.)</span> <input id=\"part_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_bal', 'part_f_bal_parla');return false;\">";
+          }
+          resultat += "<br/>";
+        }
         if ((roman) && (!/^\d/.test(roman))){
           resultat += "<b>Numeració romana</b><br/>";
 		  resultat += roman + "</br>";
@@ -187,4 +214,3 @@ function speak_text(id, element) {
     aud.play();
 
 }
-
