@@ -7,6 +7,8 @@
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
+/* Estils propis dades obertes */
+wp_enqueue_style( 'sc-css-dades-obertes', get_template_directory_uri() . '/static/css/dades-obertes.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
 
 

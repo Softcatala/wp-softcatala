@@ -11,17 +11,19 @@
             <div class="row">
                  <!-- .contingut -->
                 <div class="contingut contingut-left col-sm-12 col-md-9">
-                    {% if posts %}
-                    {% for dadesobertes in posts %}
-                    <div class="contingut-article">
-                        <h2><a href="{{dadesobertes.link}}">{{ dadesobertes.title }}</a></h2>
-                        <div class="article-cont">
-                                <p>{{ dadesobertes.short_description }}</p>
-                        </div><!-- Extracte dades obertes -->
-                        <hr class="clara">
+                    <div class="llistat-dades-obertes">
+                        <h2>Text introductori Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci Text introductori Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</h2>
+                        {% if posts %}
+                        {% for dadesobertes in posts %}
+                        <div class="contingut-dades-obertes">
+                            <h3><a href="{{dadesobertes.link}}">{{ dadesobertes.title }}</a></h3>
+                            <div class="article-cont">
+                                    <p>{{ dadesobertes.post_excerpt }}</p>                                   
+                            </div><!-- Extracte dades obertes -->
+                            <hr class="clara">
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-
                     <!-- .pagination -->
                     {% include "pagination.twig" %}
                     <!-- /.pagination -->

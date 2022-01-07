@@ -1,0 +1,52 @@
+/*
+Estils propis dades obertes
+*/
+
+.llistat-dades-obertes > h2 {
+    margin-bottom:3rem;
+    background: #eae8e8;
+    padding: 2rem;
+    font-size: 2rem;
+}
+
+
+.llistat-dades-obertes h3 {
+    
+    font-weight: 300;
+    font-size: 24px;
+    color: #000;
+    line-height: 1.4;
+    margin: 0;
+    
+}
+.llistat-dades-obertes h3 a{
+    color: #000;
+    text-decoration:none;
+}
+
+
+.dades-obertes  h4 {
+    font-size: 2rem;
+}
+.dades-obertes  p {
+    font-size: 1.5rem;
+    
+}
+.dades-obertes-lat {
+    margin-top:30px;
+    padding:0;
+    border-top: 1px solid #c7c5c5;
+}
+.dades-obertes-item-lateral {
+    padding:1rem;
+    border-bottom: 1px solid #c7c5c5;
+}
+.dades-obertes-item-lateral h5{
+    margin:0;
+    margin-bottom:6px;
+    font-weight: bold;
+
+}
+.dades-obertes-item-lateral p{
+    margin:0
+}

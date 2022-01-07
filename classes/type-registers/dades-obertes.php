@@ -53,7 +53,7 @@ class DadesObertes extends PostType {
 			'label'               => __( 'Dades Obertes', 'softcatala' ),
 			'description'         => __( 'Dades Obertes: Llistat de dades obertes', 'softcatala' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'revisions', 'thumbnail' ),
+			'supports'            => array( 'title', 'revisions','editor'),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,

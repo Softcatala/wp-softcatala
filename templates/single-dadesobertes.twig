@@ -12,47 +12,145 @@
 
           <!-- .contingut -->
           <div class="contingut contingut-left col-sm-9">
-                  <div class="info-esdeveniment">
-                            {% if creators %}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                      Autor:
+                <div class="dades-obertes">
+                        <div class="row">
+                               <div class="col-sm-9">
+                                    <h4>Descripció</h4>
+                                    <p>{{post.content}}</p>
+                                    {% if post.download_url %}
+                                        <h4>Adreça de descàrrega:</h4>
+                                        <a href="{{post.download_url}}">{{post.download_url}}</a>
+                                    {% endif %}   
                                 </div>
-                                {% for creator in creators %}
-                                <div class="col-sm-12">
-                                    <span>{{ creator.creator_name }}</span</a>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                            {% if post.license_license_name %}
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        Llicència:
+                                <div class="col-sm-3 dades-obertes-lat">
+                                   {% if creators %}
+                                   <div class="dades-obertes-item-lateral">
+                                        {% if creators|length > 1 %}
+                                            <h5>Autors:</h5>
+                                        {% else %}
+                                            <h5>Autor:</h5>
+                                        {% endif %}
+                                        {% for creator in creators %}
+                                            <p>{{ creator.creator_name }}</a></p>
+                                        {% endfor %}
                                     </div>
-                                    <div class="col-sm-12">
-                                    {% if post.license_license_url %} <a href="{{post.license_license_url}}"> {% endif %}
+                                    {% endif %}
+                                    
+                                    {% if post.license_license_name %}
+                                    <div class="dades-obertes-item-lateral">
+                                        <h5>Llicència:</h5>
+                                        <p>
+                                        {% if post.license_license_url %} <a href="{{post.license_license_url}}"> {% endif %}
                                         {{ post.license_license_name }}
-                                    {% if post.license_license_url %} </a> {% endif %}  
+                                        {% if post.license_license_url %} </a> 
+                                        {% endif %}
+                                        </p>
                                     </div>
+                                    {% endif %}
                                 </div>
-                             {% endif %}
-                            {% if post.download_url %}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    Adreça de descàrrega:
-                                </div>
-                                <div class="col-sm-12">
-                                  <a href="{{post.download_url}}">{{post.download_url}}</a>
-                                </div>
-                            </div>
-                            {% endif %}   
-                            <div class="row">
-                                <div class="contingut-section col-sm-12"><p>{{post.description}}</p></div>
-                           </div>                    
-                            
-                  </div><!--/.info-esdeveniment -->
-  
+                                
+                       </div>
+                </div>
+                <div itemscope itemtype="http://schema.org/Dataset" class="hidden">
+                <table>
+                    <tr>
+                    <th>property</th>
+                    <th>value</th>
+                    </tr>
+                    <tr>
+                    <td>name</td>
+                    <td><code itemprop="name">{{post.namedts}}</code></td>
+                    </tr>
+                    <tr>
+                    <td>description</td>
+                    <td><code itemprop="description">{{post.description}}</code></td>
+                    </tr>
+                    <tr>
+                    <td>license</td>
+                    <td>
+                        <div itemscope itemtype="http://schema.org/CreativeWork" itemprop="license">
+                            <table>
+                                <tr>
+                                    <th>property</th>
+                                    <th>value</th>
+                                </tr>
+                                <tr>
+                                    <td>url</td>
+                                    <td><code itemprop="url">{{license_url}}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td><code itemprop="name">{{license_name}}</code></td>
+                                </tr>
+                            </table>
+                        </div>
+ 
+                    </td>
+                    </tr>
+                    {% if post.download_url %}
+                    <tr>
+                    <td>sameAs</td>
+                    <td><code itemprop="sameAs">{{post.download_url}}</code></td>
+                    </tr>
+                    <tr>
+                    <td>url</td>
+                    <td><code itemprop="url">{{post.link}}</code></td>
+                    </tr>
+                    {% endif %}
+                    {% if creators|length > 1 %}
+                        <tr>
+                            <td>creator</td>
+                            <td>
+                            {% for creator in creators| filter(creator => creator.author_type == 'person') %}
+                                {% if loop.first %}
+                                        <div itemscope itemtype="http://schema.org/Person" itemprop="creator">
+                                            <table>
+                                            <tr>
+                                                <th>property</th>
+                                                <th>value</th>
+                                            </tr>
+                                {% endif %}
+                                            <tr>
+                                                <td>name</td>
+                                                <td><code itemprop="name">{{ creator.creator_name }}</code></td>
+                                            </tr>                   
+                                            
+                                {% if loop.last %}
+                                            </table>
+                                        </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% for creator in creators| filter(creator => creator.author_type == 'organization') %}
+                                {% if loop.first %}
+                                        <div itemscope itemtype="http://schema.org/Organization" itemprop="creator">
+                                            <table>
+                                            <tr>
+                                                <th>property</th>
+                                                <th>value</th>
+                                            </tr>
+                                {% endif %}
+                                            <tr>
+                                                <td>name</td>
+                                                <td><code itemprop="name">{{ creator.creator_name }}</code></td>
+                                            </tr>
+                                            {% if creator.creator_name == 'Softcatalà' %}
+                                            <tr>
+                                                <td>sameAs</td>
+                                                <td><code itemprop="sameAs">https://en.wikipedia.org/wiki/Softcatal%C3%A0</code></td>
+                                            </tr>                  
+                                            {% endif %}
+                                {% if loop.last %}
+                                            </table>
+                                        </div>
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                </table>
+                </div>
+            
           </div>
               <!-- .contingut-section -->
          {% include "sidebar.twig" %}
