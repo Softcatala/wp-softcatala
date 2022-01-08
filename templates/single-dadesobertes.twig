@@ -65,6 +65,7 @@
                     <td>description</td>
                     <td><code itemprop="description">{{post.description}}</code></td>
                     </tr>
+                    {% if post.license_license_name and  post.license_license_url %}
                     <tr>
                     <td>license</td>
                     <td>
@@ -76,25 +77,26 @@
                                 </tr>
                                 <tr>
                                     <td>url</td>
-                                    <td><code itemprop="url">{{license_url}}</code></td>
+                                    <td><code itemprop="url">{{post.license_license_url}}</code></td>
                                 </tr>
                                 <tr>
                                     <td>name</td>
-                                    <td><code itemprop="name">{{license_name}}</code></td>
+                                    <td><code itemprop="name">{{post.license_license_name}}</code></td>
                                 </tr>
                             </table>
                         </div>
  
                     </td>
                     </tr>
+                    {% endif %}
                     {% if post.download_url %}
                     <tr>
                     <td>sameAs</td>
-                    <td><code itemprop="sameAs">{{post.download_url}}</code></td>
+                    <td><code itemprop="sameAs">{{post.link}}</code></td>
                     </tr>
                     <tr>
                     <td>url</td>
-                    <td><code itemprop="url">{{post.link}}</code></td>
+                    <td><code itemprop="url">{{post.download_url}}</code></td>
                     </tr>
                     {% endif %}
                     {% if creators|length > 1 %}
