@@ -49,9 +49,15 @@
                                             </a>
                                         {% endif %}
                                         {% if project.license %}
+                                            {% if project.license_link %}
+                                            <span style="font-size: 0.8em">
+                                                Llicència: <a href="{{ project.license_link }}">{{ project.license }} </a>
+                                            </span>
+                                            {% else %}
                                             <span style="font-size: 0.8em">
                                                 Llicència: {{ project.license }}
                                             </span>
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td>
