@@ -8,20 +8,20 @@
 
 $post_subpagina = new TimberPost();
 
-$post = new TimberPost( $post_subpagina->projecte );
+$timberPost = new TimberPost( $post_subpagina->projecte );
 
 $context_filter = new SC_ContextFilterer();
 
-$context = $context_filter->get_filtered_context( array ( 'prefix_title' => $post->title ) );
+$context = $context_filter->get_filtered_context( array ( 'prefix_title' => $timberPost->title ) );
 
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post_subpagina'] = $post_subpagina;
-$context['post'] = $post;
+$context['post'] = $timberPost;
 $context['current_url'] = get_current_url();
 
-$logo = get_img_from_id( $post->logotip );
+$logo = get_img_from_id( $timberPost->logotip );
 
 $context['logotip'] = $logo;
 
@@ -32,10 +32,10 @@ $custom_logo_filter = function ($img) use($logo ) {
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
 add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 
-$context['credits'] = $post->get_field( 'credits' );
+$context['credits'] = $timberPost->get_field( 'credits' );
 
-if ( is_array( $post->responsable ) ) {
-    $context['responsables'] = get_users_metadata($post->responsable);
+if ( is_array( $timberPost->responsable ) ) {
+    $context['responsables'] = get_users_metadata($timberPost->responsable);
 } else {
     $context['responsables'] = false;
 }
