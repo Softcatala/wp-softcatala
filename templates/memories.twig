@@ -28,6 +28,7 @@
                             <thead>
                                 <tr>
                                     <th>Projecte</th>
+                                    <th>Llicència</th>
                                     <th>Cerca</th>
                                     <th>Fitxer PO</th>
                                     <th>Fitxer TMX</th>
@@ -48,14 +49,16 @@
                                         {% if project.projectweb %}
                                             </a>
                                         {% endif %}
+                                    </td>
+                                    <td>
                                         {% if project.license %}
                                             {% if project.license_link %}
                                             <span style="font-size: 0.8em">
-                                                Llicència: <a href="{{ project.license_link }}">{{ project.license }} </a>
+                                                <a href="{{ project.license_link }}">{{ project.license }} </a>
                                             </span>
                                             {% else %}
                                             <span style="font-size: 0.8em">
-                                                Llicència: {{ project.license }}
+                                                {{ project.license }}
                                             </span>
                                             {% endif %}
                                         {% endif %}
