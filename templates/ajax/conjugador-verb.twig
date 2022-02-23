@@ -19,7 +19,7 @@
     <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.infinitive_title }}</h2>
            
-            <h4>Mode Indicatiu</h4>
+            <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
                 {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
@@ -28,7 +28,7 @@
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.infinitive_title }}</h2>
            
-            <h4>Mode Subjuntiu</h4>
+            <h4>Mode subjuntiu</h4>
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
               {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
@@ -38,7 +38,7 @@
             
             <h2>{{ response.infinitive_title }}</h2>
             
-            <h4>Imperatiu</h4>
+            <h4>Mode imperatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Imperatiu'  %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
