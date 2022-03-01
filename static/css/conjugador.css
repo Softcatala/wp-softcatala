@@ -32,4 +32,27 @@ div.result-conjugador table th {
     border-top: 0;
 }
 
+#abreviatures-conjugador {
+    padding: 10px;
+}
+#abreviatures-conjugador h5{
+    color: #c43434;
+    font-weight: bolder;
+    font-size: 12px;
+    margin-bottom:5px;
+}
+
+#abreviatures-conjugador ul li{
+    font-size: 12px;
+    line-height: 0.5;
+    padding-left: 0;
+    
+}
+#abreviatures-conjugador ul li .abbr{
+    font-weight: bolder;
+    
+}
+#abreviatures-conjugador ul li:before{
+    content: none !important;
+}
 

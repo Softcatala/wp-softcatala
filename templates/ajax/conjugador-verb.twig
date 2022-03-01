@@ -23,6 +23,9 @@
             {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
                 {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
+            <div class="col-md-12">
+                    {% include 'ajax/conjugador-abreviatures.twig' %}
+            </div>
             
     </div>
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
@@ -32,7 +35,9 @@
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
               {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
-          
+            <div class="col-md-12">
+                                {% include 'ajax/conjugador-abreviatures.twig' %}
+            </div>
     </div>
     <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
             
@@ -61,9 +66,12 @@
 
                                                     
                                             </div>
-                            </div>   
+                            </div>  
                 
             {% endfor %}
+                            <div class="col-md-12">
+                                {% include 'ajax/conjugador-abreviatures.twig' %}
+                            </div>
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.infinitive_title }}</h2>
@@ -120,6 +128,9 @@
                     {% endfor %}
                     </table>
                 </div>
+                            <div class="col-md-12">
+                                {% include 'ajax/conjugador-abreviatures.twig' %}
+                            </div>
             </div>
         
 
