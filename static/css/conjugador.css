@@ -44,8 +44,10 @@ div.result-conjugador table th {
 
 #abreviatures-conjugador ul li{
     font-size: 12px;
-    line-height: 0.5;
+    line-height: 1.25;
     padding-left: 0;
+    padding-bottom:1px;
+    padding-top:1px;
     
 }
 #abreviatures-conjugador ul li .abbr{
