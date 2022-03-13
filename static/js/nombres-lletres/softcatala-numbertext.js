@@ -106,39 +106,39 @@
           resultat += "<b>Ordinal</b><br/>";
           resultat += "Masculí: <span id=\"ord\">" + ordinal + "</span> " + ordinal_number + "</span> <input id=\"ord_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord', 'ord_parla');return false;\">";
           if (ordinal_val !== ordinal) {
-            resultat += ", <span id=\"ord_val\">" + ordinal_val + "</span> " + ordinal_number_val + " (val.)</span> <input id=\"ord_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_val', 'ord_val_parla');return false;\">";
+            resultat += ", <span id=\"ord_val\">" + ordinal_val + "</span> " + ordinal_number_val + " (val.) <input id=\"ord_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_val', 'ord_val_parla');return false;\">";
           }
           if (ordinal_bal !== ordinal) {
-            resultat += ", <span id=\"ord_bal\">" + ordinal_bal + "</span> " + ordinal_number_bal + " (bal.)</span> <input id=\"ord_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_bal', 'ord_bal_parla');return false;\">";
+            resultat += ", <span id=\"ord_bal\">" + ordinal_bal + "</span> " + ordinal_number_bal + " (bal.) <input id=\"ord_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_bal', 'ord_bal_parla');return false;\">";
           }
           resultat += "<br/>";
-          resultat += "Femení: <span id=\"ord_f\">" + ordinal_fem + "</span> " + ordinal_number_fem + "</span> <input id=\"ord_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f', 'ord_f_parla');return false;\">";
+          resultat += "Femení: <span id=\"ord_f\">" + ordinal_fem + "</span> " + ordinal_number_fem + "<input id=\"ord_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f', 'ord_f_parla');return false;\">";
           if (ordinal_fem_val !== ordinal_fem) {
-            resultat += ", <span id=\"ord_f_val\">" + ordinal_fem_val + "</span> " + ordinal_number_fem_val + " (val.)</span> <input id=\"ord_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_val', 'ord_f_val_parla');return false;\">";
+            resultat += ", <span id=\"ord_f_val\">" + ordinal_fem_val + "</span> " + ordinal_number_fem_val + " (val.) <input id=\"ord_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_val', 'ord_f_val_parla');return false;\">";
           }
           if (ordinal_fem_bal !== ordinal_fem) {
-            resultat += ", <span id=\"ord_f_bal\">" + ordinal_fem_bal + "</span> " + ordinal_number_fem_bal + " (bal.)</span> <input id=\"ord_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_bal', 'ord_f_bal_parla');return false;\">";
+            resultat += ", <span id=\"ord_f_bal\">" + ordinal_fem_bal + "</span> " + ordinal_number_fem_bal + " (bal.) <input id=\"ord_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('ord_f_bal', 'ord_f_bal_parla');return false;\">";
           }
           resultat += "<br/>";
         }
         if (partitive) {
           resultat += "<b>Fraccionari</b>";
-          if(partitive !== "unitat") {
-             resultat += "<br/>Masculí: <span id=\"part\">" + partitive + "</span> <input id=\"part_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part', 'part_parla');return false;\">";
+          if (partitive !== "unitat") {
+            resultat += "<br/>Masculí: <span id=\"part\">" + partitive + "</span> <input id=\"part_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part', 'part_parla');return false;\">";
           }
           if (partitive_val !== partitive) {
-            resultat += ", <span id=\"part_val\">" + partitive_val + " (val.)</span> <input id=\"part_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_val', 'part_val_parla');return false;\">";
+            resultat += ", <span id=\"part_val\">" + partitive_val + "</span> (val.) <input id=\"part_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_val', 'part_val_parla');return false;\">";
           }
           if (partitive_bal !== partitive) {
-            resultat += ", <span id=\"part_bal\">" + partitive_bal + " (bal.)</span> <input id=\"part_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_bal', 'part_bal_parla');return false;\">";
+            resultat += ", <span id=\"part_bal\">" + partitive_bal + "</span> (bal.) <input id=\"part_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_bal', 'part_bal_parla');return false;\">";
           }
           resultat += "<br/>";
           resultat += "Femení: <span id=\"part_f\">" + partitive_fem + "</span> <input id=\"part_f_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f', 'part_f_parla');return false;\">";
           if (partitive_fem_val !== partitive_fem) {
-            resultat += ", <span id=\"part_f_val\">" + partitive_fem_val + " (val.)</span> <input id=\"part_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_val', 'part_f_val_parla');return false;\">";
+            resultat += ", <span id=\"part_f_val\">" + partitive_fem_val + "</span> (val.) <input id=\"part_f_val_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_val', 'part_f_val_parla');return false;\">";
           }
           if (partitive_fem_bal !== partitive_fem) {
-            resultat += ", <span id=\"part_f_bal\">" + partitive_fem_bal + " (bal.)</span> <input id=\"part_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_bal', 'part_f_bal_parla');return false;\">";
+            resultat += ", <span id=\"part_f_bal\">" + partitive_fem_bal + "</span> (bal.) <input id=\"part_f_bal_parla\" type=\"submit\" value=\"&#128266;\" onclick=\"speak_text('part_f_bal', 'part_f_bal_parla');return false;\">";
           }
           resultat += "<br/>";
         }
