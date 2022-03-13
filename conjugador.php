@@ -23,6 +23,7 @@ wp_localize_script( 'sc-js-conjugador', 'scajax', array(
 
 $verb = urldecode( get_query_var('verb') );
 $infinitiu = urldecode( get_query_var('infinitiu') );
+$url = urldecode( get_query_var('url') );
 $lletra = get_query_var('lletra');
 $content_title = 'Conjugador de verbs';
 
@@ -40,7 +41,7 @@ if( ! empty ( $verb ) ) {
  
     $conjugador = new SC_Conjugador();
     
-    $r = $conjugador->get_verb( $verb, $infinitiu, false );
+    $r = $conjugador->get_verb( $verb, $infinitiu, $url, false );
     
 
     if($r){

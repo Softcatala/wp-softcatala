@@ -3,11 +3,13 @@ var $conjugador_form = jQuery('#conjugador_form');
 $conjugador_form.on('submit', function(ev) {
     ev.preventDefault();
     jQuery('#infinitiu').val('');
+    jQuery('#verburl').val('');
     jQuery('#_action_consulta').trigger('click');
 });
 
 jQuery('#_action_consulta').click(function(){
     jQuery('#infinitiu').val('');
+    jQuery('#verburl').val('');
     do_ajax();
 });
 
@@ -17,9 +19,8 @@ function do_ajax (){
     
     var verb_form = jQuery('#source').val();
     var infinitiu = jQuery('#infinitiu').val();
+    var verburl = jQuery('#verburl').val();
     var ajaxquery = true;
-
-    
 
     if (verb_form) {
         
@@ -27,11 +28,14 @@ function do_ajax (){
 
         verb_form = verb_form.toLowerCase();
         infinitiu = infinitiu.toLowerCase();
+        verburl = verburl.toLowerCase();
+
         //Data
         var post_data = new FormData();
         post_data.append('verb', verb_form);
         post_data.append('ajaxquery', ajaxquery);
         post_data.append('infinitiu', infinitiu);
+        post_data.append('url', verburl);
         post_data.append('action', 'conjugador_search');
         post_data.append('_wpnonce', jQuery('input[name=_wpnonce_search]').val());
 
@@ -131,6 +135,7 @@ jQuery('#source').typeahead(
                 items = [];
                 infinitives = {};
                 form_verb = {};
+                url = {}
                 
                 var i = 0;
 
@@ -139,6 +144,7 @@ jQuery('#source').typeahead(
                     str = verb.verb_form + ' (' + verb.infinitive + ')'
                     infinitives[str] = verb.infinitive;
                     form_verb[str] = verb.verb_form;
+                    url[str] = verb.url;
                     items.push(str);
                 
                 });
@@ -163,11 +169,15 @@ jQuery('#source').typeahead(
         
         if(!infinitives[item])
             infinitives[item] = matches[1]
-        
+
         if(!form_verb[item])
             form_verb[item] = matches[1]
+
+        if(!url[item])
+            url[item] = matches[1]
         
         jQuery('#infinitiu').val(infinitives[item]);
+        jQuery('#verburl').val(url[item]);
         jQuery('#source').val(form_verb[item]);
         jQuery('#source').typeahead('val', form_verb[item]);
         //jQuery('#_action_consulta').trigger('click');

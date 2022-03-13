@@ -24,13 +24,13 @@ class SC_Conjugador {
 		}
 	}
 
-	public function get_verb( $verb , $infinitiu = "", $ajaxquery = false) {
+	public function get_verb( $verb , $infinitiu = "", $foundurl = "", $ajaxquery = false) {
 
 		$verb = strtolower( $verb );
 		$infinitiu = strtolower( $infinitiu );
 		
 		$url_api = get_option( 'api_conjugador' );
-		
+
 		if($infinitiu){
 			$url     = $url_api . 'search/' . $infinitiu;
 		}else{
@@ -45,7 +45,7 @@ class SC_Conjugador {
 
 		if ( 200 == $result['code'] ) {
 			
-			return $this->build_results( $result['result'], $verb, $infinitiu, $ajaxquery );
+			return $this->build_results( $result['result'], $verb, $infinitiu, $foundurl, $ajaxquery );
 		}
 		
 		
@@ -78,7 +78,7 @@ class SC_Conjugador {
 	}
 
 
-	private function build_results( $json_result, $verb, $infinitiu = "", $ajaxquery = false) {
+	private function build_results( $json_result, $verb, $infinitiu = "", $url, $ajaxquery = false) {
 
 		
 		if(!is_string($json_result)){
@@ -100,7 +100,7 @@ class SC_Conjugador {
 			$true_infinitive = $this->searchInfinitive($verb, $api_result);
 
 			if ($true_infinitive){
-				return $this->returnInfinitive( $true_infinitive, $verb, $verb  );
+				return $this->returnInfinitive( $true_infinitive, $verb, $verb, $url );
 			}else{
 				return $this->return404();
 			}
@@ -108,13 +108,13 @@ class SC_Conjugador {
 		}
 
 		if(count($api_result) == 1){
-			return $this->returnInfinitive( $api_result[0], $verb, $infinitiu );
+			return $this->returnInfinitive( $api_result[0], $verb, $infinitiu, $url );
 		}
 			
 		if(count($api_result) > 1){
 
 			if($infinitiu){
-				return $this->returnInfinitive( $this->searchInfinitive($infinitiu, $api_result), $verb, $infinitiu );
+				return $this->returnInfinitive( $this->searchInfinitive($infinitiu, $api_result), $verb, $infinitiu, $url );
 			}else{	
 				return $this->returnInfinitives( $api_result, $verb );	
 			}
@@ -197,7 +197,7 @@ class SC_Conjugador {
 	}
 
 
-	private function returnInfinitive($api_result, $verb, $infinitiu = ""){
+	private function returnInfinitive($api_result, $verb, $infinitiu = "", $url){
 		
 			
 			if(!$infinitiu){
@@ -224,7 +224,7 @@ class SC_Conjugador {
 			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
 
-			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
+			$canonical = '/conjugador-de-verbs/verb/'. $url .'/';
 			
 			$temps = array(	'singular1' => 'jo',
 							'singular2' => 'tu',
