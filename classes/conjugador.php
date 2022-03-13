@@ -28,10 +28,13 @@ class SC_Conjugador {
 
 		$verb = strtolower( $verb );
 		$infinitiu = strtolower( $infinitiu );
-		
+        $foundurl = strtolower( $foundurl );
+
 		$url_api = get_option( 'api_conjugador' );
 
-		if($infinitiu){
+        if($foundurl) {
+            $url     = $url_api . 'search/' . $foundurl;
+        }else if($infinitiu){
 			$url     = $url_api . 'search/' . $infinitiu;
 		}else{
 			$url     = $url_api . 'search/' . $verb;
@@ -208,8 +211,13 @@ class SC_Conjugador {
 
 			$cinf = array_search('Infinitiu', array_column($verbs, 'tense'));
 			//$infinitive_title =$verbs[$cinf]['singular1']['0']['word'];
-			
-			$infinitive_title = $infinitiu;
+
+            if(isset($verbs[0]['title'])) {
+                $infinitive_title = $verbs[0]['title'];
+            } else {
+                $infinitive_title = $infinitiu;
+            }
+
 			if(isset($verbs[0]['definition']))
 					$definition = $verbs[0]['definition'];
 			else	
