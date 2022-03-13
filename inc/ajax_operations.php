@@ -97,7 +97,7 @@ function sc_conjugador_search() {
 	} else {
 		$verb = sanitize_text_field( $_POST["verb"] );
 		$infinitiu = sanitize_text_field( $_POST["infinitiu"] );
-		$url = sanitize_text_field( $_POST["verburl"] );
+		$url = sanitize_text_field( $_POST["url"] );
 		$ajaxquery = sanitize_text_field( $_POST["ajaxquery"] );
 		$conjugador = new SC_Conjugador();
 

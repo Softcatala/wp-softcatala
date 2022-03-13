@@ -111,13 +111,13 @@ class SC_Conjugador {
 		}
 
 		if(count($api_result) == 1){
-			return $this->returnInfinitive( $api_result[0], $verb, $infinitiu, $url );
+			return $this->returnInfinitive( $api_result[0], $verb, $url, $url );
 		}
 			
 		if(count($api_result) > 1){
 
 			if($infinitiu){
-				return $this->returnInfinitive( $this->searchInfinitive($infinitiu, $api_result), $verb, $infinitiu, $url );
+				return $this->returnInfinitive( $this->searchInfinitive($url, $api_result), $verb, $url, $url );
 			}else{	
 				return $this->returnInfinitives( $api_result, $verb );	
 			}
