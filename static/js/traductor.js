@@ -633,11 +633,12 @@ var neuronalApp = (function () {
     }
     /* Decide to show or not neuronal app */
     var show_neuronal = function (){
-
+        
         var origin_lang  = jQuery('#origin_language').val();
         var target_lang = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
-        var langs_with_both_translators = ["en", "fr", "pt"]
+        var langs_with_both_translators = ["en", "fr", "pt"];
+        var langs_only_neuronal = ["deu", "ita", "nld"]
         
         if (jQuery.inArray(origin_lang, langs_with_both_translators) !== -1 ||
             jQuery.inArray(target_lang, langs_with_both_translators) !== -1) {
@@ -653,7 +654,14 @@ var neuronalApp = (function () {
             }else{
                 hide_neuronal_menu();
             }
-      
+        
+        } else if (jQuery.inArray(origin_lang, langs_only_neuronal) !== -1 ||
+                   jQuery.inArray(target_lang, langs_only_neuronal) !== -1) {
+            
+            jQuery('#rneuronal').prop("checked", true);
+            jQuery('#panel-radioneuronal').addClass('hidden');
+            
+            
         }else{
             // Hide radiobuttons
             jQuery('#panel-radioneuronal').hide();
