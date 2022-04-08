@@ -228,7 +228,9 @@ class SC_Conjugador {
 			else
 				$definition_credits = "";
 
-						
+			if(!$url)
+				$url = 	$infinitive_title;
+				
 			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació del verb «' . $verb . '»';
 
