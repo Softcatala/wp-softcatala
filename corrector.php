@@ -21,6 +21,8 @@ wp_localize_script( 'sc-js-corrector-1', 'scajax', array(
 ));
 
 $context = Timber::get_context();
+$context['api_languagetool'] = get_option('api_languagetool');
+
 //Ads
 $context['ads_container'] = true;
 $timberPost = new TimberPost();

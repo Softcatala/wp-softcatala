@@ -140,8 +140,7 @@ tinyMCE.init({
      If you use your own server here and it's not running on the same domain 
      as the text form, make sure the server gets started with '--allow-origin ...' 
      and use 'https://your-server/v2/check' as URL: */
-  // languagetool_rpc_url: "/languagetool/api/v2/check",
-  languagetool_rpc_url: "https://api.softcatala.org/corrector/v2/check",
+  languagetool_rpc_url: languagetool_rpc_url,
   /* edit this file to customize how LanguageTool shows errors: */
   languagetool_css_url: "/themes/wp-softcatala/inc/languagetool/online-check/tiny_mce/plugins/atd-tinymce/css/content.css",
   /* this stuff is a matter of preference: */

@@ -283,6 +283,7 @@ class StarterSite extends TimberSite {
 		register_setting( 'softcatala-group', 'catalanitzador_post_id' );
 		register_setting( 'softcatala-group', 'aparells_post_id' );
 		register_setting( 'softcatala-group', 'sc_text_programes' );
+		register_setting( 'softcatala-group', 'api_languagetool' );
 
 		$ui_settings = SC_Settings::get_instance()->get_setting_names();
 		foreach ( $ui_settings as $setting ) {
