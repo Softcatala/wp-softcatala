@@ -285,6 +285,8 @@ class StarterSite extends TimberSite {
 		register_setting( 'softcatala-group', 'sc_text_programes' );
 		register_setting( 'softcatala-group', 'api_languagetool' );
 
+		add_option('api_languagetool', 'https://api.softcatala.org/corrector/v2/check');
+
 		$ui_settings = SC_Settings::get_instance()->get_setting_names();
 		foreach ( $ui_settings as $setting ) {
 			register_setting( 'softcatala-group', $setting );
