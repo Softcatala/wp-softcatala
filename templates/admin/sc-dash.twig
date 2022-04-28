@@ -66,7 +66,7 @@
                     </tbody></table>
                 </p>
             </div>
-            <div id="email_contacte">
+            <div id="email_contacte" style="display:none;">
                 <h3>Adreces electròniques de contacte per secció</h3>
                 <p>
                 {% for key, section in sections %}
@@ -81,7 +81,7 @@
                     </thead>
                     {% for key, section in sections %}
                     <tr>
-                        {% set section_key %}email_{{ key }}{% endset %}
+                        {% set section_key="email_"~key %}
                         <td style="font-weight: bold;">{{ section }}</td>
                         <td><input type="email" style="width:250px;" name="email_{{ key }}" id="email_{{ key }}" value="{{ function( 'get_option', section_key) }}"/></td>
                     </tr>
