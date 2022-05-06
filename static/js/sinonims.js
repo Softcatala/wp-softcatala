@@ -72,6 +72,7 @@ function errorSynsets(response) {
     sc_sendTracking(false, status);
     
     show_message(response.responseJSON.html);
+    prepareInputSearchQuery();
 }
 
 function sc_sendTracking(success, status) {
