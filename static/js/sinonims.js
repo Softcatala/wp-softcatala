@@ -55,8 +55,8 @@ function print_synonims(result) {
 
 function prepareInputSearchQuery() {
     //jQuery('#sinonims').val('');
-    jQuery('#sinonims').select();
     if(!synonimsIsMobile()) {
+        jQuery('#sinonims').select();
         jQuery('#sinonims').focus();
     }
 }
