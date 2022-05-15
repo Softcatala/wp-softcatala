@@ -50,12 +50,13 @@ function print_synonims(result) {
     jQuery('#results').slideDown();
     sc_sendTracking(true);
     enableInlineLinks();
-    removeInputSearchQuery();
+    prepareInputSearchQuery();
 }
 
-function removeInputSearchQuery() {
-    jQuery('#sinonims').val('');
+function prepareInputSearchQuery() {
+    //jQuery('#sinonims').val('');
     if(!synonimsIsMobile()) {
+        jQuery('#sinonims').select();
         jQuery('#sinonims').focus();
     }
 }
@@ -71,6 +72,7 @@ function errorSynsets(response) {
     sc_sendTracking(false, status);
     
     show_message(response.responseJSON.html);
+    prepareInputSearchQuery();
 }
 
 function sc_sendTracking(success, status) {
