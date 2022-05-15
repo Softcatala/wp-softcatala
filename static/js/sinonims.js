@@ -54,10 +54,11 @@ function print_synonims(result) {
 }
 
 function prepareInputSearchQuery() {
-    //jQuery('#sinonims').val('');
     if(!synonimsIsMobile()) {
         jQuery('#sinonims').select();
         jQuery('#sinonims').focus();
+    } else {
+        jQuery('#sinonims').val('');  
     }
 }
 
