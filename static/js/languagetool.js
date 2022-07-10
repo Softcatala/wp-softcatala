@@ -4,6 +4,7 @@ var regles_amb_checkbox = Array('recomana_preferents', 'evita_colloquials', 'esp
 var langCode="ca-ES";
 var userOptions="";
 var SC_COOKIE = 'sc-languagetool';
+var SC_COOKIE_SESSIONID = 'sc-languagetool-sessionid';
 var placeholdervisible = true;
 
 (function($) {
@@ -376,7 +377,19 @@ function dooptions() {
         "disabledCategories.ca-ES-valencia=" + disabledCategories.join() + "\n"
         );
 
-    userOptions="&level=picky"; 
+    userOptions="&level=picky";
+
+    if (corrector_send_sessionid) {
+		var value = jQuery.getCookie(SC_COOKIE_SESSIONID);
+		if (value !== 'undefined') {
+			var session_id = value;
+		} else {
+			var session_id = Date.now();
+			jQuery.setCookie(SC_COOKIE_SESSIONID, session_id);
+		}
+		userOptions += "&sessionID=" + session_id
+	}
+
     if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
   langCode="ca-ES-valencia";
         if (disabledRules.join()) { userOptions += "&disabledRules=" + disabledRules.join(); }

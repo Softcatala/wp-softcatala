@@ -22,6 +22,8 @@ wp_localize_script( 'sc-js-corrector-1', 'scajax', array(
 
 $context = Timber::get_context();
 $context['api_languagetool'] = get_option('api_languagetool');
+$settings = SC_Settings::get_instance();
+$context['corrector_send_sessionid'] = $settings->get_setting(SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID);
 
 //Ads
 $context['ads_container'] = true;
