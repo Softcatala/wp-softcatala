@@ -88,12 +88,13 @@ jQuery.extend(true, ( function () {
     if (permCookie) {
       expDate.setTime(expDate.getTime() + expires);  
     }
-		
+
     cookieStr = name + "=" + encodeURIComponent(value) 
     + ((permCookie) ? "; expires=" + expDate.toGMTString() : "") 
     + "; path=" + ((path) ? path : "/")
     + "; domain=" + ((domain) ? domain : gDomain)
-    + "; SameSite=Strict; Secure";
+    + "; SameSite=Strict"
+    + ((document.location.hostname !== "softcatala.local") ? "; Secure" : "" );
 	
     document.cookie = cookieStr;
   }
