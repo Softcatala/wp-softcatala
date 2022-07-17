@@ -387,7 +387,7 @@ function dooptions() {
 			var session_id = Date.now();
 			jQuery.setCookie(SC_COOKIE_SESSIONID, session_id);
 		}
-		userOptions += "&sessionID=" + session_id
+		userOptions += "&textSessionId=" + session_id
 	}
 
     if (jQuery("input[name=variant]:checked").val() == "variant_valencia") {
