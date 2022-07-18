@@ -646,7 +646,7 @@ AtDCore.prototype.isIE = function() {
                         "suggestion": suggestion,
                         "suggestion_position": suggestion_position};
             jQuery.ajax({
-                url: 'https://api.softcatala.org/sc-languagetool-feedback/v1/',
+                url: 'https://api.softcatala.org/sc-languagetool-feedback/v1/log',
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
