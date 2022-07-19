@@ -63,6 +63,21 @@
                             {% endif %}
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">
+                            <label>
+                                    <strong>LanguageTool</strong>
+                                    Habilita/deshabilita l'enviament del textSessionId per a experiments
+                            </label>
+                        </th>
+                        <td>
+                            {% if settings.get_setting(constant('SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID')) %}
+                                <input type="checkbox" checked="checked" id="{{ constant('SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID') }}" name="{{ constant('SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID') }}">
+                            {% else %}
+                                <input type="checkbox" id="{{ constant('SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID') }}" name="{{ constant('SC_Settings::SETTINGS_CORRECTOR_SEND_SESSIONID') }}">
+                            {% endif %}
+                        </td>
+                    </tr>
                     </tbody></table>
                 </p>
             </div>
