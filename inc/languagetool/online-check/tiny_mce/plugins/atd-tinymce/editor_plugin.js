@@ -85,8 +85,10 @@ AtDCore.prototype.processJSON = function(responseJSON) {
         suggestion["errorlength"] = match.length;
         suggestion["type"]        = match.rule.category.name;
         suggestion["ruleid"]      = match.rule.id;
-        suggestion["subid"]       = match.rule.subId;
+        suggestion["subid"]       = match.rule.subId || 0;
         suggestion["its20type"]   = match.rule.issueType;
+        suggestion["context"]     = match.context.text;
+        suggestion["contextoffset"] = match.context.offset;
         var urls = match.rule.urls;
         if (urls && urls.length > 0) {
           if (urls[0].value) {
@@ -128,6 +130,8 @@ AtDCore.prototype.findSuggestion = function(element) {
     errorDescription["subid"] = this.getSurrogatePart(metaInfo, 'subid');
     errorDescription["description"] = this.getSurrogatePart(metaInfo, 'description');
     errorDescription["coveredtext"] = this.getSurrogatePart(metaInfo, 'coveredtext');
+    errorDescription["context"] = this.getSurrogatePart(metaInfo, 'context');
+    errorDescription["contextoffset"] = this.getSurrogatePart(metaInfo, 'contextoffset');
     var suggestions = this.getSurrogatePart(metaInfo, 'suggestions');
     if (suggestions) {
         errorDescription["suggestions"] = suggestions.split("#");
@@ -185,7 +189,7 @@ AtDCore.prototype.markMyWords = function() {
                 continue;
             }
             var metaInfo = ruleId + delim + suggestion.subid + delim + suggestion.description + delim + suggestion.suggestions
-              + delim + coveredText;
+              + delim + coveredText + delim + suggestion.context + delim + suggestion.contextoffset;;
             if (suggestion.moreinfo) {
                 metaInfo += delim + suggestion.moreinfo;
             }
@@ -254,8 +258,12 @@ AtDCore.prototype.getSurrogatePart = function(surrogateString, part) {
         return parts[3];
     } else if (part == 'coveredtext') {
         return parts[4];
-    } else if (part == 'url' && parts.length >= 5) {
+    } else if (part == 'context') {
         return parts[5];
+    } else if (part == 'contextoffset') {
+        return parts[6];
+    } else if (part == 'url' && parts.length >= 7) {
+        return parts[7];
     }
     console.log("No part '" + part + "' found in surrogateString: " + surrogateString);
     return null;
@@ -531,7 +539,7 @@ AtDCore.prototype.isIE = function() {
                }
                 if (results.incompleteResults) {
                     jQuery('#feedbackErrorMessage').html("<div class='severeError'>These results may be incomplete due to a server timeout.</div>");
-                    t._trackEvent('CheckError', 'ErrorWithException', "Incomplete Results");
+                    //t._trackEvent('CheckError', 'ErrorWithException', "Incomplete Results");
                 }
                 enableRevisa();
             });
@@ -551,7 +559,7 @@ AtDCore.prototype.isIE = function() {
          editor.onClick.add(plugin._showMenu, plugin);
          
          editor.onPaste.add(function(editor, ev) {
-             t._trackEvent('PasteText');
+             //t._trackEvent('PasteText');
          });
 
          // hack to make both right and left mouse button work on errors in both Firefox and Chrome: 
@@ -626,13 +634,34 @@ AtDCore.prototype.isIE = function() {
           }
       },
        
-      _serverLog : function(message)
+      _logUserEvents : function(type, errorDescription, suggestion, suggestion_position)
       {
-          /*jQuery.ajax({
+          if (sc_settings.log_corrector_user_events) {
+            var data = {"type": type,
+                        "rule_id": errorDescription["id"],
+                        "rule_sub_id": errorDescription["subid"],
+                        "incorrect_text": errorDescription["coveredtext"],
+                        "incorrect_position": errorDescription["contextoffset"],
+                        "context": errorDescription["context"],
+                        "suggestion": suggestion,
+                        "suggestion_position": suggestion_position};
+            jQuery.ajax({
+                url: 'https://api.softcatala.org/sc-languagetool-feedback/v1/log',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+            });
+          }
+      },
+
+      /*_serverLog : function(message)
+      {
+          jQuery.ajax({
               url: 'https://languagetool.org/log.php?text=' + message + " - agent: " + navigator.userAgent,
               type: 'POST'
-          });*/
-      },
+          });
+      },*/
        
       _removeWords : function(w) 
       {
@@ -719,6 +748,8 @@ AtDCore.prototype.isIE = function() {
             var ruleId = errorDescription["id"];
             var lang = plugin.editor.getParam('languagetool_i18n_current_lang')();
 
+            t._logUserEvents('OpenError', errorDescription, "", -1);
+
             if (errorDescription == undefined)
             {
                m.add({title : plugin.editor.getLang('AtD.menu_title_no_suggestions', 'No suggestions'), 'class' : 'mceMenuItemTitle'}).setDisabled(1);
@@ -744,7 +775,8 @@ AtDCore.prototype.isIE = function() {
                          onclick : function() 
                          {
                             ed.core.applySuggestion(e.target, sugg);
-                            t._trackEvent('AcceptCorrection', lang, ruleId);
+                            //t._trackEvent('AcceptCorrection', lang, ruleId);
+                            t._logUserEvents('AcceptCorrection', errorDescription, sugg, iTmp);
                             t._checkDone();
                          }
                       });
@@ -809,7 +841,7 @@ AtDCore.prototype.isIE = function() {
                onclick : function() 
                {
                   dom.remove(e.target, 1);
-                  t._serverLog('EditManually', errorDescription, '', -1);
+                  t._logUserEvents('EditManually', errorDescription, '', -1);
                   t._checkDone();
                }
             });
@@ -819,7 +851,7 @@ AtDCore.prototype.isIE = function() {
                onclick : function() 
                {
                   dom.remove(e.target, 1);
-                  t._serverLog('IgnoreRule', errorDescription, '', -1);
+                  t._logUserEvents('IgnoreRule', errorDescription, '', -1);
                   t._checkDone();
                }
             });
@@ -836,7 +868,7 @@ AtDCore.prototype.isIE = function() {
               ruleUrl += "subId=" + encodeURI(errorDescription["subid"]) + "&";
             }
             ruleUrl += "lang=" + encodeURI(langCode);
-            var isLTServer = window.location.href.indexOf("languagetool.org") !== -1 || window.location.href.indexOf("languagetool.localhost") !== -1;  // will only work for lt.org because
+            /*var isLTServer = window.location.href.indexOf("languagetool.org") !== -1 || window.location.href.indexOf("languagetool.localhost") !== -1;  // will only work for lt.org because
             if (isLTServer && errorDescription["id"].indexOf("MORFOLOGIK_") !== 0 && errorDescription["id"] !== "HUNSPELL_NO_SUGGEST_RULE") {  // no examples available for spell checking rules
                 m.addSeparator();
                 m.add({
@@ -883,7 +915,7 @@ AtDCore.prototype.isIE = function() {
                             });
                     }
                 });
-            }
+            }*/
 
            /* show the menu please */
            ed.selection.select(e.target);
@@ -994,7 +1026,7 @@ AtDCore.prototype.isIE = function() {
             success: success,
             error: function(jqXHR, textStatus, errorThrown) {
                 // try again
-                t._serverLog("Error on first try, trying again...");
+                //t._serverLog("Error on first try, trying again...");
                 setTimeout(function() {
                     jQuery.ajax({
                         url:   url,
@@ -1017,8 +1049,8 @@ AtDCore.prototype.isIE = function() {
                                 errorText = "Error: el text és massa llarg (" + data.length + " caràcters). Màxim: " + maxTextLength + " caràcters.";
                             }
                             jQuery('#feedbackErrorMessage').html("<div class='severeError'>" + errorText + "</div>");
-                            t._trackEvent('CheckError', 'ErrorWithException', errorText);
-                            t._serverLog(errorText + " (second try)");
+                            //t._trackEvent('CheckError', 'ErrorWithException', errorText);
+                            //t._serverLog(errorText + " (second try)");
                         }
                     });
                 }, 500);
