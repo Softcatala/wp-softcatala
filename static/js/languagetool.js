@@ -384,7 +384,7 @@ function dooptions() {
 		if (value !== 'undefined') {
 			var session_id = value;
 		} else {
-			var session_id = Date.now();
+			var session_id = Math.random().toString(10).slice(2)
 			jQuery.setCookie(SC_COOKIE_SESSIONID, session_id);
 		}
 		userOptions += "&textSessionId=" + session_id
