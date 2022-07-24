@@ -87,7 +87,7 @@ AtDCore.prototype.processJSON = function(responseJSON) {
         suggestion["ruleid"]      = match.rule.id;
         suggestion["subid"]       = match.rule.subId || 0;
         suggestion["its20type"]   = match.rule.issueType;
-        suggestion["context"]     = match.context.text;
+        suggestion["context"]     = match.sentence;
         suggestion["contextoffset"] = match.context.offset;
         var urls = match.rule.urls;
         if (urls && urls.length > 0) {
