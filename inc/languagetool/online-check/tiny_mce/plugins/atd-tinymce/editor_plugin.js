@@ -610,7 +610,7 @@ AtDCore.prototype.isIE = function() {
           }
           this._logEventLocally();
       },
-       
+
       _logEventLocally : function()
       {
           if (localStorage) {
@@ -633,11 +633,29 @@ AtDCore.prototype.isIE = function() {
               }
           }
       },
-       
-      _logUserEvents : function(type, errorDescription, suggestion, suggestion_position)
+
+      _getUUID : function()
       {
-          if (sc_settings.log_corrector_user_events) {
+          return (
+              [1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+              c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+      },
+
+     _logUserEvents : function(type, errorDescription, suggestion, suggestion_position)
+      {
+        if (sc_settings.log_corrector_user_events) {
+            var SC_COOKIE_UUID = 'sc-languagetool-feedback-uuid';
+
+            var value = jQuery.getCookie(SC_COOKIE_UUID);
+            if (value !== 'undefined') {
+                var uuid = value;
+            } else {
+                var uuid = this._getUUID();
+                jQuery.setCookie(SC_COOKIE_UUID, uuid);
+            }
+
             var data = {"type": type,
+                        "user_uuid" : uuid,
                         "rule_id": errorDescription["id"],
                         "rule_sub_id": errorDescription["subid"],
                         "incorrect_text": errorDescription["coveredtext"],
