@@ -107,7 +107,7 @@ function print_results(results) {
     if (results.glossary && results.glossary.length && page == 1) {
         const entries = results.glossary.map(e => {
             const word = parseInt(e.termcat) ? `<span class="word-termcat">${e.translation}</span>` : e.translation;
-            return `<li>${word} (usada ${parseFloat(e.percentage).toFixed(2)}, coincidències ${e.frequency})</li>`
+            return `<li>${word} (usada ${parseFloat(e.percentage).toFixed(2)}%, coincidències ${e.frequency})</li>`
         }).join('');
         const glossary = `
             <div class="wp-caption glossary-termcat">
