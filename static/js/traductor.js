@@ -592,9 +592,9 @@ var neuronalApp = (function () {
                 display_error('Cal que trieu un fitxer del vostre ordinador.');
                 document.querySelector('#n_file').focus();
 
-            } else if (document.querySelector('#n_file').files[0].size > 4096*1024) {
+            } else if (document.querySelector('#n_file').files[0].size > 8192*1024) {
 
-                display_error('La mida màxima és de 4Mb. El vostre fitxer ocupa ' + returnFileSize(document.querySelector('#n_file').files[0].size) + '.')
+                display_error('La mida màxima és de 8Mb. El vostre fitxer ocupa ' + returnFileSize(document.querySelector('#n_file').files[0].size) + '.')
                 document.querySelector('#n_file').focus();
 
             } else {
