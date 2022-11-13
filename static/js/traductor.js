@@ -622,7 +622,7 @@ var neuronalApp = (function () {
         var origin_language = jQuery('#origin_language').val();
         var target_language = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
-        var neuronal_langs = ["en", "deu", "ita", "nld", "fr", "pt", "jpn", "glg", "oci"]
+        var neuronal_langs = ["en", "deu", "ita", "nld", "fr", "pt", "jpn", "glg", "oc"]
 
         if ((jQuery.inArray(origin_language, neuronal_langs) !== -1 || jQuery.inArray(target_language, neuronal_langs) !== -1)
             & rneuronalchecked)
