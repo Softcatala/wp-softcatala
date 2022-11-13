@@ -622,7 +622,7 @@ var neuronalApp = (function () {
         var origin_language = jQuery('#origin_language').val();
         var target_language = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
-        var neuronal_langs = ["en", "deu", "ita", "nld", "fr", "pt", "jpn"]
+        var neuronal_langs = ["en", "deu", "ita", "nld", "fr", "pt", "jpn", "gal", "oci"]
 
         if ((jQuery.inArray(origin_language, neuronal_langs) !== -1 || jQuery.inArray(target_language, neuronal_langs) !== -1)
             & rneuronalchecked)
@@ -637,8 +637,8 @@ var neuronalApp = (function () {
         var origin_lang  = jQuery('#origin_language').val();
         var target_lang = jQuery('#target_language').val();
         var rneuronalchecked = jQuery("#rneuronal").is(':checked');
-        var langs_with_both_translators = ["en", "fr", "pt"];
-        var langs_only_neuronal = ["deu", "ita", "nld", "jpn"]
+        var langs_with_both_translators = ["en", "fr", "pt", "oc"];
+        var langs_only_neuronal = ["deu", "ita", "nld", "jpn", "gal"]
         
         if (jQuery.inArray(origin_lang, langs_with_both_translators) !== -1 ||
             jQuery.inArray(target_lang, langs_with_both_translators) !== -1) {
