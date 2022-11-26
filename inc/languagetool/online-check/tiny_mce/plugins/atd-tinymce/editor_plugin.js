@@ -77,7 +77,8 @@ AtDCore.prototype.processJSON = function(responseJSON) {
             if (repl.value) {
                 suggestions.push(repl.value);
             } else {
-                suggestions.push(repl);  //TODO: remove this case, it's for an old API version
+                wrongString = match.context.text.substring(match.context.offset, match.context.offset + match.length);
+                suggestions.push("<REMOVE>"+wrongString);
             }
         }
         suggestion["suggestions"] = suggestions.join("#");
@@ -788,8 +789,14 @@ AtDCore.prototype.isIE = function() {
                   (function(sugg)
                    {
                       var iTmp = i;
+                      var titlesugg = sugg;
+                      if (sugg.startsWith("<REMOVE>")) {
+                           titlesugg = '<span style="text-decoration-line: line-through;">&nbsp;'+sugg.slice(8)+'&nbsp;</span>';
+                           sugg = "";
+                       }
+
                       m.add({
-                         title   : sugg, 
+                         title   : titlesugg, 
                          onclick : function() 
                          {
                             ed.core.applySuggestion(e.target, sugg);
