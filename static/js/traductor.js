@@ -660,7 +660,8 @@ var neuronalApp = (function () {
             
             jQuery('#rneuronal').prop("checked", true);
             jQuery('#panel-radioneuronal').addClass('hidden');
-            
+            show_neuronal_menu();
+
             
         }else{
             // Hide radiobuttons
