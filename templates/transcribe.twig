@@ -16,24 +16,67 @@
             <section class=""><!-- transcripcio de fitxer de text -->
 
 
-    <form id="form-id" method=post enctype=multipart/form-data">
-    <p>Transcripció:</p>
-     <label>Model</label>   
-     <select id="model_name" name="model_name">
-      <option value="sc-small" selected>Model petit de Softcatalà</option>
-      <option value="sc-medium">Model mitjà de Softcatalà</option>
-      <option value="small">Model petit d'OpenAI</option>
-      <option value="medium">Model mitjà d'OpenAI</option>
-      <option value="large">Model gran d'OpenAI</option>
-    </select>
-    <p>
-     <label for="email">Correu on voleu que us enviem la transcripció:</label>
-     <input type="email" id="email" name="email"> 
-    <p>
-      <input type=file  name=file>
-      <input type=submit value="Demanar transcripció" onclick="sendFile();return false;">
-    </form>
+            <section class=""><!-- traduccio de fitxer de text -->
+            <form id="form-id" method=post enctype=multipart/form-data">
 
+            
+            <div class="panel panel-default">
+              <div class="panel-heading">Traducció de fitxers de text</div>
+              
+              <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
+              <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p>D'aquí a una estona rebreu el fitxer traduït per correu electrònic.</p> 
+              <p>Gràcies per utilitzar aquest servei.</p>
+              </div>
+              
+              <div id = "error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
+                  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <p id="errormessage"></p>
+              </div>
+             
+              <div class="panel-body">
+                  <p>Podeu enviar-nos un fitxer en format de text pla (extensió .txt) o un fitxer de traducció gettext PO (extensió .PO) en codificació utf-8 i us el tornem traduït per correu electrònic. Hi ha una cua de fitxers que anem processant. Pot trigar més o menys segons el nombre de traduccions pendents de processar. Mida màxima del fitxer: 8 MB.</p>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                    <select id="model_name" name="model_name">
+                      <option value="sc-small" selected>Model petit de Softcatalà</option>
+                      <option value="sc-medium">Model mitjà de Softcatalà</option>
+                      <option value="small">Model petit d'OpenAI</option>
+                      <option value="medium">Model mitjà d'OpenAI</option>
+                      <option value="large">Model gran d'OpenAI</option>
+                    </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                    <p>
+                        <label for="email">Correu on voleu que us enviem la transcripció:</label>
+                        <input type="email" id="email" name="email"> 
+                    <p>
+                   <p class="help-block">Adreça electrònica on voleu rebre la traducció.</p>
+                      </div>
+                    </div>   
+                  </div><!-- /.row -->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="n_file">Seleccioneu un fitxer de text</label>
+                         <input type=file  name=file>
+                        <p class="help-block">Mida màxima del fitxer: 8 MB.</p>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                         <input type=submit value="Demanar transcripció" onclick="sendFile();return false;">
+                  
+                      </div>
+                    </div>    
+                  </div><!-- /.row -->
+                </div>
+              </div>
+             </form> 
+            </section>
             </section>
 
             <!-- .contingut-section  -->
