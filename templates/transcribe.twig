@@ -13,11 +13,11 @@
           <div class="contingut contingut-left col-sm-12 col-md-8">
 
             <!-- .formulari-eines -->
-            <section class=""><!-- traduccio de fitxer de text -->
-            <form id="form-id">
+            <section class=""><!-- transcripcio de fitxer de text -->
+            <form id="form-id" method=post enctype=multipart/form-data">
             
             <div class="panel panel-default">
-              <div class="panel-heading">Traducció de fitxers de text</div>
+              <div class="panel-heading">Transcripcio de fitxers de text</div>
               
               <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
               <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -35,8 +35,8 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <label for="n_model_name">Model a usar</label>
-                         <select class="form-control selectpicker" name="n_model_name" id="n_model_name">
+                        <label for="model_name">Model a usar</label>
+                         <select class="form-control selectpicker" name="model_name" id="model_name">
                           <option value="small">small</option>                         
                           <option value="medium" selected>medium</option>
                         </select>
@@ -45,7 +45,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_email">Adreça electrònica:</label>
-                        <input type="email" class="form-control" id="n_email" name="n_email" placeholder="Adreça electrònica" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Adreça electrònica" required>
                         <p class="help-block">Adreça electrònica on voleu rebre la traducció.</p>
                       </div>
                     </div>   
@@ -54,7 +54,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_file">Seleccioneu un fitxer de text</label>
-                        <input type="file" id="n_file" accept=".mp3,.voc,.ogg" required>
+                        <input type="file" id="file" accept=".mp3,.voc,.ogg" required>
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -71,11 +71,6 @@
               </div>
              </form> 
             </section>
-
-            <div style="display: none">
-                <input type="hidden" id="origin_language" value="cat" />
-                <input type="hidden" id="target_language" value="spa" />
-            </div>
 
             <!-- .contingut-section  -->
             <section class="contingut-section">
