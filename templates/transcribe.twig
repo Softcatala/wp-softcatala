@@ -1,0 +1,112 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+
+            <!-- .formulari-eines -->
+            <section class=""><!-- traduccio de fitxer de text -->
+            <form id="form-id">
+            
+            <div class="panel panel-default">
+              <div class="panel-heading">Traducció de fitxers de text</div>
+              
+              <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
+              <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p>D'aquí a una estona rebreu el fitxer traduït per correu electrònic.</p> 
+              <p>Gràcies per utilitzar aquest servei.</p>
+              </div>
+              
+              <div id = "error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
+                  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <p id="errormessage"></p>
+              </div>
+             
+              <div class="panel-body">
+                  <p>Podeu enviar-nos un fitxer d'àudio i us el tornem transcrit per correu electrònic. Hi ha una cua de fitxers que anem processant. Pot trigar més o menys segons el nombre de transcripcions pendents de processar.</p>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="n_model_name">Model a usar</label>
+                         <select class="form-control selectpicker" name="n_model_name" id="n_model_name">
+                          <option value="small">small</option>                         
+                          <option value="medium" selected>medium</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="n_email">Adreça electrònica:</label>
+                        <input type="email" class="form-control" id="n_email" name="n_email" placeholder="Adreça electrònica" required>
+                        <p class="help-block">Adreça electrònica on voleu rebre la traducció.</p>
+                      </div>
+                    </div>   
+                  </div><!-- /.row -->
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="n_file">Seleccioneu un fitxer de text</label>
+                        <input type="file" id="n_file" accept=".mp3,.voc,.ogg" required>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                      
+                      <div class="text-center">
+                           <button type="button" id="translate_file" class="bt-basic bt-basic-vermell" onclick="sendFile();return false;" >Demana la transcripció</button>
+                          
+                      </div>
+                      </div>
+                    </div>    
+                  </div><!-- /.row -->
+                </div>
+              </div>
+             </form> 
+            </section>
+
+            <div style="display: none">
+                <input type="hidden" id="origin_language" value="cat" />
+                <input type="hidden" id="target_language" value="spa" />
+            </div>
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        <p>
+          <strong>Baixeu l'aplicació per al vostre telèfon</strong>
+        </p>
+        <div class="intern tradbuttons">
+          <a href="/programes/traductor-softcatala/" class="bt-basic bt-basic-vermell-blanc intern-center"><i class="fa fa-android"></i> <span>App per a Android</span></a>
+          <a href="/programes/traductor-softcatala/" class="bt-basic bt-basic-vermell-blanc intern-center"><i class="fa fa-apple"></i> <span>App per a iPhone</span></a>
+        </div>
+      </div>
+    </div>
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "static/traductor-logos.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
