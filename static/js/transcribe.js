@@ -48,16 +48,16 @@ function getUrlVars(url) {
 
     for (var i = 0; i < hash.length; i++) {
         params=hash[i].split("=");
-    vars[params[0]] = params[1];
+        vars[params[0]] = params[1];
     }
     return vars;
 }
 
 function getDownloadURL(ext)
 {
-    var url = window.location.href
-    let params = getUrlVars(url)
-    let uuid = params['uuid']
+    var url = window.location.href;
+    let params = getUrlVars(url);
+    let uuid = params['uuid'];
     
     return URL + `/get_file/?uuid=` + uuid + "&ext=" + ext;
 }
