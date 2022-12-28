@@ -741,7 +741,7 @@ var neuronalApp = (function () {
                 }
                 else {
                     json = JSON.parse(xmlHttp.responseText);
-                    displayError(json['error']);
+                    display_error(json['error']);
                 }
             }
     
