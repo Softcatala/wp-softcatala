@@ -13,6 +13,25 @@ var HttpClient = function() {
     }
 }
 
+var display_ok_file = function(){
+
+        jQuery('#translate_file').html("Demaneu traducció");
+        jQuery('#error').hide();
+        jQuery('#info').removeClass('hidden');
+        jQuery('#info').show('slow');
+        jQuery('#n_email').val('');
+        jQuery('#n_file').val('');
+
+}
+
+var display_error = function(msg){
+
+        jQuery('#translate_file').html("Demaneu traducció");
+        jQuery('#info').hide();
+        jQuery('#error').removeClass('hidden');
+        jQuery('#errormessage').html(msg);
+        jQuery('#error').show('slow');
+}
 
 function sendFile()
 {
@@ -26,12 +45,12 @@ function sendFile()
 
             if (xmlHttp.status == 200)
             {
-                alert("D'aquí a una estona rebreu el fitxer transcrit per correu electrònic");
+                display_ok_file();
             }
             else
             {
                 json = JSON.parse(xmlHttp.responseText);
-                alert(json['error']);
+                display_error(json['error']);
             }
         }
 
@@ -40,4 +59,5 @@ function sendFile()
         xmlHttp.open("post", url);
         xmlHttp.send(formData); 
 }
+
 
