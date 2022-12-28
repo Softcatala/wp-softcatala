@@ -4,7 +4,7 @@
  *
  * @package wp-softcatala
  */
-wp_enqueue_script( 'sc-js-nombres-soros', get_template_directory_uri() . '/static/js/transcribe.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-nombres-soros', get_template_directory_uri() . '/static/js/transcribe-return.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 
 $context = Timber::get_context();
 $context['ads_container'] = true;
