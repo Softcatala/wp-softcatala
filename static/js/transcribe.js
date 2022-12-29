@@ -55,7 +55,7 @@ function sendFile()
         }
 
         var formData = new FormData(document.getElementById('form-id'));
-        url = URL + `/translate_file/`;
+        url = URL + `/transcribe_file/`;
         xmlHttp.open("post", url);
         xmlHttp.send(formData); 
 }
