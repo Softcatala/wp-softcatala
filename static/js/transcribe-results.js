@@ -30,4 +30,27 @@ function setLinks()
     document.getElementById("srt_down").setAttribute("href", urlSrt);
 }
 
+function checkLinks()
+{
+    var url = window.location.href;
+    let params = getUrlVars(url);
+    let uuid = params['uuid'];
+
+    let aUrl = URL + `/uuid_exists/?uuid=` + uuid;
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function() {
+        if (anHttpRequest.readyState == 4 && anHttpRequest.status != 200) {
+            jQuery('#found').hide();
+            jQuery('#notfound').removeClass('hidden');
+
+        }
+    }
+
+    anHttpRequest.open( "GET", aUrl, true );
+    anHttpRequest.send( null );
+}
+
+
+checkLinks();
 setLinks();
+

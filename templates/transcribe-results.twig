@@ -10,12 +10,22 @@
         <div class="row">
 
           <!-- .contingut -->
-          <div class="contingut contingut-left col-sm-12 col-md-8">
+          <div id ="found" class="contingut contingut-left col-sm-12 col-md-8">
 
             <p>Ja hem acabat la transcripció del fitxer! Ara pots baixar els següents fitxers:</p>
             <p>* Baixa fitxer de <a id="txt_down" download>text amb la transcripció</a></p>
             <p>* Baixa fitxer de <a id="srt_down" download>amb els subtítols</a> en format srt</p>
             <p><i>Nota: aquests fitxers se suprimiran automàticament 72 hores després d'haver estat enviats</i><p>
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          <div id ="notfound" class="contingut contingut-left col-sm-12 col-md-8 hidden">
+
+            <p>No hem trobat la transcripció.</p>
+            <p>Recorda que els fitxers se suprimiran automàticament 72 hores després d'haver estat enviats</p>
             <!-- .contingut-section  -->
             <section class="contingut-section">
               {{post.content}}
