@@ -9,7 +9,7 @@
     /* Ajustament boto demanar transcripció */
     jQuery("#i_demana").css("margin-top", "28px");
 
-    /* Listerner per demanar traducció */
+    /* Listerner per demanar transcripció */
     jQuery( "#i_demana" ).click(function() {
 
         if (!validateEmail(document.querySelector('#email').value)) {
@@ -35,19 +35,6 @@
     document.querySelector('#info' + '> button').addEventListener('click', function (e) {
         jQuery('#info').hide('slow');
     });
-
-    var HttpClient = function() {
-        this.get = function(aUrl, aCallback) {
-            var anHttpRequest = new XMLHttpRequest();
-            anHttpRequest.onreadystatechange = function() { 
-                if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                    aCallback(anHttpRequest.responseText);
-            }
-    
-            anHttpRequest.open( "GET", aUrl, true );
-            anHttpRequest.send( null );
-        }
-    }
 
     var display_ok_file = function(){
         document.querySelector('#i_demana').innerHTML = "Demana la transcripció";
