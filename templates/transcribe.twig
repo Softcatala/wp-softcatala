@@ -27,12 +27,12 @@
               <div class="panel-heading">Transcripció de fitxers de text</div>
               
               <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
-              <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <p>D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.</p>
-              <p>Gràcies per utilitzar aquest servei.</p>
+                  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <p>D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.</p>
+                  <p>Gràcies per utilitzar aquest servei.</p>
               </div>
               
-              <div id = "error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
+              <div id ="error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
                   <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <p id="errormessage"></p>
               </div>
@@ -43,7 +43,8 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                    <select id="model_name" name="model_name">
+                      <label for="n_model_name">Model que voleu utilitzar:</label>
+                    <select id="model_name" name="model_name" class="form-control selectpicker">
                       <option value="sc-small" selected>Model petit de Softcatalà</option>
                       <option value="sc-medium">Model mitjà de Softcatalà</option>
                       <option value="small">Model petit d'OpenAI</option>
@@ -56,9 +57,9 @@
                       <div class="form-group">
                     <p>
                         <label for="email">Correu on voleu que us avisem:</label>
-                        <input type="email" id="email" name="email"> 
+                        <input type="email" class="form-control" placeholder="Adreça electrònica" id="email" name="email" required> 
                     <p>
-                   <p class="help-block">Adreça electrònica on voleu que us avisem.</p>
+                   
                       </div>
                     </div>   
                   </div><!-- /.row -->
@@ -66,14 +67,15 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_file">Seleccioneu un fitxer d'àudio o vídeo</label>
-                         <input type=file  name=file>
-                        <p class="help-block">Mida màxima del fitxer: 1GB.</p>
+                          <input class="form-control" name="file" type="file" id="file" accept=".mp3,.wav,.ogg,.avi,.mp4" required>
+                        <p class="help-block">Mida màxima del fitxer: 1GB. Tipus suportats: mp3, wav, ogg, avi, mp4</p>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                         <input type=submit value="Demana la transcripció" onclick="sendFile();return false;">
-                  
+                         <div class="text-center">
+                            <button type="button" id="i_demana" class="bt-basic bt-basic-vermell">Demana la transcripció</button>
+                        </div>
                       </div>
                     </div>    
                   </div><!-- /.row -->
