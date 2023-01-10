@@ -90,73 +90,82 @@ function _init() {
             window.closeTips = _utils__WEBPACK_IMPORTED_MODULE_13__.closeTips;
             (0,_ui__WEBPACK_IMPORTED_MODULE_5__.keyboardShortcutSetup)();
             _view_controller__WEBPACK_IMPORTED_MODULE_10__["default"].set('editor');
-            $('.settings-button').mousedown(function () {
+            $('.settings-button').on('click', function () {
               if (_view_controller__WEBPACK_IMPORTED_MODULE_10__["default"].is('settings')) {
                 _view_controller__WEBPACK_IMPORTED_MODULE_10__["default"].set('editor');
               } else {
                 _view_controller__WEBPACK_IMPORTED_MODULE_10__["default"].set('settings');
+              }
+            });
+            $('.fullscreen-button').on('click', function () {
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              } else {
+                $('#otranscribe-panel').get(0).requestFullscreen();
               }
             }); // Gather query parameters into an object
 
             otrQueryParams = (0,_input__WEBPACK_IMPORTED_MODULE_2__.getQueryParams)();
 
             if (!otrQueryParams['uuid']) {
-              _context.next = 47;
+              _context.next = 50;
               break;
             }
 
             uuid = otrQueryParams['uuid'];
             text = "";
-            _context.prev = 20;
-            _context.next = 23;
+            _context.prev = 21;
+            _context.next = 24;
             return (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionText)(uuid);
 
-          case 23:
+          case 24:
             text = _context.sent;
-            _context.next = 30;
+            _context.next = 31;
             break;
 
-          case 26:
-            _context.prev = 26;
-            _context.t0 = _context["catch"](20);
+          case 27:
+            _context.prev = 27;
+            _context.t0 = _context["catch"](21);
             console.log("error");
             return _context.abrupt("return");
 
-          case 30:
+          case 31:
             local_storage_manager__WEBPACK_IMPORTED_MODULE_0___default().removeItem("oT-lastfile");
             local_storage_manager__WEBPACK_IMPORTED_MODULE_0___default().removeItem("autosave");
             document.getElementById('textbox').replaceChildren(text);
             (0,_texteditor__WEBPACK_IMPORTED_MODULE_1__.watchWordCount)();
-            _context.prev = 34;
-            _context.next = 37;
+            _context.prev = 35;
+            _context.next = 38;
             return (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileType)(uuid);
 
-          case 37:
+          case 38:
             fileType = _context.sent;
-            _context.next = 40;
+            console.log(fileType);
+            _context.next = 42;
             return (0,_player_player__WEBPACK_IMPORTED_MODULE_4__.createPlayer)({
               driver: fileType.indexOf('video') > -1 ? _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_VIDEO : _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_AUDIO,
               source: (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileURL)(uuid),
               name: uuid
             });
 
-          case 40:
+          case 42:
+            $('.topbar').removeClass('inputting');
             (0,_ui__WEBPACK_IMPORTED_MODULE_5__.bindPlayerToUI)(uuid);
             (0,_timestamps__WEBPACK_IMPORTED_MODULE_6__.activateTimestamps)();
-            _context.next = 47;
+            _context.next = 50;
             break;
 
-          case 44:
-            _context.prev = 44;
-            _context.t1 = _context["catch"](34);
+          case 47:
+            _context.prev = 47;
+            _context.t1 = _context["catch"](35);
             console.error(_context.t1);
 
-          case 47:
+          case 50:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[20, 26], [34, 44]]);
+    }, _callee, null, [[21, 27], [35, 47]]);
   }));
   return _init.apply(this, arguments);
 }
@@ -166,6 +175,13 @@ $(window).resize(function () {
     document.getElementById('media').style.width = oT.media.videoWidth();
   }
 });
+document.addEventListener('fullscreenchange', function () {
+  if (document.fullscreenElement) {
+    document.getElementById('fullscreen-icon').className = "fa fa-compress";
+  } else {
+    document.getElementById('fullscreen-icon').className = "fa fa-expand";
+  }
+}, false);
 
 /***/ }),
 /* 3 */

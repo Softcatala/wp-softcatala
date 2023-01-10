@@ -11,6 +11,14 @@
   width: 100%;
   background: #f1f1f1; }
 
+#otranscribe-panel:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll; }
+
+#otranscribe-panel:fullscreen .topbar {
+  position: fixed; }
+
 #extra-ui-text {
   display: none; }
 
@@ -154,9 +162,12 @@
   z-index: 50;
   position: relative;
   font-size: 16px;
-  display: flex; }
+  display: flex;
+  width: 100%; }
   .topbar.inputting .controls {
     display: none; }
+  .topbar.inputting .title {
+    flex-grow: 1; }
   .topbar.inputting .help-title {
     border-right: 1px solid #404040; }
 
@@ -169,18 +180,6 @@
   background: #262626;
   color: white;
   border-right: 1px solid #404040; }
-  .title i {
-    font-size: 0.90em; }
-  .title:hover {
-    background-color: #404040;
-    cursor: pointer; }
-  .title.active {
-    color: #262626;
-    background: #f1f1f1; }
-    .title.active:hover {
-      background: #DDD; }
-  .title:active {
-    background-color: #0d0d0d; }
 
 .help-title {
   padding: 10px;
@@ -250,6 +249,30 @@
     .settings-button.active:hover {
       background: #DDD; }
   .settings-button:active {
+    background-color: #0d0d0d; }
+
+.fullscreen-button {
+  padding: 10px;
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+  background: #262626;
+  color: white;
+  border-left: 1px solid #404040;
+  border-right: 1px solid #404040;
+  align-self: flex-end; }
+  .fullscreen-button i {
+    font-size: 0.90em; }
+  .fullscreen-button:hover {
+    background-color: #404040;
+    cursor: pointer; }
+  .fullscreen-button.active {
+    color: #262626;
+    background: #f1f1f1; }
+    .fullscreen-button.active:hover {
+      background: #DDD; }
+  .fullscreen-button:active {
     background-color: #0d0d0d; }
 
 .button.speed {
@@ -685,7 +708,7 @@
 
 .settings-panel {
   max-width: 800px;
-  margin: 30px auto;
+  margin: 50px auto;
   display: none; }
   .settings-panel.active {
     display: block; }
