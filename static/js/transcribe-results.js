@@ -3,6 +3,11 @@ var URL='https://api.softcatala.org/transcribe-service/v1'
 function getUrlVars(url) {
     var vars = {};
     var hashes = url.split("?")[1];
+
+    if (hashes == null) {
+        return
+    }
+
     var hash = hashes.split('&');
 
     for (var i = 0; i < hash.length; i++) {
@@ -30,19 +35,27 @@ function setLinks()
     document.getElementById("srt_down").setAttribute("href", urlSrt);
 }
 
+function hide_ui()
+{
+    jQuery('#found').hide();
+    jQuery('#notfound').removeClass('hidden');
+}
+
 function checkLinks()
 {
     var url = window.location.href;
     let params = getUrlVars(url);
+    if (params == null) {
+        hide_ui();
+        return;
+    }
     let uuid = params['uuid'];
 
     let aUrl = URL + `/uuid_exists/?uuid=` + uuid;
     var anHttpRequest = new XMLHttpRequest();
     anHttpRequest.onreadystatechange = function() {
         if (anHttpRequest.readyState == 4 && anHttpRequest.status != 200) {
-            jQuery('#found').hide();
-            jQuery('#notfound').removeClass('hidden');
-
+            hide_ui();
         }
     }
 
