@@ -8,7 +8,6 @@
   user-select: none;
   font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
   height: 100%;
-  width: 100%;
   background: #f1f1f1; }
 
 #otranscribe-panel:fullscreen {
@@ -133,16 +132,14 @@
   padding: 11px 10px 9px 10px !important; }
 
 .time-selection {
-  position: fixed;
-  top: 20px;
+  position: absolute;
   z-index: 50;
-  top: 200px;
+  top: 38px;
   background: #262626;
   padding: 7px;
   color: white;
-  top: 25px;
   box-shadow: 0px 0px 5px black;
-  right: 160px;
+  right: 0;
   border: 1px solid #404040;
   display: none; }
   .time-selection.active {
@@ -361,7 +358,7 @@
   font-family: Arial;
   padding: 5px;
   margin: 50px 5px 50px auto;
-  width: 50%;
+  width: 80%;
   border: none;
   padding: 50px 5px 5px 50px;
   outline: none;

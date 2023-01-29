@@ -21233,15 +21233,12 @@ function getTime() {
 ;
 
 function formatMilliseconds(time) {
-  var hours = Math.floor(time / 3600).toString();
+  var hours = Math.floor(time / 3600).toLocaleString('ca-ES', {
+    minimumIntegerDigits: 2
+  });
   var minutes = ("0" + Math.floor(time / 60) % 60).slice(-2);
   var seconds = ("0" + Math.floor(time % 60)).slice(-2);
-  var formatted = minutes + ":" + seconds;
-
-  if (hours !== '0') {
-    formatted = hours + ":" + minutes + ":" + seconds;
-  }
-
+  var formatted = hours + ":" + minutes + ":" + seconds;
   formatted = formatted.replace(/\s/g, '');
   return formatted;
 } // http://stackoverflow.com/a/25943182
