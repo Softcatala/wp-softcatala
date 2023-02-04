@@ -68,7 +68,7 @@ function init() {
 
 function _init() {
   _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var uuid, text, fileType;
+    var uuid, text, fileMeta, fileName;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -136,21 +136,21 @@ function _init() {
             (0,_texteditor__WEBPACK_IMPORTED_MODULE_1__.watchWordCount)();
             _context.prev = 35;
             _context.next = 38;
-            return (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileType)(uuid);
+            return (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileMeta)(uuid);
 
           case 38:
-            fileType = _context.sent;
-            console.log(fileType);
+            fileMeta = _context.sent;
+            fileName = fileMeta.name || uuid;
             _context.next = 42;
             return (0,_player_player__WEBPACK_IMPORTED_MODULE_4__.createPlayer)({
-              driver: fileType.indexOf('video') > -1 ? _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_VIDEO : _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_AUDIO,
+              driver: fileMeta.type.indexOf('video') > -1 ? _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_VIDEO : _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_AUDIO,
               source: (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileURL)(uuid),
-              name: uuid
+              name: fileName
             });
 
           case 42:
             $('.topbar').removeClass('inputting');
-            (0,_ui__WEBPACK_IMPORTED_MODULE_5__.bindPlayerToUI)(uuid);
+            (0,_ui__WEBPACK_IMPORTED_MODULE_5__.bindPlayerToUI)(fileName);
             (0,_timestamps__WEBPACK_IMPORTED_MODULE_6__.activateTimestamps)();
             _context.next = 50;
             break;
@@ -26813,7 +26813,7 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getTranscriptionFile": () => (/* binding */ getTranscriptionFile),
-/* harmony export */   "getTranscriptionFileType": () => (/* binding */ getTranscriptionFileType),
+/* harmony export */   "getTranscriptionFileMeta": () => (/* binding */ getTranscriptionFileMeta),
 /* harmony export */   "getTranscriptionFileURL": () => (/* binding */ getTranscriptionFileURL),
 /* harmony export */   "getTranscriptionText": () => (/* binding */ getTranscriptionText),
 /* harmony export */   "patchUI": () => (/* binding */ patchUI)
@@ -26923,33 +26923,24 @@ function getTranscriptionFileURL(uuid) {
   return "".concat(SC_BASE_URL, "?uuid=").concat(uuid, "&ext=bin");
 }
 
-function getFileType(contentDisposition) {
-  var fileExtensionRegexResult = /file\.(\w{3})/.exec(contentDisposition);
-  var fileExtension = undefined;
-  var fileType = "audio/mp3";
+function getFilename(contentDisposition) {
+  var filenameRegexResult = /^attachment;filename=(.*)$/.exec(contentDisposition);
+  var filename = undefined;
 
-  if (fileExtensionRegexResult && fileExtensionRegexResult.length > 1) {
-    fileExtension = fileExtensionRegexResult[1];
+  if (filenameRegexResult && filenameRegexResult.length > 1) {
+    filename = filenameRegexResult[1];
   }
 
-  if (["mp3", "ogg", "wav"].includes(fileExtension)) {
-    fileType = "audio/" + fileExtension;
-  } else if (fileExtension == "mp4") {
-    fileType = "video/mp4";
-  } else {
-    fileType = "unknown";
-  }
-
-  return fileType;
+  return filename;
 }
 
-function getTranscriptionFileType(_x2) {
-  return _getTranscriptionFileType.apply(this, arguments);
+function getTranscriptionFileMeta(_x2) {
+  return _getTranscriptionFileMeta.apply(this, arguments);
 }
 
-function _getTranscriptionFileType() {
-  _getTranscriptionFileType = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(uuid) {
-    var response, contentDisposition;
+function _getTranscriptionFileMeta() {
+  _getTranscriptionFileMeta = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(uuid) {
+    var response, contentDisposition, contentType;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -26961,17 +26952,21 @@ function _getTranscriptionFileType() {
 
           case 2:
             response = _context2.sent;
-            contentDisposition = response.headers['content-disposition'];
-            return _context2.abrupt("return", getFileType(contentDisposition));
+            contentDisposition = response.headers.get('content-disposition');
+            contentType = response.headers.get('content-type');
+            return _context2.abrupt("return", {
+              "type": contentType,
+              "name": getFilename(contentDisposition)
+            });
 
-          case 5:
+          case 6:
           case "end":
             return _context2.stop();
         }
       }
     }, _callee2);
   }));
-  return _getTranscriptionFileType.apply(this, arguments);
+  return _getTranscriptionFileMeta.apply(this, arguments);
 }
 
 function getTranscriptionFile(_x3) {
