@@ -1,4 +1,4 @@
-var URL='https://api.softcatala.org/transcribe-service/v1'
+var API_URL='https://api.softcatala.org/transcribe-service/v1'
 
 function getUrlVars(url) {
     var vars = {};
@@ -23,7 +23,7 @@ function getDownloadURL(ext)
     let params = getUrlVars(url);
     let uuid = params['uuid'];
     
-    return URL + `/get_file/?uuid=` + uuid + "&ext=" + ext;
+    return API_URL + `/get_file/?uuid=` + uuid + "&ext=" + ext;
 }
 
 function setLinks()
@@ -51,7 +51,7 @@ function checkLinks()
     }
     let uuid = params['uuid'];
 
-    let aUrl = URL + `/uuid_exists/?uuid=` + uuid;
+    let aUrl = API_URL + `/uuid_exists/?uuid=` + uuid;
     var anHttpRequest = new XMLHttpRequest();
     anHttpRequest.onreadystatechange = function() {
         if (anHttpRequest.readyState == 4 && anHttpRequest.status != 200) {
