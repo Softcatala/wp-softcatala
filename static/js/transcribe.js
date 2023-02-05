@@ -81,6 +81,8 @@
             url = URL + `/transcribe_file/`;
             xmlHttp.open("post", url);
             xmlHttp.send(formData); 
+        
+            jQuery('#file').val('')
     }
 
     /* Helper functions */
