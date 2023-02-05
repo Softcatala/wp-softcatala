@@ -755,6 +755,8 @@ var neuronalApp = (function () {
             formData.append("savetext", translation.savetext);
             xmlHttp.open("post", url);
             xmlHttp.send(formData);
+        
+            jQuery('#file').val('')
     }
 
 
