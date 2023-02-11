@@ -26924,7 +26924,7 @@ function getTranscriptionFileURL(uuid) {
 }
 
 function getFilename(contentDisposition) {
-  var filenameRegexResult = /^attachment;filename=(.*)$/.exec(contentDisposition);
+  var filenameRegexResult = /filename=(.*)$/.exec(contentDisposition);
   var filename = undefined;
 
   if (filenameRegexResult && filenameRegexResult.length > 1) {
