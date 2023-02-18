@@ -36,9 +36,19 @@
         jQuery('#info').hide('slow');
     });
 
-    var display_ok_file = function(){
+    var display_ok_file = function(waitingTime){
         document.querySelector('#i_demana').innerHTML = "Demana la transcripció";
         
+        if (waitingTime == 0)
+        {
+            jQuery('#info_text1').text("D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.");
+        }
+        else
+        {
+            jQuery('#info_text1').text("D'aquí a aproximadament " + waitingTime + " rebreu un correu electrònic quan el fitxer estigui llest.");
+        }
+
+        jQuery('#info_text2').text("Gràcies per utilitzar aquest servei.");
         jQuery('#error').hide();
         jQuery('#info').removeClass('hidden');
         jQuery('#info').show('slow');
@@ -68,7 +78,9 @@
 
                 if (xmlHttp.status == 200)
                 {
-                    display_ok_file();
+                    json = JSON.parse(xmlHttp.responseText);
+                    waitingTime = json['waiting_time'];
+                    display_ok_file(waitingTime);
                 }
                 else
                 {
