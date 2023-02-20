@@ -231,8 +231,8 @@ class SC_Conjugador {
 			if(!$url)
 				$url = 	$infinitive_title;
 				
-			$title         = 'Conjugació del verb ' . $infinitive_title . ' | Softcatalà';
-			$content_title = 'Conjugació del verb «' . $verb . '»';
+			$title         = 'Conjugació del verb català ' . $infinitive_title . ' | Softcatalà';
+			$content_title = 'Conjugació del verb català «' . $verb . '»';
 
 			$canonical = '/conjugador-de-verbs/verb/'. $url .'/';
 			
