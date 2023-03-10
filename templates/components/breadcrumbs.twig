@@ -1,0 +1,51 @@
+{% if breadcrumbs %}
+    <style>
+        .breadcrumbs {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumbs a {
+            font-weight: 300;
+            margin: 4px 5px 0 0;
+        }
+
+        .breadcrumbs ol {
+            display: inline;
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .breadcrumbs ol li {
+            display: inline;
+        }
+    </style>
+    <nav class="breadcrumbs" style="clear: both;font-size: 14px;">
+        <ol>
+    {% for breadcrumb in breadcrumbs %}
+            <li><a
+                        href="{{ breadcrumb.link }}" {% if loop.last %}aria-current='location'{% endif %}
+                >{{ breadcrumb.text }}</a></li>{% if not loop.last %}<span aria-hidden="">/</span>{% endif %}
+    {% endfor %}
+        </ol>
+    </nav>
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {% for breadcrumb in breadcrumbs %}
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": "https://example.com/parent",
+                    {% if loop.last %}
+                        "name": "Current"
+                    {% else %}
+                        "name": "Parent"
+                    {% endif %}
+                }{% if not loop.last %},{% endif %}
+        {% endfor %}
+            ]
+    </script>
+{% endif %}

@@ -23,5 +23,8 @@ $context = \Timber\Timber::get_context();
 $context['content_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id']);
 $context['post'] = $timberPost;
+$context['breadcrumbs'] = get_breadcrumbs( $timberPost );
+
+
 \Timber\Timber::render( array( 'plantilla-text-menuleft.twig' ), $context );
 

@@ -13,4 +13,7 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $timberPost;
 $context['credits'] = $timberPost->get_field( 'credits' );
 $context['customAnalytics'] = empty($timberPost->get_field( 'custom_analytics' )) ? false : $timberPost->get_field( 'custom_analytics' );
+$context['breadcrumbs'] = get_breadcrumbs( $timberPost );
+
+
 Timber::render( array( 'page-' . $timberPost->post_name . '.twig', 'page.twig' ), $context );

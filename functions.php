@@ -1137,6 +1137,25 @@ function get_downloads_full() {
 	return $result;
 }
 
+function get_breadcrumbs( $timberPost ) {
+	$ancestors = array_map ( array( 'Timber', 'get_post' ),  array_reverse( get_ancestors( $timberPost->id, 'page' ) ) );
+
+	$breadcrumbs = false;
+
+	if ( sizeof( $ancestors ) > 0 && ( show_breadcrumbs( $ancestors[0]->slug ) ) ) {
+		$breadcrumbs = array_map (
+			function ($p) {
+				return [ 'link' => $p->link, 'text' => $p->title ];
+			}, array_merge( $ancestors, [ $timberPost] ) );
+	}
+
+	return $breadcrumbs;
+}
+
+function show_breadcrumbs ( $slug ) {
+	return in_array( $slug, [ 'trobades' ] );
+}
+
 function get_program_context( $programa ) {
 
 	$context = Timber::get_context();
