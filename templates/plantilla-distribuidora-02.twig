@@ -26,7 +26,7 @@
                         </ul>
                     </div>
                 </div>
-                <h2>{{ post.content }}</h2>
+                <h2>{{ post.excerpt }}</h2>
                 <div class="intern">
                     {% if post.call_to_action_top_url and post.call_to_action_top_text %}
                         <div class="intern-center">
@@ -42,7 +42,7 @@
 
             <!-- .contingut -->
             <div class="contingut">
-                
+                {{ post.content }}
                 {% if links %}
                     <!-- .row -->
                     <div class="row">
