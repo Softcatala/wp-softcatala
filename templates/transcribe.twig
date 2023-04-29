@@ -78,6 +78,39 @@
                       </div>
                     </div>    
                   </div><!-- /.row -->
+
+                    <div class="text-center">
+                        <p><b>Opcions avançades per als subtítols</b><p>
+                        <p>Aquestes opcions només són rellevants si penseu utilitzar el resultat de la transcripció per crear subítiols usant el fitxer en format STR</p>
+                    </div>
+                    
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="form-group" style="margin:10px 0 10px 0">
+                            <label for="num_sentences">Nombre màxim de caràcters abans de saltar de línia:</label>
+                            <input type="number" style="width:50px" class="form-control input-sm" id="num_chars" name="num_chars" min="3" value="5">
+                      </div>
+                        <div class="form-group" style="margin:10px 0 10px 0">
+                            <label for="num_sentences">Nombre màxim de línies per subtítol: </label>
+                            <input type="number" style="width:50px" class="form-control input-sm" id="num_sentences" name="num_sentences" min="3" value="5">
+                      </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                         <div>
+                            <label><input type="checkbox" id="word_timestamps" name="word_timestamps"/>Temporalitat de cada paraula</label>
+                        </div>
+                        <div>
+                            <label><input type="checkbox" id="highlight_words" name="highlight_words"/>Ressalta les paraules</label>
+                        </div>
+                      </div>
+                    </div>    
+                  </div><!-- /.row -->
+                  
                 </div>
               </div>
              </form> 
