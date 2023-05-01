@@ -63,6 +63,41 @@
                     </div>   
                   </div><!-- /.row -->
                   <div class="row">
+                    <div class="col-sm-12">
+                      <b>Opcions específiques per a generar fitxers de subtítols (.srt)</b>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-7 form-inline">
+                         <label style="font-weight:normal; font-size:14px" for="num_chars">Nombre màxim de caràcters abans de saltar de línia:</label>
+                         <input type="number" style="width:50px" class="form-control input-sm" id="num_chars" name="num_chars" min="5" max="1000" value="">
+                        </div>
+                        <div class="col-sm-5">
+                          <div class="form-check">
+                            <label class="form-check-label" style="font-weight:normal; font-size:14px" for="word_timestamps">
+                              Temporalitat de cada paraula:
+                            </label>
+                            <input class="form-check-input" type="checkbox" id="word_timestamps" name="word_timestamps">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-7 form-inline">
+                         <label style="font-weight:normal; font-size:14px" for="num_chars">Nombre màxim de línies per subtítol:</label>
+                         <input type="number" style="width:50px" class="form-control input-sm" id="num_sentences" name="num_sentences" min="1" max="10" value="">
+                        </div>
+                        <div class="col-sm-5">
+                          <div class="form-check">
+                            <label class="form-check-label" style="font-weight:normal; font-size:14px" for="word_timestamps">
+                              Ressalta les paraules:
+                            </label>
+                            <input class="form-check-input" type="checkbox" id="highlight_words" name="highlight_words">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   </div><!-- /.row -->
+                  <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_file">Seleccioneu un fitxer d'àudio o vídeo</label>
@@ -78,39 +113,6 @@
                       </div>
                     </div>    
                   </div><!-- /.row -->
-
-                    <div class="text-center">
-                        <p><b>Opcions avançades per als subtítols</b><p>
-                        <p>Aquestes opcions només són rellevants si penseu utilitzar el resultat de la transcripció per crear subtítols usant el fitxer en format SRT</p>
-                    </div>
-                    
-
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <div class="form-group" style="margin:10px 0 10px 0">
-                            <label for="num_sentences">Nombre màxim de caràcters abans de saltar de línia:</label>
-                            <input type="number" style="width:50px" class="form-control input-sm" id="num_chars" name="num_chars" min="5" max="1000" value="">
-                      </div>
-                        <div class="form-group" style="margin:10px 0 10px 0">
-                            <label for="num_sentences">Nombre màxim de línies per subtítol: </label>
-                            <input type="number" style="width:50px" class="form-control input-sm" id="num_sentences" name="num_sentences" min="1" max="10" value="">
-                      </div>
-                      </div>
-                    </div>
-                    
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                         <div>
-                            <label><input type="checkbox" id="word_timestamps" name="word_timestamps"/>Temporalitat de cada paraula</label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" id="highlight_words" name="highlight_words"/>Ressalta les paraules</label>
-                        </div>
-                      </div>
-                    </div>    
-                  </div><!-- /.row -->
-                  
                 </div>
               </div>
              </form> 
