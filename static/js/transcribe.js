@@ -97,6 +97,17 @@
             jQuery('#file').val('')
     }
 
+
+    // Srt options
+    jQuery('#mostra_opcions').change(function(){
+        if(jQuery('#mostra_opcions').is(':checked')){
+            jQuery('#srt_options').show()
+        } else {
+            jQuery('#srt_options').hide()
+        }
+    });
+
+
     /* Helper functions */
     var validateEmail = function (email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
