@@ -33,6 +33,9 @@ function setLinks()
 
     var urlSrt = getDownloadURL('srt');
     document.getElementById("srt_down").setAttribute("href", urlSrt);
+
+    var urlSrt = getDownloadURL('json');
+    document.getElementById("json_down").setAttribute("href", urlSrt);
 }
 
 function hide_ui()
