@@ -628,6 +628,7 @@ abstract class SearchQueryType {
 	const Post = 6;
 	const PagePrograma = 7;
 	const FilteredTema = 8;
+	const PageProjecte = 9;
 }
 
 /*
@@ -769,8 +770,10 @@ function get_post_query_args( $post_type, $queryType, $filter = array() ) {
 				'terms'    => $filter
 			);
 		}
-	} else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::Projecte ) {
-			$filter_args = array();
+	} else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::PageProjecte ) {
+			$filter_args = array(
+				'posts_per_page' => 20
+			);
 	} else {
 		$filter_args = array(
 			'meta_query' => array(

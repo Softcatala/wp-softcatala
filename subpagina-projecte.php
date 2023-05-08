@@ -48,7 +48,7 @@ $context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
 $query = array ( 'post_id' => $post_subpagina->projecte, 'subpage_type' => 'projecte' );
 
 //Related subpages
-$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
+$args = get_post_query_args( 'page', SearchQueryType::PageProjecte, $query );
 query_posts($args);
 $context['related_pages'] = Timber::get_posts($args);
 
