@@ -12,7 +12,7 @@ function get_page_parent_title( $postId ) {
     return $parent_data;
 }
 
-function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order = 'ASC') {
+function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order = 'ASC', $depth = 0) {
     $pages_tree = wp_list_pages( array(
         'child_of' => $parent_id,
         'echo' => 0,
@@ -20,6 +20,7 @@ function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order =
         'sort_order'   => $sort_order,
         'link_before' => '<i class="fa fa-angle-right"></i>',
         'title_li' => '',
+	    'depth' => $depth
     ) );
 
     $pages_tree = str_replace( 'children', 'nav children', $pages_tree);

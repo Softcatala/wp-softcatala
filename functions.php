@@ -1140,12 +1140,12 @@ function get_downloads_full() {
 	return $result;
 }
 
-function get_breadcrumbs( $timberPost ) {
+function get_breadcrumbs( $timberPost, $force = false) {
 	$ancestors = array_map ( array( 'Timber', 'get_post' ),  array_reverse( get_ancestors( $timberPost->id, 'page' ) ) );
 
 	$breadcrumbs = false;
 
-	if ( sizeof( $ancestors ) > 0 && ( show_breadcrumbs( $ancestors[0]->slug ) ) ) {
+	if ( sizeof( $ancestors ) > 0 && ( show_breadcrumbs( $ancestors[0]->slug, $force ) ) ) {
 		$breadcrumbs = array_map (
 			function ($p) {
 				return [ 'link' => $p->link, 'text' => $p->title ];
@@ -1155,8 +1155,8 @@ function get_breadcrumbs( $timberPost ) {
 	return $breadcrumbs;
 }
 
-function show_breadcrumbs ( $slug ) {
-	return in_array( $slug, [ 'trobades' ] );
+function show_breadcrumbs ( $slug, $force ) {
+	return in_array( $slug, [ 'trobades' ] ) || $force;
 }
 
 function get_program_context( $programa ) {
