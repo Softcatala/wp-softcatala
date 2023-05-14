@@ -1,0 +1,19 @@
+{% if result %}
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{index}}">
+                {{direction}}
+            </a>
+        </h4>
+    </div>
+    <div id="collapse_{{index}}" class="panel-collapse collapse">
+        <div class="panel-body">
+            {% for entry in result.groupsLemmas %}
+                {% include 'ajax/diccionari-engcat-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% if message %}
+    {{ message }}
+{% endif %}

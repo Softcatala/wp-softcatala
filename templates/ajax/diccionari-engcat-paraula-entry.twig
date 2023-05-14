@@ -1,0 +1,20 @@
+<h3 class="originalword" style="text-transform:none">
+    {% if (entry.originalWord.before) %}
+        ( {{ entry.originalWord.before }} )
+    {% endif %}
+    {{ entry.originalWord.text }}
+    {% if (entry.originalWord.feminine) %}
+        <span style="color: #7b7b7b">&nbsp;{{ entry.originalWord.feminine }}</span> 
+    {% endif %}
+    {% if (entry.originalWord.after) %}
+        ( {{ entry.originalWord.after }} )
+    {% endif %}
+</h3>
+{% for lemma in entry.lemmas %}
+    {% for translatedWord in lemmas %}
+    {{translatedWord.text}}
+    {% endfor %}            
+{% endfor %}
+
+
+
