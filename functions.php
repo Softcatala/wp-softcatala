@@ -99,6 +99,7 @@ class StarterSite extends TimberSite {
 		SC_Multilingue::init();
 		SC_NavegaEnCatala::init();
 		\Softcatala\Content\JsonToTable::init();
+		SC_Sitemaps::init();
 	}
 
 	function autoload_wpcli( $cls ) {
