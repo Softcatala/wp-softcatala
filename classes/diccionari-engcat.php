@@ -47,6 +47,24 @@ class SC_Diccionari_engcat {
 		return $this->return404( $paraula );
 	}
 
+	public function get_corpus( $paraula ) {
+
+		$paraula = strtolower( $paraula );
+
+		$url_api = get_option( 'api_cerca_corpus' );
+		$url     = $url_api . '/search/' . $paraula;
+		
+		$result = $this->rest_client->get( $url );
+
+		if ( 200 == $result['code'] && isset($result['result'])) {
+
+			return $api_result   = json_decode( $result['result'] );
+			
+		}
+
+		return;
+	}
+
 	private function build_results( $result, $paraula ) {
 
 
@@ -62,31 +80,12 @@ class SC_Diccionari_engcat {
 	
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = '/diccionari-eng-cat'.'/paraula/' . $canonical_lemma . '/';
-	
-			foreach ( $result->results as $index => $single_entry ) {
-
-				if (count($single_entry->groupsLemmas)>0) {
-
-					if ($index === array_key_first($result->results)) {
-						$direction = 'anglès → català';
-					}else{
-						$direction = 'català → anglès';
-					}
-
-					$html .= Timber::fetch( 'ajax/diccionari-engcat-paraula.twig', array(
-						'result'  => $single_entry,
-						'direction' => $direction,
-						'index' => $index
-					));
-
-
-				}
-
-				
-								
-				
-
-			}
+			
+			
+			$html .= Timber::fetch( 'ajax/diccionari-engcat-resultat.twig', array(
+				'results'  => $result->results,
+				'corpus'	=> $corpus
+			));
 			
 			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 			}//end if

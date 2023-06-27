@@ -17,25 +17,23 @@
                     <!-- .formulari-eines  -->
                     <section class="formulari-eines contingut-section">
 
-                        <form id="diccionari-engcat_form">
+                        <form id="diccionari_engcat_form">
                             <!-- .btns-diccionari  -->
                             <div class="btns-diccionari row">
                                 <div class="col-xs-12">
                                     <p>Introduïu la paraula que voleu cercar i feu clic en el botó de cerca.</p>
                                     <div class="input-group">
-                                        <input autofocus type="text" name="diccionari-engcat" id="diccionari-engcat" class="form-control" placeholder="Introduïu una paraula"/>
-                                        <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_sinonims" name="_action_consulta_sinonims">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
+                                        <input autofocus type="text" name="cerca_diccionari_engcat" id="cerca_diccionari_engcat" class="form-control" placeholder="Introduïu una paraula"/>
+                                        <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_diccionari_engcat" name="_action_consulta_diccionari_engcat">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
                                     </div>
                                 </div>
                             </div><!--/.btns-diccionari  -->
                         </form>
                         
                         <!-- .diccionari-resultat  -->
-                        <div class="diccionari-eng-cat-resultat" id="diccionari-eng-cat-resultat" {% if not dicc_engcat_result %}style="display:none"{% endif %}>
-                            {% if dicc_engcat_result %}
-                            <div class="panel panel-default" style="border:0">
-                                {{ dicc_engcat_result }}
-                            </div>
+                        <div class="resultats_diccionari_engcat" id="resultats_diccionari_engcat" {% if not engcat_resultat %}style="display:none"{% endif %}>
+                            {% if engcat_resultat %}
+                                   {{ engcat_resultat }}
                             {% endif %}
                         </div>
                         <!--/.diccionari-resultat  -->

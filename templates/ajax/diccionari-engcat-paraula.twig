@@ -1,19 +1,22 @@
-{% if result %}
-    <div class="panel-heading">
+{% if single_entry.groupsLemmas|length > 0 %}
+   <div class="panel-heading">
         <h4 class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{index}}">
-                {{direction}}
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}">
+                {% if loop.first %}
+                    anglès → català
+                {% else %}  
+                    català → anglès  
+                {% endif %}
             </a>
         </h4>
     </div>
-    <div id="collapse_{{index}}" class="panel-collapse collapse">
+    <div id="collapse_{{loop.index}}" class="panel-collapse collapse in">
         <div class="panel-body">
-            {% for entry in result.groupsLemmas %}
-                {% include 'ajax/diccionari-engcat-paraula-entry.twig' with {'entry': entry, 'index': loop.index } only %}
+            {% for entry in single_entry.groupsLemmas %}
+                {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}
             {% endfor %}
         </div>
     </div>
 {% endif %}
-{% if message %}
-    {{ message }}
-{% endif %}
+
+
