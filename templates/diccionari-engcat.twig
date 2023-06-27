@@ -1,0 +1,65 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+        <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+        <!--/.main-header -->
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- .contingut -->
+                <div class="contingut contingut-left col-sm-12 col-md-8">
+
+                    <!-- .formulari-eines  -->
+                    <section class="formulari-eines contingut-section">
+
+                        <form id="diccionari_engcat_form">
+                            <!-- .btns-diccionari  -->
+                            <div class="btns-diccionari row">
+                                <div class="col-xs-12">
+                                    <p>Introduïu la paraula que voleu cercar i feu clic en el botó de cerca.</p>
+                                    <div class="input-group">
+                                        <input autofocus type="text" name="cerca_diccionari_engcat" id="cerca_diccionari_engcat" class="form-control" placeholder="Introduïu una paraula"/>
+                                        <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_diccionari_engcat" name="_action_consulta_diccionari_engcat">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
+                                    </div>
+                                </div>
+                            </div><!--/.btns-diccionari  -->
+                        </form>
+                        
+                        <!-- .diccionari-resultat  -->
+                        <div class="resultats_diccionari_engcat" id="resultats_diccionari_engcat" {% if not engcat_resultat %}style="display:none"{% endif %}>
+                            {% if engcat_resultat %}
+                                   {{ engcat_resultat }}
+                            {% endif %}
+                        </div>
+                        <!--/.diccionari-resultat  -->
+                    </section><!--/.formulari-eines  -->
+                    {% include "static/diccionari-engcat-cerques-frequents.twig" with { token: 'les paraules o expressions', url: '/diccionari-de-sinonims/lletra'} only %}
+
+                    <!-- .contingut-section  -->
+                    <section class="contingut-section">
+                        {{post.content}}
+                    </section><!--/.contingut-section  -->
+                </div><!--/.contingut -->
+
+                {% include "sidebar_recursos.twig" %}
+
+            </div><!--/.row -->
+        </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "static/diccionari-engcat-credits.twig" %}
+
+    {% include "template-avis.twig" %}
+
+{% endblock %}

@@ -32,6 +32,10 @@ add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
 add_action( 'wp_ajax_conjugador_search', 'sc_conjugador_search' );
 add_action( 'wp_ajax_nopriv_conjugador_search', 'sc_conjugador_search' );
 
+/** DICCIONARI ENG-CAT  */
+add_action( 'wp_ajax_diccionari_engcat_search', 'sc_diccionari_engcat_search' );
+add_action( 'wp_ajax_nopriv_diccionari_engcat_search', 'sc_diccionari_engcat_search' );
+
 /**
  * Retrieves the information from a given aparell
  *
@@ -100,9 +104,27 @@ function sc_conjugador_search() {
 		$url = sanitize_text_field( $_POST["url"] );
 		$ajaxquery = sanitize_text_field( $_POST["ajaxquery"] );
 		$conjugador = new SC_Conjugador();
-
-
 		$result = $conjugador->get_verb( $verb, $infinitiu, $url, $ajaxquery );
+	}
+
+	wp_send_json( $result );
+	
+}
+
+/**
+ * Retrieves the results from the DICCIONARI ENG-CAT
+ *
+ * @return json response
+ */
+function sc_diccionari_engcat_search() {
+	
+	if ( ! isset( $_POST["paraula"] ) ) {
+		$result = new SC_Diccionari_EngCatResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+	} else {
+		$paraula = sanitize_text_field( $_POST["paraula"] );
+		
+		$diccionari = new SC_Diccionari_engcat();
+		$result = $diccionari->get_paraula( $paraula );
 	}
 
 	wp_send_json( $result );

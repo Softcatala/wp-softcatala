@@ -1,0 +1,32 @@
+<style>
+.categoria_v{
+    
+}
+
+.categoria_v > header > h2{
+    border-bottom: 1px solid black;
+}
+.categoria_v > header > h2{
+    margin:0;
+    font-size:16px;
+    font-weight: bold;
+}
+
+
+</style>
+<article id=“cat_v” class="categoria_v" >
+    <header><h2>{{entry.originalWord.text}} {{entry.originalWord.gclass}}.</h2></header>
+    <p>
+        {% for lemma in entry.lemmas  %}
+            {%  set first = loop.first %}
+                {% for translated in lemma.translatedWords %}
+                    {% if loop.first and not first %}‖{% endif %}
+                    {{translated.text}}
+                    {% if not loop.last %}|{% endif %}
+                {% endfor %}
+        {% endfor %}  
+    </p>  
+</article>
+
+
+

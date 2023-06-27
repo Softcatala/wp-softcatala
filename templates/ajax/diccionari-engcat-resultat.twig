@@ -1,0 +1,13 @@
+{% if results.0.groupsLemmas|length > 0 %}
+    <div class="panel panel-default" style="border:0">
+        {% for single_entry in results if single_entry.groupsLemmas %}
+            {% include 'ajax/diccionari-engcat-paraula.twig' %}
+        {% endfor %}
+    </div>
+{% else %}
+No hem trobat cap resultat de cerca
+{% endif %}
+
+
+
+
