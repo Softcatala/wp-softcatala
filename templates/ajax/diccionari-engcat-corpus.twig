@@ -1,0 +1,39 @@
+{% if single_entry.groupsLemmas|length > 0 %}
+   <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}_corpus">
+                {% if loop.first %}
+                    Exemples d'ús (anglès → català)
+                {% else %}  
+                    Exemples d'ús (català → anglès)  
+                {% endif %}
+            </a>
+        </h4>
+    </div>
+    <div id="collapse_{{loop.index}}_corpus" class="panel-collapse collapse">
+        <div class="panel-body panel-corpus">
+            <table class="table-corpus">
+             {% for corpus in single_entry.corpus %}
+                    <tr> 
+                        <td>
+                            {% if corpus.highlight.src.0 %}
+                                {{corpus.highlight.src.0}}
+                            {% else %}
+                                {{corpus.src}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if corpus.highlight.trg.0 %}
+                                {{corpus.highlight.trg.0}}
+                            {% else %}
+                                {{corpus.trg}}
+                            {% endif %}
+                        </td>
+                    </tr>
+              {% endfor %}
+             </table>
+        </div>
+    </div>
+{% endif %}
+
+

@@ -10,7 +10,7 @@
             </a>
         </h4>
     </div>
-    <div id="collapse_{{loop.index}}" class="panel-collapse collapse in">
+    <div id="collapse_{{loop.index}}" class="panel-collapse collapse {%if loop.first %}in{% endif %}">
         <div class="panel-body">
             {% for entry in single_entry.groupsLemmas %}
                 {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}
