@@ -48,7 +48,7 @@
             jQuery('#info_text1').text("D'aquí a aproximadament " + waitingTime + " rebreu un correu electrònic quan el fitxer estigui llest.");
         }
 
-        jQuery('#info_text2').text("Gràcies per utilitzar aquest servei.");
+        jQuery('#info_text2').text("Gràcies per usar aquest servei.");
         jQuery('#error').hide();
         jQuery('#info').removeClass('hidden');
         jQuery('#info').show('slow');
