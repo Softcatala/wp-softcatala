@@ -509,7 +509,7 @@ function mostraMetriques(text){
   jQuery('#msg-metriques-lat').html('');
 
   jQuery.ajax({
-    url: "https://api.softcatala.org/style-checker/v1/metrics",
+    url: "https://api.softcatala.org/text-metrics-service/v1/metrics",
     type:"POST",
     data : {'text':text},
     dataType: 'json',
