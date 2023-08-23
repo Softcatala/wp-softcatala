@@ -232,9 +232,9 @@ class SC_Conjugador {
 				$url = 	$infinitive_title;
 				
 			$title         = 'Conjugació en català del verb ' . $infinitive_title . ' | Softcatalà';
-			$content_title = 'Conjugació en català del verb «' . $verb . '»';
+			$content_title = 'Conjugació en català del verb «' . $infinitive_title . '»';
 
-			$canonical = '/conjugador-de-verbs/verb/'. $url .'/';
+			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
 			
 			$temps = array(	'singular1' => 'jo',
 							'singular2' => 'tu',
@@ -243,7 +243,7 @@ class SC_Conjugador {
 							'plural2' => 'vosaltres, vós',
 							'plural3' => 'ells, elles, vostès'
 						);
-
+					
 			$variants = array(	                '3' => 'val.',
 								'4' => 'bal.',
 								'6' => 'val., bal.',
