@@ -24,7 +24,7 @@ $context = $context_filterer->get_filtered_context( $context_overrides, false );
 $context['content_title'] = $title;
 $context['term'] = new Timber\Term();
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-$context['posts'] = Timber::get_posts();
+$context['posts'] = Timber::get_posts( array('posts_per_page' => 15));
 $context['pagination'] = Timber::get_pagination();
 
 Timber::render( $templates, $context );
