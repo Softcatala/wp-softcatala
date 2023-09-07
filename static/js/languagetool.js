@@ -308,6 +308,7 @@ function dooptions() {
     else {
        typo_enabledRules.push("DIACRITICS_TRADITIONAL_RULES");
        typo_enabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_TRADITIONAL");
+       typo_disabledCategories.push("DIACRITICS_IEC");   
        typo_disabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
     }
     if (jQuery("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
