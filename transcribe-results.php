@@ -5,7 +5,7 @@
  * @package wp-softcatala
  */
 wp_enqueue_script( 'sc-js-transcribe-results', get_template_directory_uri() . '/static/js/transcribe-results.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-otranscribe', get_template_directory_uri() . '/static/js/otranscribe.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-otranscribe', get_template_directory_uri() . '/static/js/otranscribe.c73d4173820839f2b8f6.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-otranscribe-l10n', get_template_directory_uri() . '/static/js/otranscribe-l10n.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_style( 'sc-css-otranscribe', get_template_directory_uri() . '/static/css/otranscribe.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
