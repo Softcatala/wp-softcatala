@@ -26924,11 +26924,11 @@ function getTranscriptionFileURL(uuid) {
 }
 
 function getFilename(contentDisposition) {
-  var filenameRegexResult = /filename=(.*)$/.exec(contentDisposition);
+  var filenameRegexResult = /filename\*=UTF-8''(.*)$/.exec(contentDisposition);
   var filename = undefined;
 
   if (filenameRegexResult && filenameRegexResult.length > 1) {
-    filename = filenameRegexResult[1];
+    filename = decodeURIComponent(filenameRegexResult[1]);
   }
 
   return filename;
