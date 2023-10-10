@@ -108,7 +108,7 @@ function _init() {
             otrQueryParams = (0,_input__WEBPACK_IMPORTED_MODULE_2__.getQueryParams)();
 
             if (!otrQueryParams['uuid']) {
-              _context.next = 50;
+              _context.next = 51;
               break;
             }
 
@@ -141,31 +141,32 @@ function _init() {
           case 38:
             fileMeta = _context.sent;
             fileName = fileMeta.name || uuid;
-            _context.next = 42;
+            window.transcribedFileName = fileName.replace(/\.[^/.]+$/, "");
+            _context.next = 43;
             return (0,_player_player__WEBPACK_IMPORTED_MODULE_4__.createPlayer)({
               driver: fileMeta.type.indexOf('video') > -1 ? _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_VIDEO : _player_player__WEBPACK_IMPORTED_MODULE_4__.playerDrivers.HTML5_AUDIO,
               source: (0,_softcatala__WEBPACK_IMPORTED_MODULE_12__.getTranscriptionFileURL)(uuid),
               name: fileName
             });
 
-          case 42:
+          case 43:
             $('.topbar').removeClass('inputting');
             (0,_ui__WEBPACK_IMPORTED_MODULE_5__.bindPlayerToUI)(fileName);
             (0,_timestamps__WEBPACK_IMPORTED_MODULE_6__.activateTimestamps)();
-            _context.next = 50;
+            _context.next = 51;
             break;
 
-          case 47:
-            _context.prev = 47;
+          case 48:
+            _context.prev = 48;
             _context.t1 = _context["catch"](35);
             console.error(_context.t1);
 
-          case 50:
+          case 51:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[21, 27], [35, 47]]);
+    }, _callee, null, [[21, 27], [35, 48]]);
   }));
   return _init.apply(this, arguments);
 }
@@ -24704,7 +24705,7 @@ function getTexteditorContents() {
 }
 
 function getFilename() {
-  return document.webL10n.get('file-name') + " " + new Date().toUTCString();
+  return window.transcribedFileName || document.webL10n.get('file-name') + " " + new Date().toUTCString();
 }
 
 var exportFormats = {
