@@ -48,7 +48,18 @@ class Programes {
 
 		$filter_args = self::filter_args( $filter );
 
-		return array_merge( $default_args, $filter_args );
+		$result_args = array_merge( $default_args, $filter_args );
+
+		if (isset($filter_args['tax_query']) && is_array($filter_args['tax_query'])) {
+			$result_args['tax_query'][] = array(
+				'taxonomy' => 'classificacio',
+				'field'    => 'slug',
+				'terms'    => 'arxivat',
+				'operator' => 'NOT IN',
+			);
+		}
+
+		return $result_args;
 	}
 
 	private static function filter_args( $filter ) {
