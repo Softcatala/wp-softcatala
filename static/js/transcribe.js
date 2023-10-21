@@ -66,21 +66,15 @@
     
     updateProgress: function updateProgress(evt)
     {
-        var bar = document.getElementById("bar");
-        var percent = document.getElementById("percent");
-    
         if (evt.lengthComputable) {
             var percentVal = Math.ceil((evt.loaded / evt.total) * 100);
-            bar.style.width = percentVal;
-            percent.innerHTML = percentVal + " %";
+            jQuery('#bar').width(percentVal);
+            jQuery('#percent').text(percentVal + " %");
         }
     }
 
     function sendFile()
     {
-        var bar = document.getElementById("bar");
-        var percent = document.getElementById("percent");
-
         var xmlHttp = new XMLHttpRequest();
 
             xmlHttp.upload.onprogress = updateProgress;
@@ -104,11 +98,9 @@
             var formData = new FormData(document.getElementById('form-id'));
             url = URL + `/transcribe_file/`;
             xmlHttp.open("post", url);
-            
-            var percentVal = '0%';
-            bar.style.width = percentVal;
-            percent.innerHTML = percentVal;
 
+            jQuery('#bar').width(0);
+            jQuery('#percent').text("0 %");
             xmlHttp.send(formData); 
     }
 
