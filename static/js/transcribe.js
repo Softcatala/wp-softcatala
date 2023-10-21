@@ -67,9 +67,10 @@
     updateProgress: function updateProgress(evt)
     {
         if (evt.lengthComputable) {
-            var percentVal = Math.ceil((evt.loaded / evt.total) * 100);
+            var percentComplete = Math.ceil((evt.loaded / evt.total) * 100);
+            var percentVal = percentComplete + '%';
             jQuery('#bar').width(percentVal);
-            jQuery('#percent').text(percentVal + " %");
+            jQuery('#percent').text(percentVal);
         }
     }
 
