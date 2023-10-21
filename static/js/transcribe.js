@@ -87,11 +87,14 @@
 
                 if (xmlHttp.status == 200)
                 {
+                    json = JSON.parse(xmlHttp.responseText);
+                    waitingTime = json['waiting_time'];
+                    display_ok_file(waitingTime);
                 }
                 else
                 {
                     json = JSON.parse(xmlHttp.responseText);
-                    alert(json['error']);
+                    display_error(json['error']);
                 }
             }
 
