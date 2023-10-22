@@ -22,8 +22,6 @@
             document.querySelector('#file').focus();
 
         }else{
-       
-            document.querySelector('#i_demana').innerHTML = "<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>";
             sendFile();
         }
     });
@@ -65,10 +63,22 @@
         jQuery('#errormessage').html(msg);
         jQuery('#error').show('slow');
     }
+    
+    updateProgress: function updateProgress(evt)
+    {
+        if (evt.lengthComputable) {
+            var percentComplete = Math.ceil((evt.loaded / evt.total) * 100);
+            var percentVal = percentComplete + '%';
+            jQuery('#bar').width(percentVal);
+            jQuery('#percent').text(percentVal);
+        }
+    }
 
     function sendFile()
     {
         var xmlHttp = new XMLHttpRequest();
+
+            xmlHttp.upload.onprogress = updateProgress;
             xmlHttp.onreadystatechange = function()
             {
                 if(xmlHttp.readyState != 4)
@@ -92,9 +102,10 @@
             var formData = new FormData(document.getElementById('form-id'));
             url = URL + `/transcribe_file/`;
             xmlHttp.open("post", url);
+
+            jQuery('#bar').width(0);
+            jQuery('#percent').text("0 %");
             xmlHttp.send(formData); 
-        
-            jQuery('#file').val('')
     }
 
 
