@@ -6,6 +6,10 @@
 
     var URL='https://api.softcatala.org/transcribe-service/v1'
 
+    /* Amaguem control pujada*/
+    jQuery(".progress").css("display", "none");
+    jQuery(".progress-bar").css("display", "none");
+   
     /* Ajustament boto demanar transcripció */
     jQuery("#i_demana").css("margin-top", "28px");
 
@@ -71,6 +75,7 @@
             var percentVal = percentComplete + '%';
             jQuery('#bar').width(percentVal);
             jQuery('#percent').text(percentVal);
+
         }
     }
 
@@ -90,6 +95,13 @@
                 {
                     json = JSON.parse(xmlHttp.responseText);
                     waitingTime = json['waiting_time'];
+                    
+                    jQuery('#bar').width(0);
+                    jQuery('#percent').text("0 %");
+
+                    jQuery(".progress").css("display", "none");
+                    jQuery(".progress-bar").css("display", "none");
+                    
                     display_ok_file(waitingTime);
                 }
                 else
@@ -103,6 +115,9 @@
             url = URL + `/transcribe_file/`;
             xmlHttp.open("post", url);
 
+            jQuery(".progress").css("display", "block");
+            jQuery(".progress-bar").css("display", "block");
+             
             jQuery('#bar').width(0);
             jQuery('#percent').text("0 %");
             xmlHttp.send(formData); 
