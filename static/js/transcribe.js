@@ -91,16 +91,16 @@
                     return;
                 }
 
+                jQuery('#bar').width(0);
+                jQuery('#percent').text("0 %");
+
+                jQuery(".progress").css("display", "none");
+                jQuery(".progress-bar").css("display", "none");
+                
                 if (xmlHttp.status == 200)
                 {
                     json = JSON.parse(xmlHttp.responseText);
                     waitingTime = json['waiting_time'];
-                    
-                    jQuery('#bar').width(0);
-                    jQuery('#percent').text("0 %");
-
-                    jQuery(".progress").css("display", "none");
-                    jQuery(".progress-bar").css("display", "none");
                     
                     display_ok_file(waitingTime);
                 }
