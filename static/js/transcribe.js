@@ -96,12 +96,12 @@
 
                 jQuery(".progress").css("display", "none");
                 jQuery(".progress-bar").css("display", "none");
-                
+
                 if (xmlHttp.status == 200)
                 {
                     json = JSON.parse(xmlHttp.responseText);
                     waitingTime = json['waiting_time'];
-                    
+                    jQuery('#file').val('')                    
                     display_ok_file(waitingTime);
                 }
                 else
