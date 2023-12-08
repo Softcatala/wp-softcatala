@@ -58,3 +58,6 @@ div.result-conjugador table th {
     content: none !important;
 }
 
+#definicions > p{
+    font-weight: 300;
+}
