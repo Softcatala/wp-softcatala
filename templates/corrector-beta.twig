@@ -1,0 +1,61 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <script type="text/javascript">
+      var languagetool_rpc_url = '{{ api_languagetool }}';
+      var corrector_send_sessionid = '{{ corrector_send_sessionid }}';
+    </script>
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+        {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+
+      <div class="container-fluid">
+
+        <div class="row">
+
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+            <div class="caixa-gris" style="text-align:center; font-size: 13px;">
+              <p>VERSIÓ BETA DEL CORRECTOR</p>
+              <div>
+                En aquesta pàgina podeu provar la nova versió del corrector, en <strong><em>BETA</em></strong>
+                <br /><br />
+                Es tracta d'un editor de text enriquit, en el qual podeu donar-li també format al vostre document, 
+                utilitzant els formats habituals (capçaleres, negretes, cursives, alineació, etc.).
+                <br /><br />
+                Podeu accedir a <a href="/corrector/" style="color: #c43434;display:inline;margin:auto">la versió clàssica del corrector des d'aquest enllaç</a>
+              </div>
+            </div>
+            <!-- .formulari-eines -->
+            <section class="formulari-eines contingut-section">
+
+              <div id="root"></div>
+            </section><!--/.formulari-eines -->
+
+            {% if post.content %}
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+                {{post.content}}
+            </section>
+            <!--/.contingut-section  -->
+            {% endif %}
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    {% include "call-to-action-bottom.twig" %}
+    <!--/.seccio-vermella -->
+
+    {% include "contact_form.twig" %}
+
+    {% include "static/corrector-logos.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
