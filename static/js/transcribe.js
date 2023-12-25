@@ -38,18 +38,23 @@
         jQuery('#info').hide('slow');
     });
 
-    var display_ok_file = function(waitingTime){
+    var display_ok_file = function(waitingQueue){
         document.querySelector('#i_demana').innerHTML = "Demana la transcripció";
         
-        if (waitingTime == 0)
+        if (waitingQueue == 0)
         {
-            jQuery('#info_text1').text("D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.");
+            message = "El vostre fitxer és el següent en la cua de transcripció.";
+        }
+        else if (waitingQueue == 1)
+        {
+            message = "El vostre fitxer té només un fitxer per davant en la cua de transcripció.";
         }
         else
         {
-            jQuery('#info_text1').text("D'aquí a aproximadament " + waitingTime + " rebreu un correu electrònic quan el fitxer estigui llest.");
+            message = "El vostre fitxer té " +  waitingQueue + " fitxers per davant en la cua de transcripció.";
         }
 
+        jQuery('#info_text1').text(message + " D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.");
         jQuery('#info_text2').text("Gràcies per usar aquest servei.");
         jQuery('#error').hide();
         jQuery('#info').removeClass('hidden');
@@ -100,9 +105,9 @@
                 if (xmlHttp.status == 200)
                 {
                     json = JSON.parse(xmlHttp.responseText);
-                    waitingTime = json['waiting_time'];
+                    waitingQueue = json['waiting_queue'];
                     jQuery('#file').val('')                    
-                    display_ok_file(waitingTime);
+                    display_ok_file(waitingQueue);
                 }
                 else
                 {
