@@ -43,15 +43,15 @@
         
         if (waitingQueue == 0)
         {
-            message = "El vostre fitxer és el proper a la cua de transcripció.";
+            message = "El vostre fitxer és el següent en la cua de transcripció.";
         }
         else if (waitingQueue == 1)
         {
-            message = "El vostre fitxer té només un fitxer per davant a la cua de transcripció.";
+            message = "El vostre fitxer té només un fitxer per davant en la cua de transcripció.";
         }
         else
         {
-            message = "El vostre fitxer té " +  waitingQueue + " fitxers per davant a la cua de transcripció.";
+            message = "El vostre fitxer té " +  waitingQueue + " fitxers per davant en la cua de transcripció.";
         }
 
         jQuery('#info_text1').text(message + " D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.");
