@@ -13,8 +13,8 @@ wp_enqueue_script( 'sc-js-corrector-vite-client', get_template_directory_uri() .
 wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', $deps, WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', $deps, WP_SOFTCATALA_VERSION, true );
 
-wp_enqueue_style( 'sc-css-corrector-vite', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
-wp_enqueue_style( 'sc-css-corrector-vite', get_template_directory_uri() . '/static/css/corrector/main.css', array(), WP_SOFTCATALA_VERSION );
+wp_enqueue_style( 'sc-css-corrector-vite-client', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
+wp_enqueue_style( 'sc-css-corrector-vite-main', get_template_directory_uri() . '/static/css/corrector/main.css', array(), WP_SOFTCATALA_VERSION );
 
 add_filter("script_loader_tag", "add_module_to_my_script", 10, 3);
 function add_module_to_my_script($tag, $handle, $src)
