@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '1.1.64' );
+define( 'WP_SOFTCATALA_VERSION', '1.1.65' );
 
 include ('php73.php');
 
