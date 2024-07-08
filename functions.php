@@ -380,6 +380,12 @@ class StarterSite extends TimberSite {
 		$twig->addFilter( new Twig_Filter( 'print_definition', 'print_definition' ) );
 		$twig->addFilter( new Twig_Filter( 'clean_number', 'clean_number' ) );
 		$twig->addFilter( new Twig_filter( 'home_thumb', 'home_thumb' ) );
+		/* Diccionari eng cat functions */
+		$twig->addFilter( new Twig_filter( 'fullGrammarTag', 'fullGrammarTag' ) );
+		$twig->addFilter( new Twig_filter( 'prepareLemmaHeading', 'prepareLemmaHeading' ) );
+		$twig->addFilter( new Twig_filter( 'prepareSubLemma', 'prepareSubLemma' ) );
+		$twig->addFilter( new Twig_filter( 'prepareWord', 'prepareWord' ) );
+		$twig->addFilter( new Twig_filter( 'presentFeminine', 'presentFeminine' ) );
 
 		return $twig;
 	}
@@ -604,6 +610,158 @@ function get_img_id_from_url($image_url) {
 	global $wpdb;
 	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
 	return $attachment[0];
+}
+
+/**
+ * Twig function specific for Diccionari Eng Cat
+ *
+ * @param string
+ *
+ * @return string
+ */
+
+function fullGrammarTag($word) {
+    
+	
+	$grammarTag = $word->grammarClass;
+
+    if (!empty($word->feminine) && $grammarTag == "m") {
+        $grammarTag = "mf";
+    }
+
+    if (!empty($word->grammarAux)) {
+        $grammarTag .= '&nbsp;' . $word->grammarAux;
+    }
+
+    return $grammarTag;
+	
+}
+
+function prepareLemmaHeading($word) {
+    $output = '';
+	
+    $output .= '<h2 class="originalword">';
+    $output .= $word->text;
+
+    if (!empty($word->feminine)) {
+        $output .= ' <span class="gray">' . $word->feminine . '</span> ';
+    }
+
+    $fullGTag = fullGrammarTag($word);
+    $output .= '&nbsp;<span class="italics">' . $fullGTag . '</span>&nbsp;';
+    $output .= '</h2>';
+
+    if (!empty($word->plural)) {
+        $output .= ' [pl. ' . $word->plural . '] ';
+    }
+
+    if (!empty($word->tags)) {
+        $output .= '[' . $word->tags . '] ';
+    }
+
+    if (!empty($word->def)) {
+        $output .= '[' . $word->def . '] ';
+    }
+
+    if (!empty($word->remark)) {
+        $output .= ' [' . $word->remark . '] ';
+    }
+
+    return trim($output);
+}
+
+function prepareSubLemma($word) {
+    $output = '';
+
+	#print_r($word);
+
+	if (!empty($word->before) || !empty($word->after)) {
+        $output .= '<b>';
+
+        if (!empty($word->before)) {
+            $output .= '(' . $word->before . ') ';
+        }
+
+        $output .= $word->text;
+
+        if (!empty($word->after)) {
+            $output .= ' (' . $word->after . ')';
+        }
+
+        $output .= '</b>&nbsp;';
+    }
+		
+	
+    if (!empty($word->area)) {
+        $output .= '<span class="smallcaps">' . $word->area . '</span>&nbsp;';
+    }
+
+    if (!empty($word->plural)) {
+        $output .= ' [pl. ' . $word->plural . '] ';
+    }
+
+    if (!empty($word->def)) {
+        $output .= '[' . $word->def . '] ';
+    }
+
+    if (!empty($word->remark)) {
+        $output .= ' [' . $word->remark . '] ';
+    }
+
+    return trim($output);
+}
+
+function prepareWord($word, $prevFullGTag) {
+    $output = '';
+
+    if (!empty($word->area)) {
+        $output .= '<span class="smallcaps">' . $word->area . '</span>&nbsp;';
+    }
+
+    if (!empty($word->tags)) {
+        $output .= '[' . $word->tags . '] ';
+    }
+
+    if (!empty($word->def)) {
+        $output .= '[' . $word->def . '] ';
+    }
+
+    if (!empty($word->before)) {
+        $output .= '(' . $word->before . ') ';
+    }
+
+    $output .= $word->text;
+
+    if (!empty($word->after)) {
+        $output .= ' (' . $word->after . ')';
+    }
+
+    if (!empty($word->feminine)) {
+        $output .= '&nbsp;<span class="gray">' . $word->feminine . '</span>';
+    }
+
+    if (!empty($word->plural)) {
+        $output .= ' [pl. ' . $word->plural . '] ';
+    }
+
+    $fullGTag = fullGrammarTag($word);
+    if ($fullGTag != $prevFullGTag && $fullGTag != "n") {
+        $output .= '&nbsp;<span class="italics">' . $fullGTag . '</span>';
+    }
+
+    if (!empty($word->remark)) {
+        $output .= ' [' . $word->remark . '] ';
+    }
+
+    return trim($output);
+}
+
+function presentFeminine($word) {
+    if (!empty($word->feminineForm)) {
+        return '&nbsp;<span class="gray">' . $word->feminineForm . '</span>';
+    } else {
+        return '';
+    }
 }
 
 /**

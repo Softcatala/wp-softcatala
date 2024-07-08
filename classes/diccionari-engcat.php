@@ -10,7 +10,7 @@ class SC_Diccionari_engcat {
 
 	private $rest_client;
 
-	private $path = "/diccionari-eng-cat";
+	private $path = "/diccionari-angles-catala";
 
 	public static function init() {
 		new SC_Diccionari_engcat();
@@ -30,8 +30,9 @@ class SC_Diccionari_engcat {
 		$paraula = strtolower( $paraula );
 
 		$url_api = get_option( 'api_diccionari_engcat' );
-		$url     = $url_api . '/search/' . $paraula;
-		
+		$url     = $url_api . 'search/' . $paraula;
+
+				
 		$result = $this->rest_client->get( $url );
 
 		if ( $result['error'] ) {
@@ -60,6 +61,8 @@ class SC_Diccionari_engcat {
 		
 		$result = $this->rest_client->get( $url );
 
+		print_r($url);
+
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			return $api_result   = json_decode( $result['result'] );
@@ -74,7 +77,6 @@ class SC_Diccionari_engcat {
 
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
-				
 			$title         = 'Diccionari : ' . $paraula . '. Diccionari Anglès-Català en línia | Softcatalà';
 			$content_title = 'Diccionari Anglès-Català: «' . $paraula . '»';
 		
@@ -83,12 +85,11 @@ class SC_Diccionari_engcat {
 			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>»';
 	
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
-			$canonical = '/diccionari-eng-cat'.'/paraula/' . $canonical_lemma . '/';
+			$canonical = '/diccionari-angles-catala'.'/paraula/' . $canonical_lemma . '/';
 			
 			foreach ( $result->results as $index => $single_entry ) {
 				
-				if (count($single_entry->groupsLemmas)>0) {
-
+				if (count($single_entry->lemmas)>0) {
 					if ($index === array_key_first($result->results)) {
 						$single_entry->corpus = $this->get_corpus($paraula, "eng-cat");
 					}else{
@@ -121,10 +122,5 @@ class SC_Diccionari_engcat {
 		return new SC_Diccionari_EngCatResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu de nou." );
 	}
 
-	private function prepareWordOriginal() {
-
-		return;
-
-	}
 	
 }

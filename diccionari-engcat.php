@@ -21,15 +21,13 @@ $context_holder['ads_container'] = true;
 $content_title = 'Diccionari Anglès-Català';
 $paraula = str_replace("'", '’', stripslashes( sanitize_text_field( urldecode( get_query_var('paraula') ) ) ) );
 
-
-
 $canonical = '';
 $prefix_description = '';
 
 if( ! empty ( $paraula ) ) {
     try {
         $diccionari = new SC_Diccionari_engcat();
-       
+               
         $r = $diccionari->get_paraula($paraula);
   
         $canonical = $r->canonical;
@@ -41,12 +39,7 @@ if( ! empty ( $paraula ) ) {
     } catch ( Exception $e ) {
         throw_service_error( $content_title, '', true );
     }
-} else if ( ! empty ( $freq ) ) {
-	
-	
-}
-
-
+} 
 
 $context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
 
