@@ -61,8 +61,7 @@ class SC_Diccionari_engcat {
 		
 		$result = $this->rest_client->get( $url );
 
-		print_r($url);
-
+		
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			return $api_result   = json_decode( $result['result'] );
