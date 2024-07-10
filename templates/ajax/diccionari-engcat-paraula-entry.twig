@@ -37,15 +37,27 @@
     border-spacing: 0;
 }
 
+.table-corpus tr{
+    padding-bottom: 0;
+}
+
 .table-corpus td{
     width:50%;
     font-size:12px;
     background-color:inherit;
-   
+    padding-bottom:0;
+    padding-top:0;
 }
 
 .table-corpus td em{
     font-weight: bold;
+}
+
+tr.source_corpus td{
+    text-align:right;
+    padding-top:0;
+    padding-bottom:10px;
+   
 }
 
 
@@ -65,14 +77,6 @@
                             {{ loop.index > 1 ? ' | ' : '' }} {{ translatedWord | prepareWord(fullGTag) }}
                         {% endfor %}
                     </li>
-                
-                    {#
-                    {% if loop.first and not first %}‖{% endif %}
-                        {{
-                            dump(translationsSet)
-                        }}
-                    {% if not loop.last %}|{% endif %}
-                    #}
                 {% endfor %}
                 </ol>
         {% endfor %}  

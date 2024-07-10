@@ -1,4 +1,4 @@
-{% if single_entry.groupsLemmas|length > 0 %}
+{% if single_entry.corpus %}
    <div class="panel-heading">
         <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}_corpus">
@@ -16,11 +16,15 @@
              {% for corpus in single_entry.corpus %}
                     <tr> 
                         <td>
-                            {% if corpus.highlight.src.0 %}
-                                {{corpus.highlight.src.0}}
-                            {% else %}
-                                {{corpus.src}}
-                            {% endif %}
+                            
+                                {% if corpus.highlight.src.0 %}
+                                    {{corpus.highlight.src.0}}
+                                {% else %}
+                                    {{corpus.src}}
+                                {% endif %}
+                           
+
+                            
                         </td>
                         <td>
                             {% if corpus.highlight.trg.0 %}
@@ -28,6 +32,17 @@
                             {% else %}
                                 {{corpus.trg}}
                             {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="source_corpus"> 
+                        <td  colspan="2">
+                        {% if corpus.project %}
+                            Font: {{ corpus.project }}
+                        {% endif %}
+                        {% if corpus.license %}
+                            Tipus de llicència: {{ corpus.license }}
+                        {% endif %}
+
                         </td>
                     </tr>
               {% endfor %}

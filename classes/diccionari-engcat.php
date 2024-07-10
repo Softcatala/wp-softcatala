@@ -31,10 +31,9 @@ class SC_Diccionari_engcat {
 
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . 'search/' . $paraula;
-
 				
 		$result = $this->rest_client->get( $url );
-
+		
 		if ( $result['error'] ) {
 			return $this->return500();
 		}
@@ -59,9 +58,9 @@ class SC_Diccionari_engcat {
 		else
 			$url     = $url_api . '/search/?source=' . urlencode($paraula);
 		
+		
 		$result = $this->rest_client->get( $url );
 
-		
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			return $api_result   = json_decode( $result['result'] );

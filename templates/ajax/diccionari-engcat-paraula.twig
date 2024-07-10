@@ -1,12 +1,12 @@
-{% if single_entry.lemmas|length > 0 %}
+{% if single_entry.lemmas %}
    <div class="panel-heading">
         <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}">
-                {% if loop.first %}
-                    català → anglès
-                {% else %}  
-                    anglès → català 
-                {% endif %}
+                   {% if loop.first %}
+                        anglès → català 
+                    {% else %}  
+                        català → anglès
+                    {% endif %}
             </a>
         </h4>
     </div>

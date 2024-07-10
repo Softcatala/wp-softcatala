@@ -1,6 +1,6 @@
 {% if (results.0.lemmas|length > 0) or (results.1.lemmas|length > 0) %}
     <div class="panel panel-default diccionari-engcat-panel" style="border:0">
-        {% for single_entry in results if single_entry.lemmas %}
+        {% for single_entry in results %}
             {% include 'ajax/diccionari-engcat-paraula.twig' %}
             {% include 'ajax/diccionari-engcat-corpus.twig' %}
         {% endfor %}
