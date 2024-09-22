@@ -113,5 +113,5 @@ jQuery('.mostra_corpus').on('click', function(e) {
     var $this = jQuery(this);
     var $corpus_hidden = $this.closest('table').find('tr.corpus_hidden'); 
     $corpus_hidden.toggle();
-    $this.text($corpus_hidden.is(':visible') ? 'Menys exemples' : 'Mostra més exemples')
+    $this.text($corpus_hidden.is(':visible') ? 'Mostra menys exemples' : 'Mostra més exemples')
 });

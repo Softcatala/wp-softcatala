@@ -73,10 +73,12 @@ h2.originalword {
 .table-corpus  tr > td{
     font-size: 16px;
     color: black;
+    width: 50%;
 }
 
 .table-corpus td em{
     font-weight: bold;
+    color: #514e4d;
 }
 
 tr.source_corpus td{
