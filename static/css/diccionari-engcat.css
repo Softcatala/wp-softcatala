@@ -96,4 +96,5 @@ tr.source_corpus td{
 .mes_exemples > td {
     background-color: transparent;
     text-align:right;
+    cursor: pointer;
 }

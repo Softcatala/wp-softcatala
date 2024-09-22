@@ -55,9 +55,9 @@ function print_results(result) {
     jQuery('#cerca_diccionari_engcat').val('');
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
-    jQuery('#resultats_diccionari_engcat').html(result.html);
+    jQuery('.diccionari-resultat').html(result.html);
     document.title = result.title;
-    jQuery('#resultats_diccionari_engcat').slideDown();
+    jQuery('.diccionari-resultat').slideDown();
 }
 
 function ko_function(result) {
@@ -68,8 +68,8 @@ function ko_function(result) {
     jQuery("#content_header_title").html(result.responseJSON.content_title);
     document.title = result.responseJSON.title;
     jQuery("#loading").hide();
-    jQuery('#resultats_diccionari_engcat').html(result.responseJSON.html);
-    jQuery('#resultats_diccionari_engcat').slideDown();
+    jQuery('.diccionari-resultat').html(result.responseJSON.html);
+    jQuery('.diccionari-resultat').slideDown();
 }
 function sc_404sendTracking(success, status, verb) {
     if (typeof(ga) == 'function')
