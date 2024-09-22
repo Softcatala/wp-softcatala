@@ -3,7 +3,7 @@
     <header>Exemples d'us</header>
         <table class="table-corpus">
                 {% for corpus in single_entry.corpus %}
-                        <tr> 
+                        <tr class="{{ loop.index > 5 ? 'corpus_hidden' : '' }}"> 
                             <td>
                                 {% if corpus.highlight.src.0 %}
                                     {{corpus.highlight.src.0}}
@@ -19,7 +19,7 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr class="source_corpus"> 
+                        <tr class="source_corpus {{ loop.index > 5 ? 'corpus_hidden' : '' }}"> 
                             <td  colspan="2">
                             {% if corpus.project %}
                                 Font: {{ corpus.project }}
@@ -27,8 +27,13 @@
                             </td>
                         </tr>
                 {% endfor %}
+                        <tr class="mes_exemples"> 
+                            <td  colspan="2">
+                                <a href="#" class="mostra_corpus">Mostra més exemples</a>
+                            </td>
+                        </tr>
         </table>
-    </section>
+     </section>
 {% endif %}
 
 

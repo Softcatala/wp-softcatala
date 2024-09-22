@@ -104,3 +104,14 @@ function update_share_links(query) {
     jQuery('#share_facebook').attr("href", url_facebook);
     jQuery('#share_twitter').attr("href", url_twitter);
 }
+
+
+// Show and hide corpus
+
+jQuery('.mostra_corpus').on('click', function(e) {
+    e.preventDefault(); 
+    var $this = jQuery(this);
+    var $corpus_hidden = $this.closest('table').find('tr.corpus_hidden'); 
+    $corpus_hidden.toggle();
+    $this.text($corpus_hidden.is(':visible') ? 'Menys exemples' : 'Mostra més exemples')
+});

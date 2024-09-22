@@ -87,33 +87,11 @@ tr.source_corpus td{
     background-color: transparent;
 }
 
-/*
-.table-corpus{
-    margin:0;
-    border:1px;
-    background-color:white;
-    border-spacing: 0;
+.corpus_hidden {
+    display: none;
 }
 
-.table-corpus tr{
-    padding-bottom: 0;
+.mes_exemples > td {
+    background-color: transparent;
+    text-align:right;
 }
-
-.table-corpus td{
-    width:50%;
-    font-size:14px;
-    background-color:inherit;
-    padding-bottom:0;
-    padding-top:0;
-    color: #777777;
-}
-
-
-
-
-
-*/
-
-
-
-
