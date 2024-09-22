@@ -1,6 +1,6 @@
 <?php
 
-define( 'WP_SOFTCATALA_VERSION', '1.1.71' );
+define( 'WP_SOFTCATALA_VERSION', '1.1.72' );
 
 include ('php73.php');
 
@@ -644,11 +644,11 @@ function prepareLemmaHeading($word) {
     $output .= $word->text;
 
     if (!empty($word->feminine)) {
-        $output .= ' <span class="gray">' . $word->feminine . '</span> ';
+        $output .= ' <span class="engcat-gray">' . $word->feminine . '</span> ';
     }
 
     $fullGTag = fullGrammarTag($word);
-    $output .= '&nbsp;<span class="italics">' . $fullGTag . '</span>&nbsp;';
+    $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>&nbsp;';
     $output .= '</h2>';
 
     if (!empty($word->plural)) {
@@ -693,7 +693,7 @@ function prepareSubLemma($word) {
 		
 	
     if (!empty($word->area)) {
-        $output .= '<span class="smallcaps">' . $word->area . '</span>&nbsp;';
+        $output .= '<span class="engcat-smallcaps">' . $word->area . '</span>&nbsp;';
     }
 
     if (!empty($word->plural)) {
@@ -715,7 +715,7 @@ function prepareWord($word, $prevFullGTag) {
     $output = '';
 
     if (!empty($word->area)) {
-        $output .= '<span class="smallcaps">' . $word->area . '</span>&nbsp;';
+        $output .= '<span class="engcat-smallcaps">' . $word->area . '</span>&nbsp;';
     }
 
     if (!empty($word->tags)) {
@@ -737,7 +737,7 @@ function prepareWord($word, $prevFullGTag) {
     }
 
     if (!empty($word->feminine)) {
-        $output .= '&nbsp;<span class="gray">' . $word->feminine . '</span>';
+        $output .= '&nbsp;<span class="engcat-gray">' . $word->feminine . '</span>';
     }
 
     if (!empty($word->plural)) {
@@ -746,7 +746,7 @@ function prepareWord($word, $prevFullGTag) {
 
     $fullGTag = fullGrammarTag($word);
     if ($fullGTag != $prevFullGTag && $fullGTag != "n") {
-        $output .= '&nbsp;<span class="italics">' . $fullGTag . '</span>';
+        $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>';
     }
 
     if (!empty($word->remark)) {
@@ -758,7 +758,7 @@ function prepareWord($word, $prevFullGTag) {
 
 function presentFeminine($word) {
     if (!empty($word->feminineForm)) {
-        return '&nbsp;<span class="gray">' . $word->feminineForm . '</span>';
+        return '&nbsp;<span class="engcat-gray">' . $word->feminineForm . '</span>';
     } else {
         return '';
     }

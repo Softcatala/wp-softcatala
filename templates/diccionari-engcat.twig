@@ -38,8 +38,7 @@
                         </div>
                         <!--/.diccionari-resultat  -->
                     </section><!--/.formulari-eines  -->
-                    {% include "static/diccionari-engcat-cerques-frequents.twig" with { token: 'les paraules o expressions', url: '/diccionari-de-sinonims/lletra'} only %}
-
+                    
                     <!-- .contingut-section  -->
                     <section class="contingut-section">
                         {{post.content}}
@@ -50,6 +49,17 @@
 
             </div><!--/.row -->
         </div><!--/.container-fluid -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="contingut-left col-sm-12 col-md-8">
+                    <div class="index-dic-engcat row">
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès que', url: '/diccionari-angles-catala/eng/lletra' } only  %}
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català que', url: '/diccionari-angles-catala/cat/lletra' } only  %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main><!--/.main .wrap-blanc -->
 
     <!-- .seccio-vermella -->

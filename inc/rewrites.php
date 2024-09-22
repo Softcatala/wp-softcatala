@@ -107,11 +107,13 @@ function sc_custom__rewrite_rules($aRules) {
     $aRules = $aNewRules + $aRules;
 
 
-    // Conjugador
+    // Conjugador i diccionari eng-cat
     $aNewRules = array(
         'conjugador-de-verbs/verb/([^/]+)/?' => 'index.php?post_type=page&pagename=conjugador-de-verbs&verb=$matches[1]',
         'conjugador-de-verbs/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=conjugador-de-verbs&lletra=$matches[1]',
         'diccionari-angles-catala/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-angles-catala&paraula=$matches[1]',
+        'diccionari-angles-catala/cat/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-angles-catala&llengua=cat&lletra=$matches[1]',
+        'diccionari-angles-catala/eng/lletra/([a-zA-Z]+)' => 'index.php?post_type=page&pagename=diccionari-angles-catala&llengua=eng&lletra=$matches[1]',
     );
     
     $aRules = $aNewRules + $aRules;

@@ -1,9 +1,14 @@
 {% if (results.0.lemmas|length > 0) or (results.1.lemmas|length > 0) %}
-    <div class="panel panel-default diccionari-engcat-panel" style="border:0">
-        {% for single_entry in results %}
-            {% include 'ajax/diccionari-engcat-paraula.twig' %}
-            {% include 'ajax/diccionari-engcat-corpus.twig' %}
-        {% endfor %}
+   <div class="panel panel-default diccionari-engcat-panel" style="border:0">
+    {% set first_execution_done = true %} 
+
+    {% for single_entry in results %}
+    
+        {% if single_entry.lemmas %}
+            {% include 'ajax/diccionari-engcat-paraula.twig' with { 'first_execution_done': first_execution_done } %}
+            {% set first_execution_done = false %}
+        {% endif %}
+     {% endfor %}
     </div>
 {% else %}
     <p>No hem trobat cap resultat de cerca</p>

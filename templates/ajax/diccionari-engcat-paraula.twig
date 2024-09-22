@@ -1,22 +1,27 @@
 {% if single_entry.lemmas %}
-   <div class="panel-heading">
-        <h4 class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}">
-                   {% if loop.first %}
-                        anglès → català 
-                    {% else %}  
-                        català → anglès
-                    {% endif %}
-            </a>
-        </h4>
-    </div>
-    <div id="collapse_{{loop.index}}" class="panel-collapse collapse {%if loop.first %}in{% endif %}">
-        <div class="panel-body">
-            {% for lemma in single_entry.lemmas %}
-                {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}
-            {% endfor %}
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}">
+                    {% if loop.first %}
+                            <span class="titol_llengua">anglès → català</span>
+                        {% else %}  
+                        <span class="titol_llengua">català → anglès</span>
+                        {% endif %}
+                </a>
+            </h4>
         </div>
-    </div>
+        <div id="collapse_{{loop.index}}" class="panel-collapse collapse {% if first_execution_done == true %} in {% endif %}">
+            <div class="panel-body">
+                {% for lemma in single_entry.lemmas %}
+                    {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}
+                {% endfor %}
+                
+                {% include 'ajax/diccionari-engcat-corpus.twig'  %}
+                
+            </div>
+        </div>
+        
 {% endif %}
+
 
 

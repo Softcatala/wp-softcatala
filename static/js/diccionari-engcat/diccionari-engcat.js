@@ -23,7 +23,7 @@ jQuery('#_action_consulta_diccionari_engcat').click(function(){
     var url_history = '/diccionari-angles-catala/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
-    jQuery("#content_header_title").html('Diccionari Anglès-Català: «'+query+'»');
+    jQuery("#content_header_title").html('Diccionari anglès-català: «'+query+'»');
 
     update_share_links(query);
 

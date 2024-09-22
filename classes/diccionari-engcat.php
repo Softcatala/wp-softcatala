@@ -75,8 +75,8 @@ class SC_Diccionari_engcat {
 
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
-			$title         = 'Diccionari : ' . $paraula . '. Diccionari Anglès-Català en línia | Softcatalà';
-			$content_title = 'Diccionari Anglès-Català: «' . $paraula . '»';
+			$title         = 'Diccionari : ' . $paraula . '. Diccionari anglès-català | Softcatalà';
+			$content_title = 'Diccionari anglès-català: «' . $paraula . '»';
 		
 			$result_count = count( $result->results );
 	
@@ -104,6 +104,75 @@ class SC_Diccionari_engcat {
 		}//end if
 		
 		
+	}
+
+	/* Llistat per llestres */
+
+		
+	public function get_lletra( $lletra, $llengua ) {
+	
+		$lletra = strtolower( $lletra );
+		
+		$url_api = get_option( 'api_diccionari_engcat' );
+		$url     = $url_api . 'index/'.$llengua.'-' . $lletra;
+		
+		$result = $this->rest_client->get( $url );
+
+		if ( $result['error'] ) {
+			return $this->return500();
+		}
+
+		if ( 200 == $result['code'] && isset($result['result'])) {
+			
+			$api_result   = json_decode( $result['result'] );
+			return $this->build_index( $lletra, $llengua, $api_result->words );
+		}
+			
+		return $this->notFound( $lletra );
+	}
+
+	private function build_index($lletra, $llengua, $paraules) {
+		
+		$llengua_str = ($llengua == 'cat') ? 'català' : 'anglès';
+
+		$title         = 'Diccionari anglès-català: ' . $lletra . '. Diccionari anglès-català | Softcatalà';
+		$content_title = 'Diccionari anglès-català: «' . $lletra . '»';
+
+		
+		$result_count = count( $paraules );
+		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
+
+		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+
+		$canonical = '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
+
+		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
+			array(
+				'url'=> '/diccionari-angles-catala/paraula',
+				'response' => array( 'lletra' => $lletra, 'result' => array('words' => $paraules ) ),
+				'cols' => 3,
+				'topic' => 'Paraules o expressions',
+				'hidetitle' => true
+			)
+		);
+
+		
+
+		return new SC_SinonimsResult( 200, $html, $lletra, $canonical, $title, $content_title );
+	}
+	private function returnNoindexresults( $lletra ){
+
+		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
+		$title = 'Diccionari anglès-català: paraules que comencen per ' . $lletra;
+		$content_title =  'Diccionari anglès-català. Paraules que comencen per la lletra «' . $lletra . '»';
+		$description = 'Diccionari anglès-català: paraules que comencen per ' . $lletra;
+		
+		$resposta = 'No hi ha paraules que comecin amb la lletra <strong>'. $lletra . '</strong>.';	
+		
+		$result = Timber::fetch('ajax/diccionari-engcat-paraula-not-found.twig', array('resposta' => $resposta));
+
+		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
+	
 	}
 
 	private function return404( $paraula, $suggestions = array() ) {

@@ -1,83 +1,4 @@
-<style>
-
-.resultats_diccionari_engcat{
-    border: 0px solid #cccccc;
-    clear: both;
-    width: 100%;
-}
-
-.diccionari-engcat-panel{
-    padding-top:10px;
-}
-
-.diccionari-engcat-panel h2{
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom:0;
-    margin-top:0;
-
-}
-
-.diccionari-engcat-panel header{
-    font-weight: bold; !important
-    font-size: 20px;
-    border-bottom: 1px solid black;
-}
-
-/* TODO: move rules to css file */
-
-
-.panel-corpus{
-   padding:0
-}
-.table-corpus{
-    margin:0;
-    border:0;
-    background-color:white;
-    border-spacing: 0;
-}
-
-.table-corpus tr{
-    padding-bottom: 0;
-}
-
-.table-corpus td{
-    width:50%;
-    font-size:12px;
-    background-color:inherit;
-    padding-bottom:0;
-    padding-top:0;
-}
-
-.table-corpus td em{
-    font-weight: bold;
-}
-
-tr.source_corpus td{
-    text-align:right;
-    padding-top:0;
-    padding-bottom:10px;
-   
-}
-
-
-h2.originalword {
-    font-size: 24px;
-    margin-bottom: 3px;
-  }
-  .gray {
-      color: #808080;
-  }
-  .smallcaps {
-    font-variant: small-caps;
-  }
-  .italics {
-    font-style: italic;
-  }
-
-</style>
 <article>
-    
     <header>{{ lemma.originalWord | prepareLemmaHeading}}</header>
     
         {% for subLemma in lemma.subLemmaList  %}
@@ -94,8 +15,8 @@ h2.originalword {
                 {% endfor %}
                 </ol>
         {% endfor %}  
-   
 </article>
+
 
 
 

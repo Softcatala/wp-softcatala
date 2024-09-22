@@ -1,0 +1,119 @@
+/* Diccionari català-anglès css */
+
+/* Estils índex lletres */
+
+.index-dic-engcat {
+    padding-bottom: 0;
+    font-size: 14px;
+    color: #777777;
+}
+
+.index-dic-engcat a{
+    color: black;
+}
+
+
+/* Estils fitxes */
+
+.resultats_diccionari_engcat{
+    border: 0px solid #cccccc;
+    clear: both;
+    width: 100%;
+}
+
+.diccionari-engcat-panel{
+    padding-top:10px;
+}
+
+.diccionari-engcat-panel h2{
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom:0;
+    margin-top:0;
+
+}
+
+.diccionari-engcat-panel > header{
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+}
+
+h2.originalword {
+    font-size: 24px;
+    margin-bottom: 3px;
+}
+.engcat-gray {
+      color: #808080;
+}
+.engcat-smallcaps {
+    font-variant: small-caps;
+}
+.engcat-italics {
+    font-style: italic;
+}
+
+.titol_llengua {
+    font-weight: bold;
+    font-size:20px;
+}
+
+.corpus > header {
+    margin-top:60px;
+    margin-bottom:15px;
+    color:#c43434;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.table-corpus{
+    margin-top:0;
+}
+
+.table-corpus  tr > td{
+    font-size: 16px;
+    color: black;
+}
+
+.table-corpus td em{
+    font-weight: bold;
+}
+
+tr.source_corpus td{
+    padding:0;
+    padding-bottom: 10px;
+    text-align:right;
+    font-size:12px;  
+    background-color: transparent;
+}
+
+/*
+.table-corpus{
+    margin:0;
+    border:1px;
+    background-color:white;
+    border-spacing: 0;
+}
+
+.table-corpus tr{
+    padding-bottom: 0;
+}
+
+.table-corpus td{
+    width:50%;
+    font-size:14px;
+    background-color:inherit;
+    padding-bottom:0;
+    padding-top:0;
+    color: #777777;
+}
+
+
+
+
+
+*/
+
+
+
+
