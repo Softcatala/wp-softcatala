@@ -98,3 +98,15 @@ tr.source_corpus td{
     text-align:right;
     cursor: pointer;
 }
+
+
+.lemma ol{
+    padding-left: 40px !important;
+}
+
+.lemma li{
+    margin:0 !important;
+    line-height: 1.5 !important;
+    font-size: 17px !important;
+    color:black !important;
+}
