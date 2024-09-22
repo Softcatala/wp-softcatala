@@ -108,7 +108,7 @@ function update_share_links(query) {
 
 // Show and hide corpus
 
-jQuery('.mostra_corpus').on('click', function(e) {
+jQuery(document).on('click', '.mostra_corpus', function(e) {
     e.preventDefault(); 
     var $this = jQuery(this);
     var $corpus_hidden = $this.closest('table').find('tr.corpus_hidden'); 
