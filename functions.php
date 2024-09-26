@@ -651,10 +651,6 @@ function prepareLemmaHeading($word) {
     $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>&nbsp;';
     $output .= '</h2>';
 
-    if (!empty($word->plural)) {
-        $output .= ' [pl. ' . $word->plural . '] ';
-    }
-
     if (!empty($word->tags)) {
         $output .= '[' . $word->tags . '] ';
     }
