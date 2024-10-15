@@ -1,0 +1,108 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+        
+          <!-- .contingut -->
+          <div class="contingut contingut-left col-sm-12 col-md-8">
+
+            <div>
+                <p>Aquesta pàgina ofereix un servei gratuït de doblatge de vídeos text usant IA. És <b>experimental</b> i en proves. Té com a únic objectiu d'entendre com aquest servei podria ser útil als usuaris.</p>
+                <p></p>
+            </div>
+
+            <!-- .formulari-eines -->
+            <section class=""><!-- transcripcio de fitxers a text -->
+            <form id="form-id" method=post enctype="multipart/form-data">
+
+            
+            <div class="panel panel-default">
+              <div class="panel-heading">Doblatge de vídeos</div>
+              
+              <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
+                  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <p id="info_text1"></p>
+                  <p id="info_text2"></p>
+              </div>
+              
+              <div id ="error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
+                  <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <p id="errormessage"></p>
+              </div>
+             
+                  
+              <div class="panel-body">
+                  <p>Podeu enviar-nos un fitxer de vídeo. Us avisarem per correu quan estigui fet el doblatge i el podreu passar a recollir a la nostra pàgina web. Hi ha una cua de fitxers que anem processant. Pot trigar més o menys segons el nombre de vídeos pendents de processar.</p>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label class="checkbox-inline" style="font-weight:normal; font-size:14px">
+
+                  <div class="row">
+                      
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                    <p>
+                        <label for="email">Correu on voleu que us avisem:</label>
+                        <input type="email" class="form-control" placeholder="Adreça electrònica" id="email" name="email" required> 
+                    <p>
+                   
+                      </div>
+                    </div>   
+                </div>   
+                      
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="n_file">Seleccioneu un fitxer vídeo</label>
+                          <input class="form-control" name="file" type="file" id="file" accept=".mp4" required>
+                        <p class="help-block">Mida màxima del fitxer: 1GB. Formats admesos: mp4</p>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                         <div class="text-center">
+                            <button type="button" id="i_demana" class="bt-basic bt-basic-vermell">Demana el doblatge</button>
+                        </div>
+
+                        <div class="progress">
+                            <div style="font-weight:normal; font-size:14px">Pujada: <spain id="percent">0 %</span></div>
+                        </div>
+
+                        <div class="wrapper">
+                            <div class="progress-bar">
+                            	<span id="bar" class="progress-bar-fill" style="width: 0%;"></span>
+                            </div>
+                        </div>
+                            
+                        
+                      </div>
+                    </div>    
+                  </div><!-- /.row -->
+                </div>
+              </div>
+             </form> 
+            </section>
+
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div id ="found" class="contingut contingut-left col-sm-12 col-md-8">
+
+            <p>Ja hem acabat el doblatge del fitxer! Ara podeu baixar el vídeo doblat:</p>
+            <ul>
+              <li>Baixa fitxer de <a id="dubbed_down" download>text el vídeo doblat</a><li>
+            </ul>
+            
+            <video id="video_link" controls width="640" height="360">
+            </video>
+
+            <p><br/><i>Nota: aquests fitxers i el fitxer de vídeo que ens vau enviar, se suprimiran automàticament 72 hores després d'haver estat enviats</i><p>
+          </div><!--/.contingut -->
+
+          <div id ="notfound" class="contingut contingut-left col-sm-12 col-md-8 hidden">
+
+            <p>No s'ha trobat la petició de doblatge.</p>
+            <p>Recordeu que els fitxers se suprimeixen automàticament 72 hores després d'haver estat enviats.</p>
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
