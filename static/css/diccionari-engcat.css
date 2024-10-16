@@ -40,9 +40,16 @@
 }
 
 h2.originalword {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 3px;
+    border-bottom: 1px solid black;
 }
+
+article.lemma > b {
+    padding-left: 40px;
+} 
+
+
 .engcat-gray {
       color: #808080;
 }
