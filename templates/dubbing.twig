@@ -44,7 +44,16 @@
                       <label class="checkbox-inline" style="font-weight:normal; font-size:14px">
 
                   <div class="row">
-                      
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                      <label for="n_model_name">Idioma del vídeo:</label>
+                    <select id="video_lang" name="video_lang" class="form-control selectpicker">
+                      <option value="eng">Anglès</option>
+                      <option value="spa">Castellà</option>
+                      <option value="auto" selected>Detecta automàticament</option>
+                    </select>
+                      </div>
+                    </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                     <p>
@@ -55,8 +64,8 @@
                       </div>
                     </div>   
                 </div>   
-                      
-                  <div class="row">
+
+                     <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_file">Seleccioneu un fitxer vídeo</label>
@@ -64,9 +73,25 @@
                         <p class="help-block">Mida màxima del fitxer: 1GB. Formats admesos: mp4</p>
                       </div>
                     </div>
+
                     <div class="col-sm-6">
                       <div class="form-group">
-                         <div class="text-center">
+                      <label for="n_model_name">Variant dialectal del doblatge:</label>
+                    <select id="variant" name="variant" class="form-control selectpicker">
+                      <option value="bal">Balear</option>
+                      <option value="val">Valencià</option>
+                      <option value="cen" selected>Central</option>
+                      <option value="nor">Nord-occidental</option>
+                    </select>
+                      </div>
+                    </div>
+
+                  </div><!-- /.row -->
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                         <div>
                             <button type="button" id="i_demana" class="bt-basic bt-basic-vermell">Demana el doblatge</button>
                         </div>
 
@@ -79,8 +104,6 @@
                             	<span id="bar" class="progress-bar-fill" style="width: 0%;"></span>
                             </div>
                         </div>
-                            
-                        
                       </div>
                     </div>    
                   </div><!-- /.row -->
