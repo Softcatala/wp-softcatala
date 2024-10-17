@@ -97,7 +97,12 @@ setLinks();
                 }
             }
 
+            var _url = window.location.href;
+            let params = getUrlVars(_url);
+            let uuid = params['uuid'];
+
             var formData = new FormData(document.getElementById('form-id'));
+            formData.append('uuid', uuid);
             url = API_URL + `/feedback_form/`;
             xmlHttp.open("post", url);
             xmlHttp.send(formData);
