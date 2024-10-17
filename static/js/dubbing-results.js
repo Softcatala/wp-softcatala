@@ -65,3 +65,41 @@ function checkLinks()
 checkLinks();
 setLinks();
 
+
+
+(function(){ 
+
+    /* Listerner per demanar el doblatge */
+    jQuery( "#i_comentaris" ).click(function() {    
+        sendFile();
+    });
+
+
+    function sendFile()
+    {
+        var xmlHttp = new XMLHttpRequest();
+
+            xmlHttp.onreadystatechange = function()
+            {
+                if(xmlHttp.readyState != 4)
+                {
+                    return;
+                }
+
+                if (xmlHttp.status == 200)
+                {
+                    alert("Gràcies");
+                }
+                else
+                {
+                    json = JSON.parse(xmlHttp.responseText);
+                    alert(json['error']);                    
+                }
+            }
+
+            var formData = new FormData(document.getElementById('form-id'));
+            url = API_URL + `/feedback_form/`;
+            xmlHttp.open("post", url);
+            xmlHttp.send(formData);
+    }
+}());
