@@ -4,7 +4,9 @@
 
 (function(){ 
 
-    var URL='https://api.softcatala.org/dubbing-service-cpu/v1'
+//    var URL='https://api.softcatala.org/dubbing-service-cpu/v1'
+    var URL='https://collserola.softcatala.org/dubbing-service/v1'
+
 
     /* Amaguem control pujada*/
     jQuery(".progress").css("display", "none");
