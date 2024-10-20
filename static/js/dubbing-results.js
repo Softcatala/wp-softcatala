@@ -29,9 +29,15 @@ function getDownloadURL(ext)
 
 function setLinks()
 {
-    var urlTxt = getDownloadURL('dub');
-    document.getElementById("dubbed_down").setAttribute("href", urlTxt);
-    document.getElementById("video_link").setAttribute("src", urlTxt);
+    let urlDub = getDownloadURL('dub');
+    document.getElementById("dubbed_down").setAttribute("href", urlDub);
+    document.getElementById("video_link").setAttribute("src", urlDub);
+
+    let urlJson = getDownloadURL('json');
+    document.getElementById("metadata_down").setAttribute("href", urlJson);
+
+    let urlLog = getDownloadURL('log');
+    document.getElementById("log_down").setAttribute("href", urlLog);
 }
 
 function hide_ui()
