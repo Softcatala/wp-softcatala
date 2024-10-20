@@ -18,20 +18,23 @@
           <!-- .contingut -->
           <div class="contingut contingut-left col-sm-12 col-md-8">
             <div class="caixa-gris" style="text-align:center; font-size: 13px;">
-              <p>VERSIÓ BETA DEL CORRECTOR</p>
+              <p>NOVA VERSIÓ DEL CORRECTOR</p>
               <div>
-                En aquesta pàgina podeu provar la nova versió del corrector, en <strong><em>BETA</em></strong>.
+                Aquesta és la versió antiga del corrector. No rebrà actualitzacions en un futur breu.
+		El nou corrector es tracta d'un editor de text enriquit, en què podeu donar format al document (amb capçaleres, negretes, cursives, alineació, etc.).
                 <br /><br />
-                Es tracta d'un editor de text enriquit, en el qual podeu donar format al document, 
-                usant els formats habituals (capçaleres, negretes, cursives, alineació, etc.).
+                Podeu accedir-hi <a href="/corrector/" style="color: #c43434;display:inline;margin:auto">en aquest enllaç</a> (versió <strong><em>BETA</em></strong>).
                 <br /><br />
-                Podeu accedir a <a href="/corrector/" style="color: #c43434;display:inline;margin:auto">la versió clàssica del corrector des d'aquest enllaç</a>.
+                Proveu-lo i digueu-nos què us sembla!
               </div>
             </div>
             <!-- .formulari-eines -->
             <section class="formulari-eines contingut-section">
 
-              <div id="root"></div>
+              <!-- .formulari -->
+              <form class="formulari form-horizontal"  name="checkform" action="#" method="post">
+					{% include "corrector-wrapper.twig" %}
+              </form><!--/.formulari  -->
             </section><!--/.formulari-eines -->
 
             {% if post.content %}
