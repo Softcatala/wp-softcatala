@@ -40,20 +40,21 @@
         jQuery('#info').hide('slow');
     });
 
-    var display_ok_file = function(waitingQueue){
+    var display_ok_file = function(waitingQueue, filename){
         document.querySelector('#i_demana').innerHTML = "Demana el doblatge";
+        filename = "'" + filename + "'";
         
         if (waitingQueue == 0)
         {
-            message = "El vostre fitxer és el següent en la cua de doblatge.";
+            message = "El vostre fitxer " + filename + " és el següent en la cua de doblatge.";
         }
         else if (waitingQueue == 1)
         {
-            message = "El vostre fitxer té només un fitxer per davant en la cua de doblatge.";
+            message = "El vostre fitxer " + filename + " té només un fitxer per davant en la cua de doblatge.";
         }
         else
         {
-            message = "El vostre fitxer té " +  waitingQueue + " fitxers per davant en la cua de doblatge.";
+            message = "El vostre fitxer " + filename + " té " + waitingQueue + " fitxers per davant en la cua de doblatge.";
         }
 
         jQuery('#info_text1').text(message + " D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest.");
@@ -108,8 +109,9 @@
                 {
                     json = JSON.parse(xmlHttp.responseText);
                     waitingQueue = json['waiting_queue'];
+                    filename = json['filename'];
                     jQuery('#file').val('')                    
-                    display_ok_file(waitingQueue);
+                    display_ok_file(waitingQueue, filename);
                 }
                 else
                 {
