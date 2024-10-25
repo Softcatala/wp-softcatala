@@ -1,5 +1,4 @@
-//var API_URL='https://api.softcatala.org/dubbing-service-cpu/v1'
-var API_URL='https://collserola.softcatala.org/dubbing-service/v1'
+var API_URL='https://api.softcatala.org/dubbing-service/v1'
 
 function getUrlVars(url) {
     var vars = {};
