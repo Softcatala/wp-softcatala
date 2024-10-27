@@ -42,12 +42,20 @@
 h2.originalword {
     font-size: 25px;
     margin-bottom: 3px;
-    border-bottom: 1px solid black;
 }
 
+article.lemma{
+    padding-bottom: 20px;
+    
+}
 article.lemma > b {
     padding-left: 40px;
 } 
+
+article > header{
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
 
 
 .engcat-gray {
@@ -55,7 +63,12 @@ article.lemma > b {
 }
 .engcat-smallcaps {
     font-variant: small-caps;
+    padding-left: 40px;
 }
+b + .engcat-smallcaps {
+   padding-left: 0px;
+}
+
 .engcat-italics {
     font-style: italic;
 }
