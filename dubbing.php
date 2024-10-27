@@ -5,6 +5,8 @@
  * @package wp-softcatala
  */
 wp_enqueue_script( 'sc-js-dubbing', get_template_directory_uri() . '/static/js/dubbing.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-subdub-editor', get_template_directory_uri() . '/static/js/subdub-editor.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-subdub-editor-ffmpeg', get_template_directory_uri() . '/static/js/subdub-editor-ffmpeg.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_style( 'sc-css-dubbing', get_template_directory_uri() . '/static/css/transcribe.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
 $context = Timber::get_context();
