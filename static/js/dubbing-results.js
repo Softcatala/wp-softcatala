@@ -1,5 +1,6 @@
 var API_URL='https://api.softcatala.org/dubbing-service/v1'
 
+
 function getUrlVars(url) {
     var vars = {};
     var hashes = url.split("?")[1];
@@ -28,10 +29,6 @@ function getDownloadURL(ext)
 
 function setLinks()
 {
-    let urlDub = getDownloadURL('dub');
-    document.getElementById("dubbed_down").setAttribute("href", urlDub);
-    document.getElementById("video_link").setAttribute("src", urlDub);
-
     let urlJson = getDownloadURL('json');
     document.getElementById("metadata_down").setAttribute("href", urlJson);
 
