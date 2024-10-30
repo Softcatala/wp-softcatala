@@ -4,9 +4,11 @@
  *
  * @package wp-softcatala
  */
+header('Cross-Origin-Embedder-Policy: require-corp');
+header('Cross-Origin-Opener-Policy: same-origin');
+
 wp_enqueue_script( 'sc-js-dubbing-results', get_template_directory_uri() . '/static/js/dubbing-results.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-subdub-editor-ffmpeg', get_template_directory_uri() . '/static/js/subdub-editor-ffmpeg.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-subdub-editor', get_template_directory_uri() . '/static/js/subdub-editor.js', array('sc-js-main', 'sc-js-subdub-editor-ffmpeg'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-subdub-editor', get_template_directory_uri() . '/static/js/subdub-editor.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 
 add_filter("script_loader_tag", "add_module_to_subdub_editor", 10, 3);
 function add_module_to_subdub_editor($tag, $handle, $src)
