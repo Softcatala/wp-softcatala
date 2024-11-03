@@ -91,7 +91,7 @@ setLinks();
 
                 if (xmlHttp.status == 200)
                 {
-                    alert("Gràcies");
+                    alert("Moltes gràcies pels vostres comentaris!");
                 }
                 else
                 {
