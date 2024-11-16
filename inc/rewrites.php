@@ -55,20 +55,20 @@ function sc_custom__rewrite_rules($aRules) {
     $aNewRules = array('diccionari-de-sinonims/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
 
-    //Diccionari de sinònims
-    $aNewRules = array('diccionari-de-sinonims/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&lletra=$matches[1]');
-    $aRules = $aNewRules + $aRules;
+	//Diccionari de sinònims
+	$aNewRules = array('diccionari-de-sinonims/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&lletra=$matches[1]');
+	$aRules = $aNewRules + $aRules;
 
-    //Diccionari multilingue - Modificat per redirigir al diccionari eng-cat
-    $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-angles-catala&paraula=$matches[1]');
+	//Diccionari multilingue
+    $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]');
     $aRules = $aNewRules + $aRules;
-       
-    //Diccionari multilingue comentat
-    //$aNewRules = array('diccionari-multilingue/paraula/([^/]+)/llengua/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]&llengua=$matches[2]');
-    //$aRules = $aNewRules + $aRules;
 
     //Diccionari multilingue
-    $aNewRules = array('diccionari-multilingue/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-angles-catala&lletra=$matches[1]');
+    $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/llengua/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]&llengua=$matches[2]');
+    $aRules = $aNewRules + $aRules;
+
+    //Diccionari multilingue
+    $aNewRules = array('diccionari-multilingue/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&lletra=$matches[1]');
     $aRules = $aNewRules + $aRules;
 
     //Plantilla steps
