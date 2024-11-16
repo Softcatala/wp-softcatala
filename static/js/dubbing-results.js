@@ -1,6 +1,5 @@
 var API_URL='https://api.softcatala.org/dubbing-service/v1'
 
-
 function getUrlVars(url) {
     var vars = {};
     var hashes = url.split("?")[1];
@@ -27,6 +26,15 @@ function getDownloadURL(ext)
     return API_URL + `/get_file/?uuid=` + uuid + "&ext=" + ext;
 }
 
+function getFeedbackURL()
+{
+    var url = window.location.href;
+    let params = getUrlVars(url);
+    let uuid = params['uuid'];
+    
+    return `/doblatge/comentaris/?uuid=` + uuid;
+}
+
 function setLinks()
 {
     let urlJson = getDownloadURL('json');
@@ -34,6 +42,9 @@ function setLinks()
 
     let urlLog = getDownloadURL('log');
     document.getElementById("log_down").setAttribute("href", urlLog);
+
+    let urlFeedback = getFeedbackURL();
+    document.getElementById("feedback").setAttribute("href", urlFeedback);
 }
 
 function hide_ui()
@@ -68,46 +79,3 @@ function checkLinks()
 checkLinks();
 setLinks();
 
-
-
-(function(){ 
-
-    /* Listerner per demanar el doblatge */
-    jQuery( "#i_comentaris" ).click(function() {    
-        sendFile();
-    });
-
-
-    function sendFile()
-    {
-        var xmlHttp = new XMLHttpRequest();
-
-            xmlHttp.onreadystatechange = function()
-            {
-                if(xmlHttp.readyState != 4)
-                {
-                    return;
-                }
-
-                if (xmlHttp.status == 200)
-                {
-                    alert("Moltes gràcies pels vostres comentaris!");
-                }
-                else
-                {
-                    json = JSON.parse(xmlHttp.responseText);
-                    alert(json['error']);                    
-                }
-            }
-
-            var _url = window.location.href;
-            let params = getUrlVars(_url);
-            let uuid = params['uuid'];
-
-            var formData = new FormData(document.getElementById('form-id'));
-            formData.append('uuid', uuid);
-            url = API_URL + `/feedback_form/`;
-            xmlHttp.open("post", url);
-            xmlHttp.send(formData);
-    }
-}());

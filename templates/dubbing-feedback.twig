@@ -1,0 +1,96 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      {% include "contingut-header.twig" %}
+      <!--/.main-header -->
+    <div class="container-fluid">
+        <div class="row">
+
+          <!-- .contingut -->
+          <div id ="found" class="contingut contingut-left col-sm-12 col-md-8">
+                  <!-- .formulari -->
+                  <div class="formulari">
+                    <!-- .contingut-header -->
+                    <header class="contingut-header">
+                      <div class="row">
+                        <div class="col-xxs-12 col-xs-9">
+                          <h1>Ajudeu-nos a millorar aquesta eina</h1>
+                          <p>Ajudeu-nos a millorar aquesta eina en proves amb els vostres comentaris!</p>
+                        </div>
+                      </div>
+                    </header><!--/.contingut-header -->
+
+                    <section class="contingut-section" id="contingut-formulari-response" style="display:none">
+                    </section>
+
+                    <!-- section -->
+                    <section class="contingut-section" id="contingut-formulari">
+                      <form class="form-horizontal" id="form-id" method="post">
+                        <!-- camp de text -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Per a què voleu usar l'eina?</label>
+                          <div class="col-sm-9">
+                            <textarea class="form-control" name="for_what" id="for_what" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                          </div>
+                        </div><!--/camp de text -->
+
+
+                        <!-- camp de text -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Què us ha semblat? Què milloraríeu? *</label>
+                          <div class="col-sm-9">
+                            <textarea class="form-control" name="comentari_contacte" id="comentari_contacte" rows="6" placeholder="Sigueu el més clar possible" required></textarea>
+                          </div>
+                        </div><!--/camp de text -->
+
+                        <!-- checkbox -->
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Ens doneu permís per mirar el vostre vídeo per millorar el servei?</label>
+                          <div class="col-sm-9">
+                            <label for="accept">
+                                <input type="checkbox" id="permis" name="permis" value="sí">
+                                Us dono permís
+                            </label>
+
+                          </div>
+                        </div><!--/checkbox-->
+
+                        <!-- botó envia -->
+                        <div class="form-group">
+                            <div class="col-sm-3"></div>
+                            <div class="row">
+                             <div class="form-boto col-xs-5">
+                               <button type="button" id="i_comentaris" class="bt-basic bt-basic-vermell-fosc">Envia</button>
+                             </div>
+                            </div>
+                        </div><!--/botons -->
+                      </form>
+                    </section><!--/ section -->
+                  </div><!--/.formulari -->
+            
+            
+          </div><!--/.contingut -->
+
+          <div id ="notfound" class="contingut contingut-left col-sm-12 col-md-8 hidden">
+
+            <p>No s'ha trobat la petició de doblatge.</p>
+            <p>Recordeu que els fitxers se suprimeixen automàticament 72 hores després d'haver estat enviats.</p>
+            <!-- .contingut-section  -->
+            <section class="contingut-section">
+              {{post.content}}
+            </section><!--/.contingut-section  -->
+          </div><!--/.contingut -->
+          {% include "sidebar_recursos.twig" %}
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+
+    {% include "contact_form.twig" %}
+
+    {% include "template-avis.twig" %}
+{% endblock %}
