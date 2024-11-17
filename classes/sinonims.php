@@ -158,6 +158,6 @@ class SC_Sinonims {
 	private function return500() {
 		throw_error( '500', 'Error connecting to API server' );
 
-		return new SC_MultilingueResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu de nou." );
+		return new SC_MultilingueResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu una altra vegada." );
 	}
 }

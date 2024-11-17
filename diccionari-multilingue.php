@@ -64,7 +64,7 @@ if( ! empty ( $paraula ) ) {
             $context_holder['cerca_result'] = Timber::fetch('ajax/diccionaris-lletra.twig', array( 'url' => '/diccionari-multilingue/paraula', 'response' => $response));
         } else {
             throw_error('500', 'Error connecting to API server');
-            $context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.';
+            $context_holder['cerca_result'] = 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.';
         }
     } else {
         throw_error('404', 'No Results For This Search');

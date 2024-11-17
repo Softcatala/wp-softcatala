@@ -58,7 +58,7 @@ function sc_aparell_ajax_load() {
  */
 function sc_find_sinonim() {
 	if ( ! isset( $_POST["paraula"] ) ) {
-		$result = new SC_SinonimsResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu de nou." );
+		$result = new SC_SinonimsResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu una altra vegada." );
 	} else {
 		$paraula = str_replace("'", '’', stripslashes( sanitize_text_field( $_POST["paraula"] ) ) );
 
@@ -77,7 +77,7 @@ function sc_find_sinonim() {
  */
 function sc_multilingue_search() {
 	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["lang"] ) ) {
-		$result = new SC_MultilingueResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+		$result = new SC_MultilingueResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.' );
 	} else {
 		$paraula = sanitize_text_field( $_POST["paraula"] );
 		$lang    = sanitize_text_field( $_POST["lang"] );
@@ -97,7 +97,7 @@ function sc_multilingue_search() {
  */
 function sc_conjugador_search() {
 	if ( ! isset( $_POST["verb"] ) ) {
-		$result = new SC_SingleResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+		$result = new SC_SingleResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.' );
 	} else {
 		$verb = sanitize_text_field( $_POST["verb"] );
 		$infinitiu = sanitize_text_field( $_POST["infinitiu"] );
@@ -119,7 +119,7 @@ function sc_conjugador_search() {
 function sc_diccionari_engcat_search() {
 	
 	if ( ! isset( $_POST["paraula"] ) ) {
-		$result = new SC_Diccionari_EngCatResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.' );
+		$result = new SC_Diccionari_EngCatResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.' );
 	} else {
 		$paraula = sanitize_text_field( $_POST["paraula"] );
 		
@@ -545,7 +545,7 @@ function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $meta
 
 	} else {
 		$return['status'] = 0;
-		$return['text']   = "S'ha produït un error en enviar les dades. Proveu de nou.";
+		$return['text']   = "S'ha produït un error en enviar les dades. Proveu una altra vegada.";
 	}
 
 	if ( $return['status'] == 1 ) {
@@ -611,7 +611,7 @@ function sc_set_featured_image( $post_id, $attach_id ) {
 		$return['status'] = 1;
 	} else {
 		$return['status'] = 0;
-		$return['text']   = "S'ha produït un error en pujar la imatge. Proveu de nou.";
+		$return['text']   = "S'ha produït un error en pujar la imatge. Proveu una altra vegada.";
 	}
 
 	return $return;

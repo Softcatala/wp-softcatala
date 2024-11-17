@@ -118,7 +118,7 @@ function update_votes(result) {
 }
 
 function vote_sent_ko(result) {
-    show_message("S'ha produït un error en enviar les dades. Proveu de nou més tard.");
+    show_message("S'ha produït un error en enviar les dades. Proveu una altra vegada més tard.");
 }
 
 function show_message(text) {

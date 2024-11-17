@@ -107,7 +107,7 @@ abstract class SC_Content_Base {
 			}
 		} else {
 			$return['status'] = 0;
-			$return['text']   = "S'ha produït un error en enviar les dades. Proveu de nou.";
+			$return['text']   = "S'ha produït un error en enviar les dades. Proveu una altra vegada.";
 		}//end if
 
 		if ( 1 == $return['status'] ) {

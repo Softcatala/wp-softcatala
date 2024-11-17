@@ -60,7 +60,7 @@ function form_sent_ok(result) {
 function form_sent_ko(result) {
     jQuery('#contingut-formulari').hide();
     jQuery('#aparell_initial_message').hide();
-    jQuery('#contingut-formulari-response').empty().html("S'ha produït un error en enviar les dades. Proveu de nou més tard.").fadeIn();
+    jQuery('#contingut-formulari-response').empty().html("S'ha produït un error en enviar les dades. Proveu una altra vegada més tard.").fadeIn();
 }
 
 jQuery('#afegeix_aparell_button').click(function() {

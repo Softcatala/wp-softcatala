@@ -21,7 +21,7 @@ class SC_MultilingueTest  extends SCTests {
 		$result = $sc_multilingue->get_paraula( 'foo' , false);
 
 		$this->assertEquals( 500, $result->status );
-		$this->assertEquals ( 'S\'ha produït un error en contactar amb el servidor. Proveu de nou.', $result->html );
+		$this->assertEquals ( 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.', $result->html );
 	}
 
 	function test_get_paraula_when_404_returns_404() {

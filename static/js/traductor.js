@@ -422,7 +422,7 @@ function trad_ok(dt) {
 function trad_ko(dt) {
     //Aquesta funció d'error s'ha de moure per a que siga global a tot el web, per cada vegada que es vulga fer un avís
     var error_title = 'Sembla que alguna cosa no ha funcionat com calia';
-    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu de nou ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
+    var error_txt = 'S\'ha produït un error en executar la traducció. Proveu una altra vegada ara o més tard. Si el problema persisteix, contacteu amb nosaltres mitjançant el formulari d\'ajuda.';
     jQuery('#error_title').html(error_title);
     jQuery('#error_description').html(error_txt);
     jQuery('#error_pagina').trigger('click');
