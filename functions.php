@@ -660,7 +660,7 @@ function prepareLemmaHeading($word) {
     }
 
     if (!empty($word->remark)) {
-        $output .= ' [' . $word->remark . '] ';
+        $output .= ' [&rArr; ' . $word->remark . '] ';
     }
 
     return trim($output);
@@ -701,7 +701,7 @@ function prepareSubLemma($word) {
     }
 
     if (!empty($word->remark)) {
-        $output .= ' [' . $word->remark . '] ';
+        $output .= ' [&rArr; ' . $word->remark . '] ';
     }
 
     return trim($output);
@@ -746,7 +746,7 @@ function prepareWord($word, $prevFullGTag) {
     }
 
     if (!empty($word->remark)) {
-        $output .= ' [' . $word->remark . '] ';
+        $output .= ' [&rArr; ' . $word->remark . '] ';
     }
 
     return trim($output);
