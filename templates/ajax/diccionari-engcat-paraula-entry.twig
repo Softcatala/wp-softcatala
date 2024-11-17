@@ -11,6 +11,9 @@
                         {% for translatedWord in translationsSet.translatedWords %}
                             {{ loop.index > 1 ? ' | ' : '' }} {{ translatedWord | prepareWord(fullGTag) }}
                         {% endfor %}
+                        {% for example in translationsSet.examples %}
+                            <br/>&nbsp;&nbsp;<span class="src_sent">{example.sourceSentence}</span><span class="tgt_sent">&nbsp;&mdash;&nbsp;{example.targetSentence}</span>
+                        {% endfor %}
                     </li>
                 {% endfor %}
                 </ol>
