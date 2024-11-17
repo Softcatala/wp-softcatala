@@ -12,7 +12,7 @@
                             {{ loop.index > 1 ? ' | ' : '' }} {{ translatedWord | prepareWord(fullGTag) }}
                         {% endfor %}
                         {% for example in translationsSet.examples %}
-                            <br/>&nbsp;&nbsp;<span class="engcat-src_sent">{example.sourceSentence}</span><span class="engcat-tgt_sent">&nbsp;&mdash;&nbsp;{example.targetSentence}</span>
+                            <br/>&nbsp;&nbsp;<span class="engcat-src_sent">{{example.sourceSentence}}</span><span class="engcat-tgt_sent">&nbsp;&mdash;&nbsp;{{example.targetSentence}}</span>
                         {% endfor %}
                     </li>
                 {% endfor %}

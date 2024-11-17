@@ -49,8 +49,8 @@ function setLinks()
 
 function hide_ui()
 {
-    jQuery('#found').hide();
-    jQuery('#notfound').removeClass('hidden');
+    //jQuery('#found').hide();
+    //jQuery('#notfound').removeClass('hidden');
 }
 
 function checkLinks()
