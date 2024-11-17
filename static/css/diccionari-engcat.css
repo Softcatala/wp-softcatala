@@ -130,3 +130,13 @@ tr.source_corpus td{
     font-size: 17px !important;
     color:black !important;
 }
+
+.engcat-src_sent {
+  font-size: .8em;
+  color: #808080;
+  font-weight: 750;
+}
+.engcat-tgt_sent {
+  font-size: .8em;
+  color: #808080;
+}
