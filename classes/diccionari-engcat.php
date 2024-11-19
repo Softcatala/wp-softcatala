@@ -75,7 +75,7 @@ class SC_Diccionari_engcat {
 
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
-			$title         = 'Diccionari : ' . $paraula . '. Diccionari anglès-català | Softcatalà';
+			$title         = $paraula . ' - Diccionari anglès-català | Softcatalà';
 			$content_title = 'Diccionari anglès-català: «' . $paraula . '»';
 		
 			$result_count = count( $result->results );
@@ -135,7 +135,7 @@ class SC_Diccionari_engcat {
 		
 		$llengua_str = ($llengua == 'cat') ? 'català' : 'anglès';
 
-		$title         = 'Diccionari anglès-català: ' . $lletra . '. Diccionari anglès-català | Softcatalà';
+		$title         = 'Lletra ' . $lletra . ' - Diccionari anglès-català | Softcatalà';
 		$content_title = 'Diccionari anglès-català: «' . $lletra . '»';
 
 		

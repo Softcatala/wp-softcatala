@@ -89,7 +89,7 @@ class SC_Sinonims {
 	}
 
 	private function build_index($lletra, $paraules) {
-		$title         = 'Diccionari de sinònims: ' . $lletra . '. Diccionari de sinònims de català en línia | Softcatalà';
+		$title         = 'Lletra ' .$lletra . '. Diccionari de sinònims de català en línia | Softcatalà';
 		$content_title = 'Diccionari de sinònims: «' . $lletra . '»';
 
 		$result_count = count( $paraules );
@@ -116,7 +116,7 @@ class SC_Sinonims {
 
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
-			$title         = 'Diccionari de sinònims: ' . $paraula . '. Diccionari de sinònims de català en línia | Softcatalà';
+			$title         = $paraula . ' - Diccionari de sinònims de català en línia | Softcatalà';
 			$content_title = 'Diccionari de sinònims: «' . $paraula . '»';
 
 			$result_count = count( $result->results );
