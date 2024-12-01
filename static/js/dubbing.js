@@ -22,7 +22,7 @@
             document.querySelector('#email').focus();
 
         }else if (!jQuery('#file').val()){
-            display_error("No s'ha especificat fitxer")
+            display_error("No s'ha especificat cap fitxer")
             document.querySelector('#file').focus();
 
         }else{
