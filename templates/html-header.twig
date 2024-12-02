@@ -12,6 +12,27 @@
 
     {{function('wp_head')}}
     <script defer data-domain="softcatala.org" src="https://t.softcatala.org/js/script.js"></script>
+    <script>
+        function sc_plausible404() {
+            plausible('404', { props: { path: document.location.pathname } }); 
+        }
+        function sc_plausibleTimeout() {
+            setTimeout(() => {
+                if(window.plausible) {
+                   sc_plausible404()
+                } else {
+                  sc_plausibleTimeout()
+                }
+            }, 1000)
+        }
+        document.addEventListener('DOMContentLoaded', function () { 
+            if(window.plausible) {
+               sc_plausible404()
+            } else {
+                sc_plausibleTimeout()
+            }
+        });
+    </script>
 </head>
 <body class="{{body_class}}">
     {% if ads_container %}
