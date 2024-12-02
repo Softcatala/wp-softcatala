@@ -692,7 +692,7 @@ function prepareSubLemma($word) {
         $output .= '<span class="engcat-smallcaps">' . $word->area . '</span>&nbsp;';
     }
 
-    if (!empty($word->plural)) {
+    /*if (!empty($word->plural)) {
         $output .= ' [pl. ' . $word->plural . '] ';
     }
 
@@ -702,7 +702,7 @@ function prepareSubLemma($word) {
 
     if (!empty($word->remark)) {
         $output .= ' [&rArr; ' . $word->remark . '] ';
-    }
+    }*/
 
     return trim($output);
 }
