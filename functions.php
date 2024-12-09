@@ -96,7 +96,6 @@ class StarterSite extends TimberSite {
 	}
 
 	public function init_services() {
-		SC_Multilingue::init();
 		SC_NavegaEnCatala::init();
 		\Softcatala\Content\JsonToTable::init();
 		SC_Sitemaps::init();

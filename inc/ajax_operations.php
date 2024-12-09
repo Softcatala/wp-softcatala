@@ -21,9 +21,6 @@ add_action( 'wp_ajax_nopriv_find_sinonim', 'sc_find_sinonim' );
 /** PROJECTES */
 add_action( 'wp_ajax_subscribe_list', 'sc_subscribe_list' );
 add_action( 'wp_ajax_nopriv_subscribe_list', 'sc_subscribe_list' );
-/** DICCIONARI MULTILINGÜE */
-add_action( 'wp_ajax_multilingue_search', 'sc_multilingue_search' );
-add_action( 'wp_ajax_nopriv_multilingue_search', 'sc_multilingue_search' );
 /** APARELLS DATA LOAD */
 add_action( 'wp_ajax_aparell_ajax_load', 'sc_aparell_ajax_load' );
 add_action( 'wp_ajax_nopriv_aparell_ajax_load', 'sc_aparell_ajax_load' );
@@ -71,27 +68,6 @@ function sc_find_sinonim() {
 }
 
 /**
- * Retrieves the results from the Multilingüe API server given a word + language
- *
- * @return json response
- */
-function sc_multilingue_search() {
-	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["lang"] ) ) {
-		$result = new SC_MultilingueResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.' );
-	} else {
-		$paraula = sanitize_text_field( $_POST["paraula"] );
-		$lang    = sanitize_text_field( $_POST["lang"] );
-
-		$multilingue = new SC_Multilingue();
-
-		$result = $multilingue->get_paraula( $paraula, $lang );
-	}
-
-	wp_send_json( $result );
-}
-
-/**
- * Retrieves the results from the Multilingüe API server given a word + language
  *
  * @return json response
  */
