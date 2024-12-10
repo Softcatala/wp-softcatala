@@ -37,12 +37,6 @@ function getFeedbackURL()
 
 function setLinks()
 {
-    let urlJson = getDownloadURL('json');
-    document.getElementById("metadata_down").setAttribute("href", urlJson);
-
-    let urlLog = getDownloadURL('log');
-    document.getElementById("log_down").setAttribute("href", urlLog);
-
     let urlFeedback = getFeedbackURL();
     document.getElementById("feedback").setAttribute("href", urlFeedback);
 }
