@@ -21,10 +21,10 @@ $context['links'] = array (
     'link_image' => '/themes/wp-softcatala/static/images/content/img-thumb-home-02.jpg'
   ),
   array (
-    'link_title' => 'Diccionari multilingüe',
-    'link_url' => '/diccionari-multilingue',
-    'link_description' => 'Diccionari multilingüe català que proporciona definicions
-    i traduccions a l\'anglès, alemany, francès i espanyol.',
+    'link_title' => 'Diccionari anglès-català',
+    'link_url' => '/diccionari-angles-catala',
+    'link_description' => 'Diccionari anglés-català que proporciona definicions
+    i traduccions a l\'anglès.',
     'link_image' => '/themes/wp-softcatala/static/images/content/img-thumb-home-03.jpg'
   ),
   array (

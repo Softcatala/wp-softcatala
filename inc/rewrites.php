@@ -59,18 +59,6 @@ function sc_custom__rewrite_rules($aRules) {
 	$aNewRules = array('diccionari-de-sinonims/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-de-sinonims&lletra=$matches[1]');
 	$aRules = $aNewRules + $aRules;
 
-	//Diccionari multilingue
-    $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]');
-    $aRules = $aNewRules + $aRules;
-
-    //Diccionari multilingue
-    $aNewRules = array('diccionari-multilingue/paraula/([^/]+)/llengua/([^/]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&paraula=$matches[1]&llengua=$matches[2]');
-    $aRules = $aNewRules + $aRules;
-
-    //Diccionari multilingue
-    $aNewRules = array('diccionari-multilingue/lletra/([a-zA-Z]+)/?' => 'index.php?post_type=page&pagename=diccionari-multilingue&lletra=$matches[1]');
-    $aRules = $aNewRules + $aRules;
-
     //Plantilla steps
     $aNewRules = array('col·laboreu/projecte/([^/]+)/?' => 'index.php?post_type=page&pagename=col·laboreu/projecte&project=$matches[1]');
     $aRules = $aNewRules + $aRules;

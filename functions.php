@@ -276,7 +276,6 @@ class StarterSite extends TimberSite {
 	 */
 	function include_sc_settings() {
 		register_setting( 'softcatala-group', 'llistes_access' );
-		register_setting( 'softcatala-group', 'api_diccionari_multilingue' );
 		register_setting( 'softcatala-group', 'api_diccionari_sinonims' );
 		register_setting( 'softcatala-group', 'api_conjugador' );
 		register_setting( 'softcatala-group', 'api_memory_base' );
