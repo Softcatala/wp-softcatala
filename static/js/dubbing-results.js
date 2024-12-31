@@ -39,6 +39,9 @@ function setLinks()
 {
     let urlFeedback = getFeedbackURL();
     document.getElementById("feedback").setAttribute("href", urlFeedback);
+
+    let urlSrt = getDownloadURL('srt');
+    document.getElementById("srt_cat").setAttribute("href", urlSrt);
 }
 
 function hide_ui()
