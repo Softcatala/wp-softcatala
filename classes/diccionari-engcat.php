@@ -80,7 +80,7 @@ class SC_Diccionari_engcat {
 		
 			$result_count = count( $result->results );
 	
-			$html       = 'Resultats de la cerca per a: «<strong>' . $paraula . '</strong>»';
+			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
 	
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = '/diccionari-angles-catala'.'/paraula/' . $canonical_lemma . '/';
