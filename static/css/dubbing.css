@@ -6,6 +6,11 @@
 .feedback-button {
     margin-top:25px;
     padding: 10px 20px; 
+    background-color: rgb(186, 38, 38);
+    color: rgb(255, 255, 255) !important;
+    transition: background-color 0.3s;
+    text-decoration: none !important;
+    
 }
 
 .depuracio{
