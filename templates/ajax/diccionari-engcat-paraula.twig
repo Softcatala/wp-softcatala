@@ -5,12 +5,15 @@
                     {% if loop.first %}
                             <span class="titol_llengua">anglès → català</span>
                     {% else %}  
-                        <span class="titol_llengua">català → anglès</span>
+                            <span class="titol_llengua">català → anglès</span>
                     {% endif %}
                 </a>
+                <span class="engcat-num-results">
+                    ({{ single_entry.lemmas|length }} resultat{{ single_entry.lemmas|length == 1 ? '' : 's' }})
+                </span>
             </h4>
         </div>
-        <div id="collapse_{{loop.index}}" class="panel-collapse collapse {% if first_execution_done == true %} in {% endif %}">
+        <div id="collapse_{{loop.index}}" class="panel-collapse collapse {% if is_initially_open == true %} in {% endif %}">
             <div class="panel-body">
                 {% for lemma in single_entry.lemmas %}
                     {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}

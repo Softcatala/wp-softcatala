@@ -140,3 +140,10 @@ tr.source_corpus td{
   font-size: .8em;
   color: black;
 }
+
+
+.engcat-num-results {
+    padding-left: 0.5rem;
+}
+
+
