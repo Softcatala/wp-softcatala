@@ -697,11 +697,11 @@ function prepareSubLemma($word) {
 
     if (!empty($word->def)) {
         $output .= '[' . $word->def . '] ';
-    }
+    }*/
 
     if (!empty($word->remark)) {
         $output .= ' [&rArr; ' . $word->remark . '] ';
-    }*/
+    }
 
     return trim($output);
 }
