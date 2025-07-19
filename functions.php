@@ -6,6 +6,10 @@ include ('php73.php');
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
+} else if( file_exists( ABSPATH . '/wp-content/vendor/autoload.php')) {
+	require ABSPATH . '/wp-content/vendor/autoload.php';
+} else if( file_exists( ABSPATH . '/vendor/autoload.php' ) ) {
+	require ABSPATH . '/vendor/autoload.php';
 } else if( file_exists( ABSPATH . '/../vendor/autoload.php' ) ) {
 	require ABSPATH . '/../vendor/autoload.php';
 } else {
