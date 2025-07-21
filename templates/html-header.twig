@@ -54,4 +54,347 @@
             </div>
         </div>
     {% endif %}
-    <!--#include virtual="/ssi/menu-header.html" -->
+    <!-- .pag-header -->
+    <header class="pag-header cd-main-header">
+        <!-- navbar -->
+        <nav class="navbar">
+
+          <!-- .wrap-gris .hidden-xs -->
+          <div class="wrap-gris hidden-xs">
+            <div class="container-fluid">
+
+              <!-- .navbar-noticies .hidden-xs -->
+              <div class="navbar-noticies">
+                <ul class="nav navbar-nav">
+                  <li><a href="/noticies/">Notícies</a></li>
+                  <li><a href="/esdeveniments/">Esdeveniments</a></li>
+                  <li><a href="/premsa/">Premsa</a></li>
+                  <li><a href="/forum">Fòrums</a></li>
+                </ul>
+              </div><!--/.navbar-noticies .hidden-xs -->
+            </div><!--/.container-fluid -->
+          </div><!--/.wrap-gris -->
+          <!-- .wrap-blanc -->
+          <div class="wrap-blanc">
+            <div class="container-fluid">
+
+              <!-- .navbar-header -->
+              <div class="navbar-header">
+                <div class="bt-menu">
+                    <a class="cd-nav-trigger navbar-toggle" href="#cd-primary-nav" data-collapse-group="menu-xs" aria-expanded="false">
+                      <span></span>
+                    </a>
+                  </div>
+                <div class="bt-lupa-xs">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-cercador" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+                <div class="bt-ajuda">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ajuda" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-question-circle"></i>
+                  </button>
+                </div>
+                <div class="bt-usuari">
+                  <a href="/espai-de-col·laboradors/" title="Espai de col·laboradors" id="navbar-usuari-mobile">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-usuari" data-collapse-group="menu-xs" aria-expanded="false">
+                    <i class="fa fa-user"></i>
+                  </button>
+                  </a>
+                </div>
+                <a class="navbar-brand" rel="home" href="/"><img alt="Softcatala logotip" src="/themes/wp-softcatala/static/images/softcatala-logo-dol.png"></a>
+              </div><!--/.navbar-header -->
+
+
+
+
+              <!-- MENU MOBIL -->
+
+              <!-- #navbar-cercador .visible-xs -->
+              <div id="navbar-cercador" class="navbar-lupa collapse">
+                <div class="cercador-xs visible-xs-block">
+                  <form role="search" method="get" class="searchform" id="searchform_top_1">
+                    <input class="sb-search-input" placeholder="Introduïu un terme de cerca..." type="text" name="cerca_top_1" id="cerca_top_1">
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"><i class="fa fa-search"></i></span>
+                  </form>
+                </div>
+              </div><!--/#navbar-cercador xs -->
+
+              <!-- .navbar-ajuda-xs .visible-xs -->
+              <div id="navbar-ajuda" class="navbar-ajuda-xs collapse">
+                <ul class="nav navbar-nav visible-xs-block">
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/contacte/"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                  <li><a href="/forum"><i class="fa fa-comment"></i> Fòrums</a></li>
+                  <li><a href="/que-es-softcatala/pmf-sobre-softcatala/"><i class="fa fa-question-circle"></i> Preguntes més freqüents</a></li>
+                </ul>
+              </div><!--/navbar-ajuda-xs .visible-xs -->
+
+              <!--/MENU MOBIL -->
+
+              <!-- MENU ESCRIPTORI -->
+
+              <!-- .sb-search .hidden-xs -->
+              <div class="navbar-lupa hidden-xs">
+                <div id="sb-search" class="sb-search">
+                  <form role="search" method="get" class="searchform" action="/" id="searchform_top_2">
+                    <input class="sb-search-input" placeholder="Introduïu un terme de cerca..." type="text" value="" name="cerca_top_2" id="cerca_top_2">
+                    <input class="sb-search-submit" type="submit" value="">
+                    <span class="sb-icon-search"><i class="fa fa-search"></i></span>
+                  </form>
+                </div>
+              </div>
+              <!--/.navbar-lupa .hidden-xs -->
+
+              <!-- .navbar-ajuda .visible-lg -->
+              <div class="navbar-ajuda navbar-right visible-lg-block">
+                <ul class="nav navbar-nav menu-ajuda-index">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fa fa-chevron-down"></i></span></a>
+                      <ul class="dropdown-menu menu-ajuda">
+                        <li><a href="/contacte" title="Contacteu amb Softcatalà"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                        <li><a href="/forum" title="Fòrums de Softcatalà"><i class="fa fa-comment"></i> Fòrums</a></li>
+                        <li><a href="/que-es-softcatala/pmf-sobre-softcatala/" title="PMF sobre Softcatalà"><i class="fa fa-question-circle"></i> Preguntes més <span class="center-block">freqüents</span></a></li>
+                      </ul>
+                  </li>
+                </ul>
+              </div><!--/.navbar-ajuda .visible-lg -->
+
+              <!-- .navbar-ajuda-md .visible-md-sm -->
+              <div class="navbar-ajuda-md hidden-lg hidden-xs">
+                <button type="button" class="bt-ajuda">
+                  <i class="fa fa-question-circle"></i>
+                </button>
+              </div><!--/.navbar-ajuda-md .visible-md-sm -->
+
+              <!-- navbar-principal lg -->
+              <div class="hidden-xs">
+
+                <!--/.espai .visible-lg -->
+                <div class="navbar-espai visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/espai-de-col·laboradors/" title="Espai de col·laboradors">Espai de col·laboradors</a></li>
+                  </ul>
+                </div><!--/.espai .visible-lg -->
+
+                <!-- .navbar-espai-md .visible-md-sm -->
+                <div class="navbar-espai-md hidden-lg">
+                  <a href="/espai-de-col·laboradors/" title="Espai de col·laboradors">
+                  <button type="button" class="bt-espai">
+                    <i class="fa fa-users"></i>
+                  </button>
+                  </a>
+                </div><!--/.navbar-espai-md .visible-md-sm -->
+
+                <!-- .nav-tabs .principal-lg -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active">
+                    <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">Recursos <span class="center-block">i Serveis</span></a>
+                  </li>
+                  <li>
+                    <a href="#coneixeu" aria-controls="coneixeu" role="tab" data-toggle="tab">Coneixeu <span class="center-block">Softcatalà</span></a>
+                  </li>
+                  <li>
+                    <a href="#collaboreu" aria-controls="collaboreu" role="tab" data-toggle="tab">Col·laboreu <span class="center-block">amb l'associació</span></a>
+                  </li>
+                </ul><!--/.nav-tabs .principal-lg .hidden-xs -->
+              </div><!--/#navbar-principal -->
+
+
+            </div><!--/.container-fluid -->
+
+
+          <!-- .wrap-vermell-header -->
+          <div class="wrap-vermell-header hidden-xs">
+            <div class="container-fluid">
+              <!-- .tab-content -->
+              <div class="tab-content">
+
+                <!-- #recursos -->
+                <div role="tabpanel" class="tab-pane fade in active" id="recursos">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/traductor/" title="Traductor de Softcatalà">Traductor</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/corrector/" title="Corrector de Softcatalà">Corrector</a></li>
+                    <li class="divider-vertical"></li>
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Diccionaris i eines</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/diccionari-de-sinonims/" title="Diccionari de sinònims">Diccionari de sinònims</a></li>
+                        <li><a href="/diccionari-angles-catala/" title="Diccionari anglès-català">Diccionari anglès-català</a></li>
+                        <li><a href="/hora-en-catala/" title="Hora en català">Hora en català</a></li>
+                        <li><a href="/sillabes/" title="Separador i comptador de síl·labes">Separador i comptador de síl·labes</a></li>
+                        <li><a href="/nombres-en-lletres/" title="Nombres en lletres">Nombres en lletres</a></li>
+                        <li><a href="/conjugador-de-verbs/" title="Conjugador de verbs">Conjugador de verbs</a></li>
+                        <li><a href="/resum-de-textos-en-catala/" title="Resum de textos">Resum de textos</a></li>
+                        <li><a href="/transcripcio/" title="Transcripció d'àudio i vídeos a text">Transcripció d'àudio i vídeos a text</a></li>
+                        <li><a href="/doblatge/" title="Doblatge de vídeos automàtic">Doblatge de vídeos automàtic</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+                    <li class="divider-vertical"></li>
+                    <!--/.submenu-tab-mega -->
+                    <li class="dropdown dropdown-megamenu">
+                      <a href="/programes/" class="dropdown-toggle" data-toggle="dropdown" delay="0" aria-expanded="false">Aplicacions</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li>
+                          <!-- .megamenu -->
+                          <div class="megamenu">
+                            <div class="row">
+                              <!-- .col-xs-12 col-sm-5 -->
+                              <div class="mega-sense-llista col-xs-12 col-sm-5">
+                                <p>Trieu un sistema operatiu</p>
+                                <a class="thumbnail" href="/programes/so/windows/" title="Programes per al sistema operatiu Windows"><img alt="Sistema Windows" src="/themes/wp-softcatala/static/images/header/megamenu-windows.jpg"></a>
+                                <a class="thumbnail" href="/programes/so/linux/" title="Programes per al sistema operatiu Linux"><img alt="Sistema Linux" src="/themes/wp-softcatala/static/images/header/megamenu-linux.jpg"></a>
+                                <a class="thumbnail" href="/programes/so/osx/" title="Programes per al sistema operatiu OSX"><img alt="Sistema OS X" src="/themes/wp-softcatala/static/images/header/megamenu-osx.jpg"></a>
+                                <a class="thumbnail" href="/programes/so/android/" title="Programes per al sistema operatiu Android"><img alt="Sistema Android" src="/themes/wp-softcatala/static/images/header/megamenu-android.jpg"></a>
+                                <a class="thumbnail" href="/programes/so/ios/" title="Programes per al sistema operatiu iOS"><img alt="Sistema IOS" src="/themes/wp-softcatala/static/images/header/megamenu-ios.jpg"></a>
+                              </div><!--/.col-xs-12 col-sm-5 -->
+                              <!-- .col-xs-12 col-sm-7 -->
+                              <div class="mega-amb-llista col-xs-12 col-sm-7">
+                                <p>Trieu una categoria d'aplicacions</p>
+                                  <div class="row">
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="/programes/cat/internet-navegadors/" title="Programes de la categoria Internet">Internet</a></li>
+                                      <li><a href="/programes/cat/ofimatica/" title="Programes de la categoria Ofimàtica">Ofimàtica</a></li>
+                                      <li><a href="/programes/cat/grafic/" title="Programes de la categoria Gràfic">Gràfic</a></li>
+                                      <li><a href="/programes/cat/empresarial/" title="Programes de la categoria Empresarial">Empresarial</a></li>
+                                      <li><a href="/programes/cat/utilitats/" title="Programes de la categoria Utilitats">Utilitats</a></li>
+                                    </ul>
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="/programes/cat/llengua/" title="Programes de la categoria Llengua">Llengua</a></li>
+                                      <li><a href="/programes/cat/multimedia/" title="Programes de la categoria Multimèdia">Multimèdia</a></li>
+                                      <li><a href="/programes/cat/educaciociencia/" title="Programes de la categoria Educació i Ciència">Educació / ciència</a></li>
+                                      <li><a href="/programes/cat/jocs/" title="Programes de la categoria Jocs">Jocs</a></li>
+                                      <li><a href="/programes/cat/sistemes-operatius/" title="Programes de la categoria Sistemes Operatius">Sistemes operatius</a></li>
+                                    </ul>
+                                  </div>
+                              </div><!--/.col-xs-12 col-sm-7 -->
+                            </div> <!--/.row -->
+
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <a href="/programes/" title="Programes en català" class="bt-basic">Tots els programes</a>
+                              </div>
+                            </div>
+
+                          </div><!--/.megamenu -->
+                        </li>
+                      </ul>
+                    </li>
+                    <!--/.submenu-tab-mega -->
+
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="/recursos/" role="button" aria-haspopup="true" aria-expanded="false">Recursos per a traductors</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/guia-estil-de-softcatala/" title="Guia d'estil">Guia d'estil</a></li>
+                        <li><a href="/recursos/memories/" title="Memòries de traducció">Memòries de traducció</a></li>
+                        <li><a href="/estandard-iso-catala/" title="Estàndards ISO">Estàndards ISO</a></li>
+                        <li><a href="/recursos/terminologia/" title="Terminologia">Terminologia</a></li>
+                        <li><a href="https://www.softvalencia.org/adaptador/" title="Adaptador a variant valenciana">Adaptador a variant valenciana</a></li>
+                        <li><a href="/dades-obertes/" title="Dades obertes">Dades obertes</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown">
+                      <a href="/ordinadors-i-mobils-en-catala/" title="Ordinadors i mòbils">Ordinadors i mòbils</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/catalanitzador/" title="Catalanitzador de Softcatalà">Catalanitzador de Softcatalà</a></li>
+                        <li><a href="/aparells/" title="Guia d'aparells en català">Guia d'aparells en català</a></li>
+                        <li><a href="/ordinadors-i-mobils-en-catala/tutorials/" title="Tutorials">Tutorials</a></li>
+                    </li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#recursos -->
+
+                <!-- #coneixeu -->
+                <div role="tabpanel" class="tab-pane fade" id="coneixeu">
+                  <ul class="nav navbar-nav">
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="/que-es-softcatala/" role="button" aria-haspopup="true" aria-expanded="false">Què és Softcatalà</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/que-es-softcatala/associacio/" title="L'associació Softcatalà">L'associació</a></li>
+                        <li><a href="/que-es-softcatala/historia/" title="Història de Softcatalà">Història</a></li>
+                        <li><a href="/que-es-softcatala/pmf-sobre-softcatala/" title="PMF sobre Softcatalà">PMF sobre Softcatalà</a></li>
+                        <li><a href="/que-es-softcatala/premis-i-guardons/" title="Premis i guardons de Softcatalà">Premis i guardons</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="/en-que-treballem/" role="button" aria-haspopup="true" aria-expanded="false">En què treballem</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/en-que-treballem/traduccio-de-programari/" title="Traducció de programari">Traducció de programari</a></li>
+                        <li><a href="/en-que-treballem/eines-linguistiques/" title="Eines lingüístiques">Eines lingüístiques</a></li>
+                        <li><a href="/en-que-treballem/recursos-traductors/" title="Recursos per a traductors">Recursos per a traductors</a></li>
+                        <li><a href="/en-que-treballem/foment-del-catala-tic/" title="Foment del català a les noves tecnologies">Foment del català a les noves tecnologies</a></li>
+                        <li><a href="/en-que-treballem/activisme-digital/" title="Activisme digital">Activisme digital</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="/membres/" title="Membres de Softcatalà">Membres</a></li>
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="/com-ens-organitzem/" role="button" aria-haspopup="true" aria-expanded="false">Com ens organitzem</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/com-ens-organitzem/presa-de-decisions/" title="Presa de decisions">Presa de decisions</a></li>
+                        <li><a href="/com-ens-organitzem/funcionament-economic-de-lassociacio/" title="Funcionament econòmic de l'associació">Funcionament econòmic de l'associació</a></li>
+                        <li><a href="/com-ens-organitzem/nous-membres/" title="Nous membres">Nous membres</a></li>
+                        <li><a href="/com-ens-organitzem/codi-de-conducta/" title="Codi de conducta a la comunitat Softcatalà">Codi de conducta</a></li>
+                        <li><a href="/com-ens-organitzem/comunicacio-amb-els-mitjans/" title="Comunicació amb els mitjans">Comunicació amb els mitjans</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="/planeta/">Blogs</a></li>
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown">
+                      <a href="/podcasts/" role="button" aria-haspopup="true" aria-expanded="false">Podcasts</a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="/podcasts/quinze-glacons-hidrogen">Quinze glaçons d'hidrogen</a></li>
+                      </ul>
+                    </li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#coneixeu -->
+
+                <!-- #collaboreu -->
+                <div role="tabpanel" class="tab-pane fade" id="collaboreu">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="/col·laboreu/raons-per-col·laborar/">Raons per a<br />col·laborar</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/col·laboreu/traduccio-i-correccio/" title="Col·laboradors traductors i correctors">Traductors <br />i correctors</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/col·laboreu/disseny/" title="Col·laboradors dissenyadors">Dissenyadors</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/col·laboreu/desenvolupament/" title="Col·laboradors desenvolupadors">Desenvolupadors</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/col·laboreu/gestio-de-contingut/" title="Col·laboradors gestió de contingut">Gestors <br />de contingut</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/col·laboreu/coordinacio-desdeveniments/" title="Col·laboradors coordinadors d'esdeveniments">Coordinadors <br />d'esdeveniments</a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#collaboreu -->
+
+              </div><!--/.tab-content -->
+
+            </div><!--/.container-fluid -->
+          </div><!--/.wrap-vermell-header -->
+
+          <!--/MENU ESCRIPTORI -->
+
+
+        </div><!--/.wrap-blanc -->
+      </nav><!--/.navbar -->
+    </header><!--/.pag-header -->
+
