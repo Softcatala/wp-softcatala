@@ -11,14 +11,16 @@
 
 <section id="conjugador-verb" class="formulari-eines contingut-section">
    
-         <!-- .conjugador-resultat  -->
-                        <div class="diccionari-resultat" id="conjugador-verb-caixa">
+<!-- .conjugador-resultat  -->
+<div class="diccionari-resultat" id="conjugador-verb-caixa">
 
 
 <div class="tab-content">
     <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
             <h2>{{ response.infinitive_title }}</h2>
-           
+            {% if response.result[0].note is defined and response.result[0].note is not empty %}
+                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+            {% endif %}
             <h4>Mode indicatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
                 {% include 'ajax/conjugador-verb-mode.twig' %}
@@ -30,7 +32,9 @@
     </div>
     <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
             <h2>{{ response.infinitive_title }}</h2>
-           
+            {% if response.result[0].note is defined and response.result[0].note is not empty %}
+                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+            {% endif %}
             <h4>Mode subjuntiu</h4>
             {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
               {% include 'ajax/conjugador-verb-mode.twig' %}
@@ -42,7 +46,9 @@
     <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
             
             <h2>{{ response.infinitive_title }}</h2>
-            
+            {% if response.result[0].note is defined and response.result[0].note is not empty %}
+                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+            {% endif %}
             <h4>Mode imperatiu</h4>
             {% for verbs in response.result if verbs.mode == 'Imperatiu'  %}
                             <div class="col-md-12">
@@ -75,7 +81,9 @@
     </div>
     <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
         <h2>{{ response.infinitive_title }}</h2>
-        
+        {% if response.result[0].note is defined and response.result[0].note is not empty %}
+                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+        {% endif %}
         <h4>Formes no personals</h4>
              <div class="col-md-12">
                 <div class="panel panel-primary">                           

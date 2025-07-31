@@ -20,6 +20,11 @@ div.result-conjugador table th {
     font-weight: normal;
 }
 
+div.result-conjugador .note {
+    margin-top: 18px;
+    line-height: 1.2;
+}
+
 .variant{
     font-size: 12px;
     font-weight:normal;
