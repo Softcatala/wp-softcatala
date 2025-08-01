@@ -462,7 +462,7 @@ function softcatala_scripts() {
 	global $sc_site;
 
 	wp_deregister_script( 'jquery' );
-	wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, null, true );
+	wp_register_script( 'jquery', includes_url( '/js/jquery/jquery.min.js' ), false, null, true );
 
 	wp_register_script( 'sc-js-metacookie', get_template_directory_uri() . '/static/js/jquery.metacookie.js', array( 'jquery' ), '20210928', true );
 
