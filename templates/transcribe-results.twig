@@ -19,6 +19,38 @@
               <li>Baixa fitxer amb <a id="json_down" download>les dades de la transcripció</a> en format json (vegeu a <a href="/transcripcio/opcions-avancades/">opcions avançades</a>)</li>
             </ul>
             <p><i>Nota: aquests fitxers, i el fitxer d'àudio o vídeo que ens vau enviar, se suprimiran automàticament 72 hores després d'haver estat enviats</i><p>
+
+            <label class="checkbox-inline" style="font-weight:normal; font-size:14px">
+                <input type="checkbox" name="mostra_opcions_esborrat" id="mostra_opcions_esborrat" value="mostra_opcions_esborrat">He baixat ja els fitxers i els vulls suprimir ara mateix<br/><br/>
+            </label>
+            <form id="form-id" method="post" enctype="multipart/form-data">
+              <div class="row" id="esborrat_controls" style="display:none">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <p>
+                        <label for="email">Correu heu usat (per verificar la identitat):</label>
+                        <input type="email" class="form-control" placeholder="Adreça electrònica" id="email" name="email" required>
+                    </p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <button type="button" id="i_esborra" class="bt-basic bt-basic-vermell" style="margin-top: 20px;">
+                    Demana l'esborrat immediat
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div id="info" class="panel-body alert alert-warning  bg-success text-success hidden" role="alert">
+              <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <p id="info_text1"></p>
+                <p id="info_text2"></p>
+            </div>
+            <div id ="error" class="panel-body alert alert-warning bg-danger text-danger hidden" role="alert">
+              <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <p id="errormessage"></p>
+            </div>
+            <br/>
             <p>Aquí sota teniu un editor amb el fitxer que ens heu enviat i la seva transcripció. Us ofereix una manera còmoda d'acabar de polir la transcripció en format text (no admet srt). Aquest editor us permet navegar entre l'àudio i la transcripció, que podeu editar.</p>
             <p>Fent doble clic la marca de temps us desplaceu a aquella part del fitxer d’àudio o text, la qual cosa us permet revisar la transcripció fàcilment.</p>
             <!-- .contingut-section  -->
