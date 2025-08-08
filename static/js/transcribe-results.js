@@ -34,7 +34,6 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1';
                 {
                     return;
                 }
-                alert(xmlHttp.status);
                 if (xmlHttp.status == 200)
                 {
                     display_ok_message("El fitxer s'ha esborrat");
@@ -42,7 +41,7 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1';
                 else
                 {
                     json = JSON.parse(xmlHttp.responseText);
-                    display_error(json['error']);
+                    display_error("Error: " + json['error']);
                 }
             }
 
