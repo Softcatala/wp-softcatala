@@ -1,4 +1,4 @@
-var API_URL='https://api.softcatala.org/transcribe-service/v1'
+var API_URL='https://api.softcatala.org/transcribe-service/v1';
 
 (function(){
 
