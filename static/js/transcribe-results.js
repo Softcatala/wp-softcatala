@@ -18,7 +18,6 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1'
     }
 
     var display_ok_message = function(message){
-
         jQuery('#info_text1').text(message);
         jQuery('#error').hide();
         jQuery('#info').removeClass('hidden');
@@ -57,11 +56,9 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1'
             xmlHttp.send(formData);
     }
 
-    /* Listerner per demanar transcripció */
     jQuery( "#i_esborra" ).click(function() {
 
         if (!validateEmail(document.querySelector('#email').value)) {
-
             display_error('Reviseu la vostra adreça electrònica.');
             document.querySelector('#email').focus();
 
