@@ -17,8 +17,9 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1';
         jQuery('#error').show('slow');
     }
 
-    var display_ok_message = function(message){
-        jQuery('#info_text1').text(message);
+    var display_ok_message = function(message1, message2){
+        jQuery('#info_text1').text(message1);
+        jQuery('#info_text2').text(message2);
         jQuery('#error').hide();
         jQuery('#info').removeClass('hidden');
         jQuery('#info').show('slow');
@@ -36,7 +37,14 @@ var API_URL='https://api.softcatala.org/transcribe-service/v1';
                 }
                 if (xmlHttp.status == 200)
                 {
-                    display_ok_message("El fitxer s'ha esborrat");
+                    let message1 = "La transcripció i tots els fitxers associats s'han esborrat";
+                    let message2 = "Torneu a recarregar la pàgina.";
+                    display_ok_message(message1, message2);
+
+                    document.getElementById("txt_down").removeAttribute("href");
+                    document.getElementById("srt_down").removeAttribute("href");
+                    document.getElementById("json_down").removeAttribute("href");
+                    jQuery('#editor').hide();
                 }
                 else
                 {
@@ -114,6 +122,7 @@ function setLinks()
     var urlSrt = getDownloadURL('json');
     document.getElementById("json_down").setAttribute("href", urlSrt);
 }
+
 
 function hide_ui()
 {

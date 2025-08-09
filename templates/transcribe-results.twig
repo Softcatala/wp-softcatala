@@ -51,13 +51,15 @@
               <p id="errormessage"></p>
             </div>
             <br/>
-            <p>Aquí sota teniu un editor amb el fitxer que ens heu enviat i la seva transcripció. Us ofereix una manera còmoda d'acabar de polir la transcripció en format text (no admet srt). Aquest editor us permet navegar entre l'àudio i la transcripció, que podeu editar.</p>
-            <p>Fent doble clic la marca de temps us desplaceu a aquella part del fitxer d’àudio o text, la qual cosa us permet revisar la transcripció fàcilment.</p>
-            <!-- .contingut-section  -->
-            <section class="contingut-section">
-              {{post.content}}
-            </section><!--/.contingut-section  -->
-            {% include "otranscribe.twig" %}
+            <div id ="editor">
+              <p>Aquí sota teniu un editor amb el fitxer que ens heu enviat i la seva transcripció. Us ofereix una manera còmoda d'acabar de polir la transcripció en format text (no admet srt). Aquest editor us permet navegar entre l'àudio i la transcripció, que podeu editar.</p>
+              <p>Fent doble clic la marca de temps us desplaceu a aquella part del fitxer d’àudio o text, la qual cosa us permet revisar la transcripció fàcilment.</p>
+              <!-- .contingut-section  -->
+              <section class="contingut-section">
+                {{post.content}}
+              </section><!--/.contingut-section  -->
+              {% include "otranscribe.twig" %}
+            </div>
           </div><!--/.contingut -->
 
           <div id ="notfound" class="contingut contingut-left col-sm-12 col-md-8 hidden">
