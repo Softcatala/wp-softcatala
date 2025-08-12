@@ -138,13 +138,12 @@ class SC_Diccionari_engcat {
 		$title         = 'Lletra ' . $lletra . ' - Diccionari anglès-català | Softcatalà';
 		$content_title = 'Diccionari anglès-català: «' . $lletra . '»';
 
-		
 		$result_count = count( $paraules );
 		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
 
 		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
-		$canonical = '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
+		$canonical = '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
 
 		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
 			array(
@@ -160,21 +159,7 @@ class SC_Diccionari_engcat {
 
 		return new SC_SinonimsResult( 200, $html, $lletra, $canonical, $title, $content_title );
 	}
-	private function returnNoindexresults( $lletra ){
-
-		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
-		$title = 'Diccionari anglès-català: paraules que comencen per ' . $lletra;
-		$content_title =  'Diccionari anglès-català. Paraules que comencen per la lletra «' . $lletra . '»';
-		$description = 'Diccionari anglès-català: paraules que comencen per ' . $lletra;
-		
-		$resposta = 'No hi ha paraules que comecin amb la lletra <strong>'. $lletra . '</strong>.';	
-		
-		$result = Timber::fetch('ajax/diccionari-engcat-paraula-not-found.twig', array('resposta' => $resposta));
-
-		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 	
-	}
-
 	private function return404( $paraula, $suggestions = array() ) {
 		throw_error( '404', 'No Results For This Search' );
 
