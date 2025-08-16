@@ -651,7 +651,7 @@ function prepareLemmaHeading($word) {
 
     $fullGTag = fullGrammarTag($word);
     $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>&nbsp;';
-    $output .= '</h2>';
+   
 
     if (!empty($word->tags)) {
         $output .= '[' . $word->tags . '] ';
@@ -665,6 +665,19 @@ function prepareLemmaHeading($word) {
         $output .= ' [&rArr; ' . $word->remark . '] ';
     }
 
+	if (!empty($word->alternativeForms)) {
+        $output .= '<br/><span class="engcat-small-variants">';
+        $myseparator = "";
+	    foreach ($word->alternativeForms as $alternativeForm) {
+		    $output .= $separator . $alternativeForm->text;
+		    if (!empty($alternativeForm->tags)) {
+		        $output .= " [" . $alternativeForm->tags . "]";
+		    }
+		    $myseparator = "; ";
+		}
+	    $output .= '</span>';
+	}	
+    $output .= '</h2>';
     return trim($output);
 }
 
