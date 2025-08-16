@@ -68,11 +68,13 @@ article > header{
 b + .engcat-smallcaps {
    padding-left: 0px;
 }
+.engcat-small-variants {
+   font-size: 70%;
+}
 
 .engcat-italics {
     font-style: italic;
 }
-
 .titol_llengua {
     font-weight: bold;
     font-size:20px;
