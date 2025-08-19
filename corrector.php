@@ -11,7 +11,7 @@ $deps = array('sc-js-main', 'sc-js-corrector-vite-client');
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-corrector-vite-client', get_template_directory_uri() . '/static/js/corrector/client.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', $deps, WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', $deps, WP_SOFTCATALA_VERSION, true );
+#wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', $deps, WP_SOFTCATALA_VERSION, true );
 
 wp_enqueue_style( 'sc-css-corrector-vite-client', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
 wp_enqueue_style( 'sc-css-corrector-vite-main', get_template_directory_uri() . '/static/css/corrector/main.css', array(), WP_SOFTCATALA_VERSION );
