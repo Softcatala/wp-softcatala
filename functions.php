@@ -50,6 +50,7 @@ class StarterSite extends TimberSite {
 			add_theme_support( 'title-tag' );
 		}
 
+
 		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'xv_planeta_feed', '__return_true' );
@@ -83,6 +84,21 @@ class StarterSite extends TimberSite {
 		//SC Dashboard settings
 		add_action( 'admin_menu', array( $this, 'include_sc_settings' ) );
 		add_action( 'admin_init', array( $this, 'add_caps' ) );
+
+		add_action(
+			'wp',
+			function () {
+				$queried_object = get_queried_object();
+				if (
+					isset( $queried_object->post_status ) &&
+					'private' === $queried_object->post_status &&
+					! is_user_logged_in()
+				) {
+					wp_safe_redirect( wp_login_url( get_permalink( $queried_object->ID ) ) );
+					exit;
+				}
+			}
+		);
 
 		spl_autoload_register( array( $this, 'autoload' ) );
 
