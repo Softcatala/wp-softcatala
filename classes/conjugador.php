@@ -149,15 +149,12 @@ class SC_Conjugador {
 			'verbs' =>  $api_result
 		);
 
-		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
-		
-						
 		$model = array(
 			'lletra' => $lletra,
 			'verbs' =>  $api_result
 		);
 		
-		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
+		$canonical = '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
 		$title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
 		$content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
 		$description = "'Conjugador de verbs: verbs que comencen per ' . $lletra;";
@@ -276,7 +273,7 @@ class SC_Conjugador {
 
 	private function returnNoindexresults( $lletra ){
 
-		$canonical = '/conjugador-de-verbs/lletra/'. $lletra .'/';
+		$canonical = '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
 		$title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
 		$content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
 		$description = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
