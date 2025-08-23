@@ -9,7 +9,7 @@ $url_api = get_option( 'api_conjugador' );
 
 /* JS scripts */
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.min.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-conjugador', get_template_directory_uri() . '/static/js/conjugador/conjugador.js', array('sc-js-typeahead'), WP_SOFTCATALA_VERSION, true );
 
 wp_enqueue_style( 'sc-css-conjugador', get_template_directory_uri() . '/static/css/conjugador.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
