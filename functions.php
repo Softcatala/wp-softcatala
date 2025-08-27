@@ -1319,7 +1319,7 @@ function get_downloads_full() {
 	$result = get_transient( 'downloads_full' );
 
 	if ( false === $result ) {
-		$result = json_decode(file_get_contents(ABSPATH.'../full.json'), true);
+		$result = json_decode(file_get_contents('https://baixades.softcatala.org/full.json'), true);
 		set_transient( 'downloads_full', $result, 2 * HOUR_IN_SECONDS );
 	}
 

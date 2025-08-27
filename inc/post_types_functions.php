@@ -48,8 +48,15 @@ function generate_post_url_link( $post ) {
  */
 function get_top_downloads_home()
 {
+    $transient_name = 'sc-top-downloads';
+    $top_downloads = get_transient( $transient_name );
+
+    if ( $top_downloads ) {
+        return $top_downloads;
+    }
+
     $limit = 5;
-    $json_path = ABSPATH."../top.json";
+    $json_path = "https://baixades.softcatala.org/top.json";
     $baixades_json = json_decode( file_get_contents( $json_path ) );
 
     $programari = array();
@@ -70,6 +77,8 @@ function get_top_downloads_home()
             }
         }
     }
+
+    set_transient( $transient_name, $programari, 12 * HOUR_IN_SECONDS );
 
     return $programari;
 }
