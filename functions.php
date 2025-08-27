@@ -1436,3 +1436,51 @@ function sc_remove_normal_excerpt() { /*this added on my own*/
 }
 add_action( 'admin_menu' , 'sc_remove_normal_excerpt' );
 
+/**
+ * Update all program downloads - WordPress-friendly function
+ * Can be called from hooks, cron, admin interfaces, etc.
+ *
+ * @param string|null $program_filter Optional program group filter
+ * @param bool $dry_run Whether to actually make changes
+ * @return array Result array with statistics and details
+ */
+function sc_update_all_programs( $program_filter = null, $dry_run = false ) {
+	$updater = new SC_Downloads_Updater();
+	return $updater->update_all_programs( $program_filter, $dry_run );
+}
+
+/**
+ * Hook for WordPress cron - update all programs
+ */
+function sc_cron_update_downloads() {
+	$result = sc_update_all_programs();
+	
+	// Log the result
+	if ( $result['success'] ) {
+		error_log( 'SC Downloads Update: ' . $result['message'] );
+	} else {
+		error_log( 'SC Downloads Update Error: ' . $result['message'] );
+	}
+}
+add_action( 'sc_update_downloads_cron', 'sc_cron_update_downloads' );
+
+/**
+ * Schedule the downloads update cron job (call this once to set up)
+ */
+function sc_schedule_downloads_update() {
+	if ( ! wp_next_scheduled( 'sc_update_downloads_cron' ) ) {
+		// Schedule to run daily at 3 AM
+		wp_schedule_event( time(), 'daily', 'sc_update_downloads_cron' );
+	}
+}
+
+/**
+ * Unschedule the downloads update cron job
+ */
+function sc_unschedule_downloads_update() {
+	$timestamp = wp_next_scheduled( 'sc_update_downloads_cron' );
+	if ( $timestamp ) {
+		wp_unschedule_event( $timestamp, 'sc_update_downloads_cron' );
+	}
+}
+
