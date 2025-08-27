@@ -36,6 +36,7 @@ if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 $timber = new \Timber\Timber();
 
 include( 'inc/perfils.php' );
+include( 'rest/downloads-api.php' );
 
 
 
@@ -54,6 +55,10 @@ class StarterSite extends TimberSite {
 		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'xv_planeta_feed', '__return_true' );
+		
+		// Register REST API endpoints for downloads updater
+		add_action( 'rest_api_init', 'sc_register_downloads_api' );
+		
 		add_filter( 'xv_podcasts_log_file', function( $v ) {
 			return ABSPATH . '../podcast.log';
 		} );
