@@ -60,7 +60,7 @@
 
     var first = true;
 
-    var backToTop = '<div class="row"><div class="col-sm-12"><a class="bt-basic bt-basic-petit bt-up" href="#principi">Vés al principi</a></div></div><hr>';
+    var backToTop = '<div class="row"><div class="col-sm-12"><a class="bt-basic bt-basic-petit bt-up" href="#principi">Ves al principi</a></div></div><hr>';
 
     var lastH2 = 0;
 
