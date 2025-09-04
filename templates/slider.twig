@@ -18,7 +18,7 @@
              fetchpriority="high"
            {% else %}
              loading="lazy"
-           {% endif %} />
+           {% endif %}
          />
         {% if slide.title or slide.post_excerpt %}
           <div class="carousel-caption">
@@ -29,7 +29,7 @@
             <h2>{{ slide.post_excerpt }}</h2>
           {% endif %}
           {% if slide.button_title %}
-            <button href="{{ slide.slide_link }}" class="bt-basic bt-blanc">{{ slide.button_title }}</button>
+            <a href="{{ slide.slide_link }}" style="display:inline-block" class="bt-basic bt-blanc">{{ slide.button_title }}</a>
           {% endif %}
           </div>
           {% if slide.image_credits %}
