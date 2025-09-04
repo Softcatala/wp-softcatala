@@ -6,8 +6,8 @@
         {% for recurs in recursos %}
         <div class="col-xxs-12 col-xs-6 col-sm-6">
           <a href="{{ recurs.link }}" title="{{ recurs.title | striptags }}" style="{{ recurs.image | home_thumb }}">
-            <h2>{{ recurs.title | esc_attr  }}</h2>
-            <p>{{ recurs.description | esc_attr }}</p>
+            <h2>{{ recurs.title | e('esc_html')  }}</h2>
+            <p>{{ recurs.description | e('esc_html')  }}</p>
           </a>
         </div>
         {% endfor %}
