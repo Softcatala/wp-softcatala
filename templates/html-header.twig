@@ -1,9 +1,7 @@
 <!doctype html>
 <html {{ site.language_attributes }}>
 <head>
-    <meta charset="{{site.charset}}" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset={{site.charset}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="me" href="https://mastodont.cat/@softcatala">
     <link rel="pingback" href="{{site.pingback_url}}" />
@@ -125,7 +123,7 @@
               <div id="navbar-ajuda" class="navbar-ajuda-xs collapse">
                 <ul class="nav navbar-nav visible-xs-block">
                   <li role="separator" class="divider"></li>
-                  <li><a href="/contacte/"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                  <li><a href="/contacte/"><i class="fa fa-envelope"></i> Contacte</a></li>
                   <li><a href="/forum"><i class="fa fa-comment"></i> Fòrums</a></li>
                   <li><a href="/que-es-softcatala/pmf-sobre-softcatala/"><i class="fa fa-question-circle"></i> Preguntes més freqüents</a></li>
                 </ul>
@@ -151,9 +149,9 @@
               <div class="navbar-ajuda navbar-right visible-lg-block">
                 <ul class="nav navbar-nav menu-ajuda-index">
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fa fa-chevron-down"></i></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fa fa-chevron-down"></i></a>
                       <ul class="dropdown-menu menu-ajuda">
-                        <li><a href="/contacte" title="Contacteu amb Softcatalà"><i class="fa fa-envelope"></i></i> Contacte</a></li>
+                        <li><a href="/contacte" title="Contacteu amb Softcatalà"><i class="fa fa-envelope"></i> Contacte</a></li>
                         <li><a href="/forum" title="Fòrums de Softcatalà"><i class="fa fa-comment"></i> Fòrums</a></li>
                         <li><a href="/que-es-softcatala/pmf-sobre-softcatala/" title="PMF sobre Softcatalà"><i class="fa fa-question-circle"></i> Preguntes més <span class="center-block">freqüents</span></a></li>
                       </ul>
@@ -220,7 +218,7 @@
                     <li class="divider-vertical"></li>
                     <!-- .submenu-tab-dropdown -->
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Diccionaris i eines</span></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Diccionaris i eines</a>
                       <ul class="dropdown-menu dropdown-hover">
                         <li><a href="/diccionari-de-sinonims/" title="Diccionari de sinònims">Diccionari de sinònims</a></li>
                         <li><a href="/diccionari-angles-catala/" title="Diccionari anglès-català">Diccionari anglès-català</a></li>
@@ -307,6 +305,7 @@
                         <li><a href="/catalanitzador/" title="Catalanitzador de Softcatalà">Catalanitzador de Softcatalà</a></li>
                         <li><a href="/tutorials/guia-de-mobils-i-tauletes-en-catala/" title="Guia d'aparells en català">Guia d'aparells en català</a></li>
                         <li><a href="/ordinadors-i-mobils-en-catala/tutorials/" title="Tutorials">Tutorials</a></li>
+                      </ul>
                     </li>
                     <li class="divider-vertical"></li>
                   </ul>
