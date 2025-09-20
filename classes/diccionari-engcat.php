@@ -83,7 +83,7 @@ class SC_Diccionari_engcat {
 			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
 	
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
-			$canonical = '/diccionari-angles-catala'.'/paraula/' . $canonical_lemma . '/';
+			$canonical = home_url() . '/diccionari-angles-catala'.'/paraula/' . $canonical_lemma . '/';
 			
 			foreach ( $result->results as $index => $single_entry ) {
 				
@@ -143,7 +143,7 @@ class SC_Diccionari_engcat {
 
 		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
-		$canonical = '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
+		$canonical = home_url() . '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
 
 		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
 			array(
