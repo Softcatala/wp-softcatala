@@ -154,7 +154,7 @@ class SC_Conjugador {
 			'verbs' =>  $api_result
 		);
 		
-		$canonical = '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
+		$canonical = home_url() . '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
 		$title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
 		$content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
 		$description = "'Conjugador de verbs: verbs que comencen per ' . $lletra;";
@@ -169,7 +169,7 @@ class SC_Conjugador {
 		
 		throw_error( '404', 'No Results For This Search' );
 
-		$canonical = '/conjugador-de-verbs/';
+		$canonical = home_url() . '/conjugador-de-verbs/';
 		$title = 'Conjugador de verbs | Softcatalà';
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
 		$description = $verb;
@@ -231,7 +231,7 @@ class SC_Conjugador {
 			$title         = 'Conjugació en català del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació en català del verb «' . $infinitive_title . '»';
 
-			$canonical = '/conjugador-de-verbs/verb/'. $infinitiu .'/';
+			$canonical = home_url() . '/conjugador-de-verbs/verb/'. $infinitiu .'/';
 			
 			$temps = array(	'singular1' => 'jo',
 							'singular2' => 'tu',
@@ -273,7 +273,7 @@ class SC_Conjugador {
 
 	private function returnNoindexresults( $lletra ){
 
-		$canonical = '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
+		$canonical = home_url() . '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
 		$title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
 		$content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
 		$description = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
@@ -288,7 +288,7 @@ class SC_Conjugador {
 
 	private function returnInfinitives( $api_result , $verb ){
 		
-		$canonical = '/conjugador-de-verbs/';
+		$canonical = home_url() . '/conjugador-de-verbs/';
 		$title = 'Conjugació del verb ' . $verb;
 		$content_title =  'Conjugació del verb «' . $verb . '»';
 		$description = 'Conjugació del verb «' . $verb . '»';
