@@ -97,7 +97,7 @@ class SC_Sinonims {
 
 		$html       = 'Paraules i expressions que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
-		$canonical = '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
+		$canonical = home_url() . '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
 
 		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
 			array(
@@ -124,7 +124,7 @@ class SC_Sinonims {
 			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
-			$canonical = '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
+			$canonical = home_url() . '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
 			if ( isset($result->alternatives) && count($result->alternatives) >= 1 ) {
 				$html .= '<em>' . Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) ) . '</em>';
