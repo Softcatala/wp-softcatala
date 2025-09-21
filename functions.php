@@ -491,7 +491,6 @@ function softcatala_scripts() {
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
 	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 	$sc_site->register_ui_settings();
-	wp_enqueue_script( 'sc-jquery-cookie', get_template_directory_uri() . '/static/js/jquery.cookie.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 	//wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
 	wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array( 'sc-js-main' ), WP_SOFTCATALA_VERSION, true );
 }
