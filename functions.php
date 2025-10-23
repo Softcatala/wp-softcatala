@@ -79,6 +79,7 @@ class StarterSite extends TimberSite {
 		add_filter( 'wpseo_opengraph_author_facebook', function ( $twitter ) {
 			return 'https://facebook.com/Softcatala';
 		} );
+		add_action( 'phpmailer_init', array( $this, 'configure_smtp' ) );
 		add_action( 'init', array( $this, 'sc_rewrite_search' ) );
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'template_redirect', array( $this, 'sc_change_programs_search_url_rewrite' ) );
@@ -294,6 +295,57 @@ class StarterSite extends TimberSite {
 		$author_slug                  = 'membres';
 		$wp_rewrite->author_base      = $author_slug;
 		$wp_rewrite->author_structure = '/membres/%author%';
+	}
+
+	/**
+	 * Configure SMTP settings for email delivery
+	 * 
+	 * @param PHPMailer $phpmailer The PHPMailer instance
+	 */
+	function configure_smtp( $phpmailer ) {
+
+		if ( ! defined( 'SMTP_HOST' ) ) {
+			return;
+		}
+
+		$phpmailer->IsSMTP();
+
+		$phpmailer->Host = SMTP_HOST;
+
+		$phpmailer->Port = defined( 'SMTP_PORT' ) ? SMTP_PORT : 587;
+
+		if ( defined( 'SMTP_USER' ) && defined( 'SMTP_PASS' ) ) {
+			$phpmailer->SMTPAuth = true;
+			$phpmailer->Username = SMTP_USER;
+			$phpmailer->Password = SMTP_PASS;
+		}
+
+		if ( defined( 'SMTP_SECURE' ) ) {
+			$phpmailer->SMTPSecure = SMTP_SECURE;
+		} else {
+			$phpmailer->SMTPSecure = 'tls';
+		}
+
+		if ( empty( $phpmailer->From ) && defined( 'SMTP_FROM' ) ) {
+			$phpmailer->From = SMTP_FROM;
+		}
+
+		if ( empty( $phpmailer->FromName ) ) {
+			if ( defined( 'SMTP_FROM_NAME' ) ) {
+				$phpmailer->FromName = SMTP_FROM_NAME;
+			} else {
+				$phpmailer->FromName = get_bloginfo( 'name' );
+			}
+		}
+
+		if ( empty( $phpmailer->getReplyToAddresses() ) && defined( 'SMTP_REPLY_TO' ) ) {
+			$phpmailer->addReplyTo( SMTP_REPLY_TO );
+		}
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$phpmailer->SMTPDebug = 2;
+			$phpmailer->Debugoutput = 'error_log';
+		}
 	}
 
 	/**
