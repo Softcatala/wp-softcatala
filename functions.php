@@ -312,7 +312,7 @@ class StarterSite extends TimberSite {
 
 		$phpmailer->Host = SMTP_HOST;
 
-		$phpmailer->Port = defined( 'SMTP_PORT' ) ? SMTP_PORT : 587;
+		$phpmailer->Port = defined( 'SMTP_PORT' ) ? SMTP_PORT : 465;
 
 		if ( defined( 'SMTP_USER' ) && defined( 'SMTP_PASS' ) ) {
 			$phpmailer->SMTPAuth = true;
@@ -323,7 +323,7 @@ class StarterSite extends TimberSite {
 		if ( defined( 'SMTP_SECURE' ) ) {
 			$phpmailer->SMTPSecure = SMTP_SECURE;
 		} else {
-			$phpmailer->SMTPSecure = 'tls';
+			$phpmailer->SMTPSecure = 'ssl';
 		}
 
 		if ( empty( $phpmailer->From ) && defined( 'SMTP_FROM' ) ) {
