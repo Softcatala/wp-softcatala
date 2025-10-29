@@ -455,6 +455,7 @@ class StarterSite extends \Timber\Site {
 		$twig->addFilter( new \Twig\TwigFilter( 'print_definition', 'print_definition' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'clean_number', 'clean_number' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'home_thumb', 'home_thumb' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'safe_batch', array( 'SC_Twig_Filters', 'safe_batch' ) ) );
 		/* Diccionari eng cat functions */
 		$twig->addFilter( new \Twig\TwigFilter( 'fullGrammarTag', 'fullGrammarTag' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'prepareLemmaHeading', 'prepareLemmaHeading' ) );

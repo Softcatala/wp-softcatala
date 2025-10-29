@@ -100,7 +100,7 @@
                     {% if projectes %}
                     <section class="contingut-section">
                     <h3>Participa en els projectes següents</h3>
-                    {% for row in projectes|batch(projectes|length/2) %}
+                    {% for row in projectes|safe_batch(projectes|length/2) %}
                         <ul class="llista-check col-sm-6">
                         {% for projecte in row %}
                             <li>

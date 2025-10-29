@@ -4,7 +4,7 @@
     {% endif %}
     {% set columns = cols|default(4) %}
     {% set csscols = 12/columns %}
-    {% for row in response.result.words|batch((response.result.words|length)/columns) %}
+    {% for row in response.result.words|safe_batch((response.result.words|length)/columns) %}
         <div class="col-xs-6 col-md-{{ csscols }}">
             <ul class="multilingue_lletres">
             {% for word in row %}
