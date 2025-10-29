@@ -1,16 +1,16 @@
 <!-- .pagination -->
-{% if pagination.pages %}
+{% if posts.pagination.pages %}
 <section class="contingut-section">
 <div class="row">
     <div class="intern">
         <nav class="intern-center">
             <ul class="pagination">
-                {% if pagination.prev %}
+                {% if posts.pagination.prev %}
                     <li>
-                        <a href="{{pagination.prev.link}}" class="prev {{pagination.prev.link|length ? '' : 'invisible'}}"><span aria-hidden="true">«</span></a>
+                        <a href="{{posts.pagination.prev.link}}" class="prev {{posts.pagination.prev.link|length ? '' : 'invisible'}}"><span aria-hidden="true">«</span></a>
                     </li>
                 {% endif %}
-                {% for page in pagination.pages %}
+                {% for page in posts.pagination.pages %}
                     <li>
                         {% if page.link %}
                             <a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
@@ -19,9 +19,9 @@
                         {% endif %}
                     </li>
                 {% endfor %}
-                {% if pagination.next %}
+                {% if posts.pagination.next %}
                     <li>
-                        <a href="{{pagination.next.link}}" aria-label="Next" class="next {{pagination.next.link|length ? '' : 'invisible'}}"><span aria-hidden="true">»</span></a>
+                        <a href="{{posts.pagination.next.link}}" aria-label="Next" class="next {{posts.pagination.next.link|length ? '' : 'invisible'}}"><span aria-hidden="true">»</span></a>
                     </li>
                 {% endif %}
             </ul>

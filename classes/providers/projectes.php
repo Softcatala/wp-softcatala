@@ -51,7 +51,7 @@ class Projectes {
 	}
 
 	private static function sort_projects_list( & $projects ) {
-		usort( $projects, array( self::class, 'sort_projects' ) );
+		$projects->uasort( array( self::class, 'sort_projects' ) );
 	}
 
 	/**

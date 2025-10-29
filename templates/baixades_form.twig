@@ -26,7 +26,7 @@
             <!-- col-sm-9 -->
             <div class="col-sm-9">
                 <div class="row">
-                    {% for row in categories.sistemes_operatius|batch((categories.sistemes_operatius|length)/3) %}
+                    {% for row in categories.sistemes_operatius|safe_batch((categories.sistemes_operatius|length)/3) %}
                         <!-- col-sm-4 -->
                         <div class="col-sm-4">
                             {% for category in row %}

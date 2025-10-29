@@ -48,7 +48,7 @@
                 {% if links %}
                     <!-- .row -->
                     <div class="row">
-                        {% for row in links|batch((links|length)/2) %}
+                        {% for row in links|safe_batch((links|length)/2) %}
                             <div class="col-xs-12 col-md-6"><ul class="cont-llista llista-gran">
                             {% for link in row %}
                             <li><a href="{{ link.link_url }}"><i class="fa fa-angle-right"></i>{{ link.link_title }}</a></li>

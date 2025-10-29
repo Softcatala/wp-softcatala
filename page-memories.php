@@ -5,8 +5,8 @@
  * @package wp-softcatala
  */
 
-$context = Timber::get_context();
-$context['post'] = new TimberPost();
+$context = Timber::context();
+$context['post'] = Timber::get_post();
 
 $sc_memory = new SC_Memory();
 $generation_data = $sc_memory->get_generation_data();

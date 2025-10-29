@@ -5,8 +5,8 @@
  * @package wp-softcatala
  */
 
-$context = Timber::get_context();
-$timberPost = new TimberPost();
+$context = Timber::context();
+$timberPost = Timber::get_post();
 $context['post'] = $timberPost;
 
 $all_children = get_posts(

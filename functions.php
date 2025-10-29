@@ -33,7 +33,7 @@ if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	}
 }
 
-$timber = new \Timber\Timber();
+\Timber\Timber::init();
 
 include( 'inc/perfils.php' );
 include( 'rest/downloads-api.php' );
@@ -42,7 +42,7 @@ include( 'rest/downloads-api.php' );
 
 Timber::$dirname = array( 'templates', 'views' );
 
-class StarterSite extends TimberSite {
+class StarterSite extends \Timber\Site {
 
 	function __construct() {
 		if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
@@ -53,7 +53,7 @@ class StarterSite extends TimberSite {
 
 
 		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
-		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
+		add_filter( 'timber/twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'xv_planeta_feed', '__return_true' );
 		
 		// Register REST API endpoints for downloads updater
@@ -447,20 +447,21 @@ class StarterSite extends TimberSite {
 
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
-		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter( new Twig_Filter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
-		$twig->addFilter( new Twig_Filter( 'get_img_from_id', 'get_img_from_id' ) );
-		$twig->addFilter( new Twig_Filter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
-		$twig->addFilter( new Twig_Filter( 'truncate_words', 'sc_truncate_words' ) );
-		$twig->addFilter( new Twig_Filter( 'print_definition', 'print_definition' ) );
-		$twig->addFilter( new Twig_Filter( 'clean_number', 'clean_number' ) );
-		$twig->addFilter( new Twig_filter( 'home_thumb', 'home_thumb' ) );
+		$twig->addExtension( new \Twig\Extension\StringLoaderExtension() );
+		$twig->addFilter( new \Twig\TwigFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'get_img_from_id', 'get_img_from_id' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'truncate_words', 'sc_truncate_words' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'print_definition', 'print_definition' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'clean_number', 'clean_number' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'home_thumb', 'home_thumb' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'safe_batch', array( 'SC_Twig_Filters', 'safe_batch' ) ) );
 		/* Diccionari eng cat functions */
-		$twig->addFilter( new Twig_filter( 'fullGrammarTag', 'fullGrammarTag' ) );
-		$twig->addFilter( new Twig_filter( 'prepareLemmaHeading', 'prepareLemmaHeading' ) );
-		$twig->addFilter( new Twig_filter( 'prepareSubLemma', 'prepareSubLemma' ) );
-		$twig->addFilter( new Twig_filter( 'prepareWord', 'prepareWord' ) );
-		$twig->addFilter( new Twig_filter( 'presentFeminine', 'presentFeminine' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'fullGrammarTag', 'fullGrammarTag' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'prepareLemmaHeading', 'prepareLemmaHeading' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'prepareSubLemma', 'prepareSubLemma' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'prepareWord', 'prepareWord' ) );
+		$twig->addFilter( new \Twig\TwigFilter( 'presentFeminine', 'presentFeminine' ) );
 
 		return $twig;
 	}
@@ -1403,7 +1404,7 @@ function show_breadcrumbs ( $slug, $force ) {
 
 function get_program_context( $programa ) {
 
-	$context = Timber::get_context();
+	$context = Timber::context();
 
 	$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 	$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
@@ -1411,8 +1412,8 @@ function get_program_context( $programa ) {
 	$context['post'] = $programa;
 
 	$context['arxivat'] = $programa->has_term('arxivat', 'classificacio');
-	$context['credits'] = $programa->get_field( 'credits' );
-	$baixades = $programa->get_field( 'baixada' );
+	$context['credits'] = $programa->meta( 'credits' );
+	$baixades = $programa->meta( 'baixada' );
 	$context['baixades'] = generate_url_download( $baixades, $programa );
 
 	//Contact Form

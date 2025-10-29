@@ -5,12 +5,12 @@
  * @package wp-softcatala
  */
 
-$context = Timber::get_context();
-$timberPost = new TimberPost();
+$context = Timber::context();
+$timberPost = Timber::get_post();
 $context['post'] = $timberPost;
-$context['credits'] = $timberPost->get_field( 'credits' );
+$context['credits'] = $timberPost->meta( 'credits' );
 $context['excludeSidebar'] = true;
-$context['customAnalytics'] = empty($timberPost->get_field( 'custom_analytics' )) ? false : $timberPost->get_field( 'custom_analytics' );
+$context['customAnalytics'] = empty($timberPost->meta( 'custom_analytics' )) ? false : $timberPost->meta( 'custom_analytics' );
 
 $context['breadcrumbs'] = get_breadcrumbs( $timberPost, true );
 

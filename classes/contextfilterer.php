@@ -33,7 +33,7 @@ class SC_ContextFilterer {
 
 		$this->setup_filters( $args );
 
-		$context = Timber::get_context();
+		$context = Timber::context();
 
 		$context = $this->add_context_elements( $context );
 

@@ -14,7 +14,7 @@
 
 $templates = array( 'index.twig', 'archive-esdeveniment.twig' );
 
-$context = Timber::get_context();
+$context = Timber::context();
 $post = Timber::query_post(get_option( 'page_for_posts' ));
 $context['post'] = $post;
 
@@ -39,7 +39,7 @@ if ( is_category() ) {
     }
 }
 
-$context['links'] = $post->get_field( 'link' );
+$context['links'] = $post->meta( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');

@@ -76,7 +76,7 @@ $context_overrides = array( 'title' => $title, 'description' => $description, 'c
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 
-$context['post'] = new TimberPost();
+$context['post'] = Timber::get_post();
 $context['verb'] = $verb;
 $context['lletra'] = $lletra;
 $context['description'] = $description;

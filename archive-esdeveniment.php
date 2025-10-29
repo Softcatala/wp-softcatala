@@ -29,7 +29,6 @@ $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['posts'] = Softcatala\Providers\Esdeveniments::get();
-$context['pagination'] = Timber::get_pagination();
 $context['post'] = $post;
 $context['share_title'] = $context['content_title'];
 

@@ -10,7 +10,7 @@
 use Softcatala\Providers\Projectes;
 
 $post = retrieve_page_data( 'projecte' );
-$post ? $context['links'] = $post->get_field( 'link' ) : '';
+$post ? $context['links'] = $post->meta( 'link' ) : '';
 
 $title = 'En què treballem: ' . single_term_title('', false);
 
@@ -28,6 +28,5 @@ $context['sidebar_elements'] = array( 'static/suggeriment.twig', 'baixades.twig'
 $args = $wp_query->query;
 
 $context['posts'] = Projectes::get_sorted_projects( $args );
-$context['pagination'] = Timber::get_pagination();
 
 Timber::render( 'archive-projecte.twig', $context );

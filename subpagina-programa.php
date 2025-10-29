@@ -11,8 +11,8 @@ wp_localize_script( 'sc-js-programes', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
 
-$post_subpagina = new TimberPost();
-$post = new TimberPost( $post_subpagina->programa );
+$post_subpagina = Timber::get_post();
+$post = Timber::get_post( $post_subpagina->programa );
 
 $context = get_program_context( $post );
 

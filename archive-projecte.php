@@ -22,7 +22,7 @@ $description = $arxivats ? 'Projectes de traducció o propis que Softcatalà ha 
 $templates = array( 'archive-projecte.twig' );
 $post_type = get_query_var( 'post_type' );
 /*$post = retrieve_page_data( $post_type );
-$post ? $context_holder['links'] = $post->get_field( 'link' ) : '';
+$post ? $context_holder['links'] = $post->meta( 'link' ) : '';
 $context_holder['post'] = $post; */
 $context_holder['content_title'] = $arxivats ? 'Projectes històrics - sense activitat' : 'Projectes';
 $context_holder['post_type'] = $post_type;
@@ -38,7 +38,6 @@ $context_holder['contact']['assumpte'] = '[Projectes] Contacte des del formulari
 
 //Posts and pagination
 $context_holder['posts'] = Projectes::get_sorted_projects( array(), $arxivats );
-$context_holder['pagination'] = Timber::get_pagination();
 $context_holder['subpages'] = true;
 $context_holder['arxivat'] = $arxivats;
 

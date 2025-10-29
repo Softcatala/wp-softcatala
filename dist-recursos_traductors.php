@@ -5,8 +5,8 @@
  * @package wp-softcatala
  */
 
-$context = Timber::get_context();
-$context['post'] = new TimberPost();
+$context = Timber::context();
+$context['post'] = Timber::get_post();
 $context['links'] = array (
   array (
     'link_title' => 'Guia d\'estil',

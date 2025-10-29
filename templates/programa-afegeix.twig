@@ -131,7 +131,7 @@
                             <!-- col-sm-9 -->
                             <div class="col-sm-9">
                                 <div class="row">
-                                    {% for row in categories.categories_programes|batch((categories.categories_programes|length)/3) %}
+                                    {% for row in categories.categories_programes|safe_batch((categories.categories_programes|length)/3) %}
                                         <!-- col-sm-4 -->
                                         <div class="col-sm-4">
                                             {% for category in row %}

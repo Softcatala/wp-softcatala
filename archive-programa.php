@@ -22,7 +22,7 @@ $cpt_programa = \Softcatala\TypeRegisters\Programa::get_instance();
 $templates = array( 'archive-programa.twig' );
 
 $post = $cpt_programa->get_page();
-$post ? $context_holder['links'] = $post->get_field( 'link' ) : '';
+$post ? $context_holder['links'] = $post->meta( 'link' ) : '';
 $context_holder['post'] = $post;
 $context_holder['content_title'] = 'Programes i aplicacions';
 $context_holder['post_type'] = $cpt_programa->singular;
@@ -64,7 +64,6 @@ if( ! empty( $search ) || ! empty( $categoria_programa ) || ! empty( $sistema_op
 
 $context_holder['content_title'] = $content_title;
 $context_holder['posts'] = Programes::get_sorted( $query );
-$context_holder['pagination'] = Timber::get_pagination();
 
 if (count($context_holder['posts']) == 0 && $flag_search == true ) {
     throw_error( '404', 'No programs found' );

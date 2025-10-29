@@ -23,7 +23,7 @@ is_home() ? array_unshift( $templates, 'home.twig' ) : '';
 $post = Timber::query_post( get_option( 'page_for_posts' ) );
 $context_holder['post'] = $post;
 $context_holder['content_title'] = 'Notícies';
-$context_holder['links'] = $post->get_field( 'link' );
+$context_holder['links'] = $post->meta( 'link' );
 $context_holder['sidebar_top'] = Timber::get_widgets( 'sidebar_top' );
 $context_holder['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context_holder['sidebar_bottom'] = Timber::get_widgets( 'sidebar_bottom' );
@@ -69,7 +69,6 @@ if( ! empty( $search ) || ! empty( $tipus ) || ! empty( $tema ) ) {
 //Posts and pagination
 query_posts( $args );
 $context_holder['posts'] = Timber::get_posts( $args );
-$context_holder['pagination'] = Timber::get_pagination();
 
 //Context initialization
 $description = 'Notícies de llengua catalana, tecnologia en català.';

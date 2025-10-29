@@ -93,14 +93,14 @@
                 <!-- .contingut -->
                 <div class="contingut col-sm-12 col-md-9">
                     <!-- .contingut-section - paragraf + llistes -->
-                    {% if author.get_field('descripcio_activitat') %}
-                    <section class="contingut-section">{{ author.get_field('descripcio_activitat') }}</section>
+                    {% if author.meta('descripcio_activitat') %}
+                    <section class="contingut-section">{{ author.meta('descripcio_activitat') }}</section>
                     {% endif %}
 
                     {% if projectes %}
                     <section class="contingut-section">
                     <h3>Participa en els projectes següents</h3>
-                    {% for row in projectes|batch(projectes|length/2) %}
+                    {% for row in projectes|safe_batch(projectes|length/2) %}
                         <ul class="llista-check col-sm-6">
                         {% for projecte in row %}
                             <li>

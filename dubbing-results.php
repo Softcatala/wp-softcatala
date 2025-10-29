@@ -21,11 +21,11 @@ function add_module_to_subdub_editor($tag, $handle, $src)
     return $tag;
 }
 
-$context = Timber::get_context();
+$context = Timber::context();
 $context['ads_container'] = true;
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
-$context['post'] = new TimberPost();
+$context['post'] = Timber::get_post();
 Timber::render( array( 'dubbing-results.twig' ), $context );
 

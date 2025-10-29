@@ -255,7 +255,7 @@ function get_field_value_from_custom_field( $post_type, $custom_field, $custom_f
         )
     );
     $posts = query_posts($args);
-    $post = new TimberPost($posts[0]->ID);
+    $post = Timber::get_post($posts[0]->ID);
 
     return $post->$field;
 }
