@@ -7,13 +7,13 @@
  * @package  wp-softcatala
  */
 
-$context = Timber::get_context();
-$post = Timber::query_post();
+$context = Timber::context();
+$post = Timber::get_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $post;
-$context['links'] = $post->get_field( 'link' );
+$context['links'] = $post->meta( 'link' );
 $context['episode'] = new XVEpisodeModel($post);
 
 Timber::render( array( 'single-' . $post->ID . '.twig', 'single-' . $post->post_type . '.twig', 'single.twig' ), $context );

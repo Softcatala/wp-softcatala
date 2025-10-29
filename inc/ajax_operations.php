@@ -40,7 +40,7 @@ add_action( 'wp_ajax_nopriv_diccionari_engcat_search', 'sc_diccionari_engcat_sea
  */
 function sc_aparell_ajax_load() {
 	$aparell_id = intval( sanitize_text_field( $_POST["aparell_id"] ) );
-	$post       = new TimberPost( $aparell_id );
+	$post       = Timber::get_post( $aparell_id );
 
 	$result['aparell_id']     = $aparell_id;
 	$result['aparell_detall'] = Timber::fetch( 'ajax/aparell-detall.twig', array( 'post' => $post ) );

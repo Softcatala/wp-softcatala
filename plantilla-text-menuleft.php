@@ -19,7 +19,7 @@ if( $timberPost->pmf ) {
 
 $parent_data = get_page_parent_title( $timberPost->ID );
 
-$context = \Timber\Timber::get_context();
+$context = \Timber\Timber::context();
 $context['content_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id'], 'menu_order', 'ASC', 2);
 $context['post'] = $timberPost;

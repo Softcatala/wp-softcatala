@@ -24,7 +24,7 @@ wp_enqueue_script( 'sc-js-search', get_template_directory_uri() . '/static/js/se
 
 //Template initialization
 $templates = array( 'global-search.twig' );
-$context = Timber::get_context();
+$context = Timber::context();
 $search = get_search_query();
 $context['title'] = $search;
 $context['content_title'] = 'Resultats de cerca';
@@ -38,6 +38,5 @@ global $wp_query;
 $args = $wp_query->query_vars;
 query_posts( $args );
 $context['posts'] = Timber::get_posts($args);
-$context['pagination'] = Timber::get_pagination();
 
 Timber::render( $templates, $context );

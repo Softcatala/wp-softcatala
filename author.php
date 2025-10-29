@@ -13,7 +13,7 @@ $description = 'Membres, col·laboradors, gent de Softcatalà';
 
 if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $template = array( 'single-author.twig' );
-    $author = new TimberUser( $wp_query->query_vars['author'] );
+    $author = Timber::get_user( $wp_query->query_vars['author'] );
     $context_holder['author'] = $author;
     $context_holder['author_role'] = get_user_role( $author );
     $context_holder['author_image'] = get_gravatar_url( $author->user_email );
@@ -34,7 +34,7 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     }
 } else {
     $template = array( 'archive-author.twig' );
-    $context_holder['post'] = new TimberPost();
+    $context_holder['post'] = Timber::get_post();
     //Show only active members
 
 	$order = (date('j') % 2 == 0) ? 'ASC' : 'DESC';

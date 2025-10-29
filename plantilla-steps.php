@@ -20,7 +20,7 @@ $templates = array('plantilla-steps.twig' );
 $project_slug = get_query_var( 'project' );
 if ( ! empty ( $project_slug ) ) {
     $projecte = get_page_by_path( $project_slug , OBJECT, 'projecte' );
-    $projecte = new TimberPost($projecte->ID);
+    $projecte = Timber::get_post($projecte->ID);
     $content_title = 'Col·laboreu en el projecte '. $projecte->post_title;
     $projecte->project_requirements = apply_filters('the_content', $projecte->project_requirements);
     $projecte->lectures_recomanades = apply_filters('the_content', $projecte->lectures_recomanades);
@@ -29,7 +29,7 @@ if ( ! empty ( $project_slug ) ) {
     $context = $context_filterer->get_filtered_context( array('title' => $content_title . '| Softcatalà' ) );
 
     $context['projecte'] = $projecte;
-    $context['steps'] = $projecte->get_field( 'steps' );
+    $context['steps'] = $projecte->meta( 'steps' );
     $templates = array('plantilla-steps-single.twig' );
 
     $args = array(
@@ -42,7 +42,7 @@ if ( ! empty ( $project_slug ) ) {
 } else {
 	$timberPost = Timber::get_post();
 
-	$profile = $timberPost->get_field('perfil');
+	$profile = $timberPost->meta('perfil');
 	$profile_label = get_field_object('perfil', $timberPost->ID);
 	$all_acf_data = get_field_objects($timberPost->ID);
 
@@ -70,19 +70,19 @@ if ( ! empty ( $project_slug ) ) {
 
 	$projects = Projectes::get_sorted_projects( $project_args );
 
-    $context = Timber::get_context();
+    $context = Timber::context();
 
 	$context['projectes'] = $projects;
 
-    $context['steps'] = $timberPost->get_field( 'steps' );
+    $context['steps'] = $timberPost->meta( 'steps' );
 
     $context['telegram'] = get_telegram_group_for_profile( $profile );
 }
 
-$timberPost = new TimberPost();
+$timberPost = Timber::get_post();
 $context['post'] = $timberPost;
 $context['content_title'] = $content_title;
-$context['links'] = $timberPost->get_field( 'link' );
+$context['links'] = $timberPost->meta( 'link' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');

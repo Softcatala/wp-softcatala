@@ -16,7 +16,7 @@ function get_telegram_group_for_profile( $profile ) {
 
     $term = Timber::get_term($profile, 'ajuda-projecte');
 
-    $telegram = $term->get_field('telegram');
+    $telegram = $term->meta('telegram');
 
     return $telegram ? $telegram : 'Softcatala_Collaboradors';
 }

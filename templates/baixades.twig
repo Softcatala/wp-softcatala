@@ -1,4 +1,4 @@
-{% for baixada in post.get_field('baixades_relacionades') %}
+{% for baixada in post.meta('baixades_relacionades') %}
     {% if loop.first %}
         <div class="caixa-gris">
     {% endif %}

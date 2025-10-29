@@ -9,7 +9,7 @@
  wp_enqueue_style( 'sc-css-dades-obertes', get_template_directory_uri() . '/static/css/dades-obertes.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
 
-$context = Timber::get_context();
+$context = Timber::context();
 $post = Timber::query_post();
 $context['post'] = $post;
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');

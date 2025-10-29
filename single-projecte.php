@@ -5,7 +5,7 @@
  * @package  wp-softcatala
  */
 
-$context = Timber::get_context();
+$context = Timber::context();
 $post = Timber::query_post();
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top');
 $context['sidebar_elements'] = array( 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
@@ -24,7 +24,7 @@ $custom_logo_filter = function ($img) use($yoastlogo) {
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
 add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 
-$context['credits'] = $post->get_field( 'credits' );
+$context['credits'] = $post->meta( 'credits' );
 
 if ( is_array( $post->responsable ) ) {
     $context['responsables'] = get_users_metadata($post->responsable);

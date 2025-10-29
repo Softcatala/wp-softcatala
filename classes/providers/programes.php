@@ -111,7 +111,7 @@ class Programes {
 	}
 
 	private static function sort_programs_list( & $programs ) {
-		usort( $programs, array( self::class, 'sort_programs' ) );
+		$programs->uasort( array( self::class, 'sort_programs' ) );
 	}
 
 	/**

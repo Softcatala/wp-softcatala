@@ -51,7 +51,7 @@
                                         <h2><a href="{{post.link}}">{{post.title}}</a></h2>
                                         <!-- .article-cont - Extracte contingut article -->
                                         <div class="article-cont">
-                                            <p>{{post.get_preview(50, false, 'Llegeix més...')}}</p>
+                                            <p>{{post.excerpt({'words': 50, 'read_more': 'Llegeix més...'})}}</p>
                                         </div><!--/.article-cont - Extracte contingut article -->
                                     </div>
                                     {% if post.main_image_post or post.thumbnail.src %}

@@ -20,8 +20,8 @@ if ( isset( $xv_planeta) ) {
 	$feed = array();
 }
 
-$context = Timber::get_context();
-$context['post'] = new TimberPost();
+$context = Timber::context();
+$context['post'] = Timber::get_post();
 
 usort($gent, 'xv_title_sorter');
 

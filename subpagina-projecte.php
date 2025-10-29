@@ -6,9 +6,9 @@
  */
 
 
-$post_subpagina = new TimberPost();
+$post_subpagina = Timber::get_post();
 
-$timberPost = new TimberPost( $post_subpagina->projecte );
+$timberPost = Timber::get_post( $post_subpagina->projecte );
 
 $context_filter = new SC_ContextFilterer();
 
@@ -32,7 +32,7 @@ $custom_logo_filter = function ($img) use($logo ) {
 add_filter( 'wpseo_twitter_image', $custom_logo_filter);
 add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 
-$context['credits'] = $timberPost->get_field( 'credits' );
+$context['credits'] = $timberPost->meta( 'credits' );
 
 if ( is_array( $timberPost->responsable ) ) {
     $context['responsables'] = get_users_metadata($timberPost->responsable);
