@@ -22,7 +22,7 @@
                 <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
             {% endif %}
             <h4>Mode indicatiu</h4>
-            {% for verbs in response.result if verbs.mode == 'Indicatiu'  %}
+            {% for verbs in response.result | filter(verbs => verbs.mode == 'Indicatiu')  %}
                 {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
             <div class="col-md-12">
@@ -36,7 +36,7 @@
                 <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
             {% endif %}
             <h4>Mode subjuntiu</h4>
-            {% for verbs in response.result if verbs.mode == 'Subjuntiu'  %}
+            {% for verbs in response.result | filter(verbs => verbs.mode == 'Subjuntiu')  %}
               {% include 'ajax/conjugador-verb-mode.twig' %}
             {% endfor %}
             <div class="col-md-12">
@@ -92,12 +92,12 @@
                     
                     
                     <table class="table">
-                    {% for verbs in response.result if verbs.mode == 'Formes no personals'  %}
+                    {% for verbs in response.result | filter(verbs => verbs.mode == 'Formes no personals')  %}
                         <tr>
                             <th>{{ verbs.tense }} </th>
                             <td>
                             {% set i = 1 %}
-                            {% for clau, subjecte in response.temps if  attribute(verbs, clau) | length > 0 %}
+                            {% for clau, subjecte in response.temps | filter(clau => attribute(verbs, clau) | length > 0) %}
                             
                                    {%- for verb in attribute(verbs, clau)  -%} 
                                             {% if i > 1 %}, {% endif %} 
