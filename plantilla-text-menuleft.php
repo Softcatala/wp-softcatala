@@ -5,7 +5,7 @@
  * @package wp-softcatala
  */
 
-$timberPost = new \Timber\Post();
+$timberPost = Timber::get_post();
 
 if( $timberPost->pmf ) {
 	wp_enqueue_script(
@@ -19,12 +19,12 @@ if( $timberPost->pmf ) {
 
 $parent_data = get_page_parent_title( $timberPost->ID );
 
-$context = \Timber\Timber::context();
+$context = Timber::context();
 $context['content_title'] = $parent_data['title'];
 $context['page_hierarchy'] = wp_list_subpages($parent_data['id'], 'menu_order', 'ASC', 2);
 $context['post'] = $timberPost;
 $context['breadcrumbs'] = get_breadcrumbs( $timberPost );
 
 
-\Timber\Timber::render( array( 'plantilla-text-menuleft.twig' ), $context );
+Timber::render( array( 'plantilla-text-menuleft.twig' ), $context );
 
