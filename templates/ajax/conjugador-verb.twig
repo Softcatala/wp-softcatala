@@ -50,7 +50,7 @@
                 <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
             {% endif %}
             <h4>Mode imperatiu</h4>
-            {% for verbs in response.result if verbs.mode == 'Imperatiu'  %}
+            {% for verbs in response.result | filter(verbs => verbs.mode == 'Imperatiu') %}
                             <div class="col-md-12">
                                             <div class="panel panel-primary">
                                             
