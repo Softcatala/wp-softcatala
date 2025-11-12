@@ -448,6 +448,7 @@ class StarterSite extends \Timber\Site {
 	function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
 		$twig->addExtension( new \Twig\Extension\StringLoaderExtension() );
+		$twig->addFilter( new \Twig\TwigFilter( 'dump', 'sc_dump' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'get_caption_from_media_url', 'get_caption_from_media_url' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'get_img_from_id', 'get_img_from_id' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'get_full_img_from_id', 'get_full_img_from_id' ) );
@@ -609,6 +610,15 @@ function sc_truncate_words( $string, $size ) {
 	$splitstring = wp_trim_words( str_replace( '_', ' ', $string ), $size );
 
 	return $splitstring;
+}
+
+/**
+ * Twig function to dump a variable for debugging
+ */
+function sc_dump($string) {
+	echo '<pre>';
+	var_dump($string);
+	echo '</pre>';
 }
 
 /**

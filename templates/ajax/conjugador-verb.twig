@@ -97,8 +97,8 @@
                             <th>{{ verbs.tense }} </th>
                             <td>
                             {% set i = 1 %}
-                            {% for clau, subjecte in response.temps | filter(clau => attribute(verbs, clau) | length > 0) %}
-                            
+                            {% for clau, subjecte in response.temps %}
+                                {% if attribute(verbs, clau) | length > 0 %}
                                    {%- for verb in attribute(verbs, clau)  -%} 
                                             {% if i > 1 %}, {% endif %} 
                                             {% set i = i + 1%}
@@ -127,7 +127,8 @@
 
                                             {%- if opentag == true -%})</span>{%- endif -%} 
                                                                                          
-                                  {%- endfor -%}                  
+                                  {%- endfor -%}
+                                {% endif %}
                             {% endfor %}
                             </td>
                         </tr>
