@@ -750,7 +750,7 @@ function prepareLemmaHeading($word) {
         $output .= '<br/><span class="engcat-small-variants">';
         $myseparator = "";
 	    foreach ($word->alternativeForms as $alternativeForm) {
-		    $output .= $separator . $alternativeForm->text;
+		    $output .= $myseparator . $alternativeForm->text;
 		    if (!empty($alternativeForm->tags)) {
 		        $output .= " [" . $alternativeForm->tags . "]";
 		    }
