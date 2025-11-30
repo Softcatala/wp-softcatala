@@ -745,17 +745,23 @@ function prepareLemmaHeading($word) {
     if (!empty($word->remark)) {
         $output .= ' [&rArr; ' . $word->remark . '] ';
     }
-
-	if (!empty($word->alternativeForms)) {
-        $output .= '<br/><span class="engcat-small-variants">';
-        $myseparator = "";
-	    foreach ($word->alternativeForms as $alternativeForm) {
-		    $output .= $myseparator . $alternativeForm->text;
-		    if (!empty($alternativeForm->tags)) {
-		        $output .= " [" . $alternativeForm->tags . "]";
-		    }
-		    $myseparator = "; ";
-		}
+    // afegim formes alternatives, incloent-hi el plural, en la línia següent
+	if (!empty($word->alternativeForms) || !empty($word->plural)) {
+	    $separator = "";
+	    $output .= '<br/><span class="variantssmall">';
+	    if (!empty($word->plural)) {
+	        $output .= 'pl. ' . $word->plural;
+	        $separator = "; ";
+	    }
+	    if (!empty($word->alternativeForms)) {
+	        foreach ($word->alternativeForms as $alternativeForm) {
+	            $output .= $separator . $alternativeForm->text;
+	            if (!empty($alternativeForm->tags)) {
+	                $output .= " [" . $alternativeForm->tags . "]";
+	            }
+	            $separator = "; ";
+	        }
+	    }
 	    $output .= '</span>';
 	}	
     $output .= '</h2>';
