@@ -748,7 +748,7 @@ function prepareLemmaHeading($word) {
     // afegim formes alternatives, incloent-hi el plural, en la línia següent
 	if (!empty($word->alternativeForms) || !empty($word->plural)) {
 	    $separator = "";
-	    $output .= '<br/><span class="variantssmall">';
+	    $output .= '<br/><span class="engcat-small-variants">';
 	    if (!empty($word->plural)) {
 	        $output .= 'pl. ' . $word->plural;
 	        $separator = "; ";
