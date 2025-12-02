@@ -729,10 +729,10 @@ function prepareLemmaHeading($word) {
     if (!empty($word->feminine)) {
         $output .= ' <span class="engcat-gray">' . $word->feminine . '</span> ';
     }
-
+    
+	$output .= '<span class="engcat-small-variants">'; 
     $fullGTag = fullGrammarTag($word);
-    $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>&nbsp;';
-   
+    $output .= '&nbsp;<em>' . $fullGTag . '</em>&nbsp;';
 
     if (!empty($word->tags)) {
         $output .= '[' . $word->tags . '] ';
@@ -745,6 +745,7 @@ function prepareLemmaHeading($word) {
     if (!empty($word->remark)) {
         $output .= ' [&rArr; ' . $word->remark . '] ';
     }
+	$output .= '</span>';
     // afegim formes alternatives, incloent-hi el plural, en la línia següent
 	if (!empty($word->alternativeForms) || !empty($word->plural)) {
 	    $separator = "";
