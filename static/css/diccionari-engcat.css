@@ -26,7 +26,7 @@
 }
 
 .diccionari-engcat-panel h2{
-    font-weight: bold;
+    font-weight: 600;
     font-size: 20px;
     margin-bottom:0;
     margin-top:0;
@@ -69,7 +69,7 @@ b + .engcat-smallcaps {
    padding-left: 0px;
 }
 .engcat-small-variants {
-   font-size: 70%;
+   font-size: 60%;
 }
 
 .engcat-italics {
