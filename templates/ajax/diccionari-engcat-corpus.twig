@@ -1,8 +1,8 @@
-{% if single_entry.corpus %}
+{% if results.corpus %}
 <section class="corpus">
     <header>Exemples d'ús (fonts externes)</header>
         <table class="table-corpus">
-                {% for corpus in single_entry.corpus %}
+                {% for corpus in results.corpus %}
                         <tr class="{{ loop.index > 5 ? 'corpus_hidden' : '' }}"> 
                             <td>
                                 {% if corpus.highlight.src.0 %}

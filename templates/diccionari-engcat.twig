@@ -22,9 +22,36 @@
                             <div class="btns-diccionari row">
                                 <div class="col-xs-12">
                                     <p>Introduïu la paraula que voleu cercar i feu clic en el botó de cerca.</p>
-                                    <div class="input-group">
-                                        <input autofocus type="text" name="cerca_diccionari_engcat" id="cerca_diccionari_engcat" class="form-control" placeholder="Introduïu una paraula"/>
-                                        <a href="#" class="input-group-addon bt-basic bt-basic-vermell" id="_action_consulta_diccionari_engcat" name="_action_consulta_diccionari_engcat">cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></a>
+                                    <div class="input-engcat-diccionari" style="margin-bottom:8px;">
+                                        <input autofocus
+                                            type="text"
+                                            name="cerca_diccionari_engcat"
+                                            id="cerca_diccionari_engcat"
+                                            class="form-control"
+                                            placeholder="Introduïu una paraula"/>
+                                            <select name="llengua"
+                                                id="llengua_diccionari_engcat"
+                                                class="form-control">
+                                            <option value="cat" {{ llengua != 'eng' ? 'selected' : '' }}>
+                                                Català → Anglès
+                                            </option>
+                                            <option value="eng" {{ llengua == 'eng' ? 'selected' : '' }}>
+                                                Anglès → Català
+                                            </option>
+                                        </select>
+
+                                        <button type="button"
+                                                class="btn btn-default btn"
+                                                id="toggle_llengua_btn"
+                                                title="Canviar direcció">
+                                            <i class="fa fa-exchange"></i>
+                                        </button>
+                                        <button type="button"
+                                                class="btn bt-basic bt-basic-vermell"
+                                                id="_action_consulta_diccionari_engcat"
+                                                name="_action_consulta_diccionari_engcat">
+                                            cerca <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div><!--/.btns-diccionari  -->
@@ -53,8 +80,8 @@
             <div class="row">
                 <div class="contingut-left col-sm-12 col-md-8">
                     <div class="index-dic-engcat row">
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra' } only  %}
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra' } only  %}
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra', llengua: 'eng' } only  %}
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra', llengua: 'cat' } only  %}
                     </div>
                 </div>
             </div>

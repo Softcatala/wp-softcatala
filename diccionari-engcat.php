@@ -28,17 +28,18 @@ $llengua = sanitize_text_field( urldecode( get_query_var('llengua') ) );
 $canonical = '';
 $prefix_description = '';
 
-if( ! empty ( $paraula ) ) {
+if( ! empty ( $paraula ) && ! empty ( $llengua )) {
     try {
+        
         $diccionari = new SC_Diccionari_engcat();
                
-        $r = $diccionari->get_paraula($paraula);
+        $r = $diccionari->get_paraula($paraula, $llengua);
   
         $canonical = $r->canonical;
 	    $title = $r->title;
 	    $content_title = $r->content_title;
 	    $prefix_description = ' «' . $paraula . '»';
-	    $context_holder['engcat_resultat'] = $r->html;
+        $context_holder['engcat_resultat'] = $r->html;
  	    
     } catch ( Exception $e ) {
         throw_service_error( $content_title, '', true );
@@ -49,15 +50,15 @@ if( ! empty ( $paraula ) ) {
 
     if (strlen( $lletra ) == '1' && ($llengua == 'cat' || $llengua == 'eng')) {   
         try {
-            $conjugador = new SC_Diccionari_engcat();
-            $r = $conjugador->get_lletra( $lletra, $llengua );
+            $diccionari = new SC_Diccionari_engcat();
+            $r = $diccionari->get_lletra( $lletra, $llengua );
 
             $canonical = $r->canonical;
             $title = $r->title;
             $content_title = $r->content_title;
             $prefix_description = 'Paraules que comencen per «' . $lletra . '» en ' . $llengua_str.'.';
             $context_holder['engcat_resultat'] = $r->html;
-
+            
         } catch ( Exception $e ) {
             throw_service_error( $content_title, '', true );
         }

@@ -94,13 +94,26 @@ function sc_conjugador_search() {
  */
 function sc_diccionari_engcat_search() {
 	
-	if ( ! isset( $_POST["paraula"] ) ) {
-		$result = new SC_Diccionari_EngCatResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.' );
+	if ( ! isset( $_POST["paraula"] ) || ! isset( $_POST["llengua"] ) ) {
+		$result = new SC_Diccionari_EngCatResult( 500, 'S\'ha produït un error en contactar amb el servidor. Proveu una altra vegada.', '' );
 	} else {
 		$paraula = sanitize_text_field( $_POST["paraula"] );
-		
-		$diccionari = new SC_Diccionari_engcat();
-		$result = $diccionari->get_paraula( $paraula );
+		$llengua = sanitize_text_field( $_POST["llengua"] );
+
+		if ( $llengua !== 'cat' && $llengua !== 'eng' ) {
+			$result = new SC_Diccionari_EngCatResult(
+				400,
+				'Codi de llengua no vàlid. Només es permet "cat" o "eng".'
+			);
+			} elseif ( empty( $paraula ) ) {
+			$result = new SC_Diccionari_EngCatResult(
+				400,
+				'La paraula no pot estar buida.'
+			);
+		} else {
+			$diccionari = new SC_Diccionari_engcat();
+			$result = $diccionari->get_paraula( $paraula, $llengua );
+    	}
 	}
 
 	wp_send_json( $result );

@@ -8,27 +8,52 @@ diccionari_engcat_form.on('submit', function(ev) {
     jQuery('#_action_consulta_diccionari_engcat').trigger('click');
 });
 
+jQuery('#toggle_llengua_btn').on('click', function () {
+
+        let $select = jQuery('#llengua_diccionari_engcat');
+        let current = $select.val();
+
+        
+        if (current === 'cat') {
+            $select.val('eng');
+        } else {
+            $select.val('cat');
+        }
+      
+        $select.trigger('change');
+    });
 
 
 jQuery('#_action_consulta_diccionari_engcat').click(function(){
     jQuery("#loading").show();
     
     var query = jQuery('#cerca_diccionari_engcat').val();
+    var llengua = jQuery('#llengua_diccionari_engcat').val();
+       
     query = query.trim().replace("'", "’");
 
-    if (query == "") {
+    console.log(llengua);
+    if (!query || (llengua !== "cat" && llengua !== "eng") ) {
+        jQuery("#loading").hide();
         return;
     }
-
-    var url_history = '/diccionari-angles-catala/paraula/'+query+'/';
+    
+    var url_history = '/diccionari-angles-catala/' + llengua + '/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
-    jQuery("#content_header_title").html('Diccionari anglès-català: «'+query+'»');
+    let title = 'Diccionari català-anglès'; // per defecte
+
+    if (llengua === 'eng') {
+        title = 'Diccionari anglès-català';
+    }
+
+    jQuery("#content_header_title").html(title + ': «' + query + '»');
 
     update_share_links(query);
 
     var post_data = new FormData();
         post_data.append('paraula', query);
+        post_data.append('llengua', llengua);
         post_data.append('action', 'diccionari_engcat_search');
        
         jQuery.ajax({

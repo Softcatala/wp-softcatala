@@ -1,14 +1,9 @@
-{% if (results.0.lemmas|length > 0) or (results.1.lemmas|length > 0) %}
+ 
+{% if (results.lemmas|length) %}
    <div class="panel panel-default diccionari-engcat-panel" style="border:0">
-    {% set entries_with_lemmas = results|filter(e => e.lemmas is not empty) %}
-    {% set num_entries_with_lemmas = entries_with_lemmas|length %}
-
-    {% for single_entry in results %}
-        {% if single_entry.lemmas %}
-            {% set is_initially_open = (num_entries_with_lemmas == 1) %}
-            {% include 'ajax/diccionari-engcat-paraula.twig' with { 'is_initially_open': is_initially_open } %}
-        {% endif %}
-    {% endfor %}
+    
+    {% include 'ajax/diccionari-engcat-paraula.twig' %}
+    
     </div>
 {% else %}
     <p>No hem trobat cap resultat de cerca</p>

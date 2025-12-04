@@ -1,29 +1,26 @@
-{% if single_entry.lemmas %}
+{% if results.lemmas %}
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{loop.index}}">
-                    {% if loop.first %}
-                            <span class="titol_llengua">anglès → català</span>
-                    {% else %}  
-                            <span class="titol_llengua">català → anglès</span>
-                    {% endif %}
-                </a>
+               
+                {% if results.llengua == 'eng' %}
+                        <span class="titol_llengua">anglès → català</span>
+                {% else %}  
+                        <span class="titol_llengua">català → anglès</span>
+                {% endif %}
+                   
                 <span class="engcat-num-results">
-                    ({{ single_entry.lemmas|length }} resultat{{ single_entry.lemmas|length == 1 ? '' : 's' }})
+                    ({{ results.lemmas|length }} resultat{{ results.lemmas|length == 1 ? '' : 's' }})
                 </span>
             </h4>
         </div>
-        <div id="collapse_{{loop.index}}" class="panel-collapse collapse {% if is_initially_open == true %} in {% endif %}">
-            <div class="panel-body">
-                {% for lemma in single_entry.lemmas %}
+        <div class="panel-body">
+                {% for lemma in results.lemmas %}
                     {% include 'ajax/diccionari-engcat-paraula-entry.twig' %}
                 {% endfor %}
                 
                 {% include 'ajax/diccionari-engcat-corpus.twig'  %}
                 
-            </div>
         </div>
-        
 {% endif %}
 
 

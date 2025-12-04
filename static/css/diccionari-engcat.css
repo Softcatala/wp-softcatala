@@ -78,6 +78,7 @@ b + .engcat-smallcaps {
 .titol_llengua {
     font-weight: bold;
     font-size:20px;
+    color:#c43434;
 }
 
 .corpus > header {
@@ -148,4 +149,43 @@ tr.source_corpus td{
     padding-left: 0.5rem;
 }
 
+/* Estils formulari cerca */
 
+.input-engcat-diccionari {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;          
+    width: 100%;
+}
+
+/* El input ocupa todo el espacio posible */
+.input-engcat-diccionari input.form-control {
+    flex: 1 1 auto;
+    height: 40px;
+}
+
+/* El select tiene un ancho fijo razonable */
+.input-engcat-diccionari select.form-control {
+    flex: 0 0 190px;
+    height: 40px;
+}
+
+/* Botones sin romper el layout */
+.input-engcat-diccionari button {
+    white-space: nowrap;
+}
+
+/* Versión responsive (móvil): que se apilen bonito */
+@media (max-width: 767px) {
+    .input-engcat-diccionari {
+        flex-wrap: wrap;
+    }
+
+    .input-engcat-diccionari input.form-control {
+        flex: 1 0 100%;
+    }
+
+    .input-engcat-diccionari select.form-control {
+        flex: 1 0 100%;
+    }
+}
