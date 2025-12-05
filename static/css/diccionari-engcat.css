@@ -158,13 +158,13 @@ tr.source_corpus td{
     width: 100%;
 }
 
-/* El input ocupa todo el espacio posible */
+
 .input-engcat-diccionari input.form-control {
     flex: 1 1 auto;
     height: 40px;
 }
 
-/* El select tiene un ancho fijo razonable */
+
 .input-engcat-diccionari select.form-control {
     flex: 0 0 190px;
     height: 40px;
@@ -175,7 +175,7 @@ tr.source_corpus td{
     white-space: nowrap;
 }
 
-/* Versión responsive (móvil): que se apilen bonito */
+
 @media (max-width: 767px) {
     .input-engcat-diccionari {
         flex-wrap: wrap;
@@ -186,6 +186,6 @@ tr.source_corpus td{
     }
 
     .input-engcat-diccionari select.form-control {
-        flex: 1 0 100%;
+        flex: 1 0 70%;
     }
 }
