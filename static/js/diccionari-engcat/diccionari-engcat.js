@@ -82,6 +82,8 @@ function print_results(result) {
     jQuery("#content_header_title").html(result.content_title);
     jQuery('.diccionari-resultat').html(result.html);
     jQuery('.diccionari-resultat').slideDown();
+    document.title = result.content_title;
+
 
     let lang = 'cat';
     if (result && result.canonical) {
