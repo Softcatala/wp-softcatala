@@ -81,9 +81,24 @@ function print_results(result) {
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
     jQuery('.diccionari-resultat').html(result.html);
-    document.title = result.title;
     jQuery('.diccionari-resultat').slideDown();
-    console.log(result)
+
+    let lang = 'cat';
+    if (result && result.canonical) {
+        let m = result.canonical.match(/\/(cat|eng)\//);
+        if (m && m[1]) lang = (m[1] === 'eng') ? 'eng' : 'cat';
+        else if (result.content_title) {
+            let t = result.content_title.toLowerCase();
+            if (t.indexOf('anglès-català') !== -1 || t.indexOf('angles-català') !== -1) lang = 'eng';
+            else if (t.indexOf('català-anglès') !== -1 || t.indexOf('catala-angles') !== -1) lang = 'cat';
+        }
+    }
+
+    let $select = jQuery('#llengua_diccionari_engcat');
+    if ($select.val() !== lang) {
+        $select.val(lang).trigger('change');
+    }
+    
 }
 
 function ko_function(result) {
