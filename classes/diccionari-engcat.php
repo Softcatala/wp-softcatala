@@ -37,7 +37,7 @@ class SC_Diccionari_engcat {
 		if ( $result['error'] ) {
 			return $this->return500();
 		}
-
+		
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
@@ -72,16 +72,45 @@ class SC_Diccionari_engcat {
 
 	private function build_results( $result, $paraula, $llengua ) {
 
-
+		
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
+			$all_results = array_values( $result->results );
+
+			$valid_indexes = [];
+			foreach ($all_results as $i => $entry) {
+				if (!empty($entry->lemmas) && count($entry->lemmas) > 0) {
+					$valid_indexes[] = $i;
+				}
+			}
+			if (count($valid_indexes) === 1) {
+
+				$result_index = $valid_indexes[0];
+				if ($result_index === 0) {
+					$llengua = 'eng';
+					$corpus_direction = 'eng-cat';
+				} else {
+					$llengua = 'cat';
+					$corpus_direction = 'cat-eng';
+				}
+
+			} else {
+
+				if ($llengua === 'eng') {
+					$result_index = 0;
+					$corpus_direction = 'eng-cat';
+				} else {
+					$result_index = 1;
+					$corpus_direction = 'cat-eng';
+				}
+			}
+
+			
 			$titol_str = ($llengua == 'cat') ? 'català-anglès' : 'anglès-català';
 			
 			$title         = $paraula . ' - Diccionari '.$titol_str.' | Softcatalà';
 			$content_title = 'Diccionari '.$titol_str.': «' . $paraula . '»';
-		
-			$result_count = count( $result->results );
-	
+			
 			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
 	
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
@@ -89,29 +118,19 @@ class SC_Diccionari_engcat {
 			
 			$corpus_direction = ( $llengua === 'eng' ) ? 'eng-cat' : 'cat-eng';
 			
-			$all_results = array_values( $result->results );
-			
-			if ( $llengua === 'eng' ) {
-				$result_index    = 0;
-				$corpus_direction = 'eng-cat';
-			} else { // assumim 'cat'
-				$result_index    = 1;
-				$corpus_direction = 'cat-eng';
-			}
-			
 			$final_results = array();
 
 			if ( isset( $all_results[ $result_index ] ) ) {
 					
-					$single_entry = $all_results[ $result_index ];
+				$single_entry = $all_results[ $result_index ];
 
-					$single_entry->llengua = $llengua;
-					
-					if ( count( $single_entry->lemmas ) > 0 ) {
-						$single_entry->corpus = $this->get_corpus( $paraula, $corpus_direction );
-					}
-					
-					$final_results = $single_entry;
+				$single_entry->llengua = $llengua;
+				
+				if ( count( $single_entry->lemmas ) > 0 ) {
+					$single_entry->corpus = $this->get_corpus( $paraula, $corpus_direction );
+				}
+				
+				$final_results = $single_entry;
 			}
 			
 			$result->results = $final_results;
@@ -121,7 +140,7 @@ class SC_Diccionari_engcat {
 			));
 			
 			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
-		}//end if
+		}
 		
 		
 	}
@@ -175,16 +194,14 @@ class SC_Diccionari_engcat {
 				'hidetitle' => true
 			)
 		);
-
-		
-
-		return new SC_SinonimsResult( 200, $html, $lletra, $canonical, $title, $content_title );
+	
+		return new SC_Diccionari_EngCatResult( 200, $html, $lletra, $canonical, $title, $content_title );
 	}
 	
 	private function return404( $paraula, $suggestions = array() ) {
 		throw_error( '404', 'No Results For This Search' );
 
-		$html = "No hem trobat cap resultat de cerca";
+		$html = "No hem trobat cap resultat de cerca.";
 		
 		return new SC_Diccionari_EngCatResult( 404, $html, '', '', '', '' );
 			

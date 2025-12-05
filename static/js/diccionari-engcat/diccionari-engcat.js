@@ -13,7 +13,6 @@ jQuery('#toggle_llengua_btn').on('click', function () {
         let $select = jQuery('#llengua_diccionari_engcat');
         let current = $select.val();
 
-        
         if (current === 'cat') {
             $select.val('eng');
         } else {
@@ -25,6 +24,7 @@ jQuery('#toggle_llengua_btn').on('click', function () {
 
 
 jQuery('#_action_consulta_diccionari_engcat').click(function(){
+    
     jQuery("#loading").show();
     
     var query = jQuery('#cerca_diccionari_engcat').val();
@@ -32,12 +32,12 @@ jQuery('#_action_consulta_diccionari_engcat').click(function(){
        
     query = query.trim().replace("'", "’");
 
-    console.log(llengua);
     if (!query || (llengua !== "cat" && llengua !== "eng") ) {
         jQuery("#loading").hide();
         return;
     }
     
+    /*
     var url_history = '/diccionari-angles-catala/' + llengua + '/paraula/'+query+'/';
     history.pushState(null, null, url_history);
 
@@ -50,7 +50,7 @@ jQuery('#_action_consulta_diccionari_engcat').click(function(){
     jQuery("#content_header_title").html(title + ': «' + query + '»');
 
     update_share_links(query);
-
+    */
     var post_data = new FormData();
         post_data.append('paraula', query);
         post_data.append('llengua', llengua);
@@ -83,15 +83,17 @@ function print_results(result) {
     jQuery('.diccionari-resultat').html(result.html);
     document.title = result.title;
     jQuery('.diccionari-resultat').slideDown();
+    console.log(result)
 }
 
 function ko_function(result) {
+    
     var url_history = result.responseJSON.canonical;
     history.pushState(null, null, url_history);
     sc_404sendTracking(false, result.responseJSON.status, result.responseJSON.description);
     jQuery('#cerca_diccionari_engcat').focus();
-    jQuery("#content_header_title").html(result.responseJSON.content_title);
-    document.title = result.responseJSON.title;
+    jQuery("#content_header_title").html('Diccionari anglès-català');
+    document.title = result.content_title;
     jQuery("#loading").hide();
     jQuery('.diccionari-resultat').html(result.responseJSON.html);
     jQuery('.diccionari-resultat').slideDown();
