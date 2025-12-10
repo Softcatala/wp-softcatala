@@ -225,6 +225,15 @@ function sc_contact_form() {
 	$tipus     = sanitize_text_field( $_POST["tipus"] );
 	$comentari = stripslashes( sanitize_text_field( ( $_POST["comentari"] ) ) );
 
+	// Validate message content against spam patterns
+	$spam_validation = sc_validate_message_content( $comentari, $correu );
+	if ( $spam_validation !== true ) {
+		wp_send_json( array(
+			'type' => 'message',
+			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
+		) );
+	}
+
 	//email body
 	$message_body = "Tipus: " . $tipus . "\r\n\rComentari: " . $comentari . "\r\n\rNom: " . $nom . "\r\nCorreu electrònic: " . $correu;
 
@@ -707,4 +716,62 @@ function map_so( $so_id ) {
 	}
 
 	return $value;
+}
+
+/**
+ * Validates message content against spam patterns
+ *
+ * @param string $comentari The message content to validate
+ * @param string $correu The sender's email address
+ *
+ * @return bool|string True if valid, error message string if spam detected
+ */
+function sc_validate_message_content( $comentari, $correu ) {
+	$comentari = trim( $comentari );
+	$comment_length = strlen( $comentari );
+
+	if ( $comment_length < 10 ) {
+		return 'El missatge és massa curt (mínim 10 caràcters).';
+	}
+
+	// Check if comment contains only a single word
+	$words = preg_split( '/\s+/', $comentari, -1, PREG_SPLIT_NO_EMPTY );
+	if ( count( $words ) < 2 ) {
+		return 'El missatge ha de contenir almenys dues paraules.';
+	}
+
+	if ( preg_match( '/(.)\1{2,}/', $comentari ) ) {
+		return 'El missatge conté caràcters repetits sospitosos.';
+	}
+
+	$caps_count = preg_match_all( '/[A-Z]/', $comentari );
+	$alpha_count = preg_match_all( '/[a-zA-Z]/i', $comentari );
+	if ( $alpha_count > 0 && ( $caps_count / $alpha_count ) > 0.5 ) {
+		return 'El missatge conté massa majúscules.';
+	}
+
+	$emails_in_message = array();
+	if ( preg_match_all( '/[\w\.\-]+@[\w\.\-]+\.\w+/', $comentari, $matches ) ) {
+		$emails_in_message = $matches[0];
+		// Allow only if it matches the sender's email exactly (e.g., in a reply context)
+		if ( count( $emails_in_message ) > 0 ) {
+			$has_other_email = false;
+			foreach ( $emails_in_message as $email ) {
+				if ( $email !== $correu ) {
+					$has_other_email = true;
+					break;
+				}
+			}
+			if ( $has_other_email ) {
+				return 'El missatge conté adreces de correu sospitoses.';
+			}
+		}
+	}
+
+	$punct_count = preg_match_all( '/[!?.,;:\-]/', $comentari );
+	if ( $punct_count / $comment_length > 0.3 ) {
+		return 'El missatge conté massa símbols de puntuació.';
+	}
+
+	return true;
 }
