@@ -225,6 +225,24 @@ function sc_contact_form() {
 	$tipus     = sanitize_text_field( $_POST["tipus"] );
 	$comentari = stripslashes( sanitize_text_field( ( $_POST["comentari"] ) ) );
 
+	// Validate HTTP headers - check for User-Agent and Referer
+	$header_validation = sc_validate_http_headers();
+	if ( $header_validation !== true ) {
+		wp_send_json( array(
+			'type' => 'message',
+			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
+		) );
+	}
+
+	// Validate email format and check against disposable domains
+	$email_validation = sc_validate_email( $correu );
+	if ( $email_validation !== true ) {
+		wp_send_json( array(
+			'type' => 'message',
+			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
+		) );
+	}
+
 	// Validate message content against spam patterns
 	$spam_validation = sc_validate_message_content( $comentari, $correu );
 	if ( $spam_validation !== true ) {
@@ -771,6 +789,75 @@ function sc_validate_message_content( $comentari, $correu ) {
 	$punct_count = preg_match_all( '/[!?.,;:\-]/', $comentari );
 	if ( $punct_count / $comment_length > 0.3 ) {
 		return 'El missatge conté massa símbols de puntuació.';
+	}
+
+	return true;
+}
+
+/**
+ * Validates email format and checks against disposable email domains
+ *
+ * @param string $email The email address to validate
+ *
+ * @return bool|string True if valid, error message string if invalid
+ */
+function sc_validate_email( $email ) {
+	if ( ! is_email( $email ) ) {
+		return 'Adreça de correu electrònic no vàlida.';
+	}
+
+	// List of disposable/temporary email domain providers
+	$disposable_domains = array(
+		'tempmail.com',
+		'10minutemail.com',
+		'guerrillamail.com',
+		'mailinator.com',
+		'maildrop.cc',
+		'throwaway.email',
+		'temp-mail.org',
+		'yopmail.com',
+		'fakeinbox.com',
+		'trash-mail.com',
+		'mailnesia.com',
+		'tempmail.co',
+		'sharklasers.com',
+		'temp-mail.io',
+		'testmail.net',
+		'ethereal.email',
+		'spam4.me',
+		'grr.la',
+		'guerrillamail.info',
+		'guerrillamail.net',
+		'guerrillamail.org',
+		'pokemail.net',
+		'spam4.me',
+		'spambox.us',
+		'trashmail.com',
+	);
+
+	// Extract domain from email
+	$email_domain = strtolower( substr( strrchr( $email, '@' ), 1 ) );
+
+	// Check if domain is in disposable list
+	if ( in_array( $email_domain, $disposable_domains, true ) ) {
+		return 'Aquesta adreça de correu no és permesa.';
+	}
+
+	return true;
+}
+
+/**
+ * Validates HTTP headers to prevent direct POST attacks
+ *
+ * @return bool|string True if valid, error message string if headers missing
+ */
+function sc_validate_http_headers() {
+	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+		return 'Sol·licitud no vàlida (User-Agent absent).';
+	}
+
+	if ( empty( $_SERVER['HTTP_REFERER'] ) ) {
+		return 'Sol·licitud no vàlida (Referer absent).';
 	}
 
 	return true;
