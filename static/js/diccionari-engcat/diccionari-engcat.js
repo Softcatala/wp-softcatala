@@ -22,6 +22,10 @@ jQuery('#toggle_llengua_btn').on('click', function () {
         $select.trigger('change');
     });
 
+jQuery('#llengua_diccionari_engcat').on('change', function () {
+        prepareInputSearchQuery();
+    });
+
 
 jQuery('#_action_consulta_diccionari_engcat').click(function(){
     
@@ -34,6 +38,7 @@ jQuery('#_action_consulta_diccionari_engcat').click(function(){
 
     if (!query || (llengua !== "cat" && llengua !== "eng") ) {
         jQuery("#loading").hide();
+        prepareInputSearchQuery();
         return;
     }
     
@@ -77,7 +82,7 @@ function print_results(result) {
     history.pushState(null, null, url_history);
     update_share_links(result.canonical);
     sc_sendTracking(true);
-    jQuery('#cerca_diccionari_engcat').val('');
+    //jQuery('#cerca_diccionari_engcat').val('');
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
     jQuery('.diccionari-resultat').html(result.html);
@@ -100,6 +105,7 @@ function print_results(result) {
     if ($select.val() !== lang) {
         $select.val(lang).trigger('change');
     }
+    prepareInputSearchQuery();
     
 }
 
@@ -108,7 +114,7 @@ function ko_function(result) {
     var url_history = result.responseJSON.canonical;
     history.pushState(null, null, url_history);
     sc_404sendTracking(false, result.responseJSON.status, result.responseJSON.description);
-    jQuery('#cerca_diccionari_engcat').focus();
+    prepareInputSearchQuery();
     jQuery("#content_header_title").html('Diccionari anglès-català');
     document.title = result.content_title;
     jQuery("#loading").hide();
@@ -138,7 +144,6 @@ function sc_sendTracking(success, status) {
 }
 
 
-
 //Function to update share links on ajax calls
 function update_share_links(query) {
     var url = window.location.href;
@@ -159,3 +164,18 @@ jQuery(document).on('click', '.mostra_corpus', function(e) {
     $corpus_hidden.toggle();
     $this.text($corpus_hidden.is(':visible') ? 'Mostra menys exemples' : 'Mostra més exemples')
 });
+
+function synonimsIsMobile() {
+    return window.matchMedia("only screen and (max-width: 768px)").matches;
+}
+
+// Focus sempre en la caixa de cerca (amb el text seleccionat)
+// Amb el text seleccionat és molt còmode: esborrar-lo o editar-lo
+function prepareInputSearchQuery() {
+    if(!synonimsIsMobile()) {
+        jQuery('#cerca_diccionari_engcat').select();
+        jQuery('#cerca_diccionari_engcat').focus();
+    } else {
+        jQuery('#cerca_diccionari_engcat').val('');
+    }
+}
