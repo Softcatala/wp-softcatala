@@ -14,6 +14,8 @@ jQuery('#_action_consulta_sinonims').click(function(){
     query = query.trim().replace("'", "’");
 
     if (query == "") {
+        jQuery("#loading").hide();
+        prepareInputSearchQuery();
         return;
     }
 
