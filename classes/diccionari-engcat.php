@@ -240,7 +240,7 @@ class SC_Diccionari_engcat {
 		$result_count = count( $paraules );
 		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
 
-		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per: «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
 
 		$canonical = home_url() . '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
 
