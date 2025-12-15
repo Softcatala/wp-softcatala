@@ -28,13 +28,24 @@ $llengua = sanitize_text_field( urldecode( get_query_var('llengua') ) );
 $canonical = '';
 $prefix_description = '';
 
-if( ! empty ( $paraula ) && ! empty ( $llengua )) {
+if( ! empty ( $paraula ) && empty( $llengua ) ) {
     try {
-        
         $diccionari = new SC_Diccionari_engcat();
-               
-        $r = $diccionari->get_paraula($paraula, $llengua);
-  
+        $r = $diccionari->get_paraula_with_language_detection( $paraula );
+        
+        if ( isset( $r->detected_language ) ) {
+            wp_redirect( home_url( '/diccionari-angles-catala/' . $r->detected_language . '/paraula/' . $r->canonical_lemma . '/' ), 301 );
+            exit;
+        }
+    } catch ( Exception $e ) {
+        throw_service_error( $content_title, '', true );
+    }
+    // No redirect happened, assign a default language
+    $llengua = 'eng';
+} else if( ! empty ( $paraula ) && ! empty ( $llengua ) ) {
+    try {
+        $diccionari = new SC_Diccionari_engcat();
+        $r = $diccionari->get_paraula( $paraula, $llengua );
         $canonical = $r->canonical;
 	    $title = $r->title;
 	    $content_title = $r->content_title;

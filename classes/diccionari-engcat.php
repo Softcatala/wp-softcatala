@@ -26,12 +26,11 @@ class SC_Diccionari_engcat {
 
 	
 	public function get_paraula( $paraula, $llengua ) {
-
 		$paraula = strtolower( $paraula );
 
 		$url_api = get_option( 'api_diccionari_engcat' );
-		$url     = $url_api . 'search/' . $paraula;
-				
+		$url     = $url_api . '/search/' . $paraula;
+		
 		$result = $this->rest_client->get( $url );
 		
 		if ( $result['error'] ) {
@@ -42,6 +41,35 @@ class SC_Diccionari_engcat {
 
 			$api_result   = json_decode( $result['result'] );
 			return $this->build_results( $api_result, $paraula, $llengua );
+		}
+
+		return $this->return404( $paraula );
+	}
+
+	/**
+	 * Get word with automatic language detection
+	 * Fetches the word from API and detects the best language based on lemma distribution
+	 * Returns minimal response object with only detected_language and canonical_lemma for redirect
+	 * 
+	 * @param string $paraula The word to search for
+	 * @return SC_Diccionari_EngCatResult Response object with detected_language set
+	 */
+	public function get_paraula_with_language_detection( $paraula ) {
+		$paraula = strtolower( $paraula );
+
+		$url_api = get_option( 'api_diccionari_engcat' );
+		$url     = $url_api . '/search/' . $paraula;
+		
+		$result = $this->rest_client->get( $url );
+		
+		if ( $result['error'] ) {
+			return $this->return500();
+		}
+		
+		if ( 200 == $result['code'] && isset($result['result'])) {
+
+			$api_result   = json_decode( $result['result'] );
+			return $this->build_results_for_redirect( $api_result, $paraula );
 		}
 
 		return $this->return404( $paraula );
@@ -72,7 +100,6 @@ class SC_Diccionari_engcat {
 
 	private function build_results( $result, $paraula, $llengua ) {
 
-		
 		if ( isset( $result->results) && count($result->results) > 0  ) {
 
 			$all_results = array_values( $result->results );
@@ -105,44 +132,76 @@ class SC_Diccionari_engcat {
 				}
 			}
 
-			
+
 			$titol_str = ($llengua == 'cat') ? 'català-anglès' : 'anglès-català';
-			
+
 			$title         = $paraula . ' - Diccionari '.$titol_str.' | Softcatalà';
 			$content_title = 'Diccionari '.$titol_str.': «' . $paraula . '»';
-			
+
 			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
-	
+
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = home_url() . '/diccionari-angles-catala/'.$llengua.'/paraula/' . $canonical_lemma . '/';
-			
+
 			$corpus_direction = ( $llengua === 'eng' ) ? 'eng-cat' : 'cat-eng';
-			
+
 			$final_results = array();
 
 			if ( isset( $all_results[ $result_index ] ) ) {
-					
+
 				$single_entry = $all_results[ $result_index ];
 
 				$single_entry->llengua = $llengua;
-				
+
 				if ( count( $single_entry->lemmas ) > 0 ) {
 					$single_entry->corpus = $this->get_corpus( $paraula, $corpus_direction );
 				}
-				
+
 				$final_results = $single_entry;
 			}
-			
+
 			$result->results = $final_results;
-			
+
 			$html .= Timber::fetch( 'ajax/diccionari-engcat-resultat.twig', array(
 				'results'  => $result->results,
 			));
-			
+
 			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}
-		
-		
+
+	}
+
+	/**
+	 * Build minimal response for language detection and redirect
+	 * Detects the best language without fetching corpus or rendering templates
+	 * 
+	 * @param object $result API result object
+	 * @param string $paraula The word being searched
+	 * @return SC_Diccionari_EngCatResult Minimal response with detected_language
+	 */
+	private function build_results_for_redirect( $result, $paraula ) {
+
+		if ( isset( $result->results) && count($result->results) > 0  ) {
+
+		$all_results = array_values( $result->results );
+
+		$valid_indexes = [];
+		foreach ($all_results as $i => $entry) {
+			if (!empty($entry->lemmas) && count($entry->lemmas) > 0) {
+				$valid_indexes[] = $i;
+			}
+		}
+
+		$detected_language = $this->detect_language( $all_results, $valid_indexes, '' );
+
+		// Get canonical lemma
+		$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
+
+		// Return minimal response with only detected_language and canonical_lemma
+		return new SC_Diccionari_EngCatResult( 200, '', $canonical_lemma, '', '', '', $detected_language );
+		}
+
+		return $this->return404( $paraula );
 	}
 
 	/* Llistat per llestres */
@@ -210,6 +269,32 @@ class SC_Diccionari_engcat {
 	private function return500() {
 		throw_error( '500', 'Error connecting to API server' );
 		return new SC_Diccionari_EngCatResult( 500, "S'ha produït un error en contactar amb el servidor. Proveu una altra vegada." );
+	}
+
+	/**
+	 * Detects the best language based on lemmas in results
+	 * 
+	 * Rules:
+	 * - If only 1 valid lemma entry: use that entry's language
+	 * - If multiple entries but all same language: use that language
+	 * - If multiple languages: use the one with more total lemmas
+	 * 
+	 * @param array $all_results All result entries from API
+	 * @param array $valid_indexes Indexes of entries with valid lemmas
+	 * @param string $default_lingua Default language to fall back to
+	 * 
+	 * @return string The detected language ('eng' or 'cat')
+	 */
+	private function detect_language( $all_results, $valid_indexes, $default_lingua ) {
+		$lemma_counts = array( 'eng' => 0, 'cat' => 0 );
+
+		foreach ( $valid_indexes as $i ) {
+			$language = ( $i === 0 ) ? 'eng' : 'cat';
+			$lemma_counts[ $language ] += count( $all_results[ $i ]->lemmas );
+		}
+
+		// Return the language with more lemmas
+		return ( $lemma_counts['eng'] >= $lemma_counts['cat'] ) ? 'eng' : 'cat';
 	}
 
 	
