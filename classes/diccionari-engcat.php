@@ -157,6 +157,22 @@ class SC_Diccionari_engcat {
 					$single_entry->corpus = $this->get_corpus( $paraula, $corpus_direction );
 				}
 
+				if ( count($valid_indexes) === 2 ) {
+					$other_lang = ($llengua === 'eng') ? 'cat' : 'eng';
+					$other_direction_label = ($other_lang === 'cat') ? 'català → anglès' : 'anglès → català';
+					$single_entry->other_direction_url = home_url() . '/diccionari-angles-catala/' . $other_lang . '/paraula/' . $paraula . '/';
+					$single_entry->other_direction_label = $other_direction_label;
+					$single_entry->word_searched = $paraula;
+					
+					// Get count from the other result index
+					$other_index = ($result_index === 0) ? 1 : 0;
+					if (isset($all_results[$other_index]) && isset($all_results[$other_index]->lemmas)) {
+						$single_entry->other_direction_count = count($all_results[$other_index]->lemmas);
+					} else {
+						$single_entry->other_direction_count = 0;
+					}
+				}
+
 				$final_results = $single_entry;
 			}
 

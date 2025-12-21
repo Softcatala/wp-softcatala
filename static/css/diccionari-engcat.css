@@ -146,7 +146,9 @@ tr.source_corpus td{
 
 
 .engcat-num-results {
-    padding-left: 0.5rem;
+    margin-right: 50px;
+    display: inline-block;
+    line-height: 1.9;
 }
 
 /* Estils formulari cerca */
