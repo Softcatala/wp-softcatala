@@ -229,6 +229,23 @@ class SC_Diccionari_engcat {
 		return $this->notFound( $lletra );
 	}
 
+	public function get_stats() {
+		$url_api = get_option( 'api_diccionari_engcat' );
+		$url     = $url_api . '/stats/';
+
+		$result = $this->rest_client->get( $url );
+
+		if ( $result['error'] ) {
+			return false;
+		}
+
+		if ( 200 == $result['code'] && isset($result['result'])) {
+			return json_decode( $result['result'] );
+		}
+
+		return false;
+	}
+
 	private function build_index($lletra, $llengua, $paraules) {
 		
 		$llengua_str = ($llengua == 'cat') ? 'català' : 'anglès';
@@ -238,9 +255,8 @@ class SC_Diccionari_engcat {
 		$content_title = 'Diccionari '.$titol_str.': «' . $lletra . '»';
 
 		$result_count = count( $paraules );
-		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
 
-		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per ' . strtoupper($lletra) . ' (' . $result_count . ') <hr class="clara"/>';
 
 		$canonical = home_url() . '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
 

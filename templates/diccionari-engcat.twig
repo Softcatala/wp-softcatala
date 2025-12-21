@@ -80,8 +80,8 @@
             <div class="row">
                 <div class="contingut-left col-sm-12 col-md-8">
                     <div class="index-dic-engcat row">
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra', llengua: 'eng' } only  %}
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra', llengua: 'cat' } only  %}
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra', llengua: 'eng', count: stats.numberEnglishLemmas } only  %}
+                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra', llengua: 'cat', count: stats.numberCatalanLemmas } only  %}
                     </div>
                 </div>
             </div>

@@ -79,6 +79,14 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
 	}
 }
 
+$stats = false;
+try {
+    $diccionari = new SC_Diccionari_engcat();
+    $stats = $diccionari->get_stats();
+} catch ( Throwable $e ) {
+    // Fail silently for stats
+}
+
 $context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
 
 $context_filterer = new SC_ContextFilterer( $context_holder );
@@ -94,6 +102,7 @@ $context['credits'] = $timberPost->meta( 'credits' );
 $context['sidebar_top'] = Timber::get_widgets('sidebar_top_recursos');
 $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
+$context['stats'] = $stats;
 
 //Contact Form
 $context['contact']['to_email'] = get_option('email_sinonims');

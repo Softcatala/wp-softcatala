@@ -1,6 +1,6 @@
     <div class="col-xs-12">
         <p>
-            Índex {{ token }} que comencen per:<br/>
+            Índex {{ token }} {% if count %}({{ count }}){% endif %}<br/>
             <a href="{{ url }}/A/">A</a> -
             <a href="{{ url }}/B/">B</a> -
             <a href="{{ url }}/C/">C</a> -
