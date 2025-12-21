@@ -170,7 +170,7 @@ function synonimsIsMobile() {
 }
 
 // Focus sempre en la caixa de cerca (amb el text seleccionat)
-// Amb el text seleccionat és molt còmode: esborrar-lo o editar-lo
+// Amb el text seleccionat és molt còmode esborrar-lo o editar-lo
 function prepareInputSearchQuery() {
     if(!synonimsIsMobile()) {
         jQuery('#cerca_diccionari_engcat').select();
