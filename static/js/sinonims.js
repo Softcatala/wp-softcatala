@@ -1,17 +1,29 @@
 /** Formulari afegeix programa **/
 var $sinonims_form = jQuery('#sinonims_form');
 
-$sinonims_form.on('submit', function(ev) {
+// Listener per gestionar els botons d'endavant/endarrere del navegador
+window.addEventListener('popstate', function (event) {
+    if (event.state && event.state.query) {
+        jQuery('#sinonims').val(event.state.query);
+        executarCercaSinonims(event.state.query, false);
+    }
+});
+
+$sinonims_form.on('submit', function (ev) {
     ev.preventDefault();
 
     jQuery('#_action_consulta_sinonims').trigger('click');
 });
 
-jQuery('#_action_consulta_sinonims').click(function(){
-
-    jQuery("#loading").show();
+jQuery('#_action_consulta_sinonims').click(function () {
     var query = jQuery('#sinonims').val();
-    query = query.trim().replace("'", "’");
+    query = query.trim().replace("'", "'");
+    executarCercaSinonims(query, true);
+    return false;
+});
+
+function executarCercaSinonims(query, afegirHistorial) {
+    jQuery("#loading").show();
 
     if (query == "") {
         jQuery("#loading").hide();
@@ -19,10 +31,12 @@ jQuery('#_action_consulta_sinonims').click(function(){
         return;
     }
 
-    var url_history = '/diccionari-de-sinonims/paraula/'+query+'/';
-    history.pushState(null, null, url_history);
+    if (afegirHistorial) {
+        var url_history = '/diccionari-de-sinonims/paraula/' + query + '/';
+        history.pushState({ query: query }, null, url_history);
+    }
 
-    jQuery("#content_header_title").html('Diccionari de sinònims: «'+query+'»');
+    jQuery("#content_header_title").html('Diccionari de sinònims: «' + query + '»');
 
     update_share_links(query);
 
@@ -39,12 +53,10 @@ jQuery('#_action_consulta_sinonims').click(function(){
         dataType: 'json',
         contentType: false,
         processData: false,
-        success : print_synonims,
-        error : errorSynsets
+        success: print_synonims,
+        error: errorSynsets
     });
-
-    return false;
-});
+}
 
 function print_synonims(result) {
     jQuery("#loading").hide();
@@ -56,11 +68,11 @@ function print_synonims(result) {
 }
 
 function prepareInputSearchQuery() {
-    if(!synonimsIsMobile()) {
+    if (!synonimsIsMobile()) {
         jQuery('#sinonims').select();
         jQuery('#sinonims').focus();
     } else {
-        jQuery('#sinonims').val('');  
+        jQuery('#sinonims').val('');
     }
 }
 
@@ -69,23 +81,22 @@ function synonimsIsMobile() {
 }
 
 function errorSynsets(response) {
-    
+
     status = response.status != '0' ? response.status : 500;
-    
+
     sc_sendTracking(false, status);
-    
+
     show_message(response.responseJSON.html);
     prepareInputSearchQuery();
 }
 
 function sc_sendTracking(success, status) {
-    if (typeof(ga) == 'function')
-    {
+    if (typeof (ga) == 'function') {
         var url = success ? '' : status;
 
         url += document.location.pathname;
 
-       ga('send', 'pageview', url);
+        ga('send', 'pageview', url);
     }
 }
 
@@ -106,10 +117,10 @@ function update_share_links(query) {
 }
 
 function enableInlineLinks() {
-    jQuery('.diccionari-resultat#results a').click(function(ev) {
+    jQuery('.diccionari-resultat#results a').click(function (ev) {
         var sinonim = jQuery(this).data('sinonim');
 
-        if(sinonim) {
+        if (sinonim) {
             jQuery('#sinonims').val(sinonim)
 
             ev.preventDefault();

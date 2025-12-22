@@ -2,87 +2,82 @@
 
 var diccionari_engcat_form = jQuery('#diccionari_engcat_form');
 
+// Listener per gestionar els botons d'endavant/endarrere del navegador
+window.addEventListener('popstate', function (event) {
+    if (event.state && event.state.query && event.state.llengua) {
+        jQuery('#cerca_diccionari_engcat').val(event.state.query);
+        jQuery('#llengua_diccionari_engcat').val(event.state.llengua);
+        executarCercaDiccionari(event.state.query, event.state.llengua, false);
+    }
+});
 
-diccionari_engcat_form.on('submit', function(ev) {
+diccionari_engcat_form.on('submit', function (ev) {
     ev.preventDefault();
     jQuery('#_action_consulta_diccionari_engcat').trigger('click');
 });
 
 jQuery('#toggle_llengua_btn').on('click', function () {
 
-        let $select = jQuery('#llengua_diccionari_engcat');
-        let current = $select.val();
+    let $select = jQuery('#llengua_diccionari_engcat');
+    let current = $select.val();
 
-        if (current === 'cat') {
-            $select.val('eng');
-        } else {
-            $select.val('cat');
-        }
-      
-        $select.trigger('change');
-    });
+    if (current === 'cat') {
+        $select.val('eng');
+    } else {
+        $select.val('cat');
+    }
+
+    $select.trigger('change');
+});
 
 jQuery('#llengua_diccionari_engcat').on('change', function () {
-        prepareInputSearchQuery();
-    });
+    prepareInputSearchQuery();
+});
 
 
-jQuery('#_action_consulta_diccionari_engcat').click(function(){
-    
-    jQuery("#loading").show();
-    
+jQuery('#_action_consulta_diccionari_engcat').click(function () {
     var query = jQuery('#cerca_diccionari_engcat').val();
     var llengua = jQuery('#llengua_diccionari_engcat').val();
-       
-    query = query.trim().replace("'", "’");
+    query = query.trim().replace("'", "'");
+    executarCercaDiccionari(query, llengua, true);
+    return false;
+});
 
-    if (!query || (llengua !== "cat" && llengua !== "eng") ) {
+function executarCercaDiccionari(query, llengua, afegirHistorial) {
+    jQuery("#loading").show();
+
+    if (!query || (llengua !== "cat" && llengua !== "eng")) {
         jQuery("#loading").hide();
         prepareInputSearchQuery();
         return;
     }
-    
-    /*
-    var url_history = '/diccionari-angles-catala/' + llengua + '/paraula/'+query+'/';
-    history.pushState(null, null, url_history);
 
-    let title = 'Diccionari català-anglès'; // per defecte
-
-    if (llengua === 'eng') {
-        title = 'Diccionari anglès-català';
-    }
-
-    jQuery("#content_header_title").html(title + ': «' + query + '»');
-
-    update_share_links(query);
-    */
     var post_data = new FormData();
-        post_data.append('paraula', query);
-        post_data.append('llengua', llengua);
-        post_data.append('action', 'diccionari_engcat_search');
-       
-        jQuery.ajax({
-            url: scajax.ajax_url,
-            type: 'POST',
-            data: post_data,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success : print_results,
-            error : ko_function
-            
-        });
+    post_data.append('paraula', query);
+    post_data.append('llengua', llengua);
+    post_data.append('action', 'diccionari_engcat_search');
 
-    return false;
+    jQuery.ajax({
+        url: scajax.ajax_url,
+        type: 'POST',
+        data: post_data,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success: function (result) { print_results(result, afegirHistorial); },
+        error: function (result) { ko_function(result, afegirHistorial); }
 
-});
+    });
+}
 
-function print_results(result) {
-    var url_history = result.canonical;
-    history.pushState(null, null, url_history);
+function print_results(result, afegirHistorial) {
+    if (afegirHistorial) {
+        var query = extractQueryFromCanonical(result.canonical);
+        var llengua = extractLlenguaFromCanonical(result.canonical);
+        history.pushState({ query: query, llengua: llengua }, null, result.canonical);
+    }
     update_share_links(result.canonical);
     sc_sendTracking(true);
-    //jQuery('#cerca_diccionari_engcat').val('');
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
     jQuery('.diccionari-resultat').html(result.html);
@@ -106,13 +101,15 @@ function print_results(result) {
         $select.val(lang).trigger('change');
     }
     prepareInputSearchQuery();
-    
+
 }
 
-function ko_function(result) {
-    
-    var url_history = result.responseJSON.canonical;
-    history.pushState(null, null, url_history);
+function ko_function(result, afegirHistorial) {
+    if (afegirHistorial && result.responseJSON && result.responseJSON.canonical) {
+        var query = extractQueryFromCanonical(result.responseJSON.canonical);
+        var llengua = extractLlenguaFromCanonical(result.responseJSON.canonical);
+        history.pushState({ query: query, llengua: llengua }, null, result.responseJSON.canonical);
+    }
     sc_404sendTracking(false, result.responseJSON.status, result.responseJSON.description);
     prepareInputSearchQuery();
     jQuery("#content_header_title").html('Diccionari anglès-català');
@@ -121,25 +118,37 @@ function ko_function(result) {
     jQuery('.diccionari-resultat').html(result.responseJSON.html);
     jQuery('.diccionari-resultat').slideDown();
 }
+
+// Extreu la paraula cercada de la URL canònica
+// Format: /diccionari-angles-catala/{llengua}/paraula/{query}/
+function extractQueryFromCanonical(canonical) {
+    var match = canonical.match(/\/paraula\/([^\/]+)\/?$/);
+    return match ? decodeURIComponent(match[1]) : '';
+}
+
+// Extreu la llengua de la URL canònica
+function extractLlenguaFromCanonical(canonical) {
+    var match = canonical.match(/\/(cat|eng)\/paraula\//);
+    return match ? match[1] : 'eng';
+}
+
 function sc_404sendTracking(success, status, verb) {
-    if (typeof(ga) == 'function')
-    {
+    if (typeof (ga) == 'function') {
         var url = success ? '' : status;
 
         url += document.location.pathname + verb;
 
-       ga('send', 'pageview', url);
+        ga('send', 'pageview', url);
     }
 }
 
 function sc_sendTracking(success, status) {
-    if (typeof(ga) == 'function')
-    {
+    if (typeof (ga) == 'function') {
         var url = success ? '' : status;
 
         url += document.location.pathname;
 
-       ga('send', 'pageview', url);
+        ga('send', 'pageview', url);
     }
 }
 
@@ -157,10 +166,10 @@ function update_share_links(query) {
 
 // Show and hide corpus
 
-jQuery(document).on('click', '.mostra_corpus', function(e) {
-    e.preventDefault(); 
+jQuery(document).on('click', '.mostra_corpus', function (e) {
+    e.preventDefault();
     var $this = jQuery(this);
-    var $corpus_hidden = $this.closest('table').find('tr.corpus_hidden'); 
+    var $corpus_hidden = $this.closest('table').find('tr.corpus_hidden');
     $corpus_hidden.toggle();
     $this.text($corpus_hidden.is(':visible') ? 'Mostra menys exemples' : 'Mostra més exemples')
 });
@@ -172,7 +181,7 @@ function synonimsIsMobile() {
 // Focus sempre en la caixa de cerca (amb el text seleccionat)
 // Amb el text seleccionat és molt còmode esborrar-lo o editar-lo
 function prepareInputSearchQuery() {
-    if(!synonimsIsMobile()) {
+    if (!synonimsIsMobile()) {
         jQuery('#cerca_diccionari_engcat').select();
         jQuery('#cerca_diccionari_engcat').focus();
     } else {
