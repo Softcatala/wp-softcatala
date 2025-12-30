@@ -28,9 +28,10 @@ $llengua = sanitize_text_field( urldecode( get_query_var('llengua') ) );
 $canonical = '';
 $prefix_description = '';
 
+$diccionari = new SC_Diccionari_engcat();
+
 if( ! empty ( $paraula ) && empty( $llengua ) ) {
     try {
-        $diccionari = new SC_Diccionari_engcat();
         $r = $diccionari->get_paraula_with_language_detection( $paraula );
         
         if ( isset( $r->detected_language ) ) {
@@ -44,7 +45,6 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
     $llengua = 'eng';
 } else if( ! empty ( $paraula ) && ! empty ( $llengua ) ) {
     try {
-        $diccionari = new SC_Diccionari_engcat();
         $r = $diccionari->get_paraula( $paraula, $llengua );
         $canonical = $r->canonical;
 	    $title = $r->title;
@@ -61,7 +61,6 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
 
     if (strlen( $lletra ) == '1' && ($llengua == 'cat' || $llengua == 'eng')) {   
         try {
-            $diccionari = new SC_Diccionari_engcat();
             $r = $diccionari->get_lletra( $lletra, $llengua );
 
             $canonical = $r->canonical;
@@ -81,7 +80,6 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
 
 $stats = false;
 try {
-    $diccionari = new SC_Diccionari_engcat();
     $stats = $diccionari->get_stats();
 } catch ( Throwable $e ) {
     // Fail silently for stats

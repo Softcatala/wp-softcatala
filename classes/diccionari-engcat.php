@@ -12,6 +12,8 @@ class SC_Diccionari_engcat {
 
 	private $path = "/diccionari-angles-catala";
 
+	const STATS_TRANSIENT = 'SC_diccionari_engcat_sessions';
+
 	public static function init() {
 		new SC_Diccionari_engcat();
 	}
@@ -245,7 +247,25 @@ class SC_Diccionari_engcat {
 		return $this->notFound( $lletra );
 	}
 
+
 	public function get_stats() {
+
+		$stats = get_transient( self::STATS_TRANSIENT );
+
+		if ( false === $stats ) {
+
+			$stats = $this->get_uncached_stats();
+
+			if ( false !== $stats ) {
+				set_transient( self::STATS_TRANSIENT, $stats, DAY_IN_SECONDS );
+			}
+		}
+
+		return $stats;
+	}
+
+
+	private function get_uncached_stats() {
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . '/stats/';
 
