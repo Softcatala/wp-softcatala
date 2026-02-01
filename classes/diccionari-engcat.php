@@ -314,7 +314,7 @@ class SC_Diccionari_engcat {
 
 		$html = "No hem trobat cap resultat de cerca.";
 		
-		return new SC_Diccionari_EngCatResult( 404, $html, '', '', '', '' );
+		return new SC_Diccionari_EngCatResult( 404, $html, '', '', 'Diccionari anglès-català - Softcatalà', 'Diccionari anglès-català - Softcatalà' );
 			
 	}
 
