@@ -12,9 +12,9 @@
         <div id="comment-{{ post.ID }}_0"></div>
     </article>
     {% if reverse_comments %}
-    {% set comments = post.get_comments() | reverse %}
+    {% set comments = post.comments | reverse %}
     {% else %}
-    {% set comments = post.get_comments() %}
+    {% set comments = post.comments %}
     {% endif %}
     {% for cmt in comments %}
         {% if loop.index == 4 %}<div id="mescomentaris_{{ post.ID }}" class="mescomentaris collapse">{% endif %}
