@@ -1535,6 +1535,7 @@ function sc_cron_update_downloads() {
 	}
 }
 add_action( 'sc_update_downloads_cron', 'sc_cron_update_downloads' );
+add_action( 'init', 'sc_schedule_downloads_update' );
 
 /**
  * Schedule the downloads update cron job (call this once to set up)
