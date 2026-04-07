@@ -85,13 +85,14 @@ class Projecte extends PostType {
 		switch ( $column ) {
 			case 'image':
 				$image = get_post_meta( $post_id, 'logotip', true );
-				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
+				echo wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
 				break;
 
 			case 'responsable':
-				$user = get_field( 'responsable', $post_id );
-				if ( $user ) {
-					echo esc_html( $user['display_name'] );
+				$users = get_field( 'responsable', $post_id );
+				if ( is_array( $users ) ) {
+					$names = array_map( fn( $u ) => $u['display_name'], $users );
+					echo esc_html( implode( ', ', $names ) );
 				}
 				break;
 
