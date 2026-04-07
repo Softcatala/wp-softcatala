@@ -42,6 +42,7 @@ class Projecte extends PostType {
 		$is_projecte_screen  = isset( $_GET['post_type'] ) && $_GET['post_type'] === 'projecte';
 		$is_default_view     = ! isset( $_GET['show_all'] ) && ! isset( $_GET['post_status'] );
 		if ( is_admin() && $query->is_main_query() && $is_projecte_screen && $is_default_view ) {
+			$query->set( 'post_status', 'publish' );
 			$query->set(
 				'tax_query',
 				array(
