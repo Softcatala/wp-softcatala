@@ -22,18 +22,42 @@ class Projecte extends PostType {
 	public function add_active_projects_view( $views ) {
 		$is_default = ! isset( $_GET['show_all'] );
 
-		// Point the built-in "All" link to opt-out of the active filter.
+		// Count active (published, not arxivat) projects.
+		$count_query = new \WP_Query(
+			array(
+				'post_type'      => 'projecte',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'classificacio',
+						'field'    => 'slug',
+						'terms'    => 'arxivat',
+						'operator' => 'NOT IN',
+					),
+				),
+			)
+		);
+		$active_count = $count_query->found_posts;
+
+		// Point the built-in "All" link to opt-out of the active filter,
+		// and mark it current when show_all=1.
 		if ( isset( $views['all'] ) ) {
 			$all_url      = add_query_arg( 'show_all', '1', admin_url( 'edit.php?post_type=projecte' ) );
 			$views['all'] = preg_replace( '/href="[^"]+"/', 'href="' . esc_url( $all_url ) . '"', $views['all'] );
 			if ( $is_default ) {
 				$views['all'] = str_replace( array( ' class="current"', ' aria-current="page"' ), '', $views['all'] );
+			} else {
+				$views['all'] = str_replace( '<a ', '<a class="current" aria-current="page" ', $views['all'] );
 			}
 		}
 
 		$active_url  = admin_url( 'edit.php?post_type=projecte' );
 		$current     = $is_default ? ' class="current" aria-current="page"' : '';
-		$active_view = '<a href="' . esc_url( $active_url ) . '"' . $current . '>' . __( 'Projectes actius', 'softcatala' ) . '</a>';
+		$active_view = '<a href="' . esc_url( $active_url ) . '"' . $current . '>'
+			. __( 'Projectes actius', 'softcatala' )
+			. ' <span class="count">(' . $active_count . ')</span></a>';
 
 		return array_merge( array( 'projectes_actius' => $active_view ), $views );
 	}
