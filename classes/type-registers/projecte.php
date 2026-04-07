@@ -88,6 +88,13 @@ class Projecte extends PostType {
 				wp_get_attachment_image( $image, 'full', false, array( 'style' => 'max-width:100px;height:auto;' ) );
 				break;
 
+			case 'responsable':
+				$user = get_field( 'responsable', $post_id );
+				if ( $user ) {
+					echo esc_html( $user['display_name'] );
+				}
+				break;
+
 			default:
 				return;
 		}
@@ -98,7 +105,8 @@ class Projecte extends PostType {
 		return array_merge(
 			$columns,
 			array(
-				'image' => 'Imatge',
+				'image'       => 'Imatge',
+				'responsable' => 'Responsable',
 			)
 		);
 	}
