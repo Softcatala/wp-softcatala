@@ -14,6 +14,46 @@ class Projecte extends PostType {
 
 	public function __construct() {
 		parent::__construct( 'Projecte', 'Projectes', true );
+
+		add_filter( 'views_edit-projecte', array( $this, 'add_active_projects_view' ) );
+		add_action( 'pre_get_posts', array( $this, 'filter_active_projects' ) );
+	}
+
+	public function add_active_projects_view( $views ) {
+		$is_default = ! isset( $_GET['show_all'] );
+
+		// Point the built-in "All" link to opt-out of the active filter.
+		if ( isset( $views['all'] ) ) {
+			$all_url      = add_query_arg( 'show_all', '1', admin_url( 'edit.php?post_type=projecte' ) );
+			$views['all'] = preg_replace( '/href="[^"]+"/', 'href="' . esc_url( $all_url ) . '"', $views['all'] );
+			if ( $is_default ) {
+				$views['all'] = str_replace( array( ' class="current"', ' aria-current="page"' ), '', $views['all'] );
+			}
+		}
+
+		$active_url  = admin_url( 'edit.php?post_type=projecte' );
+		$current     = $is_default ? ' class="current" aria-current="page"' : '';
+		$active_view = '<a href="' . esc_url( $active_url ) . '"' . $current . '>' . __( 'Projectes actius', 'softcatala' ) . '</a>';
+
+		return array_merge( array( 'projectes_actius' => $active_view ), $views );
+	}
+
+	public function filter_active_projects( $query ) {
+		$is_projecte_screen  = isset( $_GET['post_type'] ) && $_GET['post_type'] === 'projecte';
+		$is_default_view     = ! isset( $_GET['show_all'] ) && ! isset( $_GET['post_status'] );
+		if ( is_admin() && $query->is_main_query() && $is_projecte_screen && $is_default_view ) {
+			$query->set(
+				'tax_query',
+				array(
+					array(
+						'taxonomy' => 'categoria_projecte',
+						'field'    => 'slug',
+						'terms'    => 'arxivat',
+						'operator' => 'NOT IN',
+					),
+				)
+			);
+		}
 	}
 
 	public function custom_columns( $column, $post_id ) {
