@@ -46,7 +46,7 @@ class Projecte extends PostType {
 				'tax_query',
 				array(
 					array(
-						'taxonomy' => 'categoria_projecte',
+						'taxonomy' => 'classificacio',
 						'field'    => 'slug',
 						'terms'    => 'arxivat',
 						'operator' => 'NOT IN',
