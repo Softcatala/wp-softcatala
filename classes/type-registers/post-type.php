@@ -56,8 +56,9 @@ class PostType {
 			$this->enable_subpages();
 		}
 
-		add_filter( 'manage_' . $this->singular . '_posts_columns', array( $this, 'add_columns_to_admin' ) );
-		add_action( 'manage_' . $this->singular . '_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
+		$slug = strtolower( str_replace( ' ', '-', $this->singular ) );
+		add_filter( 'manage_' . $slug . '_posts_columns', array( $this, 'add_columns_to_admin' ) );
+		add_action( 'manage_' . $slug . '_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 	public function add_columns_to_admin( $columns ) {
