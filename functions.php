@@ -35,6 +35,7 @@ if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 include( 'inc/perfils.php' );
 include( 'rest/downloads-api.php' );
+include( 'rest/projectes-csv-api.php' );
 
 
 
@@ -56,6 +57,7 @@ class StarterSite extends \Timber\Site {
 		
 		// Register REST API endpoints for downloads updater
 		add_action( 'rest_api_init', 'sc_register_downloads_api' );
+		add_action( 'rest_api_init', 'sc_register_projectes_api' );
 		
 		add_filter( 'xv_podcasts_log_file', function( $v ) {
 			return ABSPATH . '../podcast.log';
