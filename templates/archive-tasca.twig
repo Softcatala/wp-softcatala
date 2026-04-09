@@ -190,10 +190,10 @@
         <div class="kanban-card-detail__content">
             {{ td.content|raw }}
         </div>
-        {% if user_info.is_connected %}
+        {% if user_info.is_connected and td.edit_url %}
         <div class="kanban-card-detail__actions">
             <a class="btn btn-default btn-sm"
-               href="/wp-admin/post.php?post={{ task_id }}&action=edit"
+               href="{{ td.edit_url }}"
                target="_blank"
                rel="noopener">
                 <i class="fa fa-pencil" aria-hidden="true"></i> Edita la tasca

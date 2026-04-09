@@ -144,6 +144,7 @@ foreach ( $tasks as $task ) {
 		'tag_slugs'          => implode( ',', $tag_slugs ),
 		'estat_slug'         => $estat_slug,
 		'comments'           => get_comments( array( 'post_id' => $task->ID, 'status' => 'approve' ) ),
+		'edit_url'           => $is_logged_in ? get_edit_post_link( $task->ID, 'url' ) : '',
 	);
 }
 
