@@ -57,6 +57,10 @@ jQuery( document ).ready( function ( $ ) {
 
 	// ─── Column collapse toggle ────────────────────────────────────────────────
 
+	var COL_WIDTH     = 220; // px — must match .kanban-column width in kanban.css
+	var COL_COLLAPSED = 48;  // px — must match .kanban-column--collapsed width
+	var COL_GAP       = 14;  // px — must match .kanban-board gap
+
 	/**
 	 * Toggle collapsed state on a collapsible column.
 	 * Works for both click and keyboard (Enter/Space) on the header.
@@ -67,6 +71,63 @@ jQuery( document ).ready( function ( $ ) {
 		$column.find( '.kanban-column__header' )
 		       .attr( 'aria-expanded', collapsed ? 'true' : 'false' );
 	}
+
+	/**
+	 * On load: decide which empty collapsible columns to collapse.
+	 *
+	 * Strategy: if all columns fit within the board's available width, expand
+	 * everything. If not, collapse empty collapsible columns one by one (in
+	 * reverse order — last columns first) until everything fits.
+	 */
+	function initCollapseState() {
+		var $board       = $( '#kanban-board' );
+		var boardWidth   = $board.parent().width(); // available width (container)
+		var $allCols     = $board.children( '.kanban-column, .kanban-column--terminal' );
+		var totalCols    = $allCols.length;
+
+		// Width if every column were fully expanded.
+		var fullWidth = totalCols * COL_WIDTH + Math.max( 0, totalCols - 1 ) * COL_GAP;
+
+		// First: strip any server-rendered collapsed classes — JS owns this now.
+		$allCols.each( function () {
+			$( this ).removeClass( 'kanban-column--collapsed' );
+			$( this ).find( '.kanban-column__header' ).attr( 'aria-expanded', 'true' );
+		} );
+
+		if ( fullWidth <= boardWidth ) {
+			// Everything fits — nothing to collapse.
+			return;
+		}
+
+		// Collect empty collapsible columns (candidates for collapsing).
+		// We collapse from the end of the board backwards so the most-used
+		// columns (earlier in the flow) stay expanded first.
+		var $candidates = [];
+		$allCols.each( function () {
+			var $col = $( this );
+			if (
+				$col.data( 'collapsible' ) === 1 &&
+				$col.find( '.kanban-card' ).length === 0
+			) {
+				$candidates.push( $col );
+			}
+		} );
+		$candidates.reverse(); // collapse rightmost empty columns first
+
+		var currentWidth = fullWidth;
+		for ( var i = 0; i < $candidates.length; i++ ) {
+			if ( currentWidth <= boardWidth ) {
+				break;
+			}
+			var $col = $candidates[ i ];
+			$col.addClass( 'kanban-column--collapsed' );
+			$col.find( '.kanban-column__header' ).attr( 'aria-expanded', 'false' );
+			// Collapsing saves (COL_WIDTH - COL_COLLAPSED) px.
+			currentWidth -= ( COL_WIDTH - COL_COLLAPSED );
+		}
+	}
+
+	initCollapseState();
 
 	$( document ).on( 'click', '.kanban-column[data-collapsible="1"] .kanban-column__header', function () {
 		toggleColumnCollapse( $( this ).closest( '.kanban-column' ) );
