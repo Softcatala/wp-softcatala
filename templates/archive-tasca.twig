@@ -191,6 +191,14 @@
             {{ td.content|raw }}
         </div>
         {% if user_info.is_connected %}
+        <div class="kanban-card-detail__actions">
+            <a class="btn btn-default btn-sm"
+               href="/wp-admin/post.php?post={{ task_id }}&action=edit"
+               target="_blank"
+               rel="noopener">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Edita la tasca
+            </a>
+        </div>
         <section class="kanban-card-detail__comments">
             <hr>
             <h5>Comentaris</h5>

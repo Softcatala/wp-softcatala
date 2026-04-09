@@ -494,6 +494,29 @@
 }
 
 /* --------------------------------------------------------------------------
+   Task detail (modal body) — actions bar (edit link, etc.)
+   -------------------------------------------------------------------------- */
+
+.kanban-card-detail__actions {
+    margin-bottom: 12px;
+}
+
+.kanban-card-detail__actions .btn {
+    border-radius: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-color: #ddd;
+    color: #555;
+}
+
+.kanban-card-detail__actions .btn:hover {
+    border-color: #c43434;
+    color: #c43434;
+    background: #fdf0f0;
+}
+
+/* --------------------------------------------------------------------------
    Task detail (modal body) — assignee list with avatar + display name
    -------------------------------------------------------------------------- */
 
