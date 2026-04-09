@@ -1,0 +1,68 @@
+{
+    "key": "group_milestone_fields",
+    "title": "Milestone fields",
+    "fields": [
+        {
+            "key": "field_projecte_milestone",
+            "label": "Projecte",
+            "name": "projecte_milestone",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Projecte al qual pertany aquest milestone.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "projecte"
+            ],
+            "taxonomy": [],
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_data_objectiu",
+            "label": "Data objectiu",
+            "name": "data_objectiu",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "Data objectiu per a completar el milestone.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d/m/Y",
+            "return_format": "Y-m-d",
+            "first_day": 1,
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "milestone"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Camps de gestió per al tipus de contingut Milestone.",
+    "show_in_rest": 0,
+    "modified": 1744185600
+}

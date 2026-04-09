@@ -1,0 +1,59 @@
+{#
+  Kanban card partial.
+
+  Variables expected:
+    task — WP_Post object
+    td   — associative array from tasks_data (built in archive-tasca.php):
+             ID, title, content, projecte_slug, projecte_name, assignee_usernames,
+             milestone_id, milestone_title, data_venciment, tag_slugs, estat_slug
+#}
+<div class="kanban-card"
+     data-id="{{ td.ID }}"
+     data-projecte="{{ td.projecte_slug }}"
+     data-assignee="{{ td.assignee_usernames }}"
+     data-milestone="{{ td.milestone_id }}"
+     data-estat="{{ td.estat_slug }}"
+     data-tags="{{ td.tag_slugs }}"
+     data-due="{{ td.data_venciment }}"
+     tabindex="0"
+     role="button"
+     aria-label="{{ td.title }}">
+
+    <div class="kanban-card__handle" aria-hidden="true">
+        <span class="fa fa-bars"></span>
+    </div>
+
+    <div class="kanban-card__body">
+        <p class="kanban-card__title">{{ td.title }}</p>
+
+        {% if td.projecte_name %}
+        <p class="kanban-card__projecte text-muted small">{{ td.projecte_name }}</p>
+        {% endif %}
+
+        <div class="kanban-card__meta">
+            {% if td.data_venciment %}
+            <span class="kanban-card__due" title="Data de venciment">
+                <i class="fa fa-calendar"></i> {{ td.data_venciment }}
+            </span>
+            {% endif %}
+
+            {% if td.milestone_title %}
+            <span class="kanban-card__milestone" title="Milestone">
+                <i class="fa fa-flag-o"></i> {{ td.milestone_title }}
+            </span>
+            {% endif %}
+
+            {% if td.assignee_usernames %}
+            <span class="kanban-card__assignee" title="Responsables">
+                <i class="fa fa-user"></i> {{ td.assignee_usernames }}
+            </span>
+            {% endif %}
+
+            {% if td.tag_slugs %}
+            <span class="kanban-card__tags" title="Etiquetes">
+                <i class="fa fa-tag"></i> {{ td.tag_slugs|replace({',': ', '}) }}
+            </span>
+            {% endif %}
+        </div>
+    </div>
+</div>

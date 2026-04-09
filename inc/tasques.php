@@ -170,6 +170,38 @@ function sc_guard_estat_tasca_delete( $pre_delete, $term_id ) {
 }
 
 /**
+ * Restrict the milestone_tasca ACF Post Object field to milestones linked to the
+ * same projecte as the task being edited.
+ *
+ * When no projecte is selected (new/unsaved task), all milestones are shown.
+ *
+ * @param array  $args    WP_Query arguments passed to ACF.
+ * @param array  $field   ACF field array.
+ * @param int    $post_id The post being edited.
+ * @return array Modified WP_Query args.
+ */
+function sc_filter_milestone_tasca_by_projecte( $args, $field, $post_id ) {
+	// Resolve the currently selected projecte for this task.
+	$projecte = get_field( 'projecte_tasca', $post_id );
+	$projecte_id = is_array( $projecte ) ? ( $projecte['ID'] ?? 0 ) : (int) $projecte;
+
+	if ( ! $projecte_id ) {
+		// No projecte selected — show all milestones.
+		return $args;
+	}
+
+	// Filter milestones by the meta value of the projecte_milestone ACF field.
+	$args['meta_query'] = array(
+		array(
+			'key'   => 'projecte_milestone',
+			'value' => $projecte_id,
+		),
+	);
+
+	return $args;
+}
+
+/**
  * Invalidate the sc_internal_projecte_ids transient when a projecte is saved
  * and the tasques_internes ACF field may have changed.
  *

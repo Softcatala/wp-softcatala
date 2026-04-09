@@ -1,0 +1,46 @@
+{
+    "key": "group_projecte_privacy",
+    "title": "Projecte privacy",
+    "fields": [
+        {
+            "key": "field_tasques_internes",
+            "label": "Tasques internes",
+            "name": "tasques_internes",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Marqueu aquesta opció per amagar les tasques d'aquest projecte als visitants anònims del tauler kanban.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Les tasques d'aquest projecte són internes i no es mostraran als visitants anònims.",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Sí",
+            "ui_off_text": "No",
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "projecte"
+            }
+        ]
+    ],
+    "menu_order": 10,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Configuració de privacitat de les tasques per a projectes.",
+    "show_in_rest": 0,
+    "modified": 1744185600
+}

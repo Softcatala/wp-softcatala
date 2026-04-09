@@ -1,0 +1,112 @@
+{
+    "key": "group_tasca_fields",
+    "title": "Tasca fields",
+    "fields": [
+        {
+            "key": "field_projecte_tasca",
+            "label": "Projecte",
+            "name": "projecte_tasca",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Projecte al qual pertany aquesta tasca.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "projecte"
+            ],
+            "taxonomy": [],
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_milestone_tasca",
+            "label": "Milestone",
+            "name": "milestone_tasca",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Milestone al qual pertany aquesta tasca. Filtrat als milestones del projecte seleccionat.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "milestone"
+            ],
+            "taxonomy": [],
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 1,
+            "ui": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_responsable_tasca",
+            "label": "Responsable(s)",
+            "name": "responsable_tasca",
+            "aria-label": "",
+            "type": "user",
+            "instructions": "Persones assignades a aquesta tasca.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "role": [],
+            "return_format": "array",
+            "multiple": 1,
+            "allow_null": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_data_venciment",
+            "label": "Data de venciment",
+            "name": "data_venciment",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "Data límit per a completar la tasca.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d/m/Y",
+            "return_format": "Y-m-d",
+            "first_day": 1,
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "tasca"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Camps de gestió per al tipus de contingut Tasca.",
+    "show_in_rest": 0,
+    "modified": 1744185600
+}

@@ -119,6 +119,9 @@ class StarterSite extends \Timber\Site {
 		// Task management: invalidate internal-projecte transient when tasques_internes changes.
 		add_action( 'save_post_projecte', 'sc_invalidate_internal_projecte_ids_transient', 10, 2 );
 
+		// Task management: restrict milestone_tasca ACF field to milestones of the selected projecte.
+		add_filter( 'acf/fields/post_object/query/name=milestone_tasca', 'sc_filter_milestone_tasca_by_projecte', 10, 3 );
+
 		add_action(
 			'wp',
 			function () {
@@ -208,6 +211,21 @@ class StarterSite extends \Timber\Site {
 		locate_template( array( 'inc/ajax_operations.php' ), true, true );
 		locate_template( array( 'inc/rewrites.php' ), true, true );
 		load_theme_textdomain('softcatala', get_template_directory() . '/languages');
+
+		// ACF Local JSON: load field groups from acf-json/ and save edits back there.
+		add_filter(
+			'acf/settings/load_json',
+			function ( $paths ) {
+				$paths[] = get_stylesheet_directory() . '/acf-json';
+				return $paths;
+			}
+		);
+		add_filter(
+			'acf/settings/save_json',
+			function () {
+				return get_stylesheet_directory() . '/acf-json';
+			}
+		);
 	}
 
 	function register_ui_settings() {
