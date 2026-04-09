@@ -182,7 +182,9 @@
             {% if td.projecte_name %}<p><strong>Projecte:</strong> {{ td.projecte_name }}</p>{% endif %}
             {% if td.milestone_title %}<p><strong>Milestone:</strong> {{ td.milestone_title }}</p>{% endif %}
             {% if td.data_venciment %}<p><strong>Data de venciment:</strong> {{ td.data_venciment }}</p>{% endif %}
-            {% if td.assignee_usernames %}<p><strong>Responsables:</strong> {{ td.assignee_usernames }}</p>{% endif %}
+            {% if td.assignees is not empty %}
+            <div class="kanban-detail__assignees-row"><strong>Responsables:</strong><span class="kanban-detail__assignees">{% for assignee in td.assignees %}<span class="kanban-detail__assignee"><span class="kanban-card__avatar kanban-card__avatar--sm" title="{{ assignee.display_name }}"{% if assignee.gravatar_url %} style="background-image:url('{{ assignee.gravatar_url }}'); color:transparent;"{% endif %}>{% if not assignee.gravatar_url %}{{ assignee.display_name|slice(0,1)|upper }}{% endif %}</span>{{ assignee.display_name }}</span>{% endfor %}</span></div>
+            {% endif %}
             {% if td.tag_slugs %}<p><strong>Etiquetes:</strong> {{ td.tag_slugs }}</p>{% endif %}
         </div>
         <div class="kanban-card-detail__content">

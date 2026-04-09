@@ -482,6 +482,42 @@
 }
 
 /* --------------------------------------------------------------------------
+   Task detail (modal body) — assignee list with avatar + display name
+   -------------------------------------------------------------------------- */
+
+.kanban-detail__assignees {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.kanban-detail__assignee {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.kanban-detail__assignees-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+/* Smaller avatar variant for modal meta row */
+.kanban-card__avatar--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
    Bootstrap modal — restore backdrop opacity (theme variable sets it to 0.8)
    -------------------------------------------------------------------------- */
 
