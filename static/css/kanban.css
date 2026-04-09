@@ -31,9 +31,9 @@
    -------------------------------------------------------------------------- */
 
 .kanban-column {
-    flex: 0 0 200px;
-    width: 200px;
-    min-width: 200px;
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 220px;
     background: #f5f4f4;
     border-top: 3px solid #c43434;
     display: flex;
@@ -93,9 +93,9 @@
 
 /* Terminal stacked column */
 .kanban-column--terminal {
-    flex: 0 0 200px;
-    width: 200px;
-    min-width: 200px;
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 220px;
     background: #f5f4f4;
     border-top: 3px solid #888;
     display: flex;
@@ -346,7 +346,7 @@
 
 /* Milestone badge */
 .kanban-card__badge--milestone {
-    max-width: 100px;
+    max-width: 110px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
