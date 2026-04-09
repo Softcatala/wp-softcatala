@@ -4,14 +4,22 @@
 {% if entry.comment %}
     (<i>{{ entry.comment }}</i>)
 {% endif %}
+{% set synonims_has_comma = false %}
 {% for word in entry.synonimWords %}
-    {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+    {% if ',' in word.wordString %}{% set synonims_has_comma = true %}{% endif %}
+{% endfor %}
+{% for word in entry.synonimWords %}
+    {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last, 'use_semicolon': synonims_has_comma } only %}
 {% endfor %}
 {% if entry.antonymWords %}
     ‖
     <span>ANTÒNIMS:
+        {% set antonyms_has_comma = false %}
         {% for word in entry.antonymWords %}
-            {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last } only %}
+            {% if ',' in word.wordString %}{% set antonyms_has_comma = true %}{% endif %}
+        {% endfor %}
+        {% for word in entry.antonymWords %}
+            {% include 'ajax/sinonims-paraula-entryword.twig' with {'word': word, 'last': loop.last, 'use_semicolon': antonyms_has_comma } only %}
         {% endfor %}
     </span>
 {% endif %}
