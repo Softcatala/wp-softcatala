@@ -482,23 +482,9 @@
 }
 
 /* --------------------------------------------------------------------------
-   Bootstrap modal — fix z-index stacking against .cd-main-content (z-index:2)
-
-   .cd-main-content has z-index:2 which creates a stacking context that traps
-   the modal inside it. The Bootstrap backdrop is appended to <body> as a
-   sibling and renders behind .cd-main-content even at z-index:1040, because
-   the modal itself (inside the stacking context) can never paint above the
-   backdrop (outside it) regardless of its own z-index.
-
-   Resetting z-index to auto dissolves the stacking context so the modal and
-   backdrop both participate in the root stacking context as expected.
+   Bootstrap modal — restore backdrop opacity (theme variable sets it to 0.8)
    -------------------------------------------------------------------------- */
 
-.cd-main-content {
-    z-index: auto;
-}
-
-/* Restore Bootstrap's default opacity (theme variable sets it to 0.8) */
 .modal-backdrop,
 .modal-backdrop.in {
     opacity: 0.5 !important;

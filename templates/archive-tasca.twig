@@ -147,73 +147,9 @@
                 </div>
                 {% endif %}
 
-            </div>{# /.kanban-board #}
+             </div>{# /.kanban-board #}
 
             {% endif %}{# end empty-state else #}
-
-            {# ── Bootstrap modal for task detail ── #}
-            <div class="modal fade" id="kanban-modal" tabindex="-1" role="dialog" aria-labelledby="kanban-modal-label">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Tanca"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="kanban-modal-label"></h4>
-                        </div>
-                        <div class="modal-body" id="kanban-modal-body">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {# ── Hidden task detail divs (pre-rendered server-side) ── #}
-            <div id="kanban-modals" style="display:none;">
-                {% for task_id, td in tasks_data %}
-                <div class="kanban-card-detail" id="task-detail-{{ task_id }}">
-                    <div class="kanban-card-detail__meta">
-                        {% if td.projecte_name %}<p><strong>Projecte:</strong> {{ td.projecte_name }}</p>{% endif %}
-                        {% if td.milestone_title %}<p><strong>Milestone:</strong> {{ td.milestone_title }}</p>{% endif %}
-                        {% if td.data_venciment %}<p><strong>Data de venciment:</strong> {{ td.data_venciment }}</p>{% endif %}
-                        {% if td.assignee_usernames %}<p><strong>Responsables:</strong> {{ td.assignee_usernames }}</p>{% endif %}
-                        {% if td.tag_slugs %}<p><strong>Etiquetes:</strong> {{ td.tag_slugs }}</p>{% endif %}
-                    </div>
-                    <div class="kanban-card-detail__content">
-                        {{ td.content|raw }}
-                    </div>
-                    {% if user_info.is_connected %}
-                    <section class="kanban-card-detail__comments">
-                        <hr>
-                        <h5>Comentaris</h5>
-                        {% for cmt in td.comments %}
-                            <div class="kanban-comment">
-                                <strong>{{ cmt.comment_author }}</strong>
-                                <span class="text-muted">{{ cmt.comment_date|date("d/m/Y") }}</span>
-                                <p>{{ cmt.comment_content }}</p>
-                            </div>
-                        {% else %}
-                            <p class="text-muted">Encara no hi ha comentaris.</p>
-                        {% endfor %}
-                        <div class="kanban-comment-form">
-                            <form class="form-horizontal" method="post" action="/wp/wp-comments-post.php">
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <textarea rows="4" class="form-control" placeholder="Afegiu un comentari…" name="comment" required="required"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12 form-botons">
-                                        <input type="hidden" value="{{ task_id }}" name="comment_post_ID">
-                                        <input type="hidden" value="0" name="comment_parent">
-                                        <input type="hidden" value="/tasques/" name="redirect_page">
-                                        <button class="bt-basic bt-basic-vermell-fosc" type="submit">Envia</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </section>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>{# /#kanban-modals #}
 
             {# ── Error/notice container ── #}
             <div id="kanban-notice" class="alert" style="display:none; position:fixed; bottom:20px; right:20px; z-index:9999; max-width:400px;"></div>
@@ -221,6 +157,72 @@
         </div>{# /.contingut #}
     </div>{# /.container-fluid #}
 </main>
+
+{# ── Bootstrap modal — outside <main class="cd-main-content"> so that the
+   CSS transform on that element (applied by the sliding nav JS) does not
+   trap position:fixed children and break the backdrop stacking order. ── #}
+<div class="modal fade" id="kanban-modal" tabindex="-1" role="dialog" aria-labelledby="kanban-modal-label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Tanca"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="kanban-modal-label"></h4>
+            </div>
+            <div class="modal-body" id="kanban-modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ── Hidden task detail divs (pre-rendered server-side) ── #}
+<div id="kanban-modals" style="display:none;">
+    {% for task_id, td in tasks_data %}
+    <div class="kanban-card-detail" id="task-detail-{{ task_id }}">
+        <div class="kanban-card-detail__meta">
+            {% if td.projecte_name %}<p><strong>Projecte:</strong> {{ td.projecte_name }}</p>{% endif %}
+            {% if td.milestone_title %}<p><strong>Milestone:</strong> {{ td.milestone_title }}</p>{% endif %}
+            {% if td.data_venciment %}<p><strong>Data de venciment:</strong> {{ td.data_venciment }}</p>{% endif %}
+            {% if td.assignee_usernames %}<p><strong>Responsables:</strong> {{ td.assignee_usernames }}</p>{% endif %}
+            {% if td.tag_slugs %}<p><strong>Etiquetes:</strong> {{ td.tag_slugs }}</p>{% endif %}
+        </div>
+        <div class="kanban-card-detail__content">
+            {{ td.content|raw }}
+        </div>
+        {% if user_info.is_connected %}
+        <section class="kanban-card-detail__comments">
+            <hr>
+            <h5>Comentaris</h5>
+            {% for cmt in td.comments %}
+                <div class="kanban-comment">
+                    <strong>{{ cmt.comment_author }}</strong>
+                    <span class="text-muted">{{ cmt.comment_date|date("d/m/Y") }}</span>
+                    <p>{{ cmt.comment_content }}</p>
+                </div>
+            {% else %}
+                <p class="text-muted">Encara no hi ha comentaris.</p>
+            {% endfor %}
+            <div class="kanban-comment-form">
+                <form class="form-horizontal" method="post" action="/wp/wp-comments-post.php">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <textarea rows="4" class="form-control" placeholder="Afegiu un comentari…" name="comment" required="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 form-botons">
+                            <input type="hidden" value="{{ task_id }}" name="comment_post_ID">
+                            <input type="hidden" value="0" name="comment_parent">
+                            <input type="hidden" value="/tasques/" name="redirect_page">
+                            <button class="bt-basic bt-basic-vermell-fosc" type="submit">Envia</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
 
 {% include "call-to-action-bottom.twig" %}
 
