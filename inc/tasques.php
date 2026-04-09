@@ -8,6 +8,124 @@
  * @package Softcatala
  */
 
+// ---------------------------------------------------------------------------
+// archived post status
+// ---------------------------------------------------------------------------
+
+/**
+ * Register the 'archived' post status for the tasca post type.
+ *
+ * Tasks in this status are excluded from the public kanban board (the board
+ * queries only 'publish' posts). They remain accessible in the WP admin under
+ * the "Arxivades" view so they are never lost.
+ */
+function sc_register_archived_post_status() {
+	register_post_status(
+		'archived',
+		array(
+			'label'                     => _x( 'Arxivada', 'post status', 'softcatala' ),
+			'label_count'               => _n_noop( 'Arxivada <span class="count">(%s)</span>', 'Arxivades <span class="count">(%s)</span>', 'softcatala' ),
+			'public'                    => false,
+			'exclude_from_search'       => true,
+			'show_in_admin_all_list'    => false,
+			'show_in_admin_status_list' => true,
+		)
+	);
+}
+
+/**
+ * Inject 'archived' into the post status dropdown on the tasca edit screen.
+ *
+ * WordPress only adds custom statuses to the dropdown via JavaScript — this
+ * outputs a small inline script that appends the option and, if the current
+ * post already has status 'archived', selects it and updates the display label.
+ */
+function sc_inject_archived_status_in_editor() {
+	global $post;
+	if ( ! $post || 'tasca' !== $post->post_type ) {
+		return;
+	}
+	$selected = 'archived' === $post->post_status ? 'selected="selected"' : '';
+	?>
+	<script>
+	jQuery( function( $ ) {
+		$( '#post_status' ).append(
+			'<option value="archived" <?php echo esc_attr( $selected ); ?>>Arxivada</option>'
+		);
+		<?php if ( 'archived' === $post->post_status ) : ?>
+		$( '#save-action .save-post-status' ).text( 'Arxivada' );
+		$( '#save-post' ).val( 'Actualitza' );
+		<?php endif; ?>
+	} );
+	</script>
+	<?php
+}
+
+/**
+ * Handle the 'archive_tasca' bulk action on the tasca list table.
+ *
+ * @param string $redirect_url URL to redirect to after the action.
+ * @param string $action       The bulk action being processed.
+ * @param int[]  $post_ids     Array of post IDs selected.
+ * @return string Redirect URL with result query arg appended.
+ */
+function sc_bulk_archive_tasques( $redirect_url, $action, $post_ids ) {
+	if ( 'archive_tasca' !== $action ) {
+		return $redirect_url;
+	}
+
+	$count = 0;
+	foreach ( $post_ids as $post_id ) {
+		if ( 'tasca' !== get_post_type( $post_id ) ) {
+			continue;
+		}
+		wp_update_post(
+			array(
+				'ID'          => $post_id,
+				'post_status' => 'archived',
+			)
+		);
+		++$count;
+	}
+
+	return add_query_arg( 'sc_archived', $count, remove_query_arg( array( 'archive_tasca', 'untrashed' ), $redirect_url ) );
+}
+
+/**
+ * Add the 'Arxivar' option to the bulk actions dropdown on the tasca list table.
+ *
+ * @param array $actions Existing bulk actions.
+ * @return array Modified bulk actions.
+ */
+function sc_add_archive_tasca_bulk_action( $actions ) {
+	$actions['archive_tasca'] = __( 'Arxivar', 'softcatala' );
+	return $actions;
+}
+
+/**
+ * Show an admin notice after bulk-archiving tasks.
+ */
+function sc_archived_tasques_admin_notice() {
+	if ( empty( $_REQUEST['sc_archived'] ) ) {
+		return;
+	}
+	$count = (int) $_REQUEST['sc_archived'];
+	printf(
+		'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+		esc_html(
+			sprintf(
+				/* translators: %d: number of archived tasks */
+				_n( '%d tasca arxivada.', '%d tasques arxivades.', $count, 'softcatala' ),
+				$count
+			)
+		)
+	);
+}
+
+// ---------------------------------------------------------------------------
+// estat_tasca term meta & admin UI
+// ---------------------------------------------------------------------------
+
 /**
  * Register term meta for estat_tasca column ordering.
  */
@@ -95,8 +213,28 @@ function sc_estat_tasca_order_column_content( $content, $column_name, $term_id )
 }
 
 /**
+ * Canonical list of estat_tasca terms: slug => [ name, order ].
+ *
+ * Used by both the theme-activation seeder and the WP-CLI upsert command so
+ * that a single change here is reflected everywhere.
+ *
+ * @return array
+ */
+function sc_estat_tasca_defaults() {
+	return array(
+		'propostes'  => array( 'Propostes',  1 ),
+		'pendent'    => array( 'Pendent',    2 ),
+		'bloquejada' => array( 'Bloquejada', 3 ),
+		'en-curs'    => array( 'En curs',    4 ),
+		'feta'       => array( 'Feta',       5 ),
+		'no-es-fara' => array( 'No es farà', 6 ),
+	);
+}
+
+/**
  * Seed the default estat_tasca terms on theme activation.
- * Only inserts terms if none exist yet (safe to call on every activation).
+ * Only inserts terms if none exist yet (safe to call on first activation).
+ * For already-seeded sites use `wp sc seed-estats` which upserts.
  */
 function sc_seed_estat_tasca() {
 	$existing = get_terms(
@@ -111,15 +249,9 @@ function sc_seed_estat_tasca() {
 		return;
 	}
 
-	$defaults = array(
-		'Pendent'    => 1,
-		'En curs'    => 2,
-		'Bloquejada' => 3,
-		'Feta'       => 4,
-	);
-
-	foreach ( $defaults as $name => $order ) {
-		$result = wp_insert_term( $name, 'estat_tasca' );
+	foreach ( sc_estat_tasca_defaults() as $slug => $data ) {
+		list( $name, $order ) = $data;
+		$result = wp_insert_term( $name, 'estat_tasca', array( 'slug' => $slug ) );
 		if ( ! is_wp_error( $result ) ) {
 			update_term_meta( $result['term_id'], 'order', $order );
 		}

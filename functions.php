@@ -122,6 +122,13 @@ class StarterSite extends \Timber\Site {
 		// Task management: restrict milestone_tasca ACF field to milestones of the selected projecte.
 		add_filter( 'acf/fields/post_object/query/name=milestone_tasca', 'sc_filter_milestone_tasca_by_projecte', 10, 3 );
 
+		// Task management: register 'archived' post status and wire admin UI for it.
+		add_action( 'init', 'sc_register_archived_post_status' );
+		add_action( 'post_submitbox_misc_actions', 'sc_inject_archived_status_in_editor' );
+		add_filter( 'bulk_actions-edit-tasca', 'sc_add_archive_tasca_bulk_action' );
+		add_filter( 'handle_bulk_actions-edit-tasca', 'sc_bulk_archive_tasques', 10, 3 );
+		add_action( 'admin_notices', 'sc_archived_tasques_admin_notice' );
+
 		add_action(
 			'wp',
 			function () {
