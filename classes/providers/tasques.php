@@ -247,10 +247,14 @@ class Tasques {
 
 		// Load the order meta for each term and sort: primary by order (int), secondary by name.
 		foreach ( $terms as $term ) {
-			$term->board_order = (int) get_term_meta( $term->term_id, 'order', true );
+			$term->board_order   = (int) get_term_meta( $term->term_id, 'order', true );
 			if ( 0 === $term->board_order ) {
 				$term->board_order = 99;
 			}
+			// collapsible defaults to true (empty string = never saved = use default).
+			$collapsible = get_term_meta( $term->term_id, 'collapsible', true );
+			$term->collapsible = ( '' === $collapsible ) ? true : (bool) $collapsible;
+			$term->is_terminal = (bool) get_term_meta( $term->term_id, 'is_terminal', true );
 		}
 
 		usort(

@@ -46,6 +46,65 @@
     border-top-color: #ccc;
 }
 
+/* Collapsed column — only header, narrow strip */
+.kanban-column--collapsed {
+    flex: 0 0 48px;
+    width: 48px;
+    min-width: 48px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.kanban-column--collapsed .kanban-column__header {
+    height: 100%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 12px 0;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.kanban-column--collapsed .kanban-column__title {
+    flex-direction: column-reverse;
+    gap: 6px;
+    font-size: 10px;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+}
+
+/* Terminal stacked column */
+.kanban-column--terminal {
+    flex: 0 0 240px;
+    width: 240px;
+    min-width: 240px;
+    background: #f5f4f4;
+    border-top: 3px solid #888;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 220px);
+    min-height: 300px;
+}
+
+.kanban-column__section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Each section's cards area shares the column height */
+.kanban-column--terminal .kanban-column__cards {
+    flex: 1;
+}
+
+.kanban-column__divider {
+    height: 1px;
+    background: #d0cecd;
+    margin: 0 10px;
+    flex-shrink: 0;
+}
+
 /* Column header */
 .kanban-column__header {
     padding: 10px 12px 8px;
@@ -367,11 +426,29 @@
         overflow-x: visible;
     }
 
-    .kanban-column {
+    .kanban-column,
+    .kanban-column--terminal,
+    .kanban-column--collapsed {
         flex: none;
         width: 100%;
         min-width: 0;
         max-height: none;
+    }
+
+    /* On mobile, collapsed columns expand fully */
+    .kanban-column--collapsed {
+        height: auto;
+        writing-mode: initial;
+    }
+
+    .kanban-column--collapsed .kanban-column__header {
+        writing-mode: initial;
+        height: auto;
+    }
+
+    .kanban-column--collapsed .kanban-column__title {
+        writing-mode: initial;
+        flex-direction: row;
     }
 
     .kanban-column__cards {

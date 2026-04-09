@@ -127,7 +127,14 @@ function sc_archived_tasques_admin_notice() {
 // ---------------------------------------------------------------------------
 
 /**
- * Register term meta for estat_tasca column ordering.
+ * Register term meta for estat_tasca column ordering and behaviour flags.
+ *
+ * - order       (int)  : column position, lowest first (default 99).
+ * - collapsible (bool) : when true the column collapses to a narrow strip if it
+ *                        has no tasks. All columns are collapsible by default.
+ * - is_terminal (bool) : marks final/terminal states (e.g. Feta, No es farà).
+ *                        Terminal columns are grouped together in a single stacked
+ *                        column on the board so they take up less horizontal space.
  */
 function sc_register_estat_tasca_order_meta() {
 	register_term_meta(
@@ -138,6 +145,28 @@ function sc_register_estat_tasca_order_meta() {
 			'single'            => true,
 			'default'           => 99,
 			'sanitize_callback' => 'absint',
+			'show_in_rest'      => false,
+		)
+	);
+	register_term_meta(
+		'estat_tasca',
+		'collapsible',
+		array(
+			'type'              => 'boolean',
+			'single'            => true,
+			'default'           => true,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'show_in_rest'      => false,
+		)
+	);
+	register_term_meta(
+		'estat_tasca',
+		'is_terminal',
+		array(
+			'type'              => 'boolean',
+			'single'            => true,
+			'default'           => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
 			'show_in_rest'      => false,
 		)
 	);
@@ -153,6 +182,20 @@ function sc_estat_tasca_add_order_field() {
 		<input type="number" name="estat_tasca_order" id="estat_tasca_order" value="99" min="0" step="1">
 		<p><?php esc_html_e( 'Ordre de la columna al tauler kanban (els valors més baixos apareixen primer).', 'softcatala' ); ?></p>
 	</div>
+	<div class="form-field">
+		<label for="estat_tasca_collapsible">
+			<input type="checkbox" name="estat_tasca_collapsible" id="estat_tasca_collapsible" value="1" checked="checked">
+			<?php esc_html_e( 'Replegable quan buida', 'softcatala' ); ?>
+		</label>
+		<p><?php esc_html_e( 'Si no té tasques, la columna es mostra com una tira estreta al tauler.', 'softcatala' ); ?></p>
+	</div>
+	<div class="form-field">
+		<label for="estat_tasca_is_terminal">
+			<input type="checkbox" name="estat_tasca_is_terminal" id="estat_tasca_is_terminal" value="1">
+			<?php esc_html_e( 'Estat terminal', 'softcatala' ); ?>
+		</label>
+		<p><?php esc_html_e( 'Els estats terminals s\'apilen en una sola columna al costat dret del tauler.', 'softcatala' ); ?></p>
+	</div>
 	<?php
 }
 
@@ -162,7 +205,12 @@ function sc_estat_tasca_add_order_field() {
  * @param WP_Term $term The term being edited.
  */
 function sc_estat_tasca_edit_order_field( $term ) {
-	$order = (int) get_term_meta( $term->term_id, 'order', true );
+	$order       = (int) get_term_meta( $term->term_id, 'order', true );
+	$collapsible = get_term_meta( $term->term_id, 'collapsible', true );
+	$is_terminal = get_term_meta( $term->term_id, 'is_terminal', true );
+	// Default for collapsible: true when the meta has never been saved (empty string).
+	$collapsible_checked = ( '' === $collapsible || filter_var( $collapsible, FILTER_VALIDATE_BOOLEAN ) ) ? 'checked="checked"' : '';
+	$terminal_checked    = filter_var( $is_terminal, FILTER_VALIDATE_BOOLEAN ) ? 'checked="checked"' : '';
 	?>
 	<tr class="form-field">
 		<th scope="row"><label for="estat_tasca_order"><?php esc_html_e( 'Ordre', 'softcatala' ); ?></label></th>
@@ -171,11 +219,26 @@ function sc_estat_tasca_edit_order_field( $term ) {
 			<p class="description"><?php esc_html_e( 'Ordre de la columna al tauler kanban (els valors més baixos apareixen primer).', 'softcatala' ); ?></p>
 		</td>
 	</tr>
+	<tr class="form-field">
+		<th scope="row"><label for="estat_tasca_collapsible"><?php esc_html_e( 'Replegable quan buida', 'softcatala' ); ?></label></th>
+		<td>
+			<input type="checkbox" name="estat_tasca_collapsible" id="estat_tasca_collapsible" value="1" <?php echo $collapsible_checked; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<p class="description"><?php esc_html_e( 'Si no té tasques, la columna es mostra com una tira estreta al tauler.', 'softcatala' ); ?></p>
+		</td>
+	</tr>
+	<tr class="form-field">
+		<th scope="row"><label for="estat_tasca_is_terminal"><?php esc_html_e( 'Estat terminal', 'softcatala' ); ?></label></th>
+		<td>
+			<input type="checkbox" name="estat_tasca_is_terminal" id="estat_tasca_is_terminal" value="1" <?php echo $terminal_checked; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<p class="description"><?php esc_html_e( 'Els estats terminals s\'apilen en una sola columna al costat dret del tauler.', 'softcatala' ); ?></p>
+		</td>
+	</tr>
 	<?php
 }
 
 /**
- * Save the "ordre" term meta when an estat_tasca term is created or edited.
+ * Save the "ordre", "collapsible" and "is_terminal" term meta when an
+ * estat_tasca term is created or edited.
  *
  * @param int $term_id The term ID.
  */
@@ -183,6 +246,9 @@ function sc_save_estat_tasca_order_meta( $term_id ) {
 	if ( isset( $_POST['estat_tasca_order'] ) ) {
 		update_term_meta( $term_id, 'order', absint( $_POST['estat_tasca_order'] ) );
 	}
+	// Checkboxes are absent from POST when unchecked, so treat absence as false.
+	update_term_meta( $term_id, 'collapsible', isset( $_POST['estat_tasca_collapsible'] ) ? 1 : 0 );
+	update_term_meta( $term_id, 'is_terminal', isset( $_POST['estat_tasca_is_terminal'] ) ? 1 : 0 );
 }
 
 /**
@@ -213,7 +279,7 @@ function sc_estat_tasca_order_column_content( $content, $column_name, $term_id )
 }
 
 /**
- * Canonical list of estat_tasca terms: slug => [ name, order ].
+ * Canonical list of estat_tasca terms: slug => [ name, order, collapsible, is_terminal ].
  *
  * Used by both the theme-activation seeder and the WP-CLI upsert command so
  * that a single change here is reflected everywhere.
@@ -222,12 +288,13 @@ function sc_estat_tasca_order_column_content( $content, $column_name, $term_id )
  */
 function sc_estat_tasca_defaults() {
 	return array(
-		'propostes'  => array( 'Propostes',  1 ),
-		'pendent'    => array( 'Pendent',    2 ),
-		'bloquejada' => array( 'Bloquejada', 3 ),
-		'en-curs'    => array( 'En curs',    4 ),
-		'feta'       => array( 'Feta',       5 ),
-		'no-es-fara' => array( 'No es farà', 6 ),
+		//                    name           order  collapsible  is_terminal
+		'propostes'  => array( 'Propostes',   1,     true,        false ),
+		'pendent'    => array( 'Pendent',     2,     true,        false ),
+		'bloquejada' => array( 'Bloquejada',  3,     true,        false ),
+		'en-curs'    => array( 'En curs',     4,     true,        false ),
+		'feta'       => array( 'Feta',        5,     false,       true  ),
+		'no-es-fara' => array( 'No es farà',  6,     false,       true  ),
 	);
 }
 
@@ -254,6 +321,8 @@ function sc_seed_estat_tasca() {
 		$result = wp_insert_term( $name, 'estat_tasca', array( 'slug' => $slug ) );
 		if ( ! is_wp_error( $result ) ) {
 			update_term_meta( $result['term_id'], 'order', $order );
+			update_term_meta( $result['term_id'], 'collapsible', isset( $data[2] ) ? (int) $data[2] : 1 );
+			update_term_meta( $result['term_id'], 'is_terminal', isset( $data[3] ) ? (int) $data[3] : 0 );
 		}
 	}
 }

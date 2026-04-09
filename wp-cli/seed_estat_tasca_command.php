@@ -1,20 +1,21 @@
 <?php
 
 /**
- * Upsert default estat_tasca terms, including order meta.
+ * Upsert default estat_tasca terms, including order and behaviour flag meta.
  *
  * Safe to run on both fresh and already-seeded sites — inserts missing terms
- * and updates the order meta of existing ones. Uses the canonical list from
- * sc_estat_tasca_defaults() so a single change there propagates everywhere.
+ * and updates the order, collapsible, and is_terminal meta of existing ones.
+ * Uses the canonical list from sc_estat_tasca_defaults() so a single change
+ * there propagates everywhere.
  *
  * Usage: wp sc seed-estats
  */
 class Seed_Estat_Tasca_Command extends WP_CLI_Command {
 
 	/**
-	 * Upsert the default estat_tasca column terms and their order.
+	 * Upsert the default estat_tasca column terms and their meta.
 	 *
-	 * Missing terms are created; existing terms have their order meta updated.
+	 * Missing terms are created; existing terms have their meta updated.
 	 * Safe to run multiple times — no duplicates will be created.
 	 *
 	 * ## EXAMPLES
@@ -30,19 +31,35 @@ class Seed_Estat_Tasca_Command extends WP_CLI_Command {
 
 		foreach ( $defaults as $slug => $data ) {
 			list( $name, $order ) = $data;
+			$collapsible = isset( $data[2] ) ? (int) $data[2] : 1;
+			$is_terminal = isset( $data[3] ) ? (int) $data[3] : 0;
 
 			$existing = get_term_by( 'slug', $slug, 'estat_tasca' );
 
 			if ( $existing ) {
 				update_term_meta( $existing->term_id, 'order', $order );
-				WP_CLI::log( sprintf( 'Updated "%s" (order: %d)', $name, $order ) );
+				update_term_meta( $existing->term_id, 'collapsible', $collapsible );
+				update_term_meta( $existing->term_id, 'is_terminal', $is_terminal );
+				WP_CLI::log( sprintf(
+					'Updated "%s" (order: %d, collapsible: %s, terminal: %s)',
+					$name, $order,
+					$collapsible ? 'yes' : 'no',
+					$is_terminal ? 'yes' : 'no'
+				) );
 			} else {
 				$result = wp_insert_term( $name, 'estat_tasca', array( 'slug' => $slug ) );
 				if ( is_wp_error( $result ) ) {
 					WP_CLI::warning( sprintf( 'Could not insert term "%s": %s', $name, $result->get_error_message() ) );
 				} else {
 					update_term_meta( $result['term_id'], 'order', $order );
-					WP_CLI::log( sprintf( 'Created "%s" (order: %d)', $name, $order ) );
+					update_term_meta( $result['term_id'], 'collapsible', $collapsible );
+					update_term_meta( $result['term_id'], 'is_terminal', $is_terminal );
+					WP_CLI::log( sprintf(
+						'Created "%s" (order: %d, collapsible: %s, terminal: %s)',
+						$name, $order,
+						$collapsible ? 'yes' : 'no',
+						$is_terminal ? 'yes' : 'no'
+					) );
 				}
 			}
 		}

@@ -101,23 +101,52 @@
                 </div>
                 {% endif %}
 
-                {# Regular estat_tasca columns #}
+                {# Regular (non-terminal) estat_tasca columns #}
                 {% for estat in estats %}
-                <div class="kanban-column"
+                {% if not estat.is_terminal %}
+                {% set col_tasks = tasks_by_estat[estat.slug] is defined ? tasks_by_estat[estat.slug] : [] %}
+                {% set is_empty  = col_tasks|length == 0 %}
+                <div class="kanban-column{% if is_empty and estat.collapsible %} kanban-column--collapsed{% endif %}"
                      data-estat="{{ estat.slug }}">
                     <div class="kanban-column__header">
-                        <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ tasks_by_estat[estat.slug]|length }}</span></h3>
+                        <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ col_tasks|length }}</span></h3>
                     </div>
+                    {% if not (is_empty and estat.collapsible) %}
                     <div class="kanban-column__cards">
-                        {% if tasks_by_estat[estat.slug] is defined %}
-                            {% for task in tasks_by_estat[estat.slug] %}
+                        {% for task in col_tasks %}
+                            {% set td = tasks_data[task.ID] %}
+                            {% include "components/kanban-card.twig" with {task: task, td: td} %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {# Terminal states — stacked into one column, separated by a divider #}
+                {% set terminal_estats = estats|filter(e => e.is_terminal) %}
+                {% if terminal_estats is not empty %}
+                <div class="kanban-column kanban-column--terminal"
+                     data-estat="terminal">
+                    {% for estat in terminal_estats %}
+                    {% set col_tasks = tasks_by_estat[estat.slug] is defined ? tasks_by_estat[estat.slug] : [] %}
+                    <div class="kanban-column__section" data-estat="{{ estat.slug }}">
+                        <div class="kanban-column__header">
+                            <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ col_tasks|length }}</span></h3>
+                        </div>
+                        <div class="kanban-column__cards">
+                            {% for task in col_tasks %}
                                 {% set td = tasks_data[task.ID] %}
                                 {% include "components/kanban-card.twig" with {task: task, td: td} %}
                             {% endfor %}
-                        {% endif %}
+                        </div>
                     </div>
+                    {% if not loop.last %}
+                    <div class="kanban-column__divider" aria-hidden="true"></div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                {% endif %}
 
             </div>{# /.kanban-board #}
 
