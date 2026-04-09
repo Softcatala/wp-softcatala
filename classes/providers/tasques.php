@@ -54,7 +54,13 @@ class Tasques {
 					if ( ! $projecte ) {
 						return true; // No projecte linked — show to everyone.
 					}
-					$projecte_id = is_array( $projecte ) ? ( $projecte['ID'] ?? 0 ) : (int) $projecte;
+					if ( $projecte instanceof \WP_Post ) {
+						$projecte_id = $projecte->ID;
+					} elseif ( is_array( $projecte ) ) {
+						$projecte_id = (int) ( $projecte['ID'] ?? 0 );
+					} else {
+						$projecte_id = (int) $projecte;
+					}
 					return ! in_array( $projecte_id, $internal_ids, true );
 				}
 			)
@@ -121,16 +127,22 @@ class Tasques {
 			// Projecte.
 			$projecte = get_field( 'projecte_tasca', $task->ID );
 			if ( $projecte ) {
-				$p_id = is_array( $projecte ) ? ( $projecte['ID'] ?? 0 ) : (int) $projecte;
-				if ( $p_id && ! in_array( $p_id, $seen_projecte_ids, true ) ) {
-					$p_post = is_array( $projecte ) ? $projecte : get_post( $p_id );
-					if ( $p_post ) {
-						$projectes[]          = array(
-							'slug' => get_post_field( 'post_name', $p_id ),
-							'name' => get_the_title( $p_id ),
-						);
-						$seen_projecte_ids[] = $p_id;
-					}
+				if ( $projecte instanceof \WP_Post ) {
+					$p_id   = $projecte->ID;
+					$p_post = $projecte;
+				} elseif ( is_array( $projecte ) ) {
+					$p_id   = (int) ( $projecte['ID'] ?? 0 );
+					$p_post = $p_id ? get_post( $p_id ) : null;
+				} else {
+					$p_id   = (int) $projecte;
+					$p_post = $p_id ? get_post( $p_id ) : null;
+				}
+				if ( $p_id && $p_post && ! in_array( $p_id, $seen_projecte_ids, true ) ) {
+					$projectes[]          = array(
+						'slug' => get_post_field( 'post_name', $p_id ),
+						'name' => get_the_title( $p_id ),
+					);
+					$seen_projecte_ids[] = $p_id;
 				}
 			}
 

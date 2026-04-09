@@ -62,14 +62,15 @@
 
             </div>{# /.kanban-card__badges #}
 
-            {# Assignee avatars (initials) #}
-            {% if td.assignee_usernames %}
-            <div class="kanban-card__assignees" aria-label="Responsables: {{ td.assignee_usernames|replace({',': ', '}) }}">
-                {% for username in td.assignee_usernames|split(',') %}
-                {% if username|trim %}
+            {# Assignee avatars #}
+            {% if td.assignees is not empty %}
+            <div class="kanban-card__assignees" aria-label="Responsables: {{ td.assignees|map(a => a.display_name)|join(', ') }}">
+                {% for assignee in td.assignees %}
                 <div class="kanban-card__avatar"
-                     title="{{ username|trim }}">{{ username|trim|slice(0,1)|upper }}</div>
-                {% endif %}
+                     title="{{ assignee.display_name }}"
+                     {% if assignee.gravatar_url %}style="background-image:url('{{ assignee.gravatar_url }}'); color:transparent;"{% endif %}>
+                    {% if not assignee.gravatar_url %}{{ assignee.display_name|slice(0,1)|upper }}{% endif %}
+                </div>
                 {% endfor %}
             </div>
             {% endif %}

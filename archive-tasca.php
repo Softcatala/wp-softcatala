@@ -66,20 +66,51 @@ foreach ( $tasks as $task ) {
 	$projecte_slug = '';
 	$projecte_name = '';
 	if ( $projecte ) {
-		$p_id          = is_array( $projecte ) ? ( $projecte['ID'] ?? 0 ) : (int) $projecte;
-		$projecte_slug = get_post_field( 'post_name', $p_id );
-		$projecte_name = get_the_title( $p_id );
+		// ACF post_object with return_format=object gives a WP_Post; fall back to int.
+		if ( $projecte instanceof WP_Post ) {
+			$p_id = $projecte->ID;
+		} elseif ( is_array( $projecte ) ) {
+			$p_id = (int) ( $projecte['ID'] ?? 0 );
+		} else {
+			$p_id = (int) $projecte;
+		}
+		if ( $p_id ) {
+			$projecte_slug = get_post_field( 'post_name', $p_id );
+			$projecte_name = get_the_title( $p_id );
+		}
 	}
 
-	$assignee_usernames = array();
+	$assignees = array();
 	if ( $responsables ) {
 		if ( ! is_array( $responsables ) ) {
 			$responsables = array( $responsables );
 		}
 		foreach ( $responsables as $u ) {
-			$assignee_usernames[] = is_array( $u ) ? ( $u['user_login'] ?? '' ) : get_userdata( (int) $u )->user_login;
+			$uid          = is_array( $u ) ? (int) ( $u['ID'] ?? 0 ) : (int) $u;
+			$user_login   = is_array( $u ) ? ( $u['user_login'] ?? '' ) : '';
+			$display_name = is_array( $u ) ? ( $u['display_name'] ?? '' ) : '';
+			$user_email   = is_array( $u ) ? ( $u['user_email'] ?? '' ) : '';
+			if ( ! $user_login || ! $display_name ) {
+				$user_obj = get_userdata( $uid );
+				if ( $user_obj ) {
+					$user_login   = $user_obj->user_login;
+					$display_name = $user_obj->display_name;
+					$user_email   = $user_obj->user_email;
+				}
+			}
+			$gravatar_url = $user_email
+				? 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $user_email ) ) ) . '?s=48&d=mm&r=g'
+				: '';
+			if ( $user_login ) {
+				$assignees[] = array(
+					'username'     => $user_login,
+					'display_name' => $display_name,
+					'gravatar_url' => $gravatar_url,
+				);
+			}
 		}
 	}
+	$assignee_usernames = implode( ',', array_column( $assignees, 'username' ) );
 
 	$milestone_id    = 0;
 	$milestone_title = '';
@@ -107,7 +138,8 @@ foreach ( $tasks as $task ) {
 		'content'            => apply_filters( 'the_content', $task->post_content ),
 		'projecte_slug'      => $projecte_slug,
 		'projecte_name'      => $projecte_name,
-		'assignee_usernames' => implode( ',', $assignee_usernames ),
+		'assignees'          => $assignees,
+		'assignee_usernames' => $assignee_usernames,
 		'milestone_id'       => $milestone_id,
 		'milestone_title'    => $milestone_title,
 		'data_venciment'     => $data_venciment ?: '',
