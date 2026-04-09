@@ -36,6 +36,7 @@ if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 include( 'inc/perfils.php' );
 include( 'rest/downloads-api.php' );
 include( 'rest/projectes-csv-api.php' );
+include( 'rest/tasques-api.php' );
 
 
 
@@ -58,6 +59,7 @@ class StarterSite extends \Timber\Site {
 		// Register REST API endpoints for downloads updater
 		add_action( 'rest_api_init', 'sc_register_downloads_api' );
 		add_action( 'rest_api_init', 'sc_register_projectes_api' );
+		add_action( 'rest_api_init', 'sc_register_tasques_api' );
 		
 		add_filter( 'xv_podcasts_log_file', function( $v ) {
 			return ABSPATH . '../podcast.log';
@@ -90,6 +92,27 @@ class StarterSite extends \Timber\Site {
 		//SC Dashboard settings
 		add_action( 'admin_menu', array( $this, 'include_sc_settings' ) );
 		add_action( 'admin_init', array( $this, 'add_caps' ) );
+
+		// Task management: redirect anonymous users away from individual task permalinks.
+		add_action( 'template_redirect', array( $this, 'sc_redirect_tasca_to_login' ) );
+
+		// Task management: seed default estat_tasca terms on theme activation.
+		add_action( 'after_switch_theme', 'sc_seed_estat_tasca' );
+
+		// Task management: prevent deletion of estat_tasca terms with assigned tasks.
+		add_filter( 'pre_delete_term', 'sc_guard_estat_tasca_delete', 10, 2 );
+
+		// Task management: register term meta and admin UI for estat_tasca order.
+		add_action( 'init', 'sc_register_estat_tasca_order_meta' );
+		add_action( 'estat_tasca_add_form_fields', 'sc_estat_tasca_add_order_field' );
+		add_action( 'estat_tasca_edit_form_fields', 'sc_estat_tasca_edit_order_field', 10, 2 );
+		add_action( 'created_estat_tasca', 'sc_save_estat_tasca_order_meta' );
+		add_action( 'edited_estat_tasca', 'sc_save_estat_tasca_order_meta' );
+		add_filter( 'manage_edit-estat_tasca_columns', 'sc_estat_tasca_order_column' );
+		add_filter( 'manage_estat_tasca_custom_column', 'sc_estat_tasca_order_column_content', 10, 3 );
+
+		// Task management: invalidate internal-projecte transient when tasques_internes changes.
+		add_action( 'save_post_projecte', 'sc_invalidate_internal_projecte_ids_transient', 10, 2 );
 
 		add_action(
 			'wp',
@@ -393,6 +416,9 @@ class StarterSite extends \Timber\Site {
 			$role->add_cap( 'edit_pages' );
 			$role->add_cap( 'edit_published_pages' );
 			$role->add_cap( 'upload_files' );
+			// Required for capability_type 'post' on the tasca CPT.
+			$role->add_cap( 'edit_posts' );
+			$role->add_cap( 'edit_published_posts' );
 		}
 	}
 
@@ -433,6 +459,19 @@ class StarterSite extends \Timber\Site {
 		\Softcatala\TypeRegisters\Programa::get_instance();
 		\Softcatala\TypeRegisters\Projecte::get_instance();
 		\Softcatala\TypeRegisters\DadesObertes::get_instance();
+		\Softcatala\TypeRegisters\Tasca::get_instance();
+		\Softcatala\TypeRegisters\Milestone::get_instance();
+	}
+
+	/**
+	 * Redirect anonymous users away from individual tasca post permalinks to the login page.
+	 * The /tasques/ archive remains publicly accessible.
+	 */
+	function sc_redirect_tasca_to_login() {
+		if ( is_singular( 'tasca' ) && ! is_user_logged_in() ) {
+			wp_safe_redirect( wp_login_url( get_permalink() ) );
+			exit;
+		}
 	}
 
 	function add_user_nav_info_to_context( $context ) {
@@ -1557,5 +1596,188 @@ function sc_unschedule_downloads_update() {
 	if ( $timestamp ) {
 		wp_unschedule_event( $timestamp, 'sc_update_downloads_cron' );
 	}
+}
+
+// =============================================================================
+// Task Management (Kanban) — global helpers
+// =============================================================================
+
+/**
+ * Register term meta for estat_tasca column ordering.
+ */
+function sc_register_estat_tasca_order_meta() {
+	register_term_meta(
+		'estat_tasca',
+		'order',
+		array(
+			'type'              => 'integer',
+			'single'            => true,
+			'default'           => 99,
+			'sanitize_callback' => 'absint',
+			'show_in_rest'      => false,
+		)
+	);
+}
+
+/**
+ * Add the "Ordre" field to the Add New estat_tasca form.
+ */
+function sc_estat_tasca_add_order_field() {
+	?>
+	<div class="form-field">
+		<label for="estat_tasca_order"><?php esc_html_e( 'Ordre', 'softcatala' ); ?></label>
+		<input type="number" name="estat_tasca_order" id="estat_tasca_order" value="99" min="0" step="1">
+		<p><?php esc_html_e( 'Ordre de la columna al tauler kanban (els valors més baixos apareixen primer).', 'softcatala' ); ?></p>
+	</div>
+	<?php
+}
+
+/**
+ * Add the "Ordre" field to the Edit estat_tasca form.
+ *
+ * @param WP_Term $term The term being edited.
+ */
+function sc_estat_tasca_edit_order_field( $term ) {
+	$order = (int) get_term_meta( $term->term_id, 'order', true );
+	?>
+	<tr class="form-field">
+		<th scope="row"><label for="estat_tasca_order"><?php esc_html_e( 'Ordre', 'softcatala' ); ?></label></th>
+		<td>
+			<input type="number" name="estat_tasca_order" id="estat_tasca_order" value="<?php echo esc_attr( $order ); ?>" min="0" step="1">
+			<p class="description"><?php esc_html_e( 'Ordre de la columna al tauler kanban (els valors més baixos apareixen primer).', 'softcatala' ); ?></p>
+		</td>
+	</tr>
+	<?php
+}
+
+/**
+ * Save the "ordre" term meta when an estat_tasca term is created or edited.
+ *
+ * @param int $term_id The term ID.
+ */
+function sc_save_estat_tasca_order_meta( $term_id ) {
+	if ( isset( $_POST['estat_tasca_order'] ) ) {
+		update_term_meta( $term_id, 'order', absint( $_POST['estat_tasca_order'] ) );
+	}
+}
+
+/**
+ * Add an "Ordre" column to the estat_tasca taxonomy admin screen.
+ *
+ * @param array $columns Existing columns.
+ * @return array Modified columns.
+ */
+function sc_estat_tasca_order_column( $columns ) {
+	$columns['estat_order'] = __( 'Ordre', 'softcatala' );
+	return $columns;
+}
+
+/**
+ * Render the "Ordre" column value in the estat_tasca taxonomy admin screen.
+ *
+ * @param string $content    Existing content.
+ * @param string $column_name Column name.
+ * @param int    $term_id    Term ID.
+ * @return string Column content.
+ */
+function sc_estat_tasca_order_column_content( $content, $column_name, $term_id ) {
+	if ( 'estat_order' === $column_name ) {
+		$order = get_term_meta( $term_id, 'order', true );
+		return ( '' !== $order ) ? esc_html( $order ) : '99';
+	}
+	return $content;
+}
+
+/**
+ * Seed the default estat_tasca terms on theme activation.
+ * Only inserts terms if none exist yet (safe to call on every activation).
+ */
+function sc_seed_estat_tasca() {
+	$existing = get_terms(
+		array(
+			'taxonomy'   => 'estat_tasca',
+			'hide_empty' => false,
+			'fields'     => 'ids',
+		)
+	);
+
+	if ( ! empty( $existing ) && ! is_wp_error( $existing ) ) {
+		return;
+	}
+
+	$defaults = array(
+		'Pendent'   => 1,
+		'En curs'   => 2,
+		'Bloquejada' => 3,
+		'Feta'      => 4,
+	);
+
+	foreach ( $defaults as $name => $order ) {
+		$result = wp_insert_term( $name, 'estat_tasca' );
+		if ( ! is_wp_error( $result ) ) {
+			update_term_meta( $result['term_id'], 'order', $order );
+		}
+	}
+}
+
+/**
+ * Prevent deletion of an estat_tasca term that has tasks assigned.
+ *
+ * @param null|WP_Error $pre_delete Pre-delete value.
+ * @param int           $term_id    Term ID.
+ * @return null|WP_Error Null to allow deletion; WP_Error to prevent it.
+ */
+function sc_guard_estat_tasca_delete( $pre_delete, $term_id ) {
+	$term = get_term( $term_id );
+	if ( ! $term || is_wp_error( $term ) || 'estat_tasca' !== $term->taxonomy ) {
+		return $pre_delete;
+	}
+
+	$count_query = new WP_Query(
+		array(
+			'post_type'      => 'tasca',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'tax_query'      => array(
+				array(
+					'taxonomy' => 'estat_tasca',
+					'terms'    => $term_id,
+				),
+			),
+		)
+	);
+
+	if ( $count_query->found_posts > 0 ) {
+		return new WP_Error(
+			'sc_estat_tasca_has_tasks',
+			sprintf(
+				/* translators: %1$s: term name, %2$d: number of assigned tasks */
+				__( 'No es pot eliminar l\'estat "%1$s" perquè té %2$d tasca(es) assignada(es). Reassigneu les tasques abans d\'eliminar l\'estat.', 'softcatala' ),
+				esc_html( $term->name ),
+				$count_query->found_posts
+			)
+		);
+	}
+
+	return $pre_delete;
+}
+
+/**
+ * Invalidate the sc_internal_projecte_ids transient when a projecte is saved
+ * and the tasques_internes ACF field may have changed.
+ *
+ * NOTE: If a server-side page cache is active on the host, cached versions of
+ * /tasques/ may continue to show stale content until cache expiry. Configure a
+ * cache purge hook here once the hosting environment and caching plugin are known.
+ *
+ * @param int     $post_id Post ID.
+ * @param WP_Post $post    Post object.
+ */
+function sc_invalidate_internal_projecte_ids_transient( $post_id, $post ) {
+	if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+	delete_transient( 'sc_internal_projecte_ids' );
 }
 
