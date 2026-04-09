@@ -1,0 +1,87 @@
+{
+    "ID": 10480,
+    "key": "group_58c5827a7fbad",
+    "title": "Text amb menú esquerre - Opcions de visualització",
+    "fields": [
+        {
+            "ID": 10481,
+            "key": "field_58c5828d145f7",
+            "label": "Amaga la imatge destacada de la capçalera",
+            "name": "hide_featured_image_in_header",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "Voleu que la imatge destacada s'amague a la part superior de la pàgina?",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10480,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "_name": "hide_featured_image_in_header",
+            "_valid": 1
+        },
+        {
+            "ID": 10977,
+            "key": "field_597e490c3c779",
+            "label": "Activa els estils per a les PMF",
+            "name": "pmf",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10480,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "_name": "pmf",
+            "_valid": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_template",
+                "operator": "==",
+                "value": "plantilla-text-menuleft.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

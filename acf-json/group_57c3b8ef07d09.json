@@ -1,0 +1,124 @@
+{
+    "key": "group_57c3b8ef07d09",
+    "title": "Aparells",
+    "fields": [
+        {
+            "key": "field_57c3b91b0caf4",
+            "label": "Versió",
+            "name": "versio",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Versió del sistema operatiu",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
+            "key": "field_57c3b9360caf5",
+            "label": "Configuració en català",
+            "name": "conf_cat",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "1": "Sí",
+                "0": "No"
+            },
+            "default_value": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "disabled": 0,
+            "readonly": 0,
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_57c3b9970caf6",
+            "label": "Correcció ortogràfica en català",
+            "name": "correccio_cat",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "1": "Sí",
+                "0": "No",
+                "2": "N\/A",
+                "3": "Desconegut"
+            },
+            "default_value": 3,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "disabled": 0,
+            "readonly": 0,
+            "create_options": 0,
+            "save_options": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "aparell"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "permalink",
+        "the_content",
+        "excerpt",
+        "custom_fields",
+        "discussion",
+        "revisions",
+        "slug",
+        "author",
+        "format",
+        "page_attributes",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1775770919
+}

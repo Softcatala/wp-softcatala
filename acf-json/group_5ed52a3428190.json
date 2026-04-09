@@ -1,0 +1,60 @@
+{
+    "ID": 14895,
+    "key": "group_5ed52a3428190",
+    "title": "Dades remotes JSON",
+    "fields": [
+        {
+            "ID": 14896,
+            "key": "field_5ed52a438e397",
+            "label": "JSON API URL",
+            "name": "json_api_url",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "url",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "URL de l'API JSON des d'on obtenir les dades i generar la taula",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 14895,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "_name": "json_api_url",
+            "_valid": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_type",
+                "operator": "!=",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

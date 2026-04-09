@@ -1,0 +1,67 @@
+{
+    "ID": 10848,
+    "key": "group_5963f5c09fd74",
+    "title": "Subpàgines dels projectes",
+    "fields": [
+        {
+            "ID": 10849,
+            "key": "field_5963f5c0ae01b",
+            "label": "Projecte",
+            "name": "projecte",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "post_object",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10848,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "projecte"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "_name": "projecte",
+            "_valid": 1,
+            "bidirectional_target": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "post_template",
+                "operator": "==",
+                "value": "subpagina-projecte.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

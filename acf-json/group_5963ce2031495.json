@@ -1,0 +1,110 @@
+{
+    "ID": 10795,
+    "key": "group_5963ce2031495",
+    "title": "Baixades relacionades",
+    "fields": [
+        {
+            "ID": 10796,
+            "key": "field_5963ceeb12392",
+            "label": "Baixades relacionades amb la notícia",
+            "name": "baixades_relacionades",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "repeater",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10795,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Afegeix una fila",
+            "_name": "baixades_relacionades",
+            "_valid": 1,
+            "sub_fields": [
+                {
+                    "ID": 10797,
+                    "key": "field_5963cf1d12393",
+                    "label": "Fitxer",
+                    "name": "fitxer",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "file",
+                    "value": null,
+                    "menu_order": 0,
+                    "instructions": "",
+                    "required": 0,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 10796,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_size": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "_name": "fitxer",
+                    "_valid": 1,
+                    "parent_repeater": "field_5963ceeb12392"
+                }
+            ],
+            "rows_per_page": 20
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_type",
+                "operator": "!=",
+                "value": "front_page"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "esdeveniment"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

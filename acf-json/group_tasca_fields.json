@@ -1,16 +1,24 @@
 {
+    "ID": 0,
     "key": "group_tasca_fields",
     "title": "Tasca fields",
     "fields": [
         {
+            "ID": 0,
             "key": "field_projecte_tasca",
             "label": "Projecte",
             "name": "projecte_tasca",
             "aria-label": "",
+            "prefix": "acf",
             "type": "post_object",
+            "value": null,
+            "menu_order": 0,
             "instructions": "Projecte al qual pertany aquesta tasca.",
             "required": 1,
+            "id": "",
+            "class": "",
             "conditional_logic": 0,
+            "parent": "group_tasca_fields",
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -24,17 +32,27 @@
             "multiple": 0,
             "allow_null": 0,
             "ui": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "_name": "projecte_tasca",
+            "_valid": 1,
+            "bidirectional_target": []
         },
         {
+            "ID": 0,
             "key": "field_milestone_tasca",
             "label": "Milestone",
             "name": "milestone_tasca",
             "aria-label": "",
+            "prefix": "acf",
             "type": "post_object",
+            "value": null,
+            "menu_order": 1,
             "instructions": "Milestone al qual pertany aquesta tasca. Filtrat als milestones del projecte seleccionat.",
             "required": 0,
+            "id": "",
+            "class": "",
             "conditional_logic": 0,
+            "parent": "group_tasca_fields",
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -48,17 +66,27 @@
             "multiple": 0,
             "allow_null": 1,
             "ui": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "_name": "milestone_tasca",
+            "_valid": 1,
+            "bidirectional_target": []
         },
         {
+            "ID": 0,
             "key": "field_responsable_tasca",
             "label": "Responsable(s)",
             "name": "responsable_tasca",
             "aria-label": "",
+            "prefix": "acf",
             "type": "user",
+            "value": null,
+            "menu_order": 2,
             "instructions": "Persones assignades a aquesta tasca.",
             "required": 0,
+            "id": "",
+            "class": "",
             "conditional_logic": 0,
+            "parent": "group_tasca_fields",
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -68,26 +96,39 @@
             "return_format": "array",
             "multiple": 1,
             "allow_null": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "_name": "responsable_tasca",
+            "_valid": 1,
+            "bidirectional_target": []
         },
         {
+            "ID": 0,
             "key": "field_data_venciment",
             "label": "Data de venciment",
             "name": "data_venciment",
             "aria-label": "",
+            "prefix": "acf",
             "type": "date_picker",
+            "value": null,
+            "menu_order": 3,
             "instructions": "Data límit per a completar la tasca.",
             "required": 0,
+            "id": "",
+            "class": "",
             "conditional_logic": 0,
+            "parent": "group_tasca_fields",
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "display_format": "d/m/Y",
+            "display_format": "d\/m\/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
-            "allow_in_bindings": 0
+            "allow_in_bindings": 0,
+            "_name": "data_venciment",
+            "_valid": 1,
+            "default_to_current_date": 0
         }
     ],
     "location": [
@@ -108,5 +149,11 @@
     "active": true,
     "description": "Camps de gestió per al tipus de contingut Tasca.",
     "show_in_rest": 0,
-    "modified": 1744185600
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "local": "json",
+    "modified": 1744185600,
+    "local_file": "\/var\/www\/html\/wp\/..\/themes\/wp-softcatala\/acf-json\/group_tasca_fields.json",
+    "_valid": true
 }

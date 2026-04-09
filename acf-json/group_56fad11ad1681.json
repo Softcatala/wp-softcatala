@@ -1,0 +1,84 @@
+{
+    "ID": 0,
+    "key": "group_56fad11ad1681",
+    "title": "Blogs",
+    "fields": [
+        {
+            "ID": 0,
+            "key": "field_56fad124e62bf",
+            "label": "URL del blog",
+            "name": "blog_home_url",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "url",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": 1,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": "group_56fad11ad1681",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "http:\/\/el-meu-blog.com",
+            "_name": "blog_home_url",
+            "_valid": 1
+        },
+        {
+            "ID": 0,
+            "key": "field_56fad14ee62c0",
+            "label": "URL del fil RSS",
+            "name": "blog_rss_url",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "url",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "",
+            "required": 1,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": "group_56fad11ad1681",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "http:\/\/el-meu-blog.com\/feed\/",
+            "_name": "blog_rss_url",
+            "_valid": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "blog"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "local": "json",
+    "private": true,
+    "local_file": "\/var\/www\/html\/plugins\/xv-planeta\/conf\/acf.json",
+    "_valid": true
+}

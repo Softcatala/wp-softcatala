@@ -1,0 +1,121 @@
+{
+    "ID": 10828,
+    "key": "group_593f846a796ab",
+    "title": "Pàgines",
+    "fields": [
+        {
+            "ID": 10829,
+            "key": "field_593f846f7b368",
+            "label": "Text de la baixada",
+            "name": "text_baixada_principal",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "Text que es mostra dins del botó de baixada associada a la pàgina.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10828,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "_name": "text_baixada_principal",
+            "_valid": 1
+        },
+        {
+            "ID": 10830,
+            "key": "field_593f84897b369",
+            "label": "Baixada principal",
+            "name": "baixada_principal",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "file",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "Url de baixada associada a la pàgina.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10828,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "",
+            "_name": "baixada_principal",
+            "_valid": 1
+        },
+        {
+            "ID": 11563,
+            "key": "field_59c94ce3a92d9",
+            "label": "Seguiment personalitzat",
+            "name": "custom_analytics",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 2,
+            "instructions": "En alguns casos, podem voler modificar l'URL amb el qual es fa seguiment de la pàgina al Google Analytics. En eixos casos, cal omplir aquest camp.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10828,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "_name": "custom_analytics",
+            "_valid": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_type",
+                "operator": "!=",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

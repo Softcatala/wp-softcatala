@@ -1,0 +1,135 @@
+{
+    "ID": 8023,
+    "key": "group_5704dffab0598",
+    "title": "Passos",
+    "fields": [
+        {
+            "ID": 8024,
+            "key": "field_5704e003ae9ed",
+            "label": "Passos",
+            "name": "steps",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "repeater",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 8023,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Row",
+            "collapsed": "",
+            "_name": "steps",
+            "_valid": 1,
+            "sub_fields": [
+                {
+                    "ID": 8025,
+                    "key": "field_5704e01fae9ee",
+                    "label": "Títol",
+                    "name": "step_title",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "text",
+                    "value": null,
+                    "menu_order": 0,
+                    "instructions": "",
+                    "required": 1,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 8024,
+                    "wrapper": {
+                        "width": 20,
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "readonly": 0,
+                    "disabled": 0,
+                    "_name": "step_title",
+                    "_valid": 1,
+                    "parent_repeater": "field_5704e003ae9ed"
+                },
+                {
+                    "ID": 8026,
+                    "key": "field_5704e05cae9ef",
+                    "label": "Contingut",
+                    "name": "step_content",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "wysiwyg",
+                    "value": null,
+                    "menu_order": 1,
+                    "instructions": "",
+                    "required": 1,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 8024,
+                    "wrapper": {
+                        "width": 80,
+                        "class": "",
+                        "id": ""
+                    },
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "default_value": "",
+                    "delay": 0,
+                    "_name": "step_content",
+                    "_valid": 1,
+                    "parent_repeater": "field_5704e003ae9ed"
+                }
+            ],
+            "rows_per_page": 20
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "projecte"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "plantilla-steps.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

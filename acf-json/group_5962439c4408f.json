@@ -1,0 +1,187 @@
+{
+    "ID": 10803,
+    "key": "group_5962439c4408f",
+    "title": "Crides a l'acció",
+    "fields": [
+        {
+            "ID": 10804,
+            "key": "field_596243ae7128e",
+            "label": "Crida a l'acció superior: enllaç",
+            "name": "call_to_action_top_url",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "url",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "URL del boto d'acció superior dret",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10803,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "_name": "call_to_action_top_url",
+            "_valid": 1
+        },
+        {
+            "ID": 10805,
+            "key": "field_596243de7128f",
+            "label": "Crida a l'acció superior: text",
+            "name": "call_to_action_top_text",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "Text del botó d'acció superior dret",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10803,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "_name": "call_to_action_top_text",
+            "_valid": 1
+        },
+        {
+            "ID": 10806,
+            "key": "field_5962440c71290",
+            "label": "Crida a l'acció inferior: enllaç",
+            "name": "call_to_action_bottom_url",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "url",
+            "value": null,
+            "menu_order": 2,
+            "instructions": "URL del boto d'acció inferior",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10803,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "_name": "call_to_action_bottom_url",
+            "_valid": 1
+        },
+        {
+            "ID": 10807,
+            "key": "field_5962442b71291",
+            "label": "Crida a l'acció inferior: text acompanyant",
+            "name": "call_to_action_bottom_text",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 3,
+            "instructions": "Text acompayant del botó inferior",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10803,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "_name": "call_to_action_bottom_text",
+            "_valid": 1
+        },
+        {
+            "ID": 10808,
+            "key": "field_5962445571292",
+            "label": "Crida a l'acció inferior: text del botó",
+            "name": "call_to_action_bottom_button_text",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "text",
+            "value": null,
+            "menu_order": 4,
+            "instructions": "Text del botó de l'acció inferior",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10803,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "_name": "call_to_action_bottom_button_text",
+            "_valid": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "esdeveniment"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_type",
+                "operator": "!=",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}
