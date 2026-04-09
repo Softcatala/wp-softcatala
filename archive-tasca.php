@@ -98,9 +98,7 @@ foreach ( $tasks as $task ) {
 					$user_email   = $user_obj->user_email;
 				}
 			}
-			$gravatar_url = $user_email
-				? 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $user_email ) ) ) . '?s=48&d=mm&r=g'
-				: '';
+			$gravatar_url = $user_email ? get_gravatar_url( $user_email, 48 ) : '';
 			if ( $user_login ) {
 				$assignees[] = array(
 					'username'     => $user_login,
