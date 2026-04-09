@@ -35,6 +35,10 @@ if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 include( 'inc/perfils.php' );
 include( 'inc/tasques.php' );
+include( 'inc/diccionari.php' );
+include( 'inc/downloads.php' );
+include( 'inc/query.php' );
+include( 'inc/email.php' );
 include( 'rest/downloads-api.php' );
 include( 'rest/projectes-csv-api.php' );
 include( 'rest/tasques-api.php' );
@@ -691,35 +695,6 @@ STYLE;
 }
 
 
-/**
- * Twig function specific for Diccionari multilingüe
- *
- * @param string
- *
- * @return string
- */
-function print_definition( $def ) {
-	$def = trim( $def );
-	$pos = strpos( $def, '#' );
-
-	if ( $pos === false ) {
-		$result = ' - ' . $def;
-	} else {
-		$def      = str_replace( '#', '', $def );
-		$entries  = explode( "\n", $def );
-		$filtered = array_filter( array_map( 'trim_entries', $entries ) );
-		$result   = ' - ' . implode( '<br />- ', $filtered ) . '<br />';
-	}
-
-	return $result;
-}
-
-function trim_entries( $entry ) {
-	$trimmed = trim( $entry );
-
-	return empty( $trimmed ) ? null : $trimmed;
-}
-
 function get_full_img_from_id( $img_id ) {
 	$image = wp_get_attachment_image_src( $img_id, 'full' );
 
@@ -738,174 +713,6 @@ function get_img_id_from_url($image_url) {
 }
 
 /**
- * Twig function specific for Diccionari Eng Cat
- *
- * @param string
- *
- * @return string
- */
-
-function fullGrammarTag($word) {
-    
-	
-	$grammarTag = $word->grammarClass;
-
-    if (!empty($word->feminine) && $grammarTag == "m") {
-        $grammarTag = "mf";
-    }
-
-    if (!empty($word->grammarAux)) {
-        $grammarTag .= '&nbsp;' . $word->grammarAux;
-    }
-
-    return $grammarTag;
-	
-}
-
-function prepareLemmaHeading($word) {
-    $output = '';
-	
-    $output .= '<h2 class="originalword">';
-    $output .= $word->text;
-
-    if (!empty($word->feminine)) {
-        $output .= ' <span class="engcat-gray">' . $word->feminine . '</span> ';
-    }
-    
-	$output .= '<span class="engcat-small-variants">'; 
-    $fullGTag = fullGrammarTag($word);
-    $output .= '&nbsp;<em>' . $fullGTag . '</em>&nbsp;';
-
-    if (!empty($word->tags)) {
-        $output .= '[' . $word->tags . '] ';
-    }
-
-    if (!empty($word->def)) {
-        $output .= '[' . $word->def . '] ';
-    }
-
-    if (!empty($word->remark)) {
-        $output .= ' [&rArr; ' . $word->remark . '] ';
-    }
-	$output .= '</span>';
-    // afegim formes alternatives, incloent-hi el plural, en la línia següent
-	if (!empty($word->alternativeForms) || !empty($word->plural)) {
-	    $separator = "";
-	    $output .= '<br/><span class="engcat-small-variants">';
-	    if (!empty($word->plural)) {
-	        $output .= 'pl. ' . $word->plural;
-	        $separator = "; ";
-	    }
-	    if (!empty($word->alternativeForms)) {
-	        foreach ($word->alternativeForms as $alternativeForm) {
-	            $output .= $separator . $alternativeForm->text;
-	            if (!empty($alternativeForm->tags)) {
-	                $output .= " [" . $alternativeForm->tags . "]";
-	            }
-	            $separator = "; ";
-	        }
-	    }
-	    $output .= '</span>';
-	}	
-    $output .= '</h2>';
-    return trim($output);
-}
-
-function prepareSubLemma($word) {
-    $output = '';
-
-	#print_r($word);
-
-	if (!empty($word->before) || !empty($word->after)) {
-        $output .= '<b>';
-
-        if (!empty($word->before)) {
-            $output .= '(' . $word->before . ') ';
-        }
-
-        $output .= $word->text;
-
-        if (!empty($word->after)) {
-            $output .= ' (' . $word->after . ')';
-        }
-
-        $output .= '</b>&nbsp;';
-    }
-		
-	
-    if (!empty($word->area)) {
-        $output .= '<span class="engcat-smallcaps">' . $word->area . '</span>&nbsp;';
-    }
-
-    /*if (!empty($word->plural)) {
-        $output .= ' [pl. ' . $word->plural . '] ';
-    }
-
-    if (!empty($word->def)) {
-        $output .= '[' . $word->def . '] ';
-    }*/
-
-    if (!empty($word->remark)) {
-        $output .= ' [&rArr; ' . $word->remark . '] ';
-    }
-
-    return trim($output);
-}
-
-function prepareWord($word, $prevFullGTag) {
-    $output = '';
-
-    if (!empty($word->area)) {
-        $output .= '<span class="engcat-smallcaps">' . $word->area . '</span>&nbsp;';
-    }
-
-    if (!empty($word->tags)) {
-        $output .= '[' . $word->tags . '] ';
-    }
-
-    if (!empty($word->def)) {
-        $output .= '[' . $word->def . '] ';
-    }
-
-    if (!empty($word->before)) {
-        $output .= '(' . $word->before . ') ';
-    }
-
-    $output .= $word->text;
-
-    if (!empty($word->after)) {
-        $output .= ' (' . $word->after . ')';
-    }
-
-    if (!empty($word->feminine)) {
-        $output .= '&nbsp;<span class="engcat-gray">' . $word->feminine . '</span>';
-    }
-
-    if (!empty($word->plural)) {
-        $output .= ' [pl. ' . $word->plural . '] ';
-    }
-
-    $fullGTag = fullGrammarTag($word);
-    if ($fullGTag != $prevFullGTag && $fullGTag != "n") {
-        $output .= '&nbsp;<span class="engcat-italics">' . $fullGTag . '</span>';
-    }
-
-    if (!empty($word->remark)) {
-        $output .= ' [&rArr; ' . $word->remark . '] ';
-    }
-
-    return trim($output);
-}
-
-function presentFeminine($word) {
-    if (!empty($word->feminineForm)) {
-        return '&nbsp;<span class="engcat-gray">' . $word->feminineForm . '</span>';
-    } else {
-        return '';
-    }
-}
-
-/**
  * This function retrieves the current url, either on http or https format
  * depending on the current navigation
  *
@@ -918,192 +725,6 @@ function get_current_url( $remove = false ) {
 	}
 
 	return $current_url;
-}
-
-abstract class SearchQueryType {
-	const All = 0;
-	const FilteredDate = 1;
-	const Search = 2;
-	const Aparell = 4;
-	const Post = 6;
-	const PagePrograma = 7;
-	const FilteredTema = 8;
-	const PageProjecte = 9;
-}
-
-/*
- * Returns the arguments to apply to the mysql query
- */
-function get_post_query_args( $post_type, $queryType, $filter = array() ) {
-	//Retrieve posts
-	switch ( $post_type ) {
-		case 'aparell':
-			$base_args = array(
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-				'posts_per_page' => - 1
-			);
-			break;
-		case 'programa':
-			$base_args = array(
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-				'paged'          => get_is_paged(),
-				'posts_per_page' => 18,
-				'tax_query'      => array(
-					array(
-						'taxonomy' => 'classificacio',
-						'field'    => 'slug',
-						'terms'    => 'arxivat',
-						'operator' => 'NOT IN'
-					)
-				)
-			);
-			break;
-		case 'projecte':
-			$base_args = array(
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-				'paged'          => get_is_paged(),
-				'posts_per_page' => 36,
-				'tax_query'      => array(
-					array(
-						'taxonomy' => 'classificacio',
-						'field'    => 'slug',
-						'terms'    => 'arxivat',
-						'operator' => 'NOT IN'
-					)
-				)
-			);
-			break;
-		case 'page':
-			$base_args = array(
-				'post_type'   => $post_type,
-				'post_status' => 'publish',
-				'order'       => 'ASC',
-				'meta_query'  => array(
-					get_meta_query_value( $filter['subpage_type'], $filter['post_id'], '=', 'NUMERIC' )
-				)
-			);
-			break;
-		case 'post':
-			$base_args = array(
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'order'          => 'DESC',
-				'paged'          => get_is_paged(),
-				'posts_per_page' => 10
-			);
-			break;
-	}
-
-	$filter_args = array();
-	if ( $queryType == SearchQueryType::Post ) {
-		if ( ! empty ( $filter['s'] ) ) {
-			$filter_args['s'] = $filter['s'];
-		}
-		if ( ! empty ( $filter['categoria'] ) ) {
-			$filter_args['category__and'] = $filter['categoria'];
-		}
-	} else if ( $queryType == SearchQueryType::Search ) {
-		$filter_args = array(
-			's'          => $filter,
-			'meta_query' => array(
-				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
-			)
-		);
-	} else if ( $queryType == SearchQueryType::FilteredDate ) {
-		$filter_args = array(
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					get_meta_query_value( 'data_fi', $filter['start_time'], '>=', 'NUMERIC' )
-				),
-				array(
-					get_meta_query_value( 'data_inici', $filter['final_time'], '<=', 'NUMERIC' )
-				)
-			)
-		);
-	} else if ( $queryType == SearchQueryType::Aparell ) {
-		$filter_args = array();
-		if ( ! empty ( $filter['s'] ) ) {
-			$filter_args['s'] = $filter['s'];
-		}
-
-		if ( ! empty ( $filter['so_aparell'] ) ) {
-			$filter_args['tax_query'][] = array(
-				'taxonomy' => 'so_aparell',
-				'field'    => 'slug',
-				'terms'    => $filter['so_aparell']
-			);
-			$filter_args['filter_so']   = $filter['so_aparell'];
-		}
-
-		if ( ! empty ( $filter['tipus_aparell'] ) ) {
-			$filter_args['tax_query'][]  = array(
-				'taxonomy' => 'tipus_aparell',
-				'field'    => 'slug',
-				'terms'    => $filter['tipus_aparell']
-			);
-			$filter_args['filter_tipus'] = $filter['tipus_aparell'];
-		}
-
-		if ( ! empty ( $filter['fabricant'] ) ) {
-			$filter_args['tax_query'][]      = array(
-				'taxonomy' => 'fabricant',
-				'field'    => 'slug',
-				'terms'    => $filter['fabricant']
-			);
-			$filter_args['filter_fabricant'] = $filter['fabricant'];
-		}
-	} else if ( $queryType == SearchQueryType::FilteredTema ) {
-		if ( ! empty ( $filter ) ) {
-			$filter_args['tax_query'][] = array(
-				'taxonomy' => 'esdeveniment_cat',
-				'field'    => 'slug',
-				'terms'    => $filter
-			);
-		}
-	} else if ( $queryType == SearchQueryType::PagePrograma || $queryType == SearchQueryType::PageProjecte ) {
-			$filter_args = array(
-				'posts_per_page' => 20
-			);
-	} else {
-		$filter_args = array(
-			'meta_query' => array(
-				get_meta_query_value( 'data_fi', time(), '>=', 'NUMERIC' )
-			)
-		);
-	}
-
-	return array_merge( $base_args, $filter_args );
-}
-
-/*
- * Creates a param to query using a meta field
- */
-function get_meta_query_value( $key, $value, $compare, $type ) {
-	return array(
-		'key'     => $key,
-		'value'   => $value,
-		'compare' => $compare,
-		'type'    => $type
-	);
-}
-
-/*
- * Returns global paged variable
- */
-function get_is_paged() {
-	global $paged;
-
-	return ( ! isset( $paged ) || ! $paged ) ? 1 : $paged;
 }
 
 /*
@@ -1184,37 +805,6 @@ function orderbyreplace( $orderby ) {
 add_action( 'init', 'sc_add_excerpts_to_pages' );
 function sc_add_excerpts_to_pages() {
 	add_post_type_support( 'page', 'excerpt' );
-}
-
-function sendEmailForm( $to_email, $nom_from, $assumpte, $fields ) {
-	return sendEmailWithFromAndTo( $to_email, $to_email, $nom_from, $assumpte, $fields );
-}
-
-/*
- * General 'send email' function
- */
-function sendEmailWithFromAndTo( $to_email, $from_email, $nom_from, $assumpte, $fields ) {
-	//email body
-	$message_body = '';
-	foreach ( $fields as $key => $field ) {
-		$message_body .= $key . ": " . $field . "\r\n\r";
-	}
-
-	//proceed with PHP email.
-	$headers = 'From: ' . $nom_from . ' <' . $from_email . ">\r\n" .
-	           'Reply-To: web@softcatala.org' . "\r\n" .
-	           'X-Mailer: PHP/' . phpversion();
-
-	$send_mail = wp_mail( $to_email, $assumpte, $message_body, $headers );
-
-	if ( ! $send_mail ) {
-		//If mail couldn't be sent output error. Check your PHP email configuration (if it ever happens)
-		$output = json_encode( array( 'type' => 'error', 'text' => 'S\'ha produït un error en enviar el missatge.' ) );
-	} else {
-		$output = json_encode( array( 'type' => 'message', 'text' => 'S\'ha enviat la informació.' ) );
-	}
-
-	return $output;
 }
 
 /*  Add responsive container to embeds
@@ -1378,28 +968,6 @@ function sc_responsive_image_sizes( $sizes, $size ) {
 add_filter( 'wp_calculate_image_sizes', 'sc_responsive_image_sizes', 10, 2 );
 
 
-/**
- * Generic function to inform SC about sections on the website not working properly
- *
- **/
-function throw_service_error( $service, $message = '', $sinonims = false ) {
-
-	global $sc_site;
-
-	throw_error( '500', 'Error connecting to API server' );
-
-	if ( $sinonims && $sc_site->get_setting_value( SC_Settings::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS ) ) {
-		return;
-	}
-
-	$fields['Hora'] = current_time( 'mysql' );
-	if ( $message ) {
-		$fields['Missatge'] = $message;
-	}
-
-	sendEmailForm( 'web@softcatala.org', $service, 'El servei «' . $service . '» no està funcionant correctament', $fields );
-}
-
 add_filter( 'rest_authentication_errors', 'sc_only_allow_logged_in_rest_access' );
 
 function sc_only_allow_logged_in_rest_access( $access ) {
@@ -1428,99 +996,25 @@ function modify_user_contact_methods( $user_contact ) {
 
 add_filter( 'pre_get_avatar_data', array('\Softcatala\Images\Avatar', 'filter'), 10, 2 );
 
-function get_downloads_full() {
-
-	$result = get_transient( 'downloads_full' );
-
-	if ( false === $result ) {
-		$result = json_decode(file_get_contents('https://baixades.softcatala.org/full.json'), true);
-		set_transient( 'downloads_full', $result, 2 * HOUR_IN_SECONDS );
-	}
-
-	return $result;
-}
-
-function get_breadcrumbs( $timberPost, $force = false) {
-	$ancestors = array_map ( array( 'Timber', 'get_post' ),  array_reverse( get_ancestors( $timberPost->id, 'page' ) ) );
+function get_breadcrumbs( $timberPost, $force = false ) {
+	$ancestors = array_map( array( 'Timber', 'get_post' ), array_reverse( get_ancestors( $timberPost->id, 'page' ) ) );
 
 	$breadcrumbs = false;
 
 	if ( sizeof( $ancestors ) > 0 && ( show_breadcrumbs( $ancestors[0]->slug, $force ) ) ) {
-		$breadcrumbs = array_map (
-			function ($p) {
-				return [ 'link' => $p->link, 'text' => $p->title ];
-			}, array_merge( $ancestors, [ $timberPost] ) );
+		$breadcrumbs = array_map(
+			function ( $p ) {
+				return array( 'link' => $p->link, 'text' => $p->title );
+			},
+			array_merge( $ancestors, array( $timberPost ) )
+		);
 	}
 
 	return $breadcrumbs;
 }
 
-function show_breadcrumbs ( $slug, $force ) {
-	return in_array( $slug, [ 'trobades' ] ) || $force;
-}
-
-function get_program_context( $programa ) {
-
-	$context = Timber::context();
-
-	$context['sidebar_top'] = Timber::get_widgets('sidebar_top');
-	$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
-	$context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
-	$context['post'] = $programa;
-
-	$context['arxivat'] = $programa->has_term('arxivat', 'classificacio');
-	$context['credits'] = $programa->meta( 'credits' );
-	$baixades = $programa->meta( 'baixada' );
-	$context['baixades'] = generate_url_download( $baixades, $programa );
-
-	//Contact Form
-	$context['contact']['to_email'] = get_option('to_email_rebost');
-	$context['contact']['from_email'] = get_option('email_rebost');
-
-	//Add program form data
-	$context['categories']['sistemes_operatius'] = Timber::get_terms( 'sistema-operatiu-programa' );
-	$context['categories']['categories_programes'] = Timber::get_terms( 'categoria-programa' );
-	$context['categories']['llicencies'] = Timber::get_terms('llicencia');
-
-	//Download count
-	$download_full = get_downloads_full();
-	if( $download_full ) {
-		$wordpress_ids_column = array_column($download_full, 'wordpress_id');
-		if( $wordpress_ids_column ) {
-			$index = array_search( $programa->ID, $wordpress_ids_column);
-			if ( $index ) {
-				$context['total_downloads'] = $download_full[$index]['total'];
-			}
-		}
-	}
-
-	$logo = get_img_from_id( $programa->logotip_programa );
-	$context['logotip'] = $logo;
-
-	$yoastlogo = get_the_post_thumbnail_url() ?: $logo;
-
-	$custom_logo_filter = function ($img) use($yoastlogo) {
-		return $yoastlogo;
-	};
-
-	add_filter( 'wpseo_twitter_image', $custom_logo_filter);
-	add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
-
-	$query = array ( 'post_id' => $programa->ID , 'subpage_type' => 'programa' );
-	$args = get_post_query_args( 'page', SearchQueryType::PagePrograma, $query );
-
-	query_posts($args);
-
-	$context['related_pages'] = Timber::get_posts($args);
-
-	$project_id = get_post_meta( $programa->ID, 'projecte_relacionat', true );
-
-	if( $project_id ) {
-		$context['projecte_relacionat_url'] = get_permalink($project_id);
-		$context['projecte_relacionat_name'] =  get_the_title($project_id);
-	}
-
-	return $context;
+function show_breadcrumbs( $slug, $force ) {
+	return in_array( $slug, array( 'trobades' ) ) || $force;
 }
 
 function sc_add_excerpt_meta_box( $post_type ) {
@@ -1550,53 +1044,5 @@ function sc_remove_normal_excerpt() { /*this added on my own*/
 }
 add_action( 'admin_menu' , 'sc_remove_normal_excerpt' );
 
-/**
- * Update all program downloads - WordPress-friendly function
- * Can be called from hooks, cron, admin interfaces, etc.
- *
- * @param string|null $program_filter Optional program group filter
- * @param bool $dry_run Whether to actually make changes
- * @return array Result array with statistics and details
- */
-function sc_update_all_programs( $program_filter = null, $dry_run = false ) {
-	$updater = new SC_Downloads_Updater();
-	return $updater->update_all_programs( $program_filter, $dry_run );
-}
-
-/**
- * Hook for WordPress cron - update all programs
- */
-function sc_cron_update_downloads() {
-	$result = sc_update_all_programs();
-	
-	// Log the result
-	if ( $result['success'] ) {
-		error_log( 'SC Downloads Update: ' . $result['message'] );
-	} else {
-		error_log( 'SC Downloads Update Error: ' . $result['message'] );
-	}
-}
-add_action( 'sc_update_downloads_cron', 'sc_cron_update_downloads' );
-add_action( 'init', 'sc_schedule_downloads_update' );
-
-/**
- * Schedule the downloads update cron job (call this once to set up)
- */
-function sc_schedule_downloads_update() {
-	if ( ! wp_next_scheduled( 'sc_update_downloads_cron' ) ) {
-		// Schedule to run daily at 3 AM
-		wp_schedule_event( time(), 'daily', 'sc_update_downloads_cron' );
-	}
-}
-
-/**
- * Unschedule the downloads update cron job
- */
-function sc_unschedule_downloads_update() {
-	$timestamp = wp_next_scheduled( 'sc_update_downloads_cron' );
-	if ( $timestamp ) {
-		wp_unschedule_event( $timestamp, 'sc_update_downloads_cron' );
-	}
-}
 
 
