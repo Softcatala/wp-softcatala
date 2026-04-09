@@ -238,15 +238,27 @@
     opacity: 1;
 }
 
-/* SortableJS drag ghost */
-.kanban-card.sortable-ghost {
-    opacity: 0.35;
-    background: #eae8e8;
+/* SortableJS placeholder — the slot shown in the target column while dragging.
+   Make it an empty dashed outline so it doesn't look like a second card. */
+.kanban-card.kanban-card--ghost {
+    background: transparent;
+    border: 2px dashed #c43434;
+    border-left: 2px dashed #c43434;
+    box-shadow: none;
+    opacity: 0.5;
+    /* Hide all inner content so only the outline is visible */
+    color: transparent;
 }
 
+.kanban-card.kanban-card--ghost * {
+    visibility: hidden;
+}
+
+/* The card being actively dragged — give it a lifted look */
 .kanban-card.sortable-chosen {
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
     border-left-color: #c43434;
+    opacity: 0.9;
 }
 
 /* --------------------------------------------------------------------------
