@@ -1,0 +1,396 @@
+/* ==========================================================================
+   Kanban board — /tasques/
+   Brand tokens: #c43434 primary, #e64b3c hover, #333 text, #eae8e8 grey
+   Font: Ubuntu / Open Sans (inherited from main.min.css)
+   Grid: Bootstrap 3 (no new dependencies)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Board container — horizontal scroll, one column per estat
+   -------------------------------------------------------------------------- */
+
+.kanban-board {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 4px 15px 20px;
+    /* Cancel the 15px padding on each side of Bootstrap's .container-fluid
+       so the board fills the full container width. */
+    margin-left: -15px;
+    margin-right: -15px;
+    /* Smooth momentum scroll on iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Allow the board to breathe vertically */
+    min-height: 400px;
+}
+
+/* --------------------------------------------------------------------------
+   Column
+   -------------------------------------------------------------------------- */
+
+.kanban-column {
+    flex: 0 0 240px;
+    width: 240px;
+    min-width: 240px;
+    background: #f5f4f4;
+    border-top: 3px solid #c43434;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 220px);
+    min-height: 300px;
+}
+
+.kanban-column--unassigned {
+    border-top-color: #ccc;
+}
+
+/* Column header */
+.kanban-column__header {
+    padding: 10px 12px 8px;
+    background: #f5f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.kanban-column__title {
+    font-family: "Ubuntu", "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.kanban-column__count {
+    font-size: 11px;
+    font-weight: 700;
+    background: #c43434;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1px 7px;
+    min-width: 22px;
+    text-align: center;
+    letter-spacing: 0;
+}
+
+.kanban-column--unassigned .kanban-column__count {
+    background: #999;
+}
+
+/* Cards scroll area */
+.kanban-column__cards {
+    padding: 8px 10px 10px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* Subtle scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #ddd transparent;
+}
+
+.kanban-column__cards::-webkit-scrollbar {
+    width: 4px;
+}
+.kanban-column__cards::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+/* Empty column placeholder */
+.kanban-column__cards:empty::after {
+    content: "Cap tasca";
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Card
+   -------------------------------------------------------------------------- */
+
+.kanban-card {
+    background: #fff;
+    border: 1px solid #e4e2e2;
+    border-left: 3px solid #e4e2e2;
+    padding: 10px 10px 8px;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, border-left-color 0.15s ease;
+    position: relative;
+    /* Remove Bootstrap / theme defaults */
+    border-radius: 0;
+}
+
+.kanban-card:hover,
+.kanban-card:focus {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border-left-color: #c43434;
+    outline: none;
+}
+
+.kanban-card:focus-visible {
+    outline: 2px solid #c43434;
+    outline-offset: 1px;
+}
+
+/* Drag handle — only visible when logged in and hovered */
+.kanban-card__handle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: #ccc;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    cursor: grab;
+}
+
+.kanban-card:hover .kanban-card__handle {
+    opacity: 1;
+}
+
+/* SortableJS drag ghost */
+.kanban-card.sortable-ghost {
+    opacity: 0.35;
+    background: #eae8e8;
+}
+
+.kanban-card.sortable-chosen {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    border-left-color: #c43434;
+}
+
+/* --------------------------------------------------------------------------
+   Card body
+   -------------------------------------------------------------------------- */
+
+.kanban-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Title */
+.kanban-card__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+    line-height: 1.35;
+    /* Clamp to 3 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Project badge — small pill at the top */
+.kanban-card__projecte {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #c43434;
+    background: #fdf0f0;
+    border: 1px solid #f0d0d0;
+    padding: 1px 6px;
+    margin: 0;
+    align-self: flex-start;
+    /* Truncate long project names */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Card footer row — assignee avatar + metadata badges
+   -------------------------------------------------------------------------- */
+
+.kanban-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+    gap: 4px;
+}
+
+.kanban-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex: 1;
+}
+
+/* Shared badge style */
+.kanban-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #666;
+    background: #f0efef;
+    padding: 2px 6px;
+    white-space: nowrap;
+}
+
+.kanban-card__badge i {
+    font-size: 9px;
+    color: #999;
+}
+
+/* Due date badge — turns red when past due */
+.kanban-card__badge--due {
+    color: #555;
+}
+
+.kanban-card__badge--due.is-overdue {
+    background: #fdf0f0;
+    color: #c43434;
+    border: 1px solid #f0d0d0;
+}
+
+.kanban-card__badge--due.is-overdue i {
+    color: #c43434;
+}
+
+/* Milestone badge */
+.kanban-card__badge--milestone {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   Assignee avatars — stacked initials circles
+   -------------------------------------------------------------------------- */
+
+.kanban-card__assignees {
+    display: flex;
+    flex-direction: row-reverse; /* stack left-to-right */
+    flex-shrink: 0;
+}
+
+.kanban-card__avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #c43434;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    margin-left: -6px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    /* Use Gravatar if available via inline style background-image */
+    background-size: cover;
+    background-position: center;
+}
+
+.kanban-card__assignees .kanban-card__avatar:last-child {
+    margin-left: 0;
+}
+
+/* Alternate avatar colours so stacked avatars are distinguishable */
+.kanban-card__avatar:nth-child(2) { background: #7b7b7b; }
+.kanban-card__avatar:nth-child(3) { background: #333; }
+
+/* --------------------------------------------------------------------------
+   Filter bar
+   -------------------------------------------------------------------------- */
+
+.kanban-filters {
+    margin-bottom: 16px;
+}
+
+.kanban-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.kanban-filter-form .form-group {
+    margin: 0;
+}
+
+.kanban-filter-form .form-control {
+    height: 30px;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 0;
+    border-color: #ddd;
+    min-width: 140px;
+}
+
+.kanban-filter-form .btn {
+    height: 30px;
+    font-size: 11px;
+    padding: 4px 14px;
+    border-radius: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Hidden card (filtered out by JS)
+   -------------------------------------------------------------------------- */
+
+.kanban-card[hidden],
+.kanban-card.is-hidden {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — collapse to vertical scroll on small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .kanban-board {
+        flex-direction: column;
+        overflow-x: visible;
+    }
+
+    .kanban-column {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        max-height: none;
+    }
+
+    .kanban-column__cards {
+        max-height: 60vh;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Notice (fixed bottom-right, already in template)
+   -------------------------------------------------------------------------- */
+
+#kanban-notice.alert-success {
+    background: #3c763d;
+    color: #fff;
+    border-color: #3c763d;
+}
+
+#kanban-notice.alert-danger {
+    background: #c43434;
+    color: #fff;
+    border-color: #c43434;
+}

@@ -24,36 +24,57 @@
     </div>
 
     <div class="kanban-card__body">
-        <p class="kanban-card__title">{{ td.title }}</p>
 
+        {# Project badge #}
         {% if td.projecte_name %}
-        <p class="kanban-card__projecte text-muted small">{{ td.projecte_name }}</p>
+        <span class="kanban-card__projecte">{{ td.projecte_name }}</span>
         {% endif %}
 
-        <div class="kanban-card__meta">
-            {% if td.data_venciment %}
-            <span class="kanban-card__due" title="Data de venciment">
-                <i class="fa fa-calendar"></i> {{ td.data_venciment }}
-            </span>
-            {% endif %}
+        {# Title #}
+        <p class="kanban-card__title">{{ td.title }}</p>
 
-            {% if td.milestone_title %}
-            <span class="kanban-card__milestone" title="Milestone">
-                <i class="fa fa-flag-o"></i> {{ td.milestone_title }}
-            </span>
-            {% endif %}
+        {# Footer: badges left, avatars right #}
+        <div class="kanban-card__footer">
 
+            <div class="kanban-card__badges">
+
+                {% if td.data_venciment %}
+                <span class="kanban-card__badge kanban-card__badge--due"
+                      data-due="{{ td.data_venciment }}"
+                      title="Data de venciment: {{ td.data_venciment }}">
+                    <i class="fa fa-calendar-o" aria-hidden="true"></i>{{ td.data_venciment }}
+                </span>
+                {% endif %}
+
+                {% if td.milestone_title %}
+                <span class="kanban-card__badge kanban-card__badge--milestone"
+                      title="Milestone: {{ td.milestone_title }}">
+                    <i class="fa fa-flag-o" aria-hidden="true"></i>{{ td.milestone_title }}
+                </span>
+                {% endif %}
+
+                {% if td.tag_slugs %}
+                <span class="kanban-card__badge kanban-card__badge--tags"
+                      title="Etiquetes: {{ td.tag_slugs|replace({',': ', '}) }}">
+                    <i class="fa fa-tag" aria-hidden="true"></i>{{ td.tag_slugs|replace({',': ', '}) }}
+                </span>
+                {% endif %}
+
+            </div>{# /.kanban-card__badges #}
+
+            {# Assignee avatars (initials) #}
             {% if td.assignee_usernames %}
-            <span class="kanban-card__assignee" title="Responsables">
-                <i class="fa fa-user"></i> {{ td.assignee_usernames }}
-            </span>
+            <div class="kanban-card__assignees" aria-label="Responsables: {{ td.assignee_usernames|replace({',': ', '}) }}">
+                {% for username in td.assignee_usernames|split(',') %}
+                {% if username|trim %}
+                <div class="kanban-card__avatar"
+                     title="{{ username|trim }}">{{ username|trim|slice(0,1)|upper }}</div>
+                {% endif %}
+                {% endfor %}
+            </div>
             {% endif %}
 
-            {% if td.tag_slugs %}
-            <span class="kanban-card__tags" title="Etiquetes">
-                <i class="fa fa-tag"></i> {{ td.tag_slugs|replace({',': ', '}) }}
-            </span>
-            {% endif %}
-        </div>
-    </div>
+        </div>{# /.kanban-card__footer #}
+
+    </div>{# /.kanban-card__body #}
 </div>

@@ -7,6 +7,14 @@
 
 use Softcatala\Providers\Tasques;
 
+// Enqueue kanban CSS.
+wp_enqueue_style(
+	'sc-css-kanban',
+	get_template_directory_uri() . '/static/css/kanban.css',
+	array(),
+	WP_SOFTCATALA_VERSION
+);
+
 // Enqueue SortableJS and kanban JS (JS loaded in footer).
 wp_register_script(
 	'sortablejs',

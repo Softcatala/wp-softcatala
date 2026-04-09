@@ -40,6 +40,21 @@ jQuery( document ).ready( function ( $ ) {
 	var filterState   = {};
 	var isDragging    = false;
 
+	// ─── Mark overdue due-date badges ─────────────────────────────────────────
+	var today = new Date();
+	today.setHours( 0, 0, 0, 0 );
+	$( '.kanban-card__badge--due[data-due]' ).each( function () {
+		var raw = $( this ).data( 'due' );
+		if ( ! raw ) { return; }
+		// Expect YYYY-MM-DD from ACF date_picker return_format
+		var parts = String( raw ).split( '-' );
+		if ( parts.length !== 3 ) { return; }
+		var due = new Date( parts[0], parts[1] - 1, parts[2] );
+		if ( due < today ) {
+			$( this ).addClass( 'is-overdue' );
+		}
+	} );
+
 	// ─── Filter helpers ────────────────────────────────────────────────────────
 
 	/**

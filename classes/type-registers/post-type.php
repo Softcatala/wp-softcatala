@@ -62,7 +62,7 @@ class PostType {
 	}
 
 	public function add_columns_to_admin( $columns ) {
-
+		return $columns;
 	}
 
 	public function custom_columns( $column, $post_id ) {
