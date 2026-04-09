@@ -55,6 +55,30 @@ jQuery( document ).ready( function ( $ ) {
 		}
 	} );
 
+	// ─── Column collapse toggle ────────────────────────────────────────────────
+
+	/**
+	 * Toggle collapsed state on a collapsible column.
+	 * Works for both click and keyboard (Enter/Space) on the header.
+	 */
+	function toggleColumnCollapse( $column ) {
+		var collapsed = $column.hasClass( 'kanban-column--collapsed' );
+		$column.toggleClass( 'kanban-column--collapsed', ! collapsed );
+		$column.find( '.kanban-column__header' )
+		       .attr( 'aria-expanded', collapsed ? 'true' : 'false' );
+	}
+
+	$( document ).on( 'click', '.kanban-column[data-collapsible="1"] .kanban-column__header', function () {
+		toggleColumnCollapse( $( this ).closest( '.kanban-column' ) );
+	} );
+
+	$( document ).on( 'keydown', '.kanban-column[data-collapsible="1"] .kanban-column__header', function ( e ) {
+		if ( e.key === 'Enter' || e.key === ' ' ) {
+			e.preventDefault();
+			toggleColumnCollapse( $( this ).closest( '.kanban-column' ) );
+		}
+	} );
+
 	// ─── Filter helpers ────────────────────────────────────────────────────────
 
 	/**

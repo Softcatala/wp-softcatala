@@ -107,18 +107,18 @@
                 {% set col_tasks = tasks_by_estat[estat.slug] is defined ? tasks_by_estat[estat.slug] : [] %}
                 {% set is_empty  = col_tasks|length == 0 %}
                 <div class="kanban-column{% if is_empty and estat.collapsible %} kanban-column--collapsed{% endif %}"
-                     data-estat="{{ estat.slug }}">
-                    <div class="kanban-column__header">
+                     data-estat="{{ estat.slug }}"
+                     data-collapsible="{{ estat.collapsible ? '1' : '0' }}">
+                    <div class="kanban-column__header"
+                         {% if estat.collapsible %}role="button" tabindex="0" title="Desplega / replega la columna" aria-expanded="{{ is_empty ? 'false' : 'true' }}"{% endif %}>
                         <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ col_tasks|length }}</span></h3>
                     </div>
-                    {% if not (is_empty and estat.collapsible) %}
                     <div class="kanban-column__cards">
                         {% for task in col_tasks %}
                             {% set td = tasks_data[task.ID] %}
                             {% include "components/kanban-card.twig" with {task: task, td: td} %}
                         {% endfor %}
                     </div>
-                    {% endif %}
                 </div>
                 {% endif %}
                 {% endfor %}
