@@ -11,9 +11,9 @@
 @use 'base';
 
 // 4. Global layout pieces (header, footer, nav — used on every page)
-// @use 'globals/header';
+@use 'globals/header';
 // @use 'globals/footer';
-// @use 'globals/navigation';
+@use 'globals/navigation';
 
 // 5. Reusable components (class selectors)
 // @use 'components/buttons';
