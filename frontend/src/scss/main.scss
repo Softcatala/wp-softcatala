@@ -1,0 +1,42 @@
+// Softcatala Frontend — SCSS Entry Point
+// Import order follows ITCSS-inspired specificity: tokens → reset → base → globals → components → layouts → utilities
+
+// 1. Design tokens (CSS custom properties + SCSS breakpoint variables)
+@use 'tokens';
+
+// 2. Reset (lowest specificity, broadest reach)
+@use 'reset';
+
+// 3. Base element styles (type selectors: body, h1, a, p, etc.)
+@use 'base';
+
+// 4. Global layout pieces (header, footer, nav — used on every page)
+// @use 'globals/header';
+// @use 'globals/footer';
+// @use 'globals/navigation';
+
+// 5. Reusable components (class selectors)
+// @use 'components/buttons';
+// @use 'components/forms';
+// @use 'components/modals';
+// @use 'components/tables';
+// @use 'components/cards';
+// @use 'components/pagination';
+// @use 'components/ribbons';
+// @use 'components/star-rating';
+
+// 6. Page-specific layouts (most specific)
+// @use 'layouts/home';
+// @use 'layouts/programa';
+// @use 'layouts/eines';
+// @use 'layouts/blog';
+// @use 'layouts/news';
+// @use 'layouts/events';
+// @use 'layouts/member';
+// @use 'layouts/faq';
+// @use 'layouts/sidebar';
+// @use 'layouts/comments';
+// @use 'layouts/devices';
+
+// 7. Utilities (highest priority — keep last)
+@use 'utilities';

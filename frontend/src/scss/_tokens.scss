@@ -1,0 +1,249 @@
+// ==========================================================================
+// Design Tokens
+// ==========================================================================
+//
+// 3-tier token architecture:
+//   Tier 1 (Primitive)  — raw values: colors, sizes, font stacks
+//   Tier 2 (Semantic)   — intent-based aliases: --color-brand, --color-text, etc.
+//   Tier 3 (Component)  — defined in each component file, not here
+//
+// Source of truth: maqueta/app/assets/less/comuns/variables.less
+// Color audit: 74 unique hex values consolidated into ~25 primitives
+
+// ==========================================================================
+// SCSS-only variables (not exposed as CSS custom properties)
+// ==========================================================================
+// Breakpoints MUST be SCSS variables — CSS custom properties cannot be used
+// in @media queries (they are evaluated at computed-value time, after parsing).
+//
+// Preserved exactly from the existing Less:
+//   xxs-max: 479px  (custom, <480px)
+//   xs:      480px
+//   sm:      769px  (not 768 — intentional)
+//   md:      1025px (not 992 — intentional)
+//   lg:      1200px
+
+$bp-xxs-max: 479px;
+$bp-xs: 480px;
+$bp-xs-max: 768px;
+$bp-sm: 769px;
+$bp-sm-max: 1024px;
+$bp-md: 1025px;
+$bp-md-max: 1199px;
+$bp-lg: 1200px;
+
+// Grid gutter (matches BS3)
+$grid-gutter: 30px;
+
+// Container max-widths per breakpoint
+$container-sm: 950px;   // 920 + 30 gutter
+$container-md: 1200px;  // 1170 + 30 gutter
+$container-lg: 1200px;  // same as md (per existing Less)
+
+// --------------------------------------------------------------------------
+// respond-to() mixin
+// --------------------------------------------------------------------------
+// Desktop-first (max-width) to match the existing Less codebase.
+// Named breakpoints for readability; raw values available for one-offs.
+//
+// Usage:
+//   @include respond-to(sm)     → @media (max-width: 1024px)
+//   @include respond-to(xs)     → @media (max-width: 768px)
+//   @include respond-to(xxs)    → @media (max-width: 479px)
+//
+// For min-width (mobile-first) queries:
+//   @include respond-from(sm)   → @media (min-width: 769px)
+//   @include respond-from(md)   → @media (min-width: 1025px)
+//   @include respond-from(lg)   → @media (min-width: 1200px)
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xxs {
+    @media (max-width: $bp-xxs-max) { @content; }
+  } @else if $breakpoint == xs {
+    @media (max-width: $bp-xs-max) { @content; }
+  } @else if $breakpoint == sm {
+    @media (max-width: $bp-sm-max) { @content; }
+  } @else if $breakpoint == md {
+    @media (max-width: $bp-md-max) { @content; }
+  } @else {
+    @error "Unknown breakpoint `#{$breakpoint}` for respond-to(). Use: xxs, xs, sm, md.";
+  }
+}
+
+@mixin respond-from($breakpoint) {
+  @if $breakpoint == xs {
+    @media (min-width: $bp-xs) { @content; }
+  } @else if $breakpoint == sm {
+    @media (min-width: $bp-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $bp-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $bp-lg) { @content; }
+  } @else {
+    @error "Unknown breakpoint `#{$breakpoint}` for respond-from(). Use: xs, sm, md, lg.";
+  }
+}
+
+// ==========================================================================
+// Tier 1: Primitive tokens (raw values)
+// ==========================================================================
+
+:root {
+  // --- Colors: Reds ---
+  --color-red-700: #c43434;    // brand-primary
+  --color-red-600: #c0392b;    // home red accent
+  --color-red-550: #bf382b;    // home red darker
+  --color-red-500: #e64b3c;    // link hover
+  --color-red-400: #d67171;    // header accent
+  --color-red-300: #ed7f74;    // button hover
+  --color-red-200: #eab8b8;    // header light accent
+  --color-red-100: #ffcccc;    // eines light bg
+  --color-red-50: #fff7f7;     // light red bg
+
+  // --- Colors: Greens ---
+  --color-green-700: #199301;  // check/success
+  --color-green-50: #f7fff7;   // light green bg
+
+  // --- Colors: Blues ---
+  --color-blue-600: #337ab7;   // form link (BS3 default)
+  --color-blue-500: #21759b;   // wordpress link
+
+  // --- Colors: Error ---
+  --color-error-700: #ce0202;  // red-check / error
+  --color-error-600: #a94442;  // form error text
+
+  // --- Colors: Neutrals (light → dark) ---
+  --color-white: #ffffff;
+  --color-gray-50: #f8f8f8;   // fons-menu
+  --color-gray-100: #f5f5f5;  // light bg
+  --color-gray-125: #f1f1f1;  // wordpress bg
+  --color-gray-150: #f0f0f0;  // wordpress alt bg
+  --color-gray-200: #eae8e8;  // gray-light
+  --color-gray-225: #e7e7e7;  // form border
+  --color-gray-250: #e6e6e6;  // form border alt
+  --color-gray-275: #e4e4e4;  // hr light
+  --color-gray-300: #ddd9d4;  // home separator
+  --color-gray-325: #d7d5d5;  // member border
+  --color-gray-350: #d6d5d5;  // footer border
+  --color-gray-375: #d3d3d3;  // header border
+  --color-gray-400: #d1d1d1;  // header/programa border
+  --color-gray-425: #cfcfcf;  // table border
+  --color-gray-450: #cccccc;  // generic border
+  --color-gray-475: #c7c5c5;  // contingut border
+  --color-gray-500: #c1c0c0;  // contingut text
+  --color-gray-525: #bdbdbd;  // wrap-gris
+  --color-gray-550: #aeaeae;  // header meta
+  --color-gray-575: #afafaf;  // header text
+  --color-gray-600: #aba9a9;  // hr default
+  --color-gray-625: #a0a0a0;  // secondary text
+  --color-gray-650: #999999;  // muted text
+  --color-gray-675: #888888;  // header meta dark
+  --color-gray-700: #838383;  // programa text
+  --color-gray-725: #808080;  // programa alt
+  --color-gray-750: #7c7c7c;  // header/home text
+  --color-gray-775: #7b7b7b;  // gray (variable)
+  --color-gray-800: #797979;  // body secondary text
+  --color-gray-825: #777777;  // form placeholder
+  --color-gray-850: #767676;  // contingut
+  --color-gray-875: #727272;  // button alt / llistes
+  --color-gray-900: #5f5f5f;  // header dark
+  --color-gray-925: #5c5c5c;  // form dark
+  --color-gray-950: #575555;  // footer text
+  --color-gray-975: #545252;  // thumbnails
+  --color-gray-1000: #404040; // contingut dark
+  --color-brown-900: #3f3b3a; // wrap-gris-home
+  --color-brown-950: #332f2e; // wrap-gris-fosc
+  --color-gray-1050: #333333; // text base (gray-dark)
+  --color-gray-1100: #111111; // footer dark
+  --color-black: #000000;
+
+  // --- Shadows / overlays ---
+  --shadow-subtle: rgba(0, 0, 0, 0.15);
+  --shadow-light: rgba(0, 0, 0, 0.175);
+  --shadow-medium: rgba(0, 0, 0, 0.31);
+  --shadow-heavy: rgba(0, 0, 0, 0.5);
+  --shadow-dark: rgba(0, 0, 0, 0.6);
+  --overlay-light: rgba(100, 100, 100, 0.2);
+  --overlay-white: rgba(255, 255, 255, 0.3);
+
+  // --- Typography ---
+  --font-family-primary: "Open Sans", Helvetica, Arial, sans-serif;
+  --font-family-secondary: "Ubuntu", "Open Sans", Helvetica, Arial, sans-serif;
+  --font-size-base: 17px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-base: 1.5;
+
+  // --- Spacing scale (4px base) ---
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-13: 50px;   // used frequently in existing CSS (margin/padding: 50px)
+  --space-16: 64px;
+
+  // --- Borders ---
+  --border-radius-sm: 3px;
+  --border-radius-md: 5px;
+  --border-radius-lg: 8px;
+
+  // --- Transitions ---
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  // --- Modal ---
+  --modal-backdrop-opacity: 0.8;
+
+  // ==========================================================================
+  // Tier 2: Semantic tokens (intent-based aliases)
+  // ==========================================================================
+
+  // Brand
+  --color-brand: var(--color-red-700);
+  --color-brand-hover: var(--color-red-500);
+  --color-brand-light: var(--color-red-400);
+
+  // Text
+  --color-text: var(--color-gray-1050);         // #333 — base text
+  --color-text-secondary: var(--color-gray-800); // #797979
+  --color-text-muted: var(--color-gray-650);     // #999
+  --color-text-inverse: var(--color-white);
+
+  // Links
+  --color-link: var(--color-brand);
+  --color-link-hover: var(--color-red-500);
+
+  // Backgrounds
+  --color-bg-page: var(--color-white);
+  --color-bg-menu: var(--color-gray-50);         // #f8f8f8
+  --color-bg-light: var(--color-gray-200);       // #eae8e8
+  --color-bg-gray: var(--color-gray-525);        // #bdbdbd — wrap-gris
+  --color-bg-dark: var(--color-brown-900);       // #3f3b3a — wrap-gris-home
+  --color-bg-darker: var(--color-brown-950);     // #332f2e — wrap-gris-fosc
+
+  // Borders
+  --color-border: var(--color-gray-400);         // #d1d1d1
+  --color-border-light: var(--color-gray-275);   // #e4e4e4
+  --color-border-dark: var(--color-gray-600);    // #aba9a9
+
+  // Status
+  --color-success: var(--color-green-700);
+  --color-error: var(--color-error-700);
+
+  // Header
+  --color-header-bg: var(--color-brand);
+  --color-header-text: var(--color-white);
+
+  // Footer
+  --color-footer-bg: var(--color-brown-900);
+  --color-footer-text: var(--color-gray-350);
+}

@@ -1,0 +1,97 @@
+// ==========================================================================
+// Modern CSS Reset
+// ==========================================================================
+//
+// Hybrid of Josh Comeau's Custom CSS Reset and Andy Bell's Modern Reset.
+// Replaces normalize.css from the old Bootstrap 3 stack.
+//
+// References:
+//   https://www.joshwcomeau.com/css/custom-css-reset/
+//   https://andy-bell.co.uk/a-more-modern-css-reset/
+
+// Box sizing: border-box everywhere (matches BS3 behavior)
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Remove default margin and padding
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// Sensible body defaults
+body {
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeSpeed;
+}
+
+// Improve media defaults
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+// Remove built-in form typography styles (inherit from parent)
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+// Avoid text overflows
+h1, h2, h3, h4, h5, h6,
+p {
+  overflow-wrap: break-word;
+}
+
+// Smooth scrolling for anchors (only when no motion preference)
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+// Remove list styles for lists with a role (nav lists, etc.)
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+// Anchor defaults — inherits color from custom properties
+a {
+  text-decoration-skip-ink: auto;
+}
+
+// Remove all animations/transitions for people who prefer not to see them
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Table defaults — collapse borders
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// Remove button styling defaults
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
