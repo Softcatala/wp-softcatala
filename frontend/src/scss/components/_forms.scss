@@ -1,0 +1,325 @@
+// ==========================================================================
+// Forms
+// ==========================================================================
+//
+// Form controls, filters, typeahead. Keeps existing class names for
+// Phase 1 Twig compatibility.
+//
+// Source: maqueta/app/assets/less/components/formulari.less (280 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// .formulari wrapper
+// ---------------------------------------------------------------------------
+
+.formulari {
+  .contingut-header {
+    p {
+      font-size: 13px;
+      font-weight: normal;
+      margin: -5px 0 20px 0;
+    }
+
+    .contador-formulari {
+      background-color: var(--color-white);
+      color: var(--color-black);
+      font-size: 30px;
+      font-weight: 300;
+      padding: 6px 20px;
+      float: right;
+      margin-top: 10px;
+
+      i {
+        margin: 0 7px;
+        font-style: normal;
+      }
+    }
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+    border-color: var(--color-brand);
+  }
+
+  .form-horizontal {
+    .control-label {
+      font-weight: normal;
+      text-align: left;
+      padding-top: 5px;
+    }
+
+    .avis {
+      p {
+        font-size: 12px;
+        color: var(--color-error-600);             // #a94442
+        font-weight: normal;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      i {
+        margin: 1px 10px 15px 0;
+        float: left;
+        color: var(--color-error-600);
+      }
+
+      @include respond-to(sm) {
+        padding: 10px 15px;
+
+        i {
+          display: none;
+        }
+      }
+    }
+
+    .star-rating {
+      font-size: 20px;
+    }
+
+    .bt-puja {
+      padding-left: 0;
+
+      .bt-basic-petit {
+        height: auto;
+
+        &:hover {
+          color: var(--color-text);
+          text-decoration: none;
+        }
+      }
+    }
+
+    .radio,
+    .checkbox,
+    .radio-inline,
+    .checkbox-inline {
+      height: 34px;
+    }
+
+    .radio label,
+    .checkbox label {
+      line-height: 1.2;
+    }
+
+    .contrasenya {
+      padding: 20px 0;
+      text-decoration: underline;
+      float: left;
+    }
+
+    .form-botons {
+      .bt-basic-vermell-fosc {
+        margin-top: 40px;
+        padding: 10px 46px;
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: var(--color-red-300);  // #ed7f74
+          border-color: var(--color-red-300);
+        }
+      }
+
+      .bt-basic-gris {
+        margin-top: 40px;
+        padding: 10px 46px;
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: var(--color-gray-250); // #e6e6e6
+          border-color: var(--color-gray-250);
+        }
+      }
+
+      @include respond-to(xxs) {
+        .form-boto,
+        .bt-basic-vermell-fosc,
+        .bt-basic-gris {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Filters (.filtres)
+// ---------------------------------------------------------------------------
+
+.filtres {
+  .input-group-addon,
+  .input-group-btn,
+  .input-group .form-control,
+  .btn-group > .btn {
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--color-gray-925);                  // #5c5c5c
+  }
+
+  .form-control:focus {
+    border-color: var(--color-brand);
+  }
+
+  .input-group,
+  .bootstrap-select.form-control {
+    margin-bottom: 10px;
+  }
+
+  .btn-group {
+    height: 24px;
+
+    > .btn {
+      height: 24px;
+      padding: 2px 12px;
+      font-size: 12px;
+      font-weight: 300;
+      margin-bottom: 10px;
+      background-color: var(--color-white);
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-white);
+      }
+    }
+  }
+
+  .input-group-addon {
+    border: none;
+    padding: 0;
+  }
+
+  .lupa {
+    background-color: var(--color-white);
+    border-radius: 0;
+    padding: 0 0 0 20px;
+
+    i {
+      font-size: 24px;
+      color: var(--color-text);
+    }
+  }
+
+  .mostra {
+    font-size: 12px;
+    color: var(--color-gray-925);
+    float: left;
+    padding: 5px 0;
+  }
+
+  .dropdown-menu {
+    margin-top: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-color: var(--color-gray-225);           // #e7e7e7
+    min-width: 159px;
+
+    li a {
+      color: var(--color-gray-825);               // #777777
+      font-size: 12px;
+
+      &:hover,
+      &:focus {
+        color: var(--color-text);
+        background-color: var(--color-white);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Twitter Typeahead
+// ---------------------------------------------------------------------------
+
+span.twitter-typeahead .tt-menu,
+span.twitter-typeahead .tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: var(--color-white);
+  border: 1px solid var(--shadow-subtle);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px var(--shadow-light);
+  background-clip: padding-box;
+}
+
+span.twitter-typeahead .tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+span.twitter-typeahead .tt-suggestion.tt-cursor,
+span.twitter-typeahead .tt-suggestion:hover,
+span.twitter-typeahead .tt-suggestion:focus {
+  color: var(--color-white);
+  text-decoration: none;
+  outline: 0;
+  background-color: var(--color-blue-600);        // #337ab7
+}
+
+.input-group.input-group-lg span.twitter-typeahead .form-control {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .form-control {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+span.twitter-typeahead {
+  width: 100%;
+}
+
+.input-group span.twitter-typeahead {
+  display: block !important;
+  height: 34px;
+}
+
+.input-group span.twitter-typeahead .tt-menu,
+.input-group span.twitter-typeahead .tt-dropdown-menu {
+  top: 32px !important;
+}
+
+.input-group span.twitter-typeahead:not(:first-child):not(:last-child) .form-control {
+  border-radius: 0;
+}
+
+.input-group.input-group-sm span.twitter-typeahead {
+  height: 30px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .tt-menu,
+.input-group.input-group-sm span.twitter-typeahead .tt-dropdown-menu {
+  top: 30px !important;
+}
+
+.input-group.input-group-lg span.twitter-typeahead {
+  height: 46px;
+}
+
+.input-group.input-group-lg span.twitter-typeahead .tt-menu,
+.input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
+  top: 46px !important;
+}

@@ -1,0 +1,474 @@
+// ==========================================================================
+// Cards / Thumbnails
+// ==========================================================================
+//
+// Card-like components (program cards, member cards, news thumbnails, etc.).
+// Keeps existing class names for Phase 1 Twig compatibility.
+//
+// Source: maqueta/app/assets/less/layouts/thumbnails.less (396 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Base thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail {
+  padding: 0;
+  margin-top: 10px;
+  border-radius: 0;
+  border: none;
+  float: left;
+  position: relative;
+
+  a:hover,
+  a:focus {
+    text-decoration: none;
+  }
+
+  img {
+    float: left;
+  }
+
+  i {
+    font-size: 90px;
+    padding: 25px;
+    margin-right: 3px;
+    display: block;
+    float: left;
+  }
+
+  .caption {
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 0;
+      text-transform: none;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      margin-top: 5px;
+    }
+  }
+
+  // "Aneu" button overlay
+  .bt-aneu {
+    background-color: var(--color-brand-hover);
+    padding: 7px 15px;
+    font-size: 11px;
+    color: var(--color-white);
+    border: 1px solid var(--color-brand-hover);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: absolute;
+    bottom: 17px;
+
+    i {
+      font-size: 13px;
+      padding: 0 5px 0 30px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// White thumbnail (icon left + caption right)
+// ---------------------------------------------------------------------------
+
+.thumbnail-blanc {
+  min-height: 90px;
+  width: 100%;
+
+  > i,
+  a > i {
+    background-color: var(--color-brand-hover);
+    color: var(--color-white);
+    width: 70px;
+    min-height: 70px;
+    float: left;
+    font-size: 36px;
+    padding: 18px;
+  }
+
+  .caption {
+    margin-left: 95px;
+    padding: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Gray thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail-gris {
+  padding: 17px 8px 17px 0;
+  background-color: var(--color-bg-light);
+  margin-top: 10px;
+  margin-bottom: 0;
+  width: 100%;
+
+  .caption {
+    margin-left: 70px;
+    padding: 0;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  > i,
+  a > i {
+    color: var(--color-brand);
+    background-color: var(--color-bg-light);
+    width: 70px;
+    min-height: 70px;
+    float: left;
+    font-size: 36px;
+    padding: 18px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Press thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail-premsa {
+  div {
+    height: 170px;
+    overflow: hidden;
+  }
+
+  img {
+    width: 100%;
+    padding: 0 !important;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Vertical thumbnail (full-width card with stacked image + caption)
+// ---------------------------------------------------------------------------
+
+.thumbnail-vertical {
+  min-height: 360px;
+
+  img {
+    width: 100%;
+    padding: 25px;
+  }
+
+  a {
+    background-color: var(--color-bg-light);
+    display: block;
+    float: left;
+    min-height: 360px;
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-gray-475);    // #c7c5c5
+
+      .bt-aneu {
+        border-color: var(--color-gray-450);      // #cccccc
+        background-color: var(--color-gray-450);
+        color: var(--color-gray-800);             // #797979
+      }
+    }
+  }
+
+  .bt-aneu {
+    bottom: 24px;
+  }
+
+  .caption {
+    float: left;
+    padding: 18px 15px 55px 15px;
+    width: 100%;
+
+    h3 {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.4;
+    }
+
+    p {
+      color: var(--color-gray-800);               // #797979
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 1.4;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Program thumbnail (card with rating)
+// ---------------------------------------------------------------------------
+
+.thumbnail-programes {
+  min-height: 290px;
+
+  a {
+    background-color: var(--color-bg-light);
+    min-height: 290px;
+
+    @include respond-to(sm) {
+      min-height: 305px;
+    }
+  }
+
+  .caption {
+    padding: 0 15px 15px 15px;
+    height: auto;
+
+    h3 {
+      font-size: 14px;
+      color: var(--color-text);
+      margin-bottom: 20px;
+      max-width: 140px;
+      word-wrap: break-word;
+    }
+
+    .cont-rating {
+      position: absolute;
+      bottom: 10px;
+
+      .star-rating {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      em {
+        font-size: 12px;
+        font-weight: 300;
+        font-style: normal;
+        display: inline-block;
+      }
+    }
+  }
+
+  // Ribbon overrides for program cards
+  .ribbon {
+    font-variant: small-caps;
+
+    i {
+      font-size: 15px;
+      padding: 3px;
+      float: none;
+      display: inline;
+    }
+
+    a {
+      background: transparent;
+      color: white !important;
+      min-height: 0;
+      width: 100%;
+    }
+  }
+
+  .ribbon.left {
+    left: -60px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Inverted thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail-invers {
+  i {
+    background-color: var(--color-bg-light);
+    color: var(--color-brand);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Gray image thumbnail (horizontal card with image + caption)
+// ---------------------------------------------------------------------------
+
+.thumbnail-gris-img {
+  width: 100%;
+
+  a {
+    background-color: var(--color-bg-light);
+    display: block;
+    float: left;
+    width: 100%;
+
+    img {
+      margin-right: 3px;
+      padding: 25px;
+    }
+
+    .caption {
+      padding: 17px 17px 17px 0;
+      position: relative;
+      min-height: 170px;
+      margin-left: 0;
+
+      h3 {
+        font-size: 20px;
+        font-weight: normal;
+      }
+
+      p {
+        color: var(--color-gray-800);             // #797979
+        font-size: 13px;
+        font-weight: normal;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-gray-475);    // #c7c5c5
+
+      .bt-aneu {
+        border-color: var(--color-gray-450);
+        background-color: var(--color-gray-450);
+        color: var(--color-gray-800);
+      }
+    }
+
+    // Tablet: image smaller, caption floated
+    @media (max-width: $bp-sm-max) and (min-width: $bp-sm) {
+      img {
+        width: 120px;
+        float: left;
+        display: inline-block;
+      }
+
+      .caption {
+        min-height: 220px;
+        width: 66%;
+        float: right;
+      }
+    }
+
+    // Mobile: compact layout
+    @include respond-to(xxs) {
+      img {
+        width: 120px;
+        float: left;
+        display: inline-block;
+      }
+
+      .bt-aneu {
+        display: none;
+      }
+
+      img {
+        width: 110px;
+      }
+
+      .caption {
+        min-height: 0;
+        padding: 17px 17px 17px 115px;
+
+        h3 {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  a.member_project {
+    img {
+      padding: 0;
+    }
+  }
+
+  // Ribbon overrides
+  .ribbon {
+    font-variant: small-caps;
+
+    i {
+      font-size: 15px;
+      padding: 3px;
+      float: none;
+      display: inline;
+    }
+
+    a {
+      background: transparent;
+      color: white !important;
+      min-height: 0;
+      width: 100%;
+    }
+  }
+
+  .ribbon.left {
+    left: -60px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Small gray image thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail-gris-img-petit {
+  a {
+    img {
+      margin-right: 20px;
+      width: 127px;
+    }
+
+    .caption {
+      min-height: 127px;
+
+      .bt-aneu {
+        left: 147px !important;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Gallery thumbnail
+// ---------------------------------------------------------------------------
+
+.thumbnail-galeria {
+  margin-bottom: 0;
+  margin-top: 5px;
+
+  img {
+    width: 100%;
+    float: none;
+  }
+
+  p.peu-foto {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 18px;
+    float: left;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// WordPress gallery items
+// ---------------------------------------------------------------------------
+
+dl.gallery-item {
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+
+  dt {
+    width: 100%;
+    overflow: hidden;
+
+    a img {
+      float: none;
+      border: none !important;
+    }
+  }
+
+  dd.gallery-caption {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 18px;
+    margin-top: 10px;
+    text-align: left;
+  }
+}

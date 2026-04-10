@@ -1,0 +1,338 @@
+// ==========================================================================
+// Buttons
+// ==========================================================================
+//
+// All button variants and button groups. Keeps existing class names for
+// Phase 1 Twig compatibility.
+//
+// Source: maqueta/app/assets/less/components/botons.less (284 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Base button
+// ---------------------------------------------------------------------------
+
+.bt-basic {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: transparent;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  font-size: 13px;
+  padding: 10px 26px;
+  border-radius: 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bt-basic-petit {
+  font-size: 11px;
+  padding: 8px 5px;
+}
+
+// ---------------------------------------------------------------------------
+// Color variants
+// ---------------------------------------------------------------------------
+
+.bt-basic-vermell {
+  background-color: var(--color-brand-hover);    // #e64b3c
+  border-color: var(--color-brand-hover);
+  color: var(--color-white);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-red-300);       // #ed7f74
+    border-color: var(--color-red-300);
+    text-decoration: none;
+    color: var(--color-white);
+  }
+
+  body.touch &:hover {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-white);
+  }
+}
+
+.bt-basic-gris {
+  background-color: var(--color-gray-450);       // #cccccc
+  border-color: var(--color-gray-450);
+  color: var(--color-white);
+}
+
+.bt-basic-vermell-fosc {
+  background-color: var(--color-brand);           // #c43434
+  border-color: var(--color-brand);
+  color: var(--color-white);
+}
+
+.bt-basic-vermell-blanc {
+  background-color: var(--color-brand-hover);
+  border-color: var(--color-white);
+  color: var(--color-white);
+
+  &:hover,
+  &:focus {
+    color: var(--color-white);
+    text-decoration: none;
+  }
+}
+
+.bt-blanc {
+  border-color: var(--color-white);
+  color: var(--color-white) !important;
+}
+
+// ---------------------------------------------------------------------------
+// Download buttons
+// ---------------------------------------------------------------------------
+
+.bt-download {
+  font-size: 18px;
+  color: var(--color-brand-hover);
+  border: 1px solid var(--color-brand-hover);
+  background-color: transparent;
+  padding: 8px 36px 8px 12px;
+  margin: 30px 0;
+  text-align: left;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: flex-start;
+  width: auto;
+
+  i {
+    font-size: 24px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+
+  span {
+    display: block;
+    padding-left: 35px;
+  }
+}
+
+.bt-download-invers {
+  font-size: 16px;
+  border: 1px solid var(--color-brand-hover);
+  background-color: var(--color-brand-hover);
+  color: var(--color-white);
+  letter-spacing: 2px;
+  text-align: left;
+  font-weight: normal;
+  padding: 5px 50px 5px 12px;
+  margin: 20px 0;
+  display: inline-flex;
+  align-items: flex-start;
+
+  i {
+    font-size: 32px;
+    margin-right: 10px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  span,
+  img {
+    text-transform: uppercase;
+  }
+
+  em {
+    display: block;
+    letter-spacing: normal;
+    font-style: normal;
+    font-size: 12px;
+    text-transform: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// State modifiers
+// ---------------------------------------------------------------------------
+
+.desactivat {
+  opacity: 0.5;
+}
+
+// ---------------------------------------------------------------------------
+// Special button variants
+// ---------------------------------------------------------------------------
+
+.bt-collaboreu {
+  padding: 8px 12px;
+
+  span {
+    padding: 8px 10px 5px 0;
+  }
+}
+
+.bt-gris {
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 0;
+  text-align: left;
+  background-color: var(--color-bg-light);       // #eae8e8
+  border-color: var(--color-bg-light);
+  padding: 2px 26px;
+  text-transform: none;
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+
+  i {
+    font-size: 24px;
+    color: var(--color-gray-875);                 // #727272
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+
+  span {
+    padding: 12px 25px 12px 35px;
+    display: block;
+  }
+}
+
+.bt-seguent {
+  margin-top: 60px;
+  padding: 10px 56px;
+}
+
+// ---------------------------------------------------------------------------
+// Pagination
+// ---------------------------------------------------------------------------
+
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--color-text);
+
+  &:hover {
+    opacity: 0.7;
+    text-decoration: none !important;
+  }
+}
+
+.pagination > li > span.current {
+  color: var(--color-gray-1050);                  // #333333
+}
+
+// ---------------------------------------------------------------------------
+// Button group (step wizard)
+// ---------------------------------------------------------------------------
+
+.bt-grup {
+  margin-bottom: 25px;
+
+  .steps {
+    width: 100%;
+    padding: 20px 10px 15px 15px;
+    height: 90px;
+    background-color: var(--color-brand-hover);
+    color: var(--color-white);
+    border-color: var(--color-white);
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 300;
+
+    p {
+      font-size: 22px;
+      text-transform: none;
+      letter-spacing: normal;
+      text-align: left;
+      line-height: 2.2;
+    }
+
+    span {
+      height: 75px;
+      display: block;
+    }
+
+    i {
+      border-radius: 100px;
+      background-color: transparent;
+      float: left;
+      border: 1px solid var(--color-white);
+      width: 50px;
+      height: 50px;
+      padding: 7px 8px;
+      margin-right: 10px;
+      line-height: 1.3;
+      font-style: normal;
+    }
+  }
+
+  .segon {
+    p {
+      line-height: 1.1;
+    }
+  }
+
+  .titol-xxs {
+    text-align: center;
+    color: var(--color-brand-hover);
+    font-size: 18px;
+  }
+
+  @include respond-to(xs) {
+    .steps {
+      padding: 15px 10px 20px 10px;
+      height: 120px;
+
+      i {
+        margin: 0 auto;
+        float: none;
+        font-size: 20px;
+        width: 30px;
+        height: 30px;
+      }
+
+      span {
+        height: 110px;
+      }
+
+      p {
+        font-size: 18px;
+        text-align: center;
+        display: block;
+        margin-top: 12px;
+        line-height: 1.1;
+      }
+    }
+  }
+
+  @include respond-to(xxs) {
+    .steps {
+      height: 75px;
+      padding: 12px;
+
+      p {
+        display: none;
+      }
+
+      span {
+        height: 68px;
+      }
+
+      i {
+        display: block;
+        width: 50px;
+        height: 50px;
+        padding: 12px 8px;
+      }
+    }
+  }
+
+  .active {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-brand-hover);
+    color: var(--color-brand-hover);
+
+    i {
+      border-color: var(--color-brand-hover);
+    }
+
+    span {
+      background: url(../images/content/bt-fletxa.jpg) no-repeat center bottom;
+    }
+  }
+}

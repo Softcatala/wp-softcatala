@@ -16,14 +16,16 @@
 @use 'globals/navigation';
 
 // 5. Reusable components (class selectors)
-// @use 'components/buttons';
-// @use 'components/forms';
-// @use 'components/modals';
-// @use 'components/tables';
-// @use 'components/cards';
-// @use 'components/pagination';
-// @use 'components/ribbons';
-// @use 'components/star-rating';
+@use 'components/buttons';
+@use 'components/forms';
+@use 'components/modals';
+@use 'components/tables';
+@use 'components/cards';
+@use 'components/ribbons';
+@use 'components/star-rating';
+@use 'components/content';
+@use 'components/wordpress';
+@use 'components/widgets';
 
 // 6. Page-specific layouts (most specific)
 // @use 'layouts/home';

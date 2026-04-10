@@ -1,0 +1,52 @@
+// ==========================================================================
+// Modals
+// ==========================================================================
+//
+// Modal dialog styles. In Phase 2, <dialog> + ::backdrop will replace BS3
+// modal JS. For now, keeps existing class names for Twig compatibility.
+//
+// Source: maqueta/app/assets/less/components/modals.less (46 lines)
+
+@use '../tokens' as *;
+
+.modal-dialog {
+  margin: 60px auto;
+
+  .modal-content {
+    padding: 30px 30px 60px 30px;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+
+    @include respond-to(xs) {
+      margin: 30px;
+    }
+
+    .close {
+      position: absolute;
+      top: -35px;
+      right: 0;
+      color: var(--color-white);
+      opacity: 1;
+    }
+
+    .form-botons {
+      .bt-basic-gris {
+        margin-top: 40px;
+        float: right;
+      }
+
+      .bt-basic-vermell-fosc {
+        margin-top: 40px;
+      }
+
+      @include respond-to(xxs) {
+        .form-boto,
+        .bt-basic-vermell-fosc,
+        .bt-basic-gris {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
