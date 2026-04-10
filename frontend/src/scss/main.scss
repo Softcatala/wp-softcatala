@@ -1,5 +1,8 @@
 // Softcatala Frontend — SCSS Entry Point
-// Import order follows ITCSS-inspired specificity: tokens → reset → base → globals → components → layouts → utilities
+// Import order follows ITCSS-inspired specificity: vendor → tokens → reset → base → globals → components → layouts → utilities
+
+// 0. Vendor (third-party CSS: FontAwesome icon font)
+@use 'third-party/fontawesome';
 
 // 1. Design tokens (CSS custom properties + SCSS breakpoint variables)
 @use 'tokens';

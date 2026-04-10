@@ -4,6 +4,8 @@ import { resolve } from 'node:path'
 export default defineConfig({
   // No HTML entry — pure asset pipeline
   publicDir: false,
+  // Relative asset URLs so font paths work under any WordPress theme URL
+  base: './',
 
   resolve: {
     alias: {
@@ -15,6 +17,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
+        loadPaths: [
+          resolve(__dirname, 'node_modules/@fortawesome/fontawesome-free/scss'),
+        ],
       },
     },
     devSourcemap: true,
