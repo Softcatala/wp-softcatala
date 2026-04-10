@@ -1,0 +1,218 @@
+// ==========================================================================
+// Footer
+// ==========================================================================
+//
+// The site footer. Keeps existing class names for Phase 1 Twig compatibility.
+//
+// Structure:
+//   1. .pag-footer .footer-gris — dark footer (logo, copyright, CC, contact, social)
+//   2. .pag-footer .wrap-blanc  — white sponsors bar ("funciona gràcies a" + "hostatjat a")
+//
+// Source: maqueta/app/assets/less/comuns/footer.less (163 lines)
+// Reference: wp-softcatala/templates/footer.twig (259 lines)
+
+@use '../tokens' as *;
+
+.pag-footer {
+
+  // ========================================================================
+  // 1. Dark footer area (.footer-gris)
+  // ========================================================================
+
+  .footer-gris {
+    padding-bottom: 40px;
+    color: var(--color-white);
+
+    // --- Shared padding for all four columns ---
+    .copy,
+    .cc,
+    .contacte,
+    .seguiunos {
+      padding: 40px 15px 0 15px;
+    }
+
+    // --- Logo + copyright ---
+    .copy {
+      display: flex;
+      align-items: flex-start;
+
+      img {
+        flex-shrink: 0;
+        margin-right: 20px;
+      }
+
+      p {
+        margin-top: 26px;
+      }
+    }
+
+    // --- Creative Commons ---
+    .cc {
+      font-size: 12px;
+
+      a {
+        color: var(--color-white);
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--color-white);
+          text-decoration: underline;
+        }
+      }
+    }
+
+    // --- Contact links ---
+    .contacte {
+      font-size: 13px;
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+
+        li {
+          border-bottom: 1px solid var(--color-gray-950); // #575555
+
+          &:last-child {
+            border: none;
+          }
+
+          a {
+            padding: 4px;
+            color: var(--color-white);
+          }
+        }
+      }
+    }
+
+    // --- Social media ("Seguiu-nos") ---
+    .seguiunos {
+      color: var(--color-gray-775); // #7b7b7b (Less @gray)
+      font-size: 13px;
+
+      .footer-media {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+
+        li {
+          display: inline-block;
+        }
+
+        a {
+          padding: 0;
+          font-size: 18px;
+          width: 41px;
+          height: 40px;
+
+          i {
+            padding: 6px 5px;
+            background-color: var(--color-gray-1100); // #111111
+            border-radius: 100px;
+            width: 40px;
+            height: 40px;
+            color: var(--color-gray-350); // #d6d5d5
+          }
+        }
+      }
+    }
+
+    // --- Responsive: tablet ---
+    @include respond-to(sm) {
+      .seguiunos {
+        padding: 40px 0 0 15px;
+      }
+    }
+
+    // --- Responsive: mobile ---
+    @include respond-to(xs) {
+      .seguiunos {
+        padding: 40px 15px 0 15px;
+
+        p,
+        .footer-media {
+          text-align: center;
+          // float: none replaced — .footer-media is already flexbox
+          justify-content: center;
+        }
+      }
+
+      .copy p {
+        margin-top: 18px;
+      }
+    }
+
+    // --- Responsive: narrow mobile ---
+    @include respond-to(xxs) {
+      .contacte,
+      .copy,
+      .cc {
+        width: 100%;
+      }
+
+      .copy p {
+        margin-top: 26px;
+      }
+
+      .seguiunos {
+        p,
+        .footer-media {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  // ========================================================================
+  // 2. White sponsors bar (.wrap-blanc inside .pag-footer)
+  // ========================================================================
+
+  .wrap-blanc {
+
+    p {
+      font-size: 12px;
+      margin: 9px 0 0 0;
+    }
+
+    img {
+      margin: 0 6px;
+    }
+
+    .col-1-img {
+      display: flex;
+      align-items: center;
+    }
+
+    .col-1 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 40px 0;
+    }
+
+    .col-2 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0 0 36px 0;
+    }
+
+    // --- Responsive: mobile ---
+    @include respond-to(xs) {
+      .col-1 {
+        margin: 20px 0 40px 0;
+
+        p,
+        .col-1-img {
+          width: 100%;
+          text-align: center;
+          justify-content: center;
+        }
+      }
+
+      .col-2 {
+        display: block;
+      }
+    }
+  }
+}
