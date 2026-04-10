@@ -52,8 +52,84 @@
     z-index: 20;
   }
 
+  // BS3 compat: .navbar-toggle is hidden at >=769px, shown only at xs
+  .navbar-toggle {
+    display: none;
+
+    @include respond-to(xs) {
+      display: block;
+    }
+  }
+
+  // BS3 compat: .center-block used for line breaks in nav-tab text
+  // In flex containers, needs width: 100% to force wrapping to next line.
+  .center-block {
+    display: block;
+    width: 100%;
+  }
+
+  // BS3 compat: .navbar-right float/align helper
+  .navbar-right {
+    margin-left: auto;
+  }
+
   .nav > li > a {
     color: var(--color-text);
+  }
+
+  // --------------------------------------------------------------------------
+  // .wrap-gris layout (gray top bar)
+  // --------------------------------------------------------------------------
+  // HTML order matches visual: [user] [news links] — both right-aligned.
+
+  .wrap-gris > .container-fluid {
+    @include respond-from(sm) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 30px;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // .wrap-blanc layout (white middle band)
+  // --------------------------------------------------------------------------
+  // HTML order matches visual: [logo] [tabs+espai] [help] [search]
+
+  .wrap-blanc > .container-fluid {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: stretch;
+      position: relative;  // for absolutely-positioned search
+    }
+  }
+
+  // The div.hidden-xs wrapper holds nav-tabs + espai. Grows to fill space.
+  .wrap-blanc > .container-fluid > div.hidden-xs {
+    @include respond-from(sm) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      flex: 1 1 auto;
+    }
+  }
+
+  // Espai de col·laboradors pushed right within the tabs wrapper
+  .wrap-blanc .navbar-espai {
+    @include respond-from(sm) {
+      margin-left: auto;
+    }
+  }
+
+  // Search bar (desktop) — positioned absolutely at far right
+  .wrap-blanc > .container-fluid > .navbar-lupa.hidden-xs {
+    @include respond-from(sm) {
+      position: absolute;
+      right: 15px;
+      top: 0;
+      height: 90px;
+      z-index: 10;
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -94,7 +170,9 @@
 
       > a {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
+        align-content: center;
         justify-content: center;
         text-transform: uppercase;
         width: 160px;
@@ -471,12 +549,23 @@
   .navbar-noticies {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+
+    .nav {
+      align-items: center;
+      height: 100%;
+    }
 
     .nav > li {
+      display: block;
       border-left: 1px solid var(--color-gray-775);
+      align-self: center;
       margin: 8px 0;
+      line-height: normal;
 
       > a {
+        display: block;
         font-size: 12px;
         color: var(--color-gray-775);
         padding: 0 15px;
@@ -503,9 +592,7 @@
     height: 30px;
 
     img {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+      // Flex align-items: center handles vertical centering
     }
 
     .nav > li {
@@ -625,6 +712,7 @@
   .navbar-header {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 
     .navbar-toggle,
     .cd-nav-trigger {
