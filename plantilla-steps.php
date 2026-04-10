@@ -20,6 +20,10 @@ $templates = array('plantilla-steps.twig' );
 $project_slug = get_query_var( 'project' );
 if ( ! empty ( $project_slug ) ) {
     $projecte = get_page_by_path( $project_slug , OBJECT, 'projecte' );
+    if ( $projecte && get_field( 'projecte_intern', $projecte->ID ) && ! is_user_logged_in() ) {
+        wp_safe_redirect( wp_login_url( get_permalink() ) );
+        exit;
+    }
     $projecte = Timber::get_post($projecte->ID);
     $content_title = 'Col·laboreu en el projecte '. $projecte->post_title;
     $projecte->project_requirements = apply_filters('the_content', $projecte->project_requirements);

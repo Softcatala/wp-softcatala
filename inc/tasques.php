@@ -419,3 +419,17 @@ function sc_invalidate_internal_projecte_ids_transient( $post_id, $post ) {
 	}
 	delete_transient( 'sc_internal_projecte_ids' );
 }
+
+/**
+ * Invalidate the sc_internal_tasca_ids transient when a tasca is saved
+ * and the tasca_interna ACF field may have changed.
+ *
+ * @param int     $post_id Post ID.
+ * @param WP_Post $post    Post object.
+ */
+function sc_invalidate_internal_tasca_ids_transient( $post_id, $post ) {
+	if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+	delete_transient( 'sc_internal_tasca_ids' );
+}

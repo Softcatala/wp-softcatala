@@ -37,7 +37,7 @@ $context_holder['contact']['nom_from'] = 'Projectes de Softcatalà';
 $context_holder['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
 
 //Posts and pagination
-$context_holder['posts'] = Projectes::get_sorted_projects( array(), $arxivats );
+$context_holder['posts'] = Projectes::get_sorted_projects( array(), $arxivats, is_user_logged_in() );
 $context_holder['subpages'] = true;
 $context_holder['arxivat'] = $arxivats;
 

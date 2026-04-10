@@ -266,6 +266,35 @@
             "ui_off_text": "",
             "_name": "tasques_internes",
             "_valid": 1
+        },
+        {
+            "ID": 0,
+            "key": "field_projecte_intern",
+            "label": "Projecte intern",
+            "name": "projecte_intern",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 9,
+            "instructions": "Amaga aquest projecte de tots els visitants anònims (arxiu, cercador, mapa del lloc, pàgina individual i sub-pàgines).",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 8027,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "message": "Projecte intern",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "_name": "projecte_intern",
+            "_valid": 1
         }
     ],
     "location": [

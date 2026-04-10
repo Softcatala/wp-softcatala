@@ -16,6 +16,11 @@ class Tasques {
 	const TRANSIENT_INTERNAL_IDS = 'sc_internal_projecte_ids';
 
 	/**
+	 * Transient key for caching the list of individually-internal tasca IDs.
+	 */
+	const TRANSIENT_INTERNAL_TASCA_IDS = 'sc_internal_tasca_ids';
+
+	/**
 	 * Fetch all published tasks visible to the given visitor type, for the global board.
 	 *
 	 * For anonymous visitors, tasks linked to projectes with `tasques_internes = true`
@@ -40,28 +45,41 @@ class Tasques {
 			return $tasks;
 		}
 
-		// Anonymous visitors: exclude tasks from internal projectes.
-		$internal_ids = self::get_internal_projecte_ids();
-		if ( empty( $internal_ids ) ) {
+		// Anonymous visitors: exclude tasks from internal projectes and individually-internal tasks.
+		$internal_projecte_ids = self::get_internal_projecte_ids();
+		$internal_tasca_ids    = self::get_internal_tasca_ids();
+
+		if ( empty( $internal_projecte_ids ) && empty( $internal_tasca_ids ) ) {
 			return $tasks;
 		}
 
 		return array_values(
 			array_filter(
 				$tasks,
-				function ( $task ) use ( $internal_ids ) {
-					$projecte = get_field( 'projecte_tasca', $task->ID );
-					if ( ! $projecte ) {
-						return true; // No projecte linked — show to everyone.
+				function ( $task ) use ( $internal_projecte_ids, $internal_tasca_ids ) {
+					// Per-task flag: hide if tasca_interna is set.
+					if ( ! empty( $internal_tasca_ids ) && in_array( $task->ID, $internal_tasca_ids, true ) ) {
+						return false;
 					}
-					if ( $projecte instanceof \WP_Post ) {
-						$projecte_id = $projecte->ID;
-					} elseif ( is_array( $projecte ) ) {
-						$projecte_id = (int) ( $projecte['ID'] ?? 0 );
-					} else {
-						$projecte_id = (int) $projecte;
+
+					// Project-level flags: hide if the parent project is internal.
+					if ( ! empty( $internal_projecte_ids ) ) {
+						$projecte = get_field( 'projecte_tasca', $task->ID );
+						if ( $projecte ) {
+							if ( $projecte instanceof \WP_Post ) {
+								$projecte_id = $projecte->ID;
+							} elseif ( is_array( $projecte ) ) {
+								$projecte_id = (int) ( $projecte['ID'] ?? 0 );
+							} else {
+								$projecte_id = (int) $projecte;
+							}
+							if ( $projecte_id && in_array( $projecte_id, $internal_projecte_ids, true ) ) {
+								return false;
+							}
+						}
 					}
-					return ! in_array( $projecte_id, $internal_ids, true );
+
+					return true;
 				}
 			)
 		);
@@ -204,7 +222,7 @@ class Tasques {
 	}
 
 	/**
-	 * Return the IDs of all projectes where `tasques_internes` is truthy.
+	 * Return the IDs of all projectes where `tasques_internes` OR `projecte_intern` is truthy.
 	 * Result is cached in a 5-minute transient and invalidated on projecte save
 	 * via the `sc_invalidate_internal_projecte_ids_transient` hook.
 	 *
@@ -227,12 +245,46 @@ class Tasques {
 
 		$internal = array();
 		foreach ( $projectes as $projecte_id ) {
-			if ( get_field( 'tasques_internes', $projecte_id ) ) {
+			if ( get_field( 'tasques_internes', $projecte_id ) || get_field( 'projecte_intern', $projecte_id ) ) {
 				$internal[] = (int) $projecte_id;
 			}
 		}
 
 		set_transient( self::TRANSIENT_INTERNAL_IDS, $internal, 5 * MINUTE_IN_SECONDS );
+
+		return $internal;
+	}
+
+	/**
+	 * Return the IDs of all tasques where `tasca_interna` is truthy.
+	 * Result is cached in a 5-minute transient and invalidated on tasca save
+	 * via the `sc_invalidate_internal_tasca_ids_transient` hook.
+	 *
+	 * @return int[] Array of tasca post IDs.
+	 */
+	public static function get_internal_tasca_ids() {
+		$cached = get_transient( self::TRANSIENT_INTERNAL_TASCA_IDS );
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
+		$tasques = get_posts(
+			array(
+				'post_type'      => 'tasca',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+			)
+		);
+
+		$internal = array();
+		foreach ( $tasques as $tasca_id ) {
+			if ( get_field( 'tasca_interna', $tasca_id ) ) {
+				$internal[] = (int) $tasca_id;
+			}
+		}
+
+		set_transient( self::TRANSIENT_INTERNAL_TASCA_IDS, $internal, 5 * MINUTE_IN_SECONDS );
 
 		return $internal;
 	}

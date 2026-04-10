@@ -129,6 +129,35 @@
             "_name": "data_venciment",
             "_valid": 1,
             "default_to_current_date": 0
+        },
+        {
+            "ID": 0,
+            "key": "field_tasca_interna",
+            "label": "Tasca interna",
+            "name": "tasca_interna",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 4,
+            "instructions": "Amaga aquesta tasca als visitants anònims, independentment del projecte al qual pertany.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": "group_tasca_fields",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "message": "Tasca interna",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "_name": "tasca_interna",
+            "_valid": 1
         }
     ],
     "location": [

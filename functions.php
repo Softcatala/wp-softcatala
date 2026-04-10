@@ -101,6 +101,15 @@ class StarterSite extends \Timber\Site {
 		// Task management: redirect anonymous users away from individual task permalinks.
 		add_action( 'template_redirect', array( $this, 'sc_redirect_tasca_to_login' ) );
 
+		// Visibility: redirect anonymous users away from individual internal projecte pages.
+		add_action( 'template_redirect', array( $this, 'sc_redirect_internal_projecte_to_login' ) );
+
+		// Visibility: exclude internal projectes from WP search for anonymous visitors.
+		add_action( 'pre_get_posts', array( $this, 'sc_exclude_internal_projectes_from_search' ) );
+
+		// Visibility: exclude internal projectes from Yoast SEO sitemaps.
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'sc_exclude_internal_projectes_from_sitemap' ) );
+
 		// Task management: seed default estat_tasca terms on theme activation.
 		add_action( 'after_switch_theme', 'sc_seed_estat_tasca' );
 
@@ -118,6 +127,9 @@ class StarterSite extends \Timber\Site {
 
 		// Task management: invalidate internal-projecte transient when tasques_internes changes.
 		add_action( 'save_post_projecte', 'sc_invalidate_internal_projecte_ids_transient', 10, 2 );
+
+		// Task management: invalidate internal-tasca transient when tasca_interna changes.
+		add_action( 'save_post_tasca', 'sc_invalidate_internal_tasca_ids_transient', 10, 2 );
 
 		// Task management: restrict milestone_tasca ACF field to milestones of the selected projecte.
 		add_filter( 'acf/fields/post_object/query/name=milestone_tasca', 'sc_filter_milestone_tasca_by_projecte', 10, 3 );
@@ -502,6 +514,76 @@ class StarterSite extends \Timber\Site {
 			wp_safe_redirect( wp_login_url( get_permalink() ) );
 			exit;
 		}
+	}
+
+	/**
+	 * Redirect anonymous users away from individual internal-projecte pages to the login page.
+	 * Projects with projecte_intern = true are invisible to anonymous visitors; accessing
+	 * the URL directly results in a 302 redirect to the login page.
+	 */
+	function sc_redirect_internal_projecte_to_login() {
+		if ( is_singular( 'projecte' ) && ! is_user_logged_in() ) {
+			$projecte_id = get_queried_object_id();
+			if ( get_field( 'projecte_intern', $projecte_id ) ) {
+				wp_safe_redirect( wp_login_url( get_permalink() ) );
+				exit;
+			}
+		}
+	}
+
+	/**
+	 * Exclude internal projects from WP search results for anonymous visitors.
+	 *
+	 * Fires on pre_get_posts; only modifies the main search query for non-logged-in users.
+	 *
+	 * @param \WP_Query $query The WP_Query object.
+	 */
+	function sc_exclude_internal_projectes_from_search( $query ) {
+		if ( ! $query->is_main_query() || ! $query->is_search() || is_user_logged_in() ) {
+			return;
+		}
+
+		// Use a two-arm OR so pre-existing posts with no meta row are treated as public.
+		$existing_meta_query = $query->get( 'meta_query' );
+		$internal_exclusion  = array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'projecte_intern',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'projecte_intern',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		);
+
+		if ( ! empty( $existing_meta_query ) ) {
+			$query->set(
+				'meta_query',
+				array(
+					'relation'  => 'AND',
+					$existing_meta_query,
+					$internal_exclusion,
+				)
+			);
+		} else {
+			$query->set( 'meta_query', $internal_exclusion );
+		}
+	}
+
+	/**
+	 * Exclude internal projects from Yoast SEO XML sitemaps.
+	 *
+	 * @param int[] $excluded_ids Currently excluded post IDs.
+	 * @return int[] Extended exclusion list.
+	 */
+	function sc_exclude_internal_projectes_from_sitemap( $excluded_ids ) {
+		$internal_ids = \Softcatala\Providers\Tasques::get_internal_projecte_ids();
+		if ( ! empty( $internal_ids ) ) {
+			$excluded_ids = array_unique( array_merge( (array) $excluded_ids, $internal_ids ) );
+		}
+		return $excluded_ids;
 	}
 
 	function add_user_nav_info_to_context( $context ) {
