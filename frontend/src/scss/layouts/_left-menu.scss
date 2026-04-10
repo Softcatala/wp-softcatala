@@ -1,0 +1,146 @@
+// ==========================================================================
+// Layout: Left sidebar menu
+// ==========================================================================
+//
+// Navigation menu in the left column, collapsible on mobile.
+//
+// Source: maqueta/app/assets/less/layouts/menu-esquerra.less (133 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Left sidebar nav (.aside-left)
+// ---------------------------------------------------------------------------
+
+.aside-left {
+  .nav li {
+    border-bottom: 1px solid var(--color-border-dark); // #aba9a9
+  }
+
+  .nav li.current_page_item a {
+    color: var(--color-link-hover) !important;
+  }
+
+  .nav li {
+    a {
+      padding: 10px 15px 10px 0;
+      color: var(--color-text);
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: var(--color-link-hover);
+      }
+
+      i { padding-right: 10px; }
+    }
+
+    // Nested nav (sub-menu)
+    .nav li {
+      border: none;
+
+      a {
+        padding: 0 15px 8px 20px;
+        color: var(--color-gray-775);              // #7b7b7b (Less @gray)
+        font-size: 13px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: var(--color-link-hover);
+        }
+
+        i {
+          font-size: 4px;
+          position: relative;
+          top: -3px;
+        }
+      }
+    }
+  }
+}
+
+.navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Mobile menu toggle button (.boto-menu-lateral)
+// ---------------------------------------------------------------------------
+
+.boto-menu-lateral {
+  a {
+    background-color: var(--color-text);
+    color: var(--color-white);
+    padding: 0;
+    position: relative;
+    display: block;
+
+    p {
+      padding: 15px 45px;
+      display: block;
+      margin-bottom: 0;
+    }
+
+    .fa-chevron-down {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 18px;
+      border-left: 1px solid var(--color-text-muted); // #999999
+    }
+
+    .fa-bars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 13px 10px;
+      font-size: 24px;
+    }
+
+    &:hover { text-decoration: none; }
+
+    &:active,
+    &:focus {
+      text-decoration: none;
+
+      .fa-chevron-down {
+        border-left: none;
+        border-right: 1px solid var(--color-text-muted);
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .active .fa-chevron-down {
+    border-left: none;
+    border-right: 1px solid var(--color-text-muted);
+    transform: rotate(180deg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mobile responsive
+// ---------------------------------------------------------------------------
+
+@include respond-to(xs) {
+  .aside-left {
+    padding-left: 0;
+    padding-right: 0;
+
+    .nav li {
+      border-color: var(--color-border);
+
+      a {
+        padding: 16px 16px 16px 45px;
+
+        i { display: none; }
+      }
+
+      .nav li a {
+        padding: 8px 16px 14px 45px;
+      }
+    }
+  }
+}

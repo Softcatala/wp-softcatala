@@ -1,0 +1,665 @@
+// ==========================================================================
+// Layout: Home
+// ==========================================================================
+//
+// Home page layout: carousel, recursos i serveis, qui som, col·laboreu,
+// actualitat (noticies + esdeveniments).
+//
+// Source: maqueta/app/assets/less/layouts/layout-home.less (616 lines)
+
+@use '../tokens' as *;
+
+.home {
+
+  // --- Content section overrides ---
+  .contingut-section {
+    margin: 40px 0 90px 0;
+
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-gray-775);               // #7b7b7b
+      text-transform: uppercase;
+      margin: 0 0 5px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--color-black);
+      margin: 0;
+    }
+
+    @include respond-to(xxs) {
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .wrap-blanc .contingut-section {
+    h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+  }
+
+  // ========================================================================
+  // Carousel
+  // ========================================================================
+
+  .carousel {
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+      margin: 0 auto;
+      max-width: auto;
+      min-height: 400px;
+
+      @media (max-width: 1070px) {
+        height: 380px;
+        max-width: none;
+        min-height: auto;
+        width: auto;
+      }
+
+      @include respond-to(sm) {
+        height: 272px;
+      }
+
+      @include respond-to(xxs) {
+        height: 170px;
+      }
+    }
+
+    .carousel-caption {
+      text-shadow: none;
+      background-color: var(--shadow-dark);        // rgba(0,0,0,0.6)
+      bottom: 23%;
+      top: 23%;
+      max-width: 1070px;
+      max-height: 250px;
+      padding: 20px 20px 30px 20px;
+      margin: 0 auto;
+      width: 100%;
+      z-index: 1;
+      left: 10%;
+      right: 10%;
+
+      h1 {
+        font-size: 40px;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+
+      h2 {
+        font-size: 24px;
+        font-weight: 300;
+        margin-top: 0;
+      }
+
+      .bt-blanc {
+        margin-top: 15px;
+      }
+    }
+
+    .carousel-indicators {
+      top: 20px;
+      text-align: right;
+      bottom: auto;
+      max-width: 1070px;
+      left: 10%;
+      right: 10%;
+      width: 100%;
+      z-index: 2;
+      margin: 0 auto;
+
+      li {
+        width: 15px;
+        height: 15px;
+        margin: 3px;
+        background-color: var(--color-bg-light);
+        border-color: var(--color-bg-light);
+      }
+
+      .active {
+        width: 15px;
+        height: 15px;
+        margin: 3px;
+        background-color: var(--color-brand);
+        border-color: var(--color-brand);
+      }
+    }
+
+    .peu-foto {
+      position: absolute;
+      bottom: 25px;
+      right: 10%;
+      left: 10%;
+      margin: 0 auto;
+      max-width: 1070px;
+      width: 100%;
+
+      em {
+        background-color: var(--shadow-dark);
+        color: var(--color-gray-625);              // #a0a0a0
+        font-weight: 600;
+        font-size: 12px;
+        padding: 5px 20px;
+        text-align: right;
+        float: right;
+      }
+    }
+
+    @media (max-width: 1070px) {
+      .carousel-caption {
+        h1 { font-size: 30px; }
+        h2 { font-size: 18px; }
+      }
+    }
+
+    @include respond-from(lg) {
+      // no changes needed above lg
+    }
+
+    @media (max-width: $bp-lg) {
+      .carousel-caption,
+      .carousel-indicators,
+      .peu-foto {
+        left: 5%;
+        right: 5%;
+        width: auto;
+      }
+    }
+
+    @include respond-to(sm) {
+      .carousel-inner > .item {
+        min-height: 500px;
+      }
+
+      .carousel-caption {
+        top: 272px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        width: 100%;
+
+        h1 {
+          font-size: 36px;
+          margin-top: 10px;
+          line-height: 1;
+        }
+
+        h2 { font-size: 16px; }
+      }
+
+      .peu-foto {
+        bottom: 250px;
+        right: 20px;
+        margin-left: 15px;
+      }
+    }
+
+    @include respond-to(xxs) {
+      .carousel-inner > .item {
+        min-height: 398px;
+      }
+
+      .carousel-caption {
+        top: 170px;
+
+        h1 { font-size: 20px; }
+        h2 { font-size: 14px; }
+      }
+
+      .carousel-indicators {
+        bottom: 10px;
+        top: auto;
+        text-align: center;
+      }
+
+      .peu-foto {
+        font-size: 10px;
+        padding: 5px 10px;
+      }
+    }
+  }
+
+  // ========================================================================
+  // Recursos i Serveis
+  // ========================================================================
+
+  .recursos-serveis {
+    margin-bottom: 30px;
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .home-thumbs {
+      p {
+        background-color: var(--color-white);
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.5;
+        padding: 15px 30px 15px 20px;
+        position: absolute;
+        top: 100px;
+        left: 30px;
+      }
+
+      h2 {
+        position: relative;
+        top: 35%;
+        transform: translateY(-40%);
+        left: 140px;
+        float: left;
+      }
+
+      a {
+        display: block;
+
+        &:hover {
+          color: var(--color-text);
+          cursor: pointer;
+        }
+      }
+
+      @media (max-width: 680px) {
+        h2 {
+          font-size: 18px;
+          left: 130px;
+        }
+      }
+
+      @media (max-width: 590px) {
+        .col-xxs-12 {
+          width: 100%;
+        }
+      }
+    }
+
+    .home-thumb-01 {
+      background: url("../images/content/img-thumb-home-01.jpg") no-repeat center left var(--color-bg-light);
+      height: 150px;
+      margin-bottom: 70px;
+    }
+
+    .home-thumb-02 {
+      background: url("../images/content/img-thumb-home-02.jpg") no-repeat center left var(--color-bg-light);
+      height: 150px;
+      margin-bottom: 70px;
+    }
+
+    .home-thumb-03 {
+      background: url("../images/content/img-thumb-home-03.jpg") no-repeat center left var(--color-bg-light);
+      height: 150px;
+      margin-bottom: 70px;
+    }
+
+    .home-thumb-04 {
+      background: url("../images/content/img-thumb-home-04.jpg") no-repeat center left var(--color-bg-light);
+      height: 150px;
+      margin-bottom: 70px;
+    }
+
+    // --- Programari tabs ---
+    .programari {
+      h2 {
+        background-color: var(--color-red-600);    // #c0392b
+        color: var(--color-white);
+        padding: 10px 14px 14px 14px;
+        margin-bottom: 0;
+      }
+
+      .nav-tabs {
+        > li {
+          a {
+            width: 50px;
+            height: 51px;
+            border-right: 1px solid var(--color-gray-300);
+            border-bottom: 1px solid var(--color-gray-300);
+            border-top: 1px solid var(--color-red-600);
+            border-radius: 0;
+            margin-right: 0;
+            padding: 0;
+            margin-top: -1px;
+          }
+
+          span { display: none; }
+        }
+
+        > li.active > a,
+        > li.active > a:hover,
+        > li.active > a:focus {
+          background-color: var(--color-bg-light);
+          border-bottom: 1px solid var(--color-bg-light);
+          border-top: 1px solid var(--color-red-600);
+          background-position: bottom center;
+          border-left: none;
+        }
+
+        > li:first-child a {
+          border-left: 1px solid var(--color-gray-300);
+        }
+
+        > li.active:first-child a {
+          border-left: none;
+        }
+
+        .tab-windows a { background: url("../images/content/img-home-windows.jpg") no-repeat top center; }
+        .tab-linux a   { background: url("../images/content/img-home-linux.jpg") no-repeat top center; }
+        .tab-ios a     { background: url("../images/content/img-home-ios.jpg") no-repeat top center; }
+        .tab-android a { background: url("../images/content/img-home-android.jpg") no-repeat top center; }
+        .tab-osx a     { background: url("../images/content/img-home-osx.jpg") no-repeat top center; }
+      }
+
+      .tab-pane {
+        ol {
+          counter-reset: li;
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        ol > li {
+          position: relative;
+          padding: 6px 8px 8px;
+          list-style: none;
+          background: var(--color-white);
+          border-bottom: 1px solid var(--color-gray-300);
+          font-size: 14px;
+          height: 51px;
+
+          a {
+            float: left;
+            max-width: 265px;
+            margin-top: -5px;
+            height: 51px;
+
+            div.centered_text {
+              position: relative;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+          }
+
+          span {
+            color: var(--color-gray-750);          // #7c7c7c
+          }
+
+          &:last-child {
+            border-bottom: none;
+
+            &::before {
+              border-bottom: none;
+            }
+          }
+
+          &:nth-of-type(2n+1) {
+            background-color: var(--color-bg-light);
+
+            &::before {
+              background-color: var(--color-bg-light);
+            }
+          }
+        }
+
+        ol > li::before {
+          content: counter(li);
+          counter-increment: li;
+          margin: 0 28px 0 0;
+          width: 50px;
+          float: left;
+          color: var(--color-text);
+          background-color: var(--color-white);
+          font-weight: bold;
+          font-size: 30px;
+          font-family: var(--font-family-secondary);
+          text-align: center;
+          padding: 2px 0 0 10px;
+        }
+
+        li ol,
+        li ul {
+          margin-top: 6px;
+        }
+
+        ol ol li:last-child {
+          margin-bottom: 0;
+        }
+
+        @include respond-to(xxs) {
+          ol > li {
+            font-size: 12px;
+
+            span { display: none; }
+            a { max-width: 200px; }
+          }
+
+          ol > li::before {
+            font-size: 26px;
+          }
+        }
+      }
+
+      .bt-basic {
+        background-color: var(--color-red-600);
+        border: none;
+        color: var(--color-white);
+        width: 100%;
+        display: block;
+        padding: 16px;
+        margin-top: -10px;
+      }
+    }
+  }
+
+  // ========================================================================
+  // Qui som
+  // ========================================================================
+
+  .quisom {
+    h1 {
+      color: var(--color-brand-hover);
+    }
+
+    p {
+      color: var(--color-white);
+      font-size: 20px;
+      font-weight: normal;
+      line-height: 1.5;
+    }
+
+    .cont-llista {
+      margin: 20px 0 30px 0;
+
+      li {
+        color: var(--color-white);
+        font-size: 16px;
+        font-weight: normal;
+        padding: 8px;
+      }
+    }
+
+    @include respond-to(xs) {
+      margin-top: 15px;
+
+      h3 { margin-top: 30px; }
+
+      .bt-basic {
+        margin-right: auto;
+        margin-left: auto;
+        width: 220px;
+        display: block;
+      }
+    }
+  }
+
+  // ========================================================================
+  // Col·laboreu
+  // ========================================================================
+
+  .collaboreu {
+    text-align: center;
+    margin-top: 50px;
+
+    .row > div {
+      margin-top: 20px;
+    }
+
+    @include respond-to(md) {
+      a span {
+        display: inline-block;
+      }
+    }
+
+    @include respond-to(xs) {
+      p { line-height: 1.5; }
+    }
+
+    h3, h1 {
+      color: var(--color-white);
+    }
+
+    p {
+      color: var(--color-white);
+      font-weight: normal;
+    }
+
+    a {
+      color: var(--color-white);
+      display: block;
+      min-width: 170px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+
+      i {
+        width: 170px;
+        height: 170px;
+        background-color: var(--color-red-550);    // #bf382b
+        font-size: 60px;
+        padding: 50px;
+        border-radius: 100px;
+        line-height: 1.2;
+        text-align: center;
+        display: block;
+        margin: 0 auto 10px auto;
+      }
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        color: var(--color-white);
+
+        i {
+          color: var(--color-brand);
+          background-color: var(--color-white);
+        }
+      }
+
+      @include respond-to(xs) {
+        min-width: 150px;
+        font-size: 15px;
+
+        i {
+          width: 150px;
+          height: 150px;
+          line-height: 0.9;
+          padding: 50px 0;
+        }
+      }
+    }
+
+    @media (max-width: 560px) {
+      .col-xxs-12 {
+        width: 100%;
+      }
+    }
+  }
+
+  // ========================================================================
+  // Actualitat (Noticies + Esdeveniments)
+  // ========================================================================
+
+  .actualitat {
+    .llista-esdeveniments {
+      .contingut-article {
+        float: left;
+        margin-top: 5px;
+
+        h2 {
+          font-size: 16px;
+          font-weight: 600;
+          padding: 0;
+          margin: 0;
+          width: 270px;
+        }
+
+        .article-footer {
+          padding: 0;
+
+          a {
+            color: var(--color-gray-775);
+            font-weight: 600;
+
+            &:hover { text-decoration: none; }
+          }
+        }
+
+        i {
+          margin: 0 8px 20px 0;
+        }
+      }
+    }
+
+    .thumbnail-galeria {
+      p {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.4;
+        margin: 10px 0 0 0;
+      }
+
+      a {
+        color: var(--color-text);
+        margin-bottom: 20px;
+        display: block;
+
+        .data-temps {
+          color: var(--color-gray-775);
+          font-weight: 600;
+        }
+      }
+    }
+
+    .noticies .bt-basic {
+      margin-top: 20px;
+      display: inline-block;
+    }
+
+    .esdeveniments .bt-basic {
+      margin-top: 140px;
+      display: inline-block;
+    }
+
+    @include respond-to(sm) {
+      .esdeveniments .bt-basic,
+      .noticies .bt-basic {
+        margin-top: 20px;
+      }
+
+      .esdeveniments h2 {
+        margin-top: 50px;
+      }
+    }
+
+    @include respond-to(xs) {
+      .bt-basic {
+        margin: 20px auto 0 auto;
+        width: 220px;
+        display: block;
+      }
+    }
+  }
+}

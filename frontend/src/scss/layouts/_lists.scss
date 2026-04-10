@@ -1,0 +1,211 @@
+// ==========================================================================
+// Layout: Lists
+// ==========================================================================
+//
+// Styled list types: cont-llista, llista-check, llista-gran, breadcrumbs,
+// content section list bullets, multilingue.
+//
+// Source: maqueta/app/assets/less/layouts/llistes.less (183 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Icon triangle list (.cont-llista)
+// ---------------------------------------------------------------------------
+
+.cont-llista {
+  padding: 0;
+
+  li {
+    font-size: 16px;
+    font-weight: 300;
+    padding: 6px;
+
+    > i {
+      font-weight: normal;
+      color: var(--color-link-hover);
+      font-size: 13px;
+      margin-right: 15px;
+    }
+
+    a {
+      color: var(--color-text);
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--color-link-hover);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content section list bullet overrides
+// ---------------------------------------------------------------------------
+
+// Reset bullets on special lists inside content sections
+section.contingut-section ul.aparells_detail,
+section.contingut-section ul.pagination,
+section.contingut-section ul.dropdown-menu {
+  li {
+    padding: 0 !important;
+  }
+
+  li::before {
+    content: '' !important;
+    margin: 0 !important;
+  }
+}
+
+section.contingut-section ul.llista-check {
+  li {
+    font-size: 15px !important;
+    font-weight: bold !important;
+    padding: 0 6px !important;
+  }
+
+  li::before {
+    content: '' !important;
+    margin: 0 !important;
+  }
+}
+
+// Default list bullets for content sections (chevron icon)
+div.contingut section.contingut-section ul {
+  padding: 0;
+  list-style: outside none none;
+
+  li {
+    font-size: 16px;
+    line-height: 2;
+    padding: 6px;
+  }
+
+  li::before {
+    font-family: 'FontAwesome';
+    content: '\f054';
+    color: var(--color-brand);
+    font-size: 13px;
+    margin: 0 15px 0 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Breadcrumbs
+// ---------------------------------------------------------------------------
+
+div.container-fluid {
+  .breadcrumbs ul {
+    margin-top: 10px;
+    list-style: outside none none;
+
+    li {
+      display: inline;
+      font-size: 14px;
+
+      a { color: var(--color-gray-800); }
+    }
+
+    li:first-child::before {
+      content: "";
+      margin: 0 0 0 15px;
+    }
+
+    li::before {
+      font-family: 'FontAwesome';
+      content: '\f105';
+      color: var(--color-gray-800);
+      font-size: 14px;
+      margin-left: 3px;
+      margin-right: 7px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Checklist (.llista-check)
+// ---------------------------------------------------------------------------
+
+.llista-check {
+  margin: 10px 0 10px 0 !important;
+
+  li {
+    font-size: 15px !important;
+    font-weight: bold !important;
+
+    a {
+      color: var(--color-black) !important;
+      background-color: var(--color-bg-light) !important;
+      margin-bottom: 10px !important;
+      display: block !important;
+      padding: 10px 15px 10px 20px !important;
+
+      i {
+        font-weight: normal !important;
+        color: var(--color-gray-875) !important;   // #727272
+        font-size: 36px !important;
+        margin-right: 15px !important;
+        float: left !important;
+      }
+
+      span {
+        display: block !important;
+        padding: 6px 15px 6px 50px !important;
+      }
+
+      &:hover {
+        text-decoration: none !important;
+        color: var(--color-white) !important;
+        background-color: var(--color-link-hover) !important;
+
+        i { color: var(--color-white) !important; }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Large list (.llista-gran)
+// ---------------------------------------------------------------------------
+
+.llista-gran {
+  li {
+    border-bottom: 1px solid #d2cfc5;
+
+    > a {
+      color: var(--color-text);
+      font-size: 18px;
+      font-weight: normal;
+      padding: 17px;
+      display: block;
+
+      &:hover {
+        color: var(--color-link-hover);
+        text-decoration: none;
+
+        i { color: var(--color-link-hover); }
+      }
+
+      > i {
+        font-size: 22px;
+        color: var(--color-text);
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Multilingual letters list
+// ---------------------------------------------------------------------------
+
+ul.multilingue_lletres {
+  li > a {
+    color: var(--color-text) !important;
+
+    &:hover {
+      color: var(--color-link-hover) !important;
+      text-decoration: none !important;
+    }
+  }
+}

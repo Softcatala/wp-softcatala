@@ -28,17 +28,17 @@
 @use 'components/widgets';
 
 // 6. Page-specific layouts (most specific)
-// @use 'layouts/home';
-// @use 'layouts/programa';
-// @use 'layouts/eines';
-// @use 'layouts/blog';
-// @use 'layouts/news';
-// @use 'layouts/events';
-// @use 'layouts/member';
-// @use 'layouts/faq';
-// @use 'layouts/sidebar';
-// @use 'layouts/comments';
-// @use 'layouts/devices';
+@use 'layouts/home';
+@use 'layouts/programa';
+@use 'layouts/eines';
+@use 'layouts/blog';
+@use 'layouts/lists';
+@use 'layouts/member';
+@use 'layouts/faq';
+@use 'layouts/sidebar';
+@use 'layouts/comments';
+@use 'layouts/devices';
+@use 'layouts/left-menu';
 
 // 7. Utilities (highest priority — keep last)
 @use 'utilities';

@@ -1,0 +1,217 @@
+// ==========================================================================
+// Layout: Blog / News / Events
+// ==========================================================================
+//
+// Blog posts, news listings, event listings and details.
+//
+// Source: maqueta/app/assets/less/layouts/layout-blog.less (218 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// .blog page wrapper
+// ---------------------------------------------------------------------------
+
+.blog {
+  .main-header {
+    h2,
+    span {
+      color: var(--color-gray-625);               // #a0a0a0
+      font-weight: 300;
+      margin-top: 20px;
+      font-size: 36px;
+      display: inline-block;
+    }
+
+    @include respond-to(sm) {
+      h2 { margin-top: 0; }
+    }
+
+    @include respond-to(xxs) {
+      h2,
+      span {
+        font-size: 24px;
+        margin-top: -10px;
+      }
+    }
+  }
+
+  .contingut-header {
+    margin-bottom: 40px;
+
+    p { margin-bottom: 30px; }
+
+    em {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    img { width: 100%; }
+
+    .bt-grup {
+      margin: 30px 0 25px 0;
+
+      .bt-basic {
+        padding: 7px 10px;
+        letter-spacing: normal;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .data {
+      color: var(--color-gray-900);               // #5f5f5f
+
+      span { padding: 0 20px; }
+    }
+  }
+
+  .contingut-article {
+    h2 {
+      font-weight: 300;
+      font-size: 24px;
+      color: var(--color-black);
+      line-height: 1.4;
+      margin-top: 0;
+
+      a {
+        color: var(--color-black);
+
+        &:hover,
+        &:focus {
+          color: var(--color-black);
+          text-decoration: none;
+        }
+      }
+    }
+
+    p { margin-bottom: 30px; }
+
+    .article-cont {
+      font-size: 16px;
+      line-height: 1.4;
+
+      p { margin-bottom: 10px; }
+
+      img {
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        margin: 30px auto;
+      }
+    }
+
+    .article-footer {
+      color: var(--color-gray-900);
+
+      .data-temps { display: block; }
+
+      .info-usuari {
+        padding: 5px 10px 10px 68px;
+        margin-top: 20px;
+      }
+
+      img {
+        margin: 10px 0;
+        width: auto;
+        float: left;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// News and events listings
+// ---------------------------------------------------------------------------
+
+.llista-noticies,
+.llista-esdeveniments {
+  > .contingut-article {
+    img {
+      float: right;
+      margin: 10px 0;
+
+      @include respond-to(sm) {
+        display: none;
+      }
+    }
+  }
+}
+
+.llista-esdeveniments {
+  h2.any {
+    font-weight: bold;
+    font-size: 28px;
+    margin-top: 0;
+    position: absolute;
+
+    @include respond-to(xxs) {
+      position: relative;
+    }
+  }
+
+  .contingut-article {
+    h2,
+    .article-footer {
+      padding-left: 195px;
+
+      @include respond-to(xxs) {
+        padding-left: 95px;
+      }
+    }
+
+    i {
+      width: 70px;
+      height: 70px;
+      background-color: var(--color-brand-hover);
+      color: var(--color-white);
+      padding: 18px 10px;
+      display: block;
+      font-family: var(--font-family-secondary);
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      float: left;
+      margin-right: 25px;
+      margin-top: 8px;
+      margin-left: 100px;
+
+      @include respond-to(xxs) {
+        margin-left: 0;
+      }
+
+      span {
+        text-align: center;
+        display: block;
+        font-size: 13px;
+      }
+
+      strong {
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Event info block
+// ---------------------------------------------------------------------------
+
+.info-esdeveniment {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 30px;
+
+  .row div {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .row div:first-child {
+    font-weight: 600;
+  }
+}

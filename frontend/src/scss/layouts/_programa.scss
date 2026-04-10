@@ -1,0 +1,384 @@
+// ==========================================================================
+// Layout: Programa
+// ==========================================================================
+//
+// Program listing and detail pages: fitxa-programa, fitxa-projecte,
+// gris-main-header, footer-main-header-gris, menu-main-header-gris,
+// llista-programes.
+//
+// Source: maqueta/app/assets/less/layouts/layout-programa.less (373 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// .programa page wrapper
+// ---------------------------------------------------------------------------
+
+.programa {
+  .main-header {
+    border-bottom: none;
+  }
+
+  .contingut-header {
+    p { margin-bottom: 30px; }
+    img { margin-bottom: 20px; }
+  }
+
+  .img-amb-llista {
+    margin: 15px 0;
+  }
+
+  .comentaris {
+    .comentari-header {
+      h2 { margin-bottom: 0; }
+
+      .cont-rating {
+        .star-rating {
+          font-size: 20px;
+          display: inline-block;
+        }
+
+        em {
+          font-size: 18px;
+          display: inline-block;
+          font-style: normal;
+          font-weight: bold;
+          line-height: 1.8;
+        }
+
+        .mitja {
+          font-size: 18px;
+          display: inline-block;
+          font-style: normal;
+          font-weight: bold;
+          margin: 0 5px 0 14px;
+          line-height: 1.8;
+        }
+      }
+    }
+
+    .cont-comentari .data {
+      display: block;
+      margin-left: 0;
+    }
+  }
+
+  @include respond-to(xs) {
+    .main-header .container-fluid {
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .gris-main-header > .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Gray header bar (.gris-main-header)
+// ---------------------------------------------------------------------------
+
+.gris-main-header {
+  background-color: var(--color-bg-light);
+  border-bottom: none;
+  margin-top: 30px;
+  padding: 0 20px;
+
+  h2 {
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  ul li {
+    font-size: 13px;
+    color: var(--color-gray-800);                  // #797979
+    margin-bottom: 0;
+    max-width: 70%;
+
+    a {
+      font-size: 13px;
+      color: var(--color-gray-800);
+
+      &:hover,
+      &:focus {
+        color: var(--color-link-hover);
+      }
+    }
+
+    .fa {
+      width: 14px;
+      text-align: center;
+    }
+  }
+
+  .cap-aparell {
+    padding: 0 20px 40px;
+  }
+
+  .img-main-header-gris {
+    margin-top: 35px;
+
+    img {
+      float: right;
+    }
+  }
+
+  .cont-main-header-gris {
+    a.bt-versions {
+      color: var(--color-link-hover);
+      font-size: 12px;
+      margin-left: 10px;
+      display: inline-block;
+
+      @include respond-to(xxs) {
+        margin-left: 0;
+      }
+    }
+
+    .versions {
+      width: 90%;
+      border-bottom: 1px solid #d1cfcf;
+      margin: 20px 0;
+      padding-bottom: 20px;
+
+      .fa-times {
+        font-size: 24px;
+        color: var(--color-gray-725);              // #808080
+      }
+
+      p {
+        font-size: 11px;
+        color: var(--color-gray-700);              // #838383
+      }
+
+      @include respond-to(md) {
+        width: 100%;
+      }
+
+      .bt-download-invers {
+        width: 105%;
+        padding-right: 0;
+        margin: 10px 0;
+
+        img { margin-right: 10px; }
+
+        span {
+          font-size: 14px;
+          letter-spacing: normal;
+
+          em { font-size: 12px; }
+        }
+
+        @include respond-to(xxs) {
+          width: 100%;
+          padding-right: 5px;
+        }
+      }
+    }
+
+    .bt-download-invers {
+      display: inline-block;
+      padding-right: 45px;
+      margin: 10px 0 0;
+
+      i { margin-top: 2px; }
+      img { margin-right: 10px; }
+
+      span {
+        font-size: 14px;
+        text-transform: none;
+        letter-spacing: normal;
+
+        em { font-size: 12px; }
+      }
+
+      @include respond-to(xxs) {
+        width: 100%;
+        padding-right: 12px;
+      }
+
+      &:hover,
+      &:focus {
+        color: var(--color-white);
+      }
+    }
+  }
+
+  @include respond-to(xs) {
+    margin-top: 0;
+    padding: 0;
+
+    .img-main-header-gris img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      float: none;
+    }
+  }
+
+  @include respond-to(xxs) {
+    h2 { display: none; }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer of gray header (.footer-main-header-gris)
+// ---------------------------------------------------------------------------
+
+.footer-main-header-gris {
+  margin-bottom: 20px;
+
+  .cont-rating,
+  .cont-baixades {
+    margin: 10px 30px 0 0;
+    float: left;
+  }
+
+  .compartiu {
+    margin: 10px 40px 0 0;
+    display: inline-block;
+  }
+
+  @include respond-to(xs) {
+    .cont-rating,
+    .cont-baixades,
+    .compartiu {
+      margin: 10px 12px 0 0;
+    }
+  }
+
+  @media (max-width: 630px) {
+    .cont-rating,
+    .cont-baixades {
+      float: none;
+    }
+
+    .compartiu {
+      display: block;
+    }
+  }
+
+  .numero {
+    font-weight: bold;
+    font-size: 12px;
+    margin-right: 3px;
+    margin-left: 5px;
+  }
+
+  em {
+    font-weight: 300;
+    font-size: 12px;
+    font-style: normal;
+  }
+
+  .cont-rating {
+    .star-rating {
+      float: left;
+    }
+
+    em,
+    .numero {
+      margin-top: 3px;
+    }
+  }
+
+  .compartiu .compartiu-media {
+    margin-bottom: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Menu bar under gray header (.menu-main-header-gris)
+// ---------------------------------------------------------------------------
+
+.menu-main-header-gris {
+  border-bottom: 1px solid var(--color-border-dark); // #aba9a9
+
+  ul {
+    padding: 0;
+
+    li {
+      display: inline-block;
+      padding: 20px 0;
+
+      &:first-child a {
+        padding-left: 0;
+        border-left: none;
+      }
+
+      a {
+        color: var(--color-black);
+        border-left: 1px solid var(--color-border-dark);
+        padding: 0 15px;
+
+        &:hover,
+        &:focus {
+          color: var(--color-link-hover);
+        }
+      }
+    }
+
+    li.active a {
+      color: var(--color-link-hover) !important;
+    }
+  }
+
+  @include respond-to(xs) {
+    border-bottom: none;
+
+    ul li {
+      display: block;
+      padding-left: 30px;
+      padding: 0;
+      border-bottom: 1px solid var(--color-border);
+
+      a {
+        border-left: none;
+        padding: 16px 16px 16px 45px;
+      }
+    }
+
+    ul li:first-child a {
+      border-left: none;
+      padding: 16px 16px 16px 45px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Program list (.llista-programes)
+// ---------------------------------------------------------------------------
+
+.llista-programes {
+  @include respond-to(xxs) {
+    .thumbnail-programes {
+      min-height: 0;
+      width: 100%;
+
+      a {
+        width: 100%;
+        min-height: 0;
+
+        img { width: 127px; }
+
+        .caption {
+          float: none;
+          width: auto;
+          padding-top: 20px;
+          padding-left: 125px;
+        }
+      }
+    }
+  }
+}
+
+.project_list_img {
+  width: 150px;
+
+  img { width: 100%; }
+}
