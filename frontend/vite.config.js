@@ -29,7 +29,7 @@ export default defineConfig({
 
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/js/main.js'),
+        main: resolve(__dirname, 'src/js/main.ts'),
       },
       output: {
         entryFileNames: 'js/[name].min.js',
