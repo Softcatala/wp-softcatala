@@ -86,7 +86,8 @@ div.contingut section.contingut-section ul {
   }
 
   li::before {
-    font-family: 'FontAwesome';
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content: '\f054';
     color: var(--color-brand);
     font-size: 13px;
@@ -116,7 +117,8 @@ div.container-fluid {
     }
 
     li::before {
-      font-family: 'FontAwesome';
+      font-family: "Font Awesome 7 Free";
+      font-weight: 900;
       content: '\f105';
       color: var(--color-gray-800);
       font-size: 14px;
