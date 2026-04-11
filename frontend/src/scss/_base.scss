@@ -39,6 +39,17 @@ h4 {
 }
 
 // --------------------------------------------------------------------------
+// Paragraphs
+// --------------------------------------------------------------------------
+// BS3 set p { margin: 0 0 10px } globally.  Our reset zeros all margins, so
+// without this rule consecutive <p> elements have no visible separation.
+// Component-level rules (0, 20px, 30px, etc.) override where needed.
+
+p {
+  margin-bottom: 10px;
+}
+
+// --------------------------------------------------------------------------
 // Links
 // --------------------------------------------------------------------------
 

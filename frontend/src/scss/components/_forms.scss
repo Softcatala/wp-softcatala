@@ -10,11 +10,188 @@
 @use '../tokens' as *;
 
 // ---------------------------------------------------------------------------
+// .form-control base (replaces BS3 forms.less)
+// ---------------------------------------------------------------------------
+// BS3 provided these globally. Without them, <input> and <select> with
+// .form-control shrink to content width and lack consistent styling.
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color ease-in-out 0.15s;
+
+  &:focus {
+    border-color: var(--color-brand);
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+select.form-control {
+  appearance: auto; // preserve native dropdown arrow
+}
+
+// ---------------------------------------------------------------------------
+// .input-group base (replaces BS3 input-groups.less)
+// ---------------------------------------------------------------------------
+
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+
+  .form-control {
+    display: table-cell;
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+  }
+}
+
+.input-group-addon,
+.input-group-btn {
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.input-group-addon {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;
+  color: var(--color-text);
+  text-align: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+
+  // Remove left border when after input
+  .input-group .form-control:first-child + & {
+    border-left: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// .form-group base (replaces BS3 forms.less)
+// ---------------------------------------------------------------------------
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+// ---------------------------------------------------------------------------
+// .form-horizontal layout (replaces BS3 forms.less)
+// ---------------------------------------------------------------------------
+// In BS3, .form-horizontal .form-group used .make-row() (negative margins +
+// clearfix) so grid-column children (col-sm-*) floated side-by-side.
+// In our flexbox grid, .form-group acts as a flex .row instead.
+
+.form-horizontal .form-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc($grid-gutter / -2);
+  margin-right: calc($grid-gutter / -2);
+}
+
+// Labels: align with input text baseline at sm+
+.form-horizontal .control-label {
+  @media (min-width: 769px) {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: 7px; // aligns label text with input text
+  }
+}
+
+// Radio/checkbox vertical alignment inside horizontal forms
+.form-horizontal {
+  .radio,
+  .checkbox,
+  .radio-inline,
+  .checkbox-inline {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 7px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// .radio / .checkbox base (replaces BS3 forms.less)
+// ---------------------------------------------------------------------------
+
+.radio,
+.checkbox {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 4px;
+  }
+}
+
+.radio-inline,
+.checkbox-inline {
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: normal;
+  cursor: pointer;
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 4px;
+  }
+}
+
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+// ---------------------------------------------------------------------------
+// textarea.form-control — auto height
+// ---------------------------------------------------------------------------
+
+textarea.form-control {
+  height: auto;
+}
+
+// ---------------------------------------------------------------------------
 // .formulari wrapper
 // ---------------------------------------------------------------------------
 
 .formulari {
-  .contingut > header {
+  // The HTML is <div class="contingut formulari col-sm-9"> — both classes on
+  // the same element, so use &.contingut (no space) not .contingut (descendant).
+  &.contingut > header {
     p {
       font-size: 13px;
       font-weight: normal;
@@ -27,7 +204,8 @@
       font-size: 30px;
       font-weight: 300;
       padding: 6px 20px;
-      float: right;
+      display: block;
+      text-align: right;
       margin-top: 10px;
 
       i {
@@ -82,6 +260,13 @@
 
       .bt-basic-petit {
         height: auto;
+        // Override .form-control values that win by source order
+        font-size: 11px;
+        padding: 8px 5px;
+
+        @media (min-width: $bp-sm) {
+          white-space: nowrap;
+        }
 
         &:hover {
           color: var(--color-text);

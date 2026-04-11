@@ -33,7 +33,9 @@
     }
 
     a {
-      color: var(--color-text);
+      // No explicit color — inherits global a { color: var(--color-link) }
+      // (red), matching the old BS3 site where the Less @gray-dark rule was
+      // overridden by the higher-specificity global a color.
 
       &:hover {
         text-decoration: underline;
@@ -154,7 +156,8 @@ div.container-fluid {
     border-bottom: 1px solid #d2cfc5;
 
     > a {
-      color: var(--color-text);
+      // No explicit color — inherits global a { color: var(--color-link) }
+      // (red), matching the old BS3 site.
       font-size: 18px;
       font-weight: normal;
       padding: 17px;

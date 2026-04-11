@@ -34,6 +34,10 @@
   }
 
   .caption {
+    // BS3 set .thumbnail .caption { color: @text-color } to override
+    // the inherited red from parent <a> links.
+    color: var(--color-text);
+
     h3 {
       font-size: 16px;
       font-weight: bold;
@@ -49,8 +53,12 @@
     }
   }
 
-  // "Aneu" button overlay
+  // "Aneu" button overlay — icon before text in HTML (natural reading order)
   .bt-aneu {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
     background-color: var(--color-brand-hover);
     padding: 7px 15px;
     font-size: 11px;
@@ -63,7 +71,8 @@
 
     i {
       font-size: 13px;
-      padding: 0 5px 0 30px;
+      padding: 0;                      // reset .thumbnail i {padding:25px}
+      margin-right: 0;                // reset .thumbnail i {margin-right:3px}
     }
   }
 }
@@ -75,6 +84,7 @@
 .thumbnail-blanc {
   display: flex;
   align-items: flex-start;
+  gap: 25px;
   min-height: 90px;
   width: 100%;
 
@@ -82,6 +92,7 @@
   > a {
     display: flex;
     align-items: flex-start;
+    gap: 25px;
     width: 100%;
   }
 
@@ -226,9 +237,28 @@
 .thumbnail-programes {
   min-height: 290px;
 
+  @media (max-width: $bp-xxs-max) {
+    min-height: auto;
+  }
+
   a {
     background-color: var(--color-bg-light);
     min-height: 290px;
+
+    // At mobile (xxs), card goes full-width: show image beside caption.
+    // In old BS3 this was achieved via img { float: left }; we use flexbox.
+    @media (max-width: $bp-xxs-max) {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      min-height: auto;
+
+      img {
+        width: auto;
+        max-width: 127px;
+        padding: 15px;
+      }
+    }
 
     @include respond-to(sm) {
       min-height: 305px;
@@ -238,6 +268,11 @@
   .caption {
     padding: 0 15px 15px 15px;
     height: auto;
+
+    @media (max-width: $bp-xxs-max) {
+      position: relative;
+      padding-top: 15px;
+    }
 
     h3 {
       font-size: 14px;
@@ -250,6 +285,11 @@
     .cont-rating {
       position: absolute;
       bottom: 10px;
+
+      @media (max-width: $bp-xxs-max) {
+        position: static;
+        margin-top: 10px;
+      }
 
       .star-rating {
         display: inline-block;

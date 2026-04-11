@@ -69,51 +69,48 @@
 // ---------------------------------------------------------------------------
 // Mobile menu toggle button (.boto-menu-lateral)
 // ---------------------------------------------------------------------------
+// Rewritten with flexbox instead of absolute positioning.
+// Three cells: [hamburger] [label] [chevron], all vertically centred.
 
 .boto-menu-lateral {
-  a {
+  button {
+    display: flex;
+    align-items: center;
+    width: 100%;
     background-color: var(--color-text);
     color: var(--color-white);
+    border: none;
     padding: 0;
-    position: relative;
-    display: block;
-
-    p {
-      padding: 15px 45px;
-      display: block;
-      margin-bottom: 0;
-    }
-
-    .fa-chevron-down {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 18px;
-      border-left: 1px solid var(--color-text-muted); // #999999
-    }
-
-    .fa-bars {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 13px 10px;
-      font-size: 24px;
-    }
-
-    &:hover { text-decoration: none; }
-
-    &:active,
-    &:focus {
-      text-decoration: none;
-
-      .fa-chevron-down {
-        border-left: none;
-        border-right: 1px solid var(--color-text-muted);
-        transform: rotate(180deg);
-      }
-    }
+    font: inherit;
+    cursor: pointer;
+    min-height: 54px; // match old maqueta bar height
   }
 
+  .fa-bars {
+    flex: 0 0 auto;
+    padding: 0 10px;
+    font-size: 24px;
+  }
+
+  span {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0 10px;
+    text-align: left;
+  }
+
+  .fa-chevron-down {
+    flex: 0 0 54px;        // fixed-width box matching old maqueta
+    text-align: center;
+    border-left: 1px solid var(--color-text-muted);
+    align-self: stretch;   // fill the bar height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  // Chevron rotation when menu is open (JS toggles .active on .bt-menu-lateral)
   .active .fa-chevron-down {
     border-left: none;
     border-right: 1px solid var(--color-text-muted);
@@ -126,9 +123,32 @@
 // ---------------------------------------------------------------------------
 
 @include respond-to(xs) {
-  .aside-left {
+  aside.aside-left {
     padding-left: 0;
     padding-right: 0;
+
+    // Animated collapse for the sidebar nav.
+    // Uses max-height with a tuned cubic-bezier so expand and collapse both
+    // feel smooth despite the max-height overshoot.
+    .navbar-collapse {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      // Expand: fast start (content appears quickly), slow tail (overshoot is invisible)
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease;
+
+      // Override the global .collapse display:none
+      &.collapse { display: block; }
+
+      &.in {
+        max-height: 600px;
+        opacity: 1;
+        // Collapse: ease-in so the visible shrink is gradual
+        transition: max-height 0.3s cubic-bezier(0.4, 0, 1, 1),
+                    opacity 0.2s ease;
+      }
+    }
 
     .nav li {
       border-color: var(--color-border);

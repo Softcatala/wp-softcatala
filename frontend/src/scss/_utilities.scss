@@ -83,13 +83,18 @@
 
 // Step 1: Emit base styles for every col-*-N class (no media query).
 // We gather all prefixes × sizes into one rule with a shared selector.
-@mixin make-column-base($prefix) {
+@mixin make-column-base($prefix, $full-width-default: false) {
   @for $i from 1 through 12 {
     .col-#{$prefix}-#{$i} {
       position: relative;
       min-height: 1px;
       padding-left: calc($grid-gutter / 2);
       padding-right: calc($grid-gutter / 2);
+      // Columns for higher breakpoints (sm/md/lg) default to 100% width
+      // so they stack properly below their breakpoint in a flex row.
+      @if $full-width-default {
+        width: 100%;
+      }
     }
   }
 }
@@ -114,10 +119,11 @@
 
 // --- Base styles (unconditional — no media query) ---
 // Every col-*-N gets padding/position regardless of viewport.
+// sm/md/lg columns default to width: 100% so they stack below their breakpoint.
 @include make-column-base(xs);
-@include make-column-base(sm);
-@include make-column-base(md);
-@include make-column-base(lg);
+@include make-column-base(sm, true);
+@include make-column-base(md, true);
+@include make-column-base(lg, true);
 @include make-column-base(xxs);
 
 // --- xs widths: always active (no media query) ---
@@ -263,6 +269,7 @@
 .intern {
   display: flex;
   justify-content: center;
+  width: 100%;
   gap: var(--space-2);
 }
 
@@ -315,10 +322,31 @@
 .pull-left { float: left; }
 .pull-right { float: right; }
 
+// BS3-compatible .img-responsive — constrains images to their container
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// BS3-compatible .center-block — centers a block element horizontally
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 // BS3-compatible list-unstyled
 .list-unstyled {
   list-style: none;
   padding-left: 0;
+}
+
+// BS3-compatible .nav base — resets <ul> defaults for navigation lists
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
 }
 
 // --------------------------------------------------------------------------
@@ -334,6 +362,29 @@
     font-size: 30px;
     margin-top: -5px;
     margin-right: var(--space-3);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Collapse behavior (BS3-compatible)
+// --------------------------------------------------------------------------
+// .collapse = hidden, .collapse.in = visible.
+// .navbar-collapse is a special case: collapsed at mobile, always visible
+// at desktop (≥ sm). This replaces the BS3 collapse plugin CSS.
+
+.collapse {
+  display: none;
+
+  &.in {
+    display: block;
+  }
+}
+
+// Sidebar nav: collapsed at mobile (xs), always visible at desktop.
+// At desktop the menu must show even without .in, so we override .collapse.
+.navbar-collapse {
+  @include respond-from(sm) {
+    display: block !important;
   }
 }
 
