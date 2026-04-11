@@ -44,38 +44,13 @@
 }
 
 // ---------------------------------------------------------------------------
-// Content section list bullet overrides
-// ---------------------------------------------------------------------------
-
-// Reset bullets on special lists inside content sections
-section.contingut-section ul.aparells_detail,
-section.contingut-section ul.pagination,
-section.contingut-section ul.dropdown-menu {
-  li {
-    padding: 0 !important;
-  }
-
-  li::before {
-    content: '' !important;
-    margin: 0 !important;
-  }
-}
-
-section.contingut-section ul.llista-check {
-  li {
-    font-size: 15px !important;
-    font-weight: bold !important;
-    padding: 0 6px !important;
-  }
-
-  li::before {
-    content: '' !important;
-    margin: 0 !important;
-  }
-}
-
 // Default list bullets for content sections (chevron icon)
-div.contingut section.contingut-section ul {
+// ---------------------------------------------------------------------------
+// Only targets <ul> without a class attribute — lists with their own class
+// (.cont-llista, .llista-check, .pagination, .dropdown-menu, etc.) are
+// naturally excluded and no longer need !important opt-outs.
+
+.contingut-section ul:not([class]) {
   padding: 0;
   list-style: outside none none;
 
@@ -133,38 +108,38 @@ div.container-fluid {
 // ---------------------------------------------------------------------------
 
 .llista-check {
-  margin: 10px 0 10px 0 !important;
+  margin: 10px 0;
 
   li {
-    font-size: 15px !important;
-    font-weight: bold !important;
+    font-size: 15px;
+    font-weight: bold;
 
     a {
-      color: var(--color-black) !important;
-      background-color: var(--color-bg-light) !important;
-      margin-bottom: 10px !important;
-      display: block !important;
-      padding: 10px 15px 10px 20px !important;
+      color: var(--color-black);
+      background-color: var(--color-bg-light);
+      margin-bottom: 10px;
+      display: block;
+      padding: 10px 15px 10px 20px;
 
       i {
-        font-weight: normal !important;
-        color: var(--color-gray-875) !important;   // #727272
-        font-size: 36px !important;
-        margin-right: 15px !important;
-        float: left !important;
+        font-weight: normal;
+        color: var(--color-gray-875);              // #727272
+        font-size: 36px;
+        margin-right: 15px;
+        float: left;
       }
 
       span {
-        display: block !important;
-        padding: 6px 15px 6px 50px !important;
+        display: block;
+        padding: 6px 15px 6px 50px;
       }
 
       &:hover {
-        text-decoration: none !important;
-        color: var(--color-white) !important;
-        background-color: var(--color-link-hover) !important;
+        text-decoration: none;
+        color: var(--color-white);
+        background-color: var(--color-link-hover);
 
-        i { color: var(--color-white) !important; }
+        i { color: var(--color-white); }
       }
     }
   }

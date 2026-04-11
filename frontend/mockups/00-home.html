@@ -704,36 +704,6 @@
       </footer><!--/.pag-footer -->
     </div><!--/.wrap-gris-fosc -->
 
-    <script>
-      // dropdown-fallback-v1
-      (function () {
-        var root = document.querySelector('.navbar-usuari .dropdown')
-        if (!root) return
-
-        var toggle = root.querySelector('.dropdown-toggle')
-        var menu = root.querySelector('.dropdown-menu')
-        if (!toggle || !menu) return
-
-        function setOpen(open) {
-          root.classList.toggle('open', open)
-          toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
-          menu.style.display = open ? 'block' : 'none'
-          menu.style.opacity = open ? '1' : '0'
-        }
-
-        toggle.addEventListener('click', function (event) {
-          event.preventDefault()
-          setOpen(!root.classList.contains('open'))
-        })
-
-        document.addEventListener('click', function (event) {
-          if (!root.contains(event.target)) {
-            setOpen(false)
-          }
-        })
-      })()
-    </script>
-
     <script src="../../static/js/main.min.js"></script>
 
   </body>

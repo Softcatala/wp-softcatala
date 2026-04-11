@@ -61,8 +61,10 @@
   }
 
   .bt-basic-vermell {
-    float: right;
-    margin: 37px 0;
+    margin-left: auto;
+    margin-top: 37px;
+    margin-bottom: 37px;
+    display: block;
   }
 
   @include respond-to(xs) {
@@ -72,8 +74,7 @@
 
   @include respond-to(xxs) {
     .bt-basic-vermell {
-      float: left;
-      margin: 0 0 20px 0;
+      margin: 0 auto 20px 0;
     }
 
     .compartiu {
@@ -190,10 +191,6 @@
   }
 
   .contingut-section {
-    p {
-      font-weight: 400;
-    }
-
     a {
       color: var(--color-link);
 
@@ -294,7 +291,7 @@
   }
 
   p {
-    font-weight: 300;
+    font-weight: 400;
     line-height: 2;
     font-size: 16px;
     margin-top: 10px;
@@ -302,16 +299,6 @@
 
   strong {
     font-weight: 600;
-  }
-
-  a {
-    color: var(--color-text);
-    text-decoration: none;
-
-    &:hover {
-      color: var(--color-brand);
-      text-decoration: none;
-    }
   }
 }
 
