@@ -9,7 +9,7 @@
 @use '../tokens' as *;
 
 .aparells-plus {
-  .contingut-header {
+  .contingut > header {
     h1 { margin-bottom: 10px; }
 
     p {

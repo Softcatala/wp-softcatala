@@ -2,8 +2,12 @@
 // Content sections
 // ==========================================================================
 //
-// Page content structure: main-header, contingut, contingut-header,
-// contingut-section, contingut-footer, seccio-vermella, seccio-blanca.
+// Page content structure: main-header, .contingut > header/section/footer,
+// seccio-vermella, seccio-blanca.
+//
+// NOTE: Legacy classes .contingut-header, .contingut-section, .contingut-footer
+// are replaced by element selectors (.contingut > header, etc.). See
+// docs/plans/mechanical-conversions.md for the Phase 2 Twig migration guide.
 //
 // Source: maqueta/app/assets/less/comuns/contingut.less (451 lines)
 
@@ -190,7 +194,7 @@
     margin-top: 40px;
   }
 
-  .contingut-section {
+  > section {
     a {
       color: var(--color-link);
 
@@ -246,10 +250,10 @@
 }
 
 // ---------------------------------------------------------------------------
-// Content header (.contingut-header)
+// Content header (.contingut > header)
 // ---------------------------------------------------------------------------
 
-.contingut-header {
+.contingut > header {
   h1 {
     font-size: 34px;
     font-weight: 600;
@@ -270,10 +274,10 @@
 }
 
 // ---------------------------------------------------------------------------
-// Content section (.contingut-section)
+// Content section (.contingut > section)
 // ---------------------------------------------------------------------------
 
-.contingut-section {
+.contingut > section {
   margin: 30px 0;
 
   h2 {
@@ -288,6 +292,8 @@
     font-weight: 600;
     text-transform: uppercase;
     color: var(--color-black);
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   p {
@@ -303,10 +309,10 @@
 }
 
 // ---------------------------------------------------------------------------
-// Content footer (.contingut-footer)
+// Content footer (.contingut > footer)
 // ---------------------------------------------------------------------------
 
-.contingut-footer {
+.contingut > footer {
   margin-top: 50px;
 
   .alerta {

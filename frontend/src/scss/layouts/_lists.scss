@@ -50,7 +50,7 @@
 // (.cont-llista, .llista-check, .pagination, .dropdown-menu, etc.) are
 // naturally excluded and no longer need !important opt-outs.
 
-.contingut-section ul:not([class]) {
+.contingut > section ul:not([class]) {
   padding: 0;
   list-style: outside none none;
 
