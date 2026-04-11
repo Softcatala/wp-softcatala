@@ -207,6 +207,14 @@
       text-decoration: none;
     }
 
+    .thumbnail-gris a {
+      color: var(--color-text);
+
+      &:hover {
+        color: var(--color-brand);
+      }
+    }
+
     .steps-projecte {
       p {
         font-size: 20px;
