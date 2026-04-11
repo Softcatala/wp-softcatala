@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>04 llista 1columna menuleft</title>
+    <link href="../../static/css/main.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- .pag-header -->
+    <header class="pag-header cd-main-header">
+      <!-- navbar -->
+      <nav class="navbar">
+
+        <!-- .wrap-gris .hidden-xs -->
+        <div class="wrap-gris hidden-xs">
+          <div class="container-fluid">
+
+            <!-- .navbar-usuari .hidden-xs -->
+            <div class="navbar-usuari">
+              <img alt="fotografia-usuari-sofcatala" src="dist/img/header/navbar-usuari-foto.jpg">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nom d&#039;usuari <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Configureu</a></li>
+                      <li><a href="#">Desconnecteu</a></li>
+                    </ul>
+                </li>
+              </ul>
+            </div><!--/.navbar-usuari .hidden-xs -->
+
+            <!-- .navbar-noticies .hidden-xs -->
+            <div class="navbar-noticies">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Not&iacute;cies</a></li>
+                <li><a href="#">Esdeveniments</a></li>
+                <li><a href="#">Premsa</a></li>
+                <li><a href="#">F&ograve;rums</a></li>
+              </ul>
+            </div><!--/.navbar-noticies .hidden-xs -->
+
+          </div><!--/.container-fluid -->
+        </div><!--/.wrap-gris -->
+
+
+        <!-- .wrap-blanc -->
+        <div class="wrap-blanc">
+          <div class="container-fluid">
+
+            <!-- .navbar-header -->
+            <div class="navbar-header">
+              <div class="bt-menu">
+                <a class="cd-nav-trigger navbar-toggle" href="#cd-primary-nav" aria-expanded="false">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </a>
+              </div>
+              <div class="bt-lupa-xs">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-cercador" data-collapse-group="menu-xs" aria-expanded="false">
+                  <i class="fas fa-magnifying-glass"></i>
+                </button>
+              </div>
+              <div class="bt-ajuda">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ajuda" data-collapse-group="menu-xs" aria-expanded="false">
+                  <i class="fas fa-circle-question"></i>
+                </button>
+              </div>
+              <div class="bt-usuari">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-usuari" data-collapse-group="menu-xs" aria-expanded="false">
+                  <i class="fas fa-user"></i>
+                </button>
+              </div>
+              <a class="navbar-brand" href="#"><img alt="Softcatala logotip" src="dist/img/softcatala-logotip.jpg"></a>
+            </div><!--/.navbar-header -->
+
+
+            <!-- MENU MOBIL -->
+
+            <!-- #navbar-cercador .visible-xs -->
+            <div id="navbar-cercador" class="navbar-lupa collapse">
+              <div class="cercador-xs visible-xs-block">
+                <form role="search" method="get" class="searchform" >
+                  <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
+                  <input class="sb-search-submit" type="submit" value="">
+                  <span class="sb-icon-search"><i class="fas fa-magnifying-glass"></i></span>
+                </form>
+              </div>
+            </div><!--/#navbar-cercador xs -->
+
+            <!-- .navbar-ajuda-xs .visible-xs -->
+            <div id="navbar-ajuda" class="navbar-ajuda-xs collapse">
+              <ul class="nav navbar-nav visible-xs-block">
+                <li role="separator" class="divider"></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contacte</a></li>
+                <li><a href="#"><i class="fas fa-comment"></i> F&ograve;rums</a></li>
+                <li><a href="#"><i class="fas fa-circle-question"></i> Preguntes m&eacute;s freq&uuml;ents</a></li>
+              </ul>
+            </div><!--/navbar-ajuda-xs .visible-xs -->
+
+            <!-- .navbar-usuari-xs .visible-xs -->
+            <div id="navbar-usuari" class="navbar-usuari-xs collapse">
+              <ul class="nav navbar-nav visible-xs-block">
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Configureu</a></li>
+                <li><a href="#">Desconnecteu</a></li>
+              </ul>
+            </div><!--/.navbar-usuari-xs .visible-xs -->
+
+            <!-- Mobile primary menu moved to cd-nav block after header -->
+
+            <!--/MENU MOBIL -->
+
+
+
+            <!-- MENU ESCRIPTORI -->
+
+            <!-- navbar-principal lg -->
+            <div class="navbar-desktop hidden-xs">
+              <div class="navbar-desktop-main">
+                <!-- .nav-tabs .principal-lg -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active">
+                    <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">Recursos <span class="center-block">i Serveis</span></a>
+                  </li>
+                  <li>
+                    <a href="#coneixeu" aria-controls="coneixeu" role="tab" data-toggle="tab">Coneixeu <span class="center-block">Softcatal&agrave;</span></a>
+                  </li>
+                  <li>
+                    <a href="#collaboreu" aria-controls="collaboreu" role="tab" data-toggle="tab">Col&middot;laboreu <span class="center-block">amb l&#039;associaci&oacute;</span></a>
+                  </li>
+                </ul><!--/.nav-tabs .principal-lg .hidden-xs -->
+
+                <!--/.espai .visible-lg -->
+                <div class="navbar-espai visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#">Espai de col&middot;laboradors</a></li>
+                  </ul>
+                </div><!--/.espai .visible-lg -->
+
+                <!-- .navbar-espai-md .visible-md-sm -->
+                <div class="navbar-espai-md hidden-lg">
+                  <button type="button" class="bt-espai">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div><!--/.navbar-espai-md .visible-md-sm -->
+              </div>
+
+              <div class="navbar-desktop-actions">
+                <!-- .navbar-ajuda .visible-lg -->
+                <div class="navbar-ajuda visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><i class="fas fa-envelope"></i> Contacte</a></li>
+                          <li><a href="#"><i class="fas fa-comment"></i> F&ograve;rums</a></li>
+                          <li><a href="#"><i class="fas fa-circle-question"></i> Preguntes m&eacute;s <span class="center-block">freq&uuml;ents</span></a></li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div><!--/.navbar-ajuda .visible-lg -->
+
+                <!-- .navbar-ajuda-md .visible-md-sm -->
+                <div class="navbar-ajuda-md hidden-lg hidden-xs">
+                  <button type="button" class="bt-ajuda">
+                    <i class="fas fa-circle-question"></i>
+                  </button>
+                </div><!--/.navbar-ajuda-md .visible-md-sm -->
+
+                <!-- .sb-search .hidden-xs -->
+                <div class="navbar-lupa hidden-xs">
+                  <div id="sb-search" class="sb-search">
+                    <form role="search" method="get" class="searchform" >
+                      <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
+                      <input class="sb-search-submit" type="submit" value="">
+                      <span class="sb-icon-search"><i class="fas fa-magnifying-glass"></i></span>
+                    </form>
+                  </div>
+                </div>
+                <!--/.navbar-lupa .hidden-xs -->
+              </div>
+            </div><!--/.navbar-desktop -->
+
+
+          </div><!--/.container-fluid -->
+
+
+          <!-- .wrap-vermell-header -->
+          <div class="wrap-vermell-header hidden-xs">
+            <div class="container-fluid">
+              <!-- .tab-content -->
+              <div class="tab-content">
+
+                <!-- #recursos -->
+                <div role="tabpanel" class="tab-pane active" id="recursos">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Traductor</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Corrector</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Diccionari <span class="center-block">de sin&ograve;nims</span></a></li>
+                    <li class="divider-vertical"></li>
+                    <!--/.submenu-tab-mega -->
+                    <li class="dropdown dropdown-megamenu">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" delay="0" aria-expanded="false">Programes <span class="center-block">i aplicacions</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li>
+                          <!-- .megamenu -->
+                          <div class="megamenu">
+                            <div class="row">
+                              <!-- .col-xs-12 col-sm-5 -->
+                              <div class="mega-sense-llista col-xs-12 col-sm-5">
+                                <p>Trieu un sistema operatiu</p>
+                                <a class="thumbnail" href="#"><img alt="Sistema Windows" src="dist/img/header/megamenu-windows.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema Linux" src="dist/img/header/megamenu-linux.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema OS X" src="dist/img/header/megamenu-osx.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema Android" src="dist/img/header/megamenu-android.jpg"></a>
+                                <a class="thumbnail" href="#"><img alt="Sistema IOS" src="dist/img/header/megamenu-ios.jpg"></a>
+                              </div><!--/.col-xs-12 col-sm-5 -->
+                              <!-- .col-xs-12 col-sm-7 -->
+                              <div class="mega-amb-llista col-xs-12 col-sm-7">
+                                <p>Trieu una categoria d&#039;aplicacions</p>
+                                  <div class="row">
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="#">Internet</a></li>
+                                      <li><a href="#">Ofim&agrave;tica</a></li>
+                                      <li><a href="#">Gr&agrave;fic</a></li>
+                                      <li><a href="#">Empresarial</a></li>
+                                      <li><a href="#">Utilitats</a></li>
+                                    </ul>
+                                    <ul class="col-xs-12 col-sm-6 list-unstyled">
+                                      <li><a href="#">Llengua</a></li>
+                                      <li><a href="#">Multim&egrave;dia</a></li>
+                                      <li><a href="#">Educaci&oacute; / ci&egrave;ncia</a></li>
+                                      <li><a href="#">Jocs</a></li>
+                                      <li><a href="#">Sistemes operatius</a></li>
+                                    </ul>
+                                  </div>
+                              </div><!--/.col-xs-12 col-sm-7 -->
+                            </div> <!--/.row -->
+
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <button type="button" class="bt-basic" >Tots els programes</button>
+                              </div>
+                            </div>
+
+                          </div><!--/.megamenu -->
+                        </li>
+                      </ul>
+                    </li>
+                    <!--/.submenu-tab-mega -->
+
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recursos <span class="center-block">per a traductors</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Guia d&#039;estil</a></li>
+                        <li><a href="#">Mem&ograve;ries de traducci&oacute;</a></li>
+                        <li><a href="#">Terminologia</a></li>
+                        <li><a href="#">Adaptador a variant valenciana</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Ordinadors <span class="center-block">i m&ograve;bils en catal&agrave;</span></a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#recursos -->
+
+                <!-- #coneixeu -->
+                <div role="tabpanel" class="tab-pane" id="coneixeu">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#"></a></li>
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Qu&egrave; &eacute;s <span class="center-block">softcatal&agrave;</span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">L&#039;associaci&oacute;</a></li>
+                        <li><a href="#">Hist&ograve;ria</a></li>
+                        <li><a href="#">PMF sobre Softcatal&agrave;</a></li>
+                        <li><a href="#">Premis i guardons</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">En qu&egrave; <span class="center-block"> treballem </span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Traducci&oacute; de programari</a></li>
+                        <li><a href="#">Creaci&oacute; de recursos per a traductors</a></li>
+                        <li><a href="#">Foment i difusi&oacute; del catal&agrave; a les noves tecnologies</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Membres</a></li>
+                    <li class="divider-vertical"></li>
+
+                    <!-- .submenu-tab-dropdown -->
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Com ens <span class="center-block"> organitzem </span></a>
+                      <ul class="dropdown-menu dropdown-hover">
+                        <li><a href="#">Presa de decisions</a></li>
+                        <li><a href="#">Funcionament econ&ograve;mic de l&#039;associaci&oacute;</a></li>
+                        <li><a href="#">Nous membres</a></li>
+                        <li><a href="#">Codi de conducta</a></li>
+                        <li><a href="#">Comunicaci&oacute; amb els mitjans</a></li>
+                      </ul>
+                    </li><!--/.submenu-tab-dropdown -->
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Blogs</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Publicacions</a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#coneixeu -->
+
+                <!-- #collaboreu -->
+                <div role="tabpanel" class="tab-pane" id="collaboreu">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Menu 1.3.1</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.2</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.3</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.4</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="#">Menu 1.3.5</a></li>
+                    <li class="divider-vertical"></li>
+                  </ul>
+                </div><!--/#collaboreu -->
+
+              </div><!--/.tab-content -->
+
+            </div><!--/.container-fluid -->
+          </div><!--/.wrap-vermell-header -->
+
+          <!--/MENU ESCRIPTORI -->
+
+
+        </div><!--/.wrap-blanc -->
+      </nav><!--/.navbar -->
+    </header><!--/.pag-header -->
+
+    <div class="cd-overlay"></div>
+
+    <!-- .navbar-principal-xs (built from desktop nav by JS adapter) -->
+    <nav id="navbar-principal" class="navbar-principal-xs cd-nav">
+      <ul id="cd-primary-nav" class="cd-primary-nav is-fixed nav nav-principal-xs visible-xs-block"></ul>
+    </nav>
+
+    <!-- .main .wrap-blanc -->
+    <main class="main wrap-blanc cd-main-content">
+      <!-- .main-header -->
+      <header class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xxs-12 col-xs-8 col-sm-9">
+              <h1>T&iacute;tol de la p&agrave;gina</h1>
+              <div class="compartiu">
+                <p>Compartiu</p>
+                <ul class="compartiu-media">
+                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-xxs-12 col-xs-4 col-sm-3">
+              <button type="button" class="bt-basic bt-basic-vermell">Call to action</button>
+            </div>
+          </div>
+        </div>
+      </header><!--/.main-header -->
+
+      <div class="container-fluid">
+        <div class="row">
+          <!-- .aside-left -->
+          <aside class="aside-left col-sm-3">
+            <!-- .boto-menu-lateral gris - xs -->
+            <div class="visible-xs-block boto-menu-lateral">
+              <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
+                <i class="fas fa-bars"></i>
+                  <p>Taula de continguts</p>
+                <i class="fas fa-chevron-down"></i>
+              </a>
+            </div><!--/.boto-menu-lateral gris - xs -->
+
+            <!-- #menu-lateral -->
+            <ul class="nav collapse navbar-collapse" id="menu-lateral">
+              <li><a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a></li>
+              <li><a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a></li>
+              <li><a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a></li>
+              <li>
+                <a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a>
+                <ul class="nav">
+                  <li><a href="#"><i class="fas fa-circle"></i>P&agrave;gina de Nivell 5</a></li>
+                  <li><a href="#"><i class="fas fa-circle"></i>P&agrave;gina de Nivell 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a></li>
+              <li><a href="#"><i class="fas fa-angle-right"></i>P&agrave;gina de Nivell 4</a></li>
+            </ul><!--/#menu-lateral -->
+          </aside><!--/.aside-left -->
+
+          <!-- .contingut -->
+          <div class="contingut col-sm-9">
+            <!-- .contingut-header -->
+            <header class="contingut-header">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in.</p>
+            </header><!--/.contingut-header -->
+
+
+            <!-- section paragraf + thumb gris img -->
+            <section class="contingut-section">
+
+              <!-- .row -->
+              <div class="row">
+                <!-- .col-sm-12 -->
+                <div class="col-sm-12">
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="thumbnail thumbnail-gris-img">
+                    <a href="#">
+                      <img src="dist/img/content/img-thumb-navegador-gran.png" alt="img-thumb-steps-usuari-01">
+                      <div class="caption">
+                        <h3>Lorem ipsum dolor sit</h3>
+                        <p>Nam facilisis dolor at velit viverra venenatis. Quisque consectetur augue nec felis accumsan  in feugiat ligula commodo suspen</p>
+                        <span class="bt-aneu">col&middot;laboreu-hi<i class="fas fa-chevron-right"></i></span>
+                      </div>
+                    </a>
+                  </div>
+                </div><!--/.col-sm-12 -->
+              </div><!--/.row -->
+
+
+              <!-- .pagination -->
+              <div class="row">
+                <div class="intern">
+                  <nav class="intern-center">
+                    <ul class="pagination">
+                      <li>
+                        <a href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li><a href="#">1</a></li>
+                      <li><a href="#">2</a></li>
+                      <li><a href="#">3</a></li>
+                      <li><a href="#">4</a></li>
+                      <li><a href="#">5</a></li>
+                      <li>
+                        <a href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div><!--/.pagination -->
+            </section><!-- section paragraf + thumb gris img -->
+
+
+
+            <!--/.contingut-footer -->
+            <footer class="contingut-footer">
+              <div class="alerta">
+                <p><strong>IMPORTANT!</strong> Exemple de Nota al peu de p&agrave;gina. Lorem ipsum dolor set morbi bibendum arcu eget justo dictum  vel ullamcorper quam accumsan</p>
+              </div>
+              <div class="caixa-gris">
+                <p>Teniu algun suggeriment?</p>
+                <a href="#" class="sobre"><i class="far fa-envelope"></i><span>Podeu posar-vos en contacte amb nosaltres a <em>correu@softcatala.org</em></span></a>
+              </div>
+              <div class="caixa-gris">
+                <a href="#"><i class="fas fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+                <a href="#"><i class="fas fa-download"></i><span>Baixeu el dossier de premsa del programa</span></a>
+              </div>
+              <div class="caixa-gris enllacos">
+                <a href="#">T&iacute;tol de l&#039;enlla&ccedil;</a>
+                <p>Descripci&oacute; de l&#039;enlla&ccedil; lorem ipsum</p>
+              </div>
+            </footer><!--/.contingut-footer -->
+          </div><!--/.contingut -->
+
+        </div><!--/.row -->
+      </div><!--/.container-fluid -->
+    </main><!--/.main .wrap-blanc -->
+
+    <!-- .seccio-vermella -->
+    <div class="wrap-vermell seccio-vermella">
+      <div class="container-fluid">
+        <p><strong>Call to action</strong></p>
+        <p>Lorem ipsum dolor sit amet cectetur adipiscing elit</p>
+        <div class="intern">
+            <button type="button" class="bt-basic bt-basic-vermell-blanc intern-center">Do something</button>
+        </div>
+      </div>
+    </div><!--/.seccio-vermella -->
+
+    <!-- .wrap-gris-fosc -->
+    <div class="wrap-gris-fosc">
+      <!-- .pag-footer -->
+      <footer class="pag-footer">
+        <div class="container-fluid">
+          <div class="footer-gris row">
+            <div class="col-xs-4 col-sm-3 copy">
+              <img src="dist/img/footer/footer-sc.jpg">
+              <p>Softcatal&agrave; &copy; 1998-2015</p>
+            </div>
+            <div class="col-xs-4 col-sm-3 cc">
+              <img src="dist/img/footer/footer-cc.jpg">
+              <p>El contingut est&agrave; disponible sota la llic&egrave;ncia <a href="#">Atribuci&oacute; - CompartirIgual 3.0</a> si no s&#039;indica el contrari.</p>
+            </div>
+            <div class="col-xs-4 col-sm-3 contacte">
+              <ul class="nav">
+                <li><a href="#">Contacte</a></li>
+                <li><a href="#">Av&iacute;s legal</a></li>
+                <li><a href="#">Codi de conducta</a></li>
+                <li><a href="#">Publicitat</a></li>
+              </ul>
+            </div>
+            <div class="col-xs-12 col-sm-3 seguiunos">
+              <p>Seguiu-nos</p>
+              <ul class="footer-media">
+                <li><a href="#"><i class="fas fa-rss"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!--/.container-fluid -->
+
+      <!-- .wrap-blanc -->
+      <div class="wrap-blanc">
+        <!-- .container-fluid -->
+        <div class="container-fluid">
+          <div class="intern">
+            <div class="intern-center">
+              <!-- .col-1 -->
+              <div class="col-1">
+                <p>El lloc web de Softcatal&agrave; funciona gr&agrave;cies a </p>
+                <div class="col-1-img">
+                  <img src="dist/img/footer/footer-drupal.jpg">
+                  <img src="dist/img/footer/footer-mediawiki.jpg">
+                  <img src="dist/img/footer/footer-phpbb.jpg">
+                  <img src="dist/img/footer/footer-debian.jpg">
+                </div>
+                <p>entre altre programari lliure. </p>
+              </div><!--/.col-1 -->
+              <!-- .col-2 -->
+              <div class="col-2">
+                <div class="intern">
+                  <div class="intern-center">
+                    <p>Hostatjat a: </p>
+                    <div class="col-1-img">
+                      <img src="dist/img/footer/footer-universitat-lleida.jpg">
+                      <img src="dist/img/footer/footer-universitat-alacant.jpg">
+                    </div>
+                  </div>
+                </div>
+              </div><!--/.col-2 -->
+            </div>
+          </div>
+        </div><!--/.container-fluid -->
+      </div><!--/.wrap-blanc -->
+      </footer><!--/.pag-footer -->
+    </div><!--/.wrap-gris-fosc -->
+
+    <script src="../../static/js/main.min.js"></script>
+
+  </body>
+</html>
