@@ -40,6 +40,25 @@ $container-sm: 950px;   // 920 + 30 gutter
 $container-md: 1200px;  // 1170 + 30 gutter
 $container-lg: 1200px;  // same as md (per existing Less)
 
+// Mixin: constrained content area (replaces .container-fluid wrapper div)
+// Use on any section that needs centred, max-width-limited content.
+@mixin content-container {
+  max-width: $container-md;
+  margin-inline: auto;
+  padding-inline: calc($grid-gutter / 2);
+}
+
+// Mixin: full-bleed section with centred, constrained content.
+// The section stretches edge-to-edge (for background color), but inner
+// content stays within the container max-width.
+@mixin full-bleed-container {
+  max-width: none;
+  padding-inline: max(
+    calc($grid-gutter / 2),
+    calc((100% - $container-md + $grid-gutter) / 2)
+  );
+}
+
 // --------------------------------------------------------------------------
 // respond-to() mixin
 // --------------------------------------------------------------------------

@@ -10,7 +10,7 @@
   <body>
 
     <!-- .pag-header -->
-    <header class="pag-header">
+    <header class="pag-header cd-main-header">
       <!-- navbar -->
       <nav class="navbar">
 
@@ -53,11 +53,11 @@
             <!-- .navbar-header -->
             <div class="navbar-header">
               <div class="bt-menu">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-principal" data-collapse-group="menu-xs" aria-expanded="false">
+                <a class="cd-nav-trigger navbar-toggle" href="#cd-primary-nav" aria-expanded="false">
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
-                </button>
+                </a>
               </div>
               <div class="bt-lupa-xs">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-cercador" data-collapse-group="menu-xs" aria-expanded="false">
@@ -110,177 +110,7 @@
               </ul>
             </div><!--/.navbar-usuari-xs .visible-xs -->
 
-            <!-- #navbar-principal xs -->
-            <div id="navbar-principal" class="navbar-principal-xs collapse">
-
-              <!-- .nav-principal-xs .visible-xs -->
-              <ul class="visible-xs-block nav nav-principal-xs" id="accordion">
-                <li class="panel">
-                  <a href="#recursos-collapse" class="titol-collapse collapsed primer-nivell-menu" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#recursos-collapse">
-                  <span>Recursos i Serveis</span><i class="fas fa-chevron-down"></i></a>
-                  <!-- #recursos -->
-                  <div class="navbar-collapse collapse primer-nivell-menu" id="recursos-collapse">
-
-                      <ul class="nav navbar-nav" id="sub-accordion-01">
-                        <li><a href="#">Traductor</a></li>
-                        <li class="divider-vertical"></li>
-                        <li><a href="#">Corrector</a></li>
-                        <li class="divider-vertical"></li>
-                        <li><a href="#">Diccionari <span class="center-block">de sin&ograve;nims</span></a></li>
-                        <li class="divider-vertical"></li>
-                        <!--/.submenu-tab-mega -->
-                        <li class="panel sub-menu dropdown-megamenu">
-                          <a href="#sub-menu-01-01" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-01">Programes <span class="center-block">i aplicacions</span><i class="fas fa-chevron-down"></i></a>
-                          <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-01-01">
-                            <li>
-                              <!-- .megamenu -->
-                              <div class="megamenu">
-                                <div class="row">
-                                  <!-- .col-xs-12 col-sm-5 -->
-                                  <div class="mega-sense-llista col-xs-12 col-sm-5">
-                                    <p>Trieu un sistema operatiu</p>
-                                    <a class="thumbnail" href="#"><img alt="Sistema Windows" src="dist/img/header/megamenu-windows.jpg"></a>
-                                    <a class="thumbnail" href="#"><img alt="Sistema Linux" src="dist/img/header/megamenu-linux.jpg"></a>
-                                    <a class="thumbnail" href="#"><img alt="Sistema OS X" src="dist/img/header/megamenu-osx.jpg"></a>
-                                    <a class="thumbnail" href="#"><img alt="Sistema Android" src="dist/img/header/megamenu-android.jpg"></a>
-                                    <a class="thumbnail" href="#"><img alt="Sistema IOS" src="dist/img/header/megamenu-ios.jpg"></a>
-                                  </div><!--/.col-xs-12 col-sm-5 -->
-                                  <!-- .col-xs-12 col-sm-7 -->
-                                  <div class="mega-amb-llista col-xs-12 col-sm-7">
-                                    <p>Trieu una categoria d&#039;aplicacions</p>
-                                      <div class="row">
-                                        <ul class="col-xs-12 col-sm-6 list-unstyled">
-                                          <li><a href="#">Internet</a></li>
-                                          <li><a href="#">Ofim&agrave;tica</a></li>
-                                          <li><a href="#">Gr&agrave;fic</a></li>
-                                          <li><a href="#">Empresarial</a></li>
-                                          <li><a href="#">Utilitats</a></li>
-                                        </ul>
-                                        <ul class="col-xs-12 col-sm-6 list-unstyled">
-                                          <li><a href="#">Llengua</a></li>
-                                          <li><a href="#">Multim&egrave;dia</a></li>
-                                          <li><a href="#">Educaci&oacute; / ci&egrave;ncia</a></li>
-                                          <li><a href="#">Jocs</a></li>
-                                          <li><a href="#">Sistemes operatius</a></li>
-                                        </ul>
-                                      </div>
-                                  </div><!--/.col-xs-12 col-sm-7 -->
-                                </div> <!--/.row -->
-
-                                <div class="row">
-                                  <div class="col-sm-12">
-                                    <button type="button" class="bt-basic" >Tots els programes</button>
-                                  </div>
-                                </div>
-                              </div><!--/.megamenu -->
-                            </li>
-                          </ul>
-                        </li><!--/.submenu-tab-mega -->
-
-                        <li class="divider-vertical"></li>
-
-                        <!-- .submenu-tab-dropdown -->
-                        <li class="panel sub-menu">
-                          <a href="#sub-menu-01-02" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-01">Recursos <span class="center-block">per a traductors</span><i class="fas fa-chevron-down"></i></a>
-                          <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-01-02">
-                            <li><a href="#">Guia d&#039;estil</a></li>
-                            <li><a href="#">Mem&ograve;ries de traducci&oacute;</a></li>
-                            <li><a href="#">Terminologia</a></li>
-                            <li><a href="#">Adaptador a variant valenciana</a></li>
-                          </ul>
-                        </li><!--/.submenu-tab-dropdown -->
-
-                        <li class="divider-vertical"></li>
-                        <li><a href="#">Ordinadors <span class="center-block">i m&ograve;bils en catal&agrave;</span></a></li>
-                        <li class="divider-vertical"></li>
-                      </ul>
-                  </div><!--/#recursos -->
-                </li>
-                <li class="panel">
-                  <a href="#coneixeu-collapse" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#coneixeu-collapse">
-                  <span>Coneixeu Softcatal&agrave;</span><i class="fas fa-chevron-down"></i></a>
-                  <!-- #coneixeu -->
-                  <div class="navbar-collapse collapse primer-nivell-menu" id="coneixeu-collapse">
-                    <ul class="nav navbar-nav" id="sub-accordion-02">
-                      <!-- .submenu -->
-                      <li class="panel sub-menu">
-                        <a href="#sub-menu-02-01" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">Qu&egrave; &eacute;s <span class="center-block">softcatal&agrave;</span><i class="fas fa-chevron-down"></i></a>
-                        <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-01">
-                          <li><a href="#">L&#039;associaci&oacute;</a></li>
-                          <li><a href="#">Hist&ograve;ria</a></li>
-                          <li><a href="#">PMF sobre Softcatal&agrave;</a></li>
-                          <li><a href="#">Premis i guardons</a></li>
-                        </ul>
-                      </li><!--/.submenu -->
-                      <li class="divider-vertical"></li>
-
-                      <!-- .submenu -->
-                      <li class="panel sub-menu">
-                        <a href="#sub-menu-02-02" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">En qu&egrave; <span class="center-block">treballem</span><i class="fas fa-chevron-down"></i></a>
-                        <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-02">
-                          <li><a href="#">Traducci&oacute; de programari</a></li>
-                          <li><a href="#">Creaci&oacute; de recursos per a traductors</a></li>
-                          <li><a href="#">Foment i difusi&oacute; del catal&agrave; a les noves tecnologies</a></li>
-                        </ul>
-                      </li><!--/.submenu -->
-
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Membres</a></li>
-                      <li class="divider-vertical"></li>
-
-                      <!-- .submenu -->
-                      <li class="panel sub-menu">
-                        <a href="#sub-menu-02-03" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#sub-accordion-02">Com ens <span class="center-block">organitzem</span><i class="fas fa-chevron-down"></i></a>
-                        <ul class="cont-sub-menu navbar-collapse collapse" id="sub-menu-02-03">
-                          <li><a href="#">Presa de decisions</a></li>
-                          <li><a href="#">Funcionament econ&ograve;mic de l&#039;associaci&oacute;</a></li>
-                          <li><a href="#">Nous membres</a></li>
-                          <li><a href="#">Codi de conducta</a></li>
-                          <li><a href="#">Comunicaci&oacute; amb els mitjans</a></li>
-                        </ul>
-                      </li><!--/.submenu -->
-
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Blogs</a></li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Publicacions</a></li>
-                      <li class="divider-vertical"></li>
-                    </ul>
-                  </div><!--/#coneixeu -->
-                </li>
-                <li class="panel">
-                  <a href="#collaboreu-collapse" class="titol-collapse collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="#collaboreu-collapse"><span>Col&middot;laboreu amb l&#039;associaci&oacute;</span><i class="fas fa-chevron-down"></i></a>
-                  <!-- #collaboreu -->
-                  <div class="navbar-collapse collapse primer-nivell-menu" id="collaboreu-collapse">
-                    <ul class="nav navbar-nav">
-                      <li><a href="#">Menu 1.3.1</a></li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Menu 1.3.2</a></li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Menu 1.3.3</a></li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Menu 1.3.4</a></li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Menu 1.3.5</a></li>
-                      <li class="divider-vertical"></li>
-                    </ul>
-                  </div><!--/#collaboreu -->
-                </li>
-              </ul><!--/.nav-principal-xs .visible-xs -->
-
-              <!-- .nav espai .visible-xs -->
-              <ul class="visible-xs-block navbar-espai-xs nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Espai de col&middot;laboradors</a></li>
-              </ul><!--/.nav espai .visible-xs -->
-
-              <!-- #navbar-noticies .visible-xs -->
-              <ul id="navbar-noticies" class="visible-xs-block navbar-noticies-xs nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Not&iacute;cies</a></li>
-                <li><a href="#">Esdeveniments</a></li>
-                <li><a href="#">Premsa</a></li>
-                <li><a href="#">F&ograve;rums</a></li>
-              </ul><!--/#navbar-noticies .visible-xs -->
-            </div><!--/#navbar-principal -->
+            <!-- Mobile primary menu moved to cd-nav block after header -->
 
             <!--/MENU MOBIL -->
 
@@ -289,69 +119,71 @@
             <!-- MENU ESCRIPTORI -->
 
             <!-- navbar-principal lg -->
-            <div class="hidden-xs">
+            <div class="navbar-desktop hidden-xs">
+              <div class="navbar-desktop-main">
+                <!-- .nav-tabs .principal-lg -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active">
+                    <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">Recursos <span class="center-block">i Serveis</span></a>
+                  </li>
+                  <li>
+                    <a href="#coneixeu" aria-controls="coneixeu" role="tab" data-toggle="tab">Coneixeu <span class="center-block">Softcatal&agrave;</span></a>
+                  </li>
+                  <li>
+                    <a href="#collaboreu" aria-controls="collaboreu" role="tab" data-toggle="tab">Col&middot;laboreu <span class="center-block">amb l&#039;associaci&oacute;</span></a>
+                  </li>
+                </ul><!--/.nav-tabs .principal-lg .hidden-xs -->
 
-              <!-- .nav-tabs .principal-lg -->
-              <ul class="nav nav-tabs" role="tablist">
-                <li class="active">
-                  <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">Recursos <span class="center-block">i Serveis</span></a>
-                </li>
-                <li>
-                  <a href="#coneixeu" aria-controls="coneixeu" role="tab" data-toggle="tab">Coneixeu <span class="center-block">Softcatal&agrave;</span></a>
-                </li>
-                <li>
-                  <a href="#collaboreu" aria-controls="collaboreu" role="tab" data-toggle="tab">Col&middot;laboreu <span class="center-block">amb l&#039;associaci&oacute;</span></a>
-                </li>
-              </ul><!--/.nav-tabs .principal-lg .hidden-xs -->
+                <!--/.espai .visible-lg -->
+                <div class="navbar-espai visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#">Espai de col&middot;laboradors</a></li>
+                  </ul>
+                </div><!--/.espai .visible-lg -->
 
-              <!--/.espai .visible-lg -->
-              <div class="navbar-espai visible-lg-block">
-                <ul class="nav navbar-nav">
-                  <li><a href="#">Espai de col&middot;laboradors</a></li>
-                </ul>
-              </div><!--/.espai .visible-lg -->
-
-              <!-- .navbar-espai-md .visible-md-sm -->
-              <div class="navbar-espai-md hidden-lg">
-                <button type="button" class="bt-espai">
-                  <i class="fas fa-users"></i>
-                </button>
-              </div><!--/.navbar-espai-md .visible-md-sm -->
-
-            </div><!--/#navbar-principal -->
-
-            <!-- .navbar-ajuda .visible-lg -->
-            <div class="navbar-ajuda navbar-right visible-lg-block">
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#"><i class="fas fa-envelope"></i> Contacte</a></li>
-                      <li><a href="#"><i class="fas fa-comment"></i> F&ograve;rums</a></li>
-                      <li><a href="#"><i class="fas fa-circle-question"></i> Preguntes m&eacute;s <span class="center-block">freq&uuml;ents</span></a></li>
-                    </ul>
-                </li>
-              </ul>
-            </div><!--/.navbar-ajuda .visible-lg -->
-
-            <!-- .navbar-ajuda-md .visible-md-sm -->
-            <div class="navbar-ajuda-md hidden-lg hidden-xs">
-              <button type="button" class="bt-ajuda">
-                <i class="fas fa-circle-question"></i>
-              </button>
-            </div><!--/.navbar-ajuda-md .visible-md-sm -->
-
-            <!-- .sb-search .hidden-xs -->
-            <div class="navbar-lupa hidden-xs">
-              <div id="sb-search" class="sb-search">
-                <form role="search" method="get" class="searchform" >
-                  <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
-                  <input class="sb-search-submit" type="submit" value="">
-                  <span class="sb-icon-search"><i class="fas fa-magnifying-glass"></i></span>
-                </form>
+                <!-- .navbar-espai-md .visible-md-sm -->
+                <div class="navbar-espai-md hidden-lg">
+                  <button type="button" class="bt-espai">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div><!--/.navbar-espai-md .visible-md-sm -->
               </div>
-            </div>
-            <!--/.navbar-lupa .hidden-xs -->
+
+              <div class="navbar-desktop-actions">
+                <!-- .navbar-ajuda .visible-lg -->
+                <div class="navbar-ajuda visible-lg-block">
+                  <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Necessiteu ajuda? <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"><i class="fas fa-envelope"></i> Contacte</a></li>
+                          <li><a href="#"><i class="fas fa-comment"></i> F&ograve;rums</a></li>
+                          <li><a href="#"><i class="fas fa-circle-question"></i> Preguntes m&eacute;s <span class="center-block">freq&uuml;ents</span></a></li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div><!--/.navbar-ajuda .visible-lg -->
+
+                <!-- .navbar-ajuda-md .visible-md-sm -->
+                <div class="navbar-ajuda-md hidden-lg hidden-xs">
+                  <button type="button" class="bt-ajuda">
+                    <i class="fas fa-circle-question"></i>
+                  </button>
+                </div><!--/.navbar-ajuda-md .visible-md-sm -->
+
+                <!-- .sb-search .hidden-xs -->
+                <div class="navbar-lupa hidden-xs">
+                  <div id="sb-search" class="sb-search">
+                    <form role="search" method="get" class="searchform" >
+                      <input class="sb-search-input" placeholder="Enter your search term..." type="text" value="" name="search" id="search">
+                      <input class="sb-search-submit" type="submit" value="">
+                      <span class="sb-icon-search"><i class="fas fa-magnifying-glass"></i></span>
+                    </form>
+                  </div>
+                </div>
+                <!--/.navbar-lupa .hidden-xs -->
+              </div>
+            </div><!--/.navbar-desktop -->
 
 
           </div><!--/.container-fluid -->
@@ -364,7 +196,7 @@
               <div class="tab-content">
 
                 <!-- #recursos -->
-                <div role="tabpanel" class="tab-pane fade in active" id="recursos">
+                <div role="tabpanel" class="tab-pane active" id="recursos">
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Traductor</a></li>
                     <li class="divider-vertical"></li>
@@ -443,7 +275,7 @@
                 </div><!--/#recursos -->
 
                 <!-- #coneixeu -->
-                <div role="tabpanel" class="tab-pane fade" id="coneixeu">
+                <div role="tabpanel" class="tab-pane" id="coneixeu">
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="#"></a></li>
                     <!-- .submenu-tab-dropdown -->
@@ -493,7 +325,7 @@
                 </div><!--/#coneixeu -->
 
                 <!-- #collaboreu -->
-                <div role="tabpanel" class="tab-pane fade" id="collaboreu">
+                <div role="tabpanel" class="tab-pane" id="collaboreu">
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Menu 1.3.1</a></li>
                     <li class="divider-vertical"></li>
@@ -520,62 +352,72 @@
       </nav><!--/.navbar -->
     </header><!--/.pag-header -->
 
+    <div class="cd-overlay"></div>
+
+    <!-- .navbar-principal-xs (built from desktop nav by JS adapter) -->
+    <nav id="navbar-principal" class="navbar-principal-xs cd-nav">
+      <ul id="cd-primary-nav" class="cd-primary-nav is-fixed nav nav-principal-xs visible-xs-block"></ul>
+    </nav>
+
     <!-- .main .wrap-blanc -->
-    <main class="main wrap-blanc home">
+    <main class="main home">
 
       <!-- .carousel -->
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <div class="carousel-img">
+              <img src="dist/img/content/home-slider-01.jpg" alt="imatge carousel home 01">
+              <div class="peu-foto">
+                <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
+              </div>
+            </div>
+            <div class="carousel-caption">
+              <h1>III jornada de traducci&oacute; de programari</h1>
+              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
+              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-img">
+              <img src="dist/img/content/home-slider-02.jpg" alt="imatge carousel home 02">
+              <div class="peu-foto">
+                <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons. Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
+              </div>
+            </div>
+            <div class="carousel-caption">
+              <h1>III jornada de traducci&oacute; de programari</h1>
+              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
+              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
+            </div>
+          </div>
+          <div class="item">
+            <div class="carousel-img">
+              <img src="dist/img/content/home-slider-03.jpg" alt="imatge carousel home 03">
+              <div class="peu-foto">
+                <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
+              </div>
+            </div>
+            <div class="carousel-caption">
+              <h1>III jornada de traducci&oacute; de programari</h1>
+              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
+              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
+            </div>
+          </div>
+        </div><!--/ Wrapper for slides -->
+
+        <!-- Indicators (after carousel-inner so they flow below caption on mobile) -->
         <ol class="carousel-indicators">
           <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
           <li data-target="#carousel-example-generic" data-slide-to="1"></li>
           <li data-target="#carousel-example-generic" data-slide-to="2"></li>
         </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-          <div class="item active">
-            <img src="dist/img/content/home-slider-01.jpg" alt="imatge carousel home 01">
-            <div class="carousel-caption">
-              <h1>III jornada de traducci&oacute; de programari</h1>
-              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
-              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
-            </div>
-            <div class="peu-foto">
-              <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
-            </div>
-          </div>
-          <div class="item">
-            <img src="dist/img/content/home-slider-02.jpg" alt="imatge carousel home 02">
-            <div class="carousel-caption">
-              <h1>III jornada de traducci&oacute; de programari</h1>
-              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
-              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
-            </div>
-            <div class="peu-foto">
-              <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons. Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
-            </div>
-          </div>
-          <div class="item">
-            <img src="dist/img/content/home-slider-03.jpg" alt="imatge carousel home 03">
-            <div class="carousel-caption">
-              <h1>III jornada de traducci&oacute; de programari</h1>
-              <h2>Us convidem el dissabte 16 de desembre, al Centre C&iacute;vic Sagrada Fam&iacute;lia de Barcelona</h2>
-              <button type="button" class="bt-basic bt-blanc">Apunteu-vos-hi</button>
-            </div>
-            <div class="peu-foto">
-              <em>Foto: Per Meskolin (Treball propi) [CC BY-SA 3.0], via la Wikimedia Commons</em>
-            </div>
-          </div>
-        </div><!--/ Wrapper for slides -->
       </div><!--/.carousel -->
 
-      <!-- .wrap-blanc -->
-      <div class="wrap-blanc">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .recursos-serveis  -->
-          <section class="contingut-section recursos-serveis">
+      <!-- .recursos-serveis  -->
+      <section class="recursos-serveis">
             <h3>Recursos i serveis</h3>
             <h1>Viure i treballar en catal&agrave;</h1>
 
@@ -619,11 +461,11 @@
 
               <!-- .nav tabs -->
               <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="tab-windows active"><a href="#windows" aria-controls="windows" role="tab" data-toggle="tab"><span>Widnows</span></a></li>
-                <li role="presentation" class="tab-linux"><a href="#linux" aria-controls="linux" role="tab" data-toggle="tab"><span>Linux</span></a></li>
-                <li role="presentation" class="tab-osx"><a href="#osx" aria-controls="osx" role="tab" data-toggle="tab"><span>OSX</span></a></li>
-                <li role="presentation" class="tab-android"><a href="#android" aria-controls="android" role="tab" data-toggle="tab"><span>Android</span></a></li>
-                <li role="presentation" class="tab-ios"><a href="#ios" aria-controls="ios" role="tab" data-toggle="tab"><span>IOS</span></a></li>
+                <li role="presentation" class="tab-windows active"><a href="#windows" aria-controls="windows" role="tab" data-toggle="tab"><img src="dist/img/content/img-home-windows.jpg" alt="Windows"></a></li>
+                <li role="presentation" class="tab-linux"><a href="#linux" aria-controls="linux" role="tab" data-toggle="tab"><img src="dist/img/content/img-home-linux.jpg" alt="Linux"></a></li>
+                <li role="presentation" class="tab-osx"><a href="#osx" aria-controls="osx" role="tab" data-toggle="tab"><img src="dist/img/content/img-home-osx.jpg" alt="OSX"></a></li>
+                <li role="presentation" class="tab-android"><a href="#android" aria-controls="android" role="tab" data-toggle="tab"><img src="dist/img/content/img-home-android.jpg" alt="Android"></a></li>
+                <li role="presentation" class="tab-ios"><a href="#ios" aria-controls="ios" role="tab" data-toggle="tab"><img src="dist/img/content/img-home-ios.jpg" alt="iOS"></a></li>
               </ul><!--/.nav tabs -->
 
               <!-- .tab-content -->
@@ -679,15 +521,9 @@
             </div><!--/.programari  -->
 
           </section><!--/.recursos-serveis -->
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-blanc -->
 
-      <!-- .wrap-gris-home -->
-      <div class="wrap-gris-home">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .quisom  -->
-          <section class="contingut-section quisom">
+      <!-- .quisom  -->
+      <section class="quisom">
             <div class="row">
               <div class="col-xs-12 col-sm-5">
                 <img class="img-responsive" src="dist/img/content/img-home-qui-som.jpg" alt="Meritocracia, transparencia, obertura, exel·lencia i unitat de la llengua">
@@ -697,24 +533,18 @@
                 <h1>Qu&egrave; &eacute;s i qu&egrave; fa Softcatal&agrave;</h1>
                 <p>Softcatal&agrave; &eacute;s una associaci&oacute; sense &agrave;nim de lucre amb la missi&oacute; de fomentar la pres&egrave;ncia i l&#039;&uacute;s del catal&agrave; en tots els &agrave;mbits de les noves tecnologies (TIC). La nostra filosofia:</p>
                 <ul class="cont-llista">
-                  <li><i class="fas fa-chevron-right"></i>El comprom&iacute;s amb el programari lliure i la llengua catalana</li>
-                  <li><i class="fas fa-chevron-right"></i>Els membres i col&middot;laboradors treballen des del voluntariat</li>
-                  <li><i class="fas fa-chevron-right"></i>El treball basat en la meritocr&agrave;cia i la transpar&egrave;ncia</li>
-                  <li><i class="fas fa-chevron-right"></i>La independ&egrave;ncia i la organitzaci&oacute; assamble&agrave;ria</li>
+                  <li>El comprom&iacute;s amb el programari lliure i la llengua catalana</li>
+                  <li>Els membres i col&middot;laboradors treballen des del voluntariat</li>
+                  <li>El treball basat en la meritocr&agrave;cia i la transpar&egrave;ncia</li>
+                  <li>La independ&egrave;ncia i la organitzaci&oacute; assamble&agrave;ria</li>
                 </ul>
                 <button type="button" class="bt-basic bt-blanc">Coneixeu-nos</button>
               </div>
             </div>
           </section><!--/.quisom  -->
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-gris-home -->
 
-      <!-- .wrap-vermell -->
-      <div class="wrap-vermell">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .collaboreu  -->
-          <section class="contingut-section collaboreu">
+      <!-- .collaboreu  -->
+      <section class="collaboreu">
             <h3>Ens voleu ajudar?</h3>
             <h1>Col&middot;laboreu amb l&#039;associaci&oacute;</h1>
             <p>El car&agrave;cter interdisciplinari de Softcatal&agrave; fa que es necessitin col&middot;laboradors, estudiants, professionals i usuaris de diversos &agrave;mbits:</p>
@@ -727,15 +557,9 @@
               <div class="col-xxs-12 col-xs-4 col-md-2"><a href="#"><i class="fas fa-calendar-days"></i>Coordinadors <span class="center-block">d&#039;esdeveniments</span></a></div>
             </div>
           </section><!--/.collaboreu  -->
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-vermell -->
 
-      <!-- .wrap-blanc -->
-      <div class="wrap-blanc">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .actualitat  -->
-          <section class="contingut-section actualitat">
+      <!-- .actualitat  -->
+      <section class="actualitat">
             <h3>Actualitat</h3>
             <div class="row">
               <!-- .noticies -->
@@ -806,9 +630,7 @@
             </div><!--/.row -->
           </section><!--/.actualitat -->
 
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-blanc -->
-    </main><!--/.main .wrap-blanc -->
+    </main><!--/.main .home -->
 
 
     <!-- .wrap-gris-fosc -->
@@ -835,12 +657,12 @@
             </div>
             <div class="col-xs-12 col-sm-3 seguiunos">
               <p>Seguiu-nos</p>
-              <ul class="nav footer-media">
-                <li><a href="#"><i class="fas fa-rss fa-stack-1x fa-inverse"></i></a></li>
-                <li><a href="#"><i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i></a></li>
-                <li><a href="#"><i class="fab fa-twitter fa-stack-1x fa-inverse"></i></a></li>
-                <li><a href="#"><i class="fab fa-google-plus-g fa-stack-1x fa-inverse"></i></a></li>
-                <li><a href="#"><i class="fab fa-linkedin-in fa-stack-1x fa-inverse"></i></a></li>
+              <ul class="footer-media">
+                <li><a href="#"><i class="fas fa-rss"></i></a></li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
               </ul>
             </div>
           </div>
@@ -881,6 +703,36 @@
       </div><!--/.wrap-blanc -->
       </footer><!--/.pag-footer -->
     </div><!--/.wrap-gris-fosc -->
+
+    <script>
+      // dropdown-fallback-v1
+      (function () {
+        var root = document.querySelector('.navbar-usuari .dropdown')
+        if (!root) return
+
+        var toggle = root.querySelector('.dropdown-toggle')
+        var menu = root.querySelector('.dropdown-menu')
+        if (!toggle || !menu) return
+
+        function setOpen(open) {
+          root.classList.toggle('open', open)
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+          menu.style.display = open ? 'block' : 'none'
+          menu.style.opacity = open ? '1' : '0'
+        }
+
+        toggle.addEventListener('click', function (event) {
+          event.preventDefault()
+          setOpen(!root.classList.contains('open'))
+        })
+
+        document.addEventListener('click', function (event) {
+          if (!root.contains(event.target)) {
+            setOpen(false)
+          }
+        })
+      })()
+    </script>
 
     <script src="../../static/js/main.min.js"></script>
 

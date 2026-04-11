@@ -1,22 +1,18 @@
 /**
  * tabs.ts — Accessible tablist with arrow-key navigation
  *
- * Replaces: Bootstrap 3 Tab plugin (data-toggle="tab")
- *
- * Markup expectations (existing BS3):
+ * Markup:
  *   <ul class="nav nav-tabs" role="tablist">
  *     <li class="active">
  *       <a href="#recursos" aria-controls="recursos" role="tab" data-toggle="tab">...</a>
  *     </li>
  *   </ul>
  *   <div class="tab-content">
- *     <div role="tabpanel" class="tab-pane fade in active" id="recursos">...</div>
+ *     <div role="tabpanel" class="tab-pane active" id="recursos">...</div>
  *   </div>
  *
- * Enhancements over BS3:
- * - `aria-selected` managed automatically
- * - `tabindex` roving (active tab = 0, others = -1)
- * - Left/Right arrow-key navigation within tablist
+ * Only `.active` controls visibility (CSS: .tab-pane hides, .tab-pane.active shows).
+ * ARIA: aria-selected, tabindex roving, arrow-key navigation.
  */
 
 import { $$ } from './utils'
@@ -45,9 +41,7 @@ export function activateTab(tab: HTMLElement, focus = false): void {
   }
 
   if (tabContent) {
-    $$('.tab-pane', tabContent).forEach(p => {
-      p.classList.remove('active', 'in')
-    })
+    $$('.tab-pane', tabContent).forEach(p => p.classList.remove('active'))
   }
 
   // Activate selected
@@ -56,14 +50,13 @@ export function activateTab(tab: HTMLElement, focus = false): void {
   tab.setAttribute('tabindex', '0')
   tab.parentElement?.classList.add('active')
 
-  panel.classList.add('active', 'in')
+  panel.classList.add('active')
 
   if (focus) tab.focus()
 }
 
 /**
  * Initialize all tablists on the page.
- * Works with existing BS3 markup (data-toggle="tab").
  */
 export function initTabs(): void {
   const tablists = $$('.nav-tabs, [role="tablist"]')
@@ -81,7 +74,6 @@ export function initTabs(): void {
       tab.setAttribute('aria-selected', isActive ? 'true' : 'false')
       tab.setAttribute('tabindex', isActive ? '0' : '-1')
 
-      // Set panel roles
       const panelId = tab.getAttribute('aria-controls') ?? tab.getAttribute('href')?.replace('#', '')
       const panel = panelId ? document.getElementById(panelId) : null
       if (panel) {

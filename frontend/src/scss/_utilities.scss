@@ -14,6 +14,15 @@
 @use 'tokens' as *;
 
 // --------------------------------------------------------------------------
+// Body overflow lock (used by mobile nav)
+// --------------------------------------------------------------------------
+
+// Prevents page scrolling when mobile nav is open.
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+// --------------------------------------------------------------------------
 // Accessibility
 // --------------------------------------------------------------------------
 
@@ -66,13 +75,29 @@
 
 // Generate column classes for each breakpoint tier
 // BS3-compat: col-xs-*, col-sm-*, col-md-*, col-lg-*
-@mixin make-columns($prefix) {
+//
+// IMPORTANT: In BS3, ALL col-*-N classes share base styles (position, padding,
+// min-height) unconditionally — only `width` is gated by the media query.
+// This ensures that e.g. `col-sm-12` still gets column padding at xs viewport
+// even though the sm width rule doesn't apply yet.
+
+// Step 1: Emit base styles for every col-*-N class (no media query).
+// We gather all prefixes × sizes into one rule with a shared selector.
+@mixin make-column-base($prefix) {
   @for $i from 1 through 12 {
     .col-#{$prefix}-#{$i} {
       position: relative;
       min-height: 1px;
       padding-left: calc($grid-gutter / 2);
       padding-right: calc($grid-gutter / 2);
+    }
+  }
+}
+
+// Step 2: Emit width rules only (used inside media queries for sm/md/lg).
+@mixin make-column-widths($prefix) {
+  @for $i from 1 through 12 {
+    .col-#{$prefix}-#{$i} {
       width: calc(100% * $i / 12);
     }
   }
@@ -87,29 +112,37 @@
   }
 }
 
-// xs columns: always active (no media query)
-@include make-columns(xs);
+// --- Base styles (unconditional — no media query) ---
+// Every col-*-N gets padding/position regardless of viewport.
+@include make-column-base(xs);
+@include make-column-base(sm);
+@include make-column-base(md);
+@include make-column-base(lg);
+@include make-column-base(xxs);
+
+// --- xs widths: always active (no media query) ---
+@include make-column-widths(xs);
 @include make-offsets(xs);
 
-// sm columns: from 769px up
+// --- sm widths: from 769px up ---
 @include respond-from(sm) {
-  @include make-columns(sm);
+  @include make-column-widths(sm);
   @include make-offsets(sm);
 }
 
-// md columns: from 1025px up
+// --- md widths: from 1025px up ---
 @include respond-from(md) {
-  @include make-columns(md);
+  @include make-column-widths(md);
   @include make-offsets(md);
 }
 
-// lg columns: from 1200px up
+// --- lg widths: from 1200px up ---
 @include respond-from(lg) {
-  @include make-columns(lg);
+  @include make-column-widths(lg);
   @include make-offsets(lg);
 }
 
-// xxs columns: below 480px (custom Softcatala breakpoint)
+// --- xxs widths: below 480px (custom Softcatala breakpoint) ---
 @include respond-to(xxs) {
   .col-xxs-6 {
     width: 50%;
@@ -302,4 +335,14 @@
     margin-top: -5px;
     margin-right: var(--space-3);
   }
+}
+
+// --------------------------------------------------------------------------
+// Tab pane visibility
+// --------------------------------------------------------------------------
+// Only the active .tab-pane is visible; the rest are hidden.
+
+.tab-pane {
+  display: none;
+  &.active { display: block; }
 }

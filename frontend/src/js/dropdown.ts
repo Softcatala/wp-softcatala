@@ -20,7 +20,7 @@ let openTimer: ReturnType<typeof setTimeout> | undefined
 let closeTimer: ReturnType<typeof setTimeout> | undefined
 
 function toggle(li: HTMLElement, show: boolean): void {
-  const menu = li.querySelector<HTMLElement>('.dropdown-hover')
+  const menu = li.querySelector<HTMLElement>('.dropdown-hover, .dropdown-menu')
   const link = li.querySelector<HTMLElement>('.dropdown-toggle')
   if (!menu || !link) return
 

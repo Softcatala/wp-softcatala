@@ -94,41 +94,47 @@
   // --------------------------------------------------------------------------
   // .wrap-blanc layout (white middle band)
   // --------------------------------------------------------------------------
-  // HTML order matches visual: [logo] [tabs+espai] [help] [search]
+  // Clean desktop structure:
+  // [navbar-header][navbar-desktop-main (tabs+espai)][navbar-desktop-actions (help+search)]
 
   .wrap-blanc > .container-fluid {
     @include respond-from(sm) {
       display: flex;
       align-items: stretch;
-      position: relative;  // for absolutely-positioned search
     }
   }
 
-  // The div.hidden-xs wrapper holds nav-tabs + espai. Grows to fill space.
-  .wrap-blanc > .container-fluid > div.hidden-xs {
+  .navbar-desktop {
     @include respond-from(sm) {
       display: flex;
-      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .navbar-desktop-main {
+    @include respond-from(sm) {
+      display: flex;
       align-items: center;
       flex: 1 1 auto;
+      min-width: 0;
     }
   }
 
-  // Espai de col·laboradors pushed right within the tabs wrapper
-  .wrap-blanc .navbar-espai {
+  .navbar-desktop-actions {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: stretch;
+      margin-left: 12px;
+    }
+  }
+
+  // Espai de col·laboradors pushed right within tabs area
+  .navbar-desktop-main .navbar-espai {
     @include respond-from(sm) {
       margin-left: auto;
-    }
-  }
-
-  // Search bar (desktop) — positioned absolutely at far right
-  .wrap-blanc > .container-fluid > .navbar-lupa.hidden-xs {
-    @include respond-from(sm) {
-      position: absolute;
-      right: 15px;
-      top: 0;
-      height: 90px;
-      z-index: 10;
     }
   }
 
@@ -226,6 +232,7 @@
 
         > a {
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
           height: 100%;
@@ -357,7 +364,7 @@
   .navbar-ajuda {
     height: 90px;
     font-size: 13px;
-    margin-right: 75px;
+    margin-right: 15px;
 
     .menu-ajuda-index { z-index: 1000; }
 
@@ -439,7 +446,15 @@
 
   .navbar-lupa {
     position: relative;
-    margin: 0 -15px;
+    margin: 0;
+
+    &.hidden-xs {
+      @include respond-from(sm) {
+        width: 60px;
+        min-width: 60px;
+        height: 90px;
+      }
+    }
 
     .cercador-xs {
       height: 60px;
@@ -459,9 +474,15 @@
       }
     }
 
+    // Mobile collapse search row should span full viewport width (BS3 behavior)
+    @include respond-to(xs) {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+
     .sb-search {
       position: absolute;
-      right: 15px;
+      right: 0;
       top: 16px;
       width: 0%;
       min-width: 60px;
@@ -525,8 +546,12 @@
 
     .sb-search.sb-search-open,
     .no-js .sb-search {
-      width: 100%;
+      width: 400px;
       z-index: 1500;
+
+      @include respond-to(xs) {
+        width: 100%;
+      }
     }
 
     .sb-search.sb-search-open .sb-icon-search,
@@ -597,12 +622,15 @@
 
     .nav > li {
       margin-right: 10px;
+      position: relative;
 
       > a {
         font-size: 12px;
         color: var(--color-gray-775);
         padding: 8px 15px 8px 8px;
         line-height: 1.1;
+        position: relative;
+        top: -2px;
 
         > i { font-size: 11px; margin-left: 5px; }
 
@@ -625,6 +653,8 @@
         }
       }
 
+      // Fallback if JS is not running: keep dropdown usable by keyboard/mouse
+      &:focus-within > .dropdown-menu { display: block; }
       &:hover > .dropdown-menu { display: block; }
     }
   }
@@ -699,9 +729,9 @@
     }
 
     .bt-ajuda {
-      margin-right: 83px;
-      @media (max-width: 810px) { margin-right: 70px; }
-      @media (max-width: 790px) { margin-right: 63px; }
+      margin-right: 15px;
+      @media (max-width: 810px) { margin-right: 10px; }
+      @media (max-width: 790px) { margin-right: 5px; }
     }
   }
 
@@ -713,6 +743,34 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+
+    @include respond-to(xs) {
+      margin-left: -15px;
+      margin-right: -15px;
+      padding: 0;
+
+      .navbar-brand {
+        order: 1;
+        margin-right: auto;
+      }
+
+      .bt-usuari { order: 2; }
+      .bt-ajuda { order: 3; }
+      .bt-lupa-xs { order: 4; }
+      .bt-menu { order: 5; }
+
+      .navbar-toggle {
+        margin: 8px;
+        padding: 6px 4px;
+
+        > i { font-size: 21px; }
+        .fa-search { font-size: 20px; padding: 0; }
+      }
+
+      .bt-menu .navbar-toggle {
+        padding: 8px 7px;
+      }
+    }
 
     .navbar-toggle,
     .cd-nav-trigger {
@@ -726,7 +784,12 @@
 
       > i { font-size: 24px; color: var(--color-text-inverse); }
 
-      .fa-search { font-size: 22px; padding: 2px 1px; color: var(--color-gray-900); }
+      .fa-search,
+      .fa-magnifying-glass {
+        font-size: 22px;
+        padding: 2px 1px;
+        color: var(--color-gray-900);
+      }
       .fa-user { padding: 0 1px; }
 
       .icon-bar {
@@ -736,6 +799,7 @@
         width: 22px;
         margin: 3px 0;
         border-radius: 1px;
+        transition: transform var(--transition-fast), opacity var(--transition-fast), background-color var(--transition-fast);
       }
 
       &:active, &:focus {
@@ -756,6 +820,8 @@
     .bt-lupa-xs .navbar-toggle {
       background-color: var(--color-white);
       border: 1px solid var(--color-gray-575);
+
+      > i { color: var(--color-gray-900); }
     }
 
     .bt-menu {
@@ -769,23 +835,49 @@
       .nav-is-visible {
         background-color: var(--color-white);
         border: 1px solid var(--color-brand);
+
+        .icon-bar {
+          background-color: var(--color-brand);
+          margin: 0;
+
+          &:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+          &:nth-child(2) { opacity: 0; }
+          &:nth-child(3) { transform: translateY(-3px) rotate(-45deg); }
+        }
+      }
+    }
+
+    @include respond-to(xs) {
+      .bt-ajuda .navbar-toggle,
+      .bt-usuari .navbar-toggle,
+      .bt-lupa-xs .navbar-toggle {
+        padding: 6px 4px;
+      }
+
+      .bt-menu .navbar-toggle,
+      .bt-lupa-xs .navbar-toggle {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navbar-toggle > i { font-size: 21px; }
+
+      .navbar-toggle .fa-search,
+      .navbar-toggle .fa-magnifying-glass {
+        font-size: 20px;
+        padding: 0;
+        color: var(--color-gray-900);
       }
     }
   }
 
   // --------------------------------------------------------------------------
-  // Tab pane visibility (BS3 .tab-pane / .fade / .in / .active)
-  // --------------------------------------------------------------------------
-
-  .tab-pane {
-    display: none;
-    &.active { display: block; }
-    &.fade { opacity: 0; transition: opacity var(--transition-fast); }
-    &.fade.in, &.fade.active { opacity: 1; }
-  }
-
-  // --------------------------------------------------------------------------
-  // Collapse behavior (BS3 .collapse)
+  // Collapse behavior
   // --------------------------------------------------------------------------
 
   .collapse {
