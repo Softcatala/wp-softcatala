@@ -31,13 +31,14 @@
       h2,
       span {
         font-size: 24px;
-        margin-top: -10px;
+        margin-top: 0;
       }
     }
   }
 
   .contingut > header,
-  .contingut article > header {
+  .contingut article > header,
+  &.contingut article > header {
     margin-bottom: 40px;
 
     p { margin-bottom: 30px; }
@@ -67,7 +68,11 @@
     }
   }
 
-  .contingut article {
+  // .blog can be on <main> (parent of .contingut) or on the .contingut element
+  // itself (mockup 12). Both selectors needed; bare "article" would leak into
+  // comment articles (.article-comentari) which are not blog-post articles.
+  .contingut article,
+  &.contingut article {
     h2 {
       font-weight: 300;
       font-size: 24px;

@@ -25,7 +25,8 @@
   color: var(--color-text);
   background-color: var(--color-white);
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0;
+  margin-bottom: 10px;
   transition: border-color ease-in-out 0.15s;
 
   &:focus {
@@ -33,10 +34,21 @@
     outline: 0;
     box-shadow: none;
   }
+
+  // No bottom margin when inside input-group (input + addon sit inline)
+  .input-group & {
+    margin-bottom: 0;
+  }
 }
 
 select.form-control {
-  appearance: auto; // preserve native dropdown arrow
+  appearance: none;                    // remove native arrow
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 36px;                // room for the arrow
+  cursor: pointer;
 }
 
 // ---------------------------------------------------------------------------
@@ -45,24 +57,18 @@ select.form-control {
 
 .input-group {
   position: relative;
-  display: table;
-  border-collapse: separate;
+  display: flex;
 
   .form-control {
-    display: table-cell;
-    position: relative;
-    z-index: 2;
-    float: left;
-    width: 100%;
+    flex: 1;
+    min-width: 0;                                  // allow shrinking below intrinsic size
   }
 }
 
 .input-group-addon,
 .input-group-btn {
-  display: table-cell;
-  width: 1%;
   white-space: nowrap;
-  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .input-group-addon {
@@ -76,9 +82,12 @@ select.form-control {
   border: 1px solid #ccc;
   border-radius: 0 4px 4px 0;
 
-  // Remove left border when after input
-  .input-group .form-control:first-child + & {
-    border-left: 0;
+  // When combined with .bt-basic-vermell, let button colors win
+  &.bt-basic-vermell {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-white);
+    border-radius: 0;
   }
 }
 

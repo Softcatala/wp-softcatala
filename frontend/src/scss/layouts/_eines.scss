@@ -16,91 +16,149 @@
   .btns-llengues {
     margin-bottom: 20px;
 
+    // The .col-xs-12 wrapper is a grid column — make it a flex container
+    // so origin group, swap, destination group, and Tradueix lay out inline.
+    .col-xs-12 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    // Button groups lay out children inline
+    .btn-group {
+      display: inline-flex;
+      vertical-align: middle;
+
+      // Nested .btn-group (wrapping the <select>) should blend in
+      .btn-group {
+        display: inline-flex;
+      }
+    }
+
+    // Base button style (language buttons, direction, dropdown toggles)
     .btn {
+      display: inline-block;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: normal;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      padding: 6px 12px;
       height: 42px;
       border-radius: 0;
       background-color: var(--color-bg-menu);
       color: var(--color-gray-825);               // #777777
       border: 1px solid var(--color-gray-225);     // #e7e7e7
 
-      .caret { margin-left: 5px; }
-
-      .fa-long-arrow-left {
-        display: block;
-        font-size: 24px;
-        margin-top: -3px;
-      }
-
-      .fa-long-arrow-right {
-        display: block;
-        font-size: 24px;
-        margin-top: -13px;
+      // Collapse adjacent borders
+      & + .btn {
+        margin-left: -1px;
       }
     }
 
+    // Native <select> styled to match adjacent buttons
+    select.form-control {
+      height: 42px;
+      border-radius: 0;
+      font-size: 14px;
+      color: var(--color-gray-825);
+      border-color: var(--color-gray-225);
+      background-color: var(--color-bg-menu);
+      margin-left: -1px;                           // collapse border with adjacent .btn
+      margin-bottom: 0;                            // override global .form-control spacing
+      padding-right: 30px;                         // room for dropdown arrow
+    }
+
+    // Active language button — darker bg + brand red text + red underline
     .select {
       background-color: var(--color-gray-225);
+      color: var(--color-brand);
+      border-bottom: 3px solid var(--color-brand);
     }
 
+    // Direction swap button arrows
+    .fa-left-long {
+      display: block;
+      font-size: 24px;
+      margin-top: -3px;
+    }
+
+    .fa-right-long {
+      display: block;
+      font-size: 24px;
+      margin-top: -13px;
+    }
+
+    // Origin language group
     .btns-llengues-origen {
-      float: left;
-      margin-right: 10px;
-      margin-top: 10px;
+      // no special layout — inline-flex from .btn-group handles it
     }
 
+    // Right side: direction + destination + Tradueix
     .btn-right {
-      float: right;
+      display: inline-flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-left: auto;                           // push to the right
 
       .btns-llengues-desti {
-        margin-right: 10px;
-        margin-top: 10px;
+        // inline-flex from .btn-group handles it
       }
 
       .bt-basic-vermell {
-        margin-top: 10px;
         vertical-align: middle;
       }
 
       .direccio {
         background-color: var(--color-white);
         padding: 6px 10px;
-        margin-right: 10px;
-        margin-top: 10px;
-      }
-
-      @media (max-width: 1160px) {
-        float: none;
       }
     }
 
+    // ── Mobile ────────────────────────────────────────────
     @include respond-to(xs) {
-      .btn-right .btns-llengues-desti {
-        margin-top: 2px;
+      // Hide text buttons, only selects remain
+      .bt { display: none; }
+
+      .col-xs-12 {
+        align-items: center;
+        gap: 6px;
       }
 
-      .bt { display: none; }
-    }
+      // Origin group: flex to fill available space
+      .btns-llengues-origen {
+        flex: 1;
 
-    .dropdown-menu {
-      margin-top: 0;
-      border-radius: 0;
-      box-shadow: none;
-      border-color: var(--color-gray-225);
-      top: 41px;
-
-      li a {
-        color: var(--color-gray-825);
-
-        &:hover,
-        &:focus {
-          color: var(--color-text);
-          background-color: var(--color-white);
+        select.form-control {
+          width: 100%;
+          margin-left: 0;
         }
       }
-    }
 
-    .btn-group.open .dropdown-toggle {
-      box-shadow: none;
+      // Unwrap .btn-right so its children participate in the parent flex
+      .btn-right {
+        display: contents;
+
+        .direccio {
+          flex-shrink: 0;
+        }
+
+        .btns-llengues-desti {
+          flex: 1;
+
+          select.form-control {
+            width: 100%;
+            margin-left: 0;
+          }
+        }
+
+        .bt-basic-vermell {
+          width: 100%;               // full-width below selects
+        }
+      }
     }
   }
 

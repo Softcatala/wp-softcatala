@@ -103,6 +103,38 @@ $container-lg: 1200px;  // same as md (per existing Less)
   }
 }
 
+// --------------------------------------------------------------------------
+// collapse-transition() mixin
+// --------------------------------------------------------------------------
+// Animated show/hide using max-height + opacity.
+// Requires JS to toggle the `.in` class on the element.
+// Overrides the global `.collapse { display: none }` with `display: block`
+// so the transition (not display toggling) controls visibility.
+//
+// Usage:
+//   .my-collapsible { @include collapse-transition; }
+//   .my-tall-panel   { @include collapse-transition(1000px); }
+
+@mixin collapse-transition($max-height: 600px) {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  // Expand: fast start (content appears quickly), slow tail (overshoot invisible)
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
+
+  // Override the global .collapse display:none
+  &.collapse { display: block; }
+
+  &.in {
+    max-height: $max-height;
+    opacity: 1;
+    // Collapse: ease-in so the visible shrink is gradual
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 1, 1),
+                opacity 0.2s ease;
+  }
+}
+
 // ==========================================================================
 // Tier 1: Primitive tokens (raw values)
 // ==========================================================================

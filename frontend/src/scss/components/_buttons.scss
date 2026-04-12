@@ -87,8 +87,13 @@
 // ---------------------------------------------------------------------------
 // Download buttons
 // ---------------------------------------------------------------------------
+// Layout: [icon]  [text     ]
+//                 [subtitle ]
+// Both variants use flexbox. .bt-download is outlined, .bt-download-invers is filled.
 
 .bt-download {
+  display: inline-flex;
+  align-items: center;
   font-size: 18px;
   color: var(--color-brand-hover);
   border: 1px solid var(--color-brand-hover);
@@ -97,23 +102,22 @@
   margin: 30px 0;
   text-align: left;
   border-radius: 0;
-  display: inline-flex;
-  align-items: flex-start;
-  width: auto;
 
-  i {
+  i, img {
+    flex-shrink: 0;
     font-size: 24px;
     margin-right: 10px;
-    flex-shrink: 0;
   }
 
-  span {
-    display: block;
-    padding-left: 35px;
+  img {
+    width: 24px;
+    height: auto;
   }
 }
 
 .bt-download-invers {
+  display: inline-flex;
+  align-items: center;
   font-size: 16px;
   border: 1px solid var(--color-brand-hover);
   background-color: var(--color-brand-hover);
@@ -123,18 +127,19 @@
   font-weight: normal;
   padding: 5px 50px 5px 12px;
   margin: 20px 0;
-  display: inline-flex;
-  align-items: flex-start;
 
-  i {
+  i, img {
+    flex-shrink: 0;
     font-size: 32px;
     margin-right: 10px;
-    margin-top: 6px;
-    flex-shrink: 0;
   }
 
-  span,
   img {
+    width: 32px;
+    height: auto;
+  }
+
+  span {
     text-transform: uppercase;
   }
 

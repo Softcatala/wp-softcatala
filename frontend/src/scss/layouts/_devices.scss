@@ -19,6 +19,10 @@
     }
   }
 
+  .filtres {
+    margin-top: 20px;
+  }
+
   .acordio-aparells {
     .panel {
       border-radius: 0;
@@ -63,12 +67,16 @@
           }
 
           .fa-check { color: var(--color-success); }
-          .fa-times { color: var(--color-error); }
+          .fa-xmark { color: var(--color-error); }
         }
 
         @include respond-to(xxs) {
           ul li { text-align: left; }
         }
+      }
+
+      .panel-collapse {
+        @include collapse-transition(2000px);
       }
 
       .panel-collapse .panel-body {
@@ -91,7 +99,6 @@
         i {
           color: var(--color-gray-625);
           display: inline-block;
-          font-weight: 300;
         }
 
         ul li {

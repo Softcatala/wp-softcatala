@@ -127,27 +127,8 @@
     padding-left: 0;
     padding-right: 0;
 
-    // Animated collapse for the sidebar nav.
-    // Uses max-height with a tuned cubic-bezier so expand and collapse both
-    // feel smooth despite the max-height overshoot.
     .navbar-collapse {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      // Expand: fast start (content appears quickly), slow tail (overshoot is invisible)
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease;
-
-      // Override the global .collapse display:none
-      &.collapse { display: block; }
-
-      &.in {
-        max-height: 600px;
-        opacity: 1;
-        // Collapse: ease-in so the visible shrink is gradual
-        transition: max-height 0.3s cubic-bezier(0.4, 0, 1, 1),
-                    opacity 0.2s ease;
-      }
+      @include collapse-transition;
     }
 
     .nav li {

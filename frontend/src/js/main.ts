@@ -16,6 +16,7 @@ import { initCarousels } from './carousel'
 import { initNavMobile } from './nav-mobile'
 import { initSearch } from './search'
 import { initCollapse } from './collapse'
+import { initModals } from './modal'
 
 document.addEventListener('DOMContentLoaded', () => {
   // ── Core components ───────────────────────────────────
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavMobile()
   initSearch()
   initCollapse()
+  initModals()
 
   // ── Page-specific behaviors ───────────────────────────
   initTranslatorCheckboxMove()

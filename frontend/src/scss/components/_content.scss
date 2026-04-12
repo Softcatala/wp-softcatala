@@ -31,6 +31,7 @@
   .compartiu {
     display: flex;
     align-items: center;
+    margin: 10px 0px;
 
     p {
       color: var(--color-text-muted);              // #999999
@@ -78,7 +79,7 @@
 
   @include respond-to(xxs) {
     .bt-basic-vermell {
-      margin: 0 auto 20px 0;
+      margin: 10px auto 20px 0;
     }
 
     .compartiu {
@@ -279,6 +280,10 @@
 
 .contingut > section {
   margin: 30px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   h2 {
     font-size: 28px;

@@ -146,7 +146,7 @@
       margin: 20px 0;
       padding-bottom: 20px;
 
-      .fa-times {
+      .fa-xmark {
         font-size: 24px;
         color: var(--color-gray-725);              // #808080
       }
@@ -165,8 +165,6 @@
         padding-right: 0;
         margin: 10px 0;
 
-        img { margin-right: 10px; }
-
         span {
           font-size: 14px;
           letter-spacing: normal;
@@ -182,12 +180,8 @@
     }
 
     .bt-download-invers {
-      display: inline-block;
       padding-right: 45px;
       margin: 10px 0 0;
-
-      i { margin-top: 2px; }
-      img { margin-right: 10px; }
 
       span {
         font-size: 14px;
@@ -241,7 +235,7 @@
 
   .compartiu {
     margin: 10px 40px 0 0;
-    display: inline-block;
+    display: inline-flex;
   }
 
   @include respond-to(xs) {

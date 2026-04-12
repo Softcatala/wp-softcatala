@@ -13,6 +13,10 @@
  *   <button data-toggle="collapse" href="#mescomentaris_123">mes</button>
  *   <div id="mescomentaris_123" class="collapse">...</div>
  *
+ * Accordion pattern (data-parent closes siblings):
+ *   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">...</a>
+ *   <div id="collapseOne" class="panel-collapse collapse">...</div>
+ *
  * Classes:
  *   .collapse  — hidden state
  *   .in        — visible state (added when shown, removed when hidden)
@@ -32,6 +36,23 @@ function getTargetSelector(trigger: HTMLElement): string | null {
   return trigger.dataset.target ?? trigger.getAttribute('href')
 }
 
+/**
+ * Close a collapse target and update its trigger's aria-expanded.
+ */
+function closeCollapse(target: HTMLElement): void {
+  target.dispatchEvent(new Event('hide.collapse'))
+  target.classList.remove('in')
+  target.classList.add('collapse')
+
+  // Update aria-expanded on the trigger that points to this target
+  const id = target.id
+  if (id) {
+    for (const t of $$(`[data-toggle="collapse"][href="#${id}"], [data-toggle="collapse"][data-target="#${id}"]`)) {
+      t.setAttribute('aria-expanded', 'false')
+    }
+  }
+}
+
 export function initCollapse(): void {
   const triggers = $$('[data-toggle="collapse"]:not([data-collapse-group])')
 
@@ -46,10 +67,21 @@ export function initCollapse(): void {
 
       const isOpen = target.classList.contains('in')
 
+      // Accordion: close siblings within the same data-parent container
+      const parentSel = trigger.dataset.parent
+      if (parentSel && !isOpen) {
+        const parent = $<HTMLElement>(parentSel)
+        if (parent) {
+          for (const sibling of $$<HTMLElement>('.in', parent)) {
+            if (sibling !== target) {
+              closeCollapse(sibling)
+            }
+          }
+        }
+      }
+
       if (isOpen) {
-        target.dispatchEvent(new Event('hide.collapse'))
-        target.classList.remove('in')
-        target.classList.add('collapse')
+        closeCollapse(target)
         trigger.setAttribute('aria-expanded', 'false')
       } else {
         target.dispatchEvent(new Event('show.collapse'))

@@ -110,3 +110,46 @@ These keep the same name; only the prefix `fa` → `fas`:
 - **20 renamed** (solid icons with new FA7 names)
 - **6 moved to regular** (`far`, outline style)
 - **10 brand icons** (`fab`, 3 with name changes)
+
+## Critical: never set font-weight on FA7 icon elements
+
+FA7 uses a multi-file font system where `font-weight` selects the variant:
+
+| Prefix | Style | Font-weight |
+|--------|-------|-------------|
+| `fas` | solid | 900 |
+| `far` | regular | 400 |
+| `fab` | brands | 400 |
+
+FA7 manages this internally through CSS custom properties:
+
+```scss
+.fas { --fa-style: 900; }
+.fas::before { font-weight: var(--fa-style); }
+```
+
+**Any CSS rule that sets `font-weight` on an FA7 icon element overrides this mechanism and makes the icon invisible.** The browser can't find the glyph at the wrong weight — no error, no warning, just a blank space.
+
+This is an FA4→FA7 regression trap: under FA4, all glyphs lived in a single font file regardless of weight, so `font-weight: normal` on `<i>` was harmless. Under FA7, it silently kills the icon.
+
+### What to watch for
+
+Old Less/CSS commonly set `font-weight: normal` on `<i>` elements to counteract inherited `font-weight: bold` from parent list items or headings. Remove these — FA7 icons handle their own weight.
+
+```scss
+// BROKEN — font-weight: normal overrides FA7's --fa-style: 900
+li { font-weight: bold; }
+li a i { font-weight: normal; }
+
+// FIXED — let FA7 manage its own font-weight
+li { font-weight: bold; }
+li a i { /* no font-weight */ }
+```
+
+### Diagnosing invisible FA7 icons
+
+If an icon is blank despite correct classes, check computed styles:
+
+1. `font-weight` on the element — should be 900 (solid) or 400 (regular/brands)
+2. `font-weight` on `::before` — must match the element
+3. If wrong, search the CSS cascade for the overriding `font-weight` rule

@@ -120,20 +120,19 @@ div.container-fluid {
       color: var(--color-black);
       background-color: var(--color-bg-light);
       margin-bottom: 10px;
-      display: block;
+      display: flex;
+      align-items: center;
       padding: 10px 15px 10px 20px;
 
       i {
-        font-weight: normal;
         color: var(--color-gray-875);              // #727272
         font-size: 36px;
         margin-right: 15px;
-        float: left;
+        flex-shrink: 0;
       }
 
       span {
-        display: block;
-        padding: 6px 15px 6px 50px;
+        padding: 6px 15px;
       }
 
       &:hover {
