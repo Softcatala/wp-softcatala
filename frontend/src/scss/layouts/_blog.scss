@@ -36,7 +36,8 @@
     }
   }
 
-  .contingut-article > header {
+  .contingut > header,
+  .contingut article > header {
     margin-bottom: 40px;
 
     p { margin-bottom: 30px; }
@@ -66,7 +67,7 @@
     }
   }
 
-  .contingut-article {
+  .contingut article {
     h2 {
       font-weight: 300;
       font-size: 24px;
@@ -127,7 +128,7 @@
 
 .llista-noticies,
 .llista-esdeveniments {
-  > .contingut-article {
+  > article {
     img {
       float: right;
       margin: 10px 0;
@@ -151,7 +152,7 @@
     }
   }
 
-  .contingut-article {
+  article {
     h2,
     .article-footer {
       padding-left: 195px;

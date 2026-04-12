@@ -111,6 +111,7 @@
       display: inline-block;
       font-size: 13px;
       font-weight: bold;
+      text-transform: none;                          // reset .contingut > section h3 uppercase
       color: var(--color-text);
       margin: 0;
     }
