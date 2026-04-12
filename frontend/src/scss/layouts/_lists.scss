@@ -150,14 +150,19 @@ div.container-fluid {
 // ---------------------------------------------------------------------------
 // Large list (.llista-gran)
 // ---------------------------------------------------------------------------
+// Always used with .cont-llista. Uses inline <i> icons inside the <a>
+// (larger, 22px) instead of the ::before chevron that .cont-llista generates.
 
 .llista-gran {
   li {
     border-bottom: 1px solid #d2cfc5;
 
+    &::before {
+      content: none;                   // suppress .cont-llista li::before
+    }
+
     > a {
-      // No explicit color — inherits global a { color: var(--color-link) }
-      // (red), matching the old BS3 site.
+      color: var(--color-text);
       font-size: 18px;
       font-weight: normal;
       padding: 17px;

@@ -46,11 +46,6 @@
 .rating-fa {
   font-family: "Font Awesome 7 Free";
   font-weight: 900;
-  padding-left: 1px;
-
-  .rating-stars::before {
-    padding-left: 1px;
-  }
 }
 
 // Size variants
@@ -78,7 +73,7 @@
       color: var(--color-brand-hover);             // #e64b3c
 
       &::before {
-        content: "\f005 \f005 \f005 \f005 \f005";
+        content: "\f005\20\f005\20\f005\20\f005\20\f005"; // \20 = literal space to match data-content spacing
         text-shadow: none;
         color: var(--color-brand-hover);
       }

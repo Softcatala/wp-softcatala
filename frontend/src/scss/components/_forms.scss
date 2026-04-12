@@ -377,7 +377,9 @@ textarea.form-control {
 
   .lupa {
     background-color: var(--color-white);
+    border: none;
     border-radius: 0;
+    height: 34px;                          // match .form-control height to fill table-cell parent
     padding: 0 0 0 20px;
 
     i {
