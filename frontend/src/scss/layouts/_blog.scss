@@ -113,15 +113,21 @@
       .data-temps { display: block; }
 
       .info-usuari {
-        padding: 5px 10px 10px 68px;
+        padding: 5px 0 10px 0;
         margin-top: 20px;
       }
 
       img {
         margin: 10px 0;
         width: auto;
-        float: left;
-        margin-right: 10px;
+      }
+
+      &:has(img) {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+
+        img { flex-shrink: 0; }
       }
     }
   }
@@ -135,7 +141,6 @@
 .llista-esdeveniments {
   > article {
     img {
-      float: right;
       margin: 10px 0;
 
       @include respond-to(sm) {
@@ -158,18 +163,24 @@
   }
 
   article {
-    h2,
-    .article-footer {
-      padding-left: 195px;
+    .event-item {
+      display: flex;
+      gap: 25px;
+      margin-left: 100px;
 
       @include respond-to(xxs) {
-        padding-left: 95px;
+        margin-left: 0;
       }
+    }
+
+    .article-footer .data-temps {
+      display: block;
     }
 
     i {
       width: 70px;
       height: 70px;
+      flex-shrink: 0;
       background-color: var(--color-brand-hover);
       color: var(--color-white);
       padding: 18px 10px;
@@ -178,14 +189,7 @@
       font-weight: normal;
       font-style: normal;
       line-height: 1;
-      float: left;
-      margin-right: 25px;
       margin-top: 8px;
-      margin-left: 100px;
-
-      @include respond-to(xxs) {
-        margin-left: 0;
-      }
 
       span {
         text-align: center;
