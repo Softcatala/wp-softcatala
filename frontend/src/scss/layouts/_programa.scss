@@ -232,6 +232,7 @@
   .compartiu {
     margin: 10px 40px 0 0;
     display: inline-flex;
+    align-items: center;
   }
 
   @include respond-to(xs) {
@@ -261,14 +262,10 @@
     font-style: normal;
   }
 
-  .cont-rating {
+  .cont-rating,
+  .cont-baixades {
     display: flex;
     align-items: center;
-
-    em,
-    .numero {
-      margin-top: 3px;
-    }
   }
 
   .compartiu .compartiu-media {
