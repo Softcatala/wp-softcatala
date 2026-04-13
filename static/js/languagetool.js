@@ -326,8 +326,15 @@ function dooptions() {
 		typo_disabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); 
 		typo_disabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); 
 	}
-    if (jQuery("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
-    if (jQuery("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
+    if (jQuery("input[name=guio]:checked").val() == "guio_llarg") {
+		typo_enabledRules.push("GUIO_LLARG"); 
+	}
+    else if (jQuery("input[name=guio]:checked").val() == "guio_mitja") {
+		typo_enabledRules.push("GUIO_MITJA"); 
+	} else {
+		typo_disabledRules.push("GUIO_LLARG");
+		typo_disabledRules.push("GUIO_MITJA");
+	}
     if (jQuery("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
     if (jQuery("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules.push("GUIO_ESPAI"); };
     if (jQuery("input[name=interrogant]:checked").val() == "interrogant_mai") {typo_enabledRules.push("EVITA_INTERROGACIO_INICIAL"); };
