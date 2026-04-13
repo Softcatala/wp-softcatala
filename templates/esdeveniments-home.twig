@@ -5,12 +5,16 @@
   <section class="llista-esdeveniments">
     {% if esdeveniments %}
     {% for esdeveniment in esdeveniments %}
-    <article style="clear: both;">
-      <i><span><strong>{{esdeveniment.data_inici|date('j')}}</strong>{{esdeveniment.data_inici|date('M')}}</span></i>
-      <h2><a href="{{esdeveniment.link}}" title="{{esdeveniment.title}}">{{esdeveniment.title}}</a></h2>
-      <footer class="article-footer">
-        <a href="{{esdeveniment.link}}" title="{{esdeveniment.title}}">{{esdeveniment.ciutat}}</a>
-      </footer><!--/.article-footer -->
+    <article>
+      <div class="event-item">
+        <i><span><strong>{{esdeveniment.data_inici|date('j')}}</strong>{{esdeveniment.data_inici|date('M')}}</span></i>
+        <div>
+          <h2><a href="{{esdeveniment.link}}" title="{{esdeveniment.title}}">{{esdeveniment.title}}</a></h2>
+          <footer class="article-footer">
+            <a href="{{esdeveniment.link}}" title="{{esdeveniment.title}}">{{esdeveniment.ciutat}}</a>
+          </footer><!--/.article-footer -->
+        </div>
+      </div>
     </article>
     {% endfor %}
   </section><!--/.llista-esdeveniments -->
