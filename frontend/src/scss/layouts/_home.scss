@@ -566,6 +566,7 @@
     @include full-bleed-container;
     background-color: var(--color-brand-hover);    // #e64b3c
     padding-top: 50px;                             // override base 40px
+    padding-bottom: 90px;
     margin-top: -1px;                              // prevent sub-pixel seam
     text-align: center;
 
