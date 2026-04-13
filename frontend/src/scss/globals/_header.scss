@@ -735,11 +735,11 @@
 
     .bt-espai,
     .bt-ajuda {
-      background-color: var(--color-white);
+      background-color: transparent;
       border-radius: 0;
       margin-right: 23px;
       padding: 6px 8px;
-      border: 1px solid var(--color-gray-575);
+      border: none;
       cursor: pointer;
 
       > i { font-size: 24px; color: var(--color-text); }
