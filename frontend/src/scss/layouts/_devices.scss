@@ -44,10 +44,15 @@
 
         .so_aparell_icon { margin-top: 10px; }
 
+        // Parent col containing logo + OS name text
+        [class*="col"]:has(.logo-aparell) {
+          display: flex;
+          align-items: center;
+        }
+
         .logo-aparell {
-          float: left;
           margin-right: 10px;
-          margin-bottom: 10px;
+          flex-shrink: 0;
         }
 
         span {
@@ -56,14 +61,15 @@
         }
 
         ul li {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
           font-size: 13px;
-          text-align: right;
           padding: 3px;
 
           i {
-            float: right;
-            margin-left: 10px;
-            margin-top: 3px;
+            order: 1;
           }
 
           .fa-check { color: var(--color-success); }
@@ -71,7 +77,7 @@
         }
 
         @include respond-to(xxs) {
-          ul li { text-align: left; }
+          ul li { justify-content: space-between; }
         }
       }
 

@@ -24,18 +24,17 @@
 
   a {
     color: var(--color-text);
-    display: block;
+    display: flex;
+    gap: 11px;
     margin-bottom: 10px;
     font-size: 13px;
 
     i {
       font-size: 24px;
-      float: left;
     }
 
     span {
       display: block;
-      margin-left: 35px;
     }
 
     em {
