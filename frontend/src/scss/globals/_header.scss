@@ -140,7 +140,7 @@
   .navbar-desktop-actions {
     @include respond-from(sm) {
       display: flex;
-      align-items: stretch;
+      align-items: center;                       // vertically centre all action icons
       margin-left: 12px;
     }
   }
@@ -730,6 +730,7 @@
   .navbar-ajuda-md,
   .navbar-espai-md {
     display: flex;
+    align-items: center;                         // vertical centre within the 90px header row
     margin-left: auto;                           // replaces legacy float:right — pushes to right edge
 
     .bt-espai,
@@ -737,7 +738,6 @@
       background-color: var(--color-white);
       border-radius: 0;
       margin-right: 23px;
-      margin-top: 26px;
       padding: 6px 8px;
       border: 1px solid var(--color-gray-575);
       cursor: pointer;
