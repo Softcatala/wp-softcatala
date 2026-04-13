@@ -107,16 +107,9 @@
       > img,
       > a > img {
         display: block;
-        width: 100%;
-        object-fit: cover;
-        min-height: 400px;
-
-        @media (max-width: 1070px) {
-          height: 380px;
-          min-height: auto;
-        }
-        @include respond-to(sm)  { height: 272px; }
-        @include respond-to(xxs) { height: 170px; }
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
       }
     }
 
@@ -130,7 +123,6 @@
       color: #fff;
       text-align: center;
       top: 23%;
-      bottom: 23%;
       left: 10%;
       right: 10%;
       max-width: 1070px;

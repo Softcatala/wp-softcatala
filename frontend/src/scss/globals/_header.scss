@@ -5,7 +5,7 @@
 // The site header. Keeps existing class names for Phase 1 Twig compatibility.
 //
 // Structure (top to bottom):
-//   0. .ads-banner            — optional ad slots above header
+//   0. .cap-banner            — optional banner slots above header
 //   1. .pag-header            — outer wrapper
 //   2. .wrap-gris             — gray top bar (news/events/press/forums)
 //   3. .wrap-blanc            — white band (logo, nav tabs, search, help, user)
@@ -20,13 +20,12 @@
 // Ad banner (above header, optional)
 // --------------------------------------------------------------------------
 
-.ads-banner {
+.cap-banner {
   display: flex;
   justify-content: space-between;
-  margin-bottom: -5px;
 }
 
-.ads-banner-slot {
+.cap-banner-slot {
   display: flex;
 }
 
