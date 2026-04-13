@@ -33,43 +33,51 @@
                         <div class="col-xxs-12 col-xs-12 col-md-12">
                             <div class="fitxa-membre">
                                 {% if author.public_email %}
-                                <i class="far fa-envelope"></i>
-                                <ul class="mail">
-                                    <li>Adreça electrònica</li>
-                                    <li>{{ author.public_email }}</li>
-                                </ul>
+                                <div class="fitxa-membre-item">
+                                    <i class="far fa-envelope"></i>
+                                    <ul class="mail">
+                                        <li>Adreça electrònica</li>
+                                        <li>{{ author.public_email }}</li>
+                                    </ul>
+                                </div>
                                 <hr>
                                 {%  endif %}
                                 {% if author.user_url %}
-                                <i class="fas fa-earth-americas"></i>
-                                <ul class="lloc-web">
-                                    <li>Lloc web</li>
-                                    <li><a href="{{ author.user_url }}">{{ author.user_url }}</a></li>
-                                </ul>
+                                <div class="fitxa-membre-item">
+                                    <i class="fas fa-earth-americas"></i>
+                                    <ul class="lloc-web">
+                                        <li>Lloc web</li>
+                                        <li><a href="{{ author.user_url }}">{{ author.user_url }}</a></li>
+                                    </ul>
+                                </div>
                                 <hr>
                                 {% endif %}
                                 {% if author.twitter %}
-                                <i class="fab fa-twitter"></i>
-                                <ul class="lloc-web">
-                                    <li>Usuari de twitter</li>
-                                    <li>
-                                        <a href="https://twitter.com/{{ author.twitter }}">
-                                            @{{ author.twitter }}
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div class="fitxa-membre-item">
+                                    <i class="fab fa-twitter"></i>
+                                    <ul class="lloc-web">
+                                        <li>Usuari de twitter</li>
+                                        <li>
+                                            <a href="https://twitter.com/{{ author.twitter }}">
+                                                @{{ author.twitter }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <hr>
                                 {% endif %}
                                 {% if author.telegram %}
-                                <i class="fab fa-telegram"></i>
-                                <ul class="lloc-web">
-                                    <li>Usuari de telegram</li>
-                                    <li>
-                                        <a href="https://telegram.me/{{ author.telegram }}">
-                                            @{{ author.telegram }}
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div class="fitxa-membre-item">
+                                    <i class="fab fa-telegram"></i>
+                                    <ul class="lloc-web">
+                                        <li>Usuari de telegram</li>
+                                        <li>
+                                            <a href="https://telegram.me/{{ author.telegram }}">
+                                                @{{ author.telegram }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <hr>
                                 {% endif %}
                                 <ul class="info">
