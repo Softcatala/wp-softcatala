@@ -8,7 +8,7 @@
         <header class="main-header-back-img main-header" style="background: rgba(0, 0, 0, 0) url('{{post.thumbnail.src}}') no-repeat scroll center center">
             <div class="container-fluid">
                 <div class="intern">
-                    <div class="intern-center">
+                    <div>
                         {% if post.icona_a_mostrar %}
                             <i class="fas custom-fa fa-{{ post.icona_a_mostrar }}"></i>
                         {% else %}
@@ -18,7 +18,7 @@
                 </div>
                 <h1>{{ post.title }}</h1>
                 <div class="intern">
-                    <div class="intern-center compartiu">
+                    <div class="compartiu">
                         <ul class="compartiu-media">
                             <li><p>Compartiu</p></li>
                             <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}"><i class="fab fa-facebook-f"></i></a></li>
@@ -29,7 +29,7 @@
                 <h2>{{ post.post_excerpt }}</h2>
                 <div class="intern">
                     {% if post.call_to_action_top_url and post.call_to_action_top_text %}
-                        <div class="intern-center">
+                        <div>
                             <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                         </div>
                     {% endif %}
