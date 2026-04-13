@@ -21,14 +21,14 @@
                         {% for step in steps %}
                         <div class="col-xs-4">
                             <button type="button" data-id="step_{{ loop.index }}" class="bt-basic steps {% if loop.first %}active{% endif %} segon">
-                                <span><i>0{{ loop.index }}</i><p>{{ step.step_title }}</p></span>
+                                <i>0{{ loop.index }}</i><span>{{ step.step_title }}</span>
                             </button>
                         </div>
                         {% endfor %}
                         {% if projectes %}
                         <div class="col-xs-4">
                             <button type="button" data-id="step_{{ stepsmax }}" class="bt-basic steps segon">
-                                <span><i>0{{ stepsmax }}</i><p>On cal ajuda?</p></span>
+                                <i>0{{ stepsmax }}</i><span>On cal ajuda?</span>
                             </button>
                         </div>
                         {% endif %}
