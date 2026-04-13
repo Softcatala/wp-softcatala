@@ -327,13 +327,14 @@ function dooptions() {
 		typo_disabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); 
 	}
     if (jQuery("input[name=guio]:checked").val() == "guio_llarg") {
-		typo_enabledRules.push("GUIO_LLARG"); 
+		typo_enabledRules.push("GUIO_LLARG");
+		typo_disabledRules.push("GUIO_MITJA");
 	}
     else if (jQuery("input[name=guio]:checked").val() == "guio_mitja") {
-		typo_enabledRules.push("GUIO_MITJA"); 
-	} else {
+		typo_enabledRules.push("GUIO_MITJA");
 		typo_disabledRules.push("GUIO_LLARG");
-		typo_disabledRules.push("GUIO_MITJA");
+	} else {
+		typo_disabledRules.push("GUIO_LLARG", "GUIO_MITJA");
 	}
     if (jQuery("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
     if (jQuery("input[name=guiopera]:checked").val() == "guiopera_enumeracions") {typo_enabledRules.push("GUIO_ESPAI"); };
