@@ -6,7 +6,7 @@
                     {% if logotip %}
                         <img class="img-responsive" src="{{ logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
                     {% else %}
-                        <i style="font-size: 152px" class="fa fa-cogs"></i>
+                        <i style="font-size: 152px" class="fas fa-gears"></i>
                     {% endif %}
                 </div>
                 <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
@@ -40,7 +40,7 @@
                     {% if baixades and not arxivat %}
                         {% for baixada in baixades %}
                             <a id="baixada_{{ baixada.download_os|lower }}_{{ baixada.arquitectura|lower }}" data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers bt-download-hide baixada_boto" style="display:none;">
-                                <i class="fa fa-download"></i>
+                                <i class="fas fa-download"></i>
                                 <span>Baixa'l
                                     <em>
                                         {% if baixada.download_os|lower != 'multiplataforma' %}
@@ -57,12 +57,12 @@
 
                         <div class="collapse" id="versions">
                             <div class="versions">
-                                <a class="bt-versions-creu" role="button" href="#versions" data-toggle="collapse"><i class="fa fa-times"></i></a>
+                                <a class="bt-versions-creu" role="button" href="#versions" data-toggle="collapse"><i class="fas fa-xmark"></i></a>
                                 <div class="row">
                                     {% for baixada in baixades %}
                                         <div class="col-xxs-12 col-md-3 col-sm-4 col-xs-6">
                                             <a data-id="post_{{ post.ID }}_baixada_{{ baixada.ID }}" href="{{ baixada.download_url_ext }}" class="bt-download-invers baixada_boto">
-                                                <i class="fa fa-{{ baixada.so_icona }}"></i>
+                                                <i class="{{ baixada.so_icona }}"></i>
                                                 <span>
                                                     {% if baixada.download_os|lower != 'multiplataforma' %}
                                                     Per {%if baixada.download_os|lower == 'osx' or baixada.download_os|lower == 'ios' or baixada.download_os|lower == 'android' %}a l'{% else %}al {% endif %}{% endif %}{{ baixada.download_os_label }}
@@ -92,7 +92,7 @@
                         </div>
                         {% if total_downloads %}
                         <div class="cont-baixades">
-                            <i class="fa fa-line-chart"></i>
+                            <i class="fas fa-chart-line"></i>
                             <span class="numero">{{ total_downloads }}</span>
                             <em>baixades</em>
                         </div>
@@ -107,9 +107,9 @@
             <!-- .boto-menu-lateral gris - xs -->
             <div class="visible-xs-block boto-menu-lateral">
                 <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
-                    <i class="fa fa-bars"></i>
+                    <i class="fas fa-bars"></i>
                     <p>Taula de continguts</p>
-                    <i class="fa fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down"></i>
                 </a>
             </div><!--/.boto-menu-lateral gris - xs -->
             <!-- #menu-lateral -->

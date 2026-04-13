@@ -6,11 +6,11 @@
         <!-- .modal-content -->
         <div class="modal-content">
 
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-xmark"></i></button>
             <!-- .formulari -->
             <div class="formulari">
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Col·laboreu en aquest projecte</h1>
@@ -23,7 +23,7 @@
                                 <p style="text-align: center; font-size: 1.2em;">
                                     <a href="https://t.me/{{ projecte.telegram }}"
                                        class="bt-basic bt-basic-vermell">
-                                        <span><i class="fa fa-telegram"></i>&nbsp;</span>
+                                        <span><i class="fab fa-telegram"></i>&nbsp;</span>
                                         Entreu al grup de Telegram!
                                     </a>
                                     <br /><br />
@@ -54,11 +54,11 @@
                     </div>
                 </header><!--/.contingut-header -->
 
-                <section class="contingut-section" id="contingut-formulari-projecte-response" style="display:none">
+                <section id="contingut-formulari-projecte-response" style="display:none">
                 </section>
 
                 <!-- section -->
-                <section class="contingut-section {%  if projecte.telegram %}collapse{% endif %}" id="contingut-formulari-projecte">
+                <section class="{%  if projecte.telegram %}collapse{% endif %}" id="contingut-formulari-projecte">
                     <form class="form-horizontal" id="collabora_form" method="post">
                         <!-- camp -->
                         <div class="form-group">

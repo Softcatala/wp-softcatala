@@ -16,7 +16,7 @@
                 <!-- .contingut -->
                 <div class="contingut contingut-left llista-noticies col-sm-12 col-md-9">
                     <!-- .contingut-header -->
-                    <header class="contingut-header">
+                    <header>
 
                         <!-- .filtres -->
                         <form class="searchform" method="get" id="cerca_noticies" role="search" action="/cerca">
@@ -24,7 +24,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
-                                        <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                        <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fas fa-magnifying-glass"></i></button></span>
                                     </div>
                                 </div>
                             </div><!--/.filtres -->
@@ -45,7 +45,7 @@
                             {% else %}
                                 {% set width_post = 'col-sm-12' %}
                             {% endif %}
-                            <article class="contingut-article post-type-{{post.post_type}}" id="post-{{post.ID}}">
+                            <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
                                 <div class="row">
                                     <div class="{% if width_post %}{{ width_post }}{% else %}col-sm-9{% endif %}">
                                         <h2><a href="{{post.link}}">{{post.title}}</a></h2>

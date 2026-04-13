@@ -19,14 +19,14 @@
             <div class="contingut llista-programes">
 
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     <!-- .filtres -->
                     <form class="searchform" method="get" id="cerca_programes" role="search" action="/programes">
                         <div class="filtres row">
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
-                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fas fa-magnifying-glass"></i></button></span>
                                 </div>
 
                                 <div class="row">
@@ -62,7 +62,7 @@
 
 
                 <!-- section paragraf + thumb gris img -->
-                <section class="contingut-section">
+                <section>
                     {% if posts %}
                     <!-- .row -->
                     <div class="row">
@@ -75,7 +75,7 @@
                                     {% elseif post.imatge_destacada_1 %}
                                     <img src="{{ get_image(post.imatge_destacada_1).src }}" alt="logotip {{ post.title }}">
                                     {% else %}
-                                    <i style="font-size: 115px" class="fa fa-cogs"></i>
+                                    <i style="font-size: 115px" class="fas fa-gears"></i>
                                     {% endif %}
                                     <div class="caption">
                                         <h3>{{ post.title|truncate_words(9) }}</h3>
@@ -108,7 +108,7 @@
 
 
                 <!--/.contingut-footer -->
-                <footer class="contingut-footer">
+                <footer>
                     <div class="row">
                         <div class="col-sm-9">
                             {% for element in sidebar_elements %}

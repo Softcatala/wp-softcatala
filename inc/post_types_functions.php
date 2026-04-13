@@ -183,23 +183,23 @@ function get_awesome_icon_so( $os ) {
         case 'android':
         case 'linux':
         case 'windows':
-            $os_icona = $os;
+            $os_icona = 'fab fa-' . $os;
             break;
         case 'ios':
         case 'osx':
-            $os_icona = 'apple';
+            $os_icona = 'fab fa-apple';
             break;
         case 'web':
-            $os_icona = 'globe';
+            $os_icona = 'fas fa-earth-americas';
             break;
         case 'windows-phone':
-            $os_icona = 'windows';
+            $os_icona = 'fab fa-windows';
             break;
         case 'multiplataforma':
-            $os_icona = 'circle-thin';
+            $os_icona = 'far fa-circle';
             break;
         default:
-            $os_icona = 'circle-o';
+            $os_icona = 'far fa-circle';
             break;
     }
     return $os_icona;

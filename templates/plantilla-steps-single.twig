@@ -14,7 +14,7 @@
             <!-- .contingut -->
             <div class="contingut contingut-left col-sm-12 col-md-9">
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     {% if steps %}
                     <div class="bt-grup row">
                         {% for step in steps %}
@@ -36,7 +36,7 @@
                 </header><!--/.contingut-header -->
 
                 <!-- section paragraf + llista elements icona -->
-                <section class="contingut-section">
+                <section>
                     <!--.row -->
                     {% for step in steps %}
                     <div id="step_{{ loop.index }}" class="step_div" {% if not loop.first %}style="display: none;"{% endif %}>
@@ -57,7 +57,7 @@
                                             <p>{{ membre.description|truncate_words(4) }}</p>
                                             <span class="bt-aneu">
                                             aneu-hi
-                                            <i class="fa fa-chevron-right"></i>
+                                            <i class="fas fa-chevron-right"></i>
                                             </span>
                                         </div>
                                     </a>

@@ -15,13 +15,13 @@
                 <div class="contingut contingut-left col-sm-12 col-md-8">
                     {% if post.content %}
                     <!-- .contingut-section  -->
-                    <section class="contingut-section">
+                    <section>
                         {{post.content}}
                     </section>
                     <!--/.contingut-section  -->
                     {% endif %}
 
-                    <section class="formulari-eines contingut-section">
+                    <section class="formulari-eines">
 
                         <form id="conjugador_form" class="form-horizontal">
                             <!-- .btns-diccionari  -->
@@ -30,16 +30,16 @@
                                     <p>Escriviu el verb que voleu cercar i premeu el botó de cerca.</p>
                                     <div class="input-group">
                                         <input type="text" id="source" name="source" required class="form-control typeahead" data-provide="typeahead" autocomplete="off" {% if verb2 %}value="{{ verb }}"{% endif %} placeholder="Introduïu el verb a conjugar">
-                                        <a name="_action_consulta" id="_action_consulta" class="input-group-addon bt-basic bt-basic-vermell" href="#">cerca <i style="display: none;" class="fa fa-spinner fa-pulse" id="loading"></i></a>
+                                        <a name="_action_consulta" id="_action_consulta" class="input-group-addon bt-basic bt-basic-vermell" href="#">cerca <i style="display: none;" class="fas fa-spinner fa-pulse" id="loading"></i></a>
                                         <input id="infinitiu" type="hidden" name="infinitiu" value="">
                                         <input id="verburl" type="hidden" name="verburl" value="">
                                     </div>
                                 </div>
                             </div><!--/.btns-diccionari  -->
-                            <header class="contingut-header">
+                            <header>
                                 <div class="filtres row">
                                     <div class="col-sm-5">
-                                        <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i>
+                                        <i id="loading" class="fas fa-spinner fa-pulse" style="display: none;"></i>
                                     </div>
                             </div>
                             </header>

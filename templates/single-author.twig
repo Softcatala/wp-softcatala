@@ -33,7 +33,7 @@
                         <div class="col-xxs-12 col-xs-12 col-md-12">
                             <div class="fitxa-membre">
                                 {% if author.public_email %}
-                                <i class="fa fa-envelope-o"></i>
+                                <i class="far fa-envelope"></i>
                                 <ul class="mail">
                                     <li>Adreça electrònica</li>
                                     <li>{{ author.public_email }}</li>
@@ -41,7 +41,7 @@
                                 <hr>
                                 {%  endif %}
                                 {% if author.user_url %}
-                                <i class="fa fa-globe"></i>
+                                <i class="fas fa-earth-americas"></i>
                                 <ul class="lloc-web">
                                     <li>Lloc web</li>
                                     <li><a href="{{ author.user_url }}">{{ author.user_url }}</a></li>
@@ -49,7 +49,7 @@
                                 <hr>
                                 {% endif %}
                                 {% if author.twitter %}
-                                <i class="fa fa-twitter"></i>
+                                <i class="fab fa-twitter"></i>
                                 <ul class="lloc-web">
                                     <li>Usuari de twitter</li>
                                     <li>
@@ -61,7 +61,7 @@
                                 <hr>
                                 {% endif %}
                                 {% if author.telegram %}
-                                <i class="fa fa-telegram"></i>
+                                <i class="fab fa-telegram"></i>
                                 <ul class="lloc-web">
                                     <li>Usuari de telegram</li>
                                     <li>
@@ -73,7 +73,7 @@
                                 <hr>
                                 {% endif %}
                                 <ul class="info">
-                                    <li><i class="fa fa-bookmark"></i>Membre de Softcatalà</li>
+                                    <li><i class="fas fa-bookmark"></i>Membre de Softcatalà</li>
                                 </ul>
                             </div>
                         </div>
@@ -94,18 +94,18 @@
                 <div class="contingut col-sm-12 col-md-9">
                     <!-- .contingut-section - paragraf + llistes -->
                     {% if author.meta('descripcio_activitat') %}
-                    <section class="contingut-section">{{ author.meta('descripcio_activitat') }}</section>
+                    <section>{{ author.meta('descripcio_activitat') }}</section>
                     {% endif %}
 
                     {% if projectes %}
-                    <section class="contingut-section">
+                    <section>
                     <h3>Participa en els projectes següents</h3>
                     {% for row in projectes|safe_batch(projectes|length/2) %}
                         <ul class="llista-check col-sm-6">
                         {% for projecte in row %}
                             <li>
                                 <a href="{{ projecte.link }}" title="{{ projecte.title }}">
-                                    <i class="fa fa-check"></i>
+                                    <i class="fas fa-check"></i>
                                     <span>{{ projecte.title }}</span>
                                 </a>
                             </li>

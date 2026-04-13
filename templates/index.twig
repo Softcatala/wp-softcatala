@@ -15,7 +15,7 @@
           <!-- .contingut -->
           <div class="contingut contingut-left llista-noticies col-sm-12 col-md-9">
             <!-- .contingut-header -->
-            <header class="contingut-header">
+            <header>
 
               <!-- .filtres -->
               <form class="searchform" method="get" id="cerca_noticies" role="search" action="/noticies">
@@ -24,7 +24,7 @@
                   <div class="input-group">
                     <input type="hidden" name="form_cerca_noticies" id="form_cerca_noticies" value="1" />
                     <input type="text" class="form-control" value="{% if cerca %}{{cerca}}{% endif %}" placeholder="Escriviu aquí la vostra cerca" id="cerca" name="cerca" />
-                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fa fa-search"></i></button></span>
+                    <span class="input-group-addon"><button type="submit" class="btn lupa"><i class="fas fa-magnifying-glass"></i></button></span>
                   </div>
 
                   <div class="row">
