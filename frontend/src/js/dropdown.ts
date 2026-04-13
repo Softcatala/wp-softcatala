@@ -14,10 +14,17 @@
 
 import { $$ } from './utils'
 
-const DELAY = 100
+const DELAY_DEFAULT = 100
+const DELAY_NONE = 0
 
 let openTimer: ReturnType<typeof setTimeout> | undefined
 let closeTimer: ReturnType<typeof setTimeout> | undefined
+
+/** Red sub-nav bar dropdowns get a delay to avoid accidental opens;
+ *  help dropdown (.navbar-ajuda) opens instantly. */
+function delayFor(li: HTMLElement): number {
+  return li.closest('.navbar-ajuda') ? DELAY_NONE : DELAY_DEFAULT
+}
 
 function toggle(li: HTMLElement, show: boolean): void {
   const menu = li.querySelector<HTMLElement>('.dropdown-hover, .dropdown-menu')
@@ -63,12 +70,14 @@ export function initDropdowns(): void {
     if (canHover) {
       li.addEventListener('mouseenter', () => {
         clearTimeout(closeTimer)
-        openTimer = setTimeout(() => toggle(li, true), DELAY)
+        const d = delayFor(li)
+        openTimer = setTimeout(() => toggle(li, true), d)
       })
 
       li.addEventListener('mouseleave', () => {
         clearTimeout(openTimer)
-        closeTimer = setTimeout(() => toggle(li, false), DELAY)
+        const d = delayFor(li)
+        closeTimer = setTimeout(() => toggle(li, false), d)
       })
     }
 

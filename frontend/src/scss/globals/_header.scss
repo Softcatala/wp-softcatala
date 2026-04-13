@@ -5,15 +5,30 @@
 // The site header. Keeps existing class names for Phase 1 Twig compatibility.
 //
 // Structure (top to bottom):
-//   1. .pag-header          — outer wrapper
-//   2. .wrap-gris           — gray top bar (news/events/press/forums)
-//   3. .wrap-blanc          — white band (logo, nav tabs, search, help, user)
-//   4. .wrap-vermell-header — red sub-nav bar (tab content, dropdowns, mega-menu)
+//   0. .ads-banner            — optional ad slots above header
+//   1. .pag-header            — outer wrapper
+//   2. .wrap-gris             — gray top bar (news/events/press/forums)
+//   3. .wrap-blanc            — white band (logo, nav tabs, search, help, user)
+//   4. .wrap-vermell-header   — red sub-nav bar (tab content, dropdowns, mega-menu)
 //
 // Source: maqueta/app/assets/less/comuns/header.less (877 lines)
 // Reference: wp-softcatala/templates/html-header.twig (401 lines)
 
 @use '../tokens' as *;
+
+// --------------------------------------------------------------------------
+// Ad banner (above header, optional)
+// --------------------------------------------------------------------------
+
+.ads-banner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -5px;
+}
+
+.ads-banner-slot {
+  display: flex;
+}
 
 .pag-header {
 
@@ -374,11 +389,13 @@
       transform: translateY(-50%);
 
       > li {
+        position: relative;
+
         > .dropdown-menu {
           border: 1px solid var(--color-gray-675);
           border-top: none;
           box-shadow: none;
-          min-width: 155px;
+          min-width: 100%;
           background-color: var(--color-white);
 
           > li > a {
@@ -386,6 +403,7 @@
             font-size: 13px;
             padding: 5px 14px;
             color: var(--color-text);
+            white-space: nowrap;
 
             > .center-block { margin-left: 25px; }
             > i { padding-right: 10px; }
@@ -409,8 +427,6 @@
           background-color: var(--color-white);
           border-color: var(--color-gray-675);
         }
-
-        &:hover > .dropdown-menu { display: block; }
       }
     }
   }
