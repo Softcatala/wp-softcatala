@@ -24,6 +24,17 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
     $projectes_ids = get_user_meta($author->ID, 'projectes', true);
 
     if($projectes_ids) {
+        // For anonymous visitors, filter out internal projects.
+        if ( ! is_user_logged_in() ) {
+            $projectes_ids = array_values(
+                array_filter(
+                    $projectes_ids,
+                    function( $projecte_id ) {
+                        return ! get_field( 'projecte_intern', $projecte_id );
+                    }
+                )
+            );
+        }
         $context_holder['projectes'] = array_map( function ($projecte_id) {
             $_projecte = get_post($projecte_id);
             return array(

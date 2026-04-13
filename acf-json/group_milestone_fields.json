@@ -1,0 +1,95 @@
+{
+    "ID": 0,
+    "key": "group_milestone_fields",
+    "title": "Milestone fields",
+    "fields": [
+        {
+            "ID": 0,
+            "key": "field_projecte_milestone",
+            "label": "Projecte",
+            "name": "projecte_milestone",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "post_object",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "Projecte al qual pertany aquest milestone.",
+            "required": 1,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": "group_milestone_fields",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "projecte"
+            ],
+            "taxonomy": [],
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "allow_in_bindings": 0,
+            "_name": "projecte_milestone",
+            "_valid": 1,
+            "bidirectional_target": []
+        },
+        {
+            "ID": 0,
+            "key": "field_data_objectiu",
+            "label": "Data objectiu",
+            "name": "data_objectiu",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "date_picker",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "Data objectiu per a completar el milestone.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": "group_milestone_fields",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d\/m\/Y",
+            "return_format": "Y-m-d",
+            "first_day": 1,
+            "allow_in_bindings": 0,
+            "_name": "data_objectiu",
+            "_valid": 1,
+            "default_to_current_date": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "milestone"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Camps de gestió per al tipus de contingut Milestone.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "local": "json",
+    "modified": 1744185600,
+    "local_file": "\/var\/www\/html\/wp\/..\/themes\/wp-softcatala\/acf-json\/group_milestone_fields.json",
+    "_valid": true
+}

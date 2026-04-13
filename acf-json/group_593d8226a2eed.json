@@ -1,0 +1,179 @@
+{
+    "ID": 10798,
+    "key": "group_593d8226a2eed",
+    "title": "Credits",
+    "fields": [
+        {
+            "ID": 10799,
+            "key": "field_593d828185417",
+            "label": "Crèdits",
+            "name": "credits",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "repeater",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10798,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Afegeix una fila",
+            "_name": "credits",
+            "_valid": 1,
+            "sub_fields": [
+                {
+                    "ID": 10800,
+                    "key": "field_593d82c685418",
+                    "label": "Títol",
+                    "name": "titol",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "text",
+                    "value": null,
+                    "menu_order": 0,
+                    "instructions": "",
+                    "required": 1,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 10799,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "_name": "titol",
+                    "_valid": 1,
+                    "parent_repeater": "field_593d828185417"
+                },
+                {
+                    "ID": 10801,
+                    "key": "field_593d82e285419",
+                    "label": "Enllaç",
+                    "name": "enllac_credit",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "url",
+                    "value": null,
+                    "menu_order": 1,
+                    "instructions": "",
+                    "required": 0,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 10799,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "_name": "enllac_credit",
+                    "_valid": 1,
+                    "parent_repeater": "field_593d828185417"
+                },
+                {
+                    "ID": 10802,
+                    "key": "field_593d82fd8541a",
+                    "label": "Imatge",
+                    "name": "imatge_credit",
+                    "aria-label": "",
+                    "prefix": "acf",
+                    "type": "image",
+                    "value": null,
+                    "menu_order": 2,
+                    "instructions": "",
+                    "required": 1,
+                    "id": "",
+                    "class": "",
+                    "conditional_logic": 0,
+                    "parent": 10799,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "url",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "_name": "imatge_credit",
+                    "_valid": 1,
+                    "parent_repeater": "field_593d828185417"
+                }
+            ],
+            "rows_per_page": 20
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_type",
+                "operator": "!=",
+                "value": "front_page"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "programa"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "projecte"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "esdeveniment"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

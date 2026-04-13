@@ -1,0 +1,76 @@
+{
+    "ID": 8146,
+    "key": "group_570499c58228a",
+    "title": "Col·laboració en projectes",
+    "fields": [
+        {
+            "ID": 8147,
+            "key": "field_570499e3ce33a",
+            "label": "perfil",
+            "name": "perfil",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "select",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "Quin perfil representa aquesta pàgina de col·laboració?",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 8146,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "multiple": 0,
+            "allow_null": 0,
+            "choices": {
+                "coordinacio-desdeveniments": "Coordinació d'esdeveniments",
+                "desenvolupament": "Desenvolupament",
+                "disseny": "Disseny",
+                "gestio-de-continguts": "Gestió de continguts",
+                "traduccio-i-correccio": "Traducció i correcció"
+            },
+            "default_value": false,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "disabled": 0,
+            "readonly": 0,
+            "_name": "perfil",
+            "_valid": 1,
+            "create_options": 0,
+            "save_options": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "plantilla-steps.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}

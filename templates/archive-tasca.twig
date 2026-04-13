@@ -1,0 +1,239 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<main class="main wrap-blanc cd-main-content">
+    {% embed "contingut-header.twig" %}{% endembed %}
+
+    <div class="container-fluid">
+        <div class="contingut">
+
+            <header class="contingut-header">
+                <h1>Tasques</h1>
+            </header>
+
+            {# ── Empty states ── #}
+            {% if estats is empty %}
+                <div class="kanban-empty-state alert alert-info">
+                    <p>No s'han configurat columnes. Aneu a <a href="/wp-admin/edit-tags.php?taxonomy=estat_tasca&post_type=tasca">Estats de les tasques</a> per crear-ne.</p>
+                </div>
+            {% elseif total_task_count == 0 and not is_logged_in %}
+                <div class="kanban-empty-state alert alert-info">
+                    <p>No hi ha tasques públiques disponibles. <a href="{{ function('wp_login_url', '/tasques/') }}">Inicieu sessió</a> per veure totes les tasques.</p>
+                </div>
+            {% else %}
+
+            {# ── Filter bar ── #}
+            <div class="kanban-filters row" id="kanban-filters">
+                <div class="col-sm-12">
+                    <form class="form-inline kanban-filter-form" id="kanban-filter-form">
+
+                        {% if filter_options.projectes is not empty %}
+                        <div class="form-group">
+                            <label class="sr-only" for="filter-projecte">Projecte</label>
+                            <select class="form-control kanban-filter" id="filter-projecte" data-filter-type="projecte">
+                                <option value="">Tots els projectes</option>
+                                {% for p in filter_options.projectes %}
+                                <option value="{{ p.slug }}">{{ p.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        {% if filter_options.assignees is not empty %}
+                        <div class="form-group">
+                            <label class="sr-only" for="filter-assignee">Responsable</label>
+                            <select class="form-control kanban-filter" id="filter-assignee" data-filter-type="assignee">
+                                <option value="">Tots els responsables</option>
+                                {% for a in filter_options.assignees %}
+                                <option value="{{ a.username }}">{{ a.display_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        {% if filter_options.milestones is not empty %}
+                        <div class="form-group">
+                            <label class="sr-only" for="filter-milestone">Milestone</label>
+                            <select class="form-control kanban-filter" id="filter-milestone" data-filter-type="milestone">
+                                <option value="">Tots els milestones</option>
+                                {% for m in filter_options.milestones %}
+                                <option value="{{ m.id }}">{{ m.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        {% if filter_options.tags is not empty %}
+                        <div class="form-group">
+                            <label class="sr-only" for="filter-tag">Etiqueta</label>
+                            <select class="form-control kanban-filter" id="filter-tag" data-filter-type="tag">
+                                <option value="">Totes les etiquetes</option>
+                                {% for t in filter_options.tags %}
+                                <option value="{{ t.slug }}">{{ t.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        <button type="button" class="btn btn-default" id="kanban-reset-filters">Neteja filtres</button>
+                    </form>
+                </div>
+            </div>{# /.kanban-filters #}
+
+            {# ── Kanban board ── #}
+            <div class="kanban-board"
+                 id="kanban-board"
+                 {% if total_task_count >= 500 %}data-overflow="true"{% endif %}>
+
+                {# "Sense columna" bucket — only for logged-in users #}
+                {% if is_logged_in and tasks_by_estat.unassigned is not empty %}
+                <div class="kanban-column kanban-column--unassigned"
+                     data-estat="">
+                    <div class="kanban-column__header">
+                        <h3 class="kanban-column__title">Sense columna <span class="kanban-column__count badge">{{ tasks_by_estat.unassigned|length }}</span></h3>
+                    </div>
+                    <div class="kanban-column__cards">
+                        {% for task in tasks_by_estat.unassigned %}
+                            {% set td = tasks_data[task.ID] %}
+                            {% include "components/kanban-card.twig" with {task: task, td: td} %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {# Regular (non-terminal) estat_tasca columns #}
+                {% for estat in estats %}
+                {% if not estat.is_terminal %}
+                {% set col_tasks = tasks_by_estat[estat.slug] is defined ? tasks_by_estat[estat.slug] : [] %}
+                <div class="kanban-column"
+                     data-estat="{{ estat.slug }}"
+                     data-collapsible="{{ estat.collapsible ? '1' : '0' }}">
+                    <div class="kanban-column__header"
+                         {% if estat.collapsible %}role="button" tabindex="0" title="Desplega / replega la columna"{% endif %}>
+                        <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ col_tasks|length }}</span></h3>
+                    </div>
+                    <div class="kanban-column__cards">
+                        {% for task in col_tasks %}
+                            {% set td = tasks_data[task.ID] %}
+                            {% include "components/kanban-card.twig" with {task: task, td: td} %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {# Terminal states — stacked into one column, separated by a divider #}
+                {% set terminal_estats = estats|filter(e => e.is_terminal) %}
+                {% if terminal_estats is not empty %}
+                <div class="kanban-column kanban-column--terminal"
+                     data-estat="terminal">
+                    {% for estat in terminal_estats %}
+                    {% set col_tasks = tasks_by_estat[estat.slug] is defined ? tasks_by_estat[estat.slug] : [] %}
+                    <div class="kanban-column__section" data-estat="{{ estat.slug }}">
+                        <div class="kanban-column__header">
+                            <h3 class="kanban-column__title">{{ estat.name }} <span class="kanban-column__count badge">{{ col_tasks|length }}</span></h3>
+                        </div>
+                        <div class="kanban-column__cards">
+                            {% for task in col_tasks %}
+                                {% set td = tasks_data[task.ID] %}
+                                {% include "components/kanban-card.twig" with {task: task, td: td} %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if not loop.last %}
+                    <div class="kanban-column__divider" aria-hidden="true"></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+             </div>{# /.kanban-board #}
+
+            {% endif %}{# end empty-state else #}
+
+            {# ── Error/notice container ── #}
+            <div id="kanban-notice" class="alert" style="display:none; position:fixed; bottom:20px; right:20px; z-index:9999; max-width:400px;"></div>
+
+        </div>{# /.contingut #}
+    </div>{# /.container-fluid #}
+</main>
+
+{# ── Bootstrap modal — outside <main class="cd-main-content"> so that the
+   CSS transform on that element (applied by the sliding nav JS) does not
+   trap position:fixed children and break the backdrop stacking order. ── #}
+<div class="modal fade" id="kanban-modal" tabindex="-1" role="dialog" aria-labelledby="kanban-modal-label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Tanca"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="kanban-modal-label"></h4>
+            </div>
+            <div class="modal-body" id="kanban-modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ── Hidden task detail divs (pre-rendered server-side) ── #}
+<div id="kanban-modals" style="display:none;">
+    {% for task_id, td in tasks_data %}
+    <div class="kanban-card-detail" id="task-detail-{{ task_id }}">
+        <div class="kanban-card-detail__meta">
+            {% if td.projecte_name %}<p><strong>Projecte:</strong> {{ td.projecte_name }}</p>{% endif %}
+            {% if td.milestone_title %}<p><strong>Milestone:</strong> {{ td.milestone_title }}</p>{% endif %}
+            {% if td.data_venciment %}<p><strong>Data de venciment:</strong> {{ td.data_venciment }}</p>{% endif %}
+            {% if td.assignees is not empty %}
+            <div class="kanban-detail__assignees-row"><strong>Responsables:</strong><span class="kanban-detail__assignees">{% for assignee in td.assignees %}<span class="kanban-detail__assignee"><span class="kanban-card__avatar kanban-card__avatar--sm" title="{{ assignee.display_name }}"{% if assignee.gravatar_url %} style="background-image:url('{{ assignee.gravatar_url }}'); color:transparent;"{% endif %}>{% if not assignee.gravatar_url %}{{ assignee.display_name|slice(0,1)|upper }}{% endif %}</span>{{ assignee.display_name }}</span>{% endfor %}</span></div>
+            {% endif %}
+            {% if td.tag_slugs %}<p><strong>Etiquetes:</strong> {{ td.tag_slugs }}</p>{% endif %}
+        </div>
+        <div class="kanban-card-detail__content">
+            {{ td.content|raw }}
+        </div>
+        {% if user_info.is_connected and td.edit_url %}
+        <div class="kanban-card-detail__actions">
+            <a class="btn btn-default btn-sm"
+               href="{{ td.edit_url }}"
+               target="_blank"
+               rel="noopener">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Edita la tasca
+            </a>
+        </div>
+        <section class="kanban-card-detail__comments">
+            <hr>
+            <h5>Comentaris</h5>
+            {% for cmt in td.comments %}
+                <div class="kanban-comment">
+                    <strong>{{ cmt.comment_author }}</strong>
+                    <span class="text-muted">{{ cmt.comment_date|date("d/m/Y") }}</span>
+                    <p>{{ cmt.comment_content }}</p>
+                </div>
+            {% else %}
+                <p class="text-muted">Encara no hi ha comentaris.</p>
+            {% endfor %}
+            <div class="kanban-comment-form">
+                <form class="form-horizontal" method="post" action="/wp/wp-comments-post.php">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <textarea rows="4" class="form-control" placeholder="Afegiu un comentari…" name="comment" required="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 form-botons">
+                            <input type="hidden" value="{{ task_id }}" name="comment_post_ID">
+                            <input type="hidden" value="0" name="comment_parent">
+                            <input type="hidden" value="/tasques/" name="redirect_page">
+                            <button class="bt-basic bt-basic-vermell-fosc" type="submit">Envia</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+{% include "call-to-action-bottom.twig" %}
+
+{% endblock %}

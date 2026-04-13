@@ -15,11 +15,12 @@ class Projectes {
 	 *
 	 * @param array   $args to filter out parameters.
 	 * @param boolean $arxivats whether to return (or not) archived projects.
+	 * @param boolean $is_logged_in whether the current visitor is authenticated.
 	 * @return array
 	 */
-	public static function get_sorted_projects( $args = array(), $arxivats = false ) {
+	public static function get_sorted_projects( $args = array(), $arxivats = false, $is_logged_in = false ) {
 
-		$default_args = self::get_query_args( $arxivats );
+		$default_args = self::get_query_args( $arxivats, $is_logged_in );
 
 		$args = array_merge( $default_args, $args );
 
@@ -32,8 +33,8 @@ class Projectes {
 	}
 
 
-	private static function get_query_args( $arxivats ) {
-		return array(
+	private static function get_query_args( $arxivats, $is_logged_in = false ) {
+		$args = array(
 			'post_type' => 'projecte',
 			'post_status'    => 'publish',
 			'orderby' => 'title',
@@ -48,6 +49,25 @@ class Projectes {
 				),
 			),
 		);
+
+		if ( ! $is_logged_in ) {
+			// Exclude internal projects from anonymous visitors.
+			// Use a two-arm OR so that pre-existing posts with no meta row are treated as public.
+			$args['meta_query'] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => 'projecte_intern',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => 'projecte_intern',
+					'value'   => '1',
+					'compare' => '!=',
+				),
+			);
+		}
+
+		return $args;
 	}
 
 	private static function sort_projects_list( & $projects ) {

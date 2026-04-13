@@ -1,0 +1,81 @@
+{#
+  Kanban card partial.
+
+  Variables expected:
+    task — WP_Post object
+    td   — associative array from tasks_data (built in archive-tasca.php):
+             ID, title, content, projecte_slug, projecte_name, assignee_usernames,
+             milestone_id, milestone_title, data_venciment, tag_slugs, estat_slug
+#}
+<div class="kanban-card"
+     data-id="{{ td.ID }}"
+     data-projecte="{{ td.projecte_slug }}"
+     data-assignee="{{ td.assignee_usernames }}"
+     data-milestone="{{ td.milestone_id }}"
+     data-estat="{{ td.estat_slug }}"
+     data-tags="{{ td.tag_slugs }}"
+     data-due="{{ td.data_venciment }}"
+     tabindex="0"
+     role="button"
+     aria-label="{{ td.title }}">
+
+    <div class="kanban-card__handle" aria-hidden="true">
+        <span class="fa fa-bars"></span>
+    </div>
+
+    <div class="kanban-card__body">
+
+        {# Project badge #}
+        {% if td.projecte_name %}
+        <span class="kanban-card__projecte">{{ td.projecte_name }}</span>
+        {% endif %}
+
+        {# Title #}
+        <p class="kanban-card__title">{{ td.title }}</p>
+
+        {# Footer: badges left, avatars right #}
+        <div class="kanban-card__footer">
+
+            <div class="kanban-card__badges">
+
+                {% if td.data_venciment %}
+                <span class="kanban-card__badge kanban-card__badge--due"
+                      data-due="{{ td.data_venciment }}"
+                      title="Data de venciment: {{ td.data_venciment }}">
+                    <i class="fa fa-calendar-o" aria-hidden="true"></i>{{ td.data_venciment }}
+                </span>
+                {% endif %}
+
+                {% if td.milestone_title %}
+                <span class="kanban-card__badge kanban-card__badge--milestone"
+                      title="Milestone: {{ td.milestone_title }}">
+                    <i class="fa fa-flag-o" aria-hidden="true"></i>{{ td.milestone_title }}
+                </span>
+                {% endif %}
+
+                {% if td.tag_slugs %}
+                <span class="kanban-card__badge kanban-card__badge--tags"
+                      title="Etiquetes: {{ td.tag_slugs|replace({',': ', '}) }}">
+                    <i class="fa fa-tag" aria-hidden="true"></i>{{ td.tag_slugs|replace({',': ', '}) }}
+                </span>
+                {% endif %}
+
+            </div>{# /.kanban-card__badges #}
+
+            {# Assignee avatars #}
+            {% if td.assignees is not empty %}
+            <div class="kanban-card__assignees" aria-label="Responsables: {{ td.assignees|map(a => a.display_name)|join(', ') }}">
+                {% for assignee in td.assignees %}
+                <div class="kanban-card__avatar"
+                     title="{{ assignee.display_name }}"
+                     {% if assignee.gravatar_url %}style="background-image:url('{{ assignee.gravatar_url }}'); color:transparent;"{% endif %}>
+                    {% if not assignee.gravatar_url %}{{ assignee.display_name|slice(0,1)|upper }}{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>{# /.kanban-card__footer #}
+
+    </div>{# /.kanban-card__body #}
+</div>

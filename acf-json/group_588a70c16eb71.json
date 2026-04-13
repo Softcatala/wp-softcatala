@@ -1,0 +1,189 @@
+{
+    "ID": 10240,
+    "key": "group_588a70c16eb71",
+    "title": "Usuaris",
+    "fields": [
+        {
+            "ID": 10241,
+            "key": "field_588a802620a3b",
+            "label": "Avatar",
+            "name": "avatar",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "image",
+            "value": null,
+            "menu_order": 0,
+            "instructions": "Imatge per a substituir a la predeterminada (Gravatar)",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10240,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "_name": "avatar",
+            "_valid": 1
+        },
+        {
+            "ID": 10242,
+            "key": "field_588a713d1c658",
+            "label": "Estat de l'usuari",
+            "name": "status_member",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 1,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10240,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 1,
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "Membre en actiu",
+            "ui_off_text": "Col·laborador\/Membre no actiu",
+            "_name": "status_member",
+            "_valid": 1
+        },
+        {
+            "ID": 10243,
+            "key": "field_588a78bffabb4",
+            "label": "Ubicació",
+            "name": "ubicacio",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "textarea",
+            "value": null,
+            "menu_order": 2,
+            "instructions": "Introduïu ací el codi embed del mapa",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10240,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": "",
+            "rows": "",
+            "_name": "ubicacio",
+            "_valid": 1
+        },
+        {
+            "ID": 10244,
+            "key": "field_588a7919fabb5",
+            "label": "Descripció de l'activitat",
+            "name": "descripcio_activitat",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "wysiwyg",
+            "value": null,
+            "menu_order": 3,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10240,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "default_value": "",
+            "delay": 0,
+            "_name": "descripcio_activitat",
+            "_valid": 1
+        },
+        {
+            "ID": 10245,
+            "key": "field_588a80abfc3fa",
+            "label": "Projectes associats",
+            "name": "projectes",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "relationship",
+            "value": null,
+            "menu_order": 4,
+            "instructions": "",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10240,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "projecte"
+            ],
+            "taxonomy": [],
+            "min": "",
+            "max": "",
+            "filters": [
+                "search",
+                "taxonomy"
+            ],
+            "elements": [
+                "featured_image"
+            ],
+            "return_format": "id",
+            "_name": "projectes",
+            "_valid": 1,
+            "bidirectional_target": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "user_form",
+                "operator": "==",
+                "value": "edit"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "_valid": true
+}
