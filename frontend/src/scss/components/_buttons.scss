@@ -264,7 +264,7 @@
 
   .steps {
     width: 100%;
-    padding: 20px 10px 15px 15px;
+    padding: 20px 15px 15px;
     height: 90px;
     background-color: var(--color-brand-hover);
     color: var(--color-white);
@@ -272,24 +272,21 @@
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    p {
+    span {
       font-size: 22px;
       text-transform: none;
       letter-spacing: normal;
       text-align: left;
-      line-height: 2.2;
-    }
-
-    span {
-      height: 75px;
-      display: block;
     }
 
     i {
       border-radius: 100px;
       background-color: transparent;
-      float: left;
+      flex-shrink: 0;
       border: 1px solid var(--color-white);
       width: 50px;
       height: 50px;
@@ -301,7 +298,7 @@
   }
 
   .segon {
-    p {
+    span {
       line-height: 1.1;
     }
   }
@@ -316,23 +313,19 @@
     .steps {
       padding: 15px 10px 20px 10px;
       height: 120px;
+      flex-direction: column;
+      justify-content: center;
 
       i {
         margin: 0 auto;
-        float: none;
         font-size: 20px;
         width: 30px;
         height: 30px;
       }
 
       span {
-        height: 110px;
-      }
-
-      p {
         font-size: 18px;
         text-align: center;
-        display: block;
         margin-top: 12px;
         line-height: 1.1;
       }
@@ -365,13 +358,21 @@
     background-color: var(--color-white);
     border: 1px solid var(--color-brand-hover);
     color: var(--color-brand-hover);
+    position: relative;
 
     i {
       border-color: var(--color-brand-hover);
     }
 
-    span {
-      background: url(../images/content/bt-fletxa.jpg) no-repeat center bottom;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: url(../images/content/bt-fletxa.jpg) no-repeat center top;
     }
   }
 }
