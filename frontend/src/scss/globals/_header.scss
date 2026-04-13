@@ -700,7 +700,11 @@
           padding: 15px;
           color: var(--color-text);
 
-          > i { font-size: 23px; margin-right: 8px; }
+          > i {
+            font-size: 23px;
+            margin-right: 8px;
+            font-weight: 900;              // parent sets bold; restore FA7 solid weight
+          }
         }
       }
     }
@@ -764,7 +768,7 @@
         padding: 6px 4px;
 
         > i { font-size: 21px; }
-        .fa-search { font-size: 20px; padding: 0; }
+        .fa-magnifying-glass { font-size: 20px; padding: 0; }
       }
 
       .bt-menu .navbar-toggle {
@@ -784,7 +788,6 @@
 
       > i { font-size: 24px; color: var(--color-text-inverse); }
 
-      .fa-search,
       .fa-magnifying-glass {
         font-size: 22px;
         padding: 2px 1px;
@@ -867,7 +870,6 @@
 
       .navbar-toggle > i { font-size: 21px; }
 
-      .navbar-toggle .fa-search,
       .navbar-toggle .fa-magnifying-glass {
         font-size: 20px;
         padding: 0;

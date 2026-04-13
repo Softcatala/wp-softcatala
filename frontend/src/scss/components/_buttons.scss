@@ -134,6 +134,8 @@
     margin-right: 10px;
   }
 
+  i { font-weight: 900; }                         // parent sets normal (400); restore FA7 solid weight
+
   img {
     width: 32px;
     height: auto;
@@ -190,6 +192,7 @@
     color: var(--color-gray-875);                 // #727272
     flex-shrink: 0;
     margin-top: 10px;
+    font-weight: 900;                              // parent sets bold; restore FA7 solid weight
   }
 
   span {

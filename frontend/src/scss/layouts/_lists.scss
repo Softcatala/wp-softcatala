@@ -129,6 +129,7 @@ div.container-fluid {
         font-size: 36px;
         margin-right: 15px;
         flex-shrink: 0;
+        font-weight: 900;                          // parent sets bold; restore FA7 solid weight
       }
 
       span {
@@ -178,6 +179,7 @@ div.container-fluid {
         font-size: 22px;
         color: var(--color-text);
         margin-right: 20px;
+        font-weight: 900;                          // parent sets normal; restore FA7 solid weight
       }
     }
   }

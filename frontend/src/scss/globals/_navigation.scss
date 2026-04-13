@@ -141,6 +141,7 @@
         right: 12px;
         transform: translateY(-50%);
         font-size: 12px;
+        font-weight: 900;                          // parent sets semibold; restore FA7 solid weight
       }
     }
 
@@ -219,7 +220,10 @@
         color: var(--color-text-inverse);
         font-weight: bold;
 
-        i { font-size: 9px; }
+        i {
+          font-size: 9px;
+          font-weight: 900;                        // parent sets bold; restore FA7 solid weight
+        }
       }
     }
   }
