@@ -19,6 +19,7 @@
 @use 'globals/navigation';
 
 // 5. Reusable components (class selectors)
+@use 'components/panels';
 @use 'components/buttons';
 @use 'components/forms';
 @use 'components/modals';
