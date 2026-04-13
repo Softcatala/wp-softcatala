@@ -45,7 +45,10 @@
       color: var(--color-text);
       font-weight: 300;
 
-      i { margin-right: 10px; }
+      i {
+        margin-right: 10px;
+        font-weight: 900;
+      }
 
       &:hover {
         text-decoration: underline;

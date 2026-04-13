@@ -249,6 +249,8 @@
       color: var(--color-text);
       background-color: var(--color-white);
       font-weight: normal;
+
+      > i { font-weight: 900; }
     }
 
     li.titol {

@@ -52,6 +52,8 @@
       color: var(--color-gray-825);               // #777777
       border: 1px solid var(--color-gray-225);     // #e7e7e7
 
+      i { font-weight: 900; }
+
       // Collapse adjacent borders
       & + .btn {
         margin-left: -1px;
