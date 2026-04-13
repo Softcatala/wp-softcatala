@@ -730,7 +730,7 @@
   .navbar-ajuda-md,
   .navbar-espai-md {
     display: flex;
-    justify-content: flex-end;
+    margin-left: auto;                           // replaces legacy float:right — pushes to right edge
 
     .bt-espai,
     .bt-ajuda {

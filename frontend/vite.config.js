@@ -35,9 +35,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/js/main.ts'),
+        traductor: resolve(__dirname, 'src/js/traductor.ts'),
       },
       output: {
-        entryFileNames: 'js/[name].min.js',
+        entryFileNames: (chunk) =>
+          chunk.name === 'traductor' ? 'js/traductor.js' : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           const name = assetInfo.names?.[0] ?? assetInfo.name ?? ''

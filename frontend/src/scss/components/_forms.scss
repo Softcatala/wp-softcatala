@@ -72,10 +72,11 @@ select.form-control {
 }
 
 .input-group-addon {
+  display: flex;
+  align-items: center;
   padding: 6px 12px;
   font-size: 14px;
   font-weight: normal;
-  line-height: 1;
   color: var(--color-text);
   text-align: center;
   background-color: #eee;
