@@ -315,8 +315,17 @@ function dooptions() {
        typo_disabledRules.push("CA_SIMPLEREPLACE_DIACRITICS_IEC"); 
     }
     if (jQuery("input[name=pronom_se]:checked").val() == "pronom_se_indiferent") {typo_disabledRules.push("SE_DAVANT_SC"); };
-    if (jQuery("input[name=apostrof]:checked").val() == "apostrof_tipografic") {typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); };
-    if (jQuery("input[name=apostrof]:checked").val() == "apostrof_recte") {typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); };
+    if (jQuery("input[name=apostrof]:checked").val() == "apostrof_tipografic") {
+		typo_enabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); 
+		typo_disabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); 
+	}
+    else if (jQuery("input[name=apostrof]:checked").val() == "apostrof_recte") {
+		typo_enabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); 
+		typo_disabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); 
+	} else {
+		typo_disabledRules.push("APOSTROF_RECTE","COMETES_RECTES"); 
+		typo_disabledRules.push("APOSTROF_TIPOGRAFIC","COMETES_TIPOGRAFIQUES"); 
+	}
     if (jQuery("input[name=guio]:checked").val() == "guio_llarg") {typo_enabledRules.push("GUIO_LLARG"); };
     if (jQuery("input[name=guio]:checked").val() == "guio_mitja") {typo_enabledRules.push("GUIO_MITJA"); };
     if (jQuery("input[name=guiopera]:checked").val() == "guiopera_dialegs") {typo_enabledRules.push("GUIO_SENSE_ESPAI"); };
