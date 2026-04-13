@@ -163,7 +163,7 @@
   }
 
   .bt-extra {
-    float: left;
+    display: block;
     position: relative;
     width: 100%;
 
@@ -180,17 +180,22 @@
 
   .btns-corrector {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
 
     .formes {
       color: var(--color-gray-825);
       margin-top: 10px;
       background-color: var(--color-bg-menu);
-      float: left;
       padding: 7px 25px 7px 15px;
       font-size: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
 
       p {
-        float: left;
         font-weight: bold;
         margin: 0 20px 0 0;
         font-size: 14px;
@@ -206,8 +211,8 @@
     @include respond-to(xs) {
       .formes {
         padding: 7px 25px 14px 15px;
-
-        p { float: none; }
+        flex-direction: column;
+        align-items: flex-start;
 
         .radio-inline {
           display: block;
@@ -217,7 +222,7 @@
     }
 
     .btn-right {
-      float: right;
+      margin-left: auto;
       margin-top: 10px;
     }
   }
@@ -453,35 +458,35 @@
 
       .checkbox {
         background-color: var(--color-bg-menu);
-        float: left;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
         min-width: 100%;
         padding: 8px 8px 14px;
         min-height: 27px;
 
         a {
           color: var(--color-brand);
-          float: left;
           font-size: 13px;
           padding: 6px 8px 6px 0;
           text-decoration: underline;
           font-weight: normal;
+          margin-right: auto;
         }
 
         .checkbox-inline {
-          float: right;
           font-size: 13px;
           margin-right: 10px;
         }
 
         @include respond-to(sm) {
-          float: none;
-          text-align: center;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           margin: 0 auto;
 
-          a,
-          .checkbox-inline {
-            float: none;
-          }
+          a { margin-right: 0; }
         }
       }
     }
