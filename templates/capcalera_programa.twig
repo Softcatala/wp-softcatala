@@ -85,8 +85,10 @@
 
                     <footer class="footer-main-header-gris">
                         <div class="cont-rating">
+                            {# TODO: implement vanilla JS vote handler (fetch POST) — voting currently display-only #}
                             {{ function('wp_nonce_field', 'send_vote', '_wpnonce_program_vote') }}
-                            <input type="hidden" value="{{ post.valoracio }}" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating" class="rating" data-rating-class="rating-fa" data-symbol="&#xf006;" data-glyphicon="false" data-show-caption="false" data-show-clear="false"/>
+                            <input type="hidden" name="{{ post.post_type }}_{{ post.slug }}_{{ post.ID }}" id="input_rating_value" value="{{ post.valoracio }}"/>
+                            <div class="star-rating"><div class="rating-container rating-fa" data-content="&#xf005; &#xf005; &#xf005; &#xf005; &#xf005;"><div class="rating-stars" data-content="&#xf005; &#xf005; &#xf005; &#xf005; &#xf005;" style="width: {{ (post.valoracio / 5 * 100)|round }}%;"></div></div></div>
                             <span class="numero">{{ post.valoracio | number_format(2, ',', '.') | clean_number }}</span>
                             {% if post.vots %}<em>({{ post.vots }} vots)</em>{% endif %}
                         </div>

@@ -33,7 +33,10 @@
 
   // --- Shared rules across all header sections ---
 
-  a { text-decoration: none; }
+  a {
+    text-decoration: none;
+    &:hover, &:focus { text-decoration: none; }
+  }
 
   .nav {
     display: flex;
@@ -66,7 +69,6 @@
     z-index: 20;
   }
 
-  // BS3 compat: .navbar-toggle is hidden at >=769px, shown only at xs
   .navbar-toggle {
     display: none;
 
@@ -75,14 +77,12 @@
     }
   }
 
-  // BS3 compat: .center-block used for line breaks in nav-tab text
   // In flex containers, needs width: 100% to force wrapping to next line.
   .center-block {
     display: block;
     width: 100%;
   }
 
-  // BS3 compat: .navbar-right float/align helper
   .navbar-right {
     margin-left: auto;
   }
@@ -292,12 +292,14 @@
           padding: 20px 20px 25px;
           box-shadow: 0 3px 3px rgba(0, 0, 0, 0.176);
           background-color: var(--color-bg-menu);
+          font-size: 14px;
 
           > li > a {
             display: block;
             line-height: 2;
             padding: 1px 8px;
             color: var(--color-text);
+            white-space: nowrap;
 
             &:hover, &:focus {
               background-color: var(--color-brand-hover);
@@ -489,7 +491,6 @@
       }
     }
 
-    // Mobile collapse search row should span full viewport width (BS3 behavior)
     @include respond-to(xs) {
       margin-left: -15px;
       margin-right: -15px;

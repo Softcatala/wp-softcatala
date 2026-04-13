@@ -80,7 +80,7 @@
                                     <div class="caption">
                                         <h3>{{ post.title|truncate_words(9) }}</h3>
                                         <div class="cont-rating">
-                                            <input id="input-id" value="{{ post.valoracio }}" class="rating" data-glyphicon="false" data-symbol="&#xf006;" data-rating-class="rating-fa" data-show-caption="false" data-show-clear="false" disabled="disabled" data-readonly/>
+                                            <div class="star-rating"><div class="rating-container rating-fa" data-content="&#xf005; &#xf005; &#xf005; &#xf005; &#xf005;"><div class="rating-stars" data-content="&#xf005; &#xf005; &#xf005; &#xf005; &#xf005;" style="width: {{ (post.valoracio / 5 * 100)|round }}%;"></div></div></div>
                                             {% if post.total_baixades_programa %}<em>({{ post.total_baixades_programa }})</em>{% endif %}
                                         </div>
                                     </div>
