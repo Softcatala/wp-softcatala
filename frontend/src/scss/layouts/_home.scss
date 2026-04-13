@@ -205,7 +205,9 @@
         font-size: 12px;
         padding: 5px 20px;
         text-align: right;
-        float: right;
+        display: block;
+        margin-left: auto;
+        width: fit-content;
       }
     }
 
@@ -268,7 +270,6 @@
         margin: 0;
 
         em {
-          float: none;
           display: inline-block;
           font-size: 10px;
           padding: 5px 10px;
@@ -325,7 +326,7 @@
         top: 35%;
         transform: translateY(-40%);
         left: 140px;
-        float: left;
+        width: fit-content;
       }
 
       a {
