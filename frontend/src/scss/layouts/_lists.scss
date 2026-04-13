@@ -191,11 +191,11 @@ div.container-fluid {
 
 ul.multilingue_lletres {
   li > a {
-    color: var(--color-text) !important;
+    color: var(--color-text);
 
     &:hover {
-      color: var(--color-link-hover) !important;
-      text-decoration: none !important;
+      color: var(--color-link-hover);
+      text-decoration: none;
     }
   }
 }

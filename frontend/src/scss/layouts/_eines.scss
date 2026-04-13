@@ -241,17 +241,17 @@
     }
 
     a {
-      color: var(--color-white) !important;
+      color: var(--color-white);
     }
 
     p.lletres_multilingue {
       margin-top: 20px;
 
       a {
-        color: var(--color-text) !important;
+        color: var(--color-text);
 
         &:hover {
-          color: var(--color-brand) !important;
+          color: var(--color-brand);
         }
       }
     }
@@ -259,7 +259,7 @@
     a:hover,
     a:focus {
       color: var(--color-white);
-      text-decoration: none !important;
+      text-decoration: none;
     }
   }
 
