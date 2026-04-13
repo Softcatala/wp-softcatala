@@ -98,7 +98,7 @@
 
 .main-header-back-img {
   background: url(../images/content/img-distribuidora-02.jpg) no-repeat center center;
-  border: none !important;
+  border: none;
   padding: 30px 0;
   height: 462px;
 
@@ -154,7 +154,7 @@
   }
 
   .bt-basic-vermell {
-    margin: 23px 0 0 0 !important;
+    margin: 23px 0 0 0;
   }
 
   @include respond-to(xs) {
@@ -165,7 +165,7 @@
     }
 
     .bt-basic-vermell {
-      margin-top: 8px !important;
+      margin-top: 8px;
     }
   }
 
