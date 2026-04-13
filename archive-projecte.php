@@ -9,7 +9,7 @@
 use Softcatala\Providers\Projectes;
 
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 
 
 $arxivats  = (get_query_var( 'classificacio' ) ?: '') == 'arxivat';

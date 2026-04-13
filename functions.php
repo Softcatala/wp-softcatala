@@ -255,7 +255,8 @@ class StarterSite extends \Timber\Site {
 	}
 
 	function register_ui_settings() {
-		wp_localize_script( 'sc-js-main', 'sc_settings', SC_Settings::get_instance()->get_setting_values() );
+		// sc_settings is only consumed by traductor.js (log_traductor_source).
+		// Localized onto sc-js-traductor in traductor.php instead of globally.
 	}
 
 	/**
@@ -701,10 +702,10 @@ function softcatala_scripts() {
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
-	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
+	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), WP_SOFTCATALA_VERSION, true );
 	$sc_site->register_ui_settings();
 	//wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
-	wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array( 'sc-js-main' ), WP_SOFTCATALA_VERSION, true );
+	wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 }
 
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
