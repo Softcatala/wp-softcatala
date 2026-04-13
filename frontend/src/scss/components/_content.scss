@@ -107,14 +107,13 @@
     color: var(--color-brand);
     border: 3px var(--color-white) solid;
     border-radius: 200px;
-    padding: 35px;
     font-size: 52px;
     background-color: var(--color-bg-light);
-  }
-
-  .fa-book {
     width: 120px;
     height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   h1 {
