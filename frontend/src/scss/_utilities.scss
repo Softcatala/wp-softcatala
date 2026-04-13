@@ -313,10 +313,6 @@
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-// Legacy float utilities — preserved for the 1 template use (resum-de-textos.twig).
-// Prefer flexbox alignment in new code.
-.pull-left { float: left; }
-.pull-right { float: right; }
 
 // BS3-compatible .img-responsive — constrains images to their container
 .img-responsive {
