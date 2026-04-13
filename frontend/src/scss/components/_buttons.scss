@@ -24,6 +24,12 @@
   border-radius: 0;
   text-align: center;
   cursor: pointer;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 }
 
 .bt-basic-petit {
