@@ -350,7 +350,7 @@
   align-items: center;
   gap: var(--space-5); // 20px
 
-  .fa {
+  [class*="fa-"] {
     font-size: 30px;
     margin-top: -5px;
     margin-right: var(--space-3);
