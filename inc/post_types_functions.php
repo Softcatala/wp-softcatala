@@ -392,6 +392,9 @@ function get_the_filter_date_name( $filter_date_slug )
 function get_users_metadata($users_ids ) {
     foreach( $users_ids as $key => $user_id ) {
         $user = get_userdata( $user_id );
+        if ( false === $user ) {
+            continue;
+        }
         $users[$key]['name'] = $user->first_name . ' ' . $user->last_name;
         $users[$key]['url'] = get_author_posts_url( $user_id );
         $users[$key]['email'] = $user->user_email;
