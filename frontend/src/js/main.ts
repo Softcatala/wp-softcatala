@@ -250,13 +250,14 @@ function initActiveMenuHighlighting(): void {
     }
   }
 
-  // Mark the link or its parent dropdown-toggle as active
+  // Mark the link or its parent dropdown trigger as active
   const inDropdown = matchedLink.closest('.dropdown-menu')
   if (inDropdown) {
-    const navContainer = matchedLink.closest<HTMLElement>('.nav-tabs, .navbar-nav')
-    const dropdownToggle = navContainer?.querySelector<HTMLElement>('.dropdown-toggle')
-    if (dropdownToggle) {
-      dropdownToggle.classList.add('active')
+    const dropdown = matchedLink.closest<HTMLElement>('.dropdown')
+    // Prefer .dropdown-toggle (button), fall back to first direct <a> child (link-style trigger)
+    const trigger = dropdown?.querySelector<HTMLElement>(':scope > .dropdown-toggle, :scope > a')
+    if (trigger) {
+      trigger.classList.add('active')
     }
   } else {
     matchedLink.classList.add('active')
