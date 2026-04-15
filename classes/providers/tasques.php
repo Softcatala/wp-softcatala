@@ -223,6 +223,7 @@ class Tasques {
 
 	/**
 	 * Return the IDs of all projectes where `tasques_internes` OR `projecte_intern` is truthy.
+	 * Uses a single meta_query instead of per-post get_field() calls.
 	 * Result is cached in a 5-minute transient and invalidated on projecte save
 	 * via the `sc_invalidate_internal_projecte_ids_transient` hook.
 	 *
@@ -234,21 +235,20 @@ class Tasques {
 			return $cached;
 		}
 
-		$projectes = get_posts(
+		$internal = get_posts(
 			array(
 				'post_type'      => 'projecte',
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
 				'fields'         => 'ids',
+				'meta_query'     => array(
+					'relation' => 'OR',
+					array( 'key' => 'tasques_internes', 'value' => '1', 'compare' => '=' ),
+					array( 'key' => 'projecte_intern',  'value' => '1', 'compare' => '=' ),
+				),
 			)
 		);
-
-		$internal = array();
-		foreach ( $projectes as $projecte_id ) {
-			if ( get_field( 'tasques_internes', $projecte_id ) || get_field( 'projecte_intern', $projecte_id ) ) {
-				$internal[] = (int) $projecte_id;
-			}
-		}
+		$internal = array_map( 'intval', $internal );
 
 		set_transient( self::TRANSIENT_INTERNAL_IDS, $internal, 5 * MINUTE_IN_SECONDS );
 
@@ -257,6 +257,7 @@ class Tasques {
 
 	/**
 	 * Return the IDs of all tasques where `tasca_interna` is truthy.
+	 * Uses a single meta_query instead of per-post get_field() calls.
 	 * Result is cached in a 5-minute transient and invalidated on tasca save
 	 * via the `sc_invalidate_internal_tasca_ids_transient` hook.
 	 *
@@ -268,21 +269,18 @@ class Tasques {
 			return $cached;
 		}
 
-		$tasques = get_posts(
+		$internal = get_posts(
 			array(
 				'post_type'      => 'tasca',
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
 				'fields'         => 'ids',
+				'meta_query'     => array(
+					array( 'key' => 'tasca_interna', 'value' => '1', 'compare' => '=' ),
+				),
 			)
 		);
-
-		$internal = array();
-		foreach ( $tasques as $tasca_id ) {
-			if ( get_field( 'tasca_interna', $tasca_id ) ) {
-				$internal[] = (int) $tasca_id;
-			}
-		}
+		$internal = array_map( 'intval', $internal );
 
 		set_transient( self::TRANSIENT_INTERNAL_TASCA_IDS, $internal, 5 * MINUTE_IN_SECONDS );
 
