@@ -231,20 +231,24 @@ class StarterSite extends \Timber\Site {
 		locate_template( array( 'inc/rewrites.php' ), true, true );
 		load_theme_textdomain('softcatala', get_template_directory() . '/languages');
 
-		// ACF Local JSON: load field groups from acf-json/ and save edits back there.
-		add_filter(
-			'acf/settings/load_json',
-			function ( $paths ) {
-				$paths[] = get_stylesheet_directory() . '/acf-json';
-				return $paths;
-			}
-		);
-		add_filter(
-			'acf/settings/save_json',
-			function () {
-				return get_stylesheet_directory() . '/acf-json';
-			}
-		);
+		// ACF Local JSON: only active outside production.
+		// In production, field groups are loaded from the DB (cached via object cache).
+		// Locally and in dev, JSON files are read and written so changes are tracked in git.
+		if ( !defined( 'WP_ENV' ) || 'production' !== WP_ENV ) {
+			add_filter(
+				'acf/settings/load_json',
+				function ( $paths ) {
+					$paths[] = get_stylesheet_directory() . '/acf-json';
+					return $paths;
+				}
+			);
+			add_filter(
+				'acf/settings/save_json',
+				function () {
+					return get_stylesheet_directory() . '/acf-json';
+				}
+			);
+		}
 	}
 
 	function register_ui_settings() {
