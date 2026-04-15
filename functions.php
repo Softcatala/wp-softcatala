@@ -173,6 +173,7 @@ class StarterSite extends \Timber\Site {
 
 	public function init_services() {
 		SC_NavegaEnCatala::init();
+		SC_Ia_Local_Checker::init();
 		\Softcatala\Content\JsonToTable::init();
 		SC_Sitemaps::init();
 	}
@@ -234,21 +235,23 @@ class StarterSite extends \Timber\Site {
 		// ACF Local JSON: only active outside production.
 		// In production, field groups are loaded from the DB (cached via object cache).
 		// Locally and in dev, JSON files are read and written so changes are tracked in git.
-		if ( !defined( 'WP_ENV' ) || 'production' !== WP_ENV ) {
+		if ( defined( 'WP_ENV' ) && 'production' === WP_ENV ) {
 			add_filter(
 				'acf/settings/load_json',
 				function ( $paths ) {
-					$paths[] = get_stylesheet_directory() . '/acf-json';
-					return $paths;
+					return array_filter( $paths, function( $path ) {
+						return $path !== get_stylesheet_directory() . '/acf-json';
+					} );
 				}
 			);
-			add_filter(
-				'acf/settings/save_json',
-				function () {
-					return get_stylesheet_directory() . '/acf-json';
-				}
-			);
+			return;
 		}
+		add_filter(
+			'acf/settings/save_json',
+			function () {
+				return get_stylesheet_directory() . '/acf-json';
+			}
+		);
 	}
 
 	function register_ui_settings() {
