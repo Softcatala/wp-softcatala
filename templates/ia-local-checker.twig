@@ -1,0 +1,45 @@
+<div class="cc">
+    <div class="cc-t">Comproveu si el vostre ordinador és compatible</div>
+
+    <div class="cc-row">
+        <label for="ccram">Memòria RAM</label>
+        <select id="ccram" name="ccram">
+            <option value="">— Seleccioneu —</option>
+            <option value="r4">4 GB o menys</option>
+            <option value="r8">8 GB</option>
+            <option value="r16">16 GB</option>
+            <option value="r32">32 GB o més</option>
+        </select>
+    </div>
+
+    <div class="cc-row">
+        <label for="cchw">Tipus d'ordinador</label>
+        <select id="cchw" name="cchw">
+            <option value="">— Seleccioneu —</option>
+            <option value="mac">Mac M1–M5</option>
+            <option value="nvi">PC NVIDIA</option>
+            <option value="amd">PC AMD</option>
+            <option value="cpu">PC sense GPU</option>
+        </select>
+    </div>
+
+    <div id="ccv-r4m"  class="cc-r bd"><b>Compatibilitat molt limitada</b> Podeu fer transcripcions amb Whisper small, però els models de xat no funcionaran de forma pràctica amb 4 GB.</div>
+    <div id="ccv-r8m"  class="cc-r ok"><b>Compatible</b> Podeu executar models de 4B–7B i la transcripció funciona molt bé gràcies a Apple Silicon.</div>
+    <div id="ccv-r16m" class="cc-r ok"><b>Compatible — molt bona experiència</b> Podeu córrer models de 12B còmodament. La memòria unificada Apple Silicon dona molt bon rendiment.</div>
+    <div id="ccv-r32m" class="cc-r ok"><b>Compatible — excel·lent</b> Podeu executar models grans (27B) amb molt bona velocitat. La configuració ideal per a IA local.</div>
+
+    <div id="ccv-r4n"  class="cc-r bd"><b>No recomanat</b> Amb 4 GB de RAM és molt difícil executar cap model. Només Whisper small pot funcionar per a transcripcions.</div>
+    <div id="ccv-r8n"  class="cc-r wn"><b>Compatible amb limitacions</b> Models de 3B–7B funcionaran bé si la VRAM de la targeta és d'almenys 6 GB (CUDA).</div>
+    <div id="ccv-r16n" class="cc-r ok"><b>Compatible</b> NVIDIA amb CUDA dona una velocitat excel·lent. Models de 7B–13B sense problemes.</div>
+    <div id="ccv-r32n" class="cc-r ok"><b>Compatible — excel·lent</b> Configuració ideal. Podeu executar models grans amb alta velocitat gràcies a CUDA.</div>
+
+    <div id="ccv-r4a"  class="cc-r bd"><b>No recomanat</b> AMD amb poca RAM i ROCm és molt difícil de configurar. No recomanat per a IA local.</div>
+    <div id="ccv-r8a"  class="cc-r wn"><b>Compatibilitat parcial</b> AMD via ROCm funciona, però el suport és menys madur que NVIDIA. Millor a Linux.</div>
+    <div id="ccv-r16a" class="cc-r wn"><b>Compatibilitat parcial</b> AMD ROCm amb 16 GB és viable, especialment a Linux. A Windows pot requerir configuració extra.</div>
+    <div id="ccv-r32a" class="cc-r wn"><b>Compatibilitat parcial</b> AMD ROCm amb molta RAM és viable però menys madur que NVIDIA. Recomanem Linux.</div>
+
+    <div id="ccv-r4c"  class="cc-r bd"><b>No recomanat</b> Sense GPU i amb 4 GB, cap model de xat ni transcripció funcionarà de forma pràctica.</div>
+    <div id="ccv-r8c"  class="cc-r wn"><b>Només transcripció</b> Whisper small funciona. Els models de xat seran massa lents per a ús diari.</div>
+    <div id="ccv-r16c" class="cc-r wn"><b>Compatible en mode lent</b> Podeu córrer models de 3B–7B per CPU. Espereu 5–15 s per resposta. La transcripció funciona bé.</div>
+    <div id="ccv-r32c" class="cc-r wn"><b>Compatible en mode lent</b> Amb 32 GB podeu córrer models més grans per CPU, però serà lent. La transcripció funciona molt bé.</div>
+</div>
