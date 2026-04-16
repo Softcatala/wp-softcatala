@@ -7,7 +7,7 @@
 header('Cross-Origin-Embedder-Policy: require-corp');
 header('Cross-Origin-Opener-Policy: same-origin');
 
-wp_enqueue_script( 'sc-js-dubbing-feedback', get_template_directory_uri() . '/static/js/dubbing-feedback.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-dubbing-feedback', get_template_directory_uri() . '/static/js/dubbing-feedback.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 
 $context = Timber::context();
 $context['ads_container'] = true;

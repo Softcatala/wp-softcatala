@@ -1,0 +1,18 @@
+{
+  "name": "softcatala-frontend",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "sass-embedded": "^1.87.0",
+    "typescript": "^6.0.2",
+    "vite": "^6.3.2"
+  }
+}

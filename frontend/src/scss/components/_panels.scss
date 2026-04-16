@@ -1,0 +1,52 @@
+// Panels — generic bordered card with optional heading
+//
+// Replaces Bootstrap 3 .panel / .panel-heading / .panel-body / .panel-default / .panel-primary.
+// Used by: conjugador (panel-primary), diccionari-engcat (panel-default), devices accordion (_devices.scss).
+// Values match BS3 originals to preserve visual parity.
+
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-radius: 3px 3px 0 0;
+}
+
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: inherit;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+// Default variant — grey header
+.panel-default {
+  border-color: #ddd;
+
+  > .panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+  }
+}
+
+// Primary variant — blue header (used by conjugador)
+.panel-primary {
+  border-color: #337ab7;
+
+  > .panel-heading {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+}

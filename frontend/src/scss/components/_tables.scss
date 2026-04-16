@@ -1,0 +1,140 @@
+// ==========================================================================
+// Tables
+// ==========================================================================
+//
+// Table styles including bordered, 2-column, prettytable, and section tables.
+// Keeps existing class names for Phase 1 Twig compatibility.
+//
+// Source: maqueta/app/assets/less/components/taules.less (82 lines)
+// Source: maqueta/app/assets/less/comuns/contingut.less (prettytable, lines 408-430)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Base table
+// ---------------------------------------------------------------------------
+
+.table {
+  margin: 35px 0;
+}
+
+// ---------------------------------------------------------------------------
+// Bordered table
+// ---------------------------------------------------------------------------
+
+.table-bordered > tbody > tr > td {
+  border: 2px solid var(--color-white);
+  background-color: var(--color-bg-light);        // #eae8e8
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border: 2px solid var(--color-white);
+  background-color: var(--color-gray-425);        // #cfcfcf
+}
+
+// Shared cell padding
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 10px 8px 10px 20px;
+}
+
+// ---------------------------------------------------------------------------
+// 2-column layout table
+// ---------------------------------------------------------------------------
+
+.taula-2col {
+  > tbody > tr > td:first-child {
+    background-color: var(--color-gray-425);      // #cfcfcf
+    width: 25%;
+    font-weight: bold;
+    border-right: none;
+  }
+
+  > tbody > tr > td:last-child {
+    border-left: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Section tables (tables inside <section> elements)
+// ---------------------------------------------------------------------------
+
+section table {
+  border: 1px solid #ddd;
+  max-width: 100%;
+  width: 100%;
+  margin: 35px 0;
+}
+
+section table > caption + thead > tr:first-child > th,
+section table > colgroup + thead > tr:first-child > th,
+section table > thead:first-child > tr:first-child > th,
+section table > caption + thead > tr:first-child > td,
+section table > colgroup + thead > tr:first-child > td,
+section table > thead:first-child > tr:first-child > td {
+  border-top: 0 none;
+}
+
+section table > thead > tr > th,
+section table > tbody > tr > th,
+section table > tfoot > tr > th,
+section table > thead > tr > td,
+section table > tbody > tr > td,
+section table > tfoot > tr > td {
+  padding: 10px 8px;
+}
+
+section table > thead > tr > th,
+section table > thead > tr > td {
+  background-color: var(--color-gray-425);        // #cfcfcf
+  padding: 10px 8px;
+  vertical-align: middle;
+  border: 2px solid var(--color-white);
+}
+
+section table > tbody > tr > th,
+section table > tfoot > tr > th,
+section table > tbody > tr > td,
+section table > tfoot > tr > td {
+  border-top: 1px solid #ddd;
+  line-height: 1.42857;
+  vertical-align: top;
+}
+
+section table > tbody > tr > td {
+  background-color: var(--color-bg-light);        // #eae8e8
+  border: 2px solid var(--color-white);
+}
+
+// ---------------------------------------------------------------------------
+// Prettytable (alternating-row color table)
+// ---------------------------------------------------------------------------
+
+table.prettytable tr td {
+  background: var(--color-gray-100);              // #f5f5f5
+}
+
+table.prettytable tr td + td {
+  background: var(--color-white);
+}
+
+table.prettytable tr + tr td {
+  background: var(--color-red-50);                // #fff7f7
+}
+
+table.prettytable tr + tr td + td {
+  background: var(--color-white);
+}
+
+table.prettytable tr + tr + tr td {
+  background: var(--color-green-50);              // #f7fff7
+}
+
+table.prettytable tr + tr + tr td + td {
+  background: var(--color-white);
+}

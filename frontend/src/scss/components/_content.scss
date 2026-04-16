@@ -1,0 +1,449 @@
+// ==========================================================================
+// Content sections
+// ==========================================================================
+//
+// Page content structure: main-header, .contingut > header/section/footer,
+// seccio-vermella, seccio-blanca.
+//
+// NOTE: Legacy classes .contingut-header, .contingut-section, .contingut-footer
+// are replaced by element selectors (.contingut > header, etc.). See
+// docs/plans/mechanical-conversions.md for the Phase 2 Twig migration guide.
+//
+// Source: maqueta/app/assets/less/comuns/contingut.less (451 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Page header bar (.main-header)
+// ---------------------------------------------------------------------------
+
+.main-header {
+  border-bottom: 1px solid var(--color-gray-475);  // #c7c5c5
+  margin-bottom: 30px;
+  background-color: var(--color-bg-menu);          // #f8f8f8
+
+  h1 {
+    font-weight: 300;
+    margin-top: 30px;
+    display: inline-block;
+  }
+
+  .compartiu {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+
+    p {
+      color: var(--color-text-muted);              // #999999
+      font-size: 11px;
+      font-weight: 300;
+      margin: 4px 5px 0 0;
+    }
+
+    .compartiu-media {
+      margin: 0;
+      display: flex;
+      padding: 0;
+      list-style: none;
+
+      li {
+        a {
+          color: var(--color-gray-1000);           // #404040
+          padding: 3px;
+          font-size: 11px;
+
+          i {
+            padding: 4px 5px;
+            display: inline-block;
+            border: 1px solid var(--color-gray-850); // #767676
+            border-radius: 100px;
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .bt-basic-vermell {
+    margin-left: auto;
+    margin-top: 37px;
+    margin-bottom: 37px;
+    display: block;
+  }
+
+  @include respond-to(xs) {
+    border-top: 1px solid var(--color-gray-475);
+    margin-bottom: 0;
+  }
+
+  @include respond-to(xxs) {
+    .bt-basic-vermell {
+      margin: 10px auto 20px 0;
+    }
+
+    .compartiu {
+      display: none;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hero header with background image
+// ---------------------------------------------------------------------------
+
+.main-header-back-img {
+  background: url(../images/content/img-distribuidora-02.jpg) no-repeat center center;
+  border: none;
+  padding: 30px 0;
+  height: 462px;
+
+  .custom-fa,
+  .fa-book {
+    color: var(--color-brand);
+    border: 3px var(--color-white) solid;
+    border-radius: 200px;
+    font-size: 52px;
+    background-color: var(--color-bg-light);
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    color: var(--color-white);
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.6;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  p {
+    color: var(--color-white);
+  }
+
+  .compartiu .compartiu-media li {
+    p {
+      color: var(--color-white);
+    }
+
+    a {
+      color: var(--color-white);
+
+      i {
+        border-color: var(--color-white);
+      }
+    }
+  }
+
+  .bt-basic-vermell {
+    margin: 23px 0 0 0;
+  }
+
+  @include respond-to(xs) {
+    h2 {
+      margin-top: 0;
+      line-height: 1.4;
+      font-size: 18px;
+    }
+
+    .bt-basic-vermell {
+      margin-top: 8px;
+    }
+  }
+
+  @include respond-to(xxs) {
+    h2 {
+      margin-top: 20px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .compartiu .compartiu-media {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Main content area (.contingut)
+// ---------------------------------------------------------------------------
+
+.contingut {
+  padding-bottom: 40px;
+
+  @include respond-to(xs) {
+    margin-top: 20px;
+  }
+
+  > section {
+    a {
+      color: var(--color-link);
+
+      &:hover {
+        color: var(--color-link-hover);
+        text-decoration: underline;
+      }
+    }
+
+    .thumbnail a {
+      text-decoration: none;
+    }
+
+    .thumbnail-gris a {
+      color: var(--color-text);
+
+      &:hover {
+        color: var(--color-brand);
+      }
+    }
+
+    .steps-projecte {
+      p {
+        font-size: 20px;
+        font-weight: 300;
+        margin-bottom: 30px;
+        margin-top: -5px;
+        line-height: 1.3;
+      }
+
+      .caption {
+        p {
+          font-size: 14px;
+          line-height: 22px;
+          margin-top: 5px;
+          font-weight: 300;
+          margin-bottom: 0;
+        }
+
+        h3 {
+          text-transform: none;
+        }
+      }
+    }
+
+    img.aligncenter.size-full,
+    img.aligncenter.size-large {
+      max-width: 100%;
+      width: auto;
+      height: auto;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content header (.contingut > header)
+// ---------------------------------------------------------------------------
+
+.contingut > header {
+  h1 {
+    font-size: 34px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    color: var(--color-black);
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 0;
+  }
+
+  img.headerimg {
+    width: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content section (.contingut > section)
+// ---------------------------------------------------------------------------
+
+.contingut > section {
+  margin: 30px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: 35px;
+    margin-bottom: 14px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-black);
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-weight: 400;
+    line-height: 2;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content footer (.contingut > footer)
+// ---------------------------------------------------------------------------
+
+.contingut > footer {
+  margin-top: 50px;
+
+  .alerta {
+    background-color: var(--color-bg-light);
+    padding: 15px 15px 5px 15px;
+    margin: 15px 0;
+
+    p strong {
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  }
+
+  .caixa-gris {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    .sobre span {
+      padding-top: 0;
+    }
+
+    a {
+      padding: 3px;
+      font-size: 14px;
+
+      span {
+        padding-top: 4px;
+
+        em {
+          display: block;
+          color: var(--color-link-hover);
+          font-style: normal;
+        }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Red CTA section (.seccio-vermella)
+// ---------------------------------------------------------------------------
+
+.seccio-vermella {
+  padding: 50px 0 40px 0;
+
+  p {
+    font-size: 18px;
+    color: var(--color-white);
+    text-align: center;
+    margin-bottom: 0;
+
+    strong {
+      font-weight: bold;
+    }
+  }
+
+  .bt-basic {
+    text-align: center;
+    margin: 30px 0 10px 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// White logos section (.seccio-blanca)
+// ---------------------------------------------------------------------------
+
+.seccio-blanca {
+  padding: 20px 0;
+
+  p {
+    font-size: 18px;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 0;
+
+    strong {
+      font-weight: bold;
+    }
+  }
+
+  .logos {
+    margin-top: 45px;
+
+    div {
+      padding: 30px;
+      border-left: 1px solid var(--color-gray-500); // #c1c0c0
+      border-bottom: 1px solid var(--color-gray-500);
+      height: 160px;
+
+      img {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    @include respond-to(xs) {
+      padding: 0 60px;
+
+      div {
+        border-left: none;
+      }
+    }
+  }
+
+  .logos:last-child {
+    margin-top: 0;
+
+    div {
+      border-bottom: none;
+
+      @include respond-to(xs) {
+        border-bottom: 1px solid var(--color-gray-500);
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  .logos div:first-child {
+    border-left: none;
+  }
+}

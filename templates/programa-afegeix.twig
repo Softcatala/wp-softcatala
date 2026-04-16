@@ -5,11 +5,11 @@
         <!-- .modal-content -->
         <div class="modal-content">
 
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-xmark"></i></button>
             <!-- .formulari 1 -->
             <div class="formulari" id="form_1">
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Voleu afegir un programa nou?</h1>
@@ -22,12 +22,12 @@
                 </header><!--/.contingut-header -->
 
                 <!-- .contingut-section - paragraf -->
-                <section class="contingut-section">
+                <section>
                     <p>{{ conditions_text }}</p>
 
                     <!-- .contingut-section - paragraf -->
                     <form id="second_step">
-                    <section class="contingut-section">
+                    <section>
                         <!-- camp -->
                         <div class="col-sm-6" style="margin-left: -15px;">
                             <input type="text" id="nom_programa" class="form-control" placeholder="Libreoffice, VLC..." required>
@@ -35,18 +35,18 @@
                         <!-- camp -->
                         <p/>
                     </section>
-                    <section class="contingut-section">
+                    <section>
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
                                 <div class="col-xs-4 col-sm-4 bt-puja">
                                     {{ function('wp_nonce_field', 'search_program', '_wpnonce_program_search') }}
-                                    <button id="cerca_programa" type="submit" class="form-control bt-basic bt-basic-petit">Cerca... <i id="loading" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
+                                    <button id="cerca_programa" type="submit" class="form-control bt-basic bt-basic-petit">Cerca... <i id="loading" class="fas fa-spinner fa-pulse" style="display: none;"></i></button>
                                 </div>
                             </div><!--/botons -->
                         </div>
                     </section>
                     </form>
-                    <section class="contingut-section">
+                    <section>
                         <p id="text_response"></p>
                         <p id="llistat_programes">
 
@@ -62,11 +62,11 @@
                 </section><!--/.contingut-section - paragraf -->
             </div><!--/.formulari -->
 
-            <section class="contingut-section">
+            <section>
                 <!-- .formulari 2 -->
                 <div class="formulari" id="form_2" style="display: none;">
                     <!-- .contingut-header -->
-                    <header class="contingut-header">
+                    <header>
                         <div class="row">
                             <div class="col-xxs-12 col-xs-9">
                                 <h1>Empleneu els camps següents amb la informació del programa</h1>
@@ -151,7 +151,7 @@
 
                         <div class="row">
                             <div class="intern">
-                                <button href="#mes_camps_programa" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse">més camps<i class="fa fa-angle-down"></i></button>
+                                <button href="#mes_camps_programa" type="button" class="bt-basic bt-mes intern-center" data-toggle="collapse">més camps<i class="fas fa-angle-down"></i></button>
                             </div>
                         </div>
 
@@ -234,7 +234,7 @@
             <!-- .formulari 3 -->
             <div class="formulari" id="form_3" style="display: none;">
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Informació sobre les baixades</h1>
@@ -254,7 +254,7 @@
                             <div class="form-boto col-xs-6">
                                 <input type="hidden" id="programa_id" name="programa_id" value="" />
                                 {{ function('wp_nonce_field', 'add_new_baixada', '_wpnonce_baixada') }}
-                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fa fa-spinner fa-pulse" style="display: none;"></i></button>
+                                <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fas fa-spinner fa-pulse" style="display: none;"></i></button>
                             </div>
                         </div><!--/botons -->
                     </div>
@@ -264,7 +264,7 @@
             <!-- .formulari 4 -->
             <div class="formulari" id="form_4" style="display: none;">
                 <!-- .contingut-header -->
-                <header class="contingut-header">
+                <header>
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Gràcies per enviar-nos aquesta informació!</h1>

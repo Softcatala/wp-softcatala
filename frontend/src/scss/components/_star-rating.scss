@@ -1,0 +1,92 @@
+// ==========================================================================
+// Star Rating
+// ==========================================================================
+//
+// Self-contained star rating display component replacing the old
+// bootstrap-star-rating bower dependency. Read-only display only —
+// the interactive rating JS is not needed (ratings are server-rendered).
+//
+// Source: maqueta/bower_components/bootstrap-star-rating/css/star-rating.min.less
+// Overrides: maqueta/app/assets/less/layouts/thumbnails.less (lines 221-234)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Core rating container (from bower component, simplified)
+// ---------------------------------------------------------------------------
+
+.rating-container {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  color: #e3e3e3;
+  overflow: hidden;
+
+  &::before {
+    content: attr(data-content);
+  }
+
+  .rating-stars {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #fde16d;
+    transition: all 0.25s ease-out;
+
+    &::before {
+      content: attr(data-content);
+      text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+// FontAwesome variant
+.rating-fa {
+  font-family: "Font Awesome 7 Free";
+  font-weight: 900;
+}
+
+// Size variants
+.rating-xl { font-size: 4.89em; }
+.rating-lg { font-size: 3.91em; }
+.rating-md { font-size: 3.13em; }
+.rating-sm { font-size: 2.5em; }
+.rating-xs { font-size: 2em; }
+
+// States
+.rating-active   { cursor: default; }
+.rating-disabled { cursor: not-allowed; }
+
+// ---------------------------------------------------------------------------
+// Softcatala overrides (thumbnails.less lines 221-234)
+// ---------------------------------------------------------------------------
+
+.star-rating {
+  font-size: 14px;
+
+  .rating-container {
+    color: var(--color-gray-975);                  // #545252
+
+    .rating-stars {
+      color: var(--color-brand-hover);             // #e64b3c
+
+      &::before {
+        content: "\f005\20\f005\20\f005\20\f005\20\f005"; // \20 = literal space to match data-content spacing
+        text-shadow: none;
+        color: var(--color-brand-hover);
+      }
+    }
+  }
+}
+
+// Clear rating button
+.star-rating .clear-rating,
+.star-rating-rtl .clear-rating {
+  color: #aaa;
+  cursor: not-allowed;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 60%;
+}

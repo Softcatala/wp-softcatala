@@ -8,28 +8,28 @@
         <header class="main-header-back-img main-header" style="background: rgba(0, 0, 0, 0) url('{{post.thumbnail.src}}') no-repeat scroll center center">
             <div class="container-fluid">
                 <div class="intern">
-                    <div class="intern-center">
+                    <div>
                         {% if post.icona_a_mostrar %}
-                            <i class="fa custom-fa fa-{{ post.icona_a_mostrar }}"></i>
+                            <i class="fas custom-fa fa-{{ post.icona_a_mostrar }}"></i>
                         {% else %}
-                            <i class="fa fa-book"></i>
+                            <i class="fas fa-book"></i>
                         {% endif %}
                     </div>
                 </div>
                 <h1>{{ post.title }}</h1>
                 <div class="intern">
-                    <div class="intern-center compartiu">
+                    <div class="compartiu">
                         <ul class="compartiu-media">
                             <li><p>Compartiu</p></li>
-                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="https://twitter.com/intent/tweet?text={{post.title}} {{ current_url }} #softcatala"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ current_url }}"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://twitter.com/intent/tweet?text={{post.title}} {{ current_url }} #softcatala"><i class="fab fa-twitter"></i></a></li>
                         </ul>
                     </div>
                 </div>
                 <h2>{{ post.post_excerpt }}</h2>
                 <div class="intern">
                     {% if post.call_to_action_top_url and post.call_to_action_top_text %}
-                        <div class="intern-center">
+                        <div>
                             <a href="{{ post.call_to_action_top_url }}" class="bt-basic bt-basic-vermell">{{ post.call_to_action_top_text }}</a>
                         </div>
                     {% endif %}
@@ -42,7 +42,7 @@
 
             <!-- .contingut -->
             <div class="contingut">
-                <section class="contingut-section">
+                <section>
                     {{ post.content }}
                 </section>
                 {% if links %}
@@ -51,7 +51,7 @@
                         {% for row in links|safe_batch((links|length)/2) %}
                             <div class="col-xs-12 col-md-6"><ul class="cont-llista llista-gran">
                             {% for link in row %}
-                            <li><a href="{{ link.link_url }}"><i class="fa fa-angle-right"></i>{{ link.link_title }}</a></li>
+                            <li><a href="{{ link.link_url }}"><i class="fas fa-angle-right"></i>{{ link.link_title }}</a></li>
                             {% endfor %}
                             </ul>
                             </div>

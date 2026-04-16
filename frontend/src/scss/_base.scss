@@ -1,0 +1,100 @@
+// ==========================================================================
+// Base Element Styles
+// ==========================================================================
+//
+// Type selectors only (body, h1-h6, a, p, ul, hr, etc.).
+// Extracted from maqueta/app/assets/less/comuns/global.less and variables.less.
+// No class selectors here — those go in components/ or utilities.
+
+@use 'tokens' as *;
+
+// --------------------------------------------------------------------------
+// Body
+// --------------------------------------------------------------------------
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  font-style: normal;
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-page);
+}
+
+// --------------------------------------------------------------------------
+// Headings
+// --------------------------------------------------------------------------
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h4 {
+  font-size: 22px;
+  margin-top: var(--space-5);
+}
+
+// --------------------------------------------------------------------------
+// Paragraphs
+// --------------------------------------------------------------------------
+// BS3 set p { margin: 0 0 10px } globally.  Our reset zeros all margins, so
+// without this rule consecutive <p> elements have no visible separation.
+// Component-level rules (0, 20px, 30px, etc.) override where needed.
+
+p {
+  margin-bottom: 10px;
+}
+
+// --------------------------------------------------------------------------
+// Links
+// --------------------------------------------------------------------------
+
+a:not([class]) {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+
+  &:hover,
+  &:focus {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Lists
+// --------------------------------------------------------------------------
+// The existing site removes all list styling globally.
+// This is aggressive but matches the current behavior.
+
+ul {
+  list-style: none;
+}
+
+// --------------------------------------------------------------------------
+// Horizontal rules
+// --------------------------------------------------------------------------
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border-dark); // #aba9a9
+  margin: 0 0 var(--space-13) 0;                  // 0 0 50px 0
+
+  &.clara {
+    border-color: var(--color-border-light);       // #e4e4e4
+    margin: var(--space-10) 0;                     // 40px 0
+  }
+}
+
+// --------------------------------------------------------------------------
+// Images
+// --------------------------------------------------------------------------
+// Responsive images by default (matches BS3 .img-responsive behavior)
+
+img {
+  height: auto;
+}

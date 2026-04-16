@@ -1,0 +1,520 @@
+// ==========================================================================
+// Layout: Eines (translator, corrector, dictionary tools)
+// ==========================================================================
+//
+// Source: maqueta/app/assets/less/layouts/layout-eines.less (415 lines)
+
+@use '../tokens' as *;
+
+.formulari-eines {
+  margin-top: -10px;
+
+  // ========================================================================
+  // Traductor — language buttons
+  // ========================================================================
+
+  .btns-llengues {
+    margin-bottom: 20px;
+
+    // The .col-xs-12 wrapper is a grid column — make it a flex container
+    // so origin group, swap, destination group, and Tradueix lay out inline.
+    .col-xs-12 {
+      display: flex;
+      flex-wrap: nowrap;                           // keep both groups on one line
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    // Button groups lay out children inline
+    .btn-group {
+      display: inline-flex;
+      vertical-align: middle;
+      min-width: 0;                                // allow shrinking below intrinsic width
+
+      // Nested .btn-group (wrapping the <select>) should blend in
+      .btn-group {
+        display: inline-flex;
+        min-width: 0;
+      }
+    }
+
+    // Base button style (language buttons, direction, dropdown toggles)
+    .btn {
+      display: inline-block;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: normal;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      padding: 6px 12px;
+      height: 42px;
+      border-radius: 0;
+      background-color: var(--color-bg-menu);
+      color: var(--color-gray-825);               // #777777
+      border: 1px solid var(--color-gray-225);     // #e7e7e7
+
+      i { font-weight: 900; }
+
+      // Collapse adjacent borders
+      & + .btn {
+        margin-left: -1px;
+      }
+    }
+
+    // Native <select> styled to match adjacent buttons.
+    // appearance:none is required so browsers honour color/border-bottom overrides.
+    select.form-control {
+      appearance: none;
+      width: auto;                                 // size to content; JS hides the spa button
+                                                   // when a third language is active, so no overflow
+      height: 42px;
+      border-radius: 0;
+      font-size: 14px;
+      color: var(--color-gray-825);
+      border-color: var(--color-gray-225);
+      background-color: var(--color-bg-menu);
+      margin-left: -1px;                           // collapse border with adjacent .btn
+      margin-bottom: 0;                            // override global .form-control spacing
+      padding-right: 30px;                         // room for dropdown arrow
+
+      &.select {
+        background-color: var(--color-gray-225);
+        color: var(--color-brand);
+        border-bottom: 3px solid var(--color-brand);
+      }
+    }
+
+    // Active language button — darker bg + brand red text + red underline
+    .select {
+      background-color: var(--color-gray-225);
+      color: var(--color-brand);
+      border-bottom: 3px solid var(--color-brand);
+    }
+
+    // Direction swap button arrows
+    .fa-left-long {
+      display: block;
+      font-size: 24px;
+      margin-top: -3px;
+    }
+
+    .fa-right-long {
+      display: block;
+      font-size: 24px;
+      margin-top: -13px;
+    }
+
+    // Origin language group
+    .btns-llengues-origen {
+      // no special layout — inline-flex from .btn-group handles it
+    }
+
+    // Right side: direction + destination + Tradueix
+    .btn-right {
+      display: inline-flex;
+      align-items: flex-start;
+      flex-wrap: nowrap;                           // never wrap TRADUEIX onto a second line
+      gap: 10px;
+      margin-left: auto;                           // push to the right
+
+      .btns-llengues-desti {
+        // inline-flex from .btn-group handles it
+      }
+
+      .bt-basic-vermell {
+        vertical-align: middle;
+      }
+
+      .direccio {
+        background-color: var(--color-white);
+        padding: 6px 10px;
+      }
+    }
+
+    // ── Mobile ────────────────────────────────────────────
+    @include respond-to(xs) {
+      // Hide text buttons, only selects remain
+      .bt { display: none; }
+
+      .col-xs-12 {
+        align-items: center;
+        gap: 6px;
+      }
+
+      // Origin group: flex to fill available space
+      .btns-llengues-origen {
+        flex: 1;
+
+        select.form-control {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+
+      // Unwrap .btn-right so its children participate in the parent flex
+      .btn-right {
+        display: contents;
+
+        .direccio {
+          flex-shrink: 0;
+        }
+
+        .btns-llengues-desti {
+          flex: 1;
+
+          select.form-control {
+            width: 100%;
+            margin-left: 0;
+          }
+        }
+
+        .bt-basic-vermell {
+          width: 100%;               // full-width below selects
+        }
+      }
+    }
+  }
+
+  .bt-extra {
+    display: block;
+    position: relative;
+    width: 100%;
+
+    .bt-basic {
+      margin: 20px auto 10px auto;
+      width: 130px;
+      display: block;
+    }
+  }
+
+  // ========================================================================
+  // Corrector
+  // ========================================================================
+
+  .btns-corrector {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .formes {
+      color: var(--color-gray-825);
+      margin-top: 10px;
+      background-color: var(--color-bg-menu);
+      padding: 7px 25px 7px 15px;
+      font-size: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      p {
+        font-weight: bold;
+        margin: 0 20px 0 0;
+        font-size: 14px;
+      }
+
+      .radio-inline {
+        margin-right: 10px;
+        margin-top: 5px;
+        padding-top: 0;
+      }
+    }
+
+    @include respond-to(xs) {
+      .formes {
+        padding: 7px 25px 14px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .radio-inline {
+          display: block;
+          margin-left: 0;
+        }
+      }
+    }
+
+    .btn-right {
+      margin-left: auto;
+      margin-top: 10px;
+    }
+  }
+
+  // ========================================================================
+  // Diccionari
+  // ========================================================================
+
+  .btns-diccionari {
+    margin-bottom: 20px;
+
+    p {
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--color-gray-825);
+      margin-bottom: 20px;
+    }
+
+    .input-group .form-control {
+      height: 40px;
+    }
+
+    a {
+      color: var(--color-white);
+    }
+
+    p.lletres_multilingue {
+      margin-top: 20px;
+
+      a {
+        color: var(--color-text);
+
+        &:hover {
+          color: var(--color-brand);
+        }
+      }
+    }
+
+    a:hover,
+    a:focus {
+      color: var(--color-white);
+      text-decoration: none;
+    }
+  }
+
+  .diccionari-resultat {
+    border: 1px solid var(--color-gray-450);      // #cccccc
+    border-radius: 0;
+    resize: none;
+    padding: 15px;
+    clear: both;
+    display: inline-block;
+    width: 100%;
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+      font-weight: 300;
+    }
+
+    ol {
+      padding: 0 20px;
+
+      li {
+        font-weight: 300;
+        line-height: 2;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+    }
+
+    ul {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-top: 0;
+      padding: 0;
+    }
+
+    .multilingue_list {
+      padding-left: 0;
+    }
+
+    .multilingue_image {
+      width: 105%;
+      overflow: hidden;
+      margin-bottom: 15px;
+
+      @include respond-to(xs) {
+        width: 100%;
+      }
+    }
+
+    .contingut > footer {
+      clear: both;
+
+      .alerta {
+        margin: 15px 0;
+        padding: 5px 15px;
+
+        p { font-size: 12px; }
+      }
+    }
+
+    hr.clara {
+      margin: 20px 0;
+    }
+  }
+
+  // ========================================================================
+  // Textareas (translator + corrector)
+  // ========================================================================
+
+  .formulari {
+    .traductor-textarea,
+    .corrector-textarea {
+      textarea.form-control {
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.7;
+        color: var(--color-text);
+        resize: none;
+      }
+
+      textarea.form-control::selection {
+        background: var(--color-red-100);          // #ffcccc
+      }
+
+      .textarea-origen {
+        padding-right: 0;
+
+        textarea.form-control {
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+        }
+
+        .primer-textarea {
+          height: 351px;
+        }
+      }
+
+      .textarea-desti {
+        padding-left: 0;
+
+        textarea.form-control {
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+        }
+
+        .second-textarea {
+          background: whitesmoke none repeat scroll 0 0;
+          border: 1px solid #ccc;
+          border-left: 0;
+          border-collapse: collapse;
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          height: 351px;
+          font-size: 16px;
+          color: var(--color-text);
+          font-weight: 300;
+          line-height: 1.7;
+          resize: none;
+          overflow: auto;
+        }
+
+        .second-textarea:focus {
+          border: none;
+        }
+      }
+
+      @include respond-to(xs) {
+        .textarea-origen .primer-textarea {
+          min-height: 100px;
+          height: auto;
+          max-height: 355px;
+          overflow: scroll;
+        }
+
+        .textarea-desti .second-textarea {
+          min-height: 100px;
+          height: auto;
+          max-height: 355px;
+          overflow: scroll;
+        }
+      }
+
+      @include respond-to(sm) {
+        .textarea-desti {
+          padding-left: 15px;
+
+          textarea.form-control {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 4px;
+          }
+        }
+
+        .textarea-origen {
+          padding-right: 15px;
+
+          textarea.form-control {
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+
+    .traductor-checkbox {
+      background-color: var(--color-bg-menu);
+      margin: 15px 0;
+      font-size: 13px;
+      padding: 30px 0;
+
+      a { cursor: pointer; }
+
+      .text-disabled { color: #aaa; }
+
+      .checkbox-inline {
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      .icon-inline {
+        display: inline-block;
+        padding-bottom: 7px;
+        cursor: pointer;
+      }
+
+      .checkbox {
+        background-color: var(--color-bg-menu);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        min-width: 100%;
+        padding: 8px 8px 14px;
+        min-height: 27px;
+
+        a {
+          color: var(--color-brand);
+          font-size: 13px;
+          padding: 6px 8px 6px 0;
+          text-decoration: underline;
+          font-weight: normal;
+          margin-right: auto;
+        }
+
+        .checkbox-inline {
+          font-size: 13px;
+          margin-right: 10px;
+        }
+
+        @include respond-to(sm) {
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto;
+
+          a { margin-right: 0; }
+        }
+      }
+    }
+  }
+}
+
+// Standalone utility
+p.fons-gris {
+  background-color: var(--color-bg-light);
+  display: block;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  padding: 20px;
+  margin-top: 25px !important;
+  margin-bottom: 10px;
+  font-weight: normal !important;
+}

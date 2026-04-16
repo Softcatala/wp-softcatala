@@ -1,0 +1,898 @@
+// ==========================================================================
+// Header
+// ==========================================================================
+//
+// The site header. Keeps existing class names for Phase 1 Twig compatibility.
+//
+// Structure (top to bottom):
+//   0. .cap-banner            — optional banner slots above header
+//   1. .pag-header            — outer wrapper
+//   2. .wrap-gris             — gray top bar (news/events/press/forums)
+//   3. .wrap-blanc            — white band (logo, nav tabs, search, help, user)
+//   4. .wrap-vermell-header   — red sub-nav bar (tab content, dropdowns, mega-menu)
+//
+// Source: maqueta/app/assets/less/comuns/header.less (877 lines)
+// Reference: wp-softcatala/templates/html-header.twig (401 lines)
+
+@use '../tokens' as *;
+
+// --------------------------------------------------------------------------
+// Ad banner (above header, optional)
+// --------------------------------------------------------------------------
+
+.cap-banner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cap-banner-slot {
+  display: flex;
+}
+
+.pag-header {
+
+  // --- Shared rules across all header sections ---
+
+  a {
+    text-decoration: none;
+    &:hover, &:focus { text-decoration: none; }
+  }
+
+  .nav {
+    display: flex;
+    list-style: none;
+  }
+
+  // Base dropdown menu (shared by red bar, help, user)
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    display: none;
+    list-style: none;
+    border: none;
+    border-radius: 0;
+    padding: 5px 0;
+  }
+
+  // Show dropdown on hover (desktop); JS will also toggle
+  .dropdown:hover > .dropdown-menu,
+  .dropdown:hover > .dropdown-hover {
+    display: block;
+  }
+
+  // Navbar reset
+  .navbar {
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    z-index: 20;
+  }
+
+  .navbar-toggle {
+    display: none;
+
+    @include respond-to(xs) {
+      display: block;
+    }
+  }
+
+  // In flex containers, needs width: 100% to force wrapping to next line.
+  .center-block {
+    display: block;
+    width: 100%;
+  }
+
+  .navbar-right {
+    margin-left: auto;
+  }
+
+  .nav > li > a {
+    color: var(--color-text);
+  }
+
+  // --------------------------------------------------------------------------
+  // .wrap-gris layout (gray top bar)
+  // --------------------------------------------------------------------------
+  // HTML order matches visual: [user] [news links] — both right-aligned.
+
+  .wrap-gris > .container-fluid {
+    @include respond-from(sm) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 30px;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // .wrap-blanc layout (white middle band)
+  // --------------------------------------------------------------------------
+  // Clean desktop structure:
+  // [navbar-header][navbar-desktop-main (tabs+espai)][navbar-desktop-actions (help+search)]
+
+  .wrap-blanc > .container-fluid {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: stretch;
+    }
+  }
+
+  .navbar-desktop {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .navbar-desktop-main {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .navbar-desktop-actions {
+    @include respond-from(sm) {
+      display: flex;
+      align-items: center;                       // vertically centre all action icons
+      margin-left: 12px;
+    }
+  }
+
+  // Espai de col·laboradors pushed right within tabs area
+  .navbar-desktop-main .navbar-espai {
+    @include respond-from(sm) {
+      margin-left: auto;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Logo
+  // --------------------------------------------------------------------------
+
+  .navbar-brand {
+    display: inline-block;
+    padding: 0;
+    margin-right: 36px;
+    margin-left: 11px;
+    height: auto;
+
+    @include respond-to(sm) {
+      margin-right: 16px;
+      margin-left: 0;
+    }
+
+    @include respond-to(xxs) {
+      width: 92px;
+      margin-right: 0;
+      margin-left: 0;
+
+      img { width: 100%; }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Desktop nav tabs (Recursos / Coneixeu / Col·laboreu)
+  // --------------------------------------------------------------------------
+
+  .nav-tabs {
+    border: none;
+
+    > li {
+      height: 90px;
+      align-items: center;
+
+      > a {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        text-transform: uppercase;
+        width: 160px;
+        height: 100%;
+        border-top: 5px solid transparent;
+        border-radius: 0;
+        color: var(--color-text);
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.3;
+        padding: 10px 0;
+
+        &:hover, &:focus, &:active {
+          color: var(--color-brand);
+          font-weight: var(--font-weight-semibold);
+          background-color: var(--color-white);
+          border-top-color: var(--color-brand);
+          background-image: url(../images/header/nav-tabs-fletxa.jpg);
+          background-position: 50% 100%;
+          background-repeat: no-repeat;
+        }
+
+        @include respond-to(sm) { width: 135px; }
+      }
+
+      > a.active,
+      &.active > a {
+        color: var(--color-brand);
+        font-weight: var(--font-weight-semibold);
+        border-top: 5px solid var(--color-brand);
+        background: url(../images/header/nav-tabs-fletxa.jpg) 50% 100% no-repeat;
+        background-color: var(--color-white);
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Red sub-nav bar (tab content)
+  // --------------------------------------------------------------------------
+
+  .tab-content {
+    .nav {
+      align-items: center;
+      height: 60px;
+
+      > li {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 3px 3px 0 3px;
+
+        > a {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          color: var(--color-text-inverse);
+          font-weight: var(--font-weight-semibold);
+          font-size: 17px;
+          text-align: center;
+          line-height: 1.3;
+          padding: 0 15px;
+
+          &:hover, &:focus, &:active {
+            color: var(--color-text);
+            background-color: var(--color-bg-menu);
+          }
+        }
+
+        > a.active,
+        .seleccionat {
+          color: var(--color-text);
+          background-color: var(--color-bg-menu);
+        }
+      }
+
+      > li.divider-vertical {
+        height: 60%;
+        margin: 12px 0;
+        padding: 0;
+        border-right: 1px solid var(--color-red-400);
+      }
+
+      .open a {
+        color: var(--color-text);
+        background-color: var(--color-bg-menu);
+      }
+
+      .dropdown {
+        position: relative;
+
+        > a { padding: 0 16px; }
+
+        .dropdown-menu {
+          left: 3px;
+          padding: 20px 20px 25px;
+          box-shadow: 0 3px 3px rgba(0, 0, 0, 0.176);
+          background-color: var(--color-bg-menu);
+          font-size: 14px;
+
+          > li > a {
+            display: block;
+            line-height: 2;
+            padding: 1px 8px;
+            color: var(--color-text);
+            white-space: nowrap;
+
+            &:hover, &:focus {
+              background-color: var(--color-brand-hover);
+              color: var(--color-text-inverse);
+            }
+          }
+        }
+      }
+    }
+
+    @include respond-to(sm) {
+      .nav > li > a,
+      .nav .dropdown > a {
+        padding: 0 10px;
+        font-size: 15px;
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Mega-menu dropdown
+  // --------------------------------------------------------------------------
+
+  .dropdown-megamenu {
+    .dropdown-menu,
+    .cont-sub-menu {
+      left: -260px;
+    }
+
+    .megamenu {
+      min-width: 650px;
+      padding: 5px 5px 0;
+
+      > .row:last-child { margin-top: 18px; }
+
+      .bt-basic {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+      p {
+        font-weight: 300;
+        font-size: 16px;
+      }
+
+      > .row .col-sm-5 p { padding-left: 3px; }
+
+      .thumbnail {
+        display: inline-block;
+        border: none;
+        padding: 6px;
+        margin-bottom: 0;
+      }
+
+      ul {
+        padding-top: 5px;
+
+        li a {
+          padding: 5px 8px;
+          display: block;
+          color: var(--color-text);
+
+          &:hover, &:focus {
+            background-color: var(--color-brand-hover);
+            color: var(--color-text-inverse);
+          }
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Help dropdown (desktop lg)
+  // --------------------------------------------------------------------------
+
+  .navbar-ajuda {
+    height: 90px;
+    font-size: 13px;
+    margin-right: 15px;
+
+    .menu-ajuda-index { z-index: 1000; }
+
+    .nav {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+
+      > li {
+        position: relative;
+
+        > .dropdown-menu {
+          border: 1px solid var(--color-gray-675);
+          border-top: none;
+          box-shadow: none;
+          min-width: 100%;
+          background-color: var(--color-white);
+
+          > li > a {
+            display: block;
+            font-size: 13px;
+            padding: 5px 14px;
+            color: var(--color-text);
+            white-space: nowrap;
+
+            > .center-block { margin-left: 25px; }
+            > i { padding-right: 10px; }
+          }
+        }
+
+        > a {
+          border: 1px solid transparent;
+          padding: 5px 15px;
+          color: var(--color-text);
+
+          &:hover, &:focus, &:active {
+            background-color: var(--color-white);
+            border-color: var(--color-gray-675);
+          }
+
+          i { padding-right: 0; }
+        }
+
+        > a.active {
+          background-color: var(--color-white);
+          border-color: var(--color-gray-675);
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Collaborators link (desktop lg)
+  // --------------------------------------------------------------------------
+
+  .navbar-espai {
+    margin-right: 3px;
+    display: flex;
+    justify-content: flex-end;
+
+    > ul {
+      align-items: center;
+      height: 90px;
+      font-size: 13px;
+
+      > li > a {
+        color: var(--color-text);
+
+        &:hover, &:focus {
+          background-color: var(--color-white);
+          color: var(--color-brand-hover);
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Search bar
+  // --------------------------------------------------------------------------
+
+  .navbar-lupa {
+    position: relative;
+    margin: 0;
+
+    &.hidden-xs {
+      @include respond-from(sm) {
+        width: 60px;
+        min-width: 60px;
+        height: 90px;
+      }
+    }
+
+    .cercador-xs {
+      height: 60px;
+      width: 100%;
+      position: relative;
+
+      .sb-search-input {
+        border-top: 1px solid var(--color-gray-475);
+        border-bottom: none;
+        border-right: 1px solid var(--color-gray-575);
+        border-left: 1px solid var(--color-gray-475);
+      }
+
+      .sb-icon-search {
+        background-color: var(--color-gray-575);
+        color: var(--color-gray-900);
+      }
+    }
+
+    @include respond-to(xs) {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+
+    .sb-search {
+      position: absolute;
+      right: 0;
+      top: 16px;
+      width: 0%;
+      min-width: 60px;
+      height: 60px;
+      overflow: hidden;
+      transition: width 0.3s;
+    }
+
+    .sb-search-input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 1px solid var(--color-gray-575);
+      padding: 18px;
+      outline: none;
+      background: var(--color-white);
+      width: 100%;
+      max-width: 400px;
+      height: 60px;
+      margin: 0;
+      z-index: 10;
+      font-family: inherit;
+      color: var(--color-text);
+
+      &::placeholder { color: var(--color-text); }
+
+      @include respond-to(xs) { max-width: 100%; }
+    }
+
+    .sb-icon-search,
+    .sb-search-submit {
+      width: 60px;
+      height: 60px;
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 55px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .sb-search-submit {
+      background: var(--color-white);
+      opacity: 0;
+      color: transparent;
+      border: none;
+      outline: none;
+      z-index: 100;
+    }
+
+    .sb-icon-search {
+      background-color: var(--color-white);
+      z-index: 90;
+      border: 1px solid var(--color-gray-575);
+      font-size: 24px;
+      color: var(--color-gray-900);
+    }
+
+    .sb-search.sb-search-open,
+    .no-js .sb-search {
+      width: 400px;
+      z-index: 1500;
+
+      @include respond-to(xs) {
+        width: 100%;
+      }
+    }
+
+    .sb-search.sb-search-open .sb-icon-search,
+    .no-js .sb-search .sb-icon-search {
+      background-color: var(--color-gray-575);
+      color: var(--color-gray-900);
+      z-index: 11;
+    }
+
+    .sb-search.sb-search-open .sb-search-submit,
+    .no-js .sb-search .sb-search-submit {
+      z-index: 90;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // News links (desktop top gray bar)
+  // --------------------------------------------------------------------------
+
+  .navbar-noticies {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+
+    .nav {
+      align-items: center;
+      height: 100%;
+    }
+
+    .nav > li {
+      display: block;
+      border-left: 1px solid var(--color-gray-775);
+      align-self: center;
+      margin: 8px 0;
+      line-height: normal;
+
+      > a {
+        display: block;
+        font-size: 12px;
+        color: var(--color-gray-775);
+        padding: 0 15px;
+        line-height: 1.1;
+
+        &:hover, &:focus, &:active {
+          color: var(--color-black);
+          background-color: transparent;
+        }
+      }
+
+      &:last-child > a { padding: 0 0 0 15px; }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // User menu (desktop — maqueta only, not in current Twig)
+  // --------------------------------------------------------------------------
+
+  .navbar-usuari {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+
+    img {
+      // Flex align-items: center handles vertical centering
+    }
+
+    .nav > li {
+      margin-right: 10px;
+      position: relative;
+
+      > a {
+        font-size: 12px;
+        color: var(--color-gray-775);
+        padding: 8px 15px 8px 8px;
+        line-height: 1.1;
+        position: relative;
+        top: -2px;
+
+        > i { font-size: 11px; margin-left: 5px; }
+
+        &:hover, &:focus, &:active {
+          color: var(--color-text);
+          background-color: transparent;
+        }
+      }
+
+      > .dropdown-menu {
+        background-color: var(--color-gray-375);
+        box-shadow: none;
+        left: -28px;
+
+        li > a {
+          display: block;
+          font-size: 12px;
+          color: var(--color-black);
+          padding: 3px 20px 3px 36px;
+        }
+      }
+
+      // Fallback if JS is not running: keep dropdown usable by keyboard/mouse
+      &:focus-within > .dropdown-menu { display: block; }
+      &:hover > .dropdown-menu { display: block; }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Mobile-only sections
+  // --------------------------------------------------------------------------
+
+  .navbar-noticies-xs,
+  .navbar-espai-xs {
+    background-color: var(--color-gray-375);
+    margin: 0;
+    font-size: 13px;
+    list-style: none;
+
+    li {
+      border-bottom: 1px solid var(--color-gray-550);
+
+      a {
+        display: block;
+        padding: 16px;
+        color: var(--color-gray-775);
+      }
+
+      &:last-child { border-bottom: none; }
+    }
+  }
+
+  .navbar-usuari-xs,
+  .navbar-ajuda-xs {
+    > .nav {
+      margin: 0;
+      flex-direction: column;
+
+      > li {
+        border-bottom: 1px solid var(--color-gray-400);
+
+        &:last-child { border: none; }
+
+        > a {
+          display: block;
+          font-weight: bold;
+          padding: 15px;
+          color: var(--color-text);
+
+          > i {
+            font-size: 23px;
+            margin-right: 8px;
+            font-weight: 900;              // parent sets bold; restore FA7 solid weight
+          }
+        }
+      }
+    }
+  }
+
+  // Help / collaborators icon buttons (sm/md tablet)
+  .navbar-ajuda-md,
+  .navbar-espai-md {
+    display: flex;
+    align-items: center;                         // vertical centre within the 90px header row
+    margin-left: auto;                           // replaces legacy float:right — pushes to right edge
+
+    .bt-espai,
+    .bt-ajuda {
+      background-color: transparent;
+      border-radius: 0;
+      margin-right: 23px;
+      padding: 6px 8px;
+      border: none;
+      cursor: pointer;
+
+      > i { font-size: 24px; color: var(--color-text); }
+
+      @media (max-width: 810px) { margin-right: 10px; }
+      @media (max-width: 790px) { margin-right: 3px; }
+    }
+
+    .bt-ajuda {
+      margin-right: 15px;
+      @media (max-width: 810px) { margin-right: 10px; }
+      @media (max-width: 790px) { margin-right: 5px; }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Mobile header buttons (hamburger, search, help, user)
+  // --------------------------------------------------------------------------
+
+  .navbar-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    @include respond-to(xs) {
+      margin-left: -15px;
+      margin-right: -15px;
+      padding: 0;
+
+      .navbar-brand {
+        order: 1;
+        margin-right: auto;
+      }
+
+      .bt-usuari { order: 2; }
+      .bt-ajuda { order: 3; }
+      .bt-lupa-xs { order: 4; }
+      .bt-menu { order: 5; }
+
+      .navbar-toggle {
+        margin: 8px;
+        padding: 6px 4px;
+
+        > i { font-size: 21px; }
+        .fa-magnifying-glass { font-size: 20px; padding: 0; }
+      }
+
+      .bt-menu .navbar-toggle {
+        padding: 8px 7px;
+      }
+    }
+
+    .navbar-toggle,
+    .cd-nav-trigger {
+      background-color: var(--color-brand);
+      border-radius: 0;
+      margin-right: 23px;
+      margin-top: 26px;
+      padding: 6px 8px;
+      border: none;
+      cursor: pointer;
+
+      > i { font-size: 24px; color: var(--color-text-inverse); }
+
+      .fa-magnifying-glass {
+        font-size: 22px;
+        padding: 2px 1px;
+        color: var(--color-gray-900);
+      }
+      .fa-user { padding: 0 1px; }
+
+      .icon-bar {
+        display: block;
+        background-color: var(--color-text-inverse);
+        height: 3px;
+        width: 22px;
+        margin: 3px 0;
+        border-radius: 1px;
+        transition: transform var(--transition-fast), opacity var(--transition-fast), background-color var(--transition-fast);
+      }
+
+      &:active, &:focus {
+        background-color: var(--color-white);
+        border: 1px solid var(--color-gray-400);
+        i { color: var(--color-gray-400); }
+      }
+
+      @include respond-to(xxs) { margin: 8px; }
+    }
+
+    .active {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray-400);
+      i { color: var(--color-gray-400); }
+    }
+
+    .bt-lupa-xs .navbar-toggle {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray-575);
+
+      > i { color: var(--color-gray-900); }
+    }
+
+    .bt-menu {
+      .navbar-toggle {
+        padding: 10px 8px;
+        background-color: var(--color-gray-1050);
+        border: 1px solid var(--color-gray-1050);
+      }
+
+      .active,
+      .nav-is-visible {
+        background-color: var(--color-white);
+        border: 1px solid var(--color-brand);
+
+        .icon-bar {
+          background-color: var(--color-brand);
+          margin: 0;
+
+          &:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+          &:nth-child(2) { opacity: 0; }
+          &:nth-child(3) { transform: translateY(-3px) rotate(-45deg); }
+        }
+      }
+    }
+
+    @include respond-to(xs) {
+      .bt-ajuda .navbar-toggle,
+      .bt-usuari .navbar-toggle,
+      .bt-lupa-xs .navbar-toggle {
+        padding: 6px 4px;
+      }
+
+      .bt-menu .navbar-toggle,
+      .bt-lupa-xs .navbar-toggle {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navbar-toggle > i { font-size: 21px; }
+
+      .navbar-toggle .fa-magnifying-glass {
+        font-size: 20px;
+        padding: 0;
+        color: var(--color-gray-900);
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+} // end .pag-header

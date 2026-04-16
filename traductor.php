@@ -4,8 +4,9 @@
  *
  * @package wp-softcatala
  */
-wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/traductor.js', array('sc-js-main', 'sc-js-metacookie'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-traductor', get_template_directory_uri() . '/static/js/traductor.js', array( 'jquery', 'sc-js-metacookie' ), WP_SOFTCATALA_VERSION, true );
+wp_localize_script( 'sc-js-traductor', 'sc_settings', SC_Settings::get_instance()->get_setting_values() );
 wp_localize_script( 'sc-js-traductor', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));

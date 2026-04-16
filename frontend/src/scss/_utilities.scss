@@ -1,0 +1,417 @@
+// ==========================================================================
+// Utility Classes
+// ==========================================================================
+//
+// Highest specificity — loaded last in main.scss.
+// Contains:
+//   - Accessibility helpers (.sr-only, .visually-hidden)
+//   - Visibility utilities (hidden-xs, visible-xxs-block, etc.)
+//   - Flexbox grid (container-fluid, row, col-*, col-xxs-*)
+//   - Background wraps from global.less (wrap-gris, wrap-blanc, etc.)
+//   - Centering helper (.intern — flexbox)
+//   - Map embed fix
+
+@use 'tokens' as *;
+
+// --------------------------------------------------------------------------
+// Body overflow lock (used by mobile nav)
+// --------------------------------------------------------------------------
+
+// Prevents page scrolling when mobile nav is open.
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+// --------------------------------------------------------------------------
+// Accessibility
+// --------------------------------------------------------------------------
+
+.sr-only,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only-focusable:focus,
+.visually-hidden-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+// --------------------------------------------------------------------------
+// Flexbox grid system (BS3-compatible class names)
+// --------------------------------------------------------------------------
+// Same class names as BS3 (col-xs-*, col-sm-*, etc.) for template compatibility,
+// but built on flexbox instead of floats. No push/pull — use flexbox `order` or
+// restructure HTML if reordering is needed.
+
+.container-fluid {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc($grid-gutter / 2);
+  padding-right: calc($grid-gutter / 2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc($grid-gutter / -2);
+  margin-right: calc($grid-gutter / -2);
+}
+
+// Generate column classes for each breakpoint tier
+// BS3-compat: col-xs-*, col-sm-*, col-md-*, col-lg-*
+//
+// IMPORTANT: In BS3, ALL col-*-N classes share base styles (position, padding,
+// min-height) unconditionally — only `width` is gated by the media query.
+// This ensures that e.g. `col-sm-12` still gets column padding at xs viewport
+// even though the sm width rule doesn't apply yet.
+
+// Step 1: Emit base styles for every col-*-N class (no media query).
+// We gather all prefixes × sizes into one rule with a shared selector.
+@mixin make-column-base($prefix, $full-width-default: false) {
+  @for $i from 1 through 12 {
+    .col-#{$prefix}-#{$i} {
+      position: relative;
+      min-height: 1px;
+      padding-left: calc($grid-gutter / 2);
+      padding-right: calc($grid-gutter / 2);
+      // Columns for higher breakpoints (sm/md/lg) default to 100% width
+      // so they stack properly below their breakpoint in a flex row.
+      @if $full-width-default {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Step 2: Emit width rules only (used inside media queries for sm/md/lg).
+@mixin make-column-widths($prefix) {
+  @for $i from 1 through 12 {
+    .col-#{$prefix}-#{$i} {
+      width: calc(100% * $i / 12);
+    }
+  }
+}
+
+// Column offsets
+@mixin make-offsets($prefix) {
+  @for $i from 0 through 11 {
+    .col-#{$prefix}-offset-#{$i} {
+      margin-left: calc(100% * $i / 12);
+    }
+  }
+}
+
+// --- Base styles (unconditional — no media query) ---
+// Every col-*-N gets padding/position regardless of viewport.
+// sm/md/lg columns default to width: 100% so they stack below their breakpoint.
+@include make-column-base(xs);
+@include make-column-base(sm, true);
+@include make-column-base(md, true);
+@include make-column-base(lg, true);
+@include make-column-base(xxs);
+
+// --- xs widths: always active (no media query) ---
+@include make-column-widths(xs);
+@include make-offsets(xs);
+
+// --- sm widths: from 769px up ---
+@include respond-from(sm) {
+  @include make-column-widths(sm);
+  @include make-offsets(sm);
+}
+
+// --- md widths: from 1025px up ---
+@include respond-from(md) {
+  @include make-column-widths(md);
+  @include make-offsets(md);
+}
+
+// --- lg widths: from 1200px up ---
+@include respond-from(lg) {
+  @include make-column-widths(lg);
+  @include make-offsets(lg);
+}
+
+// --- xxs widths: below 480px (custom Softcatala breakpoint) ---
+@include respond-to(xxs) {
+  .col-xxs-6 {
+    width: 50%;
+  }
+  .col-xxs-12 {
+    width: 100%;
+  }
+}
+
+// --------------------------------------------------------------------------
+// BS3-compatible visibility utilities
+// --------------------------------------------------------------------------
+
+// Hidden at specific breakpoints
+.hidden-xs {
+  @include respond-to(xs) {
+    display: none !important;
+  }
+}
+
+// Hidden unconditionally (JS toggles this class on/off)
+.hidden {
+  display: none !important;
+}
+
+.hidden-sm {
+  @media (min-width: $bp-sm) and (max-width: $bp-sm-max) {
+    display: none !important;
+  }
+}
+
+.hidden-md {
+  @media (min-width: $bp-md) and (max-width: $bp-md-max) {
+    display: none !important;
+  }
+}
+
+.hidden-lg {
+  @include respond-from(lg) {
+    display: none !important;
+  }
+}
+
+// Visible at specific breakpoints (block variant)
+.visible-xs-block {
+  display: none !important;
+  @include respond-to(xs) {
+    display: block !important;
+  }
+}
+
+.visible-sm-block {
+  display: none !important;
+  @media (min-width: $bp-sm) and (max-width: $bp-sm-max) {
+    display: block !important;
+  }
+}
+
+.visible-md-block {
+  display: none !important;
+  @media (min-width: $bp-md) and (max-width: $bp-md-max) {
+    display: block !important;
+  }
+}
+
+.visible-lg-block {
+  display: none !important;
+  @include respond-from(lg) {
+    display: block !important;
+  }
+}
+
+// Custom xxs visibility (from global.less)
+.visible-xxs-block {
+  display: none !important;
+  @include respond-to(xxs) {
+    display: block !important;
+    width: 100%;
+  }
+}
+
+// Inline-block variants
+.visible-xs-inline-block {
+  display: none !important;
+  @include respond-to(xs) {
+    display: inline-block !important;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Background wraps (from global.less)
+// --------------------------------------------------------------------------
+
+.wrap-gris {
+  background-color: var(--color-bg-gray);       // #bdbdbd
+}
+
+.wrap-vermell-header {
+  background-color: var(--color-brand);          // #c43434
+}
+
+.wrap-vermell {
+  background-color: var(--color-brand-hover);    // #e64b3c
+}
+
+.wrap-gris-home {
+  background-color: var(--color-bg-dark);        // #3f3b3a
+}
+
+.wrap-gris-fosc {
+  background-color: var(--color-bg-darker);      // #332f2e
+}
+
+.wrap-blanc {
+  background-color: var(--color-bg-page);        // #fff
+}
+
+// --------------------------------------------------------------------------
+// Centering helper (from global.less)
+// --------------------------------------------------------------------------
+// Was a float-based centering trick. Replaced with flexbox.
+// Used in ~10 Twig templates to center buttons/nav elements.
+
+.intern {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: var(--space-2);
+}
+
+// --------------------------------------------------------------------------
+// Map embed (from global.less)
+// --------------------------------------------------------------------------
+
+.mapa {
+  iframe {
+    border: none;
+  }
+
+  small a {
+    display: none;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Status colors (from variables.less utility classes)
+// --------------------------------------------------------------------------
+
+.green-check {
+  color: var(--color-success);
+}
+
+.red-check {
+  color: var(--color-error);
+}
+
+// --------------------------------------------------------------------------
+// Text and alignment utilities
+// --------------------------------------------------------------------------
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+
+// BS3-compatible .img-responsive — constrains images to their container
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// BS3-compatible .center-block — centers a block element horizontally
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// BS3-compatible list-unstyled
+.list-unstyled {
+  list-style: none;
+  padding-left: 0;
+}
+
+// BS3-compatible .nav base — resets <ul> defaults for navigation lists
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+// --------------------------------------------------------------------------
+// Tradbuttons (from global.less .container-fluid nesting)
+// --------------------------------------------------------------------------
+
+.tradbuttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5); // 20px
+
+  [class*="fa-"] {
+    font-size: 30px;
+    margin-top: -5px;
+    margin-right: var(--space-3);
+  }
+}
+
+// --------------------------------------------------------------------------
+// Collapse behavior (BS3-compatible)
+// --------------------------------------------------------------------------
+// .collapse = hidden, .collapse.in = visible.
+// .navbar-collapse is a special case: collapsed at mobile, always visible
+// at desktop (≥ sm). This replaces the BS3 collapse plugin CSS.
+
+.collapse {
+  display: none;
+
+  &.in {
+    display: block;
+  }
+}
+
+// Sidebar nav: collapsed at mobile (xs), always visible at desktop.
+// At desktop the menu must show even without .in, so we override .collapse.
+.navbar-collapse {
+  @include respond-from(sm) {
+    display: block !important;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Tab pane visibility
+// --------------------------------------------------------------------------
+// Only the active .tab-pane is visible; the rest are hidden.
+
+.tab-pane {
+  display: none;
+  &.active { display: block; }
+}
+
+// --------------------------------------------------------------------------
+// Responsive embeds (video iframes)
+// --------------------------------------------------------------------------
+
+.embed-responsive {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  iframe,
+  embed,
+  object,
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.embed-responsive-16by9 {
+  aspect-ratio: 16 / 9;
+}

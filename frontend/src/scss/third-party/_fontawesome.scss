@@ -1,0 +1,26 @@
+// FontAwesome 7 Free — Web Fonts
+// Imported via SCSS source from @fortawesome/fontawesome-free.
+// No v4 shims — all templates use canonical FA7 class names directly.
+//
+// Styles included:
+//   fas (solid)   — most icons
+//   far (regular) — clock, envelope, keyboard, pen-to-square, image, window-maximize
+//   fab (brands)  — android, apple, facebook-f, github, google-plus-g, linkedin-in,
+//                   linux, telegram, twitter, windows
+//
+// Font path is overridden so Vite can resolve and emit the woff2 files
+// into static/fonts/ with deterministic names.
+
+// Override the font-path to point at the actual woff2 files in node_modules.
+// Vite will resolve these, hash-free emit them to static/fonts/ via assetFileNames.
+@use '@fortawesome/fontawesome-free/scss/variables' with (
+  $font-path: '@fortawesome/fontawesome-free/webfonts'
+);
+
+// Core (base .fa rules, icon definitions, sizing, stacking, animation, etc.)
+@use '@fortawesome/fontawesome-free/scss/fontawesome';
+
+// Font-face declarations + style classes
+@use '@fortawesome/fontawesome-free/scss/solid';
+@use '@fortawesome/fontawesome-free/scss/regular';
+@use '@fortawesome/fontawesome-free/scss/brands';

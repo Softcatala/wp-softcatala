@@ -1,0 +1,201 @@
+// ==========================================================================
+// Layout: Lists
+// ==========================================================================
+//
+// Styled list types: cont-llista, llista-check, llista-gran, breadcrumbs,
+// content section list bullets, multilingue.
+//
+// Source: maqueta/app/assets/less/layouts/llistes.less (183 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Icon triangle list (.cont-llista)
+// ---------------------------------------------------------------------------
+
+.cont-llista {
+  padding: 0;
+  list-style: none;
+
+  li {
+    font-size: 16px;
+    font-weight: 300;
+    padding: 6px;
+
+    &::before {
+      // FA7 chevron-right (solid, \f054)
+      content: "\f054";
+      font-family: "Font Awesome 7 Free";
+      font-weight: 900;
+      font-size: 13px;
+      color: var(--color-link-hover);
+      margin-right: 15px;
+    }
+
+    a {
+      // No explicit color — inherits global a { color: var(--color-link) }
+      // (red), matching the old BS3 site where the Less @gray-dark rule was
+      // overridden by the higher-specificity global a color.
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--color-link-hover);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Default list bullets for content sections (chevron icon)
+// ---------------------------------------------------------------------------
+// Only targets <ul> without a class attribute — lists with their own class
+// (.cont-llista, .llista-check, .pagination, .dropdown-menu, etc.) are
+// naturally excluded and no longer need !important opt-outs.
+
+.contingut > section ul:not([class]) {
+  padding: 0;
+  list-style: outside none none;
+
+  li {
+    font-size: 16px;
+    line-height: 2;
+    padding: 6px;
+  }
+
+  li::before {
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    content: '\f054';
+    color: var(--color-brand);
+    font-size: 13px;
+    margin: 0 15px 0 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Breadcrumbs
+// ---------------------------------------------------------------------------
+
+div.container-fluid {
+  .breadcrumbs ul {
+    margin-top: 10px;
+    list-style: outside none none;
+
+    li {
+      display: inline;
+      font-size: 14px;
+
+      a { color: var(--color-gray-800); }
+    }
+
+    li:first-child::before {
+      content: "";
+      margin: 0 0 0 15px;
+    }
+
+    li::before {
+      font-family: "Font Awesome 7 Free";
+      font-weight: 900;
+      content: '\f105';
+      color: var(--color-gray-800);
+      font-size: 14px;
+      margin-left: 3px;
+      margin-right: 7px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Checklist (.llista-check)
+// ---------------------------------------------------------------------------
+
+.llista-check {
+  margin: 10px 0;
+
+  li {
+    font-size: 15px;
+    font-weight: bold;
+
+    a {
+      color: var(--color-black);
+      background-color: var(--color-bg-light);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      padding: 10px 15px 10px 20px;
+
+      i {
+        color: var(--color-gray-875);              // #727272
+        font-size: 36px;
+        margin-right: 15px;
+        flex-shrink: 0;
+        font-weight: 900;                          // parent sets bold; restore FA7 solid weight
+      }
+
+      span {
+        padding: 6px 15px;
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: var(--color-white);
+        background-color: var(--color-link-hover);
+
+        i { color: var(--color-white); }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Large list (.llista-gran)
+// ---------------------------------------------------------------------------
+// Always used with .cont-llista. Uses inline <i> icons inside the <a>
+// (larger, 22px) instead of the ::before chevron that .cont-llista generates.
+
+.llista-gran {
+  li {
+    border-bottom: 1px solid #d2cfc5;
+
+    &::before {
+      content: none;                   // suppress .cont-llista li::before
+    }
+
+    > a {
+      color: var(--color-text);
+      font-size: 18px;
+      font-weight: normal;
+      padding: 17px;
+      display: block;
+
+      &:hover {
+        color: var(--color-link-hover);
+        text-decoration: none;
+
+        i { color: var(--color-link-hover); }
+      }
+
+      > i {
+        font-size: 22px;
+        color: var(--color-text);
+        margin-right: 20px;
+        font-weight: 900;                          // parent sets normal; restore FA7 solid weight
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Multilingual letters list
+// ---------------------------------------------------------------------------
+
+ul.multilingue_lletres {
+  li > a {
+    color: var(--color-text);
+
+    &:hover {
+      color: var(--color-link-hover);
+      text-decoration: none;
+    }
+  }
+}

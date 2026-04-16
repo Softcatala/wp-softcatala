@@ -6,7 +6,7 @@
                     {% if logotip %}
                         <img class="img-responsive" src="{{ logotip }}" class="imatge-logotip-programa" alt="logo {{ post.title }}">
                     {% else %}
-                        <i style="font-size: 152px" class="fa fa-cogs"></i>
+                        <i style="font-size: 152px" class="fas fa-gears"></i>
                     {% endif %}
                 </div>
                 <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
@@ -16,7 +16,7 @@
                         {% if post.lloc_web_projecte %}
                             <li>
                                 <strong>
-                                    <i class="fa fa-window-maximize" aria-hidden="true"></i>
+                                    <i class="far fa-window-maximize" aria-hidden="true"></i>
                                     Lloc web:
                                 </strong>
                                 <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>
@@ -24,7 +24,7 @@
                         {% if post.telegram %}
                             <li>
                                 <strong>
-                                    <i class="fa fa-telegram" aria-hidden="true"></i>
+                                    <i class="fab fa-telegram" aria-hidden="true"></i>
                                     Grup del Telegram:
                                 </strong>
                                 <a href="https://t.me/{{ post.telegram }}">{{ post.telegram }}</a></li>
@@ -32,7 +32,7 @@
                         {% if responsables %}
                             <li>
                                 <strong>
-                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <i class="fas fa-user" aria-hidden="true"></i>
                                     Responsable:
                                 </strong>
                                 {% for responsable in responsables %}
@@ -50,7 +50,7 @@
                         {% endfor %}
                     {% endif %}
                     {% if not is_arxivat %}
-                    <a href="/col·laboreu/projecte/{{ post.slug }}/" title="Col·laboreu en el projecte {{ post.title }} de Softcatalà" class="bt-download-invers bt-collaboreu"><i class="fa fa-user-plus"></i><span>Col&middot;laboreu en el projecte</span></a>
+                    <a href="/col·laboreu/projecte/{{ post.slug }}/" title="Col·laboreu en el projecte {{ post.title }} de Softcatalà" class="bt-download-invers bt-collaboreu"><i class="fas fa-user-plus"></i><span>Col&middot;laboreu en el projecte</span></a>
                     {% endif %}
                     <footer class="footer-main-header-gris">
                         {% include "share_links.twig" %}
@@ -62,11 +62,11 @@
         <div class="menu-main-header-gris">
             <!-- .boto-menu-lateral gris - xs -->
             <div class="visible-xs-block boto-menu-lateral">
-                <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
-                    <i class="fa fa-bars"></i>
-                    <p>Taula de continguts</p>
-                    <i class="fa fa-chevron-down"></i>
-                </a>
+                <button class="bt-menu-lateral" type="button" data-target="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="menu-lateral">
+                    <i class="fas fa-bars"></i>
+                    <span>Taula de continguts</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div><!--/.boto-menu-lateral gris - xs -->
             <!-- #menu-lateral -->
             <ul class="nav collapse navbar-collapse" id="menu-lateral">

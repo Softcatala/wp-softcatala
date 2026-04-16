@@ -1,0 +1,135 @@
+// ==========================================================================
+// Layout: Devices (Aparells Plus)
+// ==========================================================================
+//
+// Device listings with accordion panels showing OS compatibility.
+//
+// Source: maqueta/app/assets/less/layouts/layout-aparells-plus.less (131 lines)
+
+@use '../tokens' as *;
+
+.aparells-plus {
+  .contingut > header {
+    h1 { margin-bottom: 10px; }
+
+    p {
+      font-size: 13px;
+      font-weight: normal;
+      margin-bottom: 30px;
+    }
+  }
+
+  .filtres {
+    margin-top: 20px;
+  }
+
+  .acordio-aparells {
+    .panel {
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      border-bottom: 1px solid var(--color-bg-light);
+
+      a { color: var(--color-text); }
+
+      .panel-heading {
+        border-radius: 0;
+        padding: 10px 40px 10px 0;
+
+        h4 {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        .so_aparell_icon { margin-top: 10px; }
+
+        // Parent col containing logo + OS name text
+        [class*="col"]:has(.logo-aparell) {
+          display: flex;
+          align-items: center;
+        }
+
+        .logo-aparell {
+          margin-right: 10px;
+          flex-shrink: 0;
+        }
+
+        span {
+          font-size: 11px;
+          line-height: 2.6;
+        }
+
+        ul li {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+          font-size: 13px;
+          padding: 3px;
+
+          i {
+            order: 1;
+          }
+
+          .fa-check { color: var(--color-success); }
+          .fa-xmark { color: var(--color-error); }
+        }
+
+        @include respond-to(xxs) {
+          ul li { justify-content: space-between; }
+        }
+      }
+
+      .panel-collapse {
+        @include collapse-transition(2000px);
+      }
+
+      .panel-collapse .panel-body {
+        border-top: none;
+        padding: 30px 0 40px 0;
+
+        h2 {
+          margin-top: 0;
+          display: inline-block;
+          font-weight: 300;
+        }
+
+        h3 {
+          color: var(--color-gray-625);            // #a0a0a0
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 300;
+        }
+
+        i {
+          color: var(--color-gray-625);
+          display: inline-block;
+        }
+
+        ul li {
+          font-size: 13px;
+
+          strong {
+            font-weight: bold;
+            margin-top: 12px;
+            display: block;
+          }
+        }
+
+        img {
+          display: block;
+          margin: 0 auto;
+        }
+
+        @include respond-to(sm) {
+          img { margin: 0; }
+        }
+      }
+
+      .panel-collapse .comentaris {
+        margin-top: 50px;
+      }
+    }
+  }
+}

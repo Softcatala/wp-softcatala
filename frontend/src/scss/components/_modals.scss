@@ -1,0 +1,114 @@
+// ==========================================================================
+// Modals
+// ==========================================================================
+//
+// Full modal overlay system replacing BS3 modal.js + modal.less.
+// Uses class-based toggling (.in) managed by modal.ts.
+//
+// Structure:
+//   .modal.fade            — hidden overlay (opacity 0, pointer-events none)
+//   .modal.fade.in         — visible overlay (opacity 1, pointer-events auto)
+//     .modal-dialog        — centered dialog container
+//       .modal-content     — white content box
+//         .close           — X button (positioned above content)
+//
+// Source: BS3 core modals + maqueta/app/assets/less/components/modals.less
+
+@use '../tokens' as *;
+
+// ── Modal overlay (backdrop + container) ─────────────────
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Semi-transparent backdrop via ::before
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+}
+
+// ── Fade transition ──────────────────────────────────────
+.modal.fade {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.fade.in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+// ── Dialog container ─────────────────────────────────────
+.modal-dialog {
+  margin: 60px auto;
+  position: relative;
+  width: auto;
+
+  .modal-content {
+    position: relative;
+    padding: 30px 30px 60px 30px;
+    background: var(--color-white);
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+
+    @include respond-to(xs) {
+      margin: 30px;
+    }
+
+    .close {
+      position: absolute;
+      top: -35px;
+      right: 0;
+      color: var(--color-white);
+      opacity: 1;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .form-botons {
+      .bt-basic-gris {
+        margin-top: 40px;
+        display: block;
+        margin-left: auto;
+      }
+
+      .bt-basic-vermell-fosc {
+        margin-top: 40px;
+      }
+
+      @include respond-to(xxs) {
+        .form-boto,
+        .bt-basic-vermell-fosc,
+        .bt-basic-gris {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// ── Size variant ─────────────────────────────────────────
+.modal-lg {
+  @media (min-width: 900px) {
+    width: 900px;
+  }
+}
+
+// ── Body scroll lock (added/removed by modal.ts) ────────
+body.modal-open {
+  overflow: hidden;
+}

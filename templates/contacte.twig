@@ -13,11 +13,11 @@
 				<!-- .contingut -->
 				<div class="contingut contingut-left col-sm-9">
 					<!-- .contingut-header -->
-					<header class="contingut-header">
+					<header>
 						<p>{{  post.post_excerpt }}</p>
 
 						{% if post.text_baixada_principal %}
-							<a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fa fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
+							<a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fas fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
 						{% endif %}
 
 						{% if post.thumbnail.src %}
@@ -28,18 +28,18 @@
 					<!--/.contingut-header -->
 
 					<!-- section paragraf -->
-					<section class="contingut-section">{{  post.content }}
+					<section>{{  post.content }}
 
                         <div class="formulari">
 
-                          <section class="contingut-section" id="contingut-formulari-response" style="display:none">
+                          <section id="contingut-formulari-response" style="display:none">
 							  <span id="message_response">Gràcies per posar-vos en contacte amb nosaltres. Us contactarem aviat.<br/><br/></span>
 
 							  <a class="bt-basic bt-basic-vermell" style="color: #FFFFFF" href="/" title="Pàgina d'inici de Softcatalà">Continueu navegant pel web...</a>
                           </section>
 
                           <!-- section -->
-                          <section class="contingut-section" id="contingut-formulari">
+                          <section id="contingut-formulari">
                             <form class="form-horizontal" id="report_form" method="post">
                               <!-- camp -->
                               <div class="form-group">

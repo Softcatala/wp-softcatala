@@ -20,7 +20,7 @@
      aria-label="{{ td.title }}">
 
     <div class="kanban-card__handle" aria-hidden="true">
-        <span class="fa fa-bars"></span>
+        <span class="fas fa-bars"></span>
     </div>
 
     <div class="kanban-card__body">
@@ -42,21 +42,21 @@
                 <span class="kanban-card__badge kanban-card__badge--due"
                       data-due="{{ td.data_venciment }}"
                       title="Data de venciment: {{ td.data_venciment }}">
-                    <i class="fa fa-calendar-o" aria-hidden="true"></i>{{ td.data_venciment }}
+                    <i class="fas fa-calendar-days-o" aria-hidden="true"></i>{{ td.data_venciment }}
                 </span>
                 {% endif %}
 
                 {% if td.milestone_title %}
                 <span class="kanban-card__badge kanban-card__badge--milestone"
                       title="Milestone: {{ td.milestone_title }}">
-                    <i class="fa fa-flag-o" aria-hidden="true"></i>{{ td.milestone_title }}
+                    <i class="far fa-flag" aria-hidden="true"></i>{{ td.milestone_title }}
                 </span>
                 {% endif %}
 
                 {% if td.tag_slugs %}
                 <span class="kanban-card__badge kanban-card__badge--tags"
                       title="Etiquetes: {{ td.tag_slugs|replace({',': ', '}) }}">
-                    <i class="fa fa-tag" aria-hidden="true"></i>{{ td.tag_slugs|replace({',': ', '}) }}
+                    <i class="fas fa-tag" aria-hidden="true"></i>{{ td.tag_slugs|replace({',': ', '}) }}
                 </span>
                 {% endif %}
 

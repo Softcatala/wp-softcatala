@@ -1,0 +1,167 @@
+// ==========================================================================
+// Layout: Comments
+// ==========================================================================
+//
+// Source: maqueta/app/assets/less/layouts/comentaris.less (141 lines)
+
+@use '../tokens' as *;
+
+.comentaris {
+  hr {
+    border-color: var(--color-border-dark);        // #aba9a9
+    margin: 40px 0 20px 0;
+  }
+
+  img {
+    margin-top: 5px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .article-comentari {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    > img,
+    > i {
+      margin-right: 20px;
+    }
+
+    // Nested comments and reply forms take full width below
+    > .article-comentari {
+      width: 100%;
+    }
+  }
+
+  .comentari-header {
+    margin-bottom: 30px;
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      margin-top: 0;
+      font-weight: 300;
+    }
+
+    .bt-basic {
+      padding: 12px 16px;
+    }
+  }
+
+  .cont-rating {
+    display: inline-block;
+  }
+
+  .bt-mes {
+    font-size: 11px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+
+    i { padding: 0 0 0 20px; }
+  }
+
+  .bt-mes-disabled {
+    border-color: var(--color-bg-light);
+    color: var(--color-bg-light);
+  }
+
+  .respondre {
+    i {
+      font-size: 33px;
+      background-color: #e2e7ea;
+      color: var(--color-gray-800);                // #797979
+      padding: 10px;
+      width: 48px;
+      height: 48px;
+    }
+
+    @include respond-to(xxs) {
+      margin-left: 0 !important;
+    }
+  }
+
+  .cont-respondre {
+    padding: 0 10px 35px 0;
+    flex: 1;
+    min-width: 0;
+
+    .form-botons {
+      display: flex;
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0 10px;
+
+      .bt-basic-vermell-fosc,
+      .bt-basic-gris {
+        font-size: 11px;
+        padding: 6px 20px;
+        margin-bottom: 10px;
+      }
+
+      .sessio {
+        font-size: 13px;
+        color: var(--color-gray-800);
+        padding: 5px 10px;
+
+        &:hover {
+          color: var(--color-link-hover);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .article-comentari .article-comentari {
+    margin-left: 68px;
+    margin-bottom: 20px;
+  }
+
+  .cont-comentari {
+    padding: 0 10px 15px 0;
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: none;                          // reset .contingut > section h3 uppercase
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .data {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: normal;
+      color: var(--color-gray-800);
+      margin-left: 5px;
+    }
+
+    p {
+      margin: 5px 0 0 0;
+      line-height: 1.5;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    a {
+      font-size: 13px;
+      color: var(--color-gray-800);
+
+      &:hover,
+      &:focus {
+        color: var(--color-link-hover);
+        text-decoration: none;
+      }
+    }
+
+    .active {
+      color: var(--color-link-hover);
+      text-decoration: none;
+    }
+  }
+}

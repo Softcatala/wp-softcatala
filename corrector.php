@@ -6,10 +6,10 @@
  */
 
 /* JS scripts */
-$deps = array('sc-js-main', 'sc-js-corrector-vite-client');
+$deps = array('sc-js-corrector-vite-client');
 
-wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-corrector-vite-client', get_template_directory_uri() . '/static/js/corrector/client.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-corrector-vite-client', get_template_directory_uri() . '/static/js/corrector/client.js', array(), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', $deps, WP_SOFTCATALA_VERSION, true );
 #wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', $deps, WP_SOFTCATALA_VERSION, true );
 
@@ -26,10 +26,6 @@ function add_module_to_my_script($tag, $handle, $src)
     return $tag;
 }
 
-
-wp_localize_script( 'sc-js-corrector-1', 'scajax', array(
-    'ajax_url' => admin_url( 'admin-ajax.php' )
-));
 
 $context = Timber::context();
 $context['api_languagetool'] = get_option('api_languagetool');

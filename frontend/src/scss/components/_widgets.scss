@@ -1,0 +1,18 @@
+// ==========================================================================
+// Widgets
+// ==========================================================================
+//
+// Small widget components.
+//
+// Source: maqueta/app/assets/less/components/widgets.less (8 lines)
+
+@use '../tokens' as *;
+
+.catalanitzador_sessions {
+  color: var(--color-white);
+  position: absolute;
+  font-weight: bold;
+  top: 25px;
+  left: 40px;
+  font-size: 32px;
+}

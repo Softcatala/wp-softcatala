@@ -7,8 +7,8 @@
  * @package  wp-softcatala
  */
 //JS and Styles related to the page
-wp_enqueue_script( 'sc-js-esdeveniments', get_template_directory_uri() . '/static/js/esdeveniments.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-novetats', get_template_directory_uri() . '/static/js/novetats.js', array('sc-js-main'), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-esdeveniments', get_template_directory_uri() . '/static/js/esdeveniments.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-novetats', get_template_directory_uri() . '/static/js/novetats.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 wp_localize_script( 'sc-js-novetats', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));

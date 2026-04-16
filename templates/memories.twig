@@ -12,16 +12,16 @@
                 <!-- .contingut -->
                 <div class="contingut contingut-left col-sm-12">
                 <!-- .contingut-header -->
-                    <header class="contingut-header">
+                    <header>
                         <p>{{  post.post_excerpt }}</p>
                     </header>
                     <!--/.contingut-header -->
-                    <section class="contingut-section">
+                    <section>
                         <h2>Cerca a les memòries de traducció</h2>
                         {% include 'search-memories.twig' %}
                     </section>
                     <!-- section paragraf -->
-                    <section class="contingut-section baixada-memories">
+                    <section class="baixada-memories">
                         <h2>Baixa les memòries de traducció</h2>
                         {{  post.content }}
                         <table>
@@ -64,7 +64,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <em class="fa fa-search"
+                                        <em class="fas fa-magnifying-glass"
                                             title="Cerca només en aquest projecte (pestanya nova)"
                                             style="cursor: pointer;color: maroon;"
                                             onclick="filteredSearch('{{  project.project_id }}')"

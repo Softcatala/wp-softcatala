@@ -1,0 +1,148 @@
+// ==========================================================================
+// Layout: Left sidebar menu
+// ==========================================================================
+//
+// Navigation menu in the left column, collapsible on mobile.
+//
+// Source: maqueta/app/assets/less/layouts/menu-esquerra.less (133 lines)
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Left sidebar nav (.aside-left)
+// ---------------------------------------------------------------------------
+
+.aside-left {
+  .nav li {
+    border-bottom: 1px solid var(--color-border-dark); // #aba9a9
+  }
+
+  .nav li.current_page_item a {
+    color: var(--color-link-hover);
+  }
+
+  .nav li {
+    a {
+      display: block;
+      padding: 10px 15px 10px 0;
+      color: var(--color-text);
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: var(--color-link-hover);
+      }
+
+      i { padding-right: 10px; }
+    }
+
+    // Nested nav (sub-menu)
+    .nav li {
+      border: none;
+
+      a {
+        padding: 0 15px 8px 20px;
+        color: var(--color-gray-775);              // #7b7b7b (Less @gray)
+        font-size: 13px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: var(--color-link-hover);
+        }
+
+        i {
+          font-size: 4px;
+          position: relative;
+          top: -3px;
+        }
+      }
+    }
+  }
+}
+
+.navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Mobile menu toggle button (.boto-menu-lateral)
+// ---------------------------------------------------------------------------
+// Rewritten with flexbox instead of absolute positioning.
+// Three cells: [hamburger] [label] [chevron], all vertically centred.
+
+.boto-menu-lateral {
+  button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-text);
+    color: var(--color-white);
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    min-height: 54px; // match old maqueta bar height
+  }
+
+  .fa-bars {
+    flex: 0 0 auto;
+    padding: 0 10px;
+    font-size: 24px;
+  }
+
+  span {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0 10px;
+    text-align: left;
+  }
+
+  .fa-chevron-down {
+    flex: 0 0 54px;        // fixed-width box matching old maqueta
+    text-align: center;
+    border-left: 1px solid var(--color-text-muted);
+    align-self: stretch;   // fill the bar height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  // Chevron rotation when menu is open (JS toggles .active on .bt-menu-lateral)
+  .active .fa-chevron-down {
+    border-left: none;
+    border-right: 1px solid var(--color-text-muted);
+    transform: rotate(180deg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mobile responsive
+// ---------------------------------------------------------------------------
+
+@include respond-to(xs) {
+  aside.aside-left {
+    padding-left: 0;
+    padding-right: 0;
+
+    .navbar-collapse {
+      @include collapse-transition;
+    }
+
+    .nav li {
+      border-color: var(--color-border);
+
+      a {
+        padding: 16px 16px 16px 45px;
+
+        i { display: none; }
+      }
+
+      .nav li a {
+        padding: 8px 16px 14px 45px;
+      }
+    }
+  }
+}

@@ -10,11 +10,11 @@
             <div class="menu-main-header-gris" style="border-bottom: 0;">
                 <!-- .boto-menu-lateral gris - xs -->
                 <div class="visible-xs-block boto-menu-lateral">
-                    <a class="bt-menu-lateral" href="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="#menu-lateral">
-                        <i class="fa fa-bars"></i>
-                        <p>Taula de continguts</p>
-                        <i class="fa fa-chevron-down"></i>
-                    </a>
+                    <button class="bt-menu-lateral" type="button" data-target="#menu-lateral" data-toggle="collapse" aria-expanded="false" aria-controls="menu-lateral">
+                        <i class="fas fa-bars"></i>
+                        <span>Taula de continguts</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
                 </div><!--/.boto-menu-lateral gris - xs -->
                 <!-- #menu-lateral -->
                 <ul class="nav collapse navbar-collapse" id="menu-lateral">
@@ -32,13 +32,13 @@
         <!-- .contingut -->
         <div class="contingut">
             <!-- .contingut-header -->
-            <header class="contingut-header">
+            <header>
                 <p>{{ post.content }}</p>
             </header><!--/.contingut-header -->
 
 
             <!-- section paragraf + thumb gris img -->
-            <section class="contingut-section">
+            <section>
 
                 <!-- .row -->
                 <div class="row">
@@ -53,12 +53,12 @@
                                         <img src="{{ project_img|resize(90, 90, 'top') }}" alt="logotip {{ post.title }}">
                                     </div>
                                 {% else %}
-                                    <i style="font-size: 90px" class="fa fa-cogs"></i>
+                                    <i style="font-size: 90px" class="fas fa-gears"></i>
                                 {% endif %}
                                 <div class="caption">
                                     <h3>{{ post.title }}</h3>
                                     <p>{{ post.post_excerpt|truncate_words(20) }}</p>
-                                    <span class="bt-aneu">col·laboreu-hi<i class="fa fa-chevron-right"></i></span>
+                                    <span class="bt-aneu"><i class="fas fa-chevron-right"></i> col·laboreu-hi</span>
                                 </div>
                             </a>
                             {% if post.projecte_destacat %}
@@ -78,7 +78,7 @@
             </section><!-- section paragraf + thumb gris img -->
 
             <!--/.contingut-footer -->
-            <footer class="contingut-footer">
+            <footer>
                 <div class="row">
                     <div class="col-sm-9">
                         {% for element in sidebar_elements %}

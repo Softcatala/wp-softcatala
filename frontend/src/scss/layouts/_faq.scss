@@ -1,0 +1,91 @@
+// ==========================================================================
+// Layout: FAQ (PMF)
+// ==========================================================================
+//
+// Source: maqueta/app/assets/less/layouts/layout-pmf.less (89 lines)
+
+@use '../tokens' as *;
+
+.pmf {
+  // .pmf and .contingut are on the same element, so use &.contingut
+  &.contingut > header {
+    background-color: var(--color-bg-light);
+    padding: 18px 55px 36px 35px;
+    position: relative;
+
+    .bt-collapse-pmf {
+      border: 1px solid var(--color-gray-800);     // #797979
+      color: var(--color-gray-800);
+      width: 35px;
+      height: 35px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      i {
+        padding: 8px 7px;
+        font-size: 19px;
+      }
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: normal;
+    }
+
+    .nav-anchor {
+      @include collapse-transition;
+
+      h2 { margin: 20px 0 10px; }
+      .nav { margin-bottom: 10px; }
+    }
+
+    .nav-anchor .nav a {
+      font-size: 14px;
+      color: var(--color-text);
+      font-weight: 300;
+
+      i {
+        margin-right: 10px;
+        font-weight: 900;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--color-link-hover);
+      }
+    }
+  }
+
+  &.contingut > section h2 {
+    margin: 40px 0 30px 0;
+
+    @include respond-to(xs) {
+      font-size: 20px;
+    }
+  }
+
+  article {
+    h3 { margin-bottom: 0; }
+
+    .bt-gris {
+      margin: 4px 0;
+      width: 100%;
+    }
+
+    .bt-up {
+      padding: 8px 16px;
+      margin: 20px 0 8px 0;
+      display: block;
+      margin-left: auto;
+      width: fit-content;
+
+      &:hover {
+        text-decoration: none;
+        color: var(--color-text);
+      }
+    }
+
+    img { margin: 20px 0; }
+  }
+}

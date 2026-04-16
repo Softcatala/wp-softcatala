@@ -5,44 +5,30 @@
     <main class="main wrap-blanc home">
 
       {% include "slider.twig" %}
-      <!-- .wrap-blanc -->
-      <div class="wrap-blanc">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .recursos-serveis  -->
-          <section class="contingut-section recursos-serveis">
-            <h3>Recursos i serveis</h3>
-            <h1>Viure i treballar en català</h1>
-            <div class="row">
-              {% include "home/recursos.twig" %}
+      <!-- .recursos-serveis  -->
+      <section class="recursos-serveis">
+        <h3>Recursos i serveis</h3>
+        <h1>Viure i treballar en català</h1>
+        <div class="row">
+          {% include "home/recursos.twig" %}
 
-              {% include "home/programari.twig" %}
-            </div><!--/.row  -->
-          </section><!--/.recursos-serveis -->
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-blanc -->
+          {% include "home/programari.twig" %}
+        </div><!--/.row  -->
+      </section><!--/.recursos-serveis -->
 
       {% include "home/qui-som.twig" %}
       {% include "home/voleu-ajudar.twig" %}
-      
 
-      <!-- .wrap-blanc -->
       {% if esdeveniments or posts %}
-      <div class="wrap-blanc">
-        <!-- .container-fluid -->
-        <div class="container-fluid">
-          <!-- .actualitat  -->
-          <section class="contingut-section actualitat">
-            <h3>Actualitat</h3>
-            <div class="row">
-              {% include "home/noticies.twig" %}
+      <!-- .actualitat  -->
+      <section class="actualitat">
+        <h3>Actualitat</h3>
+        <div class="row">
+          {% include "home/noticies.twig" %}
 
-              {% include "home/podcasts.twig" %}
-            </div><!--/.row -->
-          </section><!--/.actualitat -->
-
-        </div><!--/.container-fluid -->
-      </div><!--/.wrap-blanc -->
+          {% include "home/podcasts.twig" %}
+        </div><!--/.row -->
+      </section><!--/.actualitat -->
       {% endif %}
     </main><!--/.main .wrap-blanc -->
 {% endblock %}

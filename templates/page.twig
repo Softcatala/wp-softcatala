@@ -18,11 +18,11 @@
 				<div class="contingut contingut-left col-sm-9">
 				{% endif %}
 					<!-- .contingut-header -->
-					<header class="contingut-header">
+					<header>
 						<p>{{  post.post_excerpt }}</p>
 
 						{% if post.text_baixada_principal %}
-							<a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fa fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
+							<a href="{{ post.baixada_principal }}" class="bt-download" type="button"><i class="fas fa-download"></i><span>{{ post.text_baixada_principal }}</span></a>
 						{% endif %}
 
 						{% if post.thumbnail.src and not post.hide_featured_image_in_header %}
@@ -33,7 +33,7 @@
 					<!--/.contingut-header -->
 
 					<!-- section paragraf -->
-					<section class="contingut-section">{{  post.content }}</section>
+					<section>{{  post.content }}</section>
 					<!--/ section paragraf -->
 
 				</div><!--/.contingut -->

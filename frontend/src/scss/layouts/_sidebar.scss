@@ -1,0 +1,65 @@
+// ==========================================================================
+// Layout: Sidebar (right column + gray boxes + links)
+// ==========================================================================
+//
+// Source: maqueta/app/assets/less/layouts/columna-dreta.less (67 lines)
+
+@use '../tokens' as *;
+
+// Right sidebar wrapper
+.aside-right {
+  margin-bottom: 60px;
+}
+
+// Gray info boxes (sidebar + content footer)
+.caixa-gris {
+  border: 1px solid var(--color-gray-525);        // #bdbdbd
+  padding: 20px 20px 10px 20px;
+  margin: 30px 0;
+
+  p {
+    font-weight: bold;
+    color: var(--color-black);
+  }
+
+  a {
+    color: var(--color-text);
+    display: flex;
+    gap: 11px;
+    margin-bottom: 10px;
+    font-size: 13px;
+
+    i {
+      font-size: 24px;
+    }
+
+    span {
+      display: block;
+    }
+
+    em {
+      display: block;
+      color: var(--color-link-hover);
+      font-style: normal;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+// Links section
+.enllacos {
+  p {
+    font-weight: normal;
+    font-size: 13px;
+    color: var(--color-text);
+  }
+
+  a {
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+}
