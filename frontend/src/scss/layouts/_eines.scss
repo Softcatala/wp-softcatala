@@ -199,6 +199,16 @@
     justify-content: space-between;
     align-items: flex-start;
 
+    // When rendered by the React corrector app, the bar sits inside
+    // .editor-wrapper and needs side borders + vertical padding.
+    .editor-wrapper & {
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      margin: 0;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
     .formes {
       color: var(--color-gray-825);
       margin-top: 10px;
