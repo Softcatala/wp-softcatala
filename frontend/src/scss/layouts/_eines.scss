@@ -192,65 +192,6 @@
   // Corrector
   // ========================================================================
 
-  .btns-corrector {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    // When rendered by the React corrector app, the bar sits inside
-    // .editor-wrapper and needs side borders + vertical padding.
-    .editor-wrapper & {
-      border-left: 1px solid #ddd;
-      border-right: 1px solid #ddd;
-      margin: 0;
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-
-    .formes {
-      color: var(--color-gray-825);
-      margin-top: 10px;
-      background-color: var(--color-bg-menu);
-      padding: 7px 25px 7px 15px;
-      font-size: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-
-      p {
-        font-weight: bold;
-        margin: 0 20px 0 0;
-        font-size: 14px;
-      }
-
-      .radio-inline {
-        margin-right: 10px;
-        margin-top: 5px;
-        padding-top: 0;
-      }
-    }
-
-    @include respond-to(xs) {
-      .formes {
-        padding: 7px 25px 14px 15px;
-        flex-direction: column;
-        align-items: flex-start;
-
-        .radio-inline {
-          display: block;
-          margin-left: 0;
-        }
-      }
-    }
-
-    .btn-right {
-      margin-left: auto;
-      margin-top: 10px;
-    }
-  }
-
   // ========================================================================
   // Diccionari
   // ========================================================================
@@ -527,4 +468,75 @@ p.fons-gris {
   margin-top: 25px !important;
   margin-bottom: 10px;
   font-weight: normal !important;
+}
+
+// ==========================================================================
+// Corrector toolbar (.btns-corrector)
+//
+// Two rendering contexts:
+//   1. Legacy corrector  — .formulari-eines > .btns-corrector
+//   2. React corrector   — .editor-wrapper > .btns-corrector
+//      (.editor-wrapper and .formulari-eines are on the SAME element, so
+//       the .formulari-eines descendant selector above does not match)
+// ==========================================================================
+
+.formulari-eines .btns-corrector,
+.editor-wrapper > .btns-corrector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+
+  .formes {
+    color: var(--color-gray-825);
+    margin-top: 10px;
+    background-color: var(--color-bg-menu);
+    padding: 7px 25px 7px 15px;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    p {
+      font-weight: bold;
+      margin: 0 20px 0 0;
+      font-size: 14px;
+    }
+
+    .radio-inline {
+      margin-right: 10px;
+      margin-top: 5px;
+      padding-top: 0;
+    }
+  }
+
+  .btn-right {
+    margin-left: auto;
+    margin-top: 10px;
+  }
+
+  @include respond-to(xs) {
+    align-items: flex-start;
+
+    .formes {
+      padding: 7px 25px 14px 15px;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .radio-inline {
+        display: block;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+// React corrector: side borders + padding on the toolbar bar
+.editor-wrapper > .btns-corrector {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  margin: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
