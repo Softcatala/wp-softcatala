@@ -396,6 +396,10 @@
             margin-top: -1px;
           }
 
+          span {
+            display: none;
+          }
+
           img {
             display: block;
             width: 100%;
@@ -404,6 +408,12 @@
             object-position: top center;
           }
         }
+
+        > li.tab-windows a { background: url('../images/content/img-home-windows.jpg') no-repeat top center; }
+        > li.tab-linux   a { background: url('../images/content/img-home-linux.jpg')   no-repeat top center; }
+        > li.tab-osx     a { background: url('../images/content/img-home-osx.jpg')     no-repeat top center; }
+        > li.tab-android a { background: url('../images/content/img-home-android.jpg') no-repeat top center; }
+        > li.tab-ios     a { background: url('../images/content/img-home-ios.jpg')     no-repeat top center; }
 
         > li.active > a,
         > li.active > a:hover,
@@ -416,6 +426,10 @@
 
         > li.active img {
           object-position: bottom center;
+        }
+
+        > li.active a {
+          background-position: bottom center;
         }
 
         > li:first-child a {
