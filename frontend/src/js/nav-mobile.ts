@@ -110,7 +110,7 @@ function buildLevel1(nav: HTMLUListElement): void {
     const li = document.createElement('li')
     li.className = 'xs-noticies-collabora'
     const a = document.createElement('a')
-    a.href = '#'
+    a.href = collaborators.href
     a.textContent = collaborators.textContent?.trim() ?? ''
     li.appendChild(a)
     nav.appendChild(li)
@@ -121,7 +121,7 @@ function buildLevel1(nav: HTMLUListElement): void {
     const li = document.createElement('li')
     li.className = 'xs-noticies-collabora'
     const a = document.createElement('a')
-    a.href = '#'
+    a.href = newsLink.href
     a.textContent = newsLink.textContent?.trim() ?? ''
     li.appendChild(a)
     nav.appendChild(li)
@@ -158,6 +158,7 @@ function buildLevel2(nav: HTMLUListElement, pane: HTMLElement, parentLabel: stri
       })
     } else {
       // Plain link, no submenu
+      a.href = link.href
       a.innerHTML = link.innerHTML.trim()
     }
 
@@ -192,7 +193,7 @@ function appendSimpleDropdownItems(target: HTMLUListElement, sourceDropdown: HTM
     if (!link) continue
     const li = document.createElement('li')
     const a = document.createElement('a')
-    a.href = '#'
+    a.href = link.href
     a.innerHTML = link.innerHTML.trim()
     li.appendChild(a)
     target.appendChild(li)
@@ -236,7 +237,7 @@ function appendMegaDropdownItems(target: HTMLUListElement, sourceDropdown: HTMLE
     const li = document.createElement('li')
     li.className = 'llista'
     const a = document.createElement('a')
-    a.href = '#'
+    a.href = link.href
     a.textContent = link.textContent?.trim() ?? ''
     li.appendChild(a)
     target.appendChild(li)

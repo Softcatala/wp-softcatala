@@ -22,12 +22,28 @@ classes/              # Business logic (autoloaded)
 rest/                 # REST API endpoint definitions
 inc/                  # Legacy includes (widgets, rewrites, AJAX, post type functions)
 templates/            # Twig templates (.twig files)
-static/               # CSS, JS, fonts, images
+static/               # Compiled/output CSS, JS, fonts, images — do not edit directly
+frontend/             # Frontend source (TypeScript + SCSS, built with Vite)
+  src/js/             # TypeScript modules (main.ts entry point)
+  src/scss/           # SCSS source files
+  vite.config.js      # Outputs to static/ (js/main.min.js, css/main.min.css, fonts/)
 wp-cli/               # WP-CLI commands and data converters
 tests/                # PHPUnit tests
 bin/                  # WP test suite installer script
 languages/            # i18n translation files
 ```
+
+## Frontend (TypeScript + SCSS)
+
+Source lives in `frontend/src/`, output goes to `static/`. **Never edit `static/js/main.min.js` or `static/css/main.min.css` directly.**
+
+```bash
+cd frontend && npm run build   # compile → static/
+```
+
+- Entry point: `frontend/src/js/main.ts` → `static/js/main.min.js`
+- Styles: `frontend/src/scss/main.scss` → `static/css/main.min.css`
+- The corrector React app lives in `../corrector/` (sibling repo). After building it, run `npm run wordpress` inside that repo to copy its assets into `static/css/corrector/` and `static/js/corrector/`.
 
 ## Autoloading Conventions
 
