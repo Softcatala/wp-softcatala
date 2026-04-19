@@ -482,11 +482,15 @@ p.fons-gris {
 
 .formulari-eines .btns-corrector,
 .editor-wrapper > .btns-corrector {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 20px;
+
+  // The .col-xs-12 inside VariantToolbar is the real flex container
+  .col-xs-12 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
   .formes {
     color: var(--color-gray-825);
@@ -517,7 +521,9 @@ p.fons-gris {
   }
 
   @include respond-to(xs) {
-    align-items: flex-start;
+    .col-xs-12 {
+      align-items: flex-start;
+    }
 
     .formes {
       padding: 7px 25px 14px 15px;
