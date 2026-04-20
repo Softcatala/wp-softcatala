@@ -28,7 +28,6 @@
                                     </div>
                                 </div>
                             </div><!--/.btns-diccionari  -->
-                            {% include "static/index-lletres.twig" with { token: 'les paraules o expressions', url: '/diccionari-de-sinonims/lletra'} only %}
                         </form>
 
                         <!-- .diccionari-resultat  -->
@@ -37,6 +36,8 @@
                                 {{ sinonims_result }}
                             {% endif %}
                         </div><!--/.diccionari-resultat  -->
+
+                        {% include "static/index-lletres.twig" with { token: 'les paraules o expressions', url: '/diccionari-de-sinonims/lletra'} only %}
 
                     </section><!--/.formulari-eines  -->
 
