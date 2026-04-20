@@ -489,6 +489,8 @@ span.twitter-typeahead {
 
 .input-group span.twitter-typeahead {
   display: block !important;
+  flex: 1;
+  min-width: 0;
   height: 34px;
 }
 
