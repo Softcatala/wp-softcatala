@@ -30,6 +30,7 @@
 @use 'components/content';
 @use 'components/wordpress';
 @use 'components/widgets';
+@use 'components/conjugador';
 
 // 6. Page-specific layouts (most specific)
 @use 'layouts/home';

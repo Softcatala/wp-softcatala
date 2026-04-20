@@ -11,15 +11,7 @@ wp_enqueue_script( 'sc-js-dubbing-results', get_template_directory_uri() . '/sta
 wp_enqueue_script( 'sc-js-subdub-editor', get_template_directory_uri() . '/static/js/subdub-editor.js', array(), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_style( 'sc-css-dubbing-results', get_template_directory_uri() . '/static/css/dubbing.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
 
-add_filter("script_loader_tag", "add_module_to_subdub_editor", 10, 3);
-function add_module_to_subdub_editor($tag, $handle, $src)
-{
-    if (strpos( $handle, "sc-js-subdub-editor" ) !== false) {
-        $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-    }
 
-    return $tag;
-}
 
 $context = Timber::context();
 $context['ads_container'] = true;

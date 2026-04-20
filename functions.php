@@ -704,12 +704,29 @@ function softcatala_scripts() {
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
 	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), WP_SOFTCATALA_VERSION, true );
+
 	$sc_site->register_ui_settings();
 	//wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
 	wp_enqueue_script( 'sc-js-comments', get_template_directory_uri() . '/static/js/comments.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 }
 
 add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
+
+/**
+ * Load specific script handles as ES modules.
+ * Centralises all type="module" script tags in one place.
+ */
+add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
+	$module_handles = [
+		'sc-js-main',
+		'sc-js-conjugador',
+		'sc-js-subdub-editor',
+	];
+	if ( in_array( $handle, $module_handles, true ) || strpos( $handle, 'sc-js-corrector-vite' ) !== false ) {
+		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+	}
+	return $tag;
+}, 10, 3 );
 
 /**
  * This function retrieves the media caption from

@@ -16,15 +16,7 @@ wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri(
 wp_enqueue_style( 'sc-css-corrector-vite-client', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
 wp_enqueue_style( 'sc-css-corrector-vite-main', get_template_directory_uri() . '/static/css/corrector/corrector.css', array(), WP_SOFTCATALA_VERSION );
 
-add_filter("script_loader_tag", "add_module_to_my_script", 10, 3);
-function add_module_to_my_script($tag, $handle, $src)
-{
-    if (strpos( $handle, "sc-js-corrector-vite" ) !== false) {
-        $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-    }
 
-    return $tag;
-}
 
 
 $context = Timber::context();

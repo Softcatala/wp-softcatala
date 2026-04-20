@@ -12,8 +12,6 @@ wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/
 wp_enqueue_script( 'sc-js-typeahead', get_template_directory_uri() . '/static/js/typeahead.min.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 wp_enqueue_script( 'sc-js-conjugador', get_template_directory_uri() . '/static/js/conjugador/conjugador.js', array('sc-js-typeahead'), WP_SOFTCATALA_VERSION, true );
 
-wp_enqueue_style( 'sc-css-conjugador', get_template_directory_uri() . '/static/css/conjugador.css', array('sc-css-main'),WP_SOFTCATALA_VERSION );
-
 
 wp_localize_script( 'sc-js-conjugador', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' ),

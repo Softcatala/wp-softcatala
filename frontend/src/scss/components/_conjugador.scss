@@ -1,0 +1,83 @@
+// ==========================================================================
+// Conjugador
+// ==========================================================================
+//
+// Styles for the verb conjugator results: tabs, table layout, abbreviations.
+// Migrated from static/css/conjugador.css.
+
+@use '../tokens' as *;
+
+.result-conjugador {
+  h2 {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    margin-bottom: 3rem;
+  }
+
+  > div {
+    padding: 0;
+    margin: 0;
+  }
+
+  table {
+    padding: 0;
+    margin: 0;
+
+    th {
+      width: 30%;
+      font-weight: normal;
+    }
+  }
+
+  .note {
+    margin-top: 18px;
+    line-height: 1.2;
+  }
+}
+
+.variant {
+  font-size: 12px;
+  font-weight: normal;
+  vertical-align: middle;
+  color: #333;
+}
+
+#conjugador-verb-caixa,
+#conjugador-verb {
+  margin-top: 0;
+  border-top: 0;
+}
+
+#abreviatures-conjugador {
+  padding: 10px;
+
+  h5 {
+    color: var(--color-brand);
+    font-weight: bolder;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  ul li {
+    font-size: 12px;
+    line-height: 1.25;
+    padding-left: 0;
+    padding-bottom: 1px;
+    padding-top: 1px;
+
+    &::before {
+      content: none !important;
+    }
+
+    .abbr {
+      font-weight: bolder;
+    }
+  }
+}
+
+#definicions > p {
+  font-weight: 300;
+}
