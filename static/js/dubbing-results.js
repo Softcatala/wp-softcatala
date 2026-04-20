@@ -44,6 +44,12 @@ function setLinks()
     document.getElementById("srt_cat").setAttribute("href", urlSrt);
 }
 
+function show_ui()
+{
+    jQuery('#found').removeClass('hidden').show();
+    jQuery('#notfound').hide();
+}
+
 function hide_ui()
 {
     jQuery('#found').hide();
@@ -63,8 +69,12 @@ function checkLinks()
     let aUrl = API_URL + `/uuid_exists/?uuid=` + uuid;
     var anHttpRequest = new XMLHttpRequest();
     anHttpRequest.onreadystatechange = function() {
-        if (anHttpRequest.readyState == 4 && anHttpRequest.status != 200) {
-            hide_ui();
+        if (anHttpRequest.readyState == 4) {
+            if (anHttpRequest.status == 200) {
+                show_ui();
+            } else {
+                hide_ui();
+            }
         }
     }
 

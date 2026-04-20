@@ -83,39 +83,44 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="n_file">Seleccioneu un fitxer de vídeo</label>
-                          <input class="form-control" name="file" type="file" id="file" accept=".mp4" required>
+                        <input class="form-control" name="file" type="file" id="file" accept=".mp4" required>
                         <p class="help-block">Mida màxima del fitxer: 2GB o 60 minuts. Formats admesos: mp4</p>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                      <label for="n_model_name">Variant dialectal del doblatge:</label>
-                      <select id="variant" name="variant" class="form-control selectpicker">
-                        <option value="bal">Balear</option>
-                        <option value="val">Valencià</option>
-                        <option value="cen" selected>Central</option>
-                        <option value="nor">Nord-occidental</option>
-                      </select>
-                      <div style="text-align: center;">
-                        <button type="button" id="i_demana" class="bt-basic bt-basic-vermell">Demana el doblatge</button>
-                      </div>
-                      <div class="progress">
-                        <div style="font-weight:normal; font-size:14px">Pujada: <spain id="percent">0 %</span></div>
-                      </div>
-
-                      <div class="wrapper">
-                        <div class="progress-bar">
-                          <span id="bar" class="progress-bar-fill" style="width: 0%;"></span>
+                        <label for="variant">Variant dialectal del doblatge:</label>
+                        <select id="variant" name="variant" class="form-control selectpicker">
+                          <option value="bal">Balear</option>
+                          <option value="val">Valencià</option>
+                          <option value="cen" selected>Central</option>
+                          <option value="nor">Nord-occidental</option>
+                        </select>
                       </div>
                     </div>
                   </div>
-              </div>
-            </div>
-            </form> 
-                  
-          </div>
-        </div>
+                  <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                      <button type="button" id="i_demana" class="bt-basic bt-basic-vermell">Demana el doblatge</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="progress">
+                        <div style="font-weight:normal; font-size:14px">Pujada: <span id="percent">0 %</span></div>
+                      </div>
+                      <div class="wrapper">
+                        <div class="progress-bar">
+                          <span id="bar" class="progress-bar-fill" style="width: 0%;"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+              </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+            </form>
              
+            <section>
                <b>Exemple</b>
                <p>Aquí us deixem un exemple d'un vídeo en anglès i com quedaria després del doblatge automàtic.</p>
                <div class="row">
@@ -132,9 +137,8 @@
                       </video>
                   </div>
                 </div>
-             </br>
             <p>Aquest servei és possible gràcies a: <a href="https://github.com/openai/whisper">Whisper</a> (reconeixement de la parla), <a href="https://huggingface.co/projecte-aina/matxa-tts-cat-multiaccent">Matxa</a> (síntesi de veu), <a href ="https://github.com/pyannote/pyannote-audio">pyannote</a> (identificació del parlant), <a href="https://github.com/adefossez/demucs">demuc</a> (separació de la parla), <a href="https://huggingface.co/audeering/wav2vec2-large-robust-24-ft-age-gender">audeering</a> (reconeixement del gènere del parlant),  <a href="https://github.com/Softcatala/nmt-softcatala">nmt-softcatala</a> (traducció anglès - català), <a href="https://www.apertium.org">Apertium</a> (traducció castellà - català), <a href="https://github.com/Softcatala/open-dubbing">open-dubbing</a> (sistema de doblatge automàtic) i <a href="https://github.com/Softcatala/subdub-editor">subdub-editor</a> per a l'edició.</p>
-            </<section>
+            </section>
 
             <!-- .contingut-section  -->
             <section>

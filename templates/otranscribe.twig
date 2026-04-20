@@ -95,3 +95,23 @@
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">    
     </div>
+
+    <script>
+    // oTranscribe appends the video player to document.body instead of the panel.
+    // Move it into #otranscribe-panel so position:absolute is scoped correctly.
+    (function () {
+        var panel = document.getElementById('otranscribe-panel');
+        if (!panel) return;
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (node) {
+                    if (node.nodeType === 1 && node.classList.contains('video-player') && node.parentNode === document.body) {
+                        panel.appendChild(node);
+                        panel.classList.add('has-video');
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true });
+    }());
+    </script>

@@ -1,0 +1,77 @@
+// ==========================================================================
+// Hora en català
+// ==========================================================================
+//
+// Styles for the clock/time page (hora-catala.twig).
+// Migrated from static/css/hora.css.
+
+@use '../tokens' as *;
+
+.consulta {
+  background-color: var(--color-bg-light);   // #eae8e8
+  padding: 40px;
+  padding-top: 15px;
+  padding-bottom: 0px;
+}
+
+.resultat {
+  background-color: var(--color-bg-light);
+  padding-left: 20px;
+  padding-bottom: 30px;
+}
+
+// Override form controls to inline layout for the time picker form
+.consulta .form-group {
+  display: inline-block !important;
+}
+
+.consulta .form-control {
+  width: 70px !important;
+  display: inline-block !important;
+  height: 42px;
+  font-size: 16px;
+  color: black;
+}
+
+#hora {
+  padding-left: 60px;
+}
+
+.text-hora {
+  padding-top: 45px;
+  font-size: 15px;
+}
+
+.so {
+  background-color: var(--color-bg-light);
+  width: 50px;
+  height: 50px;
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#requested_hours {
+  margin-right: 5px;
+}
+
+#requested_minutes {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+#current_time {
+  margin-left: 50px;
+  color: var(--color-brand);
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  #current_time {
+    margin-left: 0;
+  }
+}

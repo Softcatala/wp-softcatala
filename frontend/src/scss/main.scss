@@ -31,6 +31,7 @@
 @use 'components/wordpress';
 @use 'components/widgets';
 @use 'components/conjugador';
+@use 'components/hora';
 
 // 6. Page-specific layouts (most specific)
 @use 'layouts/home';

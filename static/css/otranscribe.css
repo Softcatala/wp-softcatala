@@ -80,10 +80,14 @@
   left: 20px;
   width: calc((100% - 800px)/2);
   min-width: 200px;
+  max-width: 220px;
   box-shadow: 0px 0px 5px black;
   background: #262626; }
 
-.progressor {
+#otranscribe-panel.has-video .textbox-container {
+  padding-left: 240px; }
+
+
   display: inline-block;
   width: 100%;
   margin: 10px;
