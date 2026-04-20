@@ -25,8 +25,9 @@
                     <div class="btn-group" role="group">
                       <!-- dropdown llengues -->
                       <div id="div_select_origin">
-                      <select class="form-control selectpicker bt" id="origin-select">
-                        <option value="en" selected="selected">anglès</option>
+                      <select class="form-control bt" id="origin-select">
+                        <option value="" disabled selected hidden>altres llengües</option>
+                        <option value="en">anglès</option>
                         <option value="deu">alemany</option>
                         <option value="oc_aran">occità/aranès</option>
                         <option value="oci">occità/llenguadoc</option>
@@ -44,7 +45,7 @@
 
                       <!-- dropdown llengues mòbil -->
                       <div id="div_select_origin_mobile">
-                      <select class="form-control selectpicker selectpicker-mobil visible-xs-block" id="origin-select-mobil">
+                      <select class="form-control selectpicker-mobil visible-xs-block" id="origin-select-mobil">
                         <option value="en">anglès</option>
                         <option value="deu">alemany</option>
                         <option value="cat">català</option>
@@ -75,7 +76,8 @@
                       <div class="btn-group" role="group">
                         <!-- dropdown llengues -->
                         <div id="div_select_target">
-                        <select class="form-control selectpicker bt" id="target-select">
+                        <select class="form-control bt" id="target-select">
+                          <option value="" disabled selected hidden>altres llengües</option>
                           <option value="en">anglès</option>
                           <option value="deu">alemany</option>
                           <option value="oc_aran">occità/aranès</option>
@@ -94,11 +96,11 @@
 
                         <!-- dropdown llengues mòbil -->
                         <div id="div_select_target_mobile">
-                        <select class="form-control selectpicker selectpicker-mobil visible-xs-inline-block" id="target-select-mobil">
+                        <select class="form-control selectpicker-mobil visible-xs-inline-block" id="target-select-mobil">
                           <option value="en">anglès</option>
                           <option value="deu">alemany</option>
                           <option value="cat">català</option>
-                          <option value="spa" selected="selected">castellà</option>
+                          <option value="spa">castellà</option>
                           <option value="oc_aran">occità/aranès</option>
                           <option value="oci">occità/llenguadoc</option>
                           <option value="ron">romanès</option>
@@ -131,15 +133,15 @@
                   </div>
                 </div>
                    
-                <div class="traductor-checkbox form-group">
+                <div class="traductor-checkbox">
                      <div id="message_info" style="padding:25px ;" class="panel-body alert alert-warning bg-success text-success" role="alert">
                                   <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                   <p id="message"></p> 
                     </div>  
                              
                          
-                      <div id="panel-radioneuronal" class="row hidden">
-                        <div class="col-sm-5 col-sm-offset-2">
+                      <div id="panel-radioneuronal" class="row" style="display:none">
+                        <div class="col-sm-offset-1 col-sm-5">
                           <label class="radio-inline">
                               <input id="rneuronal" type="radio" name="rneuronal" checked/> Usa el traductor neuronal de Softcatalà
                           </label>
@@ -151,7 +153,7 @@
                         </div>
                       </div>
                       <div class="row">
-                          <div class="col-sm-offset-2 col-sm-5">
+                          <div class="col-sm-offset-1 col-sm-5">
                             <span id="traductor-neteja" data-trigger="manual" data-placement="right" class="icon-inline">
                               <i class="fas fa-eraser" aria-hidden="true"></i> Neteja
                           </span>
@@ -163,7 +165,7 @@
                         </div>
                       </div>
                       <div class="row">
-                          <div class="col-sm-offset-2 col-sm-5">
+                          <div class="col-sm-offset-1 col-sm-5">
                             <label class="checkbox-inline" id="mark_unknown_label">
                                   <input type="checkbox" id="mark_unknown" checked="checked" /> Ressalta les paraules desconegudes
                                 </label>
@@ -175,15 +177,14 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-10 col-sm-offset-2">
+                        <div class="col-sm-offset-1 col-sm-10">
                           <label class="checkbox-inline" id="tradueix_online_label">
                               <input type="checkbox" id="auto-trad" /> Tradueix mentre s'escriu
                           </label>
                         </div>
-                        
                       </div>
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-2">
+                        <div class="col-sm-offset-1 col-sm-10">
                             <label class="checkbox-inline" id="log_traductor_source_label">
                                 <input type="checkbox" id="log_traductor_source" />
                                     Permet l'ús del text
@@ -192,9 +193,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="row hidden visible-lg">
+                    <div class="row visible-lg-block">
                         <br /><br />
-                        <div class="col-sm-10 col-sm-offset-2">
+                        <div class="col-sm-12 text-center">
                             <i class="far fa-keyboard" aria-hidden="true"></i> Premeu <code>Ctrl</code> + <code>Intro</code> per a traduir des del teclat
                         </div>
                     </div>
@@ -202,7 +203,7 @@
               </form><!--/.formulari -->
  
             </section><!--/.formulari-eines -->
-            <section class="neuronal hidden"><!-- traduccio de fitxer de text -->
+            <section class="neuronal" style="display:none"><!-- traduccio de fitxer de text -->
             <form id="fileform">
             
             <div class="panel panel-default">

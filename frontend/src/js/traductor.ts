@@ -147,14 +147,16 @@ function addSpaToOriginSelect(): void {
     const opt = document.createElement('option');
     opt.value = 'spa';
     opt.text = 'castellà';
-    sel.insertBefore(opt, sel.firstChild);
+    sel.firstChild!.after(opt);
   }
 }
 
 function removeSpaFromOriginSelect(): void {
-  el<HTMLSelectElement>('origin-select')
-    .querySelector('option[value="spa"]')
-    ?.remove();
+  const sel = el<HTMLSelectElement>('origin-select');
+  const opt = sel.querySelector('option[value="spa"]');
+  if (opt) {
+    opt.remove();
+  }
 }
 
 function addSpaToTargetSelect(): void {
@@ -163,14 +165,16 @@ function addSpaToTargetSelect(): void {
     const opt = document.createElement('option');
     opt.value = 'spa';
     opt.text = 'castellà';
-    sel.insertBefore(opt, sel.firstChild);
+    sel.firstChild!.after(opt);
   }
 }
 
 function removeSpaFromTargetSelect(): void {
-  el<HTMLSelectElement>('target-select')
-    .querySelector('option[value="spa"]')
-    ?.remove();
+  const sel = el<HTMLSelectElement>('target-select');
+  const opt = sel.querySelector('option[value="spa"]');
+  if (opt) {
+    opt.remove();
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -186,6 +190,7 @@ function setOriginButton(language: string): void {
     addClass(btnSpa, 'select');
     removeClass(btnCat, 'select');
     removeClass(sel, 'select');
+    sel.value = '';
     // Restore castellà shortcut button; remove it from select if it was added
     show(btnSpa);
     removeSpaFromOriginSelect();
@@ -193,6 +198,7 @@ function setOriginButton(language: string): void {
     addClass(btnCat, 'select');
     removeClass(btnSpa, 'select');
     removeClass(sel, 'select');
+    sel.value = '';
     show(btnSpa);
     removeSpaFromOriginSelect();
   } else {
@@ -221,6 +227,7 @@ function setTargetButton(language: string): void {
     addClass(btnCat, 'select');
     removeClass(btnSpa, 'select');
     removeClass(sel, 'select');
+    sel.value = '';
     enable(sel);
     show(btnSpa);
     removeSpaFromTargetSelect();
@@ -229,6 +236,7 @@ function setTargetButton(language: string): void {
     addClass(btnSpa, 'select');
     removeClass(btnCat, 'select');
     removeClass(sel, 'select');
+    sel.value = '';
     enable(sel);
     show(btnSpa);
     removeSpaFromTargetSelect();
@@ -640,8 +648,7 @@ const neuronalApp = (() => {
 
   function showNeuronalMenu(): void {
     document.querySelectorAll<HTMLElement>('.neuronal').forEach(el => {
-      el.classList.remove('hidden');
-      el.style.display = '';
+      el.style.display = 'block';
     });
     toggleMarkUnknown('off');
     toggleFormesValencianes('off');
@@ -666,13 +673,12 @@ const neuronalApp = (() => {
       const rneuronal = el<HTMLInputElement>('rneuronal');
       if (rneuronal) rneuronal.checked = true;
       const panel = el<HTMLElement>('panel-radioneuronal');
-      panel.classList.remove('hidden');
       panel.style.display = '';
       if (checked) showNeuronalMenu(); else hideNeuronalMenu();
     } else if (LANGS_ONLY.includes(origin) || LANGS_ONLY.includes(target)) {
       const rneuronal = el<HTMLInputElement>('rneuronal');
       if (rneuronal) rneuronal.checked = true;
-      el<HTMLElement>('panel-radioneuronal').classList.add('hidden');
+      el<HTMLElement>('panel-radioneuronal').style.display = 'none';
       showNeuronalMenu();
     } else {
       hide(el('panel-radioneuronal'));
