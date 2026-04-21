@@ -37,11 +37,15 @@ export default defineConfig({
         main: resolve(__dirname, 'src/js/main.ts'),
         traductor: resolve(__dirname, 'src/js/traductor.ts'),
         conjugador: resolve(__dirname, 'src/js/conjugador.ts'),
+        transcribe: resolve(__dirname, 'src/js/transcribe.ts'),
+        dubbing: resolve(__dirname, 'src/js/dubbing.ts'),
       },
       output: {
         entryFileNames: (chunk) =>
           chunk.name === 'traductor' ? 'js/traductor.js'
           : chunk.name === 'conjugador' ? 'js/conjugador/conjugador.js'
+          : chunk.name === 'transcribe' ? 'js/transcribe.js'
+          : chunk.name === 'dubbing' ? 'js/dubbing.js'
           : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {

@@ -59,23 +59,19 @@
                   </div>   
                   <div class="row">
                     <div class="col-sm-6">
-                      <div class="form-group">
-                        <div class="form-check">
-                          <label class="form-check-label" style="font-weight: normal; font-size: 14px" for="original_subtitles">
-                          <input class="form-check-input" type="checkbox" id="original_subtitles" name="original_subtitles">
+                      <div class="checkbox">
+                        <label for="original_subtitles">
+                          <input type="checkbox" id="original_subtitles" name="original_subtitles">
                           Inclou els subtítols en la llengua original al vídeo
-                          </label>
-                        </div>
+                        </label>
                       </div>
                     </div>
                     <div class="col-sm-6">
-                      <div class="form-group">
-                        <div class="form-check">
-                          <label class="form-check-label" style="font-weight: normal; font-size: 14px" for="dubbed_subtitles">
-                            <input class="form-check-input" type="checkbox" id="dubbed_subtitles" name="dubbed_subtitles" checked="checked">
-                            Inclou els subtítols en català al vídeo
-                          </label>
-                        </div>
+                      <div class="checkbox">
+                        <label for="dubbed_subtitles">
+                          <input type="checkbox" id="dubbed_subtitles" name="dubbed_subtitles" checked="checked">
+                          Inclou els subtítols en català al vídeo
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -106,11 +102,11 @@
                   </div>
                   <div class="row">
                     <div class="col-sm-12">
-                      <div class="progress">
+                      <div class="progress" style="display:none">
                         <div style="font-weight:normal; font-size:14px">Pujada: <span id="percent">0 %</span></div>
                       </div>
                       <div class="wrapper">
-                        <div class="progress-bar">
+                        <div class="progress-bar" style="display:none">
                           <span id="bar" class="progress-bar-fill" style="width: 0%;"></span>
                         </div>
                       </div>

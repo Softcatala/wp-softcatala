@@ -720,6 +720,8 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 	$module_handles = [
 		'sc-js-main',
 		'sc-js-conjugador',
+		'sc-js-transcribe',
+		'sc-js-dubbing',
 		'sc-js-subdub-editor',
 	];
 	if ( in_array( $handle, $module_handles, true ) || strpos( $handle, 'sc-js-corrector-vite' ) !== false ) {

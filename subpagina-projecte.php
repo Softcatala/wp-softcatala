@@ -41,7 +41,16 @@ add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 $context['credits'] = $timberPost->meta( 'credits' );
 
 if ( is_array( $timberPost->responsable ) ) {
-    $context['responsables'] = get_users_metadata($timberPost->responsable);
+    $context['responsables'] = array_map(
+        function ( $user ) {
+            return array(
+                'name' => $user['user_firstname'] . ' ' . $user['user_lastname'],
+                'url'  => get_author_posts_url( $user['ID'] ),
+                'email' => $user['user_email'],
+            );
+        },
+        $timberPost->responsable
+    );
 } else {
     $context['responsables'] = false;
 }

@@ -27,7 +27,16 @@ add_filter( 'wpseo_opengraph_image', $custom_logo_filter);
 $context['credits'] = $post->meta( 'credits' );
 
 if ( is_array( $post->responsable ) ) {
-    $context['responsables'] = get_users_metadata($post->responsable);
+    $context['responsables'] = array_map(
+        function ( $user ) {
+            return array(
+                'name' => $user['user_firstname'] . ' ' . $user['user_lastname'],
+                'url'  => get_author_posts_url( $user['ID'] ),
+                'email' => $user['user_email'],
+            );
+        },
+        $post->responsable
+    );
 } else {
     $context['responsables'] = false;
 }
