@@ -12,6 +12,14 @@
                 <div class="cont-main-header-gris col-xxs-12 col-xs-9 col-sm-9 col-md-10">
                     <h1>{{ post.title }}</h1>
                     <h2>{{ post.subtitle_projecte }}</h2>
+                    {% set is_arxivat = false %}
+                    {% if post.terms('classificacio') %}
+                        {% for term in post.terms('classificacio') %}
+                            {% if term.slug == 'arxivat' %}
+                                {% set is_arxivat = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                     <ul>
                         {% if post.lloc_web_projecte %}
                             <li>
@@ -21,7 +29,7 @@
                                 </strong>
                                 <a href="{{ post.lloc_web_projecte }}">{{ post.lloc_web_projecte }}</a></li>
                         {% endif %}
-                        {% if post.telegram %}
+                        {% if post.telegram and not is_arxivat %}
                             <li>
                                 <strong>
                                     <i class="fab fa-telegram" aria-hidden="true"></i>
@@ -29,7 +37,7 @@
                                 </strong>
                                 <a href="https://t.me/{{ post.telegram }}">{{ post.telegram }}</a></li>
                         {% endif %}
-                        {% if responsables %}
+                        {% if responsables and not is_arxivat %}
                             <li>
                                 <strong>
                                     <i class="fas fa-user" aria-hidden="true"></i>
@@ -41,14 +49,6 @@
                             </li>
                         {% endif %}
                     </ul>
-                    {% set is_arxivat = false %}
-                    {% if post.terms('classificacio') %}
-                        {% for term in post.terms('classificacio') %}
-                            {% if term.slug == 'arxivat' %}
-                                {% set is_arxivat = true %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
                     {% if not is_arxivat %}
                     <a href="/col·laboreu/projecte/{{ post.slug }}/" title="Col·laboreu en el projecte {{ post.title }} de Softcatalà" class="bt-download-invers bt-collaboreu"><i class="fas fa-user-plus"></i><span>Col&middot;laboreu en el projecte</span></a>
                     {% endif %}
