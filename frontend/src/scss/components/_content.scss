@@ -206,6 +206,11 @@
 
     .thumbnail a {
       text-decoration: none;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
     }
 
     .thumbnail-gris a {
