@@ -58,6 +58,7 @@ select.form-control {
 .input-group {
   position: relative;
   display: flex;
+  align-items: stretch;
 
   .form-control {
     flex: 1;
@@ -81,7 +82,7 @@ select.form-control {
   text-align: center;
   background-color: #eee;
   border: 1px solid #ccc;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0;
 
   // When combined with .bt-basic-vermell, let button colors win
   &.bt-basic-vermell {
@@ -89,6 +90,23 @@ select.form-control {
     border-color: var(--color-brand-hover);
     color: var(--color-white);
     border-radius: 0;
+
+    &:hover {
+      background-color: var(--color-red-300);
+      border-color: var(--color-red-300);
+      color: var(--color-white);
+      text-decoration: none;
+      outline: none;
+    }
+
+    &:focus {
+      background-color: var(--color-red-300);
+      border-color: var(--color-red-300);
+      color: var(--color-white);
+      text-decoration: none;
+      outline: 2px solid var(--color-brand-hover);
+      outline-offset: 3px;
+    }
   }
 
   // <select> used as an inline addon (e.g. language switcher)

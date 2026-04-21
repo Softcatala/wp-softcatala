@@ -22,6 +22,33 @@
   &:hover, &:focus { text-decoration: none; }
 }
 
+// Bootstrap .btn / .btn-default compat shim (used in templates alongside bt-* classes)
+.btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-gray-250);
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.btn-default {
+  // inherits from .btn
+}
+
 .bt-basic {
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -35,9 +62,19 @@
   cursor: pointer;
   text-decoration: none;
 
-  &:hover,
-  &:focus {
+  &:hover {
+    background-color: var(--color-text);
+    color: var(--color-white);
     text-decoration: none;
+    outline: none;
+  }
+
+  &:focus {
+    background-color: var(--color-text);
+    color: var(--color-white);
+    text-decoration: none;
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
   }
 }
 
@@ -55,12 +92,20 @@
   border-color: var(--color-brand-hover);
   color: var(--color-white);
 
-  &:hover,
-  &:focus {
-    background-color: var(--color-red-300);       // #ed7f74
+  &:hover {
+    background-color: var(--color-red-300);
     border-color: var(--color-red-300);
     text-decoration: none;
     color: var(--color-white);
+  }
+
+  &:focus {
+    background-color: var(--color-red-300);
+    border-color: var(--color-red-300);
+    text-decoration: none;
+    color: var(--color-white);
+    outline: 2px solid var(--color-brand-hover);
+    outline-offset: 3px;
   }
 
   body.touch &:hover {
@@ -74,12 +119,44 @@
   background-color: var(--color-gray-450);       // #cccccc
   border-color: var(--color-gray-450);
   color: var(--color-white);
+
+  &:hover {
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-800);
+    color: var(--color-white);
+    text-decoration: none;
+  }
+
+  &:focus {
+    background-color: var(--color-gray-800);
+    border-color: var(--color-gray-800);
+    color: var(--color-white);
+    text-decoration: none;
+    outline: 2px solid var(--color-gray-800);
+    outline-offset: 3px;
+  }
 }
 
 .bt-basic-vermell-fosc {
   background-color: var(--color-brand);           // #c43434
   border-color: var(--color-brand);
   color: var(--color-white);
+
+  &:hover {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-white);
+    text-decoration: none;
+  }
+
+  &:focus {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-white);
+    text-decoration: none;
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
 }
 
 .bt-basic-vermell-blanc {
@@ -87,10 +164,18 @@
   border-color: var(--color-white);
   color: var(--color-white);
 
-  &:hover,
+  &:hover {
+    color: var(--color-white);
+    background-color: var(--color-brand);
+    text-decoration: none;
+  }
+
   &:focus {
     color: var(--color-white);
+    background-color: var(--color-brand);
     text-decoration: none;
+    outline: 2px solid var(--color-white);
+    outline-offset: 3px;
   }
 }
 
