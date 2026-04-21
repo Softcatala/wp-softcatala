@@ -274,10 +274,11 @@
 }
 
 // ---------------------------------------------------------------------------
-// Content section (.contingut > section)
+// Content section (.contingut > section, .contingut > article > section)
 // ---------------------------------------------------------------------------
 
-.contingut > section {
+.contingut > section,
+.contingut > article > section {
   margin: 30px 0;
 
   &:first-child {
@@ -305,6 +306,18 @@
     line-height: 2;
     font-size: 16px;
     margin-top: 10px;
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+
+    &:hover,
+    &:focus {
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
   }
 
   strong {

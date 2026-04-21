@@ -53,7 +53,8 @@ p {
 // Links
 // --------------------------------------------------------------------------
 
-a:not([class]) {
+a:not([class]),
+a[class=""] {
   color: var(--color-link);
   text-decoration: none;
   transition: color var(--transition-fast);
