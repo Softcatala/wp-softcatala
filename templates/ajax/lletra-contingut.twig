@@ -1,0 +1,17 @@
+{#
+  Letter index word grid.
+
+  Variables:
+    index    — LletraIndex object (letter, letter_url_prefix, words)
+#}
+<div class="row">
+    {% for batch in index.words|batch((index.words|length / 4)|round(0, 'ceil')) %}
+        <div class="col-xs-6 col-md-3">
+            <ul class="multilingue_lletres">
+                {% for word in batch %}
+                    <li><a href="{{ word.url }}">{{ word.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,8 @@
+{% if index %}
+{% set box_content %}
+    {% include "ajax/lletra-contingut.twig" with { index: index } %}
+{% endset %}
+<section class="formulari-eines">
+    {% include "components/result-box.twig" with { title: title, content: box_content, show_hr: true } %}
+</section>
+{% endif %}

@@ -90,6 +90,13 @@ select.form-control {
     color: var(--color-white);
     border-radius: 0;
   }
+
+  // <select> used as an inline addon (e.g. language switcher)
+  &:is(select) {
+    appearance: auto;          // restore native arrow
+    padding-right: 6px;        // no extra room needed — native arrow handles it
+    cursor: pointer;
+  }
 }
 
 // ---------------------------------------------------------------------------

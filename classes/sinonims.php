@@ -3,6 +3,8 @@
  * @package Softcatalà
  **/
 
+use Softcatala\Content\LletraIndex;
+
 /**
  * Client for the sinonyms dictionary
  */
@@ -92,22 +94,27 @@ class SC_Sinonims {
 		$title         = 'Lletra ' .$lletra . '. Diccionari de sinònims de català en línia | Softcatalà';
 		$content_title = 'Diccionari de sinònims: «' . $lletra . '»';
 
-		$result_count = count( $paraules );
+		$words = array_map( function( $word ) {
+			return [
+				'text' => $word,
+				'url'  => '/diccionari-de-sinonims/paraula/' . $word . '/',
+			];
+		}, (array) $paraules );
+
+		$index = new LletraIndex( $lletra, '/diccionari-de-sinonims/lletra', $words );
+
+		$result_count      = count( $words );
 		$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
+		$box_title         = 'Paraules o expressions que comencen per <strong>' . strtoupper( $lletra ) . '</strong> (' . $result_count . ' ' . $result_count_word . ')';
 
-		$html       = 'Paraules i expressions que comencen per «<strong>' . $lletra . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+		$html = Timber::fetch( 'ajax/lletra.twig', [
+			'index' => $index,
+			'title' => $box_title,
+		] );
 
-		$canonical = home_url() . '/diccionari-de-sinonims/lletra/' . strtoupper($lletra) . '/';
-
-		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
-			array(
-				'url'=> '/diccionari-de-sinonims/paraula',
-				'response' => array( 'lletra' => $lletra, 'result' => array('words' => $paraules ) ),
-				'cols' => 3,
-				'topic' => 'Paraules o expressions',
-				'hidetitle' => true
-			)
-		);
+		$canonical    = home_url() . '/diccionari-de-sinonims/lletra/' . strtoupper( $lletra ) . '/';
+		$title        = 'Lletra ' . $lletra . '. Diccionari de sinònims de català en línia | Softcatalà';
+		$content_title = 'Diccionari de sinònims: «' . $lletra . '»';
 
 		return new SC_SinonimsResult( 200, $html, $lletra, $canonical, $title, $content_title );
 	}
@@ -121,21 +128,26 @@ class SC_Sinonims {
 
 			$result_count = count( $result->results );
 			$result_count_word = ( $result_count > 1 ) ? 'resultats' : 'resultat';
-			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ') <hr class="clara"/>';
+			$summary = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ')';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = home_url() . '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
 
+			$content = '';
 			if ( isset($result->alternatives) && count($result->alternatives) >= 1 ) {
-				$html .= '<em>' . Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) ) . '</em>';
+				$content .= '<em>' . Timber::fetch( 'ajax/sinonims-alternatives.twig', array( 'alternatives' => $result->alternatives ) ) . '</em>';
 			}
-
 			foreach ( $result->results as $index => $single_entry ) {
-				$html .= Timber::fetch( 'ajax/sinonims-paraula.twig', array(
+				$content .= Timber::fetch( 'ajax/sinonims-paraula.twig', array(
 					'result'  => $single_entry,
 					'last'    => $index == $result_count - 1
 				));
 			}
+
+			$html = Timber::fetch( 'components/result-box.twig', array(
+				'title'   => 'Sinònims de «' . $paraula . '»',
+				'content' => $summary . '<hr class="clara"/>' . $content,
+			) );
 
 			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}//end if
@@ -144,13 +156,15 @@ class SC_Sinonims {
 	private function return404( $paraula, $suggestions = array() ) {
 		throw_error( '404', 'No Results For This Search' );
 
-		$html = Timber::fetch(
-			 'ajax/sinonims-paraula-not-found.twig',
+		$html = Timber::fetch( 'components/result-box.twig', array(
+			'content' => Timber::fetch(
+				'ajax/sinonims-paraula-not-found.twig',
 				array(
 					'paraula'     => $paraula,
 					'suggestions' => $suggestions,
 				)
-			);
+			),
+		) );
 
 		return new SC_SinonimsResult( 404, $html, '', '', '', '', $suggestions );
 	}

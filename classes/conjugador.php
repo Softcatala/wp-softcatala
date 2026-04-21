@@ -3,6 +3,8 @@
  * @package Softcatalà
  **/
 
+use Softcatala\Content\LletraIndex;
+
 /**
  * Client for the Conjugador
  */
@@ -144,23 +146,26 @@ class SC_Conjugador {
 			return $this->returnNoindexresults($lletra);
 		}
 		
-		$model = array(
-			'lletra' => $lletra,
-			'verbs' =>  $api_result
-		);
+		$words = array_map( function( $verb ) {
+			$slug = ! empty( $verb['infinitive'] ) ? $verb['infinitive'] : $verb['verb_form'];
+			return [
+				'text' => $verb['verb_form'],
+				'url'  => '/conjugador-de-verbs/verb/' . $slug . '/',
+			];
+		}, $api_result );
 
-		$model = array(
-			'lletra' => $lletra,
-			'verbs' =>  $api_result
-		);
-		
-		$canonical = home_url() . '/conjugador-de-verbs/lletra/'. strtoupper($lletra) .'/';
-		$title = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
-		$content_title =  'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
-		$description = "'Conjugador de verbs: verbs que comencen per ' . $lletra;";
-		
-		$result = Timber::fetch( 'ajax/conjugador-lletra.twig', array( 'response' => $model ) );
-		
+		$index = new LletraIndex( $lletra, '/conjugador-de-verbs/lletra', $words );
+
+		$canonical    = home_url() . '/conjugador-de-verbs/lletra/' . strtoupper( $lletra ) . '/';
+		$title        = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
+		$content_title = 'Conjugador de verbs. Verbs que comencen per la lletra «' . $lletra . '»';
+		$description  = 'Conjugador de verbs: verbs que comencen per ' . $lletra;
+
+		$result = Timber::fetch( 'ajax/lletra.twig', [
+			'index' => $index,
+			'title' => 'Verbs que comencen per <strong>' . strtoupper( $lletra ) . '</strong>',
+		] );
+
 		return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 
 	}

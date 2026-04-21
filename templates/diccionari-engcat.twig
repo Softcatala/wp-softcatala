@@ -22,16 +22,16 @@
                             <div class="btns-diccionari row">
                                 <div class="col-xs-12">
                                     <p>Introduïu la paraula que voleu cercar i feu clic en el botó de cerca.</p>
-                                    <div class="input-engcat-diccionari" style="margin-bottom:8px;">
+                                    <div class="input-group" style="margin-bottom:8px;">
                                         <input autofocus
                                             type="text"
                                             name="cerca_diccionari_engcat"
                                             id="cerca_diccionari_engcat"
                                             class="form-control"
                                             placeholder="Introduïu una paraula"/>
-                                            <select name="llengua"
-                                                id="llengua_diccionari_engcat"
-                                                class="form-control">
+                                        <select name="llengua"
+                                            id="llengua_diccionari_engcat"
+                                            class="input-group-addon">
                                             <option value="cat" {{ llengua != 'eng' ? 'selected' : '' }}>
                                                 català → anglès
                                             </option>
@@ -39,15 +39,14 @@
                                                 anglès → català
                                             </option>
                                         </select>
-
                                         <button type="button"
-                                                class="btn btn-default btn"
+                                                class="input-group-addon btn btn-default"
                                                 id="toggle_llengua_btn"
                                                 title="Canviar direcció">
                                             <i class="fas fa-right-left"></i>
                                         </button>
                                         <button type="button"
-                                                class="btn bt-basic bt-basic-vermell"
+                                                class="input-group-addon bt-basic bt-basic-vermell"
                                                 id="_action_consulta_diccionari_engcat"
                                                 name="_action_consulta_diccionari_engcat">
                                             cerca <i id="loading" class="fas fa-spinner fa-pulse" style="display: none;"></i>
@@ -58,7 +57,7 @@
                         </form>
                         
                         <!-- .diccionari-resultat  -->
-                        <div class="diccionari-resultat" id="results" {% if not engcat_resultat %}style="display:none"{% endif %}>
+                        <div id="results" {% if not engcat_resultat %}style="display:none"{% endif %}>
                             {% if engcat_resultat %}
                                    {{ engcat_resultat }}
                             {% endif %}
@@ -80,8 +79,8 @@
             <div class="row">
                 <div class="contingut-left col-sm-12 col-md-8">
                     <div class="index-dic-engcat row">
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra', llengua: 'eng', count: stats.numberEnglishLemmas } only  %}
-                        {% include "static/index-lletres-engcat.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra', llengua: 'cat', count: stats.numberCatalanLemmas } only  %}
+                        {% include "static/index-lletres.twig" with { token: 'de paraules en anglès', url: '/diccionari-angles-catala/eng/lletra', count: stats.numberEnglishLemmas } only  %}
+                        {% include "static/index-lletres.twig" with { token: 'de paraules en català', url: '/diccionari-angles-catala/cat/lletra', count: stats.numberCatalanLemmas } only  %}
                     </div>
                 </div>
             </div>

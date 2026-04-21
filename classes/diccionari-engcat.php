@@ -3,6 +3,8 @@
  * @package Softcatalà
  **/
 
+use Softcatala\Content\LletraIndex;
+
 /**
  * Client for the English-Catalan dictionary
  */
@@ -140,7 +142,7 @@ class SC_Diccionari_engcat {
 			$title         = $paraula . ' - Diccionari '.$titol_str.' | Softcatalà';
 			$content_title = 'Diccionari '.$titol_str.': «' . $paraula . '»';
 
-			$html       = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
+			$html = '<div class="diccionari-resultat">Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 			$canonical = home_url() . '/diccionari-angles-catala/'.$llengua.'/paraula/' . $canonical_lemma . '/';
@@ -180,9 +182,14 @@ class SC_Diccionari_engcat {
 
 			$result->results = $final_results;
 
-			$html .= Timber::fetch( 'ajax/diccionari-engcat-resultat.twig', array(
-				'results'  => $result->results,
-			));
+			$content = Timber::fetch( 'ajax/diccionari-engcat-resultat.twig', array(
+				'results' => $result->results,
+			) );
+
+			$html = Timber::fetch( 'components/result-box.twig', array(
+				'title'   => 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»',
+				'content' => $content,
+			) );
 
 			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}
@@ -284,36 +291,41 @@ class SC_Diccionari_engcat {
 
 	private function build_index($lletra, $llengua, $paraules) {
 		
-		$llengua_str = ($llengua == 'cat') ? 'català' : 'anglès';
-		$titol_str = ($llengua == 'cat') ? 'català-anglès' : 'anglès-català';
+		$llengua_str = ( $llengua === 'cat' ) ? 'català' : 'anglès';
+		$titol_str   = ( $llengua === 'cat' ) ? 'català-anglès' : 'anglès-català';
 
-		$title         = 'Lletra ' . $lletra . ' - Diccionari '.$titol_str.' | Softcatalà';
-		$content_title = 'Diccionari '.$titol_str.': «' . $lletra . '»';
+		$url_prefix = '/diccionari-angles-catala/' . $llengua . '/paraula';
+		$words      = array_map( function( $word ) use ( $url_prefix ) {
+			return [
+				'text' => $word,
+				'url'  => $url_prefix . '/' . $word . '/',
+			];
+		}, $paraules );
 
-		$result_count = count( $paraules );
+		$index = new LletraIndex( $lletra, '/diccionari-angles-catala/' . $llengua . '/lletra', $words );
 
-		$html       = 'Paraules i expressions en '.$llengua_str.' que comencen per ' . strtoupper($lletra) . ' (' . $result_count . ') <hr class="clara"/>';
+		$result_count  = count( $words );
+		$box_title     = 'Paraules o expressions en ' . $llengua_str . ' que comencen per <strong>' . strtoupper( $lletra ) . '</strong> (' . $result_count . ')';
 
-		$canonical = home_url() . '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper($lletra) . '/';
+		$html = Timber::fetch( 'ajax/lletra.twig', [
+			'index' => $index,
+			'title' => $box_title,
+		] );
 
-		$html .= Timber::fetch( 'ajax/diccionaris-lletra.twig',
-			array(
-				'url'=> '/diccionari-angles-catala/' . $llengua . '/paraula',
-				'response' => array( 'lletra' => $lletra, 'result' => array('words' => $paraules ) ),
-				'cols' => 3,
-				'topic' => 'Paraules o expressions',
-				'hidetitle' => true
-			)
-		);
-	
+		$canonical    = home_url() . '/diccionari-angles-catala/' . $llengua . '/lletra/' . strtoupper( $lletra ) . '/';
+		$title        = 'Lletra ' . $lletra . ' - Diccionari ' . $titol_str . ' | Softcatalà';
+		$content_title = 'Diccionari ' . $titol_str . ': «' . $lletra . '»';
+
 		return new SC_Diccionari_EngCatResult( 200, $html, $lletra, $canonical, $title, $content_title );
 	}
 	
 	private function return404( $paraula, $suggestions = array() ) {
 		throw_error( '404', 'No Results For This Search' );
 
-		$html = "No hem trobat cap resultat de cerca.";
-		
+		$html = Timber::fetch( 'components/result-box.twig', array(
+			'content' => 'No hem trobat cap resultat de cerca.',
+		) );
+
 		return new SC_Diccionari_EngCatResult( 404, $html, '', '', 'Diccionari anglès-català - Softcatalà', 'Diccionari anglès-català - Softcatalà' );
 			
 	}

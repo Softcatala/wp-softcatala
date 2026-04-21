@@ -190,6 +190,22 @@ div.container-fluid {
 // ---------------------------------------------------------------------------
 
 ul.multilingue_lletres {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 4px 0;
+
+    &::before {
+      font-family: "Font Awesome 7 Free";
+      font-weight: 900;
+      content: '\f054';
+      color: var(--color-brand);
+      font-size: 13px;
+      margin: 0 15px 0 0;
+    }
+  }
+
   li > a {
     color: var(--color-text);
 

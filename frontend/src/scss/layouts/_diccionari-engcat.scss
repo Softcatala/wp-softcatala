@@ -1,0 +1,133 @@
+// ==========================================================================
+// Diccionari anglès-català
+// ==========================================================================
+
+.index-dic-engcat {
+  padding-bottom: 0;
+  font-size: 14px;
+  color: #777777;
+
+  a { color: black; }
+}
+
+.resultats_diccionari_engcat {
+  border: 0 solid #cccccc;
+  clear: both;
+  width: 100%;
+}
+
+.diccionari-engcat-panel {
+  padding-top: 10px;
+
+  h2 {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  > header {
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+  }
+}
+
+h2.originalword {
+  font-size: 25px;
+  margin-bottom: 3px;
+}
+
+article.lemma {
+  padding-bottom: 20px;
+
+  > b { padding-left: 40px; }
+
+  ol { padding-left: 40px !important; }
+
+  li {
+    margin: 0 !important;
+    line-height: 1.5 !important;
+    font-size: 17px !important;
+    color: black !important;
+  }
+}
+
+article > header {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.engcat-gray        { color: #808080; }
+.engcat-italics     { font-style: italic; }
+
+.engcat-smallcaps {
+  font-variant: small-caps;
+  padding-left: 40px;
+}
+b + .engcat-smallcaps { padding-left: 0; }
+
+.engcat-small-variants { font-size: 60%; }
+
+.titol_llengua {
+  font-weight: bold;
+  font-size: 20px;
+  color: #c43434;
+}
+
+.engcat-num-results {
+  margin-right: 50px;
+  display: inline-block;
+  line-height: 1.9;
+}
+
+.engcat-src_sent {
+  font-size: .8em;
+  color: black;
+  font-weight: 500;
+}
+.engcat-tgt_sent {
+  font-size: .8em;
+  color: black;
+}
+
+.corpus {
+  > header {
+    margin-top: 60px;
+    margin-bottom: 15px;
+    color: #c43434;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+.table-corpus {
+  margin-top: 0;
+
+  tr > td {
+    font-size: 16px;
+    color: black;
+    width: 50%;
+  }
+
+  td em {
+    font-weight: bold;
+    color: #514e4d;
+  }
+}
+
+tr.source_corpus td {
+  padding: 0;
+  padding-bottom: 10px;
+  text-align: right;
+  font-size: 12px;
+  background-color: transparent;
+}
+
+.corpus_hidden { display: none; }
+
+.mes_exemples > td {
+  background-color: transparent;
+  text-align: right;
+  cursor: pointer;
+}

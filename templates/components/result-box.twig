@@ -1,0 +1,15 @@
+{#
+  Result box component.
+
+  Variables:
+    title    (optional) — displayed as <h1> inside the box
+    id       (optional) — HTML id on the wrapper div
+    content  (optional) — raw HTML body (used when called via Timber::fetch from PHP)
+
+  Blocks:
+    content  — the body of the box (used when called via embed from Twig)
+#}
+<div class="diccionari-resultat"{% if id %} id="{{ id }}"{% endif %}>
+    {% if title %}<h2>{{ title|raw }}</h2>{% if show_hr %}<hr class="clara"/>{% endif %}{% endif %}
+    {% block content %}{{ content|raw }}{% endblock %}
+</div>
