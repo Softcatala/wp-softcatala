@@ -7,7 +7,9 @@
   font-size: 14px;
   color: #777777;
 
-  a { color: black; }
+  a {
+    color: black;
+  }
 }
 
 .resultats_diccionari_engcat {
@@ -19,18 +21,20 @@
 .diccionari-engcat-panel {
   padding-top: 10px;
 
-  h2 {
-    font-weight: 600;
-    font-size: 20px;
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
   > header {
     font-weight: bold;
     font-size: 20px;
     border-bottom: 1px solid black;
   }
+}
+
+// Specificity (0,2,1) — matches .contingut > section h2 in _content.scss.
+// Layouts/ is imported after components/, so source order wins.
+.contingut .diccionari-engcat-panel h2 {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 h2.originalword {
@@ -41,9 +45,13 @@ h2.originalword {
 article.lemma {
   padding-bottom: 20px;
 
-  > b { padding-left: 40px; }
+  >b {
+    padding-left: 40px;
+  }
 
-  ol { padding-left: 40px !important; }
+  ol {
+    padding-left: 40px !important;
+  }
 
   li {
     margin: 0 !important;
@@ -53,21 +61,31 @@ article.lemma {
   }
 }
 
-article > header {
+article>header {
   border-bottom: 1px solid black;
   margin-bottom: 10px;
 }
 
-.engcat-gray        { color: #808080; }
-.engcat-italics     { font-style: italic; }
+.engcat-gray {
+  color: #808080;
+}
+
+.engcat-italics {
+  font-style: italic;
+}
 
 .engcat-smallcaps {
   font-variant: small-caps;
   padding-left: 40px;
 }
-b + .engcat-smallcaps { padding-left: 0; }
 
-.engcat-small-variants { font-size: 60%; }
+b+.engcat-smallcaps {
+  padding-left: 0;
+}
+
+.engcat-small-variants {
+  font-size: 60%;
+}
 
 .titol_llengua {
   font-weight: bold;
@@ -86,13 +104,14 @@ b + .engcat-smallcaps { padding-left: 0; }
   color: black;
   font-weight: 500;
 }
+
 .engcat-tgt_sent {
   font-size: .8em;
   color: black;
 }
 
 .corpus {
-  > header {
+  >header {
     margin-top: 60px;
     margin-bottom: 15px;
     color: #c43434;
@@ -104,7 +123,7 @@ b + .engcat-smallcaps { padding-left: 0; }
 .table-corpus {
   margin-top: 0;
 
-  tr > td {
+  tr>td {
     font-size: 16px;
     color: black;
     width: 50%;
@@ -124,9 +143,11 @@ tr.source_corpus td {
   background-color: transparent;
 }
 
-.corpus_hidden { display: none; }
+.corpus_hidden {
+  display: none;
+}
 
-.mes_exemples > td {
+.mes_exemples>td {
   background-color: transparent;
   text-align: right;
   cursor: pointer;
