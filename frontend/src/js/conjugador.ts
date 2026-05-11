@@ -112,7 +112,6 @@ function onSuccess(result: AjaxSuccess): void {
     source.value = ''
     jQuery('#source').typeahead('val', '')
   }
-  el('infinitiu')?.focus()
   hide(el('loading'))
 
   const headerTitle = el('content_header_title')
@@ -127,7 +126,6 @@ function onError(result: AjaxError): void {
   history.pushState(null, '', r.canonical)
   sendTracking(false, r.status, r.description)
 
-  el<HTMLInputElement>('source')?.focus()
   hide(el('loading'))
 
   const headerTitle = el('content_header_title')

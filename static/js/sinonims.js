@@ -52,7 +52,6 @@ function print_synonims(result) {
     jQuery('#results').slideDown();
     sc_sendTracking(true);
     enableInlineLinks();
-    prepareInputSearchQuery();
 }
 
 function prepareInputSearchQuery() {
@@ -75,7 +74,6 @@ function errorSynsets(response) {
     sc_sendTracking(false, status);
     
     show_message(response.responseJSON.html);
-    prepareInputSearchQuery();
 }
 
 function sc_sendTracking(success, status) {

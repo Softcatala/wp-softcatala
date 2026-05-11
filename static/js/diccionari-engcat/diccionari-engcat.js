@@ -105,7 +105,6 @@ function print_results(result) {
     if ($select.val() !== lang) {
         $select.val(lang).trigger('change');
     }
-    prepareInputSearchQuery();
 
 }
 
@@ -114,7 +113,6 @@ function ko_function(result) {
     var url_history = result.responseJSON.canonical;
     history.pushState(null, null, url_history);
     sc_404sendTracking(false, result.responseJSON.status, result.responseJSON.description);
-    prepareInputSearchQuery();
     jQuery("#content_header_title").html('Diccionari anglès-català');
     document.title = result.responseJSON.content_title;
     jQuery("#loading").hide();
