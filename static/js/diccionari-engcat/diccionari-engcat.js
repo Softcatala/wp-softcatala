@@ -85,8 +85,8 @@ function print_results(result) {
     //jQuery('#cerca_diccionari_engcat').val('');
     jQuery("#loading").hide();
     jQuery("#content_header_title").html(result.content_title);
-    jQuery('.diccionari-resultat').html(result.html);
-    jQuery('.diccionari-resultat').slideDown();
+    jQuery('#results').html(result.html);
+    jQuery('#results').slideDown();
     document.title = result.content_title;
 
 
@@ -118,8 +118,8 @@ function ko_function(result) {
     jQuery("#content_header_title").html('Diccionari anglès-català');
     document.title = result.responseJSON.content_title;
     jQuery("#loading").hide();
-    jQuery('.diccionari-resultat').html(result.responseJSON.html);
-    jQuery('.diccionari-resultat').slideDown();
+    jQuery('#results').html(result.responseJSON.html);
+    jQuery('#results').slideDown();
 }
 function sc_404sendTracking(success, status, verb) {
     if (typeof (ga) == 'function') {

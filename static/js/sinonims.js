@@ -106,7 +106,7 @@ function update_share_links(query) {
 }
 
 function enableInlineLinks() {
-    jQuery('.diccionari-resultat#results a').click(function(ev) {
+    jQuery('#results a').click(function(ev) {
         var sinonim = jQuery(this).data('sinonim');
 
         if(sinonim) {

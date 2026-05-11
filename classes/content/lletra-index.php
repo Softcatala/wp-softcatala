@@ -4,7 +4,6 @@ namespace Softcatala\Content;
 
 /**
  * View model for the per-letter word index (conjugador, sinònims, engcat).
- *
  * Passed to ajax/lletra.twig as $index.
  */
 class LletraIndex {

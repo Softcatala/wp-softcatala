@@ -186,7 +186,10 @@ class SC_Diccionari_engcat {
 				'results' => $result->results,
 			) );
 
-			$html = '<h2>Resultats de la cerca per a «<strong>' . $paraula . '</strong>»</h2><hr class="clara"/>' . $content;
+			$html = Timber::fetch( 'components/result-box.twig', array(
+				'title'   => 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>»',
+				'content' => $content,
+			) );
 
 			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
 		}

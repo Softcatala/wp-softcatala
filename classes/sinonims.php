@@ -146,7 +146,8 @@ class SC_Sinonims {
 
 			$html = Timber::fetch( 'components/result-box.twig', array(
 				'title'   => 'Sinònims de «' . $paraula . '»',
-				'content' => $summary . '<hr class="clara"/>' . $content,
+				'content' => $summary . $content,
+				'show_hr' => true,
 			) );
 
 			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
