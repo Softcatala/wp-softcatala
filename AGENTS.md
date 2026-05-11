@@ -31,6 +31,7 @@ wp-cli/               # WP-CLI commands and data converters
 tests/                # PHPUnit tests
 bin/                  # WP test suite installer script
 languages/            # i18n translation files
+docs/solutions/       # documented solutions to past problems (ui-bugs, runtime-errors, etc.), searchable by YAML frontmatter (module, tags, problem_type)
 ```
 
 ## Frontend (TypeScript + SCSS)
@@ -44,6 +45,16 @@ cd frontend && npm run build   # compile → static/
 - Entry point: `frontend/src/js/main.ts` → `static/js/main.min.js`
 - Styles: `frontend/src/scss/main.scss` → `static/css/main.min.css`
 - The corrector React app lives in `../corrector/` (sibling repo). After building it, run `npm run wordpress` inside that repo to copy its assets into `static/css/corrector/` and `static/js/corrector/`.
+
+### Adding new Vite entry points
+Vite entry points that import other modules produce ES module output (with `import` statements for shared chunks). WordPress enqueues classic scripts by default, so every new entry point must:
+1. Be added to `rollupOptions.input` in `vite.config.js` with its output path in `entryFileNames`
+2. Have its handle added to the `$module_handles` array in the consolidated `script_loader_tag` filter in `functions.php`
+
+Exception: self-contained IIFE files with no module-level imports (like `traductor.ts`) produce classic script output and do not need `type="module"`.
+
+### Per-page JS and CSS
+Page-specific scripts (e.g. `conjugador.ts`) are enqueued in the page template PHP file (e.g. `conjugador.php`). Localized data (`wp_localize_script`) is also set there. Page-specific CSS should be integrated into `frontend/src/scss/` rather than kept as separate static files.
 
 ## Autoloading Conventions
 
