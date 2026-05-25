@@ -286,6 +286,9 @@
 .mapa {
   iframe {
     border: none;
+    width: 100%;
+    max-width: 100%;
+    display: block;
   }
 
   small a {
