@@ -89,11 +89,22 @@
     .carousel-inner {
       position: relative;
       overflow: hidden;
+      transition: height 0.4s ease;
 
       > .item {
-        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
 
-        &.active { display: block; }
+        &.active {
+          position: relative;
+          opacity: 1;
+          pointer-events: auto;
+        }
       }
     }
 

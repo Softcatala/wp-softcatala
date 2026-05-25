@@ -82,6 +82,12 @@ a {
   }
 }
 
+// hr — prevent browser from painting its own border via the color property
+hr {
+  color: inherit;
+  border: 0;
+}
+
 // Table defaults — collapse borders
 table {
   border-collapse: collapse;

@@ -1,0 +1,84 @@
+// ==========================================================================
+// Layout: Podcast
+// ==========================================================================
+//
+// Podcast index (archive-podcast.twig) and individual show pages
+// (archive-podcast-programa.twig, podcasts-buttons.twig).
+
+@use '../tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Shared: box shadow on podcast cover images
+// ---------------------------------------------------------------------------
+
+.podcast-cover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+// ---------------------------------------------------------------------------
+// Podcast index page (.archive-podcast)
+// ---------------------------------------------------------------------------
+
+.archive-podcast {
+  .podcast-cover {
+    width: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Individual show page (.archive-podcast-programa)
+// ---------------------------------------------------------------------------
+
+.archive-podcast-programa {
+  .contingut.row {
+    align-items: flex-start;
+  }
+
+  section.episodes {
+    margin-top: 0;
+  }
+
+  .podcast-buttons {
+    margin-top: 10px;
+    text-align: center;
+
+    .podcast-buttons-label {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .podcast-buttons-platforms {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .podcast-logo {
+      width: 50px;
+    }
+  }
+
+  .episode {
+    margin-bottom: 20px;
+
+    // Suppress underline on card link text on hover
+    .thumbnail-gris-img a {
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+
+    .episode-cta {
+      text-align: center;
+    }
+
+    .bt-aneu {
+      position: static;
+      display: inline-flex;
+    }
+  }
+}

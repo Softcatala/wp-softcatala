@@ -103,13 +103,22 @@ These keep the same name; only the prefix `fa` → `fas`:
 | `fa fa-twitter` | `fab fa-twitter` | Consider `fab fa-x-twitter` for modern X logo |
 | `fa fa-windows` | `fab fa-windows` | |
 
+## FA4 aliases (removed in FA7)
+
+These FA4 class names were aliases that no longer exist in FA7. Use the canonical FA7 name instead.
+
+| FA4 class | FA7 class | Notes |
+|---|---|---|
+| `fa fa-group` | `fas fa-users` | Alias for `fa-users` |
+
 ## Summary
 
-- **70 total icons** across templates and mockups
+- **71 total icons** across templates and mockups
 - **34 unchanged** (prefix only: `fa` → `fas`)
 - **20 renamed** (solid icons with new FA7 names)
 - **6 moved to regular** (`far`, outline style)
 - **10 brand icons** (`fab`, 3 with name changes)
+- **1 FA4 alias** (removed in FA7, mapped to canonical name)
 
 ## Critical: never set font-weight on FA7 icon elements
 

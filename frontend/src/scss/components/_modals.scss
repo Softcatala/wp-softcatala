@@ -30,7 +30,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     z-index: -1;
   }
 }
@@ -77,6 +77,20 @@
       cursor: pointer;
       padding: 0;
       line-height: 1;
+    }
+
+    // .formulari header inside a modal doesn't have .contingut, so scope the
+    // header typography here rather than in _forms.scss
+    .formulari > header {
+      h1 {
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 13px;
+        font-weight: normal;
+        margin: -5px 0 20px 0;
+      }
     }
 
     .form-botons {

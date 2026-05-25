@@ -48,17 +48,20 @@
 
       li {
         a {
+          display: inline-flex;
           color: var(--color-gray-1000);           // #404040
           padding: 3px;
           font-size: 11px;
 
           i {
-            padding: 4px 5px;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: 1px solid var(--color-gray-850); // #767676
             border-radius: 100px;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
+            font-size: 11px;
           }
         }
       }
