@@ -732,6 +732,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		'sc-js-transcribe',
 		'sc-js-dubbing',
 		'sc-js-subdub-editor',
+		'sc-js-pmf',
 	];
 	if ( in_array( $handle, $module_handles, true ) || strpos( $handle, 'sc-js-corrector-vite' ) !== false ) {
 		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';

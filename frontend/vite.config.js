@@ -39,6 +39,7 @@ export default defineConfig({
         conjugador: resolve(__dirname, 'src/js/conjugador.ts'),
         transcribe: resolve(__dirname, 'src/js/transcribe.ts'),
         dubbing: resolve(__dirname, 'src/js/dubbing.ts'),
+        pmf: resolve(__dirname, 'src/js/pmf.ts'),
       },
       output: {
         entryFileNames: (chunk) =>
@@ -46,6 +47,7 @@ export default defineConfig({
           : chunk.name === 'conjugador' ? 'js/conjugador/conjugador.js'
           : chunk.name === 'transcribe' ? 'js/transcribe.js'
           : chunk.name === 'dubbing' ? 'js/dubbing.js'
+          : chunk.name === 'pmf' ? 'js/pmf.js'
           : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
