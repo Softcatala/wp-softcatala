@@ -17,9 +17,6 @@ import { $$ } from './utils'
 const DELAY_DEFAULT = 100
 const DELAY_NONE = 0
 
-let openTimer: ReturnType<typeof setTimeout> | undefined
-let closeTimer: ReturnType<typeof setTimeout> | undefined
-
 /** Red sub-nav bar dropdowns get a delay to avoid accidental opens;
  *  help dropdown (.navbar-ajuda) opens instantly. */
 function delayFor(li: HTMLElement): number {
@@ -68,6 +65,9 @@ export function initDropdowns(): void {
 
     /* ── Hover behavior (desktop only) ─────────────────── */
     if (canHover) {
+      let openTimer: ReturnType<typeof setTimeout> | undefined
+      let closeTimer: ReturnType<typeof setTimeout> | undefined
+
       li.addEventListener('mouseenter', () => {
         clearTimeout(closeTimer)
         const d = delayFor(li)

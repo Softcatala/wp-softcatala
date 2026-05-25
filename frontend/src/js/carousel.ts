@@ -32,6 +32,7 @@ export function initCarousels(): void {
 }
 
 function initCarousel(el: HTMLElement): void {
+  const inner = el.querySelector<HTMLElement>('.carousel-inner')!
   const items = $$('.carousel-inner > .item', el)
   const indicators = $$<HTMLLIElement>('.carousel-indicators > li', el)
   if (items.length < 2) return
@@ -39,16 +40,39 @@ function initCarousel(el: HTMLElement): void {
   let current = items.findIndex(i => i.classList.contains('active'))
   if (current === -1) current = 0
 
+  // Anchor the container height so the fade-out item (position:absolute)
+  // doesn't collapse the container during the transition.
+  function setHeight(item: Element): void {
+    inner.style.height = `${(item as HTMLElement).offsetHeight}px`
+  }
+
+  // Initialise height to the active slide so there's no jump on first advance.
+  setHeight(items[current])
+
   let timer: ReturnType<typeof setInterval> | undefined
 
   function goTo(index: number): void {
     if (index === current) return
-    items[current].classList.remove('active')
+
+    const outgoing = items[current]
+    const next = ((index % items.length) + items.length) % items.length
+    const incoming = items[next]
+
+    // Lock height to outgoing item before it becomes absolute.
+    setHeight(outgoing)
+
+    outgoing.classList.remove('active')
     indicators[current]?.classList.remove('active')
 
-    current = ((index % items.length) + items.length) % items.length
-    items[current].classList.add('active')
+    current = next
+    incoming.classList.add('active')
     indicators[current]?.classList.add('active')
+
+    // After the incoming item is rendered in its natural (relative) position,
+    // update the container height to match it — this animates via CSS transition.
+    requestAnimationFrame(() => {
+      setHeight(incoming)
+    })
   }
 
   function next(): void {
