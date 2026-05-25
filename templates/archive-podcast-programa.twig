@@ -2,7 +2,7 @@
 
 {% block content %}
     <!-- .main .wrap-blanc -->
-    <main class="main blog wrap-blanc">
+    <main class="main blog wrap-blanc archive-podcast-programa">
         <!-- .main-header -->
         {% include "contingut-header.twig" %}
         <!--/.main-header -->
@@ -12,34 +12,27 @@
                 <div class="podcast col-sm-6">
                     {% include "static/podcasts-buttons.twig" %}
                     <div>
-                        {{ term.description }}
+                        {{ term.description() }}
                     </div>
                 </div>
 
-                <section class="episodes">
+                <section class="episodes col-sm-6">
                 {% for episode in posts %}
-                    <article class="episode col-sm-6">
+                    <article class="episode">
                         <div class="thumbnail thumbnail-gris-img">
                             <a href="{{ episode.link }}">
-                                <style>
-                                    .box-shadow {
-                                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                                    }
-                                </style>
-                                <img class="box-shadow" style="margin:25px;margin-right: 28px;padding:0px;"
+                                <img class="podcast-cover"
                                         src="{{ episode.thumbnail.src | resize(180)}}" />
-                                <div class="caption" style="padding-left: 17px">
-                                    <h3 style="width: 100%;text-align: center">
+                                <div class="caption">
+                                    <h3>
                                         {% if episode.episode_type != 'bonus' %}
                                             {{ episode.episode_season }}x{{ episode.episode_number }}:
                                         {% endif %}
                                         {{ episode.title }}
                                     </h3>
                                     <div>{{ episode.post_excerpt | wpautop }}</div>
-                                    <div style="text-align: center;margin-top: 40px;position: relative;">
-                                        <span
-                                            class="bt-aneu"
-                                            style="display: inline-block;margin-left: auto;margin-right: auto;position: relative;">
+                                    <div class="episode-cta">
+                                        <span class="bt-aneu">
                                             <i class="fas fa-chevron-right"></i> més informació
                                         </span>
                                     </div>

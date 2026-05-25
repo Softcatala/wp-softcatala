@@ -16,7 +16,7 @@
         </header>
         <!--/.main-header -->
 
-        <div class="container-fluid">
+        <div class="container-fluid archive-podcast">
                 <!-- .contingut -->
                 <div class="contingut">
                     <header>
@@ -31,12 +31,7 @@
                             {% for programa in programes %}
                                 <div class="col-md-4">
                                     <a href="{{ programa.link }}">
-                                        <style>
-                                            .box-shadow {
-                                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                                            }
-                                        </style>
-                                        <img class="box-shadow" style="width: 100%" src="{{ Image(programa.image_id).src | resize(400,400) }}" />
+                                        <img class="podcast-cover" src="{{ Image(programa.image_id).src | resize(400,400) }}" />
                                     </a>
                                 </div>
                                 <div class="col-md-8">
