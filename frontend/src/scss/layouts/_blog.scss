@@ -133,6 +133,7 @@
       img {
         margin: 10px 0;
         width: auto;
+        height: 48px;          // planeta feed avatars; overrides global `height: auto` reset
       }
 
       &:has(img) {
