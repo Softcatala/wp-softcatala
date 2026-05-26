@@ -100,8 +100,9 @@
                             {% for clau, subjecte in response.temps %}
                                 {% if attribute(verbs, clau) | length > 0 %}
                                    {%- for verb in attribute(verbs, clau)  -%} 
-                                            {% if i > 1 %}, {% endif %} 
-                                            {% set i = i + 1%}
+                                            {#- Afegim guions per eliminar espais abans i després de la coma -#}
+                                            {%- if i > 1 -%}, {% endif -%} 
+                                            {%- set i = i + 1 -%}
                                             
                                             {{- verb.word -}}
                                             
@@ -132,8 +133,6 @@
                             {% endfor %}
                             </td>
                         </tr>
-
-
                     {% endfor %}
                     </table>
                 </div>
