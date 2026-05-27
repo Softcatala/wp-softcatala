@@ -13,11 +13,11 @@
 
             {# ── Empty states ── #}
             {% if estats is empty %}
-                <div class="kanban-empty-state alert alert-info">
+                <div class="kanban-empty-state alert alert--info">
                     <p>No s'han configurat columnes. Aneu a <a href="/wp-admin/edit-tags.php?taxonomy=estat_tasca&post_type=tasca">Estats de les tasques</a> per crear-ne.</p>
                 </div>
             {% elseif total_task_count == 0 and not is_logged_in %}
-                <div class="kanban-empty-state alert alert-info">
+                <div class="kanban-empty-state alert alert--info">
                     <p>No hi ha tasques públiques disponibles. <a href="{{ function('wp_login_url', '/tasques/') }}">Inicieu sessió</a> per veure totes les tasques.</p>
                 </div>
             {% else %}

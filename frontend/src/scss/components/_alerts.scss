@@ -1,0 +1,30 @@
+// Alert component
+//
+// Semantic alert variants for success, error, warning, and info states.
+// Usage: <div class="alert alert--success">...</div>
+//
+// The alert-colours mixin is also available for ID-based rules that need
+// the same colour semantics without adding a class in HTML.
+
+@mixin alert-colours($bg, $color, $border) {
+  background-color: $bg;
+  color: $color;
+  border-color: $border;
+}
+
+@mixin alert-success { @include alert-colours(#dff0d8, #3c763d, #d6e9c6); }
+@mixin alert-error   { @include alert-colours(#f2dede, #a94442, #ebccd1); }
+@mixin alert-warning { @include alert-colours(#fcf8e3, #8a6d3b, #faebcc); }
+@mixin alert-info    { @include alert-colours(#d9edf7, #31708f, #bce8f1); }
+
+.alert {
+  display: block;
+  padding: 15px 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  &--success { @include alert-success; }
+  &--error   { @include alert-error; }
+  &--warning { @include alert-warning; }
+  &--info    { @include alert-info; }
+}
