@@ -105,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  qs('#error > button').addEventListener('click', () => {
+  qs('#error .close').addEventListener('click', () => {
     qs<HTMLElement>('#error').classList.remove('visible')
   })
 
-  qs('#info > button').addEventListener('click', () => {
+  qs('#info .close').addEventListener('click', () => {
     qs<HTMLElement>('#info').classList.remove('visible')
   })
 })

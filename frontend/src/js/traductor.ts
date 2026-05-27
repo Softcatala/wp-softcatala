@@ -924,11 +924,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   // ── Message / error close buttons ───────────────────────────────────────
-  document.querySelector<HTMLButtonElement>('#message_info > button')
+  document.querySelector<HTMLButtonElement>('#message_info .close')
     ?.addEventListener('click', () => hide(el('message_info')));
-  document.querySelector<HTMLButtonElement>('#error > button')
+  document.querySelector<HTMLButtonElement>('#error .close')
     ?.addEventListener('click', () => el('error').classList.remove('visible'));
-  document.querySelector<HTMLButtonElement>('#info > button')
+  document.querySelector<HTMLButtonElement>('#info .close')
     ?.addEventListener('click', () => el('info').classList.remove('visible'));
 
   // ── File translation ─────────────────────────────────────────────────────

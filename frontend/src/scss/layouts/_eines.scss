@@ -561,10 +561,10 @@ p.fons-gris {
 
 #info,
 #error {
-  display: none;
+  grid-template-rows: 0fr;
 
   &.visible {
-    display: grid;
+    grid-template-rows: 1fr;
   }
 }
 
