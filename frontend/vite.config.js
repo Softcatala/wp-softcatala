@@ -38,6 +38,7 @@ export default defineConfig({
         traductor: resolve(__dirname, 'src/js/traductor.ts'),
         conjugador: resolve(__dirname, 'src/js/conjugador.ts'),
         transcribe: resolve(__dirname, 'src/js/transcribe.ts'),
+        'transcribe-results': resolve(__dirname, 'src/js/transcribe-results.ts'),
         dubbing: resolve(__dirname, 'src/js/dubbing.ts'),
         pmf: resolve(__dirname, 'src/js/pmf.ts'),
       },
@@ -46,6 +47,7 @@ export default defineConfig({
           chunk.name === 'traductor' ? 'js/traductor.js'
           : chunk.name === 'conjugador' ? 'js/conjugador/conjugador.js'
           : chunk.name === 'transcribe' ? 'js/transcribe.js'
+          : chunk.name === 'transcribe-results' ? 'js/transcribe-results.js'
           : chunk.name === 'dubbing' ? 'js/dubbing.js'
           : chunk.name === 'pmf' ? 'js/pmf.js'
           : 'js/[name].min.js',

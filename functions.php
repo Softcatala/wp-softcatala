@@ -730,6 +730,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		'sc-js-main',
 		'sc-js-conjugador',
 		'sc-js-transcribe',
+		'sc-js-transcribe-results',
 		'sc-js-dubbing',
 		'sc-js-subdub-editor',
 		'sc-js-pmf',
