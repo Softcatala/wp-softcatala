@@ -209,6 +209,38 @@
       height: 40px;
     }
 
+    // ── Mobile ────────────────────────────────────────────
+    // Stack input, select+swap, and search button vertically,
+    // matching the old Bootstrap responsive behaviour.
+    @include respond-to(xs) {
+      .input-group {
+        flex-wrap: wrap;
+
+        .form-control {
+          flex: 1 1 100%;
+          width: 100%;
+          border-radius: 4px 4px 0 0;
+        }
+
+        // The direction select fills the remaining space next to the swap button
+        select.input-group-addon {
+          flex: 1 1 auto;
+        }
+
+        // Swap (⇄) button stays compact next to the select
+        .btn.input-group-addon {
+          flex-shrink: 0;
+        }
+
+        // Search button always full-width at the bottom
+        .bt-basic-vermell.input-group-addon {
+          flex: 1 1 100%;
+          justify-content: center;
+          border-radius: 0 0 4px 4px;
+        }
+      }
+    }
+
     a {
       color: var(--color-white);
     }
