@@ -1,14 +1,38 @@
 // Alert component
 //
 // Semantic alert variants for success, error, warning, and info states.
-// Usage: <div class="alert alert--success">...</div>
+// Usage:
+//   <div class="alert alert--success">
+//     <div class="alert__inner">
+//       <button class="close">...</button>
+//       <p>...</p>
+//     </div>
+//   </div>
+//
+// The outer .alert drives the grid-based slide-in transition.
+// The inner .alert__inner contains the visible padding and content.
 
 .alert {
-  position: relative;
-  display: block;
-  padding: 15px 40px 15px 20px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+
+  &.visible {
+    grid-template-rows: 1fr;
+  }
+
+  &__inner {
+    overflow: hidden;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+    transition: padding 0.3s ease;
+  }
+
+  &.visible &__inner {
+    padding: 15px 40px 15px 20px;
+  }
 
   .close {
     position: absolute;
@@ -24,25 +48,26 @@
 
     &:hover { opacity: 1; }
   }
-  &--success {
+
+  &--success &__inner {
     background-color: #dff0d8;
     color: #3c763d;
     border-color: #d6e9c6;
   }
 
-  &--error {
+  &--error &__inner {
     background-color: #f2dede;
     color: #a94442;
     border-color: #ebccd1;
   }
 
-  &--warning {
+  &--warning &__inner {
     background-color: #fcf8e3;
     color: #8a6d3b;
     border-color: #faebcc;
   }
 
-  &--info {
+  &--info &__inner {
     background-color: #d9edf7;
     color: #31708f;
     border-color: #bce8f1;
