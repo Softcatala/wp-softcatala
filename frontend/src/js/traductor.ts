@@ -545,19 +545,15 @@ function translateFile(): void {
 
   const displayError = (msg: string): void => {
     btn.innerHTML = 'Demaneu traducció';
-    el<HTMLElement>('info').style.display = 'none';
-    const errEl = el<HTMLElement>('error');
-    errEl.classList.remove('hidden');
+    el<HTMLElement>('info').classList.remove('visible');
     el<HTMLElement>('errormessage').innerHTML = msg;
-    errEl.style.display = '';
+    el<HTMLElement>('error').classList.add('visible');
   };
 
   const displayOk = (): void => {
     btn.innerHTML = 'Demaneu traducció';
-    el<HTMLElement>('error').style.display = 'none';
-    const infoEl = el<HTMLElement>('info');
-    infoEl.classList.remove('hidden');
-    infoEl.style.display = '';
+    el<HTMLElement>('error').classList.remove('visible');
+    el<HTMLElement>('info').classList.add('visible');
     emailInput.value = '';
     fileInput.value = '';
   };
@@ -931,9 +927,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector<HTMLButtonElement>('#message_info > button')
     ?.addEventListener('click', () => hide(el('message_info')));
   document.querySelector<HTMLButtonElement>('#error > button')
-    ?.addEventListener('click', () => hide(el('error')));
+    ?.addEventListener('click', () => el('error').classList.remove('visible'));
   document.querySelector<HTMLButtonElement>('#info > button')
-    ?.addEventListener('click', () => hide(el('info')));
+    ?.addEventListener('click', () => el('info').classList.remove('visible'));
 
   // ── File translation ─────────────────────────────────────────────────────
   el<HTMLButtonElement>('translate_file')?.addEventListener('click', translateFile);

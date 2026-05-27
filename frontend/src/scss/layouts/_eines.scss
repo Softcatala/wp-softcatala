@@ -556,10 +556,18 @@ p.fons-gris {
   display: none;
 }
 
+#translate       { width: 130.76px; }
+#translate_file  { width: 241px; margin-top: 20px; }
+
 #info,
 #error {
   display: none;
-}
+  opacity: 0;
+  transition: opacity 0.4s ease, display 0.4s allow-discrete;
 
-#translate       { width: 130.76px; }
+  &.visible {
+    display: block;
+    opacity: 1;
+  }
+}
 #translate_file  { width: 241px; margin-top: 20px; }

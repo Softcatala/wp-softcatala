@@ -35,10 +35,9 @@ export function initFileUploadForm(config: FileUploadConfig): void {
 
   function displayError(msg: string): void {
     qs<HTMLButtonElement>('#i_demana').textContent = buttonLabel
-    qs<HTMLElement>('#info').style.display = 'none'
-    qs<HTMLElement>('#error').classList.remove('hidden')
+    qs<HTMLElement>('#info').classList.remove('visible')
     qs<HTMLElement>('#errormessage').innerHTML = msg
-    qs<HTMLElement>('#error').style.display = 'block'
+    qs<HTMLElement>('#error').classList.add('visible')
   }
 
   function displaySuccess(waitingQueue: number, filename?: string): void {
@@ -47,9 +46,8 @@ export function initFileUploadForm(config: FileUploadConfig): void {
       successMessage(waitingQueue, filename) +
       " D'aquí a una estona rebreu un correu electrònic quan el fitxer estigui llest."
     qs<HTMLElement>('#info_text2').textContent = 'Gràcies per usar aquest servei.'
-    qs<HTMLElement>('#error').style.display = 'none'
-    qs<HTMLElement>('#info').classList.remove('hidden')
-    qs<HTMLElement>('#info').style.display = 'block'
+    qs<HTMLElement>('#error').classList.remove('visible')
+    qs<HTMLElement>('#info').classList.add('visible')
     const emailInput = document.querySelector<HTMLInputElement>('#n_email')
     const fileInput = document.querySelector<HTMLInputElement>('#n_file')
     if (emailInput) emailInput.value = ''
@@ -114,11 +112,11 @@ export function initFileUploadForm(config: FileUploadConfig): void {
   })
 
   qs('#error > button').addEventListener('click', () => {
-    qs<HTMLElement>('#error').style.display = 'none'
+    qs<HTMLElement>('#error').classList.remove('visible')
   })
 
   qs('#info > button').addEventListener('click', () => {
-    qs<HTMLElement>('#info').style.display = 'none'
+    qs<HTMLElement>('#info').classList.remove('visible')
   })
 
   // SRT options toggle (transcribe page only — no-op if element absent)
