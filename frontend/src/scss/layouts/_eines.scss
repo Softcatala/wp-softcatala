@@ -1,7 +1,6 @@
 // ==========================================================================
 // Layout: Eines (translator, corrector, dictionary tools)
 // ==========================================================================
-@use '../components/alerts' as alerts;
 //
 // Source: maqueta/app/assets/less/layouts/layout-eines.less (415 lines)
 
@@ -572,5 +571,3 @@ p.fons-gris {
   }
 }
 
-#info  { @include alerts.alert-success; }
-#error { @include alerts.alert-error; }
