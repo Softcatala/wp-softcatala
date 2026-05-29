@@ -72,6 +72,7 @@ select.form-control {
   flex-shrink: 0;
 }
 
+
 .input-group-addon {
   display: flex;
   align-items: center;
@@ -80,7 +81,7 @@ select.form-control {
   font-weight: normal;
   color: var(--color-text);
   text-align: center;
-  background-color: #eee;
+  background-color: var(--color-white);
   border: 1px solid #ccc;
   border-radius: 0;
 

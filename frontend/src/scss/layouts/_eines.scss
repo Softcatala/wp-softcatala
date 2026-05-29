@@ -205,8 +205,16 @@
       margin-bottom: 20px;
     }
 
-    .input-group .form-control {
-      height: 40px;
+    .input-group {
+      gap: 4px;
+
+      .form-control {
+        height: 40px;
+      }
+
+      select.input-group-addon {
+        min-width: 160px;
+      }
     }
 
     // ── Mobile ────────────────────────────────────────────
