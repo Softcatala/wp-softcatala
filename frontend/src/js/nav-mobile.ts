@@ -343,8 +343,9 @@ export function initNavMobile(): void {
   }
 
   function closeNav(): void {
-    trigger.classList.remove('nav-is-visible')
-    primaryNav.classList.remove('nav-is-visible')
+    trigger.classList.remove('nav-is-visible', 'active')
+    primaryNav.classList.remove('nav-is-visible', 'in')
+    primaryNav.classList.add('collapse')
     overlay?.classList.remove('is-visible')
     document.body.classList.remove('overflow-hidden')
     // Clear content so next open starts fresh
