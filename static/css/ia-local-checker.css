@@ -128,7 +128,8 @@ div.req-banner ul {
 }
 
 div.req-banner ul li::before {
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 7 Free';
+    font-weight: 900;
     content: '\f054';
     color: #c43434;
     font-size: 13px;
