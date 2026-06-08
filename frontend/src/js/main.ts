@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initLeftMenuButton()
   initVersionsCollapse()
   initMoreComments()
-  initTranslatorLanguageButtons()
   initReplyToggle()
   initSmoothScroll()
   initTopSearchForms()
@@ -140,34 +139,6 @@ function initMoreComments(): void {
         btn.classList.add('bt-mes-disabled')
         btn.disabled = true
       }
-    })
-  }
-}
-
-/**
- * Translator language buttons: toggle .select class within origin and destination groups.
- */
-function initTranslatorLanguageButtons(): void {
-  // Origin language buttons
-  for (const btn of $$('.btns-llengues-origen .bt')) {
-    btn.addEventListener('click', (e: MouseEvent) => {
-      e.preventDefault()
-      for (const b of $$('.btns-llengues-origen .bt')) b.classList.remove('select')
-      btn.classList.add('select')
-    })
-  }
-
-  // Destination language buttons
-  for (const btn of $$('.btns-llengues-desti .bt')) {
-    btn.addEventListener('click', (e: MouseEvent) => {
-      e.preventDefault()
-      // If it's a wrapper div containing a disabled button, skip
-      if (btn.tagName === 'DIV') {
-        const innerBtn = btn.querySelector<HTMLButtonElement>('button')
-        if (innerBtn?.disabled) return
-      }
-      for (const b of $$('.btns-llengues-desti .bt')) b.classList.remove('select')
-      btn.classList.add('select')
     })
   }
 }

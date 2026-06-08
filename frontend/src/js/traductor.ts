@@ -142,39 +142,23 @@ let scrollAfterTranslation = false;
  * still reach it. Removing it restores the shortcut button.
  */
 function addSpaToOriginSelect(): void {
-  const sel = el<HTMLSelectElement>('origin-select');
-  if (!sel.querySelector('option[value="spa"]')) {
-    const opt = document.createElement('option');
-    opt.value = 'spa';
-    opt.text = 'castellà';
-    sel.firstChild!.after(opt);
-  }
+  const opt = el<HTMLSelectElement>('origin-select').querySelector<HTMLOptionElement>('option[value="spa"]');
+  if (opt) opt.hidden = false;
 }
 
 function removeSpaFromOriginSelect(): void {
-  const sel = el<HTMLSelectElement>('origin-select');
-  const opt = sel.querySelector('option[value="spa"]');
-  if (opt) {
-    opt.remove();
-  }
+  const opt = el<HTMLSelectElement>('origin-select').querySelector<HTMLOptionElement>('option[value="spa"]');
+  if (opt) opt.hidden = true;
 }
 
 function addSpaToTargetSelect(): void {
-  const sel = el<HTMLSelectElement>('target-select');
-  if (!sel.querySelector('option[value="spa"]')) {
-    const opt = document.createElement('option');
-    opt.value = 'spa';
-    opt.text = 'castellà';
-    sel.firstChild!.after(opt);
-  }
+  const opt = el<HTMLSelectElement>('target-select').querySelector<HTMLOptionElement>('option[value="spa"]');
+  if (opt) opt.hidden = false;
 }
 
 function removeSpaFromTargetSelect(): void {
-  const sel = el<HTMLSelectElement>('target-select');
-  const opt = sel.querySelector('option[value="spa"]');
-  if (opt) {
-    opt.remove();
-  }
+  const opt = el<HTMLSelectElement>('target-select').querySelector<HTMLOptionElement>('option[value="spa"]');
+  if (opt) opt.hidden = true;
 }
 
 // ---------------------------------------------------------------------------
@@ -185,22 +169,24 @@ function setOriginButton(language: string): void {
   const btnCat = el<HTMLButtonElement>('origin-cat');
   const btnSpa = el<HTMLButtonElement>('origin-spa');
   const sel    = el<HTMLSelectElement>('origin-select');
+  const selDiv  = el<HTMLElement>('div_select_origin');
 
   if (language === 'spa') {
+    removeSpaFromOriginSelect();
     addClass(btnSpa, 'select');
     removeClass(btnCat, 'select');
     removeClass(sel, 'select');
-    sel.value = '';
-    // Restore castellà shortcut button; remove it from select if it was added
+    sel.selectedIndex = 0;
+    show(selDiv);
     show(btnSpa);
-    removeSpaFromOriginSelect();
   } else if (language === 'cat') {
+    removeSpaFromOriginSelect();
     addClass(btnCat, 'select');
     removeClass(btnSpa, 'select');
     removeClass(sel, 'select');
-    sel.value = '';
+    sel.selectedIndex = 0;
+    show(selDiv);
     show(btnSpa);
-    removeSpaFromOriginSelect();
   } else {
     // Third language active on origin: move castellà into the select,
     // hide the shortcut button so the bar fits without overflow
@@ -209,6 +195,7 @@ function setOriginButton(language: string): void {
     removeClass(btnCat, 'select');
     sel.value = language;
     hide(btnSpa);
+    show(selDiv);
     addSpaToOriginSelect();
   }
 }
@@ -218,28 +205,31 @@ function setOriginButton(language: string): void {
 // ---------------------------------------------------------------------------
 
 function setTargetButton(language: string): void {
-  const btnCat = el<HTMLButtonElement>('target-cat');
-  const btnSpa = el<HTMLButtonElement>('target-spa');
-  const sel    = el<HTMLSelectElement>('target-select');
+  const btnCat    = el<HTMLButtonElement>('target-cat');
+  const btnSpa    = el<HTMLButtonElement>('target-spa');
+  const sel       = el<HTMLSelectElement>('target-select');
+  const selDiv    = el<HTMLElement>('div_select_target');
 
   if (language === 'cat') {
+    removeSpaFromTargetSelect();
     enable(btnCat);
     addClass(btnCat, 'select');
     removeClass(btnSpa, 'select');
     removeClass(sel, 'select');
-    sel.value = '';
+    sel.selectedIndex = 0;
     enable(sel);
+    show(selDiv);
     show(btnSpa);
-    removeSpaFromTargetSelect();
   } else if (language === 'spa') {
+    removeSpaFromTargetSelect();
     enable(btnSpa);
     addClass(btnSpa, 'select');
     removeClass(btnCat, 'select');
     removeClass(sel, 'select');
-    sel.value = '';
+    sel.selectedIndex = 0;
     enable(sel);
+    show(selDiv);
     show(btnSpa);
-    removeSpaFromTargetSelect();
   } else {
     // Third language active on target: move castellà into the select
     sel.value = language;
@@ -247,6 +237,7 @@ function setTargetButton(language: string): void {
     removeClass(btnCat, 'select');
     addClass(sel, 'select');
     enable(sel);
+    show(selDiv);
     hide(btnSpa);
     addSpaToTargetSelect();
   }
@@ -697,7 +688,7 @@ const neuronalApp = (() => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ── Set initial default language pair (castellà → català) ──────────────
+  // ── Set initial default language pair (castellà → català) ──────────────────────
   el<HTMLInputElement>('origin_language').value = 'spa';
   el<HTMLInputElement>('target_language').value = 'cat';
 
@@ -715,12 +706,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTarget = getMetaCookie('target-lang', COOKIE_NAME);
 
   if (savedSource) {
+    // Guard against a cookie that stored the same language on both sides
+    const resolvedTarget = savedTarget === savedSource ? (savedSource !== 'cat' ? 'cat' : 'spa') : savedTarget;
     setOriginLanguage(savedSource);
     setOriginButton(savedSource);
     setOriginButtonMobile(savedSource);
-    setTargetLanguage(savedTarget);
-    setTargetButton(savedTarget);
-    setTargetButtonMobile(savedTarget);
+    setTargetLanguage(resolvedTarget);
+    setTargetButton(resolvedTarget);
+    setTargetButtonMobile(resolvedTarget);
   }
 
   // ── Checkbox persistence ────────────────────────────────────────────────
@@ -747,6 +740,15 @@ document.addEventListener('DOMContentLoaded', () => {
   el<HTMLSelectElement>('target-select-mobil')?.addEventListener('change', function () {
     const lang = this.value;
     if (lang === 'spa') {
+      const currentOrigin = el<HTMLInputElement>('origin_language').value;
+      const currentTarget = el<HTMLInputElement>('target_language').value;
+      if (currentOrigin === 'spa') {
+        const newOrigin = currentTarget !== 'spa' ? currentTarget : 'cat';
+        setOriginLanguage(newOrigin);
+        setOriginButton(newOrigin);
+        setOriginButtonMobile(newOrigin);
+        toggleFormesValencianes('on');
+      }
       setTargetLanguage('spa');
       setTargetButton('spa');
       setTargetButtonMobile('spa');
@@ -791,6 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   el<HTMLSelectElement>('origin-select').addEventListener('change', function () {
     const lang = this.value;
+    if (!lang) return;
     // Invariant: one side must always be català.
     // Picking any non-cat on origin forces target to cat.
     setOriginLanguage(lang);
@@ -804,6 +807,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Target buttons ──────────────────────────────────────────────────────
   el<HTMLButtonElement>('target-spa').addEventListener('click', () => {
+    const currentOrigin = el<HTMLInputElement>('origin_language').value;
+    const currentTarget = el<HTMLInputElement>('target_language').value;
+    if (currentOrigin === 'spa') {
+      // Swap: move origin to what was the target (or català as fallback)
+      const newOrigin = currentTarget !== 'spa' ? currentTarget : 'cat';
+      setOriginLanguage(newOrigin);
+      setOriginButton(newOrigin);
+      setOriginButtonMobile(newOrigin);
+      toggleFormesValencianes('on');
+    }
     setTargetLanguage('spa');
     setTargetButton('spa');
     setTargetButtonMobile('spa');
@@ -828,8 +841,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   el<HTMLSelectElement>('target-select').addEventListener('change', function () {
     const lang = this.value;
+    if (!lang) return;
     if (lang === 'spa') {
       // User picked castellà from the select — treat as shortcut button click
+      const currentOrigin = el<HTMLInputElement>('origin_language').value;
+      const currentTarget = el<HTMLInputElement>('target_language').value;
+      if (currentOrigin === 'spa') {
+        const newOrigin = currentTarget !== 'spa' ? currentTarget : 'cat';
+        setOriginLanguage(newOrigin);
+        setOriginButton(newOrigin);
+        setOriginButtonMobile(newOrigin);
+        toggleFormesValencianes('on');
+      }
       setTargetLanguage('spa');
       setTargetButton('spa');
       setTargetButtonMobile('spa');
