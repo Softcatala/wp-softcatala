@@ -13,7 +13,8 @@ class SC_Shortcodes_LinkList {
 	}
 
 	public function shortcode( $atts, $content ) {
-		$items         = preg_split( '/\R/', $content, -1, PREG_SPLIT_NO_EMPTY );
+		$raw_items     = preg_split( '/\R/', $content, -1, PREG_SPLIT_NO_EMPTY );
+		$items         = array_values( array_filter( $raw_items, fn( $item ) => trim( $item ) !== '' ) );
 		$columns_count = ceil( count( $items ) / 2 );
 
 		$html = '<div class="row"><ul class="llista-check col-sm-6">';
@@ -27,11 +28,8 @@ class SC_Shortcodes_LinkList {
 
 			if ( $this->validate( $values ) ) {
 				$html .= '<li><a href="' . $values[1] . '"><i class="fas fa-check"></i><span>' . $values[0] . '</span></a></li>';
-			} else {
-				$html .= '<li><div class="bg-danger">';
-				$html .= 'L\'element de la llista no conté 2 parts';
-				$html .= '<pre>' . $item . '</pre>';
-				$html .= '</div></li>';
+			} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				$html .= '<li><div class="bg-danger">L\'element de la llista no conté 2 parts: <pre>' . esc_html( $item ) . '</pre></div></li>';
 			}
 		}
 
