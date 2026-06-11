@@ -19,6 +19,7 @@ wp_enqueue_style( 'sc-css-corrector-stats', get_template_directory_uri() . '/sta
 wp_localize_script( 'sc-js-corrector-1', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )
 ));
+wp_localize_script( 'sc-js-corrector-2', 'sc_settings', SC_Settings::get_instance()->get_setting_values() );
 
 $context = Timber::context();
 $context['api_languagetool'] = get_option('api_languagetool');
