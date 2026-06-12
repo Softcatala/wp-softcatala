@@ -34,13 +34,19 @@ class Seed_Menu_Recursos_Command extends WP_CLI_Command {
 			return;
 		}
 
-		$menu_id = wp_create_nav_menu( 'Recursos i Serveis' );
-		if ( is_wp_error( $menu_id ) ) {
-			WP_CLI::error( 'Could not create menu: ' . $menu_id->get_error_message() );
-			return;
+		$existing_menu = wp_get_nav_menu_object( 'Recursos i Serveis' );
+		if ( $existing_menu ) {
+			$menu_id = $existing_menu->term_id;
+			WP_CLI::log( 'Menu already exists, adding items and assigning to location.' );
+			$this->add_items( $menu_id );
+		} else {
+			$menu_id = wp_create_nav_menu( 'Recursos i Serveis' );
+			if ( is_wp_error( $menu_id ) ) {
+				WP_CLI::error( 'Could not create menu: ' . $menu_id->get_error_message() );
+				return;
+			}
+			$this->add_items( $menu_id );
 		}
-
-		$this->add_items( $menu_id );
 
 		$locations['nav-recursos'] = $menu_id;
 		set_theme_mod( 'nav_menu_locations', $locations );
