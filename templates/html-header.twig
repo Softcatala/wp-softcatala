@@ -243,74 +243,46 @@
                 <!-- #coneixeu -->
                 <div role="tabpanel" class="tab-pane" id="coneixeu">
                   <ul class="nav navbar-nav">
-                    <!-- .submenu-tab-dropdown -->
-                    <li class="dropdown">
-                      <a href="/que-es-softcatala/" role="button" aria-haspopup="true" aria-expanded="false">Què és Softcatalà</a>
-                      <ul class="dropdown-menu dropdown-hover">
-                        <li><a href="/que-es-softcatala/associacio/" title="L'associació Softcatalà">L'associació</a></li>
-                        <li><a href="/que-es-softcatala/historia/" title="Història de Softcatalà">Història</a></li>
-                        <li><a href="/que-es-softcatala/pmf-sobre-softcatala/" title="PMF sobre Softcatalà">PMF sobre Softcatalà</a></li>
-                        <li><a href="/que-es-softcatala/premis-i-guardons/" title="Premis i guardons de Softcatalà">Premis i guardons</a></li>
-                      </ul>
-                    </li><!--/.submenu-tab-dropdown -->
-                    <li class="divider-vertical"></li>
-
-                    <!-- .submenu-tab-dropdown -->
-                    <li class="dropdown">
-                      <a href="/en-que-treballem/" role="button" aria-haspopup="true" aria-expanded="false">En què treballem</a>
-                      <ul class="dropdown-menu dropdown-hover">
-                        <li><a href="/en-que-treballem/traduccio-de-programari/" title="Traducció de programari">Traducció de programari</a></li>
-                        <li><a href="/en-que-treballem/eines-linguistiques/" title="Eines lingüístiques">Eines lingüístiques</a></li>
-                        <li><a href="/en-que-treballem/recursos-traductors/" title="Recursos per a traductors">Recursos per a traductors</a></li>
-                        <li><a href="/en-que-treballem/foment-del-catala-tic/" title="Foment del català a les noves tecnologies">Foment del català a les noves tecnologies</a></li>
-                        <li><a href="/en-que-treballem/activisme-digital/" title="Activisme digital">Activisme digital</a></li>
-                      </ul>
-                    </li><!--/.submenu-tab-dropdown -->
-
-                    <li class="divider-vertical"></li>
-                    <li><a href="/membres/" title="Membres de Softcatalà">Membres</a></li>
-                    <li class="divider-vertical"></li>
-
-                    <!-- .submenu-tab-dropdown -->
-                    <li class="dropdown">
-                      <a href="/com-ens-organitzem/" role="button" aria-haspopup="true" aria-expanded="false">Com ens organitzem</a>
-                      <ul class="dropdown-menu dropdown-hover">
-                        <li><a href="/com-ens-organitzem/presa-de-decisions/" title="Presa de decisions">Presa de decisions</a></li>
-                        <li><a href="/com-ens-organitzem/funcionament-economic-de-lassociacio/" title="Funcionament econòmic de l'associació">Funcionament econòmic de l'associació</a></li>
-                        <li><a href="/com-ens-organitzem/nous-membres/" title="Nous membres">Nous membres</a></li>
-                        <li><a href="/com-ens-organitzem/codi-de-conducta/" title="Codi de conducta a la comunitat Softcatalà">Codi de conducta</a></li>
-                        <li><a href="/com-ens-organitzem/comunicacio-amb-els-mitjans/" title="Comunicació amb els mitjans">Comunicació amb els mitjans</a></li>
-                      </ul>
-                    </li><!--/.submenu-tab-dropdown -->
-
-                    <li class="divider-vertical"></li>
-                    <li><a href="/planeta/">Blogs</a></li>
-                    <li class="divider-vertical"></li>
-                    <li class="dropdown">
-                      <a href="/podcasts/" role="button" aria-haspopup="true" aria-expanded="false">Podcasts</a>
-                      <ul class="dropdown-menu dropdown-hover">
-                        <li><a href="/podcasts/quinze-glacons-hidrogen/">Quinze glaçons d'hidrogen</a></li>
-                      </ul>
-                    </li>
-                    <li class="divider-vertical"></li>
+                    {% if menu_coneixeu %}
+                      {% for item in menu_coneixeu.items %}
+                        {% if item.children %}
+                          <li class="dropdown">
+                            <a href="{{ item.link }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+                            <ul class="dropdown-menu dropdown-hover">
+                              {% for child in item.children %}
+                                <li><a href="{{ child.link }}" title="{{ child.title }}">{{ child.title }}</a></li>
+                              {% endfor %}
+                            </ul>
+                          </li>
+                        {% else %}
+                          <li><a href="{{ item.link }}" title="{{ item.title }}">{{ item.title }}</a></li>
+                        {% endif %}
+                        <li class="divider-vertical"></li>
+                      {% endfor %}
+                    {% endif %}
                   </ul>
                 </div><!--/#coneixeu -->
 
                 <!-- #collaboreu -->
                 <div role="tabpanel" class="tab-pane" id="collaboreu">
                   <ul class="nav navbar-nav">
-                    <li class="active"><a href="/col·laboreu/raons-per-col·laborar/">Raons per a<br />col·laborar</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="/col·laboreu/traduccio-i-correccio/" title="Col·laboradors traductors i correctors">Traductors <br />i correctors</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="/col·laboreu/disseny/" title="Col·laboradors dissenyadors">Dissenyadors</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="/col·laboreu/desenvolupament/" title="Col·laboradors desenvolupadors">Desenvolupadors</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="/col·laboreu/gestio-de-contingut/" title="Col·laboradors gestió de contingut">Gestors <br />de contingut</a></li>
-                    <li class="divider-vertical"></li>
-                    <li><a href="/col·laboreu/coordinacio-desdeveniments/" title="Col·laboradors coordinadors d'esdeveniments">Coordinadors <br />d'esdeveniments</a></li>
-                    <li class="divider-vertical"></li>
+                    {% if menu_collaboreu %}
+                      {% for item in menu_collaboreu.items %}
+                        {% if item.children %}
+                          <li class="dropdown">
+                            <a href="{{ item.link }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+                            <ul class="dropdown-menu dropdown-hover">
+                              {% for child in item.children %}
+                                <li><a href="{{ child.link }}" title="{{ child.title }}">{{ child.title }}</a></li>
+                              {% endfor %}
+                            </ul>
+                          </li>
+                        {% else %}
+                          <li><a href="{{ item.link }}" title="{{ item.title }}">{{ item.title }}</a></li>
+                        {% endif %}
+                        <li class="divider-vertical"></li>
+                      {% endfor %}
+                    {% endif %}
                   </ul>
                 </div><!--/#collaboreu -->
 
