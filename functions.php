@@ -64,6 +64,9 @@ class StarterSite extends \Timber\Site {
 			add_theme_support( 'post-thumbnails' );
 			add_theme_support( 'menus' );
 			add_theme_support( 'title-tag' );
+			register_nav_menus( array(
+				'nav-recursos' => 'Recursos i Serveis',
+			) );
 		}
 
 
@@ -610,6 +613,7 @@ class StarterSite extends \Timber\Site {
 		$context['site']          = $this;
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
+		$context['menu_recursos'] = \Timber\Timber::get_menu( 'nav-recursos' );
 
 		return $context;
 	}
