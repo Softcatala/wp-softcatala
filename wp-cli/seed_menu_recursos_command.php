@@ -82,7 +82,7 @@ class Seed_Menu_Recursos_Command extends WP_CLI_Command {
 			array(
 				'menu-item-title'   => 'Aplicacions',
 				'menu-item-url'     => '/programes/',
-				'menu-item-classes' => array( 'is-megamenu-programes' ),
+				'menu-item-classes' => 'is-megamenu-programes',
 				'menu-item-status'  => 'publish',
 			)
 		);
