@@ -76,6 +76,12 @@
                         {% endif %}
 
                         <button type="button" class="btn btn-default" id="kanban-reset-filters">Neteja filtres</button>
+
+                        {% if show_all_completed %}
+                            <a class="btn btn-default" href="{{ function('remove_query_arg', 'all_completed') }}">Amaga les tasques antigues completades</a>
+                        {% else %}
+                            <a class="btn btn-default" href="{{ function('add_query_arg', 'all_completed', '1') }}">Mostra totes les tasques completades</a>
+                        {% endif %}
                     </form>
                 </div>
             </div>{# /.kanban-filters #}

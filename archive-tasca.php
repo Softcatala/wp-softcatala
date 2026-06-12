@@ -35,11 +35,12 @@ wp_localize_script(
 	)
 );
 
-$is_logged_in = is_user_logged_in();
+$is_logged_in     = is_user_logged_in();
+$show_all_completed = isset( $_GET['all_completed'] ) && '1' === $_GET['all_completed'];
 
 // Fetch tasks and board metadata from the provider.
-$estats       = Tasques::get_ordered_estats();
-$tasks        = Tasques::get_all_for_board( $is_logged_in );
+$estats         = Tasques::get_ordered_estats();
+$tasks          = Tasques::get_all_for_board( $is_logged_in, $show_all_completed );
 $tasks_by_estat = Tasques::group_by_estat( $tasks, $estats );
 $filter_options = Tasques::get_filter_options( $tasks );
 
@@ -142,12 +143,13 @@ foreach ( $tasks as $task ) {
 
 $templates = array( 'archive-tasca.twig' );
 
-$context_holder['estats']           = $estats;
-$context_holder['tasks_data']       = $tasks_data;
-$context_holder['tasks_by_estat']   = $tasks_by_estat;
-$context_holder['filter_options']   = $filter_options;
-$context_holder['total_task_count'] = $total_task_count;
-$context_holder['is_logged_in']     = $is_logged_in;
+$context_holder['estats']             = $estats;
+$context_holder['tasks_data']         = $tasks_data;
+$context_holder['tasks_by_estat']     = $tasks_by_estat;
+$context_holder['filter_options']     = $filter_options;
+$context_holder['total_task_count']   = $total_task_count;
+$context_holder['is_logged_in']       = $is_logged_in;
+$context_holder['show_all_completed'] = $show_all_completed;
 
 $context_filterer = new SC_ContextFilterer( $context_holder );
 $context_overrides = array(

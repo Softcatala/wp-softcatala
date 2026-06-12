@@ -122,6 +122,13 @@ function sc_rest_update_tasca_estat( $request ) {
 		);
 	}
 
+	// Track when a task enters a terminal state for the board cutoff filter.
+	if ( get_term_meta( $term->term_id, 'is_terminal', true ) ) {
+		update_post_meta( $id, '_terminal_date', current_time( 'mysql' ) );
+	} else {
+		delete_post_meta( $id, '_terminal_date' );
+	}
+
 	return new WP_REST_Response(
 		array(
 			'id'    => $id,

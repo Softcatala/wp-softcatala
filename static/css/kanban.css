@@ -418,6 +418,8 @@
 
 .kanban-filter-form .form-group {
     margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .kanban-filter-form .form-control {
@@ -427,6 +429,7 @@
     border-radius: 0;
     border-color: #ddd;
     min-width: 140px;
+    width: auto;
 }
 
 .kanban-filter-form .btn {

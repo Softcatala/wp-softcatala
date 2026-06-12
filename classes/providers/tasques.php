@@ -21,15 +21,23 @@ class Tasques {
 	const TRANSIENT_INTERNAL_TASCA_IDS = 'sc_internal_tasca_ids';
 
 	/**
+	 * Number of days after which terminal tasks are hidden from the board.
+	 */
+	const TERMINAL_CUTOFF_DAYS = 90;
+
+	/**
 	 * Fetch all published tasks visible to the given visitor type, for the global board.
 	 *
 	 * For anonymous visitors, tasks linked to projectes with `tasques_internes = true`
 	 * are excluded. For logged-in users, all published tasks are returned.
+	 * Terminal tasks completed more than TERMINAL_CUTOFF_DAYS days ago are excluded
+	 * unless $show_all_completed is true.
 	 *
-	 * @param bool $is_logged_in Whether the current visitor is authenticated.
+	 * @param bool $is_logged_in       Whether the current visitor is authenticated.
+	 * @param bool $show_all_completed Whether to bypass the terminal cutoff filter.
 	 * @return \WP_Post[] Array of WP_Post objects.
 	 */
-	public static function get_all_for_board( $is_logged_in ) {
+	public static function get_all_for_board( $is_logged_in, $show_all_completed = false ) {
 		$args = array(
 			'post_type'      => 'tasca',
 			'post_status'    => 'publish',
@@ -37,6 +45,15 @@ class Tasques {
 			'orderby'        => 'date',
 			'order'          => 'ASC',
 		);
+
+		if ( ! $show_all_completed ) {
+			$cutoff_date = gmdate( 'Y-m-d H:i:s', strtotime( '-' . self::TERMINAL_CUTOFF_DAYS . ' days' ) );
+			$args['meta_query'] = array(
+				'relation' => 'OR',
+				array( 'key' => '_terminal_date', 'compare' => 'NOT EXISTS' ),
+				array( 'key' => '_terminal_date', 'value' => $cutoff_date, 'compare' => '>=', 'type' => 'DATETIME' ),
+			);
+		}
 
 		$query = new \WP_Query( $args );
 		$tasks = $query->posts;

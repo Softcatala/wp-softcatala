@@ -196,6 +196,57 @@ class TasquesApiTest extends SCTests {
 	}
 
 	/**
+	 * PATCH to a terminal estat writes _terminal_date meta.
+	 */
+	function test_patch_to_terminal_estat_writes_terminal_date() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$terminal_term = wp_insert_term( 'Feta', 'estat_tasca', array( 'slug' => 'feta-test' ) );
+		if ( is_wp_error( $terminal_term ) ) {
+			$term = get_term_by( 'slug', 'feta-test', 'estat_tasca' );
+			$terminal_term_id = $term->term_id;
+		} else {
+			$terminal_term_id = $terminal_term['term_id'];
+		}
+		update_term_meta( $terminal_term_id, 'is_terminal', 1 );
+
+		$request = new WP_REST_Request( 'PATCH', '/sc/v1/tasca/' . $this->task_id . '/estat' );
+		$request->set_param( 'id', $this->task_id );
+		$request->set_param( 'estat', 'feta-test' );
+		$request->set_header( 'X-WP-Nonce', wp_create_nonce( 'wp_rest' ) );
+
+		$response = rest_do_request( $request );
+		$this->assertEquals( 200, $response->get_status() );
+		$this->assertNotEmpty( get_post_meta( $this->task_id, '_terminal_date', true ) );
+
+		wp_delete_term( $terminal_term_id, 'estat_tasca' );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * PATCH away from a terminal estat deletes _terminal_date meta.
+	 */
+	function test_patch_away_from_terminal_estat_removes_terminal_date() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		// Pre-set a _terminal_date as if the task was previously terminal.
+		update_post_meta( $this->task_id, '_terminal_date', current_time( 'mysql' ) );
+
+		$request = new WP_REST_Request( 'PATCH', '/sc/v1/tasca/' . $this->task_id . '/estat' );
+		$request->set_param( 'id', $this->task_id );
+		$request->set_param( 'estat', $this->term_slug ); // non-terminal
+		$request->set_header( 'X-WP-Nonce', wp_create_nonce( 'wp_rest' ) );
+
+		$response = rest_do_request( $request );
+		$this->assertEquals( 200, $response->get_status() );
+		$this->assertEmpty( get_post_meta( $this->task_id, '_terminal_date', true ) );
+
+		wp_delete_user( $user_id );
+	}
+
+	/**
 	 * The sc/v1/tasca route is discoverable in the REST index.
 	 */
 	function test_route_is_registered() {
