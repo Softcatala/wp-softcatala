@@ -728,6 +728,7 @@ add_action( 'wp_enqueue_scripts', 'softcatala_scripts' );
 add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 	$module_handles = [
 		'sc-js-main',
+		'sc-js-kanban',
 		'sc-js-conjugador',
 		'sc-js-transcribe',
 		'sc-js-transcribe-results',

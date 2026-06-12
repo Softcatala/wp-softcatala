@@ -35,6 +35,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/js/main.ts'),
+        kanban: resolve(__dirname, 'src/js/kanban.ts'),
         traductor: resolve(__dirname, 'src/js/traductor.ts'),
         conjugador: resolve(__dirname, 'src/js/conjugador.ts'),
         transcribe: resolve(__dirname, 'src/js/transcribe.ts'),
@@ -44,7 +45,8 @@ export default defineConfig({
       },
       output: {
         entryFileNames: (chunk) =>
-          chunk.name === 'traductor' ? 'js/traductor.js'
+          chunk.name === 'kanban' ? 'js/kanban.js'
+          : chunk.name === 'traductor' ? 'js/traductor.js'
           : chunk.name === 'conjugador' ? 'js/conjugador/conjugador.js'
           : chunk.name === 'transcribe' ? 'js/transcribe.js'
           : chunk.name === 'transcribe-results' ? 'js/transcribe-results.js'

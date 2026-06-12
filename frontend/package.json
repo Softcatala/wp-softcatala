@@ -14,5 +14,9 @@
     "sass-embedded": "^1.87.0",
     "typescript": "^6.0.2",
     "vite": "^6.3.2"
+  },
+  "dependencies": {
+    "@types/sortablejs": "^1.15.9",
+    "sortablejs": "^1.15.7"
   }
 }

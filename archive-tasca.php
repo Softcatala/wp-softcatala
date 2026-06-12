@@ -15,18 +15,10 @@ wp_enqueue_style(
 	WP_SOFTCATALA_VERSION
 );
 
-// Enqueue SortableJS and kanban JS (JS loaded in footer).
-wp_register_script(
-	'sortablejs',
-	get_template_directory_uri() . '/static/js/sortable.min.js',
-	array(),
-	'1.15.7',
-	true
-);
 wp_enqueue_script(
 	'sc-js-kanban',
 	get_template_directory_uri() . '/static/js/kanban.js',
-	array( 'jquery', 'sortablejs' ),
+	array(),
 	WP_SOFTCATALA_VERSION,
 	true
 );

@@ -25,7 +25,7 @@ import { $, $$ } from './utils'
 /** Currently open modal (if any) */
 let activeModal: HTMLElement | null = null
 
-function openModal(modal: HTMLElement): void {
+export function openModal(modal: HTMLElement): void {
   activeModal = modal
   document.body.classList.add('modal-open')
   modal.classList.add('in')
