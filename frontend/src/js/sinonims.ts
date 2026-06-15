@@ -62,7 +62,7 @@ function onError(response: ErrorResult): void {
 
 function doSearch(): void {
   const input = document.getElementById('sinonims') as HTMLInputElement | null
-  const query = (input?.value ?? '').trim().replace("'", '\u2019')
+  const query = (input?.value ?? '').trim().replace("'", '’')
 
   const loading = document.getElementById('loading')
 
