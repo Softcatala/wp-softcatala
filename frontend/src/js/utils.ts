@@ -64,6 +64,53 @@ export function initTouchDetection(): void {
 
 /* ── Reduced motion ──────────────────────────────────────── */
 
+/* ── Analytics ──────────────────────────────────────────── */
+
+/**
+ * Send a Google Analytics pageview tracking event.
+ * No-ops when ga is not available.
+ */
+export function sendTracking(success: boolean, status = '', verb = ''): void {
+  if (typeof (window as any).ga !== 'function') return
+  const url = (success ? '' : status) + document.location.pathname + (success ? '' : verb)
+  ;(window as any).ga('send', 'pageview', url)
+}
+
+/* ── Share links ─────────────────────────────────────────── */
+
+/**
+ * Update Facebook and Twitter share links.
+ * @param twitterText - Full tweet text (caller supplies the page-specific copy)
+ */
+export function updateShareLinks(twitterText: string): void {
+  const url = window.location.href
+  document.getElementById('share_facebook')?.setAttribute(
+    'href',
+    `https://www.facebook.com/sharer/sharer.php?u=${url}`
+  )
+  document.getElementById('share_twitter')?.setAttribute(
+    'href',
+    `https://twitter.com/intent/tweet?text=${twitterText} ${url}`
+  )
+}
+
+/* ── Input focus ─────────────────────────────────────────── */
+
+/**
+ * Focus a search input on desktop (selecting existing text for easy replacement).
+ * On mobile, clears the field instead to avoid the keyboard popping up.
+ */
+export function focusSearchInput(selector: string): void {
+  const input = $<HTMLInputElement>(selector)
+  if (!input) return
+  if (!matchesBP('<sm')) {
+    input.select()
+    input.focus()
+  } else {
+    input.value = ''
+  }
+}
+
 export function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
