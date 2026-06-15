@@ -42,6 +42,8 @@ export default defineConfig({
         'transcribe-results': resolve(__dirname, 'src/js/transcribe-results.ts'),
         dubbing: resolve(__dirname, 'src/js/dubbing.ts'),
         pmf: resolve(__dirname, 'src/js/pmf.ts'),
+        'diccionari-engcat': resolve(__dirname, 'src/js/diccionari-engcat.ts'),
+        sinonims: resolve(__dirname, 'src/js/sinonims.ts'),
       },
       output: {
         entryFileNames: (chunk) =>
@@ -52,6 +54,8 @@ export default defineConfig({
           : chunk.name === 'transcribe-results' ? 'js/transcribe-results.js'
           : chunk.name === 'dubbing' ? 'js/dubbing.js'
           : chunk.name === 'pmf' ? 'js/pmf.js'
+          : chunk.name === 'diccionari-engcat' ? 'js/diccionari-engcat/diccionari-engcat.js'
+          : chunk.name === 'sinonims' ? 'js/sinonims.js'
           : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
