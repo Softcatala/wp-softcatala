@@ -7,7 +7,7 @@
 
 /* JS scripts */
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-dict-eng-cat', get_template_directory_uri() . '/static/js/diccionari-engcat/diccionari-engcat.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-dict-eng-cat', get_template_directory_uri() . '/static/js/diccionari-engcat/diccionari-engcat.js', array(), WP_SOFTCATALA_VERSION, true );
 
 wp_localize_script( 'sc-js-dict-eng-cat', 'scajax', array(
     'ajax_url' => admin_url( 'admin-ajax.php' )

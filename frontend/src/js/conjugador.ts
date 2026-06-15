@@ -14,6 +14,7 @@
 // ---------------------------------------------------------------------------
 
 import { initTabs } from './tabs'
+import { focusSearchInput, sendTracking, updateShareLinks } from './utils'
 
 declare const scajax: { ajax_url: string; autocomplete_url: string }
 declare const jQuery: any
@@ -57,32 +58,6 @@ function hide(element: HTMLElement | null): void {
 }
 
 // ---------------------------------------------------------------------------
-// Analytics
-// ---------------------------------------------------------------------------
-
-function sendTracking(success: boolean, status = '', verb = ''): void {
-  if (typeof (window as any).ga !== 'function') return
-  const url = (success ? '' : status) + document.location.pathname + (success ? '' : verb)
-  ;(window as any).ga('send', 'pageview', url)
-}
-
-// ---------------------------------------------------------------------------
-// Share links
-// ---------------------------------------------------------------------------
-
-function updateShareLinks(query: string): void {
-  const url = window.location.href
-  el<HTMLAnchorElement>('share_facebook')?.setAttribute(
-    'href',
-    `https://www.facebook.com/sharer/sharer.php?u=${url}`
-  )
-  el<HTMLAnchorElement>('share_twitter')?.setAttribute(
-    'href',
-    `https://twitter.com/intent/tweet?text=Conjugació del verb ${query} al conjugador de Softcatalà ${url}`
-  )
-}
-
-// ---------------------------------------------------------------------------
 // Result injection
 // ---------------------------------------------------------------------------
 
@@ -104,7 +79,7 @@ function injectResults(html: string): void {
 
 function onSuccess(result: AjaxSuccess): void {
   history.pushState(null, '', result.canonical)
-  updateShareLinks(result.canonical)
+  updateShareLinks(`Conjugació del verb ${result.canonical} al conjugador de Softcatalà`)
   sendTracking(true)
 
   const source = el<HTMLInputElement>('source')
@@ -253,4 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     doAjax()
   })
+
+  focusSearchInput('#source')
 })
