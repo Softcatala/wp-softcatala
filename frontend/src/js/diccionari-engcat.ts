@@ -151,16 +151,16 @@ function initCorpusToggle(): void {
     const target = (e.target as HTMLElement).closest('.mostra_corpus')
     if (!target) return
     e.preventDefault()
-    const corpusRows = target.closest('table')?.querySelectorAll('tr.corpus_hidden')
-    if (!corpusRows) return
+    const table = target.closest('table')
+    if (!table) return
+    const corpusRows = table.querySelectorAll('tr.corpus_hidden, tr.corpus_hidden_visible')
+    if (!corpusRows.length) return
+    const expanding = Array.from(corpusRows).some((row) => row.classList.contains('corpus_hidden'))
     corpusRows.forEach((row) => {
-      const el = row as HTMLElement
-      el.style.display = el.style.display === 'none' ? '' : 'none'
+      row.classList.toggle('corpus_hidden', !expanding)
+      row.classList.toggle('corpus_hidden_visible', expanding)
     })
-    const anyVisible = Array.from(corpusRows).some(
-      (row) => (row as HTMLElement).style.display !== 'none'
-    )
-    target.textContent = anyVisible ? 'Mostra menys exemples' : 'Mostra més exemples'
+    target.textContent = expanding ? 'Mostra menys exemples' : 'Mostra més exemples'
   })
 }
 
