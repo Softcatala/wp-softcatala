@@ -120,7 +120,6 @@ class Seed_Nav_Menus_Command extends WP_CLI_Command {
 	private function add_recursos_items( $menu_id ) {
 		$this->add_item( $menu_id, 'Traductor', '/traductor/' );
 		$this->add_item( $menu_id, 'Corrector', '/corrector/' );
-		$this->add_item( $menu_id, 'Aplicacions', '/programes/', array(), 'is-megamenu-programes' );
 
 		$this->add_item(
 			$menu_id,
@@ -138,6 +137,8 @@ class Seed_Nav_Menus_Command extends WP_CLI_Command {
 				array( 'Doblatge de vídeos automàtic', '/doblatge/' ),
 			)
 		);
+
+		$this->add_item( $menu_id, 'Aplicacions', '/programes/', array(), 'is-megamenu-programes' );
 
 		$this->add_item(
 			$menu_id,
