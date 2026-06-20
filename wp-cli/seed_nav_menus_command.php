@@ -161,7 +161,7 @@ class Seed_Nav_Menus_Command extends WP_CLI_Command {
 				array( 'Catalanitzador de Softcatalà', '/catalanitzador/' ),
 				array( "Guia d'aparells en català", '/tutorials/guia-de-mobils-i-tauletes-en-catala/' ),
 				array( 'Tutorials', '/ordinadors-i-mobils-en-catala/tutorials/' ),
-				array( 'La IA al vostre ordinador personal', '/la-intelligencia-artificial-al-vostre-ordinador-personal/' ),
+				array( 'La IA al vostre ordinador personal', '/ia-local/' ),
 			)
 		);
 	}
