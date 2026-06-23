@@ -49,6 +49,7 @@ include( 'inc/diccionari.php' );
 include( 'inc/downloads.php' );
 include( 'inc/query.php' );
 include( 'inc/email.php' );
+include( 'inc/api-token.php' );
 include( 'rest/downloads-api.php' );
 include( 'rest/projectes-csv-api.php' );
 include( 'rest/tasques-api.php' );
