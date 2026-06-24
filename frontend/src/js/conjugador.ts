@@ -42,6 +42,14 @@ interface AjaxError {
 }
 
 // ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+function getScToken(): string {
+  return document.querySelector<HTMLMetaElement>('meta[name="sc-token"]')?.content ?? ''
+}
+
+// ---------------------------------------------------------------------------
 // DOM helpers
 // ---------------------------------------------------------------------------
 
@@ -187,9 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
       limit: 200,
       async: true,
       source(query: string, _: unknown, processAsync: (items: string[]) => void) {
+        const token = getScToken()
         jQuery.ajax({
           url: scajax.autocomplete_url + query,
           dataType: 'json',
+          headers: token ? { 'X-SC-Token': token } : {},
           success(data: Array<{ verb_form: string; infinitive: string; url: string }>) {
             items.length = 0
             for (const verb of data) {

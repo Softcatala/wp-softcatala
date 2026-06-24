@@ -42,14 +42,14 @@ class SC_Conjugador {
 			$url     = $url_api . 'search/' . $verb;
 		}
 
-		$result = $this->rest_client->get( $url );
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return $this->return500();
 		}
 
 		if ( 200 == $result['code'] ) {
-			
+
 			return $this->build_results( $result['result'], $verb, $infinitiu, $foundurl, $ajaxquery );
 		}
 		
@@ -68,8 +68,8 @@ class SC_Conjugador {
 		$lletra = strtolower( $lletra );
 		$url_api = get_option( 'api_conjugador' );
 		$url     = $url_api . 'index/' . $lletra;
-			
-		$result = $this->rest_client->get( $url );
+
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return $this->return500();
