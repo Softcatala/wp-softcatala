@@ -10,10 +10,6 @@ class SC_RestClient {
 
 	public function get( $url, $use_api_key = false ) {
 
-		if ( $use_api_key && defined( 'SC_API_KEY' ) ) {
-			$url = add_query_arg( 'sc-api-key', SC_API_KEY, $url );
-		}
-
 		$args = array(
 			'method' => 'GET',
 			'timeout' => 5,
@@ -21,6 +17,10 @@ class SC_RestClient {
 				'Content-Type' => 'application/json',
 			),
 		);
+
+		if ( $use_api_key && defined( 'SC_API_KEY' ) ) {
+			$args['headers']['X-SC-Api-Key'] = SC_API_KEY;
+		}
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$args['headers']['accept-encoding'] = 'identity';
