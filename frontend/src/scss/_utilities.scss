@@ -390,8 +390,12 @@
 // --------------------------------------------------------------------------
 // Tabs
 // --------------------------------------------------------------------------
+// Bootstrap-style tab bar for content tabs (conjugador + [tabs] shortcode).
+// Scoped to avoid colliding with the header nav and home OS tabs,
+// which also use .nav-tabs but have their own styling.
 
-.nav-tabs {
+#tabsconjugador.nav-tabs,
+.sc-tabs .nav-tabs {
   border-bottom: 1px solid #ddd;
   padding-left: 0;
   margin-bottom: 0;

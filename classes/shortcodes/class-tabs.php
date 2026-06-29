@@ -65,7 +65,7 @@ class SC_Shortcodes_Tabs {
 		}
 		$panels .= '</div>';
 
-		return $nav . $panels;
+		return '<div class="sc-tabs">' . $nav . $panels . '</div>';
 	}
 }
 endif;
