@@ -388,13 +388,55 @@
 }
 
 // --------------------------------------------------------------------------
-// Tab pane visibility
+// Tabs
 // --------------------------------------------------------------------------
-// Only the active .tab-pane is visible; the rest are hidden.
 
-.tab-pane {
+.nav-tabs {
+  border-bottom: 1px solid #ddd;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  > li {
+    margin-bottom: -1px;
+
+    > a {
+      display: block;
+      padding: 8px 15px;
+      margin-right: 2px;
+      border: 1px solid transparent;
+      border-radius: 4px 4px 0 0;
+      color: var(--color-brand);
+      text-decoration: none;
+      line-height: 1.42857;
+
+      &:hover {
+        border-color: #eee #eee #ddd;
+        background-color: #eee;
+        color: var(--color-brand-hover);
+      }
+    }
+
+    &.active > a,
+    &.active > a:hover,
+    &.active > a:focus {
+      color: #555;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-bottom-color: transparent;
+      cursor: default;
+    }
+  }
+}
+
+.tab-content > .tab-pane {
   display: none;
-  &.active { display: block; }
+}
+
+.tab-content > .tab-pane.active {
+  display: block;
 }
 
 // --------------------------------------------------------------------------
