@@ -39,12 +39,14 @@ include( 'classes/shortcodes/class-llista-icones.php' );
 include( 'classes/shortcodes/class-llista-links.php' );
 include( 'classes/shortcodes/class-tabs.php' );
 include( 'classes/shortcodes/class-fetch-html.php' );
+include( 'classes/shortcodes/class-ia-data.php' );
 
 $sc_shortcode_handler = new SC_Shortcodes();
 new SC_Shortcodes_IconList( $sc_shortcode_handler );
 new SC_Shortcodes_LinkList( $sc_shortcode_handler );
 new SC_Shortcodes_Tabs( $sc_shortcode_handler );
 new SC_Shortcodes_FetchHtml( $sc_shortcode_handler );
+new SC_Shortcodes_IaData( $sc_shortcode_handler );
 $sc_shortcode_handler->setup();
 
 include( 'inc/perfils.php' );
