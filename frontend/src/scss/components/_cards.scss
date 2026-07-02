@@ -22,6 +22,19 @@
   justify-content: space-evenly;
   margin-left: calc($grid-gutter / -2);
   margin-right: calc($grid-gutter / -2);
+
+  // Balance the caption padding instead of reserving the base 55px of
+  // bottom space (.thumbnail-vertical .caption below) for a fixed layout.
+  .thumbnail-vertical .caption {
+    padding-bottom: 18px;
+  }
+
+  // Let the image wrapper size to the image instead of cropping to a
+  // fixed height (.thumbnail-premsa div below), since shortcode images
+  // aren't guaranteed to share one aspect ratio.
+  .thumbnail-premsa div {
+    height: auto;
+  }
 }
 
 // ---------------------------------------------------------------------------
