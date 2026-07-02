@@ -1,0 +1,23 @@
+{#
+  Card thumbnail partial (press/link-style card).
+
+  Used by the [cards]/[card] shortcodes (classes/shortcodes/class-cards.php)
+  and reuses the same markup as the hardcoded loop in
+  templates/plantilla-distribuidora-01.twig.
+
+  Variables expected:
+    card      — associative array: title, image (URL, optional), link, description
+    themepath — theme root URI (for the fallback placeholder image)
+#}
+<div class="thumbnail thumbnail-vertical thumbnail-premsa">
+    <a href="{{ card.link }}" alt="{{ card.title }}">
+        <div>
+            <img src="{% if card.image %}{{ card.image|resize(270) }}{% else %}{{ themepath }}/static/images/content/generic_image_bloc.png{% endif %}" alt="{{ card.title }}">
+        </div>
+        <div class="caption">
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.description|truncate_words(15) }}</p>
+            <span class="bt-aneu"><i class="fas fa-chevron-right"></i> més</span>
+        </div>
+    </a>
+</div>

@@ -10,6 +10,21 @@
 @use '../tokens' as *;
 
 // ---------------------------------------------------------------------------
+// Card grid ([cards]/[card] shortcodes — classes/shortcodes/class-cards.php)
+// ---------------------------------------------------------------------------
+//
+// Same flex row as .row (_utilities.scss), but justify-content: space-evenly
+// so a row with fewer than 4 cards stays balanced instead of left-aligned.
+
+.sc-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-left: calc($grid-gutter / -2);
+  margin-right: calc($grid-gutter / -2);
+}
+
+// ---------------------------------------------------------------------------
 // Base thumbnail
 // ---------------------------------------------------------------------------
 
