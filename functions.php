@@ -718,6 +718,16 @@ class StarterSite extends \Timber\Site {
 global $sc_site;
 $sc_site = new StarterSite();
 
+add_filter( 'block_categories_all', function( $categories ) {
+	array_unshift( $categories, array(
+		'slug'  => 'softcatala',
+		'title' => 'Softcatalà',
+	) );
+	return $categories;
+} );
+
+new \Softcatala\Blocks\Cards();
+
 function softcatala_scripts() {
 
 	global $sc_site;

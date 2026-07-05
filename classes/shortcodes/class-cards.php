@@ -52,6 +52,18 @@ class SC_Shortcodes_Cards {
 		$cards        = self::$buffer;
 		self::$buffer = array();
 
+		return self::render( $cards );
+	}
+
+	/**
+	 * Renders a list of cards as the "sc-cards" grid markup. Shared by the
+	 * [cards] shortcode and the "Targetes" ACF block (classes/blocks/cards.php)
+	 * so both entry points produce identical output.
+	 *
+	 * @param array $cards List of associative arrays: title, image, link, description.
+	 * @return string
+	 */
+	public static function render( array $cards ): string {
 		if ( empty( $cards ) ) {
 			return '';
 		}
