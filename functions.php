@@ -1,7 +1,7 @@
 <?php
 
 
-define( 'WP_SOFTCATALA_VERSION', '3.0.5' );
+define( 'WP_SOFTCATALA_VERSION', '3.0.6' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
