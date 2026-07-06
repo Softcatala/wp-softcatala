@@ -89,6 +89,8 @@ function onSuccess(result: SearchResult): void {
     select.value = lang
     select.dispatchEvent(new Event('change'))
   }
+
+  prepareInputSearchQuery()
 }
 
 function onError(result: ErrorResult): void {
@@ -109,6 +111,8 @@ function onError(result: ErrorResult): void {
     results.innerHTML = r.html
     results.style.removeProperty('display')
   }
+
+  prepareInputSearchQuery()
 }
 
 // ---------------------------------------------------------------------------
