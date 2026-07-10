@@ -2,92 +2,29 @@
 
 namespace Softcatala\Sitemaps;
 
-class Sinonims {
-    private $rest_client;
+class Sinonims extends DictionarySitemap {
 
-	public function __construct( $client = null ) {
-		if ( null != $client ) {
-			$this->rest_client = $client;
-		} else {
-			$this->rest_client = new \SC_RestClient();
-		}
-	}
-
-    public function sitemap_index() {
-        $sitemap_custom_items = '';
-
-        $domain = home_url();
-        $time = $this->weekly_lastmod();
-
-        foreach (range('A', 'Z') as $lletra) {
-
-            $sitemap_custom_items .= "
-                <sitemap>
-                <loc>$domain/sitemaps/sinonims-$lletra.xml</loc>
-                <lastmod>$time</lastmod>
-                </sitemap>";
-        }
-
-        return $sitemap_custom_items;
+    protected function slug() {
+        return 'sinonims';
     }
 
-    /**
-     * ISO-8601 timestamp of the Monday of the current week, so <lastmod>
-     * stays stable within a week but still advances week to week.
-     */
-    private function weekly_lastmod() {
-        return date( 'c', strtotime( 'monday this week' ) );
+    protected function keys() {
+        return range( 'A', 'Z' );
     }
 
-    public function query_vars() {
-        return ['sc_sinonims_lletra'];
+    protected function api_url( $key ) {
+        $url_api = get_option( 'api_diccionari_sinonims' );
+
+        return $url_api . 'index/' . strtolower( $key );
     }
 
-    public function add_rewrite_rules() {
-        add_rewrite_rule('^sitemaps/sinonims-([A-Z]).xml$', 'index.php?sc_sitemaps=sinonims&sc_sinonims_lletra=$matches[1]', 'top');
+    protected function word_url( $key, $word ) {
+        return '/diccionari-de-sinonims/paraula/' . $word . '/';
     }
 
-    public function maybe_render() {
-        if ( get_query_var('sc_sitemaps') && get_query_var('sc_sitemaps') == 'sinonims' && get_query_var( 'sc_sinonims_lletra' ) ) {
+    protected function extract_words( $raw_json ) {
+        $api_result = json_decode( $raw_json );
 
-
-            $lletra = strtolower( get_query_var( 'sc_sinonims_lletra' ) );
-
-            $url_api = get_option( 'api_diccionari_sinonims' );
-            $url     = $url_api . 'index/' . $lletra;
-
-            $result = $this->rest_client->get( $url );
-
-            if ( $result['error'] ) {
-                $this->return500();
-            }
-
-            if ( 200 == $result['code'] && isset($result['result'])) {
-                $api_result   = json_decode( $result['result'] );
-
-                $domain = home_url();
-                $time = $this->weekly_lastmod();
-
-                $paraules = $api_result->words;
-                header('Content-Type: text/xml; charset=UTF-8');
-                echo '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="//www.softcatala.org/main-sitemap.xsl"?>';
-                echo "\n";
-                echo '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-                echo "\n";
-
-                foreach($paraules as $paraula) {
-                    $u = urlencode($paraula);
-                    echo "<url><loc>$domain/diccionari-de-sinonims/paraula/$u/</loc><lastmod>$time</lastmod></url>\n";
-                }
-
-                echo '</urlset>';
-                exit;
-            }
-        }
-    }
-
-    private function return500() {
-        throw_error( '500', 'Error connecting to API server' );
-        exit;
+        return isset( $api_result->words ) ? $api_result->words : [];
     }
 }

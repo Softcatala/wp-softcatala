@@ -7,7 +7,9 @@ class SC_Sitemaps {
     static function init()  {
 
         self::$elems = [
-            new Softcatala\Sitemaps\Sinonims()
+            new Softcatala\Sitemaps\Sinonims(),
+            new Softcatala\Sitemaps\Conjugador(),
+            new Softcatala\Sitemaps\DiccionariEngcat(),
         ];
 
         add_filter( 'wpseo_sitemap_index', ['SC_Sitemaps', 'add_sitemap_custom_items'] );
