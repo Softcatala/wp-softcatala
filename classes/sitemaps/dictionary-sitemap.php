@@ -127,7 +127,7 @@ abstract class DictionarySitemap {
         echo "\n";
 
         foreach ( $words as $word ) {
-            $u   = urlencode( $word );
+            $u   = rawurlencode( $word );
             $loc = $domain . $this->word_url( $key, $u );
             echo "<url><loc>$loc</loc><lastmod>$time</lastmod></url>\n";
         }
