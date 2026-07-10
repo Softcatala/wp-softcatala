@@ -17,7 +17,7 @@ class Sinonims {
         $sitemap_custom_items = '';
 
         $domain = home_url();
-        $time = date('c', time());
+        $time = $this->weekly_lastmod();
 
         foreach (range('A', 'Z') as $lletra) {
 
@@ -29,6 +29,14 @@ class Sinonims {
         }
 
         return $sitemap_custom_items;
+    }
+
+    /**
+     * ISO-8601 timestamp of the Monday of the current week, so <lastmod>
+     * stays stable within a week but still advances week to week.
+     */
+    private function weekly_lastmod() {
+        return date( 'c', strtotime( 'monday this week' ) );
     }
 
     public function query_vars() {
@@ -51,14 +59,14 @@ class Sinonims {
             $result = $this->rest_client->get( $url );
 
             if ( $result['error'] ) {
-                return $this->return500();exit;
+                $this->return500();
             }
 
             if ( 200 == $result['code'] && isset($result['result'])) {
                 $api_result   = json_decode( $result['result'] );
 
                 $domain = home_url();
-                $time = date('c', time());
+                $time = $this->weekly_lastmod();
 
                 $paraules = $api_result->words;
                 header('Content-Type: text/xml; charset=UTF-8');
@@ -69,12 +77,17 @@ class Sinonims {
 
                 foreach($paraules as $paraula) {
                     $u = urlencode($paraula);
-                    echo "<url><loc>$domain/diccionari-de-sinonims/paraula/$u/</loc><lastmod>2023-03-07T20:03:30+00:00</lastmod></url>\n";
+                    echo "<url><loc>$domain/diccionari-de-sinonims/paraula/$u/</loc><lastmod>$time</lastmod></url>\n";
                 }
 
                 echo '</urlset>';
                 exit;
             }
         }
+    }
+
+    private function return500() {
+        throw_error( '500', 'Error connecting to API server' );
+        exit;
     }
 }
