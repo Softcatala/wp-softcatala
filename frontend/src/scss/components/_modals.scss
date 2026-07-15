@@ -82,7 +82,12 @@
     // .formulari header inside a modal doesn't have .contingut, so scope the
     // header typography here rather than in _forms.scss
     .formulari > header {
-      h1 {
+      // Modal titles use h4 (not h1) so each page keeps a single, real <h1>.
+      // font-size restores the browser-default <h1> sizing (~2em) that the
+      // heading relied on before; margin-top overrides the global h4 rule.
+      .modal-title {
+        font-size: 2em;
+        margin-top: 0;
         margin-bottom: 10px;
       }
 
