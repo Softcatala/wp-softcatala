@@ -355,25 +355,25 @@
     }
 
     .home-thumb-01 {
-      background: url("../images/content/img-thumb-home-01.jpg") no-repeat center left var(--color-bg-light);
+      background: url("../../images/content/img-thumb-home-01.jpg") no-repeat center left var(--color-bg-light);
       height: 150px;
       margin-bottom: 70px;
     }
 
     .home-thumb-02 {
-      background: url("../images/content/img-thumb-home-02.jpg") no-repeat center left var(--color-bg-light);
+      background: url("../../images/content/img-thumb-home-02.jpg") no-repeat center left var(--color-bg-light);
       height: 150px;
       margin-bottom: 70px;
     }
 
     .home-thumb-03 {
-      background: url("../images/content/img-thumb-home-03.jpg") no-repeat center left var(--color-bg-light);
+      background: url("../../images/content/img-thumb-home-03.jpg") no-repeat center left var(--color-bg-light);
       height: 150px;
       margin-bottom: 70px;
     }
 
     .home-thumb-04 {
-      background: url("../images/content/img-thumb-home-04.jpg") no-repeat center left var(--color-bg-light);
+      background: url("../../images/content/img-thumb-home-04.jpg") no-repeat center left var(--color-bg-light);
       height: 150px;
       margin-bottom: 70px;
     }
@@ -420,11 +420,11 @@
           }
         }
 
-        > li.tab-windows a { background: url('../images/content/img-home-windows.jpg') no-repeat top center; }
-        > li.tab-linux   a { background: url('../images/content/img-home-linux.jpg')   no-repeat top center; }
-        > li.tab-osx     a { background: url('../images/content/img-home-osx.jpg')     no-repeat top center; }
-        > li.tab-android a { background: url('../images/content/img-home-android.jpg') no-repeat top center; }
-        > li.tab-ios     a { background: url('../images/content/img-home-ios.jpg')     no-repeat top center; }
+        > li.tab-windows a { background: url('../../images/content/img-home-windows.jpg') no-repeat top center; }
+        > li.tab-linux   a { background: url('../../images/content/img-home-linux.jpg')   no-repeat top center; }
+        > li.tab-osx     a { background: url('../../images/content/img-home-osx.jpg')     no-repeat top center; }
+        > li.tab-android a { background: url('../../images/content/img-home-android.jpg') no-repeat top center; }
+        > li.tab-ios     a { background: url('../../images/content/img-home-ios.jpg')     no-repeat top center; }
 
         > li.active > a,
         > li.active > a:hover,
