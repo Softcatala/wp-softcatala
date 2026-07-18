@@ -504,7 +504,8 @@ class StarterSite extends \Timber\Site {
 			'corrector' => 'Corrector',
 			'recursos'  => 'Recursos',
 			'rebost'    => 'Programes',
-			'sinonims'  => 'Sinonims'
+			'sinonims'  => 'Sinonims',
+			'denuncies' => 'Codi de conducta (denúncies)'
 		);
 
 		return $sections;
