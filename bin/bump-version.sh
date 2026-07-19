@@ -41,7 +41,7 @@ echo "Bumping $BUMP → $NEW"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-sed -i '' "s/^Version: .*/Version: $NEW/" "$ROOT/style.css"
-sed -i '' "s/define( 'WP_SOFTCATALA_VERSION', '[^']*' );/define( 'WP_SOFTCATALA_VERSION', '$NEW' );/" "$ROOT/functions.php"
+sed -i.bak "s/^Version: .*/Version: $NEW/" "$ROOT/style.css" && rm -f "$ROOT/style.css.bak"
+sed -i.bak "s/define( 'WP_SOFTCATALA_VERSION', '[^']*' );/define( 'WP_SOFTCATALA_VERSION', '$NEW' );/" "$ROOT/functions.php" && rm -f "$ROOT/functions.php.bak"
 
 echo "Updated style.css and functions.php to $NEW"
