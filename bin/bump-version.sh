@@ -41,7 +41,14 @@ echo "Bumping $BUMP → $NEW"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-sed -i.bak "s/^Version: .*/Version: $NEW/" "$ROOT/style.css" && rm -f "$ROOT/style.css.bak"
-sed -i.bak "s/define( 'WP_SOFTCATALA_VERSION', '[^']*' );/define( 'WP_SOFTCATALA_VERSION', '$NEW' );/" "$ROOT/functions.php" && rm -f "$ROOT/functions.php.bak"
+# portable in-place argument for both GNU sed and Mac OSX sed
+if [[ $(uname -s) == 'Darwin' ]]; then
+	sed_i=(-i '')
+else
+	sed_i=(-i)
+fi
+
+sed "${sed_i[@]}" "s/^Version: .*/Version: $NEW/" "$ROOT/style.css"
+sed "${sed_i[@]}" "s/define( 'WP_SOFTCATALA_VERSION', '[^']*' );/define( 'WP_SOFTCATALA_VERSION', '$NEW' );/" "$ROOT/functions.php"
 
 echo "Updated style.css and functions.php to $NEW"
