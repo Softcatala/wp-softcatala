@@ -9,14 +9,32 @@
 
 // ---------------------------------------------------------------------------
 
-.result-conjugador {
-  h2 {
-    margin-top: 10px;
+// Verb title reuses the sitewide .contingut > section h3 style (24px/600,
+// text-transform: none set inline) — same pattern as the sinonims entry title.
+
+// Jump-to-section index — the ul reuses the sitewide chevron-bullet list
+// style for plain <ul> inside .contingut > section (see layouts/_lists.scss).
+#conjugador-index {
+  margin-top: 15px;
+
+  ul {
     margin-bottom: 0;
   }
+}
 
-  h3 {
-    margin-bottom: 30px;
+.result-conjugador {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+
+  &:first-of-type {
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  h4 {
+    margin-bottom: 15px;
   }
 
   > div {
@@ -38,6 +56,13 @@
     margin-top: 18px;
     line-height: 1.2;
   }
+
+  .tornar-index {
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: right;
+    font-size: 14px;
+  }
 }
 
 .variant {
@@ -45,12 +70,6 @@
   font-weight: normal;
   vertical-align: middle;
   color: #333;
-}
-
-#conjugador-verb-caixa,
-#conjugador-verb {
-  margin-top: 0;
-  border-top: 0;
 }
 
 #abreviatures-conjugador {

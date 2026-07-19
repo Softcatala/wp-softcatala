@@ -1,164 +1,138 @@
-<ul id="tabsconjugador" class="nav nav-tabs" {% if not response.verbinf %}style="display:none"{% endif %}>
-        <li class="active"><a data-toggle="tab" href="#indicatiu">Indicatiu</a></li>
-        <li><a data-toggle="tab" href="#subjuntiu">Subjuntiu</a></li>
-        <li><a data-toggle="tab" href="#imperatiu">Imperatiu</a></li>
-        <li><a data-toggle="tab" href="#nopersonals">Formes no personals</a></li>
-        {% if response.definition %}
-            <li><a data-toggle="tab" href="#definicions">Definició</a></li>
-        {% endif %}
-        
-</ul>
-
 <section id="conjugador-verb" class="formulari-eines">
-   
+
 <!-- .conjugador-resultat  -->
 <div class="diccionari-resultat" id="conjugador-verb-caixa">
 
+<h3 style="text-transform: none">{{ response.infinitive_title }}</h3>
+{% if response.result[0].note is defined and response.result[0].note is not empty %}
+    <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+{% endif %}
 
-<div class="tab-content">
-    <div id="indicatiu" class="result-conjugador col-md-12 tab-pane  in active">
-            <h2>{{ response.infinitive_title }}</h2>
-            {% if response.result[0].note is defined and response.result[0].note is not empty %}
-                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
-            {% endif %}
-            <h4>Mode indicatiu</h4>
-            {% for verbs in response.result | filter(verbs => verbs.mode == 'Indicatiu')  %}
-                {% include 'ajax/conjugador-verb-mode.twig' %}
-            {% endfor %}
-            <div class="col-md-12">
-                    {% include 'ajax/conjugador-abreviatures.twig' %}
-            </div>
-            
-    </div>
-    <div id = "subjuntiu" class="result-conjugador col-md-12 tab-pane">
-            <h2>{{ response.infinitive_title }}</h2>
-            {% if response.result[0].note is defined and response.result[0].note is not empty %}
-                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
-            {% endif %}
-            <h4>Mode subjuntiu</h4>
-            {% for verbs in response.result | filter(verbs => verbs.mode == 'Subjuntiu')  %}
-              {% include 'ajax/conjugador-verb-mode.twig' %}
-            {% endfor %}
-            <div class="col-md-12">
-                                {% include 'ajax/conjugador-abreviatures.twig' %}
-            </div>
-    </div>
-    <div id = "imperatiu" class="result-conjugador col-md-12 tab-pane">
-            
-            <h2>{{ response.infinitive_title }}</h2>
-            {% if response.result[0].note is defined and response.result[0].note is not empty %}
-                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
-            {% endif %}
-            <h4>Mode imperatiu</h4>
-            {% for verbs in response.result | filter(verbs => verbs.mode == 'Imperatiu') %}
-                            <div class="col-md-12">
-                                            <div class="panel panel-primary">
-                                            
-                                                <div class="panel-heading">{{ verbs.tense }}</div>
-                                                <table class="table">
-                                                    {% for clau, subjecte in response.temps %}   
-                                                    {% if loop.index > 1 %} 
-                                                        <tr>
-                                                             <th>{{ subjecte|e }}</th>
-                                                             <td>
-                                                        {% for verb in attribute(verbs, clau) %}
-                                                               {% include 'ajax/conjugador-verb-word.twig' %}
-                                                        {% endfor -%}
-                                                            </td>
-                                                        </tr>  
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </table>
-
-                                                    
-                                            </div>
-                            </div>  
-                
-            {% endfor %}
-                            <div class="col-md-12">
-                                {% include 'ajax/conjugador-abreviatures.twig' %}
-                            </div>
-    </div>
-    <div id = "nopersonals" class="result-conjugador col-md-12 tab-pane">
-        <h2>{{ response.infinitive_title }}</h2>
-        {% if response.result[0].note is defined and response.result[0].note is not empty %}
-                <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
+<div id="conjugador-index" {% if not response.verbinf %}style="display:none"{% endif %}>
+    <ul>
+        <li><a href="#indicatiu">Indicatiu</a></li>
+        <li><a href="#subjuntiu">Subjuntiu</a></li>
+        <li><a href="#imperatiu">Imperatiu</a></li>
+        <li><a href="#nopersonals">Formes no personals</a></li>
+        {% if response.definition %}
+            <li><a href="#definicions">Definició</a></li>
         {% endif %}
-        <h4>Formes no personals</h4>
-             <div class="col-md-12">
-                <div class="panel panel-primary">                           
-                    <div class="panel-heading">Formes no personals</div>
-                                     
-                    
-                    
-                    <table class="table">
-                    {% for verbs in response.result | filter(verbs => verbs.mode == 'Formes no personals')  %}
-                        <tr>
-                            <th>{{ verbs.tense }} </th>
-                            <td>
-                            {% set i = 1 %}
-                            {% for clau, subjecte in response.temps %}
-                                {% if attribute(verbs, clau) | length > 0 %}
-                                   {%- for verb in attribute(verbs, clau)  -%} 
-                                            {#- Afegim guions per eliminar espais abans i després de la coma -#}
-                                            {%- if i > 1 -%}, {% endif -%} 
-                                            {%- set i = i + 1 -%}
-                                            
-                                            {{- verb.word -}}
-                                            
-                                            {%- set opentag = false -%} 
+    </ul>
+</div>
 
-                                            {%- if attribute(response.variants, verb.variant) is defined -%}
-                                                {%- if opentag == false -%}
-                                                    <span class="variant"> ({{ attribute(response.variants, verb.variant) }}
-                                                    {%- set opentag = true -%}  
-                                                {%- else -%}
-                                                    ({{ attribute(response.variants, verb.variant) }}
-                                                {%- endif -%}
+<div id="indicatiu" class="result-conjugador">
+        <h4>Mode indicatiu</h4>
+        {% for verbs in response.result | filter(verbs => verbs.mode == 'Indicatiu')  %}
+            {% include 'ajax/conjugador-verb-mode.twig' %}
+        {% endfor %}
+        <p class="tornar-index"><a href="#conjugador-index">Tornar a l'índex</a></p>
+</div>
+<div id="subjuntiu" class="result-conjugador">
+        <h4>Mode subjuntiu</h4>
+        {% for verbs in response.result | filter(verbs => verbs.mode == 'Subjuntiu')  %}
+          {% include 'ajax/conjugador-verb-mode.twig' %}
+        {% endfor %}
+        <p class="tornar-index"><a href="#conjugador-index">Tornar a l'índex</a></p>
+</div>
+<div id="imperatiu" class="result-conjugador">
+        <h4>Mode imperatiu</h4>
+        {% for verbs in response.result | filter(verbs => verbs.mode == 'Imperatiu') %}
+                        <div>
+                                        <div class="panel panel-primary">
+
+                                            <div class="panel-heading">{{ verbs.tense }}</div>
+                                            <table class="table">
+                                                {% for clau, subjecte in response.temps %}
+                                                {% if loop.index > 1 %}
+                                                    <tr>
+                                                         <th>{{ subjecte|e }}</th>
+                                                         <td>
+                                                    {% for verb in attribute(verbs, clau) %}
+                                                           {% include 'ajax/conjugador-verb-word.twig' %}
+                                                    {% endfor -%}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </table>
+
+                                        </div>
+                        </div>
+
+        {% endfor %}
+        <p class="tornar-index"><a href="#conjugador-index">Tornar a l'índex</a></p>
+</div>
+<div id="nopersonals" class="result-conjugador">
+    <h4>Formes no personals</h4>
+         <div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Formes no personals</div>
+
+
+
+                <table class="table">
+                {% for verbs in response.result | filter(verbs => verbs.mode == 'Formes no personals')  %}
+                    <tr>
+                        <th>{{ verbs.tense }} </th>
+                        <td>
+                        {% set i = 1 %}
+                        {% for clau, subjecte in response.temps %}
+                            {% if attribute(verbs, clau) | length > 0 %}
+                               {%- for verb in attribute(verbs, clau)  -%}
+                                        {#- Afegim guions per eliminar espais abans i després de la coma -#}
+                                        {%- if i > 1 -%}, {% endif -%}
+                                        {%- set i = i + 1 -%}
+
+                                        {{- verb.word -}}
+
+                                        {%- set opentag = false -%}
+
+                                        {%- if attribute(response.variants, verb.variant) is defined -%}
+                                            {%- if opentag == false -%}
+                                                <span class="variant"> ({{ attribute(response.variants, verb.variant) }}
+                                                {%- set opentag = true -%}
+                                            {%- else -%}
+                                                ({{ attribute(response.variants, verb.variant) }}
                                             {%- endif -%}
+                                        {%- endif -%}
 
-                                            {%- if verb.diacritic == true -%}
-                                                {%- if opentag == false -%}
-                                                    <span class="variant"> (ort. pre-2017
-                                                    {%- set opentag = true -%}  
-                                                {%- else -%}
-                                                    , ort. pre-2017 
-                                                {%- endif -%}
+                                        {%- if verb.diacritic == true -%}
+                                            {%- if opentag == false -%}
+                                                <span class="variant"> (ort. pre-2017
+                                                {%- set opentag = true -%}
+                                            {%- else -%}
+                                                , ort. pre-2017
                                             {%- endif -%}
+                                        {%- endif -%}
 
-                                            {%- if opentag == true -%})</span>{%- endif -%} 
-                                                                                         
-                                  {%- endfor -%}
-                                {% endif %}
-                            {% endfor %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
-                </div>
-                            <div class="col-md-12">
-                                {% include 'ajax/conjugador-abreviatures.twig' %}
-                            </div>
+                                        {%- if opentag == true -%})</span>{%- endif -%}
+
+                              {%- endfor -%}
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
             </div>
-        
-
     </div>
-    {% if response.definition %}
-     <div id = "definicions" class="result-conjugador col-md-12 tab-pane">
-        <h2>{{ response.infinitive_title }}</h2>
-           {{ response.definition }}
-           {% if response.definition_credits %}
-              <p>{{ response.definition_credits }}</p>
-            {% endif %}
-     </div>
-    {% endif %}
+    <p class="tornar-index"><a href="#conjugador-index">Tornar a l'índex</a></p>
+</div>
+{% if response.definition %}
+ <div id="definicions" class="result-conjugador">
+    <h4>Definició</h4>
+       {{ response.definition }}
+       {% if response.definition_credits %}
+          <p>{{ response.definition_credits }}</p>
+        {% endif %}
+    <p class="tornar-index"><a href="#conjugador-index">Tornar a l'índex</a></p>
+ </div>
+{% endif %}
+
+<div>
+    {% include 'ajax/conjugador-abreviatures.twig' %}
 </div>
 
   </div><!--/.conjugador-resultat  -->
 
         </section><!--/.formulari-eines  -->
-
-
-
-
-

@@ -13,7 +13,6 @@
 // Ambient declarations for globals provided by WordPress / jQuery plugins
 // ---------------------------------------------------------------------------
 
-import { initTabs } from './tabs'
 import { focusSearchInput, sendTracking, updateShareLinks } from './utils'
 
 declare const scajax: { ajax_url: string; autocomplete_url: string }
@@ -75,10 +74,6 @@ function injectResults(html: string): void {
   container.innerHTML = html
   show(container)
   container.style.removeProperty('display') // slideDown equivalent
-  // Re-initialise tabs for the freshly injected markup
-  if (typeof initTabs === 'function') {
-    initTabs()
-  }
 }
 
 // ---------------------------------------------------------------------------
