@@ -31,7 +31,7 @@ class SC_Sinonims {
 		$url_api = get_option( 'api_diccionari_sinonims' );
 		$url     = $url_api . 'index/' . $lletra;
 
-		$result = $this->rest_client->get( $url );
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return $this->return500();
@@ -53,7 +53,7 @@ class SC_Sinonims {
 		$url_api = get_option( 'api_diccionari_sinonims' );
 		$url     = $url_api . 'search/' . $paraula;
 
-		$result = $this->rest_client->get( $url );
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return $this->return500();

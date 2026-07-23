@@ -34,13 +34,13 @@ class SC_Diccionari_engcat {
 
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . '/search/' . $paraula;
-		
-		$result = $this->rest_client->get( $url );
-		
+
+		$result = $this->rest_client->get( $url, true );
+
 		if ( $result['error'] ) {
 			return $this->return500();
 		}
-		
+
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
@@ -64,12 +64,12 @@ class SC_Diccionari_engcat {
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . '/search/' . $paraula;
 		
-		$result = $this->rest_client->get( $url );
-		
+		$result = $this->rest_client->get( $url, true );
+
 		if ( $result['error'] ) {
 			return $this->return500();
 		}
-		
+
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
@@ -89,9 +89,9 @@ class SC_Diccionari_engcat {
 			$url     = $url_api . '/search/?target=' . urlencode($paraula);
 		else
 			$url     = $url_api . '/search/?source=' . urlencode($paraula);
-		
-		
-		$result = $this->rest_client->get( $url );
+
+
+		$result = $this->rest_client->get( $url, true );
 
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
@@ -238,8 +238,8 @@ class SC_Diccionari_engcat {
 		
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . 'index/'.$llengua.'-' . $lletra;
-		
-		$result = $this->rest_client->get( $url );
+
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return $this->return500();
@@ -276,7 +276,7 @@ class SC_Diccionari_engcat {
 		$url_api = get_option( 'api_diccionari_engcat' );
 		$url     = $url_api . '/stats/';
 
-		$result = $this->rest_client->get( $url );
+		$result = $this->rest_client->get( $url, true );
 
 		if ( $result['error'] ) {
 			return false;

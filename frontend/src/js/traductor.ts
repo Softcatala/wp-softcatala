@@ -125,6 +125,19 @@ let traductor_json_url = 'https://api.softcatala.org/traductor/v1/translate';
 let neuronal_json_url = 'https://api.softcatala.org/v2/nmt';
 
 // ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+function getScToken(): string {
+  return document.querySelector<HTMLMetaElement>('meta[name="sc-token"]')?.content ?? '';
+}
+
+function scAuthHeaders(): Record<string, string> {
+  const token = getScToken();
+  return token ? { 'X-SC-Token': token } : {};
+}
+
+// ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
 
@@ -450,7 +463,7 @@ function translateText(): void {
   if (neuronalApp.isActive()) {
     fetch(`${neuronal_json_url}/translate/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...scAuthHeaders() },
       body: new URLSearchParams({ langpair, q: text, savetext: String(shouldSaveText()) }),
     })
       .then(r => r.json())
@@ -459,7 +472,7 @@ function translateText(): void {
   } else {
     fetch(traductor_json_url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...scAuthHeaders() },
       body: new URLSearchParams({
         langpair, q: text, markUnknown: muk, key: 'NmQ3NmMyNThmM2JjNWQxMjkxN2N',
       }),
@@ -574,7 +587,7 @@ function translateFile(): void {
   formData.append('model_name', modelInput.value);
   formData.append('file', fileInput.files[0]);
 
-  fetch(`${neuronal_json_url}/translate_file/`, { method: 'POST', body: formData })
+  fetch(`${neuronal_json_url}/translate_file/`, { method: 'POST', headers: scAuthHeaders(), body: formData })
     .then(async r => {
       if (r.ok) {
         displayOk();

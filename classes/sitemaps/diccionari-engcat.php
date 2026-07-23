@@ -22,6 +22,10 @@ class DiccionariEngcat extends DictionarySitemap {
         return $keys;
     }
 
+    protected function use_api_key() {
+        return true;
+    }
+
     protected function key_regex() {
         return '(?:' . implode( '|', self::LLENGUES ) . ')-[A-Z]';
     }

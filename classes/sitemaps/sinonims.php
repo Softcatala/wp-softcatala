@@ -12,6 +12,10 @@ class Sinonims extends DictionarySitemap {
         return range( 'A', 'Z' );
     }
 
+    protected function use_api_key() {
+        return true;
+    }
+
     protected function api_url( $key ) {
         $url_api = get_option( 'api_diccionari_sinonims' );
 
