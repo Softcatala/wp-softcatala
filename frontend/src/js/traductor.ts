@@ -2,12 +2,13 @@
  * Traductor de Softcatalà
  *
  * Vanilla TypeScript port of static/js/traductor.js.
- * No jQuery. No external dependencies.
- * Cookie logic ported inline from jquery.metacookie.js.
+ * No jQuery. Cookie logic ported inline from jquery.metacookie.js.
  *
- * Wrapped in an IIFE so all declarations are locally scoped and do not
- * clash with main.min.js when both are loaded as classic scripts.
+ * ES module entry point (handle listed in $module_handles in functions.php).
+ * The IIFE wrapper predates that and is kept to minimise the diff.
  */
+
+import { scAuthHeaders } from './utils';
 
 // ---------------------------------------------------------------------------
 // Types (ambient — must stay outside the IIFE)
@@ -123,19 +124,6 @@ function disable(element: HTMLButtonElement | HTMLInputElement | HTMLSelectEleme
 
 let traductor_json_url = 'https://api.softcatala.org/traductor/v1/translate';
 let neuronal_json_url = 'https://api.softcatala.org/v2/nmt';
-
-// ---------------------------------------------------------------------------
-// Auth
-// ---------------------------------------------------------------------------
-
-function getScToken(): string {
-  return document.querySelector<HTMLMetaElement>('meta[name="sc-token"]')?.content ?? '';
-}
-
-function scAuthHeaders(): Record<string, string> {
-  const token = getScToken();
-  return token ? { 'X-SC-Token': token } : {};
-}
 
 // ---------------------------------------------------------------------------
 // State
@@ -461,22 +449,24 @@ function translateText(): void {
   };
 
   if (neuronalApp.isActive()) {
-    fetch(`${neuronal_json_url}/translate/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...scAuthHeaders() },
-      body: new URLSearchParams({ langpair, q: text, savetext: String(shouldSaveText()) }),
-    })
+    scAuthHeaders()
+      .then(auth => fetch(`${neuronal_json_url}/translate/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...auth },
+        body: new URLSearchParams({ langpair, q: text, savetext: String(shouldSaveText()) }),
+      }))
       .then(r => r.json())
       .then(onSuccess)
       .catch(onError);
   } else {
-    fetch(traductor_json_url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...scAuthHeaders() },
-      body: new URLSearchParams({
-        langpair, q: text, markUnknown: muk, key: 'NmQ3NmMyNThmM2JjNWQxMjkxN2N',
-      }),
-    })
+    scAuthHeaders()
+      .then(auth => fetch(traductor_json_url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...auth },
+        body: new URLSearchParams({
+          langpair, q: text, markUnknown: muk, key: 'NmQ3NmMyNThmM2JjNWQxMjkxN2N',
+        }),
+      }))
       .then(r => r.json())
       .then(onSuccess)
       .catch(onError);
@@ -587,7 +577,8 @@ function translateFile(): void {
   formData.append('model_name', modelInput.value);
   formData.append('file', fileInput.files[0]);
 
-  fetch(`${neuronal_json_url}/translate_file/`, { method: 'POST', headers: scAuthHeaders(), body: formData })
+  scAuthHeaders()
+    .then(auth => fetch(`${neuronal_json_url}/translate_file/`, { method: 'POST', headers: auth, body: formData }))
     .then(async r => {
       if (r.ok) {
         displayOk();

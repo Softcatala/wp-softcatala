@@ -51,7 +51,7 @@ Vite entry points that import other modules produce ES module output (with `impo
 1. Be added to `rollupOptions.input` in `vite.config.js` with its output path in `entryFileNames`
 2. Have its handle added to the `$module_handles` array in the consolidated `script_loader_tag` filter in `functions.php`
 
-Exception: self-contained IIFE files with no module-level imports (like `traductor.ts`) produce classic script output and do not need `type="module"`.
+Exception: self-contained IIFE files with no module-level imports produce classic script output and do not need `type="module"`. (No current entry point uses this; `traductor.ts` used to, before it started importing from `utils.ts`.)
 
 ### Per-page JS and CSS
 Page-specific scripts (e.g. `conjugador.ts`) are enqueued in the page template PHP file (e.g. `conjugador.php`). Localized data (`wp_localize_script`) is also set there. Page-specific CSS should be integrated into `frontend/src/scss/` rather than kept as separate static files.

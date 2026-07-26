@@ -758,6 +758,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		'sc-js-main',
 		'sc-js-kanban',
 		'sc-js-conjugador',
+		'sc-js-traductor',
 		'sc-js-transcribe',
 		'sc-js-transcribe-results',
 		'sc-js-dubbing',

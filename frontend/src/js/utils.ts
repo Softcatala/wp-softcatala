@@ -94,6 +94,67 @@ export function updateShareLinks(twitterText: string): void {
   )
 }
 
+/* ── API auth token ──────────────────────────────────────── */
+
+const TOKEN_REFRESH_MARGIN_S = 15 * 60
+const TOKEN_RETRY_INTERVAL_MS = 60 * 1000
+
+let cachedToken = ''
+let metaTagRead = false
+let lastRefreshAttempt = 0
+
+/**
+ * Expiry (unix seconds) of a JWT, without verifying it. Returns 0 when the
+ * token cannot be decoded, which makes it count as expired.
+ */
+function tokenExp(token: string): number {
+  try {
+    const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
+    return JSON.parse(atob(payload)).exp ?? 0
+  } catch {
+    return 0
+  }
+}
+
+function tokenIsFresh(token: string): boolean {
+  return token !== '' && tokenExp(token) - Date.now() / 1000 > TOKEN_REFRESH_MARGIN_S
+}
+
+/**
+ * Auth token for api.softcatala.org requests. Seeded from the sc-token meta
+ * tag WordPress prints on every page; when it nears expiry (long-lived tabs),
+ * a fresh one is fetched from the same-origin admin-ajax endpoint. Failed
+ * refreshes fall back to the stale token and are retried at most once a
+ * minute, so callers never block for long.
+ */
+export async function getScToken(): Promise<string> {
+  if (!metaTagRead) {
+    metaTagRead = true
+    cachedToken = document.querySelector<HTMLMetaElement>('meta[name="sc-token"]')?.content ?? ''
+  }
+
+  if (tokenIsFresh(cachedToken) || Date.now() - lastRefreshAttempt < TOKEN_RETRY_INTERVAL_MS) {
+    return cachedToken
+  }
+
+  lastRefreshAttempt = Date.now()
+  try {
+    const res = await fetch('/wp-admin/admin-ajax.php?action=sc_get_token')
+    if (res.ok) {
+      const json = await res.json()
+      if (json?.token) cachedToken = json.token
+    }
+  } catch {
+    // Network error: keep whatever we have.
+  }
+  return cachedToken
+}
+
+export async function scAuthHeaders(): Promise<Record<string, string>> {
+  const token = await getScToken()
+  return token ? { 'X-SC-Token': token } : {}
+}
+
 /* ── Input focus ─────────────────────────────────────────── */
 
 /**

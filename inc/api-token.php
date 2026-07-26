@@ -41,3 +41,20 @@ add_action(
 		}
 	}
 );
+
+/**
+ * Same-origin refresh endpoint so long-lived pages can replace the token
+ * from the meta tag once it nears expiry. Served from the transient, so
+ * the auth server is still contacted at most once per hour.
+ */
+function sc_ajax_get_token() {
+	$token = sc_get_api_token();
+
+	if ( ! $token ) {
+		wp_send_json( array( 'token' => '' ), 503 );
+	}
+
+	wp_send_json( array( 'token' => $token ) );
+}
+add_action( 'wp_ajax_sc_get_token', 'sc_ajax_get_token' );
+add_action( 'wp_ajax_nopriv_sc_get_token', 'sc_ajax_get_token' );

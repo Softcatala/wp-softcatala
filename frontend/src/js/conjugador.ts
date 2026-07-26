@@ -13,7 +13,7 @@
 // Ambient declarations for globals provided by WordPress / jQuery plugins
 // ---------------------------------------------------------------------------
 
-import { focusSearchInput, sendTracking, updateShareLinks } from './utils'
+import { focusSearchInput, scAuthHeaders, sendTracking, updateShareLinks } from './utils'
 
 declare const scajax: { ajax_url: string; autocomplete_url: string }
 declare const jQuery: any
@@ -38,14 +38,6 @@ interface AjaxError {
     status: string
     description: string
   }
-}
-
-// ---------------------------------------------------------------------------
-// Auth
-// ---------------------------------------------------------------------------
-
-function getScToken(): string {
-  return document.querySelector<HTMLMetaElement>('meta[name="sc-token"]')?.content ?? ''
 }
 
 // ---------------------------------------------------------------------------
@@ -190,11 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
       limit: 200,
       async: true,
       source(query: string, _: unknown, processAsync: (items: string[]) => void) {
-        const token = getScToken()
-        jQuery.ajax({
+        scAuthHeaders().then((headers) => jQuery.ajax({
           url: scajax.autocomplete_url + query,
           dataType: 'json',
-          headers: token ? { 'X-SC-Token': token } : {},
+          headers,
           success(data: Array<{ verb_form: string; infinitive: string; url: string }>) {
             items.length = 0
             for (const verb of data) {
@@ -209,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
           error(textStatus: unknown, status: unknown, errorThrown: unknown) {
             console.error(textStatus, status, errorThrown)
           },
-        })
+        }))
       },
     }
   ).on('typeahead:selected', (_evt: unknown, item: string) => {
