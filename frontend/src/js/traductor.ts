@@ -4,14 +4,14 @@
  * Vanilla TypeScript port of static/js/traductor.js.
  * No jQuery. Cookie logic ported inline from jquery.metacookie.js.
  *
- * ES module entry point (handle listed in $module_handles in functions.php).
- * The IIFE wrapper predates that and is kept to minimise the diff.
+ * ES module entry point (handle listed in $module_handles in functions.php),
+ * so all declarations are module-scoped and cannot clash with other scripts.
  */
 
 import { scAuthHeaders } from './utils';
 
 // ---------------------------------------------------------------------------
-// Types (ambient — must stay outside the IIFE)
+// Types
 // ---------------------------------------------------------------------------
 
 interface ScSettings {
@@ -19,8 +19,6 @@ interface ScSettings {
 }
 
 declare const sc_settings: ScSettings;
-
-(function () {
 
 // ---------------------------------------------------------------------------
 // MetaCookie — vanilla port of jquery.metacookie.js
@@ -967,5 +965,3 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Init neuronal state ──────────────────────────────────────────────────
   neuronalApp.showNeuronal();
 });
-
-})(); // end IIFE
