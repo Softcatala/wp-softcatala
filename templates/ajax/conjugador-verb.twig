@@ -8,17 +8,19 @@
     <p class="note"><strong>Observació:</strong> {{ response.result[0].note }}</p>
 {% endif %}
 
-<div id="conjugador-index" {% if not response.verbinf %}style="display:none"{% endif %}>
-    <ul>
-        <li><a href="#indicatiu">Indicatiu</a></li>
-        <li><a href="#subjuntiu">Subjuntiu</a></li>
-        <li><a href="#imperatiu">Imperatiu</a></li>
-        <li><a href="#nopersonals">Formes no personals</a></li>
-        {% if response.definition %}
-            <li><a href="#definicions">Definició</a></li>
-        {% endif %}
-    </ul>
-</div>
+<p id="conjugador-index" {% if not response.verbinf %}style="display:none"{% endif %}>
+    <a href="#indicatiu">Indicatiu</a>
+    <span aria-hidden="true">&middot;</span>
+    <a href="#subjuntiu">Subjuntiu</a>
+    <span aria-hidden="true">&middot;</span>
+    <a href="#imperatiu">Imperatiu</a>
+    <span aria-hidden="true">&middot;</span>
+    <a href="#nopersonals">Formes no personals</a>
+    {% if response.definition %}
+        <span aria-hidden="true">&middot;</span>
+        <a href="#definicions">Definició</a>
+    {% endif %}
+</p>
 
 <div id="indicatiu" class="result-conjugador">
         <h4>Mode indicatiu</h4>

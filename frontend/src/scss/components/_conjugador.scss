@@ -12,13 +12,17 @@
 // Verb title reuses the sitewide .contingut > section h3 style (24px/600,
 // text-transform: none set inline) — same pattern as the sinonims entry title.
 
-// Jump-to-section index — the ul reuses the sitewide chevron-bullet list
-// style for plain <ul> inside .contingut > section (see layouts/_lists.scss).
+// Jump-to-section index — single-line strip of plain-text links (not
+// tab-styled, so it doesn't repeat the discoverability issue the tabs had).
 #conjugador-index {
   margin-top: 15px;
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 1.6;
 
-  ul {
-    margin-bottom: 0;
+  span {
+    margin: 0 8px;
+    color: var(--color-gray-800);
   }
 }
 
