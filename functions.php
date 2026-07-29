@@ -159,6 +159,9 @@ class StarterSite extends \Timber\Site {
 		// Task management: restrict milestone_tasca ACF field to milestones of the selected projecte.
 		add_filter( 'acf/fields/post_object/query/name=milestone_tasca', 'sc_filter_milestone_tasca_by_projecte', 10, 3 );
 
+		// Close comments on archived programes and projectes (classificacio: arxivat).
+		add_filter( 'comments_open', array( $this, 'sc_close_comments_for_archived' ), 10, 2 );
+
 		// Task management: register 'archived' post status and wire admin UI for it.
 		add_action( 'init', 'sc_register_archived_post_status' );
 		add_action( 'post_submitbox_misc_actions', 'sc_inject_archived_status_in_editor' );
@@ -563,6 +566,30 @@ class StarterSite extends \Timber\Site {
 				exit;
 			}
 		}
+	}
+
+	/**
+	 * Close comments on archived programes and projectes.
+	 *
+	 * A post is archived when it has the 'arxivat' term in the 'classificacio'
+	 * taxonomy. Closing comments here (rather than in the database) means
+	 * unarchiving a post reopens its comments automatically.
+	 *
+	 * @param bool $open    Whether comments are open for the post.
+	 * @param int  $post_id The post ID.
+	 * @return bool
+	 */
+	function sc_close_comments_for_archived( $open, $post_id ) {
+		if ( ! $open ) {
+			return $open;
+		}
+
+		$post_type = get_post_type( $post_id );
+		if ( in_array( $post_type, array( 'programa', 'projecte' ), true ) && has_term( 'arxivat', 'classificacio', $post_id ) ) {
+			return false;
+		}
+
+		return $open;
 	}
 
 	/**

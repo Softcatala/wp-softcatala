@@ -40,9 +40,11 @@
                         {{ post.content }}
                     </section><!--/.contingut-section -->
 
+                    {% if not arxivat %}
                     <!-- .comentaris -->
                     {% include "comentaris.twig" %}
                     <!--/.comentaris -->
+                    {% endif %}
 
                 </div><!--/.contingut -->
 
