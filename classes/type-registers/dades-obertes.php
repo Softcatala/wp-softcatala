@@ -13,6 +13,16 @@ class DadesObertes extends PostType {
 		parent::__construct( 'Dades Obertes', 'Dades Obertes' );
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ), 11 );
+		add_filter( 'timber/post/classmap', array( $this, 'register_post_classmap' ) );
+	}
+
+	/**
+	 * Maps the post type to its Timber post model.
+	 */
+	public function register_post_classmap( $classmap ) {
+		$classmap['dadesobertes'] = \Softcatala\Posts\DadesObertes::class;
+
+		return $classmap;
 	}
 
 	public function custom_columns( $column, $post_id ) {

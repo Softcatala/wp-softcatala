@@ -3,21 +3,21 @@ Estils propis dades obertes
 */
 
 .llistat-dades-obertes > p {
-    margin-bottom:3rem;
+    margin-bottom: 30px;
     background: #eae8e8;
-    padding: 3rem;
-    font-size: 1.5rem;
+    padding: 20px;
+    font-size: 16px;
 }
 
 
 .llistat-dades-obertes h2 {
-    
+
     font-weight: 300;
     font-size: 24px;
     color: #000;
     line-height: 1.4;
     margin: 0;
-    
+
 }
 .llistat-dades-obertes h2 a{
     color: #000;
@@ -26,11 +26,11 @@ Estils propis dades obertes
 
 
 .dades-obertes  h4 {
-    font-size: 2rem;
+    font-size: 20px;
 }
 .dades-obertes  p {
-    font-size: 1.5rem;
-    
+    font-size: 17px;
+
 }
 .dades-obertes-lat {
     margin-top:30px;
@@ -38,7 +38,7 @@ Estils propis dades obertes
     border-top: 1px solid #c7c5c5;
 }
 .dades-obertes-item-lateral {
-    padding:1rem;
+    padding:10px;
     border-bottom: 1px solid #c7c5c5;
 }
 .dades-obertes-item-lateral h5{
@@ -49,4 +49,36 @@ Estils propis dades obertes
 }
 .dades-obertes-item-lateral p{
     margin:0
+}
+.dades-obertes-nou {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+    padding: 0 10px 2px;
+    background: #d80;
+    color: #fff;
+    font-variant: small-caps;
+    font-family: 'Cabin Condensed', sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    border-radius: 3px;
+}
+.dades-obertes-meta {
+    color: #666;
+    font-size: 15px;
+    margin: 8px 0 0;
+}
+.dades-obertes-meta span {
+    margin-right: 10px;
+    white-space: nowrap;
+    display: inline-block;
+}
+.dades-obertes-meta span + span::before {
+    content: "\00B7";
+    color: #bbb;
+    margin-right: 10px;
+}
+.dades-obertes-meta i,
+.dades-obertes-hf-stat i {
+    color: #999;
 }

@@ -10,29 +10,37 @@ namespace Softcatala\Providers;
  */
 class Dadesobertes {
 
-	
+	/**
+	 * All published datasets: recently created ones first, then by
+	 * Hugging Face downloads, with the title as tiebreak.
+	 */
 	public static function get( $featured = false ) {
 
-		global $wp_query;
-			
-		$amount = 10;
-		
-		$base_args = array(
+		$args = array(
 			'post_type'      => 'dadesobertes',
 			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-			'paged'          => get_is_paged(),
-			'posts_per_page' => $amount
+			'posts_per_page' => -1,
 		);
 
-		
-		$args = wp_parse_args( $base_args, $wp_query->query );
+		$posts = iterator_to_array( \Timber::get_posts( $args ) );
 
-		$posts = \Timber::get_posts( $args );
+		usort(
+			$posts,
+			function ( $a, $b ) {
+				if ( $a->is_new() !== $b->is_new() ) {
+					return $a->is_new() ? -1 : 1;
+				}
+
+				$a_downloads = (int) $a->meta( 'hf_downloads' );
+				$b_downloads = (int) $b->meta( 'hf_downloads' );
+				if ( $a_downloads !== $b_downloads ) {
+					return $b_downloads - $a_downloads;
+				}
+
+				return strcasecmp( $a->post_title, $b->post_title );
+			}
+		);
 
 		return $posts;
 	}
-
-	
 }

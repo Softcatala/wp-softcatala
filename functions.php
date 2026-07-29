@@ -55,6 +55,7 @@ include( 'inc/perfils.php' );
 include( 'inc/tasques.php' );
 include( 'inc/diccionari.php' );
 include( 'inc/downloads.php' );
+include( 'inc/huggingface.php' );
 include( 'inc/query.php' );
 include( 'inc/email.php' );
 include( 'inc/api-token.php' );

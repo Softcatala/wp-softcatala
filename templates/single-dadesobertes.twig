@@ -36,6 +36,18 @@
                                     </div>
                                     {% endif %}
                                     
+                                    {% if post.hf_repo_id and (post.hf_downloads or post.hf_likes) %}
+                                    <div class="dades-obertes-item-lateral">
+                                        <h5>Hugging Face:</h5>
+                                        {% if post.hf_downloads %}
+                                            <p class="dades-obertes-hf-stat"><i class="fas fa-download" aria-hidden="true"></i> {{ post.hf_downloads|number_format(0, ',', '.') }} baixades (darrers 30 dies)</p>
+                                        {% endif %}
+                                        {% if post.hf_likes %}
+                                            <p class="dades-obertes-hf-stat"><i class="fas fa-heart" aria-hidden="true"></i> {{ post.hf_likes|number_format(0, ',', '.') }} «m'agrada»</p>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+
                                     {% if post.license_license_name %}
                                     <div class="dades-obertes-item-lateral">
                                         <h5>Llicència:</h5>

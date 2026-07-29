@@ -16,9 +16,24 @@
                         {% if posts %}
                         {% for dadesobertes in posts %}
                         <div class="contingut-dades-obertes">
-                            <h2><a href="{{dadesobertes.link}}">{{ dadesobertes.title }}</a></h2>
+                            <h2><a href="{{dadesobertes.link}}">{{ dadesobertes.title }}</a>{% if dadesobertes.is_new() %} <span class="dades-obertes-nou">nou</span>{% endif %}</h2>
                             <div class="article-cont">
-                                    <p>{{ dadesobertes.post_excerpt }}</p>                                   
+                                    <p>{{ dadesobertes.post_excerpt }}</p>
+                                    <p class="dades-obertes-meta">
+                                        {% if dadesobertes.hf_downloads %}
+                                            <span title="Baixades a Hugging Face (darrers 30 dies)"><i class="fas fa-download" aria-hidden="true"></i> {{ dadesobertes.hf_downloads|number_format(0, ',', '.') }} baixades</span>
+                                        {% endif %}
+                                        {% if dadesobertes.hf_likes %}
+                                            <span title="«M'agrada» a Hugging Face"><i class="fas fa-heart" aria-hidden="true"></i> {{ dadesobertes.hf_likes|number_format(0, ',', '.') }} «m'agrada»</span>
+                                        {% endif %}
+                                        {% if dadesobertes.license_license_name %}
+                                            <span><i class="fas fa-scale-balanced" aria-hidden="true"></i>
+                                            {% if dadesobertes.license_license_url %}<a href="{{ dadesobertes.license_license_url }}">{{ dadesobertes.license_license_name }}</a>{% else %}{{ dadesobertes.license_license_name }}{% endif %}</span>
+                                        {% endif %}
+                                        {% if dadesobertes.download_url %}
+                                            <span><i class="fas fa-up-right-from-square" aria-hidden="true"></i> <a href="{{ dadesobertes.download_url }}">Baixa les dades</a></span>
+                                        {% endif %}
+                                    </p>
                             </div><!-- Extracte dades obertes -->
                             <hr class="clara">
                         </div>
