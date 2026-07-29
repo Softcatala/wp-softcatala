@@ -46,6 +46,21 @@
     margin: 0;
   }
 
+  // Tense panels (Present, Imperfet...) two per row instead of stacked.
+  .tense-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    @include respond-to(xs) {
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      margin-bottom: 0;
+    }
+  }
+
   table {
     padding: 0;
     margin: 0;
