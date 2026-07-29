@@ -23,10 +23,38 @@
   margin-left: calc($grid-gutter / -2);
   margin-right: calc($grid-gutter / -2);
 
-  // Balance the caption padding instead of reserving the base 55px of
-  // bottom space (.thumbnail-vertical .caption below) for a fixed layout.
+  // These cards size to their content instead of the fixed 360px layout,
+  // so the absolutely-positioned .bt-aneu would overlap the description as
+  // soon as the content outgrows the min-height (e.g. full-width images on
+  // mobile). Put the CTA back in normal flow and pin it to the bottom of a
+  // stretched flex column instead, which also lets the caption keep a
+  // balanced padding rather than reserving the base 55px of bottom space
+  // (.thumbnail-vertical .caption below).
+  > [class*='col-'] {
+    display: flex;
+  }
+
+  .thumbnail-vertical {
+    display: flex;
+    width: 100%;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+
   .thumbnail-vertical .caption {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding-bottom: 18px;
+  }
+
+  .thumbnail-vertical .bt-aneu {
+    position: static;
+    margin-top: auto;
   }
 
   // Let the image wrapper size to the image instead of cropping to a
