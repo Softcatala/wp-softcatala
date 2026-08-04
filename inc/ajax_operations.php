@@ -222,34 +222,49 @@ function sc_contact_form() {
 	//Sanitize input data using PHP filter_var().
 	$nom       = sanitize_text_field( $_POST["nom"] );
 	$correu    = sanitize_email( $_POST["correu"] );
-	$tipus     = sanitize_text_field( $_POST["tipus"] );
+	$tipus     = isset( $_POST["tipus"] ) ? sanitize_text_field( $_POST["tipus"] ) : '';
 	$comentari = stripslashes( sanitize_text_field( ( $_POST["comentari"] ) ) );
+
+	// Identifies which of the three forms sharing this endpoint sent the request.
+	// Absent on HTML served from a page cache predating this field: stay permissive.
+	$form_id = isset( $_POST["form_id"] ) ? sanitize_key( $_POST["form_id"] ) : '';
+
+	// Honeypot: a field hidden from humans, so any value means an automated filler.
+	$honeypot_validation = sc_validate_honeypot();
+	if ( $honeypot_validation !== true ) {
+		sc_contact_form_reject( $honeypot_validation, $nom, $correu, $comentari );
+	}
 
 	// Validate HTTP headers - check for User-Agent and Referer
 	$header_validation = sc_validate_http_headers();
 	if ( $header_validation !== true ) {
-		wp_send_json( array(
-			'type' => 'message',
-			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
-		) );
+		sc_contact_form_reject( $header_validation, $nom, $correu, $comentari );
 	}
 
-	// Validate email format and check against disposable domains
+	// The message type must be one the sending form actually offers
+	$tipus_validation = sc_validate_tipus( $tipus, $form_id );
+	if ( $tipus_validation !== true ) {
+		sc_contact_form_reject( $tipus_validation, $nom, $correu, $comentari );
+	}
+
+	// Validate the sender's name. Skipped on the anonymous form, which invites pseudonyms.
+	if ( 'anonim' !== $form_id && '' !== $form_id ) {
+		$name_validation = sc_validate_name( $nom );
+		if ( $name_validation !== true ) {
+			sc_contact_form_reject( $name_validation, $nom, $correu, $comentari );
+		}
+	}
+
+	// Validate email format and check that the address could actually receive a reply
 	$email_validation = sc_validate_email( $correu );
 	if ( $email_validation !== true ) {
-		wp_send_json( array(
-			'type' => 'message',
-			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
-		) );
+		sc_contact_form_reject( $email_validation, $nom, $correu, $comentari );
 	}
 
 	// Validate message content against spam patterns
 	$spam_validation = sc_validate_message_content( $comentari, $correu );
 	if ( $spam_validation !== true ) {
-		wp_send_json( array(
-			'type' => 'message',
-			'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
-		) );
+		sc_contact_form_reject( $spam_validation, $nom, $correu, $comentari );
 	}
 
 	//email body
@@ -737,6 +752,127 @@ function map_so( $so_id ) {
 }
 
 /**
+ * Ends a rejected contact form request.
+ *
+ * Answers with the same message a successful submission gets, so an automated
+ * sender learns nothing about which check caught it. The `sc_contact_form_rejected`
+ * action carries the real reason, so rejections can be logged and reviewed for
+ * false positives without changing what the sender sees.
+ *
+ * @param string $reason Human readable reason the submission was rejected
+ * @param string $nom The sender's name
+ * @param string $correu The sender's email address
+ * @param string $comentari The message content
+ *
+ * @return void This function does not return; wp_send_json() ends the request
+ */
+function sc_contact_form_reject( $reason, $nom, $correu, $comentari ) {
+	do_action( 'sc_contact_form_rejected', $reason, array(
+		'nom'       => $nom,
+		'correu'    => $correu,
+		'comentari' => $comentari,
+		'ip'        => isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '',
+	) );
+
+	wp_send_json( array(
+		'type' => 'message',
+		'text' => $nom . ', et donem les gràcies per ajudar-nos a millorar el nostre lloc web.'
+	) );
+}
+
+/**
+ * Checks the honeypot field.
+ *
+ * The field is hidden with CSS and carries a "leave this blank" label for anyone
+ * whose stylesheet failed to load, so a non-empty value means the form was filled
+ * by something that does not render the page.
+ *
+ * @return bool|string True if valid, error message string if the honeypot was filled
+ */
+function sc_validate_honeypot() {
+	if ( ! empty( $_POST['lloc_web'] ) ) {
+		return 'Camp de verificació emplenat (honeypot).';
+	}
+
+	return true;
+}
+
+/**
+ * Validates the message type against the options the sending form offers.
+ *
+ * Each form exposes its own set, so the check is per form. An unknown or absent
+ * form id means the page was served from a cache predating the form_id field:
+ * accept it rather than silently dropping a real message.
+ *
+ * @param string $tipus The submitted message type
+ * @param string $form_id Identifier of the form that sent the request
+ *
+ * @return bool|string True if valid, error message string if not offered by the form
+ */
+function sc_validate_tipus( $tipus, $form_id ) {
+	$allowed = array(
+		'report'   => array( 'millora', 'error', 'general' ),
+		'contacte' => array( 'general', 'noticies', 'publicitat', 'forums' ),
+		'anonim'   => array( '' ),
+	);
+
+	if ( ! isset( $allowed[ $form_id ] ) ) {
+		return true;
+	}
+
+	if ( ! in_array( $tipus, $allowed[ $form_id ], true ) ) {
+		return 'Tipus de missatge no ofert pel formulari.';
+	}
+
+	return true;
+}
+
+/**
+ * Validates the sender's name.
+ *
+ * Not called for the anonymous form, whose whole point is that the name need not
+ * be real. The vowel test only applies to Latin script names of four letters or
+ * more, so initials and names in other writing systems are left alone.
+ *
+ * @param string $nom The submitted name
+ *
+ * @return bool|string True if valid, error message string if it does not look like a name
+ */
+function sc_validate_name( $nom ) {
+	$nom = trim( $nom );
+
+	if ( '' === $nom ) {
+		return 'El nom és buit.';
+	}
+
+	if ( preg_match_all( '/./u', $nom ) > 100 ) {
+		return 'El nom és massa llarg.';
+	}
+
+	// Web or email addresses in a name field are a spam signature, never a real name
+	if ( preg_match( '#https?://|www\.|@#i', $nom ) ) {
+		return 'El nom conté una adreça web o de correu.';
+	}
+
+	// Only judge names written entirely in Latin script; other writing systems
+	// have no Latin vowels and would be rejected wholesale.
+	if ( ! preg_match( '/^[\p{Latin}\p{Zs}\'\.\-\x{00B7}]+$/u', $nom ) ) {
+		return true;
+	}
+
+	$lletres = preg_replace( '/[^\p{Latin}]/u', '', $nom );
+	if ( preg_match_all( '/./u', $lletres ) < 4 ) {
+		return true;
+	}
+
+	if ( ! preg_match( '/[aeiouyàáâãäåæèéêëìíîïòóôõöøœùúûüýÿ]/iu', $lletres ) ) {
+		return 'El nom no conté cap vocal.';
+	}
+
+	return true;
+}
+
+/**
  * Validates message content against spam patterns
  *
  * @param string $comentari The message content to validate
@@ -795,7 +931,11 @@ function sc_validate_message_content( $comentari, $correu ) {
 }
 
 /**
- * Validates email format and checks against disposable email domains
+ * Validates the sender's email address.
+ *
+ * The address is what Softcatalà replies to, so the test is whether a reply could
+ * ever arrive: correct syntax, not a documentation or test domain, not a throwaway
+ * inbox, and a domain that resolves for mail.
  *
  * @param string $email The email address to validate
  *
@@ -804,6 +944,27 @@ function sc_validate_message_content( $comentari, $correu ) {
 function sc_validate_email( $email ) {
 	if ( ! is_email( $email ) ) {
 		return 'Adreça de correu electrònic no vàlida.';
+	}
+
+	// Extract domain from email
+	$email_domain = strtolower( substr( strrchr( $email, '@' ), 1 ) );
+
+	// Domains and TLDs reserved for documentation and testing (RFC 2606, RFC 6761).
+	// No one can receive mail at these, so rejecting them costs no real messages.
+	$reserved_domains = array(
+		'example.com',
+		'example.net',
+		'example.org',
+		'example.edu',
+		'localhost',
+	);
+
+	if ( in_array( $email_domain, $reserved_domains, true ) ) {
+		return 'Aquesta adreça de correu no pot rebre missatges.';
+	}
+
+	if ( preg_match( '/\.(test|example|invalid|localhost|local)$/', $email_domain ) ) {
+		return 'Aquesta adreça de correu no pot rebre missatges.';
 	}
 
 	// List of disposable/temporary email domain providers
@@ -830,20 +991,52 @@ function sc_validate_email( $email ) {
 		'guerrillamail.net',
 		'guerrillamail.org',
 		'pokemail.net',
-		'spam4.me',
 		'spambox.us',
 		'trashmail.com',
 	);
-
-	// Extract domain from email
-	$email_domain = strtolower( substr( strrchr( $email, '@' ), 1 ) );
 
 	// Check if domain is in disposable list
 	if ( in_array( $email_domain, $disposable_domains, true ) ) {
 		return 'Aquesta adreça de correu no és permesa.';
 	}
 
+	if ( ! sc_domain_accepts_mail( $email_domain ) ) {
+		return 'El domini del correu no accepta missatges.';
+	}
+
 	return true;
+}
+
+/**
+ * Checks whether a domain resolves for mail delivery.
+ *
+ * Falls back to A and AAAA records because a host without an MX record is still a
+ * valid mail destination (RFC 5321). Results are cached, and any lookup failure is
+ * treated as deliverable so a DNS outage never swallows real messages.
+ *
+ * @param string $domain The domain part of an email address
+ *
+ * @return bool True if the domain resolves for mail, or if the lookup could not run
+ */
+function sc_domain_accepts_mail( $domain ) {
+	if ( ! function_exists( 'checkdnsrr' ) ) {
+		return true;
+	}
+
+	$cache_key = 'sc_mx_' . md5( $domain );
+	$cached    = get_transient( $cache_key );
+	if ( false !== $cached ) {
+		return ( '1' === $cached );
+	}
+
+	$resolves = checkdnsrr( $domain, 'MX' )
+		|| checkdnsrr( $domain, 'A' )
+		|| checkdnsrr( $domain, 'AAAA' );
+
+	// Cache a negative result briefly: it may be a transient resolver failure
+	set_transient( $cache_key, $resolves ? '1' : '0', $resolves ? WEEK_IN_SECONDS : HOUR_IN_SECONDS );
+
+	return $resolves;
 }
 
 /**

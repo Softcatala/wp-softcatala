@@ -1,0 +1,8 @@
+{# Honeypot. Hidden from people by .camp-hp in the stylesheet, but visible to any
+   automated filler that does not render CSS. The label stays meaningful if the
+   stylesheet fails to load, so a human who does see the field knows to skip it.
+   The field is inert markup, so it survives full page caching unchanged. #}
+<div class="camp-hp" aria-hidden="true">
+  <label for="lloc_web">Deixeu aquest camp en blanc</label>
+  <input type="text" name="lloc_web" id="lloc_web" value="" autocomplete="off" tabindex="-1">
+</div>

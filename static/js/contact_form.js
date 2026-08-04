@@ -16,6 +16,10 @@ $contactForm.on('submit', function(ev){
     post_data.append('to_email', jQuery('#to_email').val());
     post_data.append('nom_from', jQuery('#nom_from').val());
     post_data.append('assumpte', jQuery('#assumpte').val());
+    // Honeypot: always sent, expected to be empty. Identifies which form this is,
+    // so the server can apply the checks that form's fields actually allow.
+    post_data.append('lloc_web', jQuery('input[name=lloc_web]').val() || '');
+    post_data.append('form_id', jQuery('input[name=form_id]').val() || '');
     post_data.append('action', 'contact_form');
     post_data.append('_wpnonce', jQuery('input[name=_wpnonce]').val());
 

@@ -545,3 +545,15 @@ span.twitter-typeahead {
 .input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
   top: 46px !important;
 }
+
+// Honeypot field (templates/honeypot.twig)
+// Moved out of view rather than display:none, since some automated fillers skip
+// fields they can tell are hidden. tabindex="-1" on the input keeps it out of the
+// keyboard tab order for anyone navigating without a pointer.
+.camp-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
