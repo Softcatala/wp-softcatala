@@ -16,7 +16,9 @@ class Projectes {
 	 * @param array   $args to filter out parameters.
 	 * @param boolean $arxivats whether to return (or not) archived projects.
 	 * @param boolean $is_logged_in whether the current visitor is authenticated.
-	 * @return array
+	 * @return \Timber\PostCollectionInterface Iterable and countable, but not an array:
+	 *                                         convert it with iterator_to_array() before
+	 *                                         passing it to array_map() and friends.
 	 */
 	public static function get_sorted_projects( $args = array(), $arxivats = false, $is_logged_in = false ) {
 

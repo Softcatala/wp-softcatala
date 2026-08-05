@@ -14,7 +14,9 @@ class Programes {
 	 * Gets all programes sorted
 	 *
 	 * @param array $filter to filter out parameters.
-	 * @return array
+	 * @return \Timber\PostCollectionInterface Iterable and countable, but not an array:
+	 *                                         convert it with iterator_to_array() before
+	 *                                         passing it to array_map() and friends.
 	 */
 	public static function get_sorted( $filter = array() ) {
 

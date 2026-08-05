@@ -23,6 +23,12 @@ class Filterer {
 		return $wp_query;
 	}
 
+	/**
+	 * Runs a Timber query with the title-only search filter applied.
+	 *
+	 * @param array $query WP_Query arguments.
+	 * @return \Timber\PostCollectionInterface Iterable and countable, but not an array.
+	 */
 	public static function timber_posts_search_in_title( $query ) {
 
 		add_filter( 'posts_search', [ self::class, 'search_by_title_only' ], 500, 2 );
