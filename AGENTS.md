@@ -1,7 +1,7 @@
 
 ## Project Overview
 
-WordPress theme for softcatala.org. Built on Timber v2 (Twig templating). PHP >= 7.4.
+WordPress theme for softcatala.org. Built on Timber v2 (Twig templating). PHP >= 8.2 (production runs 8.4).
 
 ## Key Files
 
@@ -85,17 +85,31 @@ When creating new classes, prefer the `Softcatala\` namespace convention.
 ## Coding Standards
 
 - WordPress PHP coding standards (configured in `phpcs.xml`, targets `classes/`)
-- Run `composer phpcs` to check, `composer phpcbf` to auto-fix
-- Run `composer phpmd` for mess detection (configured in `phpmd.xml`)
-- Run `composer code` for all checks
+- Run `./bin/test.sh lint` to check, `./bin/test.sh phpcbf` to auto-fix
+- `./bin/test.sh lint-changed` narrows both linters to files changed vs master
+- The codebase carries ~1250 pre-existing PHPCS findings from before WPCS 3, so
+  CI reports the linters without failing on them. Keep *new* code clean.
 
 ## Testing
 
+Everything runs in Docker — do not assume PHP, Composer or npm on the host.
+
 ```bash
-phpunit
+./bin/test.sh              # everything CI runs
+./bin/test.sh phpunit      # PHP test suite (extra args pass through)
+./bin/test.sh frontend     # vitest + tsc
+PHP_VERSION=8.2 ./bin/test.sh phpunit    # the other version CI covers
 ```
 
-Tests in `tests/` use the `test-` file prefix. Requires WordPress test framework (`bin/install-wp-tests.sh`).
+Tests in `tests/` use the `test-` file prefix and extend `SCTests`
+(`tests/sc_tests.php`), which re-fires `init` in `set_up()` because
+WP_UnitTestCase unregisters post types, taxonomies and meta keys between tests.
+`tests/bootstrap.php` activates the theme before WordPress loads theme functions
+and loads ACF; `bin/install-wp-tests.sh` provisions WordPress, the test suite
+and ACF.
+
+CI is `.github/workflows/ci.yml` (push to master + pull requests), running the
+same scripts.
 
 ## Language
 

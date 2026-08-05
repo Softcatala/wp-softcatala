@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Frontend (vitest + tsc)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+        working-directory: frontend
+
+      - run: npm run typecheck
+        working-directory: frontend
+
+      - run: npm test
+        working-directory: frontend
+
+      # Catches build breakage that the unit tests don't; the output is thrown
+      # away, static/ is only refreshed by a human running `npm run build`.
+      - run: npm run build
+        working-directory: frontend
+
+  tests:
+    name: PHPUnit (PHP ${{ matrix.php }}, WP ${{ matrix.wp }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Production runs 8.4; 8.2 is the floor, set by Timber v2's own
+          # requirement and declared in composer.json.
+          - php: '8.4'
+            wp: latest
+          - php: '8.2'
+            wp: latest
+
+    services:
+      mysql:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: wordpress
+          MARIADB_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Install the WordPress test suite
+        run: bash bin/install-wp-tests.sh wordpress_test root wordpress 127.0.0.1:3306 ${{ matrix.wp }} true
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+
+  lint:
+    name: PHPCS + PHPMD (advisory)
+    runs-on: ubuntu-latest
+    # Advisory for now: the ruleset predates WPCS 3 and the repo carries ~1250
+    # pre-existing violations, so even a changed-files gate would fail on any
+    # edit to a legacy file. Drop this line to turn the changed-files step into
+    # a real gate once the backlog is worked down (composer phpcbf fixes ~1050).
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # lint-php.sh diffs against the base branch, so it needs its history.
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Lint files changed in this branch
+        run: bash bin/lint-php.sh --changed "origin/${{ github.base_ref || 'master' }}"
+
+      # The repo-wide state is a backlog, not a gate — see bin/lint-php.sh.
+      - name: Full report (informational)
+        if: always()
+        continue-on-error: true
+        run: bash bin/lint-php.sh
