@@ -297,6 +297,7 @@ function sc_add_new_baixada() {
 	$return = array();
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$return['status'] = 0;
+		$return['text']   = "S'ha produït un error en enviar les dades. Torneu a carregar la pàgina i proveu-ho una altra vegada.";
 	} else {
 		$baixades    = json_decode( stripslashes( $_POST["baixades"] ) );
 		$programa_id = sanitize_text_field( $_POST["programa_id"] );
@@ -316,10 +317,11 @@ function sc_add_new_baixada() {
 
 		$field_key = acf_get_field_key( 'baixada', $programa_id );
 		update_field( $field_key, $version_info, $programa_id );
+
+		wp_set_post_terms( $programa_id, $terms, $taxonomy );
+
 		$return['status'] = 1;
 	}
-
-	wp_set_post_terms( $programa_id, $terms, $taxonomy );
 
 	wp_send_json( $return );
 }
@@ -333,6 +335,7 @@ function sc_add_new_program() {
 	$return = array();
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$return['status'] = 0;
+		$return['text']   = "S'ha produït un error en enviar les dades. Torneu a carregar la pàgina i proveu-ho una altra vegada.";
 	} else {
 		$nom                = sanitize_text_field( $_POST["nom"] );
 		$email_usuari       = sanitize_email( $_POST["email_usuari"] );
@@ -340,18 +343,25 @@ function sc_add_new_program() {
 		$descripcio         = sanitize_text_field( $_POST["descripcio"] );
 		$autor_programa     = sanitize_text_field( $_POST["autor_programa"] );
 		$lloc_web_programa  = sanitize_text_field( $_POST["lloc_web_programa"] );
-		$llicencia          = sanitize_text_field( $_POST["llicencia"] );
+		// The form sent the licence as `tipus` until this was fixed, so pages still
+		// served from the cache with the previous script keep working.
+		$llicencia          = sanitize_text_field( $_POST["llicencia"] ?? $_POST["tipus"] ?? '' );
+		$autor_traduccio    = sanitize_text_field( $_POST["autor_traduccio"] ?? '' );
 		$categoria_programa = sanitize_text_field( $_POST["categoria_programa"] );
 		$slug               = sanitize_title_with_dashes( $nom );
 
 		$terms = array(
-			'categoria-programa' => array( $categoria_programa ),
-			'llicencia'          => array( $llicencia )
+			'categoria-programa' => array( $categoria_programa )
 		);
+
+		if ( ! empty( $llicencia ) ) {
+			$terms['llicencia'] = array( $llicencia );
+		}
 
 		$metadata = array(
 			'autor_programa'    => $autor_programa,
-			'lloc_web_programa' => $lloc_web_programa
+			'lloc_web_programa' => $lloc_web_programa,
+			'autor_traduccio'   => $autor_traduccio
 		);
 
 		$return = sc_add_draft_content( 'programa', $nom, $descripcio, $slug, $terms, $metadata );
@@ -399,12 +409,13 @@ function sc_search_program() {
 		$nom_programa = sanitize_text_field( $_POST["nom_programa"] );
 
 		$result = array();
+		// get_sorted() returns a Timber post collection rather than an array, so the
+		// posts are handed to the template as they come and counted through Countable.
+		$programs = array();
 		if ( ! empty ( $nom_programa ) ) {
-			$query['s']  = $nom_programa;
-			$posts       = Softcatala\Providers\Programes::get_sorted( $query );
+			$query['s'] = $nom_programa;
+			$programs   = Softcatala\Providers\Programes::get_sorted( $query );
 		}
-
-		$programs = array_map( 'generate_post_url_link', $posts );
 
 		if ( count( $programs ) > 0 ) {
 			$result['programs'] = Timber::fetch( 'ajax/programs-list.twig', array( 'programs' => $programs ) );

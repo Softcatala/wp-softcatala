@@ -188,6 +188,7 @@ var $add_program_form = jQuery('#programa_form');
 $add_program_form.on('submit', function(ev) {
     ev.preventDefault();
 
+    hide_form_error('form_2');
     jQuery("#loading_program").fadeIn();
 
     //Data
@@ -198,7 +199,7 @@ $add_program_form.on('submit', function(ev) {
     post_data.append('autor_programa', jQuery('input[name=autor]').val());
     post_data.append('lloc_web_programa', jQuery('input[name=lloc_web]').val());
     post_data.append('descripcio', jQuery('textarea[name=descripcio]').val());
-    post_data.append('tipus', jQuery('#llicencia option:selected').val());
+    post_data.append('llicencia', jQuery('#llicencia option:selected').val());
     post_data.append('categoria_programa', jQuery('input[name=categoria_programa]:checked').val());
     post_data.append('autor_traduccio', jQuery('input[name=autor_traduccio]').val());
 
@@ -221,17 +222,40 @@ $add_program_form.on('submit', function(ev) {
         contentType: false,
         processData: false,
         success : form_add_ok,
-        error : form_sent_ko
+        error : form_add_ko
     });
 });
 
 function form_add_ok(result) {
     jQuery("#loading_program").hide();
+
+    // The server answers with status 0 when it could not store the program: stay on
+    // this step instead of walking the user through to the thank you screen.
+    if (!result || result.status != 1) {
+        show_form_error('form_2', result && result.text);
+        return;
+    }
+
+    hide_form_error('form_2');
     jQuery("#form_2").hide();
     jQuery("#form_3").fadeIn();
     jQuery("#form_3").addClass('actiu');
     jQuery("#form_2").removeClass('actiu');
     jQuery("#programa_id").val(result.post_id);
+}
+
+function form_add_ko() {
+    jQuery("#loading_program").hide();
+    show_form_error('form_2');
+}
+
+function show_form_error(form_id, text) {
+    jQuery("#" + form_id + " .form-error-text").text(text || "S'ha produït un error en enviar les dades. Proveu-ho una altra vegada més tard.");
+    jQuery("#" + form_id + " .form-error").addClass('visible');
+}
+
+function hide_form_error(form_id) {
+    jQuery("#" + form_id + " .form-error").removeClass('visible');
 }
 
 jQuery('#add_new_baixada').on('click', function () {
@@ -249,6 +273,8 @@ var $add_baixades_form = jQuery('#baixades_form');
 
 $add_baixades_form.on('submit', function(ev) {
     ev.preventDefault();
+
+    hide_form_error('form_3');
     jQuery("#loading_program").fadeIn();
 
     //Data
@@ -308,8 +334,15 @@ $add_baixades_form.on('submit', function(ev) {
     });
 });
 
-function form_baixada_add_ok() {
+function form_baixada_add_ok(result) {
     jQuery("#loading_program").hide();
+
+    if (!result || result.status != 1) {
+        show_form_error('form_3', result && result.text);
+        return;
+    }
+
+    hide_form_error('form_3');
     jQuery("#form_3").hide();
     jQuery("#form_4").fadeIn();
     jQuery("#form_4").addClass('actiu');
@@ -317,7 +350,8 @@ function form_baixada_add_ok() {
 }
 
 function form_baixada_add_ko() {
-
+    jQuery("#loading_program").hide();
+    show_form_error('form_3');
 }
 
 jQuery('#afegeix_programa_button').on('click', function () {

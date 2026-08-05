@@ -28,18 +28,6 @@ function wp_list_subpages($parent_id, $sort_column = 'menu_order', $sort_order =
     return $pages_tree;
 }
 
-/*
- * Function that extracts the post url and title from a specific post (for use on array_map)
- */
-function generate_post_url_link( $post ) {
-    $title = $post->post_title;
-    $url = $post->link;
-
-    $return = '<a href="'.$url.'" title="'.$title.'">'.$title.'</a>';
-
-    return $return;
-}
-
 /**
  * Function to retrive most downloaded software list for the home page
  *

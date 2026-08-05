@@ -3,7 +3,7 @@
         {% if loop.index == 6 %}
             <div id="mesprogrames" class="collapse">
         {% endif %}
-        <li>{{ program }}</li>
+        <li><a href="{{ program.link }}" title="{{ program.title }}">{{ program.title }}</a></li>
         {% if loop.last %}
             </div>
         {% endif %}

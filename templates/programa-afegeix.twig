@@ -219,11 +219,16 @@
                             </div>
                             <!-- .camp -->
                         </div>
+                        <div class="alert alert--error form-error" role="alert">
+                            <div class="alert__inner">
+                                <p class="form-error-text"></p>
+                            </div>
+                        </div>
                         <div class="form-horizontal">
                             <div class="form-botons row form-group">
                                 <div class="form-boto col-xs-6">
                                     {{ function('wp_nonce_field', 'add_new_program', '_wpnonce_program') }}
-                                    <button type="submit" class="next_step bt-basic bt-basic-vermell-fosc">Envia la informació</button>
+                                    <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia la informació</button>
                                 </div>
                             </div><!--/botons -->
                         </div>
@@ -247,6 +252,12 @@
                 </header><!--/.contingut-header -->
                 <form id="baixades_form" class="form-horizontal" method="post">
                     {% include 'baixades_form.twig' %}
+
+                    <div class="alert alert--error form-error" role="alert">
+                        <div class="alert__inner">
+                            <p class="form-error-text"></p>
+                        </div>
+                    </div>
 
                     <!-- botons -->
                     <div class="form-horizontal">
