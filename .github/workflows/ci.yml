@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Frontend (vitest + tsc)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+        working-directory: frontend
+
+      - run: npm run typecheck
+        working-directory: frontend
+
+      - run: npm test
+        working-directory: frontend
+
+      # Catches build breakage that the unit tests don't; the output is thrown
+      # away, static/ is only refreshed by a human running `npm run build`.
+      - run: npm run build
+        working-directory: frontend
+
+  tests:
+    name: PHPUnit (PHP ${{ matrix.php }}, WP ${{ matrix.wp }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Production runs 8.4; 8.2 is the floor, set by Timber v2's own
+          # requirement and declared in composer.json.
+          - php: '8.4'
+            wp: latest
+          - php: '8.2'
+            wp: latest
+
+    services:
+      mysql:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: wordpress
+          MARIADB_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Install the WordPress test suite
+        run: bash bin/install-wp-tests.sh wordpress_test root wordpress 127.0.0.1:3306 ${{ matrix.wp }} true
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+
+  lint:
+    name: PHPCS + PHPMD (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # lint-php.sh diffs against the base branch, so it needs its history.
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+
+      # Advisory, per step rather than per job: the ruleset predates WPCS 3 and
+      # the repo carries ~1250 pre-existing violations, so even a changed-files
+      # gate would fail on any edit to a legacy file. continue-on-error here
+      # marks findings as a warning and leaves the job green; a job-level flag
+      # would keep the run green but still render the job as failed. Drop these
+      # two lines to make the changed-files step a real gate once the backlog is
+      # worked down (./bin/test.sh phpcbf fixes ~1050 of them).
+      - name: Lint files changed in this branch
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          bash bin/lint-php.sh --changed "origin/${{ github.base_ref || 'master' }}" 2>&1 \
+            | tee "$RUNNER_TEMP/lint-changed.log"
+
+      - name: Full report (informational)
+        if: always()
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          bash bin/lint-php.sh 2>&1 | tee "$RUNNER_TEMP/lint-full.log"
+
+      # Surfaces the findings on the run page instead of burying them in logs.
+      - name: Add findings to the run summary
+        if: always()
+        run: |
+          {
+            echo '### PHPCS + PHPMD'
+            echo
+            echo 'Advisory — these findings do not fail the build. See `bin/lint-php.sh`.'
+            echo
+            echo '<details><summary>Files changed in this branch</summary>'
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/lint-changed.log" 2>/dev/null || echo '(no output)'
+            echo '```'
+            echo
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"

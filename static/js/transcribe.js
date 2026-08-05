@@ -1,3 +1,2 @@
-import{t}from"./file-upload-form-CZpk00VQ.js";t({apiUrl:"https://api.softcatala.org/transcribe-service/v1",apiPath:"transcribe_file",buttonLabel:"Demana la transcripció",successMessage:r=>r===0?"El vostre fitxer és el següent en la cua de transcripció.":r===1?"El vostre fitxer té només un fitxer per davant en la cua de transcripció.":`El vostre fitxer té ${r} fitxers per davant en la cua de transcripció.`});
-
+import{t as e}from"./file-upload-form-9D8H1Vv8.js";e({apiUrl:`https://api.softcatala.org/transcribe-service/v1`,apiPath:`transcribe_file`,buttonLabel:`Demana la transcripció`,successMessage:e=>e===0?`El vostre fitxer és el següent en la cua de transcripció.`:e===1?`El vostre fitxer té només un fitxer per davant en la cua de transcripció.`:`El vostre fitxer té ${e} fitxers per davant en la cua de transcripció.`});
 //# sourceMappingURL=transcribe.js.map

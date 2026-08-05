@@ -1,3 +1,2 @@
-import{t as r}from"./file-upload-form-CZpk00VQ.js";r({apiUrl:"https://api.softcatala.org/dubbing-service/v1",apiPath:"dubbing_file",buttonLabel:"Demana el doblatge",successMessage:(e,a)=>{const t=a?`'${a}'`:"el vostre fitxer";return e===0?`El fitxer ${t} és el següent en la cua de doblatge.`:e===1?`El fitxer ${t} té només un fitxer per davant en la cua de doblatge.`:`El fitxer ${t} té ${e} fitxers per davant en la cua de doblatge.`}});
-
+import{t as e}from"./file-upload-form-9D8H1Vv8.js";e({apiUrl:`https://api.softcatala.org/dubbing-service/v1`,apiPath:`dubbing_file`,buttonLabel:`Demana el doblatge`,successMessage:(e,t)=>{let n=t?`'${t}'`:`el vostre fitxer`;return e===0?`El fitxer ${n} és el següent en la cua de doblatge.`:e===1?`El fitxer ${n} té només un fitxer per davant en la cua de doblatge.`:`El fitxer ${n} té ${e} fitxers per davant en la cua de doblatge.`}});
 //# sourceMappingURL=dubbing.js.map

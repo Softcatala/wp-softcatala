@@ -1,0 +1,59 @@
+# Local test/lint environment. Nothing needs to be installed on the host
+# beyond Docker itself -- see bin/test.sh for the wrapper around it.
+#
+#   ./bin/test.sh            # everything CI runs
+#   ./bin/test.sh phpunit    # just the PHP test suite
+#
+# The WordPress test suite and Composer/npm dependencies live in named volumes,
+# so they survive between runs and never touch the host checkout.
+
+services:
+  php:
+    build:
+      context: .docker/php
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WP_VERSION: ${WP_VERSION:-latest}
+      WP_MULTISITE: ${WP_MULTISITE:-0}
+      WP_DB_HOST: db
+      WP_DB_NAME: wordpress_test
+      WP_DB_USER: root
+      WP_DB_PASS: wordpress
+    volumes:
+      - .:/app
+      - composer-cache:/root/.composer/cache
+      - wp-test-suite:/wp-test-suite
+    working_dir: /app
+
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: wordpress
+      MARIADB_DATABASE: wordpress_test
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+    tmpfs:
+      - /var/lib/mysql
+
+  node:
+    image: node:24-alpine
+    volumes:
+      - .:/app
+      # Keeps the container's Linux-built modules out of the host checkout, so
+      # running npm on the host afterwards still works.
+      - frontend-node-modules:/app/frontend/node_modules
+      - npm-cache:/root/.npm
+    working_dir: /app/frontend
+
+volumes:
+  composer-cache:
+  npm-cache:
+  frontend-node-modules:
+  wp-test-suite:

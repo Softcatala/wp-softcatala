@@ -8,15 +8,43 @@
  *
  *   {
  *     "text": { "field_key": "Column label", ... },  // column order + headers
- *     "thresholds": {                                 // optional, used by format="graph"
- *       "metric": "field_key",
- *       "direction": "higher_is_better",
- *       "success": { "min": 0.85, "color": "#388e3c" },
- *       "warning": { "min": 0.8,  "color": "#f9a825" },
- *       "error":   { "color": "#c62828" }
+ *     "metrics": {                                    // optional, per metric
+ *       "field_key": {
+ *         "direction": "lower_is_better",             // or "higher_is_better" (default)
+ *         "scale": 100,                               // render-only multiplier
+ *         "suffix": " %",
+ *         "decimals": 2,
+ *         "success": { "max": 0.05, "color": "#388e3c" },
+ *         "warning": { "max": 0.10, "color": "#f9a825" },
+ *         "error":   { "color": "#c62828" }
+ *       }
  *     },
  *     "data": [ { "field_key": value, ... }, ... ]     // one row per entry
  *   }
+ *
+ * "metrics" entries are keyed by field key, so a document exposing several
+ * metrics can describe each one. Every key is optional; a metric with no
+ * entry keeps the built-in defaults (stylesheet bar color, no threshold
+ * line, raw value at the shortcode's "decimals").
+ *
+ * - "direction" selects how the cutoffs are read: "higher_is_better" (the
+ *   default, also used for any unrecognized value) takes success/warning
+ *   ".min", "lower_is_better" takes ".max". "error" is the fallback bucket
+ *   and carries a color only.
+ * - Cutoffs are always expressed in raw data units, never scaled: WER's
+ *   success.max is 0.05, not 5. "scale"/"suffix"/"decimals" are
+ *   presentation only and apply to row values and the threshold label
+ *   alike, in both formats.
+ * - Labels stay in "text" -- "metrics" never carries a display name.
+ *
+ * A legacy single-metric "thresholds" object is still honored when its
+ * "metric" key names the column being rendered:
+ *
+ *   "thresholds": { "metric": "composite", "direction": "higher_is_better",
+ *                   "success": { "min": 0.85, "color": "#388e3c" }, ... }
+ *
+ * Resolution order per metric: shortcode attribute, then "metrics", then
+ * "thresholds", then the built-in default.
  *
  * Usage:
  *   [ia-data url="https://example.com/data.json" format="table"]
@@ -35,16 +63,18 @@
  * - Renders one horizontal bar per row for the "metric" attribute, falling
  *   back to thresholds.metric and then to the last numeric column in "text"
  *   (see guess_metric()). Bar length is normalized to the highest value
- *   present (100% = current top score, not an absolute 0-1 scale).
- * - Bar color comes from thresholds.success/warning/error based on where
- *   the row's value falls (only when thresholds.direction is
- *   "higher_is_better"; otherwise bars use the error color as a neutral
- *   fallback since no convention for other directions is defined yet).
- *   Without a "thresholds" object every bar keeps the stylesheet's default
- *   color and no threshold line is drawn.
- * - A dashed threshold line is drawn at thresholds.success.min, positioned
- *   with a CSS calc() (no JS) -- see assets_once() for the fixed column
- *   width constants it depends on.
+ *   present (100% = current top score, not an absolute 0-1 scale) whatever
+ *   the direction, so for a lower-is-better metric the longest bar is the
+ *   worst row.
+ * - Bar color comes from the metric's success/warning/error buckets based
+ *   on where the row's value falls. Without a metric configuration every
+ *   bar keeps the stylesheet's default color and no threshold line is
+ *   drawn.
+ * - A dashed threshold line is drawn at the metric's success cutoff
+ *   (success.min or success.max, per direction), positioned with a CSS
+ *   calc() (no JS) -- see assets_once() for the fixed column width
+ *   constants it depends on. Its default label is "≥ x" or "≤ x", per
+ *   direction.
  * - Row labels use "label_field" (default: same as the table's first
  *   column) and are bolded when "highlight_field" is truthy, same as the
  *   table's link column.
@@ -54,6 +84,10 @@
  *
  * Common attributes: url (required), cache (seconds, default 3600, 0
  * disables), decimals (default 4).
+ *
+ * The graph's "direction", "scale", "suffix" and "decimals" can also be set
+ * as shortcode attributes for one-off embeds, overriding whatever the JSON
+ * declares for that metric.
  *
  * Security: requests go through wp_safe_remote_get() (SSRF guard: rejects
  * loopback/private/link-local hosts, http/https only) and responses are
@@ -83,6 +117,9 @@ class SC_Shortcodes_IaData {
 				'link_field'      => 'repo_url',
 				// format="graph" only
 				'metric'          => '',
+				'direction'       => '',
+				'scale'           => '',
+				'suffix'          => '',
 				'label_field'     => '',
 				'title'           => '',
 				'subtitle'        => '',
@@ -150,6 +187,88 @@ class SC_Shortcodes_IaData {
 	}
 
 	/**
+	 * Per-metric configuration for $metric: "metrics" wins over the legacy
+	 * single-metric "thresholds" object, which only applies when its own
+	 * "metric" key names this column. Returns an empty array when the
+	 * document describes nothing for it.
+	 *
+	 * @param array  $json   Decoded JSON document.
+	 * @param string $metric Field key of the metric.
+	 * @return array Metric configuration, empty when undescribed.
+	 */
+	private function metric_config( $json, $metric ) {
+		if ( isset( $json['metrics'][ $metric ] ) && is_array( $json['metrics'][ $metric ] ) ) {
+			return $json['metrics'][ $metric ];
+		}
+
+		$legacy = isset( $json['thresholds'] ) && is_array( $json['thresholds'] ) ? $json['thresholds'] : array();
+
+		if ( isset( $legacy['metric'] ) && is_string( $legacy['metric'] ) && $legacy['metric'] === $metric ) {
+			return $legacy;
+		}
+
+		return array();
+	}
+
+	/**
+	 * True unless the configuration explicitly asks for lower_is_better, so
+	 * an unrecognized direction falls back to the documented default rather
+	 * than to a third, undefined behavior.
+	 *
+	 * @param array $config Metric configuration.
+	 * @return bool True when larger values are better.
+	 */
+	private function is_higher_better( $config ) {
+		return ! isset( $config['direction'] ) || 'lower_is_better' !== $config['direction'];
+	}
+
+	/**
+	 * The cutoff a success/warning bucket carries, read from the key that
+	 * matches the direction ("min" going up, "max" going down). Null when
+	 * the bucket doesn't declare one -- a bucket keyed the wrong way round
+	 * is ignored rather than silently reinterpreted.
+	 *
+	 * @param array $bucket           Success or warning bucket.
+	 * @param bool  $higher_is_better Direction of the metric.
+	 * @return float|null The cutoff, or null when the bucket declares none.
+	 */
+	private function cutoff( $bucket, $higher_is_better ) {
+		$key = $higher_is_better ? 'min' : 'max';
+
+		return isset( $bucket[ $key ] ) && is_numeric( $bucket[ $key ] ) ? (float) $bucket[ $key ] : null;
+	}
+
+	/**
+	 * Applies a metric's "scale"/"suffix"/"decimals" to a numeric value.
+	 * Callers must escape the result.
+	 *
+	 * @param int|float $value            Raw value from the data.
+	 * @param array     $config           Metric configuration.
+	 * @param int       $default_decimals Fallback decimals from the shortcode.
+	 * @return string Formatted, unescaped value.
+	 */
+	private function format_metric_number( $value, $config, $default_decimals ) {
+		$decimals = isset( $config['decimals'] ) && is_numeric( $config['decimals'] ) ? (int) $config['decimals'] : $default_decimals;
+		$scale    = isset( $config['scale'] ) && is_numeric( $config['scale'] ) ? (float) $config['scale'] : 1;
+		$suffix   = isset( $config['suffix'] ) ? (string) $config['suffix'] : '';
+
+		return number_format( (float) $value * $scale, $decimals ) . $suffix;
+	}
+
+	/**
+	 * True when $config asks for anything the default formatting wouldn't
+	 * already do. Guards format_value()'s existing behavior: routing every
+	 * numeric cell through number_format() would turn an integer column
+	 * such as "dim": 768 into "768.0000".
+	 *
+	 * @param array $config Metric configuration.
+	 * @return bool True when the metric declares its own number formatting.
+	 */
+	private function has_number_format( $config ) {
+		return isset( $config['scale'] ) || isset( $config['suffix'] ) || isset( $config['decimals'] );
+	}
+
+	/**
 	 * format="table"
 	 */
 	private function render_table( $json, $atts ) {
@@ -173,6 +292,11 @@ class SC_Shortcodes_IaData {
 		}
 		$html .= '</tr></thead>';
 
+		$configs = array();
+		foreach ( $columns as $key ) {
+			$configs[ $key ] = $this->metric_config( $json, $key );
+		}
+
 		$html .= '<tbody>';
 		foreach ( $rows as $row ) {
 			if ( ! is_array( $row ) ) {
@@ -181,7 +305,13 @@ class SC_Shortcodes_IaData {
 
 			$html .= '<tr>';
 			foreach ( $columns as $key ) {
-				$value = $this->format_value( isset( $row[ $key ] ) ? $row[ $key ] : '', $decimals );
+				$raw = isset( $row[ $key ] ) ? $row[ $key ] : '';
+
+				if ( is_numeric( $raw ) && $this->has_number_format( $configs[ $key ] ) ) {
+					$value = esc_html( $this->format_metric_number( $raw, $configs[ $key ], $decimals ) );
+				} else {
+					$value = $this->format_value( $raw, $decimals );
+				}
 
 				if ( $key === $link_column && ! empty( $row[ $link_field ] ) ) {
 					$value = '<a href="' . esc_url( $row[ $link_field ] ) . '" target="_blank" rel="noopener noreferrer">' . $value . '</a>';
@@ -252,20 +382,32 @@ class SC_Shortcodes_IaData {
 
 		$max_value = max( $values );
 
-		$higher_is_better = ! isset( $thresholds['direction'] ) || 'higher_is_better' === $thresholds['direction'];
-		$success           = isset( $thresholds['success'] ) && is_array( $thresholds['success'] ) ? $thresholds['success'] : array();
-		$warning           = isset( $thresholds['warning'] ) && is_array( $thresholds['warning'] ) ? $thresholds['warning'] : array();
-		$error             = isset( $thresholds['error'] ) && is_array( $thresholds['error'] ) ? $thresholds['error'] : array();
+		$config = $this->metric_config( $json, $metric );
+
+		foreach ( array( 'direction', 'scale', 'suffix' ) as $override ) {
+			if ( '' !== $atts[ $override ] ) {
+				$config[ $override ] = $atts[ $override ];
+			}
+		}
+
+		$higher_is_better = $this->is_higher_better( $config );
+		$success          = isset( $config['success'] ) && is_array( $config['success'] ) ? $config['success'] : array();
+		$warning          = isset( $config['warning'] ) && is_array( $config['warning'] ) ? $config['warning'] : array();
+		$error            = isset( $config['error'] ) && is_array( $config['error'] ) ? $config['error'] : array();
 
 		$title    = '' !== $atts['title'] ? $atts['title'] : $labels[ $metric ];
 		$subtitle = $atts['subtitle'];
 		$caption  = $atts['caption'];
 
-		$show_threshold_line = $higher_is_better && isset( $success['min'] ) && $max_value > 0;
-		$threshold_fraction   = $show_threshold_line ? ( (float) $success['min'] / $max_value ) : 0;
-		$threshold_label      = '' !== $atts['threshold_label']
+		$success_cutoff      = $this->cutoff( $success, $higher_is_better );
+		$show_threshold_line = null !== $success_cutoff && $max_value > 0;
+		// Clamped so a cutoff beyond the data's range stays inside the panel.
+		$threshold_fraction = $show_threshold_line ? min( 1, max( 0, $success_cutoff / $max_value ) ) : 0;
+		$threshold_label    = '' !== $atts['threshold_label']
 			? $atts['threshold_label']
-			: ( $show_threshold_line ? '≥ ' . number_format( (float) $success['min'], $decimals ) : '' );
+			: ( $show_threshold_line
+				? ( $higher_is_better ? '≥ ' : '≤ ' ) . $this->format_metric_number( $success_cutoff, $config, $decimals )
+				: '' );
 
 		$html  = $this->assets_once();
 		$html .= '<div class="charts-wrapper">';
@@ -301,7 +443,7 @@ class SC_Shortcodes_IaData {
 			$html .= '<div class="chart-row">';
 			$html .= '<div class="row-label" title="' . esc_attr( $label ) . '">' . $label_html . '</div>';
 			$html .= '<div class="bar-area"><div class="bar" style="width: ' . esc_attr( number_format( $pct, 2 ) ) . '%;' . ( $color ? ' background-color: ' . esc_attr( $color ) . ';' : '' ) . '"></div></div>';
-			$html .= '<div class="row-value">' . esc_html( number_format( $value, $decimals ) ) . '</div>';
+			$html .= '<div class="row-value">' . esc_html( $this->format_metric_number( $value, $config, $decimals ) ) . '</div>';
 			$html .= '</div>';
 		}
 
@@ -340,17 +482,31 @@ class SC_Shortcodes_IaData {
 		return '';
 	}
 
+	/**
+	 * The first bucket $value falls into, best to worst. Going up a value
+	 * has to reach the cutoff, going down it has to stay under it; a bucket
+	 * with no cutoff for the current direction never matches, so a document
+	 * that only colors part of the range still lands on "error" for the
+	 * rest.
+	 *
+	 * @param float $value            Row value.
+	 * @param array $success          Success bucket.
+	 * @param array $warning          Warning bucket.
+	 * @param array $error            Error bucket.
+	 * @param bool  $higher_is_better Direction of the metric.
+	 * @return string Color, or an empty string to keep the stylesheet default.
+	 */
 	private function bar_color( $value, $success, $warning, $error, $higher_is_better ) {
-		if ( ! $higher_is_better ) {
-			return isset( $error['color'] ) ? $error['color'] : '';
-		}
+		foreach ( array( $success, $warning ) as $bucket ) {
+			$cutoff = $this->cutoff( $bucket, $higher_is_better );
 
-		if ( isset( $success['min'] ) && $value >= (float) $success['min'] ) {
-			return isset( $success['color'] ) ? $success['color'] : '';
-		}
+			if ( null === $cutoff ) {
+				continue;
+			}
 
-		if ( isset( $warning['min'] ) && $value >= (float) $warning['min'] ) {
-			return isset( $warning['color'] ) ? $warning['color'] : '';
+			if ( $higher_is_better ? $value >= $cutoff : $value <= $cutoff ) {
+				return isset( $bucket['color'] ) ? $bucket['color'] : '';
+			}
 		}
 
 		return isset( $error['color'] ) ? $error['color'] : '';

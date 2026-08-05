@@ -34,7 +34,11 @@ export default defineConfig({
     outDir: resolve(__dirname, '../static'),
     emptyOutDir: false, // Preserve per-page CSS/JS files in static/
     sourcemap: true,
-    minify: 'esbuild',
+    // oxc is Rolldown's built-in minifier. 'esbuild' here would need the
+    // esbuild package installed separately, which nothing declares -- builds
+    // only kept working because Node resolved a stray esbuild from a parent
+    // directory of the checkout, so any clean install failed.
+    minify: 'oxc',
     cssCodeSplit: false, // Single CSS bundle
 
     rollupOptions: {

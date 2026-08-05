@@ -27,8 +27,8 @@ class TasquesApiTest extends SCTests {
 	 */
 	private $term_slug = 'en-curs';
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		// Create a test estat_tasca term.
 		$result = wp_insert_term( 'En curs', 'estat_tasca', array( 'slug' => $this->term_slug ) );
@@ -48,10 +48,10 @@ class TasquesApiTest extends SCTests {
 		) );
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		wp_delete_post( $this->task_id, true );
 		wp_delete_term( $this->term_id, 'estat_tasca' );
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	/**
