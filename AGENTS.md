@@ -39,12 +39,29 @@ docs/solutions/       # documented solutions to past problems (ui-bugs, runtime-
 Source lives in `frontend/src/`, output goes to `static/`. **Never edit `static/js/main.min.js` or `static/css/main.min.css` directly.**
 
 ```bash
-cd frontend && npm run build   # compile → static/
+cd frontend && npm run build   # runs the tests, then compiles → static/
 ```
 
 - Entry point: `frontend/src/js/main.ts` → `static/js/main.min.js`
 - Styles: `frontend/src/scss/main.scss` → `static/css/main.min.css`
 - The corrector React app lives in `../corrector/` (sibling repo). After building it, run `npm run wordpress` inside that repo to copy its assets into `static/css/corrector/` and `static/js/corrector/`.
+
+### Frontend tests
+
+Vitest + jsdom, in `frontend/tests/`. `prebuild` runs them, so `npm run build` fails
+without writing to `static/` if anything is red. `npm run dev` (watch) does not run them.
+
+```bash
+cd frontend
+npm test         # vitest run
+npm run test:watch
+npm run typecheck   # not part of the build — esbuild strips types without checking them
+```
+
+Fixtures in `tests/helpers.ts` mirror the Twig templates the modules run against; keep
+them in step when the templates change. Modules that self-initialise on `DOMContentLoaded`
+should also export their init function — tests call it directly, because re-importing a
+module per test leaves its old listener attached to the shared document.
 
 ### Adding new Vite entry points
 Vite entry points that import other modules produce ES module output (with `import` statements for shared chunks). WordPress enqueues classic scripts by default, so every new entry point must:

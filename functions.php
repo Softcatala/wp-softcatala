@@ -1,7 +1,7 @@
 <?php
 
 
-define( 'WP_SOFTCATALA_VERSION', '3.0.8' );
+define( 'WP_SOFTCATALA_VERSION', '3.0.9' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -794,6 +794,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		'sc-js-pmf',
 		'sc-js-dict-eng-cat',
 		'sc-js-sinonims',
+		'sc-js-programes',
 	];
 	if ( in_array( $handle, $module_handles, true ) || strpos( $handle, 'sc-js-corrector-vite' ) !== false ) {
 		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';

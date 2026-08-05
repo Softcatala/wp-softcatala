@@ -5,19 +5,23 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite build --watch",
+    "prebuild": "npm run test",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
+    "jsdom": "^29.1.1",
     "sass-embedded": "^1.87.0",
     "typescript": "^6.0.2",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@types/sortablejs": "^1.15.9",
     "sortablejs": "^1.15.7"
   }
 }
-

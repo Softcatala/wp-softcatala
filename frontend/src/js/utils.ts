@@ -48,6 +48,30 @@ export function matchesBP(query: BreakpointQuery): boolean {
   }
 }
 
+/* ── Platform detection ──────────────────────────────────── */
+
+export type DetectedOS = 'windows' | 'ios' | 'osx' | 'android' | 'linux'
+
+/**
+ * Best-effort OS detection from the user agent, or null when nothing matches.
+ * Replaces the abandoned jquery.browser plugin.
+ *
+ * Order matters: iOS user agents contain "Mac OS X" and Android ones contain
+ * "Linux", so the more specific platforms are tested first.
+ *
+ * Note: iPadOS 13+ in its default desktop mode is indistinguishable from macOS
+ * by user agent alone, and is reported as 'osx'.
+ */
+export function detectOS(): DetectedOS | null {
+  const ua = navigator.userAgent
+  if (ua.includes('Win')) return 'windows'
+  if (ua.includes('iPad') || ua.includes('iPhone') || ua.includes('iPod')) return 'ios'
+  if (ua.includes('Mac')) return 'osx'
+  if (ua.includes('Android')) return 'android'
+  if (ua.includes('Linux')) return 'linux'
+  return null
+}
+
 /* ── Touch detection ─────────────────────────────────────── */
 
 /**

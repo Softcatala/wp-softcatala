@@ -13,6 +13,11 @@ export default defineConfig({
     },
   },
 
+  test: {
+    environment: 'jsdom',
+    include: ['tests/**/*.test.ts'],
+  },
+
   css: {
     preprocessorOptions: {
       scss: {
@@ -44,6 +49,7 @@ export default defineConfig({
         pmf: resolve(__dirname, 'src/js/pmf.ts'),
         'diccionari-engcat': resolve(__dirname, 'src/js/diccionari-engcat.ts'),
         sinonims: resolve(__dirname, 'src/js/sinonims.ts'),
+        programes: resolve(__dirname, 'src/js/programes.ts'),
       },
       output: {
         entryFileNames: (chunk) =>
@@ -56,6 +62,7 @@ export default defineConfig({
           : chunk.name === 'pmf' ? 'js/pmf.js'
           : chunk.name === 'diccionari-engcat' ? 'js/diccionari-engcat/diccionari-engcat.js'
           : chunk.name === 'sinonims' ? 'js/sinonims.js'
+          : chunk.name === 'programes' ? 'js/programes.js'
           : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {

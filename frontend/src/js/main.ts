@@ -9,7 +9,7 @@
 import '../scss/main.scss'
 
 // ── Modules ───────────────────────────────────────────────
-import { $, $$, matchesBP, initTouchDetection } from './utils'
+import { $, $$, matchesBP, initTouchDetection, detectOS } from './utils'
 import { initDropdowns } from './dropdown'
 import { initTabs, activateTab } from './tabs'
 import { initCarousels } from './carousel'
@@ -238,21 +238,11 @@ function initActiveMenuHighlighting(): void {
   $<HTMLElement>('#navbar-usuari-mobile')?.classList.remove('active')
 }
 
-type DetectedOS = 'windows' | 'ios' | 'osx' | 'android' | 'linux'
-
 /**
  * Homepage: detect OS and activate the matching programari tab.
  */
 function activateHomeOsTab(): void {
-  const ua = navigator.userAgent
-  let os: DetectedOS | null = null
-
-  if (ua.includes('Win')) os = 'windows'
-  else if (ua.includes('iPad') || ua.includes('iPhone') || ua.includes('iPod')) os = 'ios'
-  else if (ua.includes('Mac')) os = 'osx'
-  else if (ua.includes('Android')) os = 'android'
-  else if (ua.includes('Linux')) os = 'linux'
-
+  const os = detectOS()
   if (!os) return
 
   const osTab = $<HTMLAnchorElement>(`.tab-${os} > a`)

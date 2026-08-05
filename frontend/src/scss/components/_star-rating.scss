@@ -3,8 +3,9 @@
 // ==========================================================================
 //
 // Self-contained star rating display component replacing the old
-// bootstrap-star-rating bower dependency. Read-only display only —
-// the interactive rating JS is not needed (ratings are server-rendered).
+// bootstrap-star-rating bower dependency. Averages are server-rendered as an
+// overlay width; `.rating-input` adds an optional interactive layer on top,
+// driven by programes.ts.
 //
 // Source: maqueta/bower_components/bootstrap-star-rating/css/star-rating.min.less
 // Overrides: maqueta/app/assets/less/layouts/thumbnails.less (lines 221-234)
@@ -78,6 +79,50 @@
         color: var(--color-brand-hover);
       }
     }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Interactive input overlay
+// ---------------------------------------------------------------------------
+//
+// Five transparent hit areas laid over the read-only stars, one per star.
+// Rendered only where voting is offered (see capcalera_programa.twig); the
+// display markup underneath is unchanged, so the average keeps rendering at
+// fractional widths.
+
+.rating-input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0; // fieldsets default to min-content sizing
+}
+
+.rating-input__star {
+  position: relative;
+  flex: 1;
+  margin: 0;
+  cursor: pointer;
+
+  input[type='radio'] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  // outline-offset keeps the ring inside .rating-container, which clips
+  // overflow.
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--color-brand-hover);
+    outline-offset: -2px;
   }
 }
 
