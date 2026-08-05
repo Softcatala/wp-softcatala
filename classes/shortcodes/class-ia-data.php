@@ -24,7 +24,7 @@
  *
  * format="table":
  * - Columns and headers come from the "text" object, in declared order.
- * - If a row has a field matching "link_field" (default "url"), the
+ * - If a row has a field matching "link_field" (default "repo_url"), the
  *   "link_column" cell (default: the first column) is wrapped in a link to
  *   it. That cell is wrapped in <strong> when the row's "highlight_field"
  *   (default "cloud") is truthy. Pass highlight_field="" to disable that.
@@ -32,14 +32,16 @@
  *   rendered as its own column, even if present in "text".
  *
  * format="graph":
- * - Renders one horizontal bar per row for the "metric" attribute (default:
- *   thresholds.metric from the JSON). Bar length is normalized to the
- *   highest value present (100% = current top score, not an absolute 0-1
- *   scale).
+ * - Renders one horizontal bar per row for the "metric" attribute, falling
+ *   back to thresholds.metric and then to the last numeric column in "text"
+ *   (see guess_metric()). Bar length is normalized to the highest value
+ *   present (100% = current top score, not an absolute 0-1 scale).
  * - Bar color comes from thresholds.success/warning/error based on where
  *   the row's value falls (only when thresholds.direction is
  *   "higher_is_better"; otherwise bars use the error color as a neutral
  *   fallback since no convention for other directions is defined yet).
+ *   Without a "thresholds" object every bar keeps the stylesheet's default
+ *   color and no threshold line is drawn.
  * - A dashed threshold line is drawn at thresholds.success.min, positioned
  *   with a CSS calc() (no JS) -- see assets_once() for the fixed column
  *   width constants it depends on.
@@ -78,7 +80,7 @@ class SC_Shortcodes_IaData {
 				'highlight_field' => 'cloud',
 				// format="table" only
 				'link_column'     => '',
-				'link_field'      => 'url',
+				'link_field'      => 'repo_url',
 				// format="graph" only
 				'metric'          => '',
 				'label_field'     => '',
@@ -223,15 +225,19 @@ class SC_Shortcodes_IaData {
 		$thresholds = isset( $json['thresholds'] ) && is_array( $json['thresholds'] ) ? $json['thresholds'] : array();
 		$decimals   = (int) $atts['decimals'];
 
+		$columns         = array_keys( $labels );
+		$label_field     = '' !== $atts['label_field'] ? $atts['label_field'] : reset( $columns );
+		$highlight_field = $atts['highlight_field'];
+
 		$metric = '' !== $atts['metric'] ? $atts['metric'] : ( isset( $thresholds['metric'] ) ? $thresholds['metric'] : '' );
+
+		if ( '' === $metric ) {
+			$metric = $this->guess_metric( $columns, $rows, array( $label_field, $highlight_field ) );
+		}
 
 		if ( '' === $metric || ! isset( $labels[ $metric ] ) ) {
 			return '';
 		}
-
-		$columns         = array_keys( $labels );
-		$label_field     = '' !== $atts['label_field'] ? $atts['label_field'] : reset( $columns );
-		$highlight_field = $atts['highlight_field'];
 
 		$values = array();
 		foreach ( $rows as $row ) {
@@ -311,6 +317,29 @@ class SC_Shortcodes_IaData {
 		return $html;
 	}
 
+	/**
+	 * Last numeric column in "text", used when neither the shortcode nor the
+	 * JSON names a metric. Last rather than first because these documents put
+	 * the summary score (composite, average, ...) after the individual ones,
+	 * while the leading numeric columns tend to be metadata (dimensions,
+	 * parameter counts).
+	 */
+	private function guess_metric( $columns, $rows, $excluded ) {
+		foreach ( array_reverse( $columns ) as $key ) {
+			if ( in_array( $key, $excluded, true ) ) {
+				continue;
+			}
+
+			foreach ( $rows as $row ) {
+				if ( is_array( $row ) && isset( $row[ $key ] ) && is_numeric( $row[ $key ] ) ) {
+					return $key;
+				}
+			}
+		}
+
+		return '';
+	}
+
 	private function bar_color( $value, $success, $warning, $error, $higher_is_better ) {
 		if ( ! $higher_is_better ) {
 			return isset( $error['color'] ) ? $error['color'] : '';
@@ -355,7 +384,7 @@ class SC_Shortcodes_IaData {
   .chart-row { display: flex; align-items: center; height: 23px; margin-bottom: 2px; }
   .row-label { width: 182px; min-width: 182px; text-align: right; font-size: 12px; padding-right: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #333; }
   .bar-area { flex: 1; height: 100%; background: #ececec; border-radius: 2px; position: relative; overflow: visible; }
-  .bar { height: 100%; border-radius: 2px; min-width: 3px; }
+  .bar { height: 100%; border-radius: 2px; min-width: 3px; background-color: #337ab7; }
   .row-value { width: 48px; min-width: 48px; font-size: 12px; color: #555; padding-left: 6px; text-align: left; }
   .threshold-line { position: absolute; top: -18px; bottom: 0; width: 0; border-left: 2px dashed #c62828; z-index: 5; pointer-events: none; left: calc(190px + (100% - 244px) * var(--sc-threshold-fraction, 0)); }
   .threshold-line-label { position: absolute; top: 0; left: 5px; font-size: 11px; color: #c62828; white-space: nowrap; font-weight: 600; line-height: 1; }
