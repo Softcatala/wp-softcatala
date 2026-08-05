@@ -18,9 +18,9 @@ jobs:
     name: Frontend (vitest + tsc)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
@@ -70,7 +70,7 @@ jobs:
           --health-retries=20
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -91,13 +91,8 @@ jobs:
   lint:
     name: PHPCS + PHPMD (advisory)
     runs-on: ubuntu-latest
-    # Advisory for now: the ruleset predates WPCS 3 and the repo carries ~1250
-    # pre-existing violations, so even a changed-files gate would fail on any
-    # edit to a legacy file. Drop this line to turn the changed-files step into
-    # a real gate once the backlog is worked down (composer phpcbf fixes ~1050).
-    continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # lint-php.sh diffs against the base branch, so it needs its history.
           fetch-depth: 0
@@ -111,11 +106,41 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v3
 
+      # Advisory, per step rather than per job: the ruleset predates WPCS 3 and
+      # the repo carries ~1250 pre-existing violations, so even a changed-files
+      # gate would fail on any edit to a legacy file. continue-on-error here
+      # marks findings as a warning and leaves the job green; a job-level flag
+      # would keep the run green but still render the job as failed. Drop these
+      # two lines to make the changed-files step a real gate once the backlog is
+      # worked down (./bin/test.sh phpcbf fixes ~1050 of them).
       - name: Lint files changed in this branch
-        run: bash bin/lint-php.sh --changed "origin/${{ github.base_ref || 'master' }}"
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          bash bin/lint-php.sh --changed "origin/${{ github.base_ref || 'master' }}" 2>&1 \
+            | tee "$RUNNER_TEMP/lint-changed.log"
 
-      # The repo-wide state is a backlog, not a gate — see bin/lint-php.sh.
       - name: Full report (informational)
         if: always()
         continue-on-error: true
-        run: bash bin/lint-php.sh
+        run: |
+          set -o pipefail
+          bash bin/lint-php.sh 2>&1 | tee "$RUNNER_TEMP/lint-full.log"
+
+      # Surfaces the findings on the run page instead of burying them in logs.
+      - name: Add findings to the run summary
+        if: always()
+        run: |
+          {
+            echo '### PHPCS + PHPMD'
+            echo
+            echo 'Advisory — these findings do not fail the build. See `bin/lint-php.sh`.'
+            echo
+            echo '<details><summary>Files changed in this branch</summary>'
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/lint-changed.log" 2>/dev/null || echo '(no output)'
+            echo '```'
+            echo
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
