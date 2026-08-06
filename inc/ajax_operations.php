@@ -404,7 +404,7 @@ function sc_search_program() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$result['text'] = "S'ha produït un error en cercar el programa. Podeu continuar igualment.";
 	} else {
-		check_is_ajax_call();
+		sc_check_is_ajax_call();
 
 		$nom_programa = sanitize_text_field( $_POST["nom_programa"] );
 
@@ -438,7 +438,7 @@ function sc_send_vote() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$return['text'] = "No s'ha pogut enviar el vot. Proveu més tard.";
 	} else {
-		check_is_ajax_call();
+		sc_check_is_ajax_call();
 
 		$post_id = intval( sanitize_text_field( $_POST["post_id"] ) );
 
@@ -494,7 +494,7 @@ function sc_send_aparell() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$return['status'] = 0;
 	} else {
-		check_is_ajax_call();
+		sc_check_is_ajax_call();
 
 		$nom              = sanitize_text_field( $_POST["nom"] );
 		$tipus_aparell    = sanitize_text_field( $_POST["tipus_aparell"] );
@@ -660,13 +660,23 @@ function sc_set_featured_image( $post_id, $attach_id ) {
 }
 
 /** General **/
-function check_is_ajax_call() {
-	//check if its an ajax request, exit if not
-	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
-		wp_send_json( array( //create JSON data
-			'type' => 'error',
-			'text' => 'Sorry Request must be Ajax POST'
-		) );
+/**
+ * Turns away anything that did not arrive as a same-origin XHR.
+ *
+ * Every call site verifies the nonce first, which is what actually stops CSRF,
+ * so this only filters automated posts that replay an action name without
+ * bothering to set the header. Browsers cannot attach X-Requested-With
+ * cross-origin: it is not CORS-safelisted, so the attempt needs a preflight
+ * that admin-ajax never approves.
+ *
+ * Answers 403 rather than a 200 carrying an error string, so a client that
+ * stops sending the header — as the fetch() port of programes.js did — fails
+ * in the log and the network tab instead of rendering English into a Catalan
+ * page.
+ */
+function sc_check_is_ajax_call() {
+	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) !== 'xmlhttprequest' ) {
+		wp_send_json_error( array( 'text' => 'Request must be an AJAX POST' ), 403 );
 	}
 }
 

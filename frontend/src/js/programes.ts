@@ -30,9 +30,19 @@ function nonce(name: string): string {
   return $<HTMLInputElement>(`input[name=${name}]`)?.value ?? ''
 }
 
-/** POST a FormData payload to admin-ajax and parse the JSON response. */
+/**
+ * POST a FormData payload to admin-ajax and parse the JSON response.
+ *
+ * The X-Requested-With header is what sc_check_is_ajax_call() in
+ * inc/ajax_operations.php looks for; jQuery used to send it for us, fetch does
+ * not, so without it the endpoints answer 403.
+ */
 async function postToAjax(data: FormData): Promise<any> {
-  const res = await fetch(scajax.ajax_url, { method: 'POST', body: data })
+  const res = await fetch(scajax.ajax_url, {
+    method: 'POST',
+    body: data,
+    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+  })
   if (!res.ok) throw new Error(`admin-ajax returned ${res.status}`)
   return res.json()
 }

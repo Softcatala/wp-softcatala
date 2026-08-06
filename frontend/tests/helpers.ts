@@ -20,6 +20,7 @@ export function stubScajax(): void {
 export interface CapturedRequest {
   url: string
   fields: Record<string, string>
+  headers: Record<string, string>
 }
 
 /**
@@ -35,12 +36,12 @@ export function mockFetch(): {
 
   vi.stubGlobal(
     'fetch',
-    vi.fn(async (url: string, opts: { body?: FormData }) => {
+    vi.fn(async (url: string, opts: { body?: FormData; headers?: Record<string, string> }) => {
       const fields: Record<string, string> = {}
       opts?.body?.forEach((value, key) => {
         fields[key] = value instanceof File ? `FILE:${value.name}` : String(value)
       })
-      requests.push({ url: String(url), fields })
+      requests.push({ url: String(url), fields, headers: opts?.headers ?? {} })
 
       if (next === 'network-error') throw new Error('network down')
       return {

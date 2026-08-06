@@ -330,6 +330,13 @@ describe('add-program wizard', () => {
     expect(el('loading').style.display).toBe('none')
   })
 
+  // Without it, sc_check_is_ajax_call() answers 403 and nothing reaches the endpoint.
+  it('marks the request as an AJAX call', async () => {
+    await submit('second_step')
+
+    expect(http.requests[0].headers['X-Requested-With']).toBe('XMLHttpRequest')
+  })
+
   it('reports a failed search without breaking the step', async () => {
     http.respondWith('network-error')
     await submit('second_step')
