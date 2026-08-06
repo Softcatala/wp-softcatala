@@ -30,7 +30,7 @@ if ( ! empty ( $wp_query->query_vars['author'] ) ) {
                 array_filter(
                     $projectes_ids,
                     function( $projecte_id ) {
-                        return ! get_field( 'projecte_intern', $projecte_id );
+                        return ! \Softcatala\Posts\Projecte::is_internal_post( $projecte_id );
                     }
                 )
             );

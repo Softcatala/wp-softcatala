@@ -39,10 +39,9 @@ function get_program_context( $programa ) {
 	$context['sidebar_bottom']   = Timber::get_widgets( 'sidebar_bottom' );
 	$context['post']             = $programa;
 
-	$context['arxivat'] = $programa->has_term( 'arxivat', 'classificacio' );
-	$context['credits'] = $programa->meta( 'credits' );
-	$baixades           = $programa->meta( 'baixada' );
-	$context['baixades'] = generate_url_download( $baixades, $programa );
+	$context['arxivat']  = $programa->is_archived();
+	$context['credits']  = $programa->meta( 'credits' );
+	$context['baixades'] = $programa->downloads();
 
 	// Contact Form
 	$context['contact']['to_email']   = get_option( 'to_email_rebost' );
@@ -65,7 +64,7 @@ function get_program_context( $programa ) {
 		}
 	}
 
-	$logo             = get_img_from_id( $programa->logotip_programa );
+	$logo               = $programa->logo();
 	$context['logotip'] = $logo;
 
 	$yoastlogo = get_the_post_thumbnail_url() ?: $logo;

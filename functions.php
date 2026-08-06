@@ -561,7 +561,7 @@ class StarterSite extends \Timber\Site {
 	function sc_redirect_internal_projecte_to_login() {
 		if ( is_singular( 'projecte' ) && ! is_user_logged_in() ) {
 			$projecte_id = get_queried_object_id();
-			if ( get_field( 'projecte_intern', $projecte_id ) ) {
+			if ( \Softcatala\Posts\Projecte::is_internal_post( $projecte_id ) ) {
 				wp_safe_redirect( wp_login_url( get_permalink() ) );
 				exit;
 			}
@@ -604,20 +604,8 @@ class StarterSite extends \Timber\Site {
 			return;
 		}
 
-		// Use a two-arm OR so pre-existing posts with no meta row are treated as public.
 		$existing_meta_query = $query->get( 'meta_query' );
-		$internal_exclusion  = array(
-			'relation' => 'OR',
-			array(
-				'key'     => 'projecte_intern',
-				'compare' => 'NOT EXISTS',
-			),
-			array(
-				'key'     => 'projecte_intern',
-				'value'   => '1',
-				'compare' => '!=',
-			),
-		);
+		$internal_exclusion  = \Softcatala\Posts\Projecte::public_meta_query();
 
 		if ( ! empty( $existing_meta_query ) ) {
 			$query->set(

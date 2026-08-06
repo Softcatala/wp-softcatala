@@ -14,6 +14,20 @@ class Programa extends PostType {
 
 	public function __construct() {
 		parent::__construct( 'Programa', 'Programes', true );
+
+		add_filter( 'timber/post/classmap', array( $this, 'register_post_classmap' ) );
+	}
+
+	/**
+	 * Maps the post type to its Timber post model.
+	 *
+	 * @param array $classmap post type to class map built so far.
+	 * @return array
+	 */
+	public function register_post_classmap( $classmap ) {
+		$classmap['programa'] = \Softcatala\Posts\Programa::class;
+
+		return $classmap;
 	}
 
 	/**

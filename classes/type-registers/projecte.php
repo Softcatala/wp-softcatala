@@ -17,6 +17,19 @@ class Projecte extends PostType {
 
 		add_filter( 'views_edit-projecte', array( $this, 'add_active_projects_view' ) );
 		add_action( 'pre_get_posts', array( $this, 'filter_active_projects' ) );
+		add_filter( 'timber/post/classmap', array( $this, 'register_post_classmap' ) );
+	}
+
+	/**
+	 * Maps the post type to its Timber post model.
+	 *
+	 * @param array $classmap post type to class map built so far.
+	 * @return array
+	 */
+	public function register_post_classmap( $classmap ) {
+		$classmap['projecte'] = \Softcatala\Posts\Projecte::class;
+
+		return $classmap;
 	}
 
 	public function add_active_projects_view( $views ) {

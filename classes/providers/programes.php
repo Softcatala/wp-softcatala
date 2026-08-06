@@ -5,6 +5,8 @@
 
 namespace Softcatala\Providers;
 
+use Softcatala\Posts\Programa;
+
 /**
  * Repository to obtain Programes
  */
@@ -113,22 +115,7 @@ class Programes {
 	}
 
 	private static function sort_programs_list( & $programs ) {
-		$programs->uasort( array( self::class, 'sort_programs' ) );
-	}
-
-	/**
-	 * Sorts two programs based on if they're featured and title
-	 *
-	 * @param \Timber\Post $first program to sort.
-	 * @param \Timber\Post $second program to sort.
-	 * @return int
-	 */
-	public static function sort_programs( $first, $second ) {
-		if ( $first->programa_destacat != $second->programa_destacat ) {
-			return ( $first->programa_destacat ) ? ( -1 ) : 1;
-		}
-
-		return strcasecmp( $first->post_title, $second->post_title );
+		$programs->uasort( array( Programa::class, 'compare_featured_then_title' ) );
 	}
 
 	public static function get_filters( $query ) {

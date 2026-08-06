@@ -36,7 +36,7 @@
                                     Data:
                                 </div>
                                 <div class="col-sm-9">
-                                    {{ post.data_inici|date }}{% if post.data_fi %}{% if post.data_fi != post.data_inici %} - {{ post.data_fi|date }}{% endif %}{% endif %}
+                                    {{ post.start_date|date }}{% if post.end_date and post.end_date != post.start_date %} - {{ post.end_date|date }}{% endif %}
                                 </div>
                             </div>
                             {% if post.horari %}

@@ -11,7 +11,7 @@ $post_subpagina = Timber::get_post();
 $timberPost = Timber::get_post( $post_subpagina->projecte );
 
 // Redirect anonymous visitors away from sub-pages of internal projects.
-if ( $timberPost && get_field( 'projecte_intern', $timberPost->ID ) && ! is_user_logged_in() ) {
+if ( $timberPost && \Softcatala\Posts\Projecte::is_internal_post( $timberPost->ID ) && ! is_user_logged_in() ) {
 	wp_safe_redirect( wp_login_url( get_permalink() ) );
 	exit;
 }

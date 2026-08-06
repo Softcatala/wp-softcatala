@@ -5,6 +5,8 @@
 
 namespace Softcatala\Providers;
 
+use Softcatala\Posts\Projecte;
+
 /**
  * Repository to obtain Projectes
  */
@@ -54,40 +56,13 @@ class Projectes {
 
 		if ( ! $is_logged_in ) {
 			// Exclude internal projects from anonymous visitors.
-			// Use a two-arm OR so that pre-existing posts with no meta row are treated as public.
-			$args['meta_query'] = array(
-				'relation' => 'OR',
-				array(
-					'key'     => 'projecte_intern',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => 'projecte_intern',
-					'value'   => '1',
-					'compare' => '!=',
-				),
-			);
+			$args['meta_query'] = Projecte::public_meta_query();
 		}
 
 		return $args;
 	}
 
 	private static function sort_projects_list( & $projects ) {
-		$projects->uasort( array( self::class, 'sort_projects' ) );
-	}
-
-	/**
-	 * Sorts two projects based on if they're featured and title
-	 *
-	 * @param \Timber\Post $first project to sort.
-	 * @param \Timber\Post $second project to sort.
-	 * @return int
-	 */
-	public static function sort_projects( $first, $second ) {
-		if ( $first->projecte_destacat != $second->projecte_destacat ) {
-			return ( $first->projecte_destacat ) ? ( -1 ) : 1;
-		}
-
-		return strcasecmp( $first->post_title, $second->post_title );
+		$projects->uasort( array( Projecte::class, 'compare_featured_then_title' ) );
 	}
 }

@@ -54,7 +54,7 @@ function get_top_downloads_home()
             $i = 0;
             foreach ( $operating_system as $pkey => $program ) {
                 if ($i < $limit) {
-                    $link = get_program_link($program);
+                    $link = \Softcatala\Posts\Programa::link_from_stats($program);
                     if ( $link ) {
                         $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 8 );
                         $programari[$key][$pkey]['link'] = $link;
@@ -69,37 +69,6 @@ function get_top_downloads_home()
     set_transient( $transient_name, $programari, 12 * HOUR_IN_SECONDS );
 
     return $programari;
-}
-
-/**
- * This function generates the final download url that uses the Softcatalà counter
- *
- * @param object $baixades
- * @param object $post
- * @return object $baixades
- */
-function generate_url_download( $baixades, $post ) {
-
-    //https://baixades.softcatala.org/?url=http://download.mozilla.org/?product=firefox-44.0.1&os=linux&lang=ca&id=3522&mirall=&extern=2&versio=44.0.1&so=linux
-    foreach ( $baixades as $key => $baixada ) {
-        if( empty( $baixada['download_version'] )) {
-            $versio_baixada = '1.0';
-        } else {
-            $versio_baixada = $baixada['download_version'];
-        }
-        $baixades[$key]['download_os_label'] = get_os_nicename( $baixades[$key]['download_os'] );
-
-        $baixades[$key]['download_url_ext'] = 'https://baixades.softcatala.org/';
-        $baixades[$key]['download_url_ext'] .= '?id='.$post->idrebost;
-        $baixades[$key]['download_url_ext'] .= '&wid='.$post->ID;
-        $baixades[$key]['download_url_ext'] .= '&versio='.$versio_baixada;
-        $baixades[$key]['download_url_ext'] .= '&so='.get_so_from_so( $baixada['download_os'], $baixada['arquitectura'] );
-        $baixades[$key]['download_url_ext'] .= '&url='.urlencode($baixada['download_url']);
-
-        $baixades[$key]['so_icona'] = get_awesome_icon_so($baixada['download_os']);
-    }
-
-    return $baixades;
 }
 
 function get_os_nicename( $os ) {
@@ -191,35 +160,6 @@ function get_awesome_icon_so( $os ) {
             break;
     }
     return $os_icona;
-}
-
-/**
- * This function retrieves the program link depending on the idrebost or wordpress_id
- */
-function get_program_link( $program ) {
-    $link = false;
-    if( isset( $program->wordpress_id )) {
-        if ( FALSE !== get_post_status( $program->wordpress_id ) ) {
-            $link = get_post_permalink( $program->wordpress_id );
-        }
-    } else {
-        $args = array(
-            'post_type' => 'programa',
-            'meta_query' => array(
-                array(
-                    'key' => 'idrebost',
-                    'value' => $program->idrebost,
-                    'compare' => '='
-                )
-            )
-        );
-        $programes = query_posts($args);
-        if ( count ( $programes) > 0 ) {
-            $link = get_post_permalink( $programes[0]->ID );
-        }
-    }
-
-    return $link;
 }
 
 /**
@@ -389,20 +329,6 @@ function get_users_metadata($users_ids ) {
     }
 
     return $users;
-}
-
-function get_responsables($project){
-    $project = get_page_by_path(strtolower($project), OBJECT, 'projecte');
-
-    if ($project != null) {
-        $responsables = get_field('responsable', $project);
-
-        if(is_array($responsables) && !empty($responsables)) {
-            return $responsables;
-        }
-    }
-
-    return false;
 }
 
 function get_gravatar_url( $email, $size = '270' ) {

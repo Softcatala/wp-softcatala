@@ -176,7 +176,8 @@ function sc_subscribe_list() {
 			$headers[] = 'Content-Type: text/html';
 
 			// if project has responsables email them too
-			$responsables = get_responsables( $projecte_slug );
+			$projecte     = \Softcatala\Posts\Projecte::find_by_slug( $projecte_slug );
+			$responsables = $projecte ? $projecte->responsables() : false;
 			if ( $responsables ) {
 				foreach ( $responsables as $user ) {
 					$to_email = $to_email . ',' . $user['user_email'];
