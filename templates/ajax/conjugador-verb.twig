@@ -49,15 +49,17 @@
                             <div class="panel-heading">{{ verbs.tense }}</div>
                             <table class="table">
                                 {% for clau, subjecte in response.temps %}
-                                {% if loop.index > 1 %}
                                     <tr>
                                         <td>
+                                    {% if loop.index > 1 %}
                                     {% for verb in attribute(verbs, clau) %}
                                            {% include 'ajax/conjugador-verb-word.twig' %}
                                     {% endfor -%}
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
                                         </td>
                                     </tr>
-                                {% endif %}
                                 {% endfor %}
                             </table>
 
