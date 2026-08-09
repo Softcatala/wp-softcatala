@@ -72,6 +72,19 @@ class IaDataShortcodeTest extends SCTests {
 	}
 
 	/**
+	 * Every graph render carries its own <style> block, so the output
+	 * cached in the transient (and in page caches) is self-contained even
+	 * when an earlier render in the same request already emitted one
+	 */
+	function test_every_graph_render_carries_its_style() {
+		$first  = $this->render( array( 'format' => 'graph' ), $this->document() );
+		$second = $this->render( array( 'format' => 'graph' ), $this->document() );
+
+		$this->assertStringContainsString( '.chart-row { display: flex;', $first );
+		$this->assertStringContainsString( '.chart-row { display: flex;', $second );
+	}
+
+	/**
 	 * With no "decimals" anywhere, the graph shows as many decimals as the
 	 * data itself, uniformly across rows (68.12 and 47.5 -> 2 decimals)
 	 */

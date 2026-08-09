@@ -78,7 +78,7 @@
  *   drawn.
  * - A dashed threshold line is drawn at the metric's success cutoff
  *   (success.min or success.max, per direction), positioned with a CSS
- *   calc() (no JS) -- see assets_once() for the fixed column width
+ *   calc() (no JS) -- see assets() for the fixed column width
  *   constants it depends on. Its default label is "≥ x" or "≤ x", per
  *   direction.
  * - Row labels use "label_field" (default: same as the table's first
@@ -103,8 +103,6 @@
  */
 if ( ! class_exists( 'SC_Shortcodes_IaData' ) ) :
 class SC_Shortcodes_IaData {
-
-	private static $assets_printed = false;
 
 	public function __construct( $shortcodes_handler = null ) {
 		if ( $shortcodes_handler !== null ) {
@@ -498,7 +496,7 @@ class SC_Shortcodes_IaData {
 			$threshold_label = ( $higher_is_better ? '≥ ' : '≤ ' ) . $this->format_metric_number( $success_cutoff, $config, $cutoff_decimals );
 		}
 
-		$html  = $this->assets_once();
+		$html  = $this->assets();
 		$html .= '<div class="charts-wrapper">';
 		$html .= '<div class="chart-panel"' . ( $show_threshold_line ? ' style="--sc-threshold-fraction: ' . esc_attr( $threshold_fraction ) . ';"' : '' ) . '>';
 		$html .= '<div class="chart-title">' . esc_html( $title ) . '</div>';
@@ -602,8 +600,13 @@ class SC_Shortcodes_IaData {
 	}
 
 	/**
-	 * Emits the graph's <style> block once per page, no matter how many
-	 * [ia-data format="graph"] shortcodes are used.
+	 * The graph's <style> block, emitted with every graph so the output is
+	 * self-contained. The output lands in the shortcode's transient and in
+	 * page caches, so a print-once-per-request flag would make the style
+	 * depend on whichever request happened to fill them: a discarded
+	 * render (a meta-description pass, for instance) can consume the flag
+	 * and leave a style-less chart cached for everyone. Duplicate blocks
+	 * on a multi-graph page are valid HTML and the rules are idempotent.
 	 *
 	 * The threshold line's position is computed with calc() instead of JS:
 	 * .row-label is a fixed 182px + 8px right padding (190px total) and
@@ -612,13 +615,7 @@ class SC_Shortcodes_IaData {
 	 * (100% - 244px) wide. Keep these constants in sync with the rule
 	 * widths below if either changes.
 	 */
-	private function assets_once() {
-		if ( self::$assets_printed ) {
-			return '';
-		}
-
-		self::$assets_printed = true;
-
+	private function assets() {
 		return <<<HTML
 <style>
   .charts-wrapper { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
