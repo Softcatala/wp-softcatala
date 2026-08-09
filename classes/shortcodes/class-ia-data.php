@@ -14,6 +14,9 @@
  *         "scale": 100,                               // render-only multiplier
  *         "suffix": " %",
  *         "decimals": 2,
+ *         "subtitle": "...",                          // graph: free text under the title
+ *         "caption": "...",                           // graph: footnote under the chart
+ *         "threshold_label": "...",                   // graph: replaces the "≥ x" label ("label" is an accepted alias)
  *         "success": { "max": 0.05, "color": "#388e3c" },
  *         "warning": { "max": 0.10, "color": "#f9a825" },
  *         "error":   { "color": "#c62828" }
@@ -25,7 +28,7 @@
  * "metrics" entries are keyed by field key, so a document exposing several
  * metrics can describe each one. Every key is optional; a metric with no
  * entry keeps the built-in defaults (stylesheet bar color, no threshold
- * line, raw value at the shortcode's "decimals").
+ * line, raw value at the inferred decimals).
  *
  * - "direction" selects how the cutoffs are read: "higher_is_better" (the
  *   default, also used for any unrecognized value) takes success/warning
@@ -35,7 +38,10 @@
  *   success.max is 0.05, not 5. "scale"/"suffix"/"decimals" are
  *   presentation only and apply to row values and the threshold label
  *   alike, in both formats.
- * - Labels stay in "text" -- "metrics" never carries a display name.
+ * - The metric's display name stays in "text" -- "metrics" never carries
+ *   one. It may carry the graph's "subtitle", "caption" and
+ *   "threshold_label" free text, though; the shortcode attributes of the
+ *   same name win over them.
  *
  * A legacy single-metric "thresholds" object is still honored when its
  * "metric" key names the column being rendered:
@@ -78,12 +84,14 @@
  * - Row labels use "label_field" (default: same as the table's first
  *   column) and are bolded when "highlight_field" is truthy, same as the
  *   table's link column.
- * - "title" defaults to the metric's label from "text"; "subtitle",
- *   "caption" and "threshold_label" are free text and empty by default
- *   since they aren't derivable from the JSON schema.
+ * - "title" defaults to the metric's label from "text". "subtitle",
+ *   "caption" and "threshold_label" resolve like the numeric options:
+ *   shortcode attribute first, then the metric's "metrics" entry, then
+ *   empty ("threshold_label" falls back to the generated "≥ x" instead).
  *
  * Common attributes: url (required), cache (seconds, default 3600, 0
- * disables), decimals (default 4).
+ * disables), decimals (default: as many as the scaled data itself shows,
+ * capped at 4).
  *
  * The graph's "direction", "scale", "suffix" and "decimals" can also be set
  * as shortcode attributes for one-off embeds, overriding whatever the JSON
@@ -110,7 +118,7 @@ class SC_Shortcodes_IaData {
 				'url'             => '',
 				'format'          => 'table',
 				'cache'           => 3600,
-				'decimals'        => 4,
+				'decimals'        => '',
 				'highlight_field' => 'cloud',
 				// format="table" only
 				'link_column'     => '',
@@ -239,27 +247,101 @@ class SC_Shortcodes_IaData {
 	}
 
 	/**
-	 * Applies a metric's "scale"/"suffix"/"decimals" to a numeric value.
-	 * Callers must escape the result.
+	 * Applies a metric's "scale"/"suffix" and the resolved decimals to a
+	 * numeric value. Callers must escape the result.
 	 *
-	 * @param int|float $value            Raw value from the data.
-	 * @param array     $config           Metric configuration.
-	 * @param int       $default_decimals Fallback decimals from the shortcode.
+	 * @param int|float $value    Raw value from the data.
+	 * @param array     $config   Metric configuration.
+	 * @param int       $decimals Decimals from resolve_decimals().
 	 * @return string Formatted, unescaped value.
 	 */
-	private function format_metric_number( $value, $config, $default_decimals ) {
-		$decimals = isset( $config['decimals'] ) && is_numeric( $config['decimals'] ) ? (int) $config['decimals'] : $default_decimals;
-		$scale    = isset( $config['scale'] ) && is_numeric( $config['scale'] ) ? (float) $config['scale'] : 1;
-		$suffix   = isset( $config['suffix'] ) ? (string) $config['suffix'] : '';
+	private function format_metric_number( $value, $config, $decimals ) {
+		$scale  = isset( $config['scale'] ) && is_numeric( $config['scale'] ) ? (float) $config['scale'] : 1;
+		$suffix = isset( $config['suffix'] ) ? (string) $config['suffix'] : '';
 
 		return number_format( (float) $value * $scale, $decimals ) . $suffix;
+	}
+
+	/**
+	 * Decimals for a metric: an explicit "decimals" in its configuration
+	 * wins, then the shortcode's "decimals" attribute, then as many
+	 * decimals as the scaled data itself shows (see infer_decimals()).
+	 *
+	 * @param array  $config        Metric configuration.
+	 * @param string $atts_decimals The "decimals" attribute; '' means infer.
+	 * @param array  $values        The metric's values, for inference.
+	 * @return int Number of decimals to render with.
+	 */
+	private function resolve_decimals( $config, $atts_decimals, $values ) {
+		if ( isset( $config['decimals'] ) && is_numeric( $config['decimals'] ) ) {
+			return (int) $config['decimals'];
+		}
+
+		if ( is_numeric( $atts_decimals ) ) {
+			return (int) $atts_decimals;
+		}
+
+		$scale = isset( $config['scale'] ) && is_numeric( $config['scale'] ) ? (float) $config['scale'] : 1;
+
+		return $this->infer_decimals( $values, $scale );
+	}
+
+	/**
+	 * The longest decimal part among the scaled values' string form (PHP 8
+	 * float-to-string casts are shortest-round-trip, so 68.12 stays
+	 * "68.12"), capped at 4 so float noise can't inflate the display.
+	 * Scientific notation means the value is far below what the cap can
+	 * show, so it returns the cap directly.
+	 *
+	 * @param array $values Raw values of one metric.
+	 * @param float $scale  The metric's render-only multiplier.
+	 * @return int Number of decimals, 0 to 4.
+	 */
+	private function infer_decimals( $values, $scale ) {
+		$decimals = 0;
+
+		foreach ( $values as $value ) {
+			if ( ! is_numeric( $value ) ) {
+				continue;
+			}
+
+			$string = (string) ( (float) $value * $scale );
+
+			if ( false !== stripos( $string, 'e' ) ) {
+				return 4;
+			}
+
+			$dot = strpos( $string, '.' );
+			if ( false !== $dot ) {
+				$decimals = max( $decimals, strlen( $string ) - $dot - 1 );
+			}
+
+			if ( $decimals >= 4 ) {
+				return 4;
+			}
+		}
+
+		return $decimals;
+	}
+
+	/**
+	 * A free-text string from the metric configuration ("subtitle",
+	 * "caption", "threshold_label"), or an empty string when absent.
+	 *
+	 * @param array  $config Metric configuration.
+	 * @param string $key    Configuration key.
+	 * @return string The text, '' when the document declares none.
+	 */
+	private function config_text( $config, $key ) {
+		return isset( $config[ $key ] ) && is_string( $config[ $key ] ) ? $config[ $key ] : '';
 	}
 
 	/**
 	 * True when $config asks for anything the default formatting wouldn't
 	 * already do. Guards format_value()'s existing behavior: routing every
 	 * numeric cell through number_format() would turn an integer column
-	 * such as "dim": 768 into "768.0000".
+	 * such as "dim": 768 into "768.0000" whenever an explicit "decimals"
+	 * attribute is set.
 	 *
 	 * @param array $config Metric configuration.
 	 * @return bool True when the metric declares its own number formatting.
@@ -276,7 +358,6 @@ class SC_Shortcodes_IaData {
 		$rows            = $json['data'];
 		$highlight_field = $atts['highlight_field'];
 		$link_field      = $atts['link_field'];
-		$decimals        = (int) $atts['decimals'];
 
 		$columns = array_keys( $labels );
 		if ( '' !== $highlight_field ) {
@@ -292,9 +373,11 @@ class SC_Shortcodes_IaData {
 		}
 		$html .= '</tr></thead>';
 
-		$configs = array();
+		$configs  = array();
+		$decimals = array();
 		foreach ( $columns as $key ) {
-			$configs[ $key ] = $this->metric_config( $json, $key );
+			$configs[ $key ]  = $this->metric_config( $json, $key );
+			$decimals[ $key ] = $this->resolve_decimals( $configs[ $key ], $atts['decimals'], array_column( array_filter( $rows, 'is_array' ), $key ) );
 		}
 
 		$html .= '<tbody>';
@@ -308,9 +391,9 @@ class SC_Shortcodes_IaData {
 				$raw = isset( $row[ $key ] ) ? $row[ $key ] : '';
 
 				if ( is_numeric( $raw ) && $this->has_number_format( $configs[ $key ] ) ) {
-					$value = esc_html( $this->format_metric_number( $raw, $configs[ $key ], $decimals ) );
+					$value = esc_html( $this->format_metric_number( $raw, $configs[ $key ], $decimals[ $key ] ) );
 				} else {
-					$value = $this->format_value( $raw, $decimals );
+					$value = $this->format_value( $raw, $decimals[ $key ] );
 				}
 
 				if ( $key === $link_column && ! empty( $row[ $link_field ] ) ) {
@@ -353,7 +436,6 @@ class SC_Shortcodes_IaData {
 		$labels     = $json['text'];
 		$rows       = $json['data'];
 		$thresholds = isset( $json['thresholds'] ) && is_array( $json['thresholds'] ) ? $json['thresholds'] : array();
-		$decimals   = (int) $atts['decimals'];
 
 		$columns         = array_keys( $labels );
 		$label_field     = '' !== $atts['label_field'] ? $atts['label_field'] : reset( $columns );
@@ -395,19 +477,26 @@ class SC_Shortcodes_IaData {
 		$warning          = isset( $config['warning'] ) && is_array( $config['warning'] ) ? $config['warning'] : array();
 		$error            = isset( $config['error'] ) && is_array( $config['error'] ) ? $config['error'] : array();
 
+		$decimals = $this->resolve_decimals( $config, $atts['decimals'], $values );
+
 		$title    = '' !== $atts['title'] ? $atts['title'] : $labels[ $metric ];
-		$subtitle = $atts['subtitle'];
-		$caption  = $atts['caption'];
+		$subtitle = '' !== $atts['subtitle'] ? $atts['subtitle'] : $this->config_text( $config, 'subtitle' );
+		$caption  = '' !== $atts['caption'] ? $atts['caption'] : $this->config_text( $config, 'caption' );
 
 		$success_cutoff      = $this->cutoff( $success, $higher_is_better );
 		$show_threshold_line = null !== $success_cutoff && $max_value > 0;
 		// Clamped so a cutoff beyond the data's range stays inside the panel.
 		$threshold_fraction = $show_threshold_line ? min( 1, max( 0, $success_cutoff / $max_value ) ) : 0;
-		$threshold_label    = '' !== $atts['threshold_label']
-			? $atts['threshold_label']
-			: ( $show_threshold_line
-				? ( $higher_is_better ? '≥ ' : '≤ ' ) . $this->format_metric_number( $success_cutoff, $config, $decimals )
-				: '' );
+
+		$threshold_label = '' !== $atts['threshold_label'] ? $atts['threshold_label'] : $this->config_text( $config, 'threshold_label' );
+		if ( '' === $threshold_label ) {
+			$threshold_label = $this->config_text( $config, 'label' );
+		}
+		if ( '' === $threshold_label && $show_threshold_line ) {
+			// The cutoff's own precision, not the rows': "≥ 50", not "≥ 50.00".
+			$cutoff_decimals = $this->resolve_decimals( $config, $atts['decimals'], array( $success_cutoff ) );
+			$threshold_label = ( $higher_is_better ? '≥ ' : '≤ ' ) . $this->format_metric_number( $success_cutoff, $config, $cutoff_decimals );
+		}
 
 		$html  = $this->assets_once();
 		$html .= '<div class="charts-wrapper">';
