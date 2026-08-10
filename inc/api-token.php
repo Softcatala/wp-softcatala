@@ -35,6 +35,11 @@ function sc_get_api_token() {
 add_action(
 	'wp_head',
 	function () {
+		// WordPress core lives under /wp/, so clients must not hardcode
+		// /wp-admin/... — they read the refresh URL from this tag instead.
+		$refresh_url = admin_url( 'admin-ajax.php' ) . '?action=sc_get_token';
+		echo '<meta name="sc-token-refresh-url" content="' . esc_url( $refresh_url ) . '">' . "\n";
+
 		$token = sc_get_api_token();
 		if ( $token ) {
 			echo '<meta name="sc-token" content="' . esc_attr( $token ) . '">' . "\n";

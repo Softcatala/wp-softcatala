@@ -163,7 +163,12 @@ export async function getScToken(): Promise<string> {
 
   lastRefreshAttempt = Date.now()
   try {
-    const res = await fetch('/wp-admin/admin-ajax.php?action=sc_get_token')
+    // WordPress core is not at the site root, so the endpoint URL comes from
+    // a meta tag printed by inc/api-token.php rather than a hardcoded path.
+    const refreshUrl =
+      document.querySelector<HTMLMetaElement>('meta[name="sc-token-refresh-url"]')?.content ??
+      '/wp/wp-admin/admin-ajax.php?action=sc_get_token'
+    const res = await fetch(refreshUrl)
     if (res.ok) {
       const json = await res.json()
       if (json?.token) cachedToken = json.token
