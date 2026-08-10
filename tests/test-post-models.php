@@ -320,4 +320,34 @@ class PostModelsTest extends SCTests {
 
 		$this->assertEquals( array( 'Omega', 'Alfa', 'Zebra' ), wp_list_pluck( $posts, 'post_title' ) );
 	}
+
+	/*
+	 * The providers sort lazy Timber collections. An unrealized collection
+	 * still holds raw WP_Post objects, and uasort() hands those straight to
+	 * the comparator, which fatals calling is_featured() on them.
+	 */
+
+	function test_programes_provider_sorts_its_lazy_collection() {
+		$this->make_post( 'programa', 'Zebra' );
+		$this->make_post( 'programa', 'Omega', array( 'programa_destacat' => '1' ) );
+
+		$programs = \Softcatala\Providers\Programes::get_sorted();
+
+		$this->assertEquals(
+			array( 'Omega', 'Zebra' ),
+			wp_list_pluck( iterator_to_array( $programs ), 'post_title' )
+		);
+	}
+
+	function test_projectes_provider_sorts_its_lazy_collection() {
+		$this->make_post( 'projecte', 'Zebra' );
+		$this->make_post( 'projecte', 'Omega', array( 'projecte_destacat' => '1' ) );
+
+		$projects = \Softcatala\Providers\Projectes::get_sorted_projects();
+
+		$this->assertEquals(
+			array( 'Omega', 'Zebra' ),
+			wp_list_pluck( iterator_to_array( $projects ), 'post_title' )
+		);
+	}
 }

@@ -114,8 +114,10 @@ class Programes {
 		return $filter_args;
 	}
 
-	private static function sort_programs_list( & $programs ) {
-		$programs->uasort( array( Programa::class, 'compare_featured_then_title' ) );
+	private static function sort_programs_list( &$programs ) {
+		// The collection is lazy: unrealized it still holds raw WP_Post objects,
+		// which uasort() would hand to the comparator (no is_featured() there).
+		$programs->realize()->uasort( array( Programa::class, 'compare_featured_then_title' ) );
 	}
 
 	public static function get_filters( $query ) {

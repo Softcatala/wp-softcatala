@@ -62,7 +62,9 @@ class Projectes {
 		return $args;
 	}
 
-	private static function sort_projects_list( & $projects ) {
-		$projects->uasort( array( Projecte::class, 'compare_featured_then_title' ) );
+	private static function sort_projects_list( &$projects ) {
+		// The collection is lazy: unrealized it still holds raw WP_Post objects,
+		// which uasort() would hand to the comparator (no is_featured() there).
+		$projects->realize()->uasort( array( Projecte::class, 'compare_featured_then_title' ) );
 	}
 }
