@@ -6,12 +6,11 @@
  */
 
 /* JS scripts */
-$deps = array('sc-js-corrector-vite-client');
-
+// corrector.js is an ES module that imports its client-<hash>.js chunk itself;
+// there is no unhashed client.js to enqueue since the corrector build stopped emitting one.
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-corrector-vite-client', get_template_directory_uri() . '/static/js/corrector/client.js', array(), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', $deps, WP_SOFTCATALA_VERSION, true );
-#wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', $deps, WP_SOFTCATALA_VERSION, true );
+wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', array(), WP_SOFTCATALA_VERSION, true );
+#wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', array(), WP_SOFTCATALA_VERSION, true );
 
 wp_enqueue_style( 'sc-css-corrector-vite-client', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
 wp_enqueue_style( 'sc-css-corrector-vite-main', get_template_directory_uri() . '/static/css/corrector/corrector.css', array(), WP_SOFTCATALA_VERSION );
