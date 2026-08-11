@@ -153,6 +153,6 @@ Two autoloading conventions coexist, both registered in `functions.php` via `spl
 
 - Xavi Ivars ([@xavivars](https://github.com/xavivars))
 - Pau Iranzo ([@paugnu](https://github.com/paugnu))
-- Miquel Piulats
+- Miquel Piulats ([@lequim](https://github.com/lequim))
 - Jordi Mas ([@jordimas](https://github.com/jordimas))
 - Jaume Ortolà ([@jaumeortola](https://github.com/jaumeortola))
