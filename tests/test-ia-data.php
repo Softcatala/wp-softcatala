@@ -217,6 +217,31 @@ class IaDataShortcodeTest extends SCTests {
 	}
 
 	/**
+	 * A truthy highlight_field bolds the link column whether or not the
+	 * row also carries a link_field (an ASR model can be cloud-only with
+	 * no repository)
+	 */
+	function test_highlight_does_not_require_a_link() {
+		$document = $this->document();
+
+		$document['data'][0]['cloud']    = true;
+		$document['data'][0]['repo_url'] = 'https://example.org/model-a';
+		$document['data'][1]['cloud']    = true;
+
+		$document['data'][] = array(
+			'model'    => 'model-c',
+			'dim'      => 512,
+			'clam_pct' => 33.3,
+		);
+
+		$html = $this->render( array( 'format' => 'table' ), $document );
+
+		$this->assertStringContainsString( '<strong><a href="https://example.org/model-a" target="_blank" rel="noopener noreferrer">model-a</a></strong>', $html );
+		$this->assertStringContainsString( '<strong>model-b</strong>', $html );
+		$this->assertStringContainsString( '<td>model-c</td>', $html );
+	}
+
+	/**
 	 * The table also infers decimals per column: integer columns stay
 	 * integers, float columns keep the data's precision
 	 */

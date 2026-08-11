@@ -60,8 +60,9 @@
  * - Columns and headers come from the "text" object, in declared order.
  * - If a row has a field matching "link_field" (default "repo_url"), the
  *   "link_column" cell (default: the first column) is wrapped in a link to
- *   it. That cell is wrapped in <strong> when the row's "highlight_field"
- *   (default "cloud") is truthy. Pass highlight_field="" to disable that.
+ *   it. Independently, that cell is wrapped in <strong> when the row's
+ *   "highlight_field" (default "cloud") is truthy — with or without a
+ *   link. Pass highlight_field="" to disable that.
  * - The "highlight_field" itself is treated as row metadata and is not
  *   rendered as its own column, even if present in "text".
  *
@@ -394,8 +395,10 @@ class SC_Shortcodes_IaData {
 					$value = $this->format_value( $raw, $decimals[ $key ] );
 				}
 
-				if ( $key === $link_column && ! empty( $row[ $link_field ] ) ) {
-					$value = '<a href="' . esc_url( $row[ $link_field ] ) . '" target="_blank" rel="noopener noreferrer">' . $value . '</a>';
+				if ( $key === $link_column ) {
+					if ( ! empty( $row[ $link_field ] ) ) {
+						$value = '<a href="' . esc_url( $row[ $link_field ] ) . '" target="_blank" rel="noopener noreferrer">' . $value . '</a>';
+					}
 
 					if ( '' !== $highlight_field && ! empty( $row[ $highlight_field ] ) ) {
 						$value = '<strong>' . $value . '</strong>';
