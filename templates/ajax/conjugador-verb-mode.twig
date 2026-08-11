@@ -7,6 +7,8 @@
                 <td>
                     {% for verb in attribute(verbs, clau) %}
                         {% include 'ajax/conjugador-verb-word.twig' %}
+                    {% else %}
+                        &nbsp;
                     {% endfor -%}
                 </td>
             </tr>
