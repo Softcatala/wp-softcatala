@@ -54,6 +54,8 @@
                                     {% if loop.index > 1 %}
                                     {% for verb in attribute(verbs, clau) %}
                                            {% include 'ajax/conjugador-verb-word.twig' %}
+                                    {% else %}
+                                        &nbsp;
                                     {% endfor -%}
                                     {% else %}
                                         &nbsp;
