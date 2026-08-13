@@ -1,6 +1,11 @@
 <!-- .contingut -->
 
-<div class="modal fade bs-formjoin-modal-lg" tabindex="-1" role="dialog">
+{# on the profile page there is no `projecte` until a card is clicked: steps.js fills the modal in #}
+{% set projecte_llista   = projecte.llista_de_correu|default('') %}
+{% set projecte_telegram = projecte.telegram|default('') %}
+{% set telegram_generic  = telegram|default('Softcatala_Collaboradors') %}
+
+<div class="modal fade bs-formjoin-modal-lg" tabindex="-1" role="dialog" data-telegram-generic="{{ telegram_generic }}">
     <div class="modal-dialog modal-lg">
 
         <!-- .modal-content -->
@@ -14,42 +19,75 @@
                     <div class="row">
                         <div class="col-xxs-12 col-xs-9">
                             <h1>Col·laboreu en aquest projecte</h1>
-                            {%  if projecte.telegram %}
-                                <p>
-                                    La manera més senzilla de començar a col·laborar en este projecte és a través del
-                                    grup de Telegram. Podeu unir-vos al grup i, una vegada dins, presenteu-vos. La gent
-                                    que ja hi col·labora us indicarà quins són els passos a seguir.
+
+                            <div id="collabora-telegram" {% if projecte_llista %}style="display:none"{% endif %}>
+                                <p id="collabora-telegram-propi" {% if not projecte_telegram %}style="display:none"{% endif %}>
+                                    La manera de començar a col·laborar en aquest projecte és a través del
+                                    grup de Telegram. Uniu-vos-hi i presenteu-vos: la gent que ja hi
+                                    col·labora us indicarà quins són els passos a seguir.
+                                </p>
+                                <p id="collabora-telegram-generic" {% if projecte_telegram %}style="display:none"{% endif %}>
+                                    Aquest projecte no té un grup de Telegram propi, però podeu adreçar-vos
+                                    al grup general de col·laboradors de Softcatalà. Uniu-vos-hi i
+                                    presenteu-vos: algú us indicarà per on començar.
                                 </p>
                                 <p style="text-align: center; font-size: 1.2em;">
-                                    <a href="https://t.me/{{ projecte.telegram }}"
+                                    <a href="https://t.me/{{ projecte_telegram ?: telegram_generic }}"
+                                       id="collabora-telegram-enllac"
                                        class="bt-basic bt-basic-vermell">
                                         <span><i class="fab fa-telegram"></i>&nbsp;</span>
                                         Entreu al grup de Telegram!
                                     </a>
                                     <br /><br />
                                 </p>
-                                <p>
-                                    També podeu inscriure-vos en una llista de correu electrònic. Digueu-nos quina és
-                                    la vostra adreça electrònica i us inscriurem a la llista de correu automàticament.
-                                </p>
+                                <p>Un cop hi sigueu, podeu presentar-vos amb un missatge com aquest:</p>
+                                <blockquote id="collabora-missatge">Hola! M'agradaria col·laborar en el projecte «<span class="collabora-projecte-nom">{{ projecte.title|default('') }}</span>». És el primer cop que hi participo: em podeu dir per on puc començar? Gràcies!</blockquote>
                                 <p style="text-align: center;">
-                                    <button class="bt-basic bt-basic-gris"
-                                            type="button"
-                                            data-toggle="collapse"
-                                            data-target="#contingut-formulari-projecte"
-                                            aria-expanded="false"
-                                            aria-controls="contingut-formulari-projecte">
-                                        Apunteu-vos a la llista de correu
+                                    <button type="button" id="collabora-copia-missatge" class="bt-basic bt-basic-gris">
+                                        <span><i class="far fa-copy"></i>&nbsp;</span>
+                                        Copieu el missatge
                                     </button>
                                 </p>
-                            {%  else %}
-                                <p>
-                                    Per col·laborar en aquest projecte només cal que us
-                                    inscriviu a la llista de correu. Digueu-nos quina és
-                                    la vostra adreça electrònica i us inscriurem a la llista
-                                    de correu automàticament.
-                                </p>
-                            {% endif %}
+                            </div>
+
+                            <div id="collabora-llista" {% if not projecte_llista %}style="display:none"{% endif %}>
+                                {%  if projecte_telegram %}
+                                    <p>
+                                        La manera més senzilla de començar a col·laborar en este projecte és a través del
+                                        grup de Telegram. Podeu unir-vos al grup i, una vegada dins, presenteu-vos. La gent
+                                        que ja hi col·labora us indicarà quins són els passos a seguir.
+                                    </p>
+                                    <p style="text-align: center; font-size: 1.2em;">
+                                        <a href="https://t.me/{{ projecte_telegram }}"
+                                           class="bt-basic bt-basic-vermell">
+                                            <span><i class="fab fa-telegram"></i>&nbsp;</span>
+                                            Entreu al grup de Telegram!
+                                        </a>
+                                        <br /><br />
+                                    </p>
+                                    <p>
+                                        També podeu inscriure-vos en una llista de correu electrònic. Digueu-nos quina és
+                                        la vostra adreça electrònica i us inscriurem a la llista de correu automàticament.
+                                    </p>
+                                    <p style="text-align: center;">
+                                        <button class="bt-basic bt-basic-gris"
+                                                type="button"
+                                                data-toggle="collapse"
+                                                data-target="#contingut-formulari-projecte"
+                                                aria-expanded="false"
+                                                aria-controls="contingut-formulari-projecte">
+                                            Apunteu-vos a la llista de correu
+                                        </button>
+                                    </p>
+                                {%  else %}
+                                    <p>
+                                        Per col·laborar en aquest projecte només cal que us
+                                        inscriviu a la llista de correu. Digueu-nos quina és
+                                        la vostra adreça electrònica i us inscriurem a la llista
+                                        de correu automàticament.
+                                    </p>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </header><!--/.contingut-header -->
@@ -58,16 +96,18 @@
                 </section>
 
                 <!-- section -->
-                <section class="{%  if projecte.telegram %}collapse{% endif %}" id="contingut-formulari-projecte">
+                <section class="{%  if projecte_telegram and projecte_llista %}collapse{% endif %}"
+                         id="contingut-formulari-projecte"
+                         {% if not projecte_llista %}style="display:none"{% endif %}>
                     <form class="form-horizontal" id="collabora_form" method="post">
                         <!-- camp -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">El vostre nom *</label>
                             <div class="col-sm-6">
                                 {{ function('wp_nonce_field', 'subscribe_list', '_wpnonce_subscribe') }}
-                                <input type="hidden" name="llista" id="llista" value="{{ projecte.llista_de_correu }}" />
-                                <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title }}" />
-                                <input type="hidden" name="projecte_slug" id="projecte_slug" value="{{ projecte.slug }}" />
+                                <input type="hidden" name="llista" id="llista" value="{{ projecte_llista }}" />
+                                <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title|default('') }}" />
+                                <input type="hidden" name="projecte_slug" id="projecte_slug" value="{{ projecte.slug|default('') }}" />
                                 <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>
                             </div>
                         </div><!-- camp -->

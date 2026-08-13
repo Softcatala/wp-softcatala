@@ -23,6 +23,11 @@ class Projecte extends Post {
 	use FeaturedSorting;
 
 	/**
+	 * The Telegram group used when nothing more specific is available.
+	 */
+	const GENERIC_TELEGRAM_GROUP = 'Softcatala_Collaboradors';
+
+	/**
 	 * Whether the project is featured in the listings.
 	 *
 	 * @return bool
@@ -84,6 +89,34 @@ class Projecte extends Post {
 		$projecte = get_page_by_path( strtolower( $slug ), OBJECT, 'projecte' );
 
 		return $projecte ? \Timber\Timber::get_post( $projecte->ID ) : null;
+	}
+
+	/**
+	 * The Telegram group to send a would-be collaborator to: the project's own,
+	 * the one of the first collaborator profile it asks for, or the generic one.
+	 *
+	 * @return string Telegram group name, without the t.me/ prefix.
+	 */
+	public function telegram_group() {
+		$telegram = $this->meta( 'telegram' );
+
+		if ( $telegram ) {
+			return $telegram;
+		}
+
+		$perfils = $this->terms( 'ajuda-projecte' );
+
+		if ( is_array( $perfils ) ) {
+			foreach ( $perfils as $perfil ) {
+				$telegram = $perfil->meta( 'telegram' );
+
+				if ( $telegram ) {
+					return $telegram;
+				}
+			}
+		}
+
+		return self::GENERIC_TELEGRAM_GROUP;
 	}
 
 	/**

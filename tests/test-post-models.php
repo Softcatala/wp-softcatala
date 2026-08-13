@@ -195,6 +195,38 @@ class PostModelsTest extends SCTests {
 		$this->assertNotContains( $internal->ID, $found );
 	}
 
+	function test_projecte_telegram_group_prefers_its_own() {
+		$projecte = $this->make_post( 'projecte', 'Traducció', array( 'telegram' => 'Softcatala_Traduccio' ) );
+
+		$this->assertEquals( 'Softcatala_Traduccio', $projecte->telegram_group() );
+	}
+
+	/**
+	 * Projects with no group of their own borrow the one of a collaborator
+	 * profile they ask for, so that newcomers land somewhere related.
+	 */
+	function test_projecte_telegram_group_falls_back_to_the_profile() {
+		$projecte = $this->make_post( 'projecte' );
+
+		$term_id = self::factory()->term->create(
+			array(
+				'taxonomy' => 'ajuda-projecte',
+				'name'     => 'Traductors',
+			)
+		);
+		update_term_meta( $term_id, 'telegram', 'Softcatala_Traductors' );
+		wp_set_object_terms( $projecte->ID, array( $term_id ), 'ajuda-projecte' );
+
+		$this->assertEquals( 'Softcatala_Traductors', Timber::get_post( $projecte->ID )->telegram_group() );
+	}
+
+	function test_projecte_telegram_group_falls_back_to_the_generic_one() {
+		$this->assertEquals(
+			Projecte::GENERIC_TELEGRAM_GROUP,
+			$this->make_post( 'projecte' )->telegram_group()
+		);
+	}
+
 	function test_projecte_without_responsables_returns_false() {
 		$this->assertFalse( $this->make_post( 'projecte' )->responsables() );
 	}

@@ -34,6 +34,7 @@ if ( ! empty ( $project_slug ) ) {
 
     $context['projecte'] = $projecte;
     $context['steps'] = $projecte->meta( 'steps' );
+    $context['telegram'] = $projecte->telegram_group();
     $templates = array('plantilla-steps-single.twig' );
 
     $args = array(

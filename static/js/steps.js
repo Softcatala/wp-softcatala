@@ -47,12 +47,51 @@ jQuery('#bt-next').click(function(){
 //Multiples projectes
 jQuery('.link_colabora').on('click', function(){
     var llista = jQuery(this).attr("data-llista");
+    var telegram = jQuery(this).attr("data-telegram");
     var projecte = jQuery(this).attr("data-projecte");
     var projecteslug = jQuery(this).attr("data-projecteslug");
     jQuery('#llista').val(llista);
     jQuery('#projecte').val(projecte);
     jQuery('#projecte_slug').val(projecteslug);
+
+    //Contingut del modal: llista de correu si en té, si no Telegram
+    var group = telegram ? telegram : jQuery('.bs-formjoin-modal-lg').attr('data-telegram-generic');
+    jQuery('#collabora-telegram-enllac').attr('href', 'https://t.me/' + group);
+    jQuery('#collabora-telegram-propi').toggle( !! telegram);
+    jQuery('#collabora-telegram-generic').toggle( ! telegram);
+    jQuery('.collabora-projecte-nom').text(projecte);
+    jQuery('#collabora-telegram').toggle( ! llista);
+    jQuery('#collabora-llista').toggle( !! llista);
+    jQuery('#contingut-formulari-projecte').toggle( !! llista);
+
     jQuery('.bs-formjoin-modal-lg').modal('show');
+});
+
+//Missatge de presentació per al Telegram
+jQuery('#collabora-copia-missatge').on('click', function(){
+    var $boto = jQuery(this);
+    var $missatge = jQuery('#collabora-missatge');
+    var text = $missatge.text().replace(/\s+/g, ' ').trim();
+
+    var seleccionar = function() {
+        var range = document.createRange();
+        range.selectNodeContents($missatge[0]);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    };
+
+    var confirmar = function() {
+        var original = $boto.html();
+        $boto.html('Missatge copiat!');
+        setTimeout(function(){ $boto.html(original); }, 2500);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(confirmar, seleccionar);
+    } else {
+        seleccionar();
+    }
 });
 
 //Form

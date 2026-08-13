@@ -17,12 +17,12 @@ function get_telegram_group_for_profile( $profile ) {
     $term = Timber::get_term($profile, 'ajuda-projecte');
 
 	if (!$term) {
-		return 'Softcatala_Collaboradors';
+		return \Softcatala\Posts\Projecte::GENERIC_TELEGRAM_GROUP;
 	}
 
     $telegram = $term->meta('telegram');
 
-    return $telegram ? $telegram : 'Softcatala_Collaboradors';
+    return $telegram ? $telegram : \Softcatala\Posts\Projecte::GENERIC_TELEGRAM_GROUP;
 }
 
 add_filter('acf/load_field/name=perfil', 'sc_get_all_profiles');

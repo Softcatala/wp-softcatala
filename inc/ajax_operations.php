@@ -141,11 +141,9 @@ function sc_subscribe_list() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$result['text'] = "S'ha produït un error. Proveu més tard.";
 	} else {
-		$nom           = sanitize_text_field( $_POST["nom"] );
 		$correu        = sanitize_text_field( $_POST["correu"] );
 		$llista        = sanitize_text_field( $_POST["llista"] );
 		$llista        = prepare_mailman_url( $llista );
-		$projecte      = sanitize_text_field( $_POST["projecte"] );
 		$projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
 
 		if ( ! empty ( $llista ) ) {
@@ -162,33 +160,19 @@ function sc_subscribe_list() {
 				}
 			}
 		} else {
-			$to_email = 'web@softcatala.org';
-			$subject  = '[Projectes] Demanda de participació al projecte ' . $projecte;
-			$message  = 'Un usuari ha demanat col·laborar al projecte ' . $projecte;
-			$message .= '<br/><br/>Atès que aquest projecte no té llista de correu, possiblement caldrà contactar l\'usuari';
-			$message .= '<br/><br/><strong>Dades de l\'usuari</strong><br/><br/>Nom: ' . $nom . '<br/>Email: ' . $correu;
+			// projects without a list are sent to Telegram, the form is not offered for them
+			$projecte_post = \Softcatala\Posts\Projecte::find_by_slug( $projecte_slug );
+			$grup          = $projecte_post
+				? $projecte_post->telegram_group()
+				: \Softcatala\Posts\Projecte::GENERIC_TELEGRAM_GROUP;
+			$te_grup_propi = $projecte_post && $projecte_post->meta( 'telegram' );
 
-			//proceed with PHP email.
-			$headers   = array();
-			$headers[] = 'From: ' . $nom . ' <' . $to_email . '>';
-			$headers[] = 'Reply-To: ' . $correu;
-			$headers[] = 'X-Mailer: PHP/' . phpversion();
-			$headers[] = 'Content-Type: text/html';
+			$result['text'] = $te_grup_propi
+				? 'Aquest projecte no té llista de correu. Podeu unir-vos al grup de Telegram '
+				: 'Aquest projecte no té llista de correu ni grup de Telegram específic. Podeu unir-vos al grup de Telegram ';
 
-			// if project has responsables email them too
-			$projecte     = \Softcatala\Posts\Projecte::find_by_slug( $projecte_slug );
-			$responsables = $projecte ? $projecte->responsables() : false;
-			if ( $responsables ) {
-				foreach ( $responsables as $user ) {
-					$to_email = $to_email . ',' . $user['user_email'];
-				}
-			}
-
-			if ( wp_mail( $to_email, $subject, $message, $headers ) ) {
-				$result['text'] = "Gràcies pel vostre interès. Ens posarem en contacte amb vosaltres aviat.";
-			} else {
-				$result['text'] = "S'ha produït un error. Proveu més tard.";
-			}
+			$result['text'] .= '<a href="https://t.me/' . esc_attr( $grup ) . '">' . esc_html( $grup ) . '</a> '
+				. 'i presentar-vos-hi: la gent que hi col·labora us dirà per on començar.';
 		}
 	}
 
