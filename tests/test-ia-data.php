@@ -52,18 +52,18 @@ class IaDataShortcodeTest extends SCTests {
 				'text' => array(
 					'model'    => 'Model',
 					'dim'      => 'Dimensions',
-					'clam_pct' => 'CLAM%',
+					'clam'     => 'CLAM%',
 				),
 				'data' => array(
 					array(
 						'model'    => 'model-a',
 						'dim'      => 768,
-						'clam_pct' => 68.12,
+						'clam'     => 68.12,
 					),
 					array(
 						'model'    => 'model-b',
 						'dim'      => 1024,
-						'clam_pct' => 47.5,
+						'clam'     => 47.5,
 					),
 				),
 			),
@@ -101,8 +101,8 @@ class IaDataShortcodeTest extends SCTests {
 	function test_inferred_decimals_cap_at_four() {
 		$document = $this->document();
 
-		$document['data'][0]['clam_pct'] = 0.123456789;
-		$document['data'][1]['clam_pct'] = 0.1;
+		$document['data'][0]['clam'] = 0.123456789;
+		$document['data'][1]['clam'] = 0.1;
 
 		$html = $this->render( array( 'format' => 'graph' ), $document );
 
@@ -116,7 +116,7 @@ class IaDataShortcodeTest extends SCTests {
 	 */
 	function test_explicit_decimals_win_over_inference() {
 		$document = $this->document(
-			array( 'metrics' => array( 'clam_pct' => array( 'decimals' => 1 ) ) )
+			array( 'metrics' => array( 'clam' => array( 'decimals' => 1 ) ) )
 		);
 
 		$html = $this->render( array( 'format' => 'graph' ), $document );
@@ -132,7 +132,7 @@ class IaDataShortcodeTest extends SCTests {
 	 */
 	function test_threshold_label_uses_the_cutoff_precision() {
 		$document = $this->document(
-			array( 'metrics' => array( 'clam_pct' => array( 'success' => array( 'min' => 50, 'color' => '#388e3c' ) ) ) )
+			array( 'metrics' => array( 'clam' => array( 'success' => array( 'min' => 50, 'color' => '#388e3c' ) ) ) )
 		);
 
 		$html = $this->render( array( 'format' => 'graph' ), $document );
@@ -148,7 +148,7 @@ class IaDataShortcodeTest extends SCTests {
 		$document = $this->document(
 			array(
 				'metrics' => array(
-					'clam_pct' => array(
+					'clam' => array(
 						'subtitle'        => 'usable a partir del 50 per cent',
 						'caption'         => 'una nota al peu',
 						'threshold_label' => 'llindar usable',
@@ -175,7 +175,7 @@ class IaDataShortcodeTest extends SCTests {
 		$document = $this->document(
 			array(
 				'metrics' => array(
-					'clam_pct' => array(
+					'clam' => array(
 						'label'   => 'llindar via label',
 						'success' => array(
 							'min'   => 50,
@@ -189,7 +189,7 @@ class IaDataShortcodeTest extends SCTests {
 		$html = $this->render( array( 'format' => 'graph' ), $document );
 		$this->assertStringContainsString( 'llindar via label</span>', $html );
 
-		$document['metrics']['clam_pct']['threshold_label'] = 'llindar canonic';
+		$document['metrics']['clam']['threshold_label'] = 'llindar canonic';
 
 		$html = $this->render( array( 'format' => 'graph' ), $document );
 		$this->assertStringContainsString( 'llindar canonic</span>', $html );
@@ -201,7 +201,7 @@ class IaDataShortcodeTest extends SCTests {
 	 */
 	function test_shortcode_attributes_win_over_the_json_text() {
 		$document = $this->document(
-			array( 'metrics' => array( 'clam_pct' => array( 'subtitle' => 'subtitle del json' ) ) )
+			array( 'metrics' => array( 'clam' => array( 'subtitle' => 'subtitle del json' ) ) )
 		);
 
 		$html = $this->render(
@@ -231,7 +231,7 @@ class IaDataShortcodeTest extends SCTests {
 		$document['data'][] = array(
 			'model'    => 'model-c',
 			'dim'      => 512,
-			'clam_pct' => 33.3,
+			'clam'     => 33.3,
 		);
 
 		$html = $this->render( array( 'format' => 'table' ), $document );
