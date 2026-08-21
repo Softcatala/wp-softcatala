@@ -16,7 +16,7 @@ wp_enqueue_style( 'sc-css-dades-obertes', get_template_directory_uri() . '/stati
 $templates = array('archive-dadesobertes.twig' );
 
 $title = 'Dades Obertes - Softcatalà';
-$description = 'Respositori de dades obertes';
+$description = 'Explora els conjunts de dades obertes de Softcatalà i descarrega recursos lingüístics reutilitzables.';
 $post = Timber::get_post();
 
 //Context initialization
