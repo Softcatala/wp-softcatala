@@ -4,6 +4,18 @@
  */
 class SC_ContextFilterer {
 
+	/** @var string */
+	private $title = '';
+
+	/** @var string */
+	private $description = '';
+
+	/** @var string */
+	private $canonical = '';
+
+	/** @var bool */
+	private $prefix_description = false;
+
 	/**
 	 * @var array|bool Contains elements to add to the context.
 	 */
@@ -112,6 +124,61 @@ class SC_ContextFilterer {
 	}
 
 	/**
+	 * Keeps the Yoast WebPage entity aligned with a dynamic route.
+	 *
+	 * @param array $data Original WebPage schema data.
+	 * @return array
+	 */
+	public function change_webpage_schema( $data ) {
+		if ( ! is_array( $data ) || empty( $this->canonical ) ) {
+			return $data;
+		}
+
+		$data['@id'] = $this->canonical . '#webpage';
+		$data['url'] = $this->canonical;
+
+		if ( ! empty( $this->title ) ) {
+			$data['name'] = $this->title;
+		}
+
+		$data['description'] = $this->schema_description( $data['description'] ?? '' );
+		$data = $this->change_schema_actions( $data );
+
+		return $data;
+	}
+
+	/**
+	 * @param string $description Existing schema description.
+	 * @return string
+	 */
+	private function schema_description( $description ) {
+		if ( empty( $this->description ) ) {
+			return $description;
+		}
+
+		return $this->prefix_description ? $this->description . $description : $this->description;
+	}
+
+	/**
+	 * @param array $data WebPage schema data.
+	 * @return array
+	 */
+	private function change_schema_actions( $data ) {
+		if ( ! isset( $data['potentialAction'] ) || ! is_array( $data['potentialAction'] ) ) {
+			return $data;
+		}
+
+		foreach ( $data['potentialAction'] as &$action ) {
+			if ( is_array( $action ) && isset( $action['target'] ) ) {
+				$action['target'] = array( $this->canonical );
+			}
+		}
+		unset( $action );
+
+		return $data;
+	}
+
+	/**
 	 * Setups all filters
 	 *
 	 * @param array $args Elements to be filtered.
@@ -127,6 +194,7 @@ class SC_ContextFilterer {
 
 			add_filter( 'wpseo_title', array( $this, 'change_title' ) );
 			add_filter( 'wpseo_opengraph_title', array( $this, 'change_title' ) );
+			add_filter( 'wpseo_twitter_title', array( $this, 'change_title' ) );
 		}
 
 		if ( isset( $args['prefix_title'] ) ) {
@@ -134,24 +202,33 @@ class SC_ContextFilterer {
 
 			add_filter( 'wpseo_title', array( $this, 'prefix_title' ) );
 			add_filter( 'wpseo_opengraph_title', array( $this, 'prefix_title' ) );
+			add_filter( 'wpseo_twitter_title', array( $this, 'prefix_title' ) );
 		}
 
 		if ( isset( $args['description'] ) ) {
 			$this->description = $args['description'];
+			$this->prefix_description = false;
 
 			add_filter( 'wpseo_metadesc', array( $this, 'change_description' ) );
+			add_filter( 'wpseo_opengraph_desc', array( $this, 'change_description' ) );
+			add_filter( 'wpseo_twitter_description', array( $this, 'change_description' ) );
 		}
 
 		if ( isset( $args['prefix_description'] ) ) {
 			$this->description = $args['prefix_description'];
+			$this->prefix_description = true;
 
 			add_filter( 'wpseo_metadesc', array( $this, 'prefix_description' ) );
+			add_filter( 'wpseo_opengraph_desc', array( $this, 'prefix_description' ) );
+			add_filter( 'wpseo_twitter_description', array( $this, 'prefix_description' ) );
 		}
 
 		if ( isset( $args['canonical'] ) ) {
 			$this->canonical = $args['canonical'];
 
 			add_filter( 'wpseo_canonical', array( $this, 'change_canonical' ) );
+			add_filter( 'wpseo_opengraph_url', array( $this, 'change_canonical' ) );
+			add_filter( 'wpseo_schema_webpage', array( $this, 'change_webpage_schema' ) );
 		}
 	}
 
@@ -166,13 +243,21 @@ class SC_ContextFilterer {
 			return;
 		}
 
-		remove_filter( 'wpseo_title', array( $this, 'prefix_title' ) );
+		remove_filter( 'wpseo_title', array( $this, 'change_title' ) );
 		remove_filter( 'wpseo_title', array( $this, 'prefix_title' ) );
 		remove_filter( 'wpseo_opengraph_title', array( $this, 'change_title' ) );
-		remove_filter( 'wpseo_opengraph_title', array( $this, 'change_title' ) );
+		remove_filter( 'wpseo_opengraph_title', array( $this, 'prefix_title' ) );
+		remove_filter( 'wpseo_twitter_title', array( $this, 'change_title' ) );
+		remove_filter( 'wpseo_twitter_title', array( $this, 'prefix_title' ) );
 		remove_filter( 'wpseo_metadesc', array( $this, 'change_description' ) );
+		remove_filter( 'wpseo_metadesc', array( $this, 'prefix_description' ) );
+		remove_filter( 'wpseo_opengraph_desc', array( $this, 'change_description' ) );
+		remove_filter( 'wpseo_opengraph_desc', array( $this, 'prefix_description' ) );
+		remove_filter( 'wpseo_twitter_description', array( $this, 'change_description' ) );
+		remove_filter( 'wpseo_twitter_description', array( $this, 'prefix_description' ) );
 		remove_filter( 'wpseo_canonical', array( $this, 'change_canonical' ) );
-
+		remove_filter( 'wpseo_opengraph_url', array( $this, 'change_canonical' ) );
+		remove_filter( 'wpseo_schema_webpage', array( $this, 'change_webpage_schema' ) );
 	}
 
 	/**
