@@ -24,10 +24,10 @@
         {% if slide.title or slide.post_excerpt %}
           <div class="carousel-caption">
           {% if slide.title %}
-             <h1>{{ slide.title }}</h1>
+             <h2>{{ slide.title }}</h2>
           {% endif %}
           {% if slide.post_excerpt %}
-            <h2>{{ slide.post_excerpt }}</h2>
+            <p>{{ slide.post_excerpt }}</p>
           {% endif %}
           {% if slide.button_title %}
             <button href="{{ slide.slide_link }}" class="bt-basic bt-blanc">{{ slide.button_title }}</button>

@@ -47,7 +47,7 @@ class SubpageRewriter {
 	 */
 	private function subpages_rewrite() {
 		add_rewrite_rule(
-			"$this->plural/[^&/]+/([a-zA-Z][^/]*)/?",
+			"^$this->plural/[^&/]+/([a-zA-Z][^/]*)/?$",
 			'index.php?post_type=page&pagename=' . $this->get_partial_subpages_path() . '$matches[1]',
 			'top'
 		);
@@ -80,6 +80,8 @@ class SubpageRewriter {
 				$permalink
 			);
 		}
+
+		return $permalink;
 	}
 
 	/**

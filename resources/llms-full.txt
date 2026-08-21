@@ -1,0 +1,117 @@
+# Softcatalà — context ampliat
+
+> Descripció ampliada de Softcatalà, les seves eines lingüístiques, els recursos de programari i les formes de col·laboració.
+
+Aquest document resumeix les seccions estables principals de Softcatalà. No forma part de l'especificació llms.txt v2: es publica com a extensió de compatibilitat. No inclou totes les notícies, fitxes de programari, entrades de diccionari ni respostes generades dinàmicament. Per obtenir informació concreta o actualitzada, cal consultar la pàgina d'origen indicada en cada apartat.
+
+Última revisió editorial: 21 d'agost de 2026.
+
+## Identitat i missió
+
+Softcatalà és una associació sense ànim de lucre nascuda l'any 1998. La seva missió és fomentar la presència i l'ús del català en la informàtica, Internet i les noves tecnologies.
+
+L'activitat es basa principalment en el voluntariat, el programari lliure, la transparència i la col·laboració.
+
+Font: https://www.softcatala.org/que-es-softcatala/
+
+## Ús i atribució de la informació
+
+La llengua principal del lloc és el català. Les pàgines originals són la font autoritativa i convé citar la URL específica de la qual s'ha obtingut la informació.
+
+El contingut del web està disponible sota la llicència indicada a l'avís legal si no s'hi especifica una altra cosa. Els programes, conjunts de dades, corpus i altres recursos poden tenir condicions o llicències pròpies, que cal comprovar a cada fitxa.
+
+Les traduccions, correccions, resums, transcripcions i altres resultats automàtics poden contenir errors. No s'han de presentar com una revisió lingüística experta.
+
+Aquest document no substitueix robots.txt, el sitemap, les llicències ni les condicions d'ús, i no concedeix permisos addicionals sobre el contingut.
+
+- Avís legal: https://www.softcatala.org/avis-legal/
+- Política de privadesa: https://www.softcatala.org/politica-de-privadesa/
+
+## Eines lingüístiques principals
+
+### Traductor
+
+El traductor ofereix traducció automàtica entre el català i diverses llengües. Utilitza diferents tecnologies segons el parell seleccionat i els resultats requereixen revisió humana.
+
+Font: https://www.softcatala.org/traductor/
+
+### Corrector
+
+El corrector detecta qüestions ortogràfiques, gramaticals, tipogràfiques i d'estil. Permet seleccionar formes generals, valencianes i balears. Els suggeriments són orientatius.
+
+Font: https://www.softcatala.org/corrector/
+
+### Diccionari de sinònims
+
+Permet cercar sinònims de paraules catalanes i consultar alternatives relacionades.
+
+Font: https://www.softcatala.org/diccionari-de-sinonims/
+
+### Diccionari anglès-català
+
+Permet consultar traduccions de l'anglès al català i del català a l'anglès. Inclou exemples que mostren les traduccions en context.
+
+Font: https://www.softcatala.org/diccionari-angles-catala/
+
+### Conjugador
+
+Mostra les formes verbals dels verbs catalans organitzades per modes, temps i persones.
+
+Font: https://www.softcatala.org/conjugador-de-verbs/
+
+## Altres eines
+
+- [L'hora en català](https://www.softcatala.org/hora-en-catala/): Expressió de l'hora segons diferents sistemes catalans.
+- [Separador de síl·labes](https://www.softcatala.org/sillabes/): Separació i recompte de síl·labes.
+- [Nombres en lletres](https://www.softcatala.org/nombres-en-lletres/): Conversió de nombres a lletres.
+- [Resum de textos](https://www.softcatala.org/resum-de-textos-en-catala/): Resum automàtic de textos en català.
+- [Transcripció](https://www.softcatala.org/transcripcio/): Transcripció d'àudio i vídeo.
+- [Doblatge](https://www.softcatala.org/doblatge/): Doblatge automàtic de vídeos en català.
+
+## Programari en català
+
+El catàleg de programes agrupa aplicacions disponibles en català i permet consultar-ne les fitxes, els sistemes compatibles, les llicències i les opcions de descàrrega.
+
+Catàleg: https://www.softcatala.org/programes/
+
+El Catalanitzador ajuda a configurar en català ordinadors Windows i macOS i instal·la els paquets necessaris quan estan disponibles.
+
+Catalanitzador: https://www.softcatala.org/catalanitzador/
+
+## Projectes i codi
+
+Softcatalà coordina o participa en projectes de traducció, desenvolupament d'eines lingüístiques i foment del català en la tecnologia.
+
+- Projectes: https://www.softcatala.org/projectes/
+- Repositoris públics: https://github.com/Softcatala
+
+## Recursos per a traductors i desenvolupadors
+
+La Guia d'estil recull criteris emprats en la traducció de programari al català.
+
+Guia d'estil: https://www.softcatala.org/guia-estil-de-softcatala/
+
+Les memòries de traducció permeten reutilitzar traduccions de projectes de programari.
+
+Memòries: https://www.softcatala.org/recursos/memories/
+
+La secció de terminologia agrupa recursos terminològics útils per a la traducció.
+
+Terminologia: https://www.softcatala.org/recursos/terminologia/
+
+Els conjunts de dades obertes disposen de fitxes i condicions d'ús pròpies.
+
+Dades obertes: https://www.softcatala.org/dades-obertes/
+
+Softcatalà també publica models i conjunts de dades oberts relacionats amb la intel·ligència artificial en català.
+
+Intel·ligència artificial: https://www.softcatala.org/intelligencia-artificial/
+
+## Actualitat i col·laboració
+
+Les novetats sobre l'associació, les eines i els projectes es publiquen a https://www.softcatala.org/noticies/.
+
+Softcatalà accepta col·laboracions en traducció, correcció, desenvolupament, disseny, continguts i organització d'activitats.
+
+- Col·laboració: https://www.softcatala.org/col%C2%B7laboreu/raons-per-col%C2%B7laborar/
+- Contacte: https://www.softcatala.org/contacte/

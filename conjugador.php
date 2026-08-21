@@ -51,6 +51,7 @@ if( ! empty ( $verb ) ) {
         $context_holder['cerca_result'] = $r->html;
         
     }else{
+		throw_error( '404', 'No Results For This Search' );
         $show404 = true; // Cal mostrar un 404
     }
 
@@ -70,7 +71,13 @@ if( ! empty ( $verb ) ) {
 
 $context_filterer = new SC_ContextFilterer( $context_holder );
 
-$context_overrides = array( 'title' => $title, 'description' => $description, 'canonical' => $canonical );
+$context_overrides = array(
+    'title'            => $title,
+    'description'      => $description,
+    'canonical'        => $canonical,
+    'breadcrumb_title' => $content_title,
+	'breadcrumb_parent_url' => get_permalink( get_queried_object_id() ),
+);
 
 $context = $context_filterer->get_filtered_context( $context_overrides, false );
 

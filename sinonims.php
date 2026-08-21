@@ -22,7 +22,7 @@ $lletra = sanitize_text_field( urldecode( get_query_var('lletra') ) );
 $content_title = 'Diccionari de sinònims';
 
 $canonical = '';
-$prefix_description = '';
+$description = '';
 
 if( ! empty ( $paraula ) ) {
     try {
@@ -33,9 +33,9 @@ if( ! empty ( $paraula ) ) {
 	    $canonical = $r->canonical;
 	    $title = $r->title;
 	    $content_title = $r->content_title;
-	    $prefix_description = 'Sinònims de «' . $r->canonical_lemma . '» en català. ';
+	    $description = $r->description;
 	    $context_holder['sinonims_result'] = $r->html;
-    } catch ( Exception $e ) {
+    } catch ( Throwable $e ) {
         throw_service_error( $content_title, '', true );
     }
 } else if ( ! empty ( $lletra ) ) {
@@ -47,9 +47,9 @@ if( ! empty ( $paraula ) ) {
 			$canonical = $r->canonical;
 			$title = $r->title;
 			$content_title = $r->content_title;
-			$prefix_description = 'Sinònims que comencen per «' . $lletra . '» en català. ';
+			$description = 'Índex de sinònims en català que comencen per «' . strtoupper( $lletra ) . '».';
 			$context_holder['sinonims_result'] = $r->html;
-		} catch ( Exception $e ) {
+		} catch ( Throwable $e ) {
 			throw_service_error( $content_title, '', true );
 		}
 	} else {
@@ -58,7 +58,13 @@ if( ! empty ( $paraula ) ) {
 	}
 }
 
-$context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
+$context_overrides = array(
+    'title'              => $title,
+	'description'        => $description,
+    'canonical'          => $canonical,
+    'breadcrumb_title'   => $content_title,
+	'breadcrumb_parent_url' => get_permalink( $timberPost->ID ),
+);
 
 $context_filterer = new SC_ContextFilterer( $context_holder );
 

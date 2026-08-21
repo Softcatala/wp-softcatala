@@ -32,8 +32,8 @@ class SC_Diccionari_engcat {
 	public function get_paraula( $paraula, $llengua ) {
 		$paraula = strtolower( $paraula );
 
-		$url_api = get_option( 'api_diccionari_engcat' );
-		$url     = $url_api . '/search/' . $paraula;
+		$url_api = trailingslashit( get_option( 'api_diccionari_engcat' ) );
+		$url     = $url_api . 'search/' . $paraula;
 
 		$result = $this->rest_client->get( $url, true );
 
@@ -44,7 +44,10 @@ class SC_Diccionari_engcat {
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
-			return $this->build_results( $api_result, $paraula, $llengua );
+			$built_result = $this->build_results( $api_result, $paraula, $llengua );
+			if ( $built_result ) {
+				return $built_result;
+			}
 		}
 
 		return $this->return404( $paraula );
@@ -61,8 +64,8 @@ class SC_Diccionari_engcat {
 	public function get_paraula_with_language_detection( $paraula ) {
 		$paraula = strtolower( $paraula );
 
-		$url_api = get_option( 'api_diccionari_engcat' );
-		$url     = $url_api . '/search/' . $paraula;
+		$url_api = trailingslashit( get_option( 'api_diccionari_engcat' ) );
+		$url     = $url_api . 'search/' . $paraula;
 		
 		$result = $this->rest_client->get( $url, true );
 
@@ -73,7 +76,10 @@ class SC_Diccionari_engcat {
 		if ( 200 == $result['code'] && isset($result['result'])) {
 
 			$api_result   = json_decode( $result['result'] );
-			return $this->build_results_for_redirect( $api_result, $paraula );
+			$built_result = $this->build_results_for_redirect( $api_result, $paraula );
+			if ( $built_result ) {
+				return $built_result;
+			}
 		}
 
 		return $this->return404( $paraula );
@@ -83,7 +89,7 @@ class SC_Diccionari_engcat {
 
 		$paraula = strtolower( $paraula );
 
-		$url_api = get_option( 'api_cerca_corpus' );
+		$url_api = untrailingslashit( get_option( 'api_cerca_corpus' ) );
 		
 		if($direction == "cat-eng")
 			$url     = $url_api . '/search/?target=' . urlencode($paraula);
@@ -114,6 +120,11 @@ class SC_Diccionari_engcat {
 					$valid_indexes[] = $i;
 				}
 			}
+
+			if ( empty( $valid_indexes ) ) {
+				return $this->return404( $paraula );
+			}
+
 			if (count($valid_indexes) === 1) {
 
 				$result_index = $valid_indexes[0];
@@ -145,7 +156,7 @@ class SC_Diccionari_engcat {
 			$html = '<div class="diccionari-resultat">Resultats de la cerca per a «<strong>' . $paraula . '</strong>»';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
-			$canonical = home_url() . '/diccionari-angles-catala/'.$llengua.'/paraula/' . $canonical_lemma . '/';
+			$canonical = home_url() . '/diccionari-angles-catala/'.$llengua.'/paraula/' . rawurlencode( $canonical_lemma ) . '/';
 
 			$corpus_direction = ( $llengua === 'eng' ) ? 'eng-cat' : 'cat-eng';
 
@@ -164,7 +175,7 @@ class SC_Diccionari_engcat {
 				if ( count($valid_indexes) === 2 ) {
 					$other_lang = ($llengua === 'eng') ? 'cat' : 'eng';
 					$other_direction_label = ($other_lang === 'cat') ? 'català → anglès' : 'anglès → català';
-					$single_entry->other_direction_url = home_url() . '/diccionari-angles-catala/' . $other_lang . '/paraula/' . $paraula . '/';
+					$single_entry->other_direction_url = home_url() . '/diccionari-angles-catala/' . $other_lang . '/paraula/' . rawurlencode( $paraula ) . '/';
 					$single_entry->other_direction_label = $other_direction_label;
 					$single_entry->word_searched = $paraula;
 					
@@ -191,7 +202,11 @@ class SC_Diccionari_engcat {
 				'content' => $content,
 			) );
 
-			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
+			$description = ( 'cat' === $llengua )
+				? 'Consulta les traduccions de «' . $canonical_lemma . '» del català a l’anglès i descobreix com s’utilitza en diferents contextos.'
+				: 'Consulta les traduccions de «' . $canonical_lemma . '» de l’anglès al català i descobreix com s’utilitza en diferents contextos.';
+
+			return new SC_Diccionari_EngCatResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result, '', $description );
 		}
 
 	}
@@ -217,13 +232,17 @@ class SC_Diccionari_engcat {
 			}
 		}
 
+		if ( empty( $valid_indexes ) ) {
+			return $this->return404( $paraula );
+		}
+
 		$detected_language = $this->detect_language( $all_results, $valid_indexes, '' );
 
 		// Get canonical lemma
 		$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
 
 		// Return minimal response with only detected_language and canonical_lemma
-		return new SC_Diccionari_EngCatResult( 200, '', $canonical_lemma, '', '', '', $detected_language );
+		return new SC_Diccionari_EngCatResult( 200, '', $canonical_lemma, '', '', '', null, $detected_language );
 		}
 
 		return $this->return404( $paraula );
@@ -236,7 +255,7 @@ class SC_Diccionari_engcat {
 	
 		$lletra = strtolower( $lletra );
 		
-		$url_api = get_option( 'api_diccionari_engcat' );
+		$url_api = trailingslashit( get_option( 'api_diccionari_engcat' ) );
 		$url     = $url_api . 'index/'.$llengua.'-' . $lletra;
 
 		$result = $this->rest_client->get( $url, true );
@@ -251,7 +270,7 @@ class SC_Diccionari_engcat {
 			return $this->build_index( $lletra, $llengua, $api_result->words );
 		}
 			
-		return $this->notFound( $lletra );
+		return $this->return404( $lletra );
 	}
 
 
@@ -273,8 +292,8 @@ class SC_Diccionari_engcat {
 
 
 	private function get_uncached_stats() {
-		$url_api = get_option( 'api_diccionari_engcat' );
-		$url     = $url_api . '/stats/';
+		$url_api = trailingslashit( get_option( 'api_diccionari_engcat' ) );
+		$url     = $url_api . 'stats/';
 
 		$result = $this->rest_client->get( $url, true );
 
@@ -298,7 +317,7 @@ class SC_Diccionari_engcat {
 		$words      = array_map( function( $word ) use ( $url_prefix ) {
 			return [
 				'text' => $word,
-				'url'  => $url_prefix . '/' . $word . '/',
+				'url'  => $url_prefix . '/' . rawurlencode( $word ) . '/',
 			];
 		}, $paraules );
 
@@ -326,7 +345,11 @@ class SC_Diccionari_engcat {
 			'content' => 'No hem trobat cap resultat de cerca.',
 		) );
 
-		return new SC_Diccionari_EngCatResult( 404, $html, '', '', 'Diccionari anglès-català - Softcatalà', 'Diccionari anglès-català - Softcatalà' );
+		$title = 'Paraula no trobada - Diccionari anglès-català | Softcatalà';
+		$content_title = 'No hem trobat «' . $paraula . '» al diccionari anglès-català';
+		$description = 'No hem trobat traduccions de «' . $paraula . '» al diccionari anglès-català de Softcatalà.';
+
+		return new SC_Diccionari_EngCatResult( 404, $html, '', home_url( '/diccionari-angles-catala/' ), $title, $content_title, null, '', $description );
 			
 	}
 

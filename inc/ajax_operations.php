@@ -64,7 +64,7 @@ function sc_find_sinonim() {
 		$result = $sinonims->get_paraula( $paraula );
 	}
 
-	wp_send_json( $result );
+	wp_send_json( $result, (int) $result->status );
 }
 
 /**
@@ -83,7 +83,7 @@ function sc_conjugador_search() {
 		$result = $conjugador->get_verb( $verb, $infinitiu, $url, $ajaxquery );
 	}
 
-	wp_send_json( $result );
+	wp_send_json( $result, (int) $result->status );
 	
 }
 
@@ -116,7 +116,7 @@ function sc_diccionari_engcat_search() {
     	}
 	}
 
-	wp_send_json( $result );
+	wp_send_json( $result, (int) $result->status );
 }
 
 

@@ -1,179 +1,100 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<!-- .main .wrap-blanc -->
-    <main class="main wrap-blanc blog">
-		<!-- .main-header -->
+	<main class="main wrap-blanc blog">
 		{% include "contingut-header.twig" %}
-		<!--/.main-header -->
 
-      <div class="container-fluid">
-        <div class="row">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="contingut contingut-left col-sm-9">
+					<div class="dades-obertes">
+						<div class="row">
+							<div class="col-sm-9">
+								<h2>Descripció</h2>
+								<p>{{ post.content }}</p>
+								{% if post.download_url %}
+									<h2>Adreça de descàrrega</h2>
+									<a href="{{ post.download_url }}">{{ post.download_url }}</a>
+								{% endif %}
+							</div>
 
-          <!-- .contingut -->
-          <div class="contingut contingut-left col-sm-9">
-                <div class="dades-obertes">
-                        <div class="row">
-                               <div class="col-sm-9">
-                                    <h4>Descripció</h4>
-                                    <p>{{post.content}}</p>
-                                    {% if post.download_url %}
-                                        <h4>Adreça de descàrrega:</h4>
-                                        <a href="{{post.download_url}}">{{post.download_url}}</a>
-                                    {% endif %}   
-                                </div>
-                                <div class="col-sm-3 dades-obertes-lat">
-                                   {% if creators %}
-                                   <div class="dades-obertes-item-lateral">
-                                        {% if creators|length > 1 %}
-                                            <h5>Autors:</h5>
-                                        {% else %}
-                                            <h5>Autor:</h5>
-                                        {% endif %}
-                                        {% for creator in creators %}
-                                            <p>{{ creator.creator_name }}</a></p>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    
-                                    {% if post.hf_repo_id and (post.hf_downloads or post.hf_likes) %}
-                                    <div class="dades-obertes-item-lateral">
-                                        <h5>Hugging Face:</h5>
-                                        {% if post.hf_downloads %}
-                                            <p class="dades-obertes-hf-stat"><i class="fas fa-download" aria-hidden="true"></i> {{ post.hf_downloads|number_format(0, ',', '.') }} baixades (darrers 30 dies)</p>
-                                        {% endif %}
-                                        {% if post.hf_likes %}
-                                            <p class="dades-obertes-hf-stat"><i class="fas fa-heart" aria-hidden="true"></i> {{ post.hf_likes|number_format(0, ',', '.') }} «m'agrada»</p>
-                                        {% endif %}
-                                    </div>
-                                    {% endif %}
+							<div class="col-sm-3 dades-obertes-lat">
+								{% if creators %}
+									<div class="dades-obertes-item-lateral">
+										<h2>{{ creators|length > 1 ? 'Autors' : 'Autor' }}</h2>
+										{% for creator in creators %}
+											<p>{{ creator.creator_name }}</p>
+										{% endfor %}
+									</div>
+								{% endif %}
 
-                                    {% if post.license_license_name %}
-                                    <div class="dades-obertes-item-lateral">
-                                        <h5>Llicència:</h5>
-                                        <p>
-                                        {% if post.license_license_url %} <a href="{{post.license_license_url}}"> {% endif %}
-                                        {{ post.license_license_name }}
-                                        {% if post.license_license_url %} </a> 
-                                        {% endif %}
-                                        </p>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                
-                       </div>
-                </div>
-                <div itemscope itemtype="http://schema.org/Dataset" class="hidden">
-                <table>
-                    <tr>
-                    <th>property</th>
-                    <th>value</th>
-                    </tr>
-                    <tr>
-                    <td>name</td>
-                    <td><code itemprop="name">{{post.namedts}}</code></td>
-                    </tr>
-                    <tr>
-                    <td>description</td>
-                    <td><code itemprop="description">{{post.description}}</code></td>
-                    </tr>
-                    {% if post.license_license_name and  post.license_license_url %}
-                    <tr>
-                    <td>license</td>
-                    <td>
-                        <div itemscope itemtype="http://schema.org/CreativeWork" itemprop="license">
-                            <table>
-                                <tr>
-                                    <th>property</th>
-                                    <th>value</th>
-                                </tr>
-                                <tr>
-                                    <td>url</td>
-                                    <td><code itemprop="url">{{post.license_license_url}}</code></td>
-                                </tr>
-                                <tr>
-                                    <td>name</td>
-                                    <td><code itemprop="name">{{post.license_license_name}}</code></td>
-                                </tr>
-                            </table>
-                        </div>
- 
-                    </td>
-                    </tr>
-                    {% endif %}
-                    {% if post.download_url %}
-                    <tr>
-                    <td>sameAs</td>
-                    <td><code itemprop="sameAs">{{post.link}}</code></td>
-                    </tr>
-                    <tr>
-                    <td>url</td>
-                    <td><code itemprop="url">{{post.download_url}}</code></td>
-                    </tr>
-                    {% endif %}
-                    {% if creators|length > 1 %}
-                        <tr>
-                            <td>creator</td>
-                            <td>
-                            {% for creator in creators| filter(creator => creator.author_type == 'person') %}
-                                {% if loop.first %}
-                                        <div itemscope itemtype="http://schema.org/Person" itemprop="creator">
-                                            <table>
-                                            <tr>
-                                                <th>property</th>
-                                                <th>value</th>
-                                            </tr>
-                                {% endif %}
-                                            <tr>
-                                                <td>name</td>
-                                                <td><code itemprop="name">{{ creator.creator_name }}</code></td>
-                                            </tr>                   
-                                            
-                                {% if loop.last %}
-                                            </table>
-                                        </div>
-                                {% endif %}
-                            {% endfor %}
+								{% if post.hf_repo_id and (post.hf_downloads or post.hf_likes) %}
+									<div class="dades-obertes-item-lateral">
+										<h2>Hugging Face</h2>
+										{% if post.hf_downloads %}
+											<p class="dades-obertes-hf-stat"><i class="fas fa-download" aria-hidden="true"></i> {{ post.hf_downloads|number_format(0, ',', '.') }} baixades (darrers 30 dies)</p>
+										{% endif %}
+										{% if post.hf_likes %}
+											<p class="dades-obertes-hf-stat"><i class="fas fa-heart" aria-hidden="true"></i> {{ post.hf_likes|number_format(0, ',', '.') }} «m'agrada»</p>
+										{% endif %}
+									</div>
+								{% endif %}
 
-                            {% for creator in creators| filter(creator => creator.author_type == 'organization') %}
-                                {% if loop.first %}
-                                        <div itemscope itemtype="http://schema.org/Organization" itemprop="creator">
-                                            <table>
-                                            <tr>
-                                                <th>property</th>
-                                                <th>value</th>
-                                            </tr>
-                                {% endif %}
-                                            <tr>
-                                                <td>name</td>
-                                                <td><code itemprop="name">{{ creator.creator_name }}</code></td>
-                                            </tr>
-                                            {% if creator.creator_name == 'Softcatalà' %}
-                                            <tr>
-                                                <td>sameAs</td>
-                                                <td><code itemprop="sameAs">https://en.wikipedia.org/wiki/Softcatal%C3%A0</code></td>
-                                            </tr>                  
-                                            {% endif %}
-                                {% if loop.last %}
-                                            </table>
-                                        </div>
-                                {% endif %}
-                            {% endfor %}
-                            </td>
-                        </tr>
-                        {% endif %}
-                </table>
-                </div>
-            
-          </div>
-              <!-- .contingut-section -->
-         {% include "sidebar.twig" %}
-		  </div><!--/.row -->
-  </div><!--/.container-fluid -->
-</main><!--/.main .wrap-blanc -->
+								{% if post.license_license_name %}
+									<div class="dades-obertes-item-lateral">
+										<h2>Llicència</h2>
+										<p>
+											{% if post.license_license_url %}<a href="{{ post.license_license_url }}">{% endif %}
+											{{ post.license_license_name }}
+											{% if post.license_license_url %}</a>{% endif %}
+										</p>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
 
+					<script type="application/ld+json">
+					{
+						"@context": "https://schema.org",
+						"@type": "Dataset",
+						"@id": {{ (post.link ~ '#dataset')|json_encode|raw }},
+						"url": {{ post.link|json_encode|raw }},
+						"name": {{ (post.namedts ?: post.title)|json_encode|raw }},
+						"description": {{ (post.description ?: post.content|striptags)|json_encode|raw }},
+						"isPartOf": { "@id": {{ (post.link ~ '#webpage')|json_encode|raw }} }
+						{% if creators %},
+						"creator": [
+							{% for creator in creators %}
+							{
+								"@type": {{ (creator.author_type == 'organization' ? 'Organization' : 'Person')|json_encode|raw }},
+								"name": {{ creator.creator_name|json_encode|raw }}
+							}{{ not loop.last ? ',' : '' }}
+							{% endfor %}
+						]
+						{% endif %}
+						{% if post.license_license_name %},
+						"license": {
+							"@type": "CreativeWork",
+							"name": {{ post.license_license_name|json_encode|raw }}{% if post.license_license_url %},
+							"url": {{ post.license_license_url|json_encode|raw }}{% endif %}
+						}
+						{% endif %}
+						{% if post.download_url %},
+						"distribution": {
+							"@type": "DataDownload",
+							"contentUrl": {{ post.download_url|json_encode|raw }}{% if post.format %},
+							"encodingFormat": {{ post.format|json_encode|raw }}{% endif %}
+						}
+						{% endif %}
+					}
+					</script>
+				</div>
 
-	<!-- .seccio-vermella -->
+				{% include "sidebar.twig" %}
+			</div>
+		</div>
+	</main>
+
 	{% include "call-to-action-bottom.twig" %}
-	<!--/.seccio-vermella -->
 {% endblock %}

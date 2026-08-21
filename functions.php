@@ -1,7 +1,7 @@
 <?php
 
 
-define( 'WP_SOFTCATALA_VERSION', '3.0.12' );
+define( 'WP_SOFTCATALA_VERSION', '3.0.13' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -82,7 +82,7 @@ class StarterSite extends \Timber\Site {
 		}
 
 
-		add_filter( 'timber_context', array( $this, 'add_user_nav_info_to_context' ) );
+		add_filter( 'timber/context', array( $this, 'add_user_nav_info_to_context' ) );
 		add_filter( 'timber/twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'xv_planeta_feed', '__return_true' );
 		
@@ -202,6 +202,8 @@ class StarterSite extends \Timber\Site {
 	public function init_services() {
 		SC_NavegaEnCatala::init();
 		SC_Ia_Local_Checker::init();
+		SC_Seo::init();
+		\Softcatala\Content\LlmsEndpoint::init();
 		\Softcatala\Content\JsonToTable::init();
 		SC_Sitemaps::init();
 	}
@@ -641,6 +643,7 @@ class StarterSite extends \Timber\Site {
 		$context['site']          = $this;
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
+		$context['is_development'] = defined( 'WP_ENV' ) && 'production' !== WP_ENV;
 		$context['menu_recursos']  = \Timber\Timber::get_menu( 'nav-recursos' );
 		$context['menu_coneixeu']  = \Timber\Timber::get_menu( 'nav-coneixeu' );
 		$context['menu_collaboreu'] = \Timber\Timber::get_menu( 'nav-collaboreu' );
@@ -893,12 +896,12 @@ STYLE;
 function get_full_img_from_id( $img_id ) {
 	$image = wp_get_attachment_image_src( $img_id, 'full' );
 
-	return $image[0];
+	return is_array( $image ) ? $image[0] : '';
 }
 function get_img_from_id( $img_id ) {
 	$image = wp_get_attachment_image_src( $img_id );
 
-	return $image[0];
+	return is_array( $image ) ? $image[0] : '';
 }
 
 function get_img_id_from_url($image_url) {
@@ -1238,6 +1241,3 @@ function sc_remove_normal_excerpt() { /*this added on my own*/
 	remove_meta_box( 'postexcerpt' , 'post' , 'normal' );
 }
 add_action( 'admin_menu' , 'sc_remove_normal_excerpt' );
-
-
-

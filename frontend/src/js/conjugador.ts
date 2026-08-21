@@ -13,7 +13,14 @@
 // Ambient declarations for globals provided by WordPress / jQuery plugins
 // ---------------------------------------------------------------------------
 
-import { focusSearchInput, scAuthHeaders, sendTracking, updateShareLinks } from './utils'
+import {
+  focusSearchInput,
+  reloadToolOnHistoryNavigation,
+  scAuthHeaders,
+  sendTracking,
+  updateSeoMetadata,
+  updateShareLinks,
+} from './utils'
 
 declare const scajax: { ajax_url: string; autocomplete_url: string }
 declare const jQuery: any
@@ -27,6 +34,7 @@ interface AjaxSuccess {
   canonical: string
   content_title: string
   title: string
+  description: string
 }
 
 interface AjaxError {
@@ -86,7 +94,7 @@ function onSuccess(result: AjaxSuccess): void {
 
   const headerTitle = el('content_header_title')
   if (headerTitle) headerTitle.innerHTML = result.content_title
-  document.title = result.title
+  updateSeoMetadata(result)
 
   injectResults(result.html)
 }
@@ -100,7 +108,7 @@ function onError(result: AjaxError): void {
 
   const headerTitle = el('content_header_title')
   if (headerTitle) headerTitle.innerHTML = r.content_title
-  document.title = r.title
+  updateSeoMetadata({ ...r, indexable: false })
 
   injectResults(r.html)
 }
@@ -226,4 +234,5 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   focusSearchInput('#source')
+  reloadToolOnHistoryNavigation()
 })

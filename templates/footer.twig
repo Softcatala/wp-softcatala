@@ -61,6 +61,7 @@
     </div><!--/.wrap-gris-fosc -->
 
 <!-- Analytics -->
+	{% if not is_development %}
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8L2DZMHJ4K"></script>
 <script>
@@ -77,5 +78,6 @@
   }
 </script>
 <!-- Fi Analytics -->
+	{% endif %}
 
 {% endblock %}

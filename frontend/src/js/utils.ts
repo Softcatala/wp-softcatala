@@ -118,6 +118,54 @@ export function updateShareLinks(twitterText: string): void {
   )
 }
 
+/* ── Dynamic SEO metadata ──────────────────────────────── */
+
+export interface SeoMetadata {
+  canonical: string
+  title: string
+  description: string
+  indexable?: boolean
+}
+
+function setMetaContent(selector: string, content: string): void {
+  let meta = document.querySelector<HTMLMetaElement>(selector)
+  if (!meta) {
+    meta = document.createElement('meta')
+    const propertyMatch = selector.match(/^meta\[property="([^"]+)"\]$/)
+    const nameMatch = selector.match(/^meta\[name="([^"]+)"\]$/)
+    if (propertyMatch) meta.setAttribute('property', propertyMatch[1])
+    if (nameMatch) meta.setAttribute('name', nameMatch[1])
+    document.head.appendChild(meta)
+  }
+  meta.content = content
+}
+
+/** Keep the visible head coherent after an AJAX tool navigation. */
+export function updateSeoMetadata(metadata: SeoMetadata): void {
+  document.title = metadata.title
+
+  let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    document.head.appendChild(canonical)
+  }
+  canonical.href = metadata.canonical
+
+  setMetaContent('meta[name="description"]', metadata.description)
+  setMetaContent('meta[property="og:title"]', metadata.title)
+  setMetaContent('meta[property="og:description"]', metadata.description)
+  setMetaContent('meta[property="og:url"]', metadata.canonical)
+  setMetaContent('meta[name="twitter:title"]', metadata.title)
+  setMetaContent('meta[name="twitter:description"]', metadata.description)
+  setMetaContent('meta[name="robots"]', metadata.indexable === false ? 'noindex, follow' : 'index, follow')
+}
+
+/** A history entry contains server-rendered tool results; reload it on back/forward. */
+export function reloadToolOnHistoryNavigation(): void {
+  window.addEventListener('popstate', () => window.location.reload())
+}
+
 /* ── API auth token ──────────────────────────────────────── */
 
 const TOKEN_REFRESH_MARGIN_S = 15 * 60

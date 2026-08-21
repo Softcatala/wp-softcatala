@@ -185,7 +185,7 @@ function initTopSearchForms(): void {
       const input = form.querySelector<HTMLInputElement>('input[type="text"]')
       const query = input?.value.trim()
       if (query) {
-        window.location.href = `/cerca/${query}/`
+        window.location.href = `/cerca/${encodeURIComponent(query)}/`
       }
     })
   }

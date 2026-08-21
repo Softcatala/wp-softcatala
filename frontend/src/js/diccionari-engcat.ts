@@ -7,7 +7,13 @@
  *   scajax.ajax_url — WordPress AJAX endpoint
  */
 
-import { focusSearchInput, sendTracking, updateShareLinks } from './utils'
+import {
+  focusSearchInput,
+  reloadToolOnHistoryNavigation,
+  sendTracking,
+  updateSeoMetadata,
+  updateShareLinks,
+} from './utils'
 
 declare const scajax: { ajax_url: string }
 
@@ -19,6 +25,8 @@ interface SearchResult {
   html: string
   canonical: string
   content_title: string
+  title: string
+  description: string
 }
 
 interface ErrorResult {
@@ -28,6 +36,7 @@ interface ErrorResult {
     content_title: string
     status: string
     description: string
+    title: string
   }
 }
 
@@ -66,7 +75,7 @@ function onSuccess(result: SearchResult): void {
   const headerTitle = document.getElementById('content_header_title')
   if (headerTitle) headerTitle.innerHTML = result.content_title
 
-  document.title = result.content_title
+  updateSeoMetadata(result)
 
   const results = document.getElementById('results')
   if (results) {
@@ -104,7 +113,7 @@ function onError(result: ErrorResult): void {
   const headerTitle = document.getElementById('content_header_title')
   if (headerTitle) headerTitle.innerHTML = 'Diccionari anglès-català'
 
-  document.title = r.content_title
+  updateSeoMetadata({ ...r, indexable: false })
 
   const results = document.getElementById('results')
   if (results) {
@@ -195,5 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   initCorpusToggle()
+  reloadToolOnHistoryNavigation()
   prepareInputSearchQuery()
 })

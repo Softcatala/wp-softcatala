@@ -19,14 +19,16 @@ class SC_Diccionari_EngCatResult {
 	 * @param string $result1
 	 * @param string $detected_language
 	 */
-	public function __construct( $status, $html, $canonical_lemma, $canonical = '', $title = '', $content_title = '', $detected_language = '' ) {
+	public function __construct( $status, $html, $canonical_lemma = '', $canonical = '', $title = '', $content_title = '', $result = null, $detected_language = '', $description = '' ) {
 		$this->status = $status;
 		$this->html = str_replace("'", '’', $html);
 		$this->canonical = $canonical;
 		$this->title = $title;
 		$this->content_title = $content_title;
 		$this->canonical_lemma = $canonical_lemma;
+		$this->result = $result;
 		$this->detected_language = $detected_language;
+		$this->description = $description;
 	}
 
 	public $status;
@@ -37,4 +39,5 @@ class SC_Diccionari_EngCatResult {
 	public $content_title;
 	public $result;
 	public $detected_language;
+	public $description;
 }

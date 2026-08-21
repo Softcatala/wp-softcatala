@@ -16,6 +16,17 @@ class Slider extends PostType {
 		parent::__construct( 'Slider', 'Sliders' );
 
 		add_action( 'add_meta_boxes', array( $this, 'remove_yoast_metabox' ) , 11 );
+		add_action( 'template_redirect', array( $this, 'redirect_legacy_url' ) );
+	}
+
+	/**
+	 * Consolidates URLs previously generated for public slider posts.
+	 */
+	public function redirect_legacy_url() {
+		if ( isset( $_GET['slider'] ) ) {
+			wp_safe_redirect( home_url( '/' ), 301 );
+			exit;
+		}
 	}
 
 	public function custom_columns( $column, $post_id ) {
@@ -58,17 +69,17 @@ class Slider extends PostType {
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'excerpt', 'thumbnail' ),
 			'hierarchical'          => false,
-			'public'                => true,
+			'public'                => false,
 			'show_ui'               => true,
 			'show_in_menu'          => true,
 			'menu_position'         => 25,
 			'menu_icon'             => 'dashicons-slides',
 			'show_in_admin_bar'     => true,
-			'show_in_nav_menus'     => true,
+			'show_in_nav_menus'     => false,
 			'can_export'            => true,
 			'has_archive'           => false,
 			'exclude_from_search'   => true,
-			'publicly_queryable'    => true,
+			'publicly_queryable'    => false,
 			'rewrite'               => false,
 			'capability_type'       => 'page',
 			'show_in_rest'          => true,

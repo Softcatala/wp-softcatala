@@ -13,11 +13,11 @@ wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/
 
 
 $arxivats  = (get_query_var( 'classificacio' ) ?: '') == 'arxivat';
-$canonical = ( $arxivats ) ? get_home_url() . '/projectes/arxivat/' : '';
+$canonical = ( $arxivats ) ? get_home_url() . '/projectes/arxivats/' : '';
 
 $title = $arxivats ? 'Projectes històrics de Softcatalà - sense activitat' : 'Projectes - Softcatalà';
 $description = $arxivats ? 'Projectes de traducció o propis que Softcatalà ha desenvolupat històricament. No es troben actius.'
-	: 'Projectes de traducció o propis que Softcatalà ha desenvolupat pe a contribuir a la millora del català a les noves tecnologies.';
+	: 'Coneix els projectes de Softcatalà per fomentar l’ús del català en l’àmbit digital i descobreix com participar-hi.';
 
 $templates = array( 'archive-projecte.twig' );
 $post_type = get_query_var( 'post_type' );

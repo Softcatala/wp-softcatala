@@ -4,7 +4,7 @@
                         <div class="diccionari-resultat">
 
 {% if response %}
-    <h1>Possibles infinitius</h1>
+    <h2>Possibles infinitius</h2>
     <p>Us referiu a:</p>
     {%for row in response.verbs|safe_batch((response.verbs|length)/2) %}
         <div class="col-xs-6 col-md-6">

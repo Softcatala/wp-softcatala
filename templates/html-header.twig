@@ -4,15 +4,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset={{site.charset}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="me" href="https://mastodont.cat/@softcatala">
+	<link rel="describedby" type="text/plain" href="{{ function('home_url', '/llms.txt') }}">
     <link rel="pingback" href="{{site.pingback_url}}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://ads.softcatala.org">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+	{% if not is_development %}
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preconnect" href="https://ad.softcatala.org">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+	{% endif %}
 
     {{function('wp_head')}}
+	{% if not is_development %}
     <script defer data-domain="softcatala.org" src="https://t.softcatala.org/js/script.outbound-links.js"></script>
-    <script>
+	{% endif %}
+	{% if function('is_404') %}
+	<script>
         function sc_plausible404() {
             plausible('404', { props: { path: document.location.pathname } }); 
         }
@@ -32,10 +38,11 @@
                 sc_plausibleTimeout()
             }
         });
-    </script>
+	</script>
+	{% endif %}
 </head>
 <body class="{{body_class}}">
-    {% if ads_container %}
+	{% if ads_container and not is_development %}
         <div class="cap-banner container-fluid hidden-xs">
             <div class="cap-banner-slot" style="width: 744px;">
                 <div style="float: left;">
@@ -302,4 +309,3 @@
     <nav id="navbar-principal" class="navbar-principal-xs cd-nav">
       <ul id="cd-primary-nav" class="cd-primary-nav is-fixed nav nav-principal-xs visible-xs-block"></ul>
     </nav>
-

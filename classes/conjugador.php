@@ -32,7 +32,7 @@ class SC_Conjugador {
 		$infinitiu = strtolower( $infinitiu );
         $foundurl = strtolower( $foundurl );
 
-		$url_api = get_option( 'api_conjugador' );
+		$url_api = trailingslashit( get_option( 'api_conjugador' ) );
 
         if($foundurl) {
             $url     = $url_api . 'search/' . $foundurl;
@@ -66,7 +66,7 @@ class SC_Conjugador {
 		}
 
 		$lletra = strtolower( $lletra );
-		$url_api = get_option( 'api_conjugador' );
+		$url_api = trailingslashit( get_option( 'api_conjugador' ) );
 		$url     = $url_api . 'index/' . $lletra;
 
 		$result = $this->rest_client->get( $url, true );
@@ -83,7 +83,7 @@ class SC_Conjugador {
 	}
 
 
-	private function build_results( $json_result, $verb, $infinitiu = "", $url, $ajaxquery = false) {
+	private function build_results( $json_result, $verb, $infinitiu = "", $url = "", $ajaxquery = false) {
 
 		
 		if(!is_string($json_result)){
@@ -150,7 +150,7 @@ class SC_Conjugador {
 			$slug = ! empty( $verb['infinitive'] ) ? $verb['infinitive'] : $verb['verb_form'];
 			return [
 				'text' => $verb['verb_form'],
-				'url'  => '/conjugador-de-verbs/verb/' . $slug . '/',
+				'url'  => '/conjugador-de-verbs/verb/' . rawurlencode( $slug ) . '/',
 			];
 		}, $api_result );
 
@@ -177,7 +177,7 @@ class SC_Conjugador {
 		$canonical = home_url() . '/conjugador-de-verbs/';
 		$title = 'Conjugador de verbs | Softcatalà';
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
-		$description = $verb;
+		$description = 'No hem trobat la forma verbal «' . $verb . '» al conjugador de verbs de Softcatalà.';
 
 		$html = Timber::fetch(
 			 'ajax/conjugador-verb-not-found.twig',
@@ -202,7 +202,7 @@ class SC_Conjugador {
 	}
 
 
-	private function returnInfinitive($api_result, $verb, $infinitiu = "", $url){
+	private function returnInfinitive($api_result, $verb, $infinitiu = "", $url = ""){
 		
 			
 			if(!$infinitiu){
@@ -236,7 +236,7 @@ class SC_Conjugador {
 			$title         = 'Conjugació en català del verb ' . $infinitive_title . ' | Softcatalà';
 			$content_title = 'Conjugació en català del verb «' . $infinitive_title . '»';
 
-			$canonical = home_url() . '/conjugador-de-verbs/verb/'. $infinitiu .'/';
+			$canonical = home_url() . '/conjugador-de-verbs/verb/'. rawurlencode( $infinitiu ) .'/';
 			
 			$temps = array(	'singular1' => 'jo',
 							'singular2' => 'tu',
@@ -268,7 +268,7 @@ class SC_Conjugador {
 			
 			$result = Timber::fetch( 'ajax/conjugador-verb.twig', array( 'response' => $model ) );
 					
-			$description = "";
+			$description = 'Consulta la conjugació completa del verb «' . $infinitive_title . '» en català: indicatiu, subjuntiu, imperatiu i formes no personals.';
 						
 			return new SC_SingleResult( 200, $result, $canonical, $description, $title, $content_title );
 

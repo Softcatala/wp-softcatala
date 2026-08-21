@@ -1,0 +1,67 @@
+# Reproducible browser-test environment. It is fully separate from
+# docker-compose.test.yml and never needs production data or credentials.
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: wordpress_dev
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: wordpress
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - db-dev:/var/lib/mysql
+
+  wordpress:
+    build:
+      context: .docker/dev
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${SC_DEV_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress_dev
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_ENV', 'development' );
+        define( 'WP_HOME', 'http://127.0.0.1:${SC_DEV_PORT:-8080}' );
+        define( 'WP_SITEURL', 'http://127.0.0.1:${SC_DEV_PORT:-8080}' );
+        define( 'SC_LOCAL_FIXTURES', true );
+        define( 'DISALLOW_FILE_EDIT', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+        @ini_set( 'display_errors', 0 );
+    volumes:
+      - wordpress-dev:/var/www/html
+      - .:/var/www/html/wp-content/themes/wp-softcatala
+      - ./.docker/dev/mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  cli:
+    image: wordpress:cli-php8.4
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress_dev
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    volumes:
+      - wordpress-dev:/var/www/html
+      - .:/var/www/html/wp-content/themes/wp-softcatala
+      - ./.docker/dev/mu-plugins:/var/www/html/wp-content/mu-plugins
+    working_dir: /var/www/html
+
+volumes:
+  db-dev:
+  wordpress-dev:

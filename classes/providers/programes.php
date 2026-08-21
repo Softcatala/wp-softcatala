@@ -40,21 +40,17 @@ class Programes {
 			'order'          => 'ASC',
 			'paged'          => get_is_paged(),
 			'posts_per_page' => 18,
-			'tax_query'      => array(
-				array(
-					'taxonomy' => 'classificacio',
-					'field'    => 'slug',
-					'terms'    => 'arxivat',
-					'operator' => 'NOT IN',
-				),
-			),
 		);
 
 		$filter_args = self::filter_args( $filter );
 
 		$result_args = array_merge( $default_args, $filter_args );
 
-		if (isset($filter_args['tax_query']) && is_array($filter_args['tax_query'])) {
+		if ( empty( $filter['classificacio'] ) || 'arxivat' !== $filter['classificacio'] ) {
+			if ( ! isset( $result_args['tax_query'] ) ) {
+				$result_args['tax_query'] = array();
+			}
+
 			$result_args['tax_query'][] = array(
 				'taxonomy' => 'classificacio',
 				'field'    => 'slug',
@@ -109,6 +105,14 @@ class Programes {
 				'terms'    => $filter['categoria-programa'],
 			);
 			$filter_args['filter_categoria'] = $filter['categoria-programa'];
+		}
+
+		if ( ! empty( $filter['classificacio'] ) ) {
+			$filter_args['tax_query'][] = array(
+				'taxonomy' => 'classificacio',
+				'field'    => 'slug',
+				'terms'    => $filter['classificacio'],
+			);
 		}
 
 		return $filter_args;

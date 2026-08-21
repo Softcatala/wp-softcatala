@@ -25,7 +25,7 @@ $lletra = sanitize_text_field( urldecode( get_query_var('lletra') ) );
 $llengua = sanitize_text_field( urldecode( get_query_var('llengua') ) );
 
 $canonical = '';
-$prefix_description = '';
+$description = '';
 
 $diccionari = new SC_Diccionari_engcat();
 
@@ -33,11 +33,11 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
     try {
         $r = $diccionari->get_paraula_with_language_detection( $paraula );
         
-        if ( isset( $r->detected_language ) ) {
+		if ( 200 === $r->status && ! empty( $r->detected_language ) && ! empty( $r->canonical_lemma ) ) {
             wp_redirect( home_url( '/diccionari-angles-catala/' . $r->detected_language . '/paraula/' . $r->canonical_lemma . '/' ), 301 );
             exit;
         }
-    } catch ( Exception $e ) {
+    } catch ( Throwable $e ) {
         throw_service_error( $content_title, '', true );
     }
     // No redirect happened, assign a default language
@@ -48,10 +48,10 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
         $canonical = $r->canonical;
 	    $title = $r->title;
 	    $content_title = $r->content_title;
-	    $prefix_description = ' «' . $paraula . '»';
+	    $description = $r->description;
         $context_holder['engcat_resultat'] = $r->html;
  	    
-    } catch ( Exception $e ) {
+    } catch ( Throwable $e ) {
         throw_service_error( $content_title, '', true );
     }
 } else if ( ! empty ( $lletra ) && ! empty ( $llengua ) ) {
@@ -65,10 +65,10 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
             $canonical = $r->canonical;
             $title = $r->title;
             $content_title = $r->content_title;
-            $prefix_description = 'Paraules que comencen per «' . $lletra . '» en ' . $llengua_str.'.';
+			$description = 'Índex de paraules en ' . $llengua_str . ' que comencen per «' . strtoupper( $lletra ) . '» al diccionari anglès-català.';
             $context_holder['engcat_resultat'] = $r->html;
             
-        } catch ( Exception $e ) {
+        } catch ( Throwable $e ) {
             throw_service_error( $content_title, '', true );
         }
     } else {
@@ -84,7 +84,13 @@ try {
     // Fail silently for stats
 }
 
-$context_overrides = array( 'title' => $title, 'prefix_description' => $prefix_description, 'canonical' => $canonical );
+$context_overrides = array(
+    'title'            => $title,
+    'description'      => $description,
+    'canonical'        => $canonical,
+    'breadcrumb_title' => $content_title,
+	'breadcrumb_parent_url' => get_permalink( $timberPost->ID ),
+);
 
 $context_filterer = new SC_ContextFilterer( $context_holder );
 

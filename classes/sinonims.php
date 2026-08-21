@@ -28,7 +28,7 @@ class SC_Sinonims {
 
 		$lletra = strtolower( $lletra );
 
-		$url_api = get_option( 'api_diccionari_sinonims' );
+		$url_api = trailingslashit( get_option( 'api_diccionari_sinonims' ) );
 		$url     = $url_api . 'index/' . $lletra;
 
 		$result = $this->rest_client->get( $url, true );
@@ -50,7 +50,7 @@ class SC_Sinonims {
 
 		$paraula = strtolower( $paraula );
 
-		$url_api = get_option( 'api_diccionari_sinonims' );
+		$url_api = trailingslashit( get_option( 'api_diccionari_sinonims' ) );
 		$url     = $url_api . 'search/' . $paraula;
 
 		$result = $this->rest_client->get( $url, true );
@@ -97,7 +97,7 @@ class SC_Sinonims {
 		$words = array_map( function( $word ) {
 			return [
 				'text' => $word,
-				'url'  => '/diccionari-de-sinonims/paraula/' . $word . '/',
+				'url'  => '/diccionari-de-sinonims/paraula/' . rawurlencode( $word ) . '/',
 			];
 		}, (array) $paraules );
 
@@ -131,7 +131,7 @@ class SC_Sinonims {
 			$summary = 'Resultats de la cerca per a «<strong>' . $paraula . '</strong>» (' . $result_count . ' ' . $result_count_word . ')';
 
 			$canonical_lemma = isset($result->canonicalLemma) ? $result->canonicalLemma : $paraula;
-			$canonical = home_url() . '/diccionari-de-sinonims/paraula/' . $canonical_lemma . '/';
+			$canonical = home_url() . '/diccionari-de-sinonims/paraula/' . rawurlencode( $canonical_lemma ) . '/';
 
 			$content = '';
 			if ( isset($result->alternatives) && count($result->alternatives) >= 1 ) {
@@ -150,7 +150,9 @@ class SC_Sinonims {
 				'show_hr' => true,
 			) );
 
-			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result );
+			$description = 'Sinònims de «' . $canonical_lemma . '» en català. Consulteu paraules equivalents, variants i antònims.';
+
+			return new SC_SinonimsResult( 200, $html, $canonical_lemma, $canonical, $title, $content_title, $result, $description );
 		}//end if
 	}
 
@@ -167,7 +169,11 @@ class SC_Sinonims {
 			),
 		) );
 
-		return new SC_SinonimsResult( 404, $html, '', '', '', '', $suggestions );
+		$title = 'Paraula no trobada - Diccionari de sinònims | Softcatalà';
+		$content_title = 'No hem trobat «' . $paraula . '» al diccionari de sinònims';
+		$description = 'No hem trobat sinònims de «' . $paraula . '» al diccionari de sinònims de Softcatalà.';
+
+		return new SC_SinonimsResult( 404, $html, '', home_url( '/diccionari-de-sinonims/' ), $title, $content_title, $suggestions, $description );
 	}
 
 	private function return500() {

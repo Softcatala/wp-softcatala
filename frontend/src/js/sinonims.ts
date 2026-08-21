@@ -7,7 +7,13 @@
  *   scajax.ajax_url — WordPress AJAX endpoint
  */
 
-import { focusSearchInput, sendTracking, updateShareLinks } from './utils'
+import {
+  focusSearchInput,
+  reloadToolOnHistoryNavigation,
+  sendTracking,
+  updateSeoMetadata,
+  updateShareLinks,
+} from './utils'
 
 declare const scajax: { ajax_url: string }
 
@@ -17,12 +23,20 @@ declare const scajax: { ajax_url: string }
 
 interface SearchResult {
   html: string
+  canonical: string
+  content_title: string
+  title: string
+  description: string
 }
 
 interface ErrorResult {
   responseJSON: {
     html: string
     status: string
+    canonical: string
+    content_title: string
+    title: string
+    description: string
   }
 }
 
@@ -42,9 +56,14 @@ function showResults(html: string): void {
 // ---------------------------------------------------------------------------
 
 function onSuccess(result: SearchResult): void {
+  if (result.canonical) history.pushState(null, '', result.canonical)
   const loading = document.getElementById('loading')
   if (loading) loading.style.display = 'none'
   showResults(result.html)
+  const headerTitle = document.getElementById('content_header_title')
+  if (headerTitle) headerTitle.textContent = result.content_title
+  updateSeoMetadata(result)
+  updateShareLinks(`Sinònims al diccionari de sinònims de Softcatalà`)
   sendTracking(true)
 }
 
@@ -52,6 +71,8 @@ function onError(response: ErrorResult): void {
   const status = response.responseJSON.status !== '0' ? response.responseJSON.status : '500'
   sendTracking(false, status)
   showResults(response.responseJSON.html)
+  const result = response.responseJSON
+  updateSeoMetadata({ ...result, indexable: false })
   const loading = document.getElementById('loading')
   if (loading) loading.style.display = 'none'
 }
@@ -73,8 +94,6 @@ function doSearch(): void {
   }
 
   if (loading) loading.style.display = ''
-
-  history.pushState(null, '', `/diccionari-de-sinonims/paraula/${query}/`)
 
   const headerTitle = document.getElementById('content_header_title')
   if (headerTitle) headerTitle.innerHTML = `Diccionari de sinònims: «${query}»`
@@ -130,5 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   initInlineLinks()
+  reloadToolOnHistoryNavigation()
   focusSearchInput('#sinonims')
 })

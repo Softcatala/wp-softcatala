@@ -1,0 +1,53 @@
+# Softcatalà
+
+> Softcatalà és una associació sense ànim de lucre que fomenta la presència i l'ús del català en la informàtica, Internet i les noves tecnologies.
+
+La llengua principal del lloc és el català. Les pàgines enllaçades són les fonts originals i s'han de citar amb la URL corresponent.
+
+Les traduccions, correccions i altres resultats automàtics són orientatius i no substitueixen una revisió experta. El contingut del web es publica sota la llicència indicada a l'avís legal; els programes, conjunts de dades i altres recursos poden tenir llicències pròpies.
+
+## Eines lingüístiques
+
+- [Traductor](https://www.softcatala.org/traductor/): Traducció automàtica entre el català i diverses llengües.
+- [Corrector](https://www.softcatala.org/corrector/): Correcció ortogràfica i gramatical amb opcions generals, valencianes i balears.
+- [Diccionari de sinònims](https://www.softcatala.org/diccionari-de-sinonims/): Consulta de sinònims en català.
+- [Diccionari anglès-català](https://www.softcatala.org/diccionari-angles-catala/): Traduccions entre l'anglès i el català amb exemples d'ús.
+- [Conjugador de verbs](https://www.softcatala.org/conjugador-de-verbs/): Conjugació de verbs en català.
+- [Separador i comptador de síl·labes](https://www.softcatala.org/sillabes/): Divisió i recompte sil·làbic de paraules i textos.
+- [Nombres en lletres](https://www.softcatala.org/nombres-en-lletres/): Conversió de nombres a lletres.
+- [L'hora en català](https://www.softcatala.org/hora-en-catala/): Expressió de l'hora segons diferents sistemes catalans.
+
+## Eines de text, àudio i vídeo
+
+- [Resum de textos](https://www.softcatala.org/resum-de-textos-en-catala/): Generació automàtica de resums en català.
+- [Transcripció](https://www.softcatala.org/transcripcio/): Transcripció d'àudio i vídeo a text.
+- [Doblatge](https://www.softcatala.org/doblatge/): Doblatge automàtic de vídeos en català.
+
+## Programari i recursos
+
+- [Programes](https://www.softcatala.org/programes/): Catàleg de programes i aplicacions disponibles en català.
+- [Catalanitzador](https://www.softcatala.org/catalanitzador/): Eina per catalanitzar ordinadors Windows i macOS.
+- [Projectes](https://www.softcatala.org/projectes/): Projectes coordinats o impulsats per Softcatalà.
+- [Dades obertes](https://www.softcatala.org/dades-obertes/): Conjunts de dades lingüístiques reutilitzables.
+- [Intel·ligència artificial](https://www.softcatala.org/intelligencia-artificial/): Models, eines i conjunts de dades oberts relacionats amb la IA en català.
+- [Guia d'estil](https://www.softcatala.org/guia-estil-de-softcatala/): Criteris per a la traducció de programari al català.
+- [Memòries de traducció](https://www.softcatala.org/recursos/memories/): Memòries de traducció de projectes de programari.
+- [Terminologia](https://www.softcatala.org/recursos/terminologia/): Recursos terminològics per a traductors.
+
+## Associació i comunitat
+
+- [Què és Softcatalà](https://www.softcatala.org/que-es-softcatala/): Missió, història i informació sobre l'associació.
+- [Col·laboració](https://www.softcatala.org/col%C2%B7laboreu/raons-per-col%C2%B7laborar/): Informació sobre com col·laborar amb Softcatalà.
+- [Repositoris de codi](https://github.com/Softcatala): Projectes públics de Softcatalà a GitHub.
+- [Notícies](https://www.softcatala.org/noticies/): Actualitat de l'associació i dels seus projectes.
+
+## Context ampliat
+
+- [Context ampliat per a agents](https://www.softcatala.org/llms-full.txt): Resum estable i autocontingut de les eines, els recursos i les polítiques principals. És una extensió de compatibilitat, no un requisit de l'especificació llms.txt v2.
+
+## Optional
+
+- [Contacte](https://www.softcatala.org/contacte/): Canals de contacte amb Softcatalà.
+- [Avís legal](https://www.softcatala.org/avis-legal/): Condicions legals del lloc.
+- [Política de privadesa](https://www.softcatala.org/politica-de-privadesa/): Informació sobre el tractament de dades personals.
+- [Sitemap](https://www.softcatala.org/sitemap_index.xml): Inventari de les URL indexables del lloc.

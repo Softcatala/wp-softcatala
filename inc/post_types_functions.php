@@ -239,8 +239,8 @@ function get_term_name_by_slug( $slug, $taxonomy ) {
  */
 function get_category_id( $slug ) {
     $category = get_category_by_slug($slug);
-    $category_id = $category->term_id;
-    return $category_id;
+
+    return $category instanceof WP_Term ? $category->term_id : 0;
 }
 
 function retrieve_page_data($page_slug = '')
