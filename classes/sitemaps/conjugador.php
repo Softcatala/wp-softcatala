@@ -17,7 +17,7 @@ class Conjugador extends DictionarySitemap {
     }
 
     protected function api_url( $key ) {
-        $url_api = get_option( 'api_conjugador' );
+        $url_api = trailingslashit( get_option( 'api_conjugador' ) );
 
         return $url_api . 'index/' . strtolower( $key );
     }
