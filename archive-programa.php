@@ -39,7 +39,7 @@ $categoria_programa = get_query_var( 'categoria_programa' );
 $flag_search = false;
 $title = 'Programes - Softcatalà';
 $content_title = 'Programes';
-$description = 'Descobreix programes i aplicacions disponibles en català. Filtra’ls per categoria, sistema operatiu o llicència.';
+$description = 'Descobreix programes i aplicacions disponibles en català / valencià. Filtra’ls per categoria, sistema operatiu o llicència.';
 
 $query = array();
 
