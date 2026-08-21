@@ -28,24 +28,4 @@
     {% endfor %}
         </ol>
     </nav>
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {% for breadcrumb in breadcrumbs %}
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "item": {
-                        "@id": "https://example.com/parent",
-                    {% if loop.last %}
-                        "name": "Current"
-                    {% else %}
-                        "name": "Parent"
-                    {% endif %}
-                }{% if not loop.last %},{% endif %}
-        {% endfor %}
-            ]
-    </script>
 {% endif %}
