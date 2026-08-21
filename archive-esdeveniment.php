@@ -17,7 +17,7 @@ wp_localize_script( 'sc-js-novetats', 'scajax', array(
 $templates = array('archive-esdeveniment.twig' );
 
 $title = 'Esdeveniments - Softcatalà';
-$description = 'Esdeveniments relacionats amb el món de la tecnologia i el català.';
+$description = 'Consulta les activitats i els esdeveniments de Softcatalà relacionats amb la llengua i la tecnologia.';
 $post = Timber::get_post();
 
 //Context initialization
