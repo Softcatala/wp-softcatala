@@ -140,18 +140,19 @@
       margin: 0 auto;
       z-index: 1;
 
-      h1 {
+      h2 {
         color: #fff;
         font-size: 40px;
         font-weight: 600;
         margin-top: 10px;
       }
 
-      h2 {
+      p {
         color: #fff;
         font-size: 24px;
         font-weight: 300;
         margin-top: 0;
+        margin-bottom: 0;
       }
 
       .bt-blanc { margin-top: 15px; }
@@ -217,8 +218,8 @@
 
     @media (max-width: 1070px) {
       .carousel-caption {
-        h1 { font-size: 30px; }
-        h2 { font-size: 18px; }
+        h2 { font-size: 30px; }
+        p { font-size: 18px; }
       }
     }
 
@@ -249,12 +250,12 @@
         padding: 20px 20px 25px;
         background-color: #4a4a4a;
 
-        h1 {
+        h2 {
           font-size: 24px;
           margin-top: 10px;
           line-height: 1.2;
         }
-        h2 { font-size: 16px; }
+        p { font-size: 16px; }
       }
 
       .carousel-indicators {
@@ -285,8 +286,8 @@
     @include respond-to(xxs) {
 
       .carousel-caption {
-        h1 { font-size: 20px; }
-        h2 { font-size: 14px; }
+        h2 { font-size: 20px; }
+        p { font-size: 14px; }
       }
 
       .peu-foto {
