@@ -94,6 +94,14 @@
 
     p { margin-bottom: 30px; }
 
+    // Lists follow the same vertical rhythm as paragraphs in post content:
+    // both end up 44px from the next block's text. <ul> uses 24px because its
+    // <li> adds 6px of its own bottom padding; <ol> items have none, so 30px.
+    // Unclassed only, so component lists (.bt-grup, .pagination, .compartiu-media,
+    // etc.) keep their own spacing.
+    ul:not([class]) { margin-bottom: 24px; }
+    ol:not([class]) { margin-bottom: 30px; }
+
     a {
       color: var(--color-link);
       text-decoration: none;
@@ -110,6 +118,10 @@
       line-height: 1.4;
 
       p { margin-bottom: 10px; }
+
+      // Excerpt lists stay tight, like the paragraphs beside them.
+      ul:not([class]),
+      ol:not([class]) { margin-bottom: 10px; }
 
       img {
         max-width: 100%;
