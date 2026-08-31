@@ -52,8 +52,10 @@
 // (.cont-llista, .llista-check, .pagination, .dropdown-menu, etc.) are
 // naturally excluded and no longer need !important opt-outs.
 
-.contingut > section ul:not([class]) {
+.contingut > section ul:not([class]),
+.contingut > article > section ul:not([class]) {
   padding: 0;
+  margin-bottom: 10px;
   list-style: outside none none;
 
   li {
@@ -69,6 +71,19 @@
     color: var(--color-brand);
     font-size: 13px;
     margin: 0 15px 0 0;
+  }
+}
+
+// Ordered lists in content sections keep their decimal markers; restore the
+// browser-default indent and the bottom margin removed by the global reset.
+.contingut > section ol:not([class]),
+.contingut > article > section ol:not([class]) {
+  padding-left: 40px;
+  margin-bottom: 10px;
+
+  li {
+    font-size: 16px;
+    line-height: 2;
   }
 }
 
