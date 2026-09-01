@@ -37,12 +37,16 @@
                                 {% set post_image = post.main_image_post | get_full_img_from_id %}
                                 {% set width_post = '' %}
                             {% elseif post.logotip %}
-                                {% set post_image = post.logotip %}
+                                {% set post_image = post.logotip | get_full_img_from_id %}
                                 {% set width_post = '' %}
                             {% elseif post.logotip_programa %}
-                                {% set post_image = post.logotip_programa %}
+                                {% set post_image = post.logotip_programa | get_full_img_from_id %}
+                                {% set width_post = '' %}
+                            {% elseif post.thumbnail.src %}
+                                {% set post_image = post.thumbnail.src %}
                                 {% set width_post = '' %}
                             {% else %}
+                                {% set post_image = '' %}
                                 {% set width_post = 'col-sm-12' %}
                             {% endif %}
                             <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
@@ -54,9 +58,9 @@
                                             <p>{{post.excerpt({'words': 50, 'read_more': 'Llegeix més...'})}}</p>
                                         </div><!--/.article-cont - Extracte contingut article -->
                                     </div>
-                                    {% if post.main_image_post or post.thumbnail.src %}
+                                    {% if post_image %}
                                     <div class="col-sm-3">
-                                      <img alt="{{post.title}}" src="{% if post.main_image_post %}{{ post.main_image_post|resize(170, 170, 'top')}}{% else %}{{post.thumbnail.src|resize(170, 170, 'top')}}{% endif %}">
+                                      <img alt="{{post.title}}" src="{{ post_image|resize(170, 170, 'top') }}">
                                     </div>
                                     {% endif %}
                                 </div>
