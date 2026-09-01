@@ -9,7 +9,7 @@
       <div class="thumbnail thumbnail-galeria">
         <a href="{{post.link}}" title="{{post.title}}">
           {% if post.thumbnail.src or post.main_image_post %}
-          <img src="{% if post.thumbnail.src %}{{post.thumbnail.src|resize(270, 170, 'top')}}{% else %}{{post.main_image_post|get_full_img_from_id|resize(270, 170, 'top')}}{% endif %}" alt="{{post.title}}">
+          <img src="{% if post.thumbnail.src %}{{post.thumbnail.src|resize(270, 170, 'top')}}{% else %}{{post.main_image_post|get_full_img_from_id|resize(270, 170, 'center')}}{% endif %}" alt="{{post.title}}">
           {% endif %}
           <p>{{post.title}}</p>
           <time class="data-temps">{{ post.post_date|date}}</time>
