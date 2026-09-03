@@ -33,11 +33,19 @@ function sc_rest_projectes() {
 		$responsables     = array();
 		if ( is_array( $responsables_raw ) ) {
 			foreach ( $responsables_raw as $u ) {
-				$responsables[] = array(
+				$responsable = array(
 					'username'     => $u['user_nicename'],
 					'display_name' => $u['display_name'],
 					'telegram'     => get_user_meta( $u['ID'], 'telegram', true ) ?: null,
 				);
+
+				// The endpoint only requires a logged-in user, so the address is
+				// exposed solely to callers allowed to read user emails.
+				if ( current_user_can( 'list_users' ) ) {
+					$responsable['email'] = $u['user_email'];
+				}
+
+				$responsables[] = $responsable;
 			}
 		}
 
