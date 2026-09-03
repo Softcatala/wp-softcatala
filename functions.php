@@ -125,6 +125,7 @@ class StarterSite extends \Timber\Site {
 
 		// Task management: redirect anonymous users away from individual task permalinks.
 		add_action( 'template_redirect', array( $this, 'sc_redirect_tasca_to_login' ) );
+		add_action( 'template_redirect', array( $this, 'sc_redirect_resum_mensual_to_login' ) );
 
 		// Visibility: redirect anonymous users away from individual internal projecte pages.
 		add_action( 'template_redirect', array( $this, 'sc_redirect_internal_projecte_to_login' ) );
@@ -540,6 +541,7 @@ class StarterSite extends \Timber\Site {
 		\Softcatala\TypeRegisters\DadesObertes::get_instance();
 		\Softcatala\TypeRegisters\Tasca::get_instance();
 		\Softcatala\TypeRegisters\Milestone::get_instance();
+		\Softcatala\TypeRegisters\ResumMensual::get_instance();
 	}
 
 	/**
@@ -549,6 +551,28 @@ class StarterSite extends \Timber\Site {
 	function sc_redirect_tasca_to_login() {
 		if ( is_singular( 'tasca' ) && ! is_user_logged_in() ) {
 			wp_safe_redirect( wp_login_url( get_permalink() ) );
+			exit;
+		}
+	}
+
+	/**
+	 * Redirect anonymous users away from monthly-summary permalinks and the
+	 * /resums-mensuals/ archive to the login page. Monthly summaries are internal:
+	 * only logged-in members may read them, and the archive listing would otherwise
+	 * leak every summary's title.
+	 */
+	function sc_redirect_resum_mensual_to_login() {
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		if ( is_singular( 'resum_mensual' ) ) {
+			wp_safe_redirect( wp_login_url( get_permalink() ) );
+			exit;
+		}
+
+		if ( is_post_type_archive( 'resum_mensual' ) ) {
+			wp_safe_redirect( wp_login_url( get_post_type_archive_link( 'resum_mensual' ) ) );
 			exit;
 		}
 	}
