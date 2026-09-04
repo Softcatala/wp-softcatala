@@ -1,7 +1,7 @@
 <?php
 /**
  * Tests for the sc/v1 tasques REST endpoints:
- * POST sc/v1/tasca and PATCH sc/v1/tasca/{id}/estat.
+ * POST sc/v1/tasca, PATCH sc/v1/tasca/{id} and PATCH sc/v1/tasca/{id}/estat.
  *
  * @package Softcatala
  */
@@ -737,4 +737,307 @@ class TasquesApiTest extends SCTests {
 		$this->assertArrayHasKey( '/sc/v1/tasca', $routes );
 	}
 
+
+	/**
+	 * Build a PATCH request against the full-update route.
+	 *
+	 * @param int   $id     Tasca post ID.
+	 * @param array $params Fields to patch.
+	 * @return WP_REST_Request
+	 */
+	private function make_update_request( $id, $params ) {
+		$request = new WP_REST_Request( 'PATCH', '/sc/v1/tasca/' . $id );
+		$request->set_param( 'id', $id );
+		foreach ( $params as $key => $value ) {
+			$request->set_param( $key, $value );
+		}
+		return $request;
+	}
+
+	/**
+	 * Create a tasca attached to a projecte, as the create endpoint would.
+	 *
+	 * @param int $projecte_id Projecte post ID.
+	 * @return int Tasca post ID.
+	 */
+	private function make_tasca( $projecte_id ) {
+		$task_id = wp_insert_post( array(
+			'post_type'   => 'tasca',
+			'post_title'  => 'Tasca a modificar',
+			'post_status' => 'publish',
+		) );
+		update_field( 'field_projecte_tasca', $projecte_id, $task_id );
+
+		return $task_id;
+	}
+
+	/**
+	 * A full PATCH updates every field and returns HTTP 200.
+	 */
+	function test_update_returns_200_and_sets_every_field() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id  = $this->make_projecte();
+		$task_id      = $this->make_tasca( $projecte_id );
+		$responsable  = $this->factory->user->create( array( 'role' => 'author' ) );
+		$milestone_id = wp_insert_post( array(
+			'post_type'   => 'milestone',
+			'post_title'  => 'Fita 1',
+			'post_status' => 'publish',
+		) );
+		update_post_meta( $milestone_id, 'projecte_milestone', $projecte_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array(
+			'title'          => 'Títol nou',
+			'content'        => '<p>Contingut nou</p>',
+			'estat'          => $this->term_slug,
+			'milestone'      => $milestone_id,
+			'responsables'   => array( $responsable ),
+			'data_venciment' => '2026-09-30',
+			'tasca_interna'  => true,
+			'etiquetes'      => array( 'sistemes' ),
+		) ) );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
+		$this->assertEquals( 'Títol nou', $data['title'] );
+		$this->assertEquals( $this->term_slug, $data['estat'] );
+		$this->assertEquals( array( $responsable ), $data['responsables'] );
+		$this->assertEquals( '2026-09-30', $data['data_venciment'] );
+		$this->assertTrue( $data['tasca_interna'] );
+
+		$this->assertEquals( 'Títol nou', get_the_title( $task_id ) );
+		$this->assertEquals( $milestone_id, (int) get_post_meta( $task_id, 'milestone_tasca', true ) );
+		$this->assertEquals( '20260930', get_post_meta( $task_id, 'data_venciment', true ) );
+		$this->assertContains( 'sistemes', wp_get_post_terms( $task_id, 'tag_tasca', array( 'fields' => 'slugs' ) ) );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $milestone_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $responsable );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * Fields absent from the body are left untouched.
+	 */
+	function test_update_leaves_omitted_fields_untouched() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = $this->make_tasca( $projecte_id );
+		$responsable = $this->factory->user->create( array( 'role' => 'author' ) );
+		update_field( 'field_responsable_tasca', array( $responsable ), $task_id );
+		wp_set_post_terms( $task_id, array( $this->term_id ), 'estat_tasca' );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array(
+			'title' => 'Només el títol',
+		) ) );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
+		$this->assertEquals( 'Només el títol', $data['title'] );
+		$this->assertEquals( array( $responsable ), $data['responsables'] );
+		$this->assertEquals( $this->term_slug, $data['estat'] );
+		$this->assertEquals( $projecte_id, $data['projecte'] );
+		$this->assertEquals( 'publish', $data['status'] );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $responsable );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * An empty responsables list clears the field rather than being ignored.
+	 */
+	function test_update_with_empty_responsables_clears_them() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = $this->make_tasca( $projecte_id );
+		$responsable = $this->factory->user->create( array( 'role' => 'author' ) );
+		update_field( 'field_responsable_tasca', array( $responsable ), $task_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array(
+			'responsables' => array(),
+		) ) );
+
+		$this->assertEquals( 200, $response->get_status() );
+		$this->assertEquals( array(), $response->get_data()['responsables'] );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $responsable );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * Moving to a terminal estat stamps _terminal_date; moving away clears it.
+	 */
+	function test_update_estat_maintains_terminal_date() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = $this->make_tasca( $projecte_id );
+
+		$done = wp_insert_term( 'Fet', 'estat_tasca', array( 'slug' => 'fet-patch' ) );
+		update_term_meta( $done['term_id'], 'is_terminal', 1 );
+
+		rest_do_request( $this->make_update_request( $task_id, array( 'estat' => 'fet-patch' ) ) );
+		$this->assertNotEmpty( get_post_meta( $task_id, '_terminal_date', true ) );
+
+		rest_do_request( $this->make_update_request( $task_id, array( 'estat' => $this->term_slug ) ) );
+		$this->assertEmpty( get_post_meta( $task_id, '_terminal_date', true ) );
+
+		wp_delete_term( $done['term_id'], 'estat_tasca' );
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * Moving a task to another projecte while it keeps a milestone of the old
+	 * one returns HTTP 422 instead of leaving the pair inconsistent.
+	 */
+	function test_update_projecte_leaving_foreign_milestone_returns_422() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte( 'Projecte A' );
+		$other_id    = $this->make_projecte( 'Projecte B' );
+		$task_id     = $this->make_tasca( $projecte_id );
+
+		$milestone_id = wp_insert_post( array(
+			'post_type'   => 'milestone',
+			'post_title'  => 'Fita del projecte A',
+			'post_status' => 'publish',
+		) );
+		update_post_meta( $milestone_id, 'projecte_milestone', $projecte_id );
+		update_field( 'field_milestone_tasca', $milestone_id, $task_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array(
+			'projecte' => $other_id,
+		) ) );
+
+		$this->assertEquals( 422, $response->get_status() );
+		$this->assertEquals( $projecte_id, (int) get_post_meta( $task_id, 'projecte_tasca', true ) );
+
+		wp_delete_post( $milestone_id, true );
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $other_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * An unknown estat slug returns HTTP 422 and writes nothing.
+	 */
+	function test_update_with_unknown_estat_returns_422() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = $this->make_tasca( $projecte_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array(
+			'title' => 'No s\'ha de desar',
+			'estat' => 'no-existeix',
+		) ) );
+
+		$this->assertEquals( 422, $response->get_status() );
+		$this->assertEquals( 'Tasca a modificar', get_the_title( $task_id ) );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * An empty title returns HTTP 422.
+	 */
+	function test_update_with_empty_title_returns_422() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = $this->make_tasca( $projecte_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array( 'title' => '  ' ) ) );
+
+		$this->assertEquals( 422, $response->get_status() );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * Patching a post that is not a tasca returns HTTP 404.
+	 */
+	function test_update_non_tasca_returns_404() {
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+
+		$post_id = $this->factory->post->create();
+
+		$response = rest_do_request( $this->make_update_request( $post_id, array( 'title' => 'Nou' ) ) );
+
+		$this->assertEquals( 404, $response->get_status() );
+
+		wp_delete_post( $post_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * An anonymous PATCH returns HTTP 401.
+	 */
+	function test_anonymous_update_returns_401() {
+		wp_set_current_user( 0 );
+
+		$response = rest_do_request( $this->make_update_request( $this->task_id, array( 'title' => 'Nou' ) ) );
+
+		$this->assertEquals( 401, $response->get_status() );
+	}
+
+	/**
+	 * A contributor cannot publish a draft tasca by patching its status.
+	 */
+	function test_contributor_cannot_publish_via_update() {
+		$user_id = $this->factory->user->create( array( 'role' => 'contributor' ) );
+
+		$projecte_id = $this->make_projecte();
+		$task_id     = wp_insert_post( array(
+			'post_type'   => 'tasca',
+			'post_title'  => 'Esborrany',
+			'post_status' => 'draft',
+			'post_author' => $user_id,
+		) );
+		update_field( 'field_projecte_tasca', $projecte_id, $task_id );
+
+		wp_set_current_user( $user_id );
+
+		$response = rest_do_request( $this->make_update_request( $task_id, array( 'status' => 'publish' ) ) );
+
+		$this->assertEquals( 403, $response->get_status() );
+		$this->assertEquals( 'draft', get_post_status( $task_id ) );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+		wp_delete_user( $user_id );
+	}
+
+	/**
+	 * The update route is registered.
+	 */
+	function test_update_route_is_registered() {
+		$routes = rest_get_server()->get_routes();
+		$this->assertArrayHasKey( '/sc/v1/tasca/(?P<id>\d+)', $routes );
+	}
 }
