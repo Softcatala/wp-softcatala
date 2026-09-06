@@ -7,6 +7,18 @@
 
 use Softcatala\Providers\Tasques;
 
+// A page cache would serve a logged-in visitor their pre-drag board back, since
+// saving a drag writes a term and invalidates nothing. Anonymous views are the
+// same for everyone, so they stay cacheable.
+if ( is_user_logged_in() ) {
+	if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+		define( 'DONOTCACHEPAGE', true );
+	}
+	if ( ! headers_sent() ) {
+		header( 'Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0' );
+	}
+}
+
 // Enqueue kanban CSS.
 wp_enqueue_style(
 	'sc-css-kanban',

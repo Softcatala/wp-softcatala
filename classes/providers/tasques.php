@@ -111,6 +111,9 @@ class Tasques {
 	 * @return array Associative array: [ estat_slug => WP_Post[], ..., 'unassigned' => WP_Post[] ]
 	 */
 	public static function group_by_estat( $tasks, $estats ) {
+		// N+1 in terms here and in postmeta in get_filter_options(). If the board
+		// ever feels slow, prime both caches over the task IDs in
+		// get_all_for_board() rather than caching the rendered page.
 		$grouped = array();
 
 		// Pre-initialise buckets in term order.
