@@ -26,6 +26,27 @@ class Tasques {
 	const TERMINAL_CUTOFF_DAYS = 90;
 
 	/**
+	 * Resolve an ACF post_object value to a post ID.
+	 *
+	 * Both projecte_tasca and milestone_tasca use return_format "object", so
+	 * get_field() hands back a WP_Post. Casting that to int yields 1, which
+	 * silently matches the wrong post; the array and scalar forms are here for
+	 * fields read before ACF has loaded, and for unformatted values.
+	 *
+	 * @param mixed $value Value returned by get_field() for a post_object field.
+	 * @return int Post ID, or 0 when there is none.
+	 */
+	public static function resolve_post_id( $value ) {
+		if ( $value instanceof \WP_Post ) {
+			return $value->ID;
+		}
+		if ( is_array( $value ) ) {
+			return (int) ( $value['ID'] ?? 0 );
+		}
+		return (int) $value;
+	}
+
+	/**
 	 * Fetch all published tasks visible to the given visitor type, for the global board.
 	 *
 	 * For anonymous visitors, tasks linked to projectes with `tasques_internes = true`
@@ -81,18 +102,9 @@ class Tasques {
 
 					// Project-level flags: hide if the parent project is internal.
 					if ( ! empty( $internal_projecte_ids ) ) {
-						$projecte = get_field( 'projecte_tasca', $task->ID );
-						if ( $projecte ) {
-							if ( $projecte instanceof \WP_Post ) {
-								$projecte_id = $projecte->ID;
-							} elseif ( is_array( $projecte ) ) {
-								$projecte_id = (int) ( $projecte['ID'] ?? 0 );
-							} else {
-								$projecte_id = (int) $projecte;
-							}
-							if ( $projecte_id && in_array( $projecte_id, $internal_projecte_ids, true ) ) {
-								return false;
-							}
+						$projecte_id = self::resolve_post_id( get_field( 'projecte_tasca', $task->ID ) );
+						if ( $projecte_id && in_array( $projecte_id, $internal_projecte_ids, true ) ) {
+							return false;
 						}
 					}
 
@@ -163,25 +175,14 @@ class Tasques {
 
 		foreach ( $tasks as $task ) {
 			// Projecte.
-			$projecte = get_field( 'projecte_tasca', $task->ID );
-			if ( $projecte ) {
-				if ( $projecte instanceof \WP_Post ) {
-					$p_id   = $projecte->ID;
-					$p_post = $projecte;
-				} elseif ( is_array( $projecte ) ) {
-					$p_id   = (int) ( $projecte['ID'] ?? 0 );
-					$p_post = $p_id ? get_post( $p_id ) : null;
-				} else {
-					$p_id   = (int) $projecte;
-					$p_post = $p_id ? get_post( $p_id ) : null;
-				}
-				if ( $p_id && $p_post && ! in_array( $p_id, $seen_projecte_ids, true ) ) {
-					$projectes[]          = array(
-						'slug' => get_post_field( 'post_name', $p_id ),
-						'name' => get_the_title( $p_id ),
-					);
-					$seen_projecte_ids[] = $p_id;
-				}
+			$p_id   = self::resolve_post_id( get_field( 'projecte_tasca', $task->ID ) );
+			$p_post = $p_id ? get_post( $p_id ) : null;
+			if ( $p_post && ! in_array( $p_id, $seen_projecte_ids, true ) ) {
+				$projectes[]         = array(
+					'slug' => get_post_field( 'post_name', $p_id ),
+					'name' => get_the_title( $p_id ),
+				);
+				$seen_projecte_ids[] = $p_id;
 			}
 
 			// Assignees (user field, possibly multiple).
@@ -208,7 +209,7 @@ class Tasques {
 			// Milestone.
 			$milestone = get_field( 'milestone_tasca', $task->ID );
 			if ( $milestone ) {
-				$m_id = is_array( $milestone ) ? ( $milestone['ID'] ?? 0 ) : (int) $milestone;
+				$m_id = self::resolve_post_id( $milestone );
 				if ( $m_id && ! in_array( $m_id, $seen_milestone_ids, true ) ) {
 					$milestones[]          = array(
 						'id'    => $m_id,

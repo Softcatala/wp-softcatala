@@ -382,9 +382,9 @@ function sc_guard_estat_tasca_delete( $pre_delete, $term_id ) {
  * @return array Modified WP_Query args.
  */
 function sc_filter_milestone_tasca_by_projecte( $args, $field, $post_id ) {
-	// Resolve the currently selected projecte for this task.
-	$projecte = get_field( 'projecte_tasca', $post_id );
-	$projecte_id = is_array( $projecte ) ? ( $projecte['ID'] ?? 0 ) : (int) $projecte;
+	// Resolve the currently selected projecte for this task. projecte_tasca uses
+	// return_format "object", so this is a WP_Post and casting it to int gives 1.
+	$projecte_id = \Softcatala\Providers\Tasques::resolve_post_id( get_field( 'projecte_tasca', $post_id ) );
 
 	if ( ! $projecte_id ) {
 		// No projecte selected — show all milestones.

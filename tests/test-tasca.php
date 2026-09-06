@@ -183,4 +183,66 @@ class TascaTest extends SCTests {
 		$registered = registered_meta_key_exists( 'term', 'order', 'estat_tasca' );
 		$this->assertTrue( $registered );
 	}
+
+	/**
+	 * The milestone_tasca filter must resolve the projecte from the WP_Post that
+	 * get_field() returns for a return_format "object" field. Casting that
+	 * object to int yields 1, which filtered the dropdown down to milestones of
+	 * post 1 — in practice, an empty list on every task.
+	 */
+	function test_milestone_filter_resolves_projecte_from_wp_post() {
+		$projecte_id = wp_insert_post( array(
+			'post_type'   => 'projecte',
+			'post_title'  => 'Sistemes',
+			'post_status' => 'publish',
+		) );
+		$task_id = wp_insert_post( array(
+			'post_type'   => 'tasca',
+			'post_title'  => 'Una tasca',
+			'post_status' => 'publish',
+		) );
+		update_field( 'field_projecte_tasca', $projecte_id, $task_id );
+
+		$args = sc_filter_milestone_tasca_by_projecte( array(), array( 'name' => 'milestone_tasca' ), $task_id );
+
+		$this->assertSame( $projecte_id, $args['meta_query'][0]['value'] );
+		$this->assertSame( 'projecte_milestone', $args['meta_query'][0]['key'] );
+
+		wp_delete_post( $task_id, true );
+		wp_delete_post( $projecte_id, true );
+	}
+
+	/**
+	 * A task with no projecte leaves the args untouched, so all milestones show.
+	 */
+	function test_milestone_filter_without_projecte_returns_args_unchanged() {
+		$task_id = wp_insert_post( array(
+			'post_type'   => 'tasca',
+			'post_title'  => 'Tasca sense projecte',
+			'post_status' => 'publish',
+		) );
+
+		$args = sc_filter_milestone_tasca_by_projecte( array( 'post_type' => 'milestone' ), array( 'name' => 'milestone_tasca' ), $task_id );
+
+		$this->assertSame( array( 'post_type' => 'milestone' ), $args );
+
+		wp_delete_post( $task_id, true );
+	}
+
+	/**
+	 * resolve_post_id() accepts every shape an ACF post_object value can take.
+	 */
+	function test_resolve_post_id_handles_post_object_shapes() {
+		$post_id = $this->factory->post->create();
+		$resolve = array( '\Softcatala\Providers\Tasques', 'resolve_post_id' );
+
+		$this->assertSame( $post_id, call_user_func( $resolve, get_post( $post_id ) ) );
+		$this->assertSame( $post_id, call_user_func( $resolve, array( 'ID' => $post_id ) ) );
+		$this->assertSame( $post_id, call_user_func( $resolve, (string) $post_id ) );
+		$this->assertSame( 0, call_user_func( $resolve, null ) );
+		$this->assertSame( 0, call_user_func( $resolve, false ) );
+		$this->assertSame( 0, call_user_func( $resolve, array() ) );
+
+		wp_delete_post( $post_id, true );
+	}
 }
