@@ -37,6 +37,7 @@
     },
     "require": {
         "php": ">=8.2",
-        "timber/timber": "^2"
+        "timber/timber": "^2",
+        "firebase/php-jwt": "^7.1"
     }
 }

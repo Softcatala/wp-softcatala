@@ -205,6 +205,7 @@ class StarterSite extends \Timber\Site {
 		SC_Ia_Local_Checker::init();
 		\Softcatala\Content\JsonToTable::init();
 		SC_Sitemaps::init();
+		\Softcatala\Auth\LoginFlow::init();
 	}
 
 	function autoload_wpcli( $cls ) {
