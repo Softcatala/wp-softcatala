@@ -146,6 +146,7 @@ foreach ( $tasks as $task ) {
 		'milestone_id'       => $milestone_id,
 		'milestone_title'    => $milestone_title,
 		'data_venciment'     => $data_venciment ?: '',
+		'data_creacio'       => get_the_date( 'd/m/Y', $task ),
 		'tag_slugs'          => implode( ',', $tag_slugs ),
 		'estat_slug'         => $estat_slug,
 		'comments'           => get_comments( array( 'post_id' => $task->ID, 'status' => 'approve' ) ),
