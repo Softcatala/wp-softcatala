@@ -314,6 +314,7 @@ class StarterSite extends \Timber\Site {
 
 				if ( ! empty( $params_query ) ) {
 					wp_redirect( home_url( "/programes/" ) . $params_query );
+					exit;
 				}
 			}
 		} elseif ( empty( $post_type ) ) {
@@ -325,6 +326,7 @@ class StarterSite extends \Timber\Site {
 
 				if ( ! empty( $params_query ) ) {
 					wp_redirect( home_url( "/noticies/" ) . $params_query );
+					exit;
 				}
 			}
 		}

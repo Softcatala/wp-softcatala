@@ -19,10 +19,10 @@ wp_localize_script( 'sc-js-conjugador', 'scajax', array(
 ));
 
 
-$verb = urldecode( get_query_var('verb') );
-$infinitiu = urldecode( get_query_var('infinitiu') );
-$url = urldecode( get_query_var('url') );
-$lletra = get_query_var('lletra');
+$verb = sanitize_text_field( urldecode( get_query_var('verb') ) );
+$infinitiu = sanitize_text_field( urldecode( get_query_var('infinitiu') ) );
+$url = sanitize_text_field( urldecode( get_query_var('url') ) );
+$lletra = sanitize_text_field( get_query_var('lletra') );
 $content_title = 'Conjugador de verbs';
 
 $title = '';

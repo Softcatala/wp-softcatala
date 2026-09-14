@@ -31,7 +31,7 @@ $context_holder['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context_holder['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 
 //Search and filters
-$search = urldecode( get_query_var( 'cerca' ));
+$search = sanitize_text_field( urldecode( get_query_var( 'cerca' ) ) );
 $sistema_operatiu = get_query_var( 'sistema_operatiu' );
 $categoria_programa = get_query_var( 'categoria_programa' );
 

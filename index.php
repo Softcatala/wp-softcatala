@@ -33,7 +33,7 @@ $context_holder['categories']['temes'] = Timber::get_terms( 'category', array( '
 $context_holder['categories']['tipus'] = Timber::get_terms( 'category', array( 'parent' => get_category_id( 'tipus' ) ) );
 
 //Search and filters
-$search = stripslashes(get_query_var( 'cerca' ));
+$search = sanitize_text_field( stripslashes( get_query_var( 'cerca' ) ) );
 $tipus = get_query_var( 'tipus' );
 $tema = get_query_var( 'tema' );
 

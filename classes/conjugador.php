@@ -59,10 +59,8 @@ class SC_Conjugador {
 
 	public function get_lletra( $lletra ) {
 
-		
-		if (strlen( $lletra ) != '1' ) {
-			$resposta = 'Esteu utilitzant la cerca per lletra. Heu cercat <strong>'. $lletra . '</strong>. La cerca només pot contenir una lletra';
-			return $this->notFound( $resposta );
+		if ( strlen( $lletra ) != '1' ) {
+			return $this->notFound( $lletra );
 		}
 
 		$lletra = strtolower( $lletra );
@@ -171,22 +169,23 @@ class SC_Conjugador {
 	}
 
 	private function notFound( $verb ) {
-		
+
 		throw_error( '404', 'No Results For This Search' );
 
+		$verb      = esc_html( $verb );
 		$canonical = home_url() . '/conjugador-de-verbs/';
 		$title = 'Conjugador de verbs | Softcatalà';
 		$content_title =  'Conjugador de verbs.  «' . $verb . '»';
 		$description = $verb;
 
-		$html = Timber::fetch(
-			 'ajax/conjugador-verb-not-found.twig',
+		$html = Timber::compile(
+			'ajax/conjugador-verb-not-found.twig',
 			array(
-				'resposta'     =>  'No hem trobat la forma verbal «'.$verb.'» en el conjugador',
+				'resposta' => 'No hem trobat la forma verbal «' . $verb . '» en el conjugador',
 			)
-			);
+		);
+
 		return new SC_SingleResult( 404, $html, $canonical, $description, $title, $content_title );
-		
 	}
 	
 	
