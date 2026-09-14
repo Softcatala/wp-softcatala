@@ -133,7 +133,37 @@ function prepare_mailman_url ( $llista ) {
 }
 
 /**
- * Function to make the request to synonims dictionary server
+ * Mailing lists not tied to a project, keyed by the `llista` value the form posts.
+ */
+const SC_MAILING_LISTS = array(
+	'novetats' => 'https://llistes.softcatala.org/mailman/listinfo/novetats',
+);
+
+/**
+ * Resolves the mailing list a subscription request is for. The URL never comes
+ * from the request, because the Mailman admin password gets appended to it.
+ *
+ * @param string $llista_key    Key into SC_MAILING_LISTS, or empty.
+ * @param string $projecte_slug Project slug, or empty.
+ * @return string|null listinfo URL, or null when nothing resolves.
+ */
+function sc_resolve_mailing_list( $llista_key, $projecte_slug ) {
+	if ( '' !== $llista_key ) {
+		return SC_MAILING_LISTS[ $llista_key ] ?? null;
+	}
+
+	if ( '' === $projecte_slug ) {
+		return null;
+	}
+
+	$projecte = \Softcatala\Posts\Projecte::find_by_slug( $projecte_slug );
+
+	return $projecte ? $projecte->mailing_list() : null;
+}
+
+/**
+ * Subscribes an address to a mailing list, or points at the project's
+ * Telegram group when the project has no list.
  *
  * @return json response
  */
@@ -141,16 +171,18 @@ function sc_subscribe_list() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		$result['text'] = "S'ha produït un error. Proveu més tard.";
 	} else {
-		$correu        = sanitize_text_field( $_POST["correu"] );
-		$llista        = sanitize_text_field( $_POST["llista"] );
-		$llista        = prepare_mailman_url( $llista );
-		$projecte_slug = sanitize_text_field( $_POST["projecte_slug"] );
+		$correu        = sanitize_email( $_POST["correu"] ?? '' );
+		$llista_key    = sanitize_key( $_POST["llista"] ?? '' );
+		$projecte_slug = sanitize_title( $_POST["projecte_slug"] ?? '' );
+		$llista        = sc_resolve_mailing_list( $llista_key, $projecte_slug );
 
-		if ( ! empty ( $llista ) ) {
+		if ( ! is_email( $correu ) ) {
+			$result['text'] = "L'adreça electrònica no és vàlida.";
+		} elseif ( null !== $llista ) {
 			$password = get_option( 'llistes_access' );
 			if ( ! empty ( $password ) ) {
 				$path                  = '/members/add?subscribe_or_invite=0&send_welcome_msg_to_this_batch=1&notification_to_list_owner=0&subscribees_upload=' . urlencode( $correu ) . '&adminpw=' . $password;
-				$list_admin_url        = str_replace( 'listinfo', 'admin', $llista );
+				$list_admin_url        = str_replace( 'listinfo', 'admin', prepare_mailman_url( $llista ) );
 				$url                   = $list_admin_url . $path;
 				$response_subscription = send_subscription_to_mailinglist( $url );
 				if ( $response_subscription['status'] ) {

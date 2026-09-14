@@ -50,7 +50,6 @@ jQuery('.link_colabora').on('click', function(){
     var telegram = jQuery(this).attr("data-telegram");
     var projecte = jQuery(this).attr("data-projecte");
     var projecteslug = jQuery(this).attr("data-projecteslug");
-    jQuery('#llista').val(llista);
     jQuery('#projecte').val(projecte);
     jQuery('#projecte_slug').val(projecteslug);
 
@@ -103,7 +102,6 @@ $collabora_form.on('submit', function(ev){
     jQuery("#loading").fadeIn();
     var nom = jQuery("#nom_contacte").val();
     var correu = jQuery("#correu_contacte").val();
-    var llista = jQuery("#llista").val();
     var projecte = jQuery("#projecte").val();
     var projecte_slug = jQuery("#projecte_slug").val();
 
@@ -111,7 +109,6 @@ $collabora_form.on('submit', function(ev){
     var post_data = new FormData();
     post_data.append('nom', nom);
     post_data.append('correu', correu);
-    post_data.append('llista', llista);
     post_data.append('projecte', projecte);
     post_data.append('projecte_slug', projecte_slug);
     post_data.append('action', 'subscribe_list');

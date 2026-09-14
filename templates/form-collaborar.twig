@@ -105,7 +105,6 @@
                             <label class="col-sm-3 control-label">El vostre nom *</label>
                             <div class="col-sm-6">
                                 {{ function('wp_nonce_field', 'subscribe_list', '_wpnonce_subscribe') }}
-                                <input type="hidden" name="llista" id="llista" value="{{ projecte_llista }}" />
                                 <input type="hidden" name="projecte" id="projecte" value="{{ projecte.title|default('') }}" />
                                 <input type="hidden" name="projecte_slug" id="projecte_slug" value="{{ projecte.slug|default('') }}" />
                                 <input type="text" name="nom_contacte" id="nom_contacte" class="form-control" placeholder="Nom" required>

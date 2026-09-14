@@ -92,6 +92,26 @@ class Projecte extends Post {
 	}
 
 	/**
+	 * Whether a URL is a listinfo page on Softcatalà's Mailman server.
+	 *
+	 * @param string $url URL to check.
+	 * @return bool
+	 */
+	public static function is_mailing_list_url( $url ) {
+		return is_string( $url )
+			&& 1 === preg_match( '#^https://llistes\.softcatala\.org/mailman/listinfo/[a-z0-9_.-]+$#i', $url );
+	}
+
+	/**
+	 * @return string|null listinfo URL, or null when unset or not a Softcatalà list.
+	 */
+	public function mailing_list() {
+		$llista = $this->meta( 'llista_de_correu' );
+
+		return self::is_mailing_list_url( $llista ) ? $llista : null;
+	}
+
+	/**
 	 * The Telegram group to send a would-be collaborator to: the project's own,
 	 * the one of the first collaborator profile it asks for, or the generic one.
 	 *
