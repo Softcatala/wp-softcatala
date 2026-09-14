@@ -727,11 +727,48 @@ function sc_add_draft_content( $type, $nom, $descripcio, $slug, $allTerms, $meta
  *
  * @return bool|int
  */
+const SC_UPLOAD_MAX_BYTES = 2 * MB_IN_BYTES;
+
+/**
+ * @return array Image types the anonymous forms may upload, SVG only when it will be sanitised.
+ */
+function sc_upload_image_mimes() {
+	$mimes = array(
+		'jpg|jpeg|jpe' => 'image/jpeg',
+		'png'          => 'image/png',
+		'gif'          => 'image/gif',
+		'webp'         => 'image/webp',
+	);
+
+	if ( \Softcatala\Images\SvgSanitizer::is_available() ) {
+		$mimes['svg'] = \Softcatala\Images\SvgSanitizer::MIME;
+	}
+
+	return $mimes;
+}
+
+/**
+ * @param array $file One entry of $_FILES.
+ * @return bool Whether the name and size pass before the content is looked at.
+ */
+function sc_upload_is_acceptable_image( $file ) {
+	if ( empty( $file['name'] ) || empty( $file['size'] ) || $file['size'] > SC_UPLOAD_MAX_BYTES ) {
+		return false;
+	}
+
+	$type = wp_check_filetype( $file['name'], sc_upload_image_mimes() );
+
+	return ! empty( $type['ext'] );
+}
+
 function sc_upload_file( $value, $post_id ) {
-	if ( isset( $_FILES[ $value ] ) ) {
+	if ( isset( $_FILES[ $value ] ) && sc_upload_is_acceptable_image( $_FILES[ $value ] ) ) {
 		$tmpfile = $_FILES[ $value ];
 
-		$upload_overrides = array( 'test_form' => false );
+		$upload_overrides = array(
+			'test_form' => false,
+			'mimes'     => sc_upload_image_mimes(),
+		);
 
 		$uploaded = wp_handle_upload( $tmpfile, $upload_overrides );
 
