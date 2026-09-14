@@ -48,6 +48,7 @@ class LoginFlow {
 		if ( Mode::is_enforced() ) {
 			add_action( 'login_init', array( $flow, 'enforce' ) );
 			add_filter( 'wp_authenticate_user', array( $flow, 'block_password_login' ), 10, 1 );
+			add_filter( 'xmlrpc_enabled', '__return_false' );
 			add_filter( 'allow_password_reset', '__return_false' );
 		}
 	}
@@ -230,26 +231,10 @@ class LoginFlow {
 			return $user;
 		}
 
-		// Application Passwords are how the tasques endpoints authenticate and
-		// Keycloak has no equivalent for them, so that path stays open.
-		if ( $this->is_application_password_request() ) {
-			return $user;
-		}
-
 		return new WP_Error(
 			'sc_sso_enforced',
 			__( '<strong>Error</strong>: en aquest lloc cal iniciar la sessió amb el compte de Softcatalà.', 'softcatala' )
 		);
-	}
-
-	/**
-	 * @return bool
-	 */
-	private function is_application_password_request() {
-		$is_api_request = ( defined( 'REST_REQUEST' ) && REST_REQUEST )
-			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST );
-
-		return (bool) apply_filters( 'application_password_is_api_request', $is_api_request );
 	}
 
 	/**

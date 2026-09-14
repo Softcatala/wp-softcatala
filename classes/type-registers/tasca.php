@@ -40,6 +40,7 @@ class Tasca extends PostType {
 			'rewrite'              => array(
 				'slug'       => 'tasques',
 				'with_front' => false,
+				'feeds'      => false,
 			),
 			'capability_type'      => 'post',
 			'map_meta_cap'         => true,

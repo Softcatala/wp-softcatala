@@ -245,4 +245,44 @@ class TascaTest extends SCTests {
 
 		wp_delete_post( $post_id, true );
 	}
+
+	/*
+	 * Feeds: the archive template filters internal tasks, a feed request never reaches it.
+	 */
+
+	function test_tasca_rewrite_has_no_feeds() {
+		$this->assertFalse( get_post_type_object( 'tasca' )->rewrite['feeds'] );
+	}
+
+	function test_anonymous_feed_request_is_sent_to_login() {
+		wp_set_current_user( 0 );
+		$this->go_to( '/?post_type=tasca&feed=rss2' );
+
+		$this->assertTrue( is_feed() );
+		$this->assertStringContainsString( 'wp-login.php', sc_tasca_login_redirect_target() );
+	}
+
+	function test_logged_in_feed_request_is_not_redirected() {
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'author' ) ) );
+		$this->go_to( '/?post_type=tasca&feed=rss2' );
+
+		$this->assertNull( sc_tasca_login_redirect_target() );
+	}
+
+	function test_anonymous_task_permalink_is_sent_to_login() {
+		$task_id = $this->factory->post->create( array( 'post_type' => 'tasca', 'post_status' => 'publish' ) );
+		wp_set_current_user( 0 );
+		$this->go_to( get_permalink( $task_id ) );
+
+		$this->assertStringContainsString( 'wp-login.php', sc_tasca_login_redirect_target() );
+
+		wp_delete_post( $task_id, true );
+	}
+
+	function test_other_feeds_are_not_redirected() {
+		wp_set_current_user( 0 );
+		$this->go_to( '/?feed=rss2' );
+
+		$this->assertNull( sc_tasca_login_redirect_target() );
+	}
 }

@@ -194,6 +194,7 @@ export const WIZARD = `
         <button type="button" id="add_new_baixada">Afegeix una altra baixada</button>
         <div class="alert form-error"><p class="form-error-text"></p></div>
         <input type="hidden" id="programa_id" name="programa_id" value="" />
+        <input type="hidden" id="baixada_token" name="baixada_token" value="" />
         <input type="hidden" name="_wpnonce_baixada" value="n4">
         <button type="submit">Envia les dades <i id="loading_program" style="display:none;">…</i></button>
       </form>

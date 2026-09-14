@@ -141,5 +141,7 @@ ENFORCED. Only an explicitly stored falsy value denies.
   remember-me). Closing this needs a refresh-token check on
   `determine_current_user`.
 - **Application Passwords are untouched.** The `sc/v1/tasca` endpoints
-  authenticate with them and Keycloak has no equivalent for machine clients, so
-  ENFORCED exempts that path. `AuthLoginFlowTest` guards it.
+  authenticate with them and Keycloak has no equivalent for machine clients.
+  They never pass through `wp_authenticate_user`, so ENFORCED needs no
+  exemption for them; the account password is refused on every path,
+  including XML-RPC, which ENFORCED disables outright.

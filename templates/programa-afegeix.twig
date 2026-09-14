@@ -264,6 +264,7 @@
                         <div class="form-botons row form-group">
                             <div class="form-boto col-xs-6">
                                 <input type="hidden" id="programa_id" name="programa_id" value="" />
+                                <input type="hidden" id="baixada_token" name="baixada_token" value="" />
                                 {{ function('wp_nonce_field', 'add_new_baixada', '_wpnonce_baixada') }}
                                 <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia les dades <i id="loading_program" class="fas fa-spinner fa-pulse" style="display: none;"></i></button>
                             </div>

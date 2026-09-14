@@ -353,7 +353,7 @@ describe('add-program wizard', () => {
   })
 
   it('sends the program details and advances to the downloads step', async () => {
-    http.respondWith({ status: 1, post_id: 987 })
+    http.respondWith({ status: 1, post_id: 987, baixada_token: 'tok' })
     await submit('programa_form')
 
     expect(http.requests[0].fields).toMatchObject({
@@ -368,6 +368,7 @@ describe('add-program wizard', () => {
     expect(visible('form_3')).toBe(true)
     expect(el('form_3').classList.contains('actiu')).toBe(true)
     expect(document.querySelector<HTMLInputElement>('#programa_id')!.value).toBe('987')
+    expect(document.querySelector<HTMLInputElement>('#baixada_token')!.value).toBe('tok')
   })
 
   it('omits file fields when no file was chosen', async () => {

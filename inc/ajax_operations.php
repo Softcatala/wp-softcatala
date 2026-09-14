@@ -350,6 +350,67 @@ function sc_contact_form() {
 	}
 }
 
+const SC_BAIXADA_ARCHITECTURES = array( 'generic', 'x86', 'x86_64' );
+
+/**
+ * @param int $programa_id Pending programa the downloads may be attached to.
+ * @return string One-hour token the client must present to sc_add_new_baixada().
+ */
+function sc_issue_baixada_token( $programa_id ) {
+	$token = wp_generate_password( 32, false );
+	set_transient( 'sc_baixada_token_' . $programa_id, $token, HOUR_IN_SECONDS );
+
+	return $token;
+}
+
+/**
+ * @param int    $programa_id Post the client wants to attach downloads to.
+ * @param string $token       Token the client presents.
+ * @return bool
+ */
+function sc_baixada_token_is_valid( $programa_id, $token ) {
+	$post = get_post( $programa_id );
+
+	if ( ! $post || 'programa' !== $post->post_type || 'pending' !== $post->post_status ) {
+		return false;
+	}
+
+	$expected = get_transient( 'sc_baixada_token_' . $programa_id );
+
+	return is_string( $expected ) && '' !== $token && hash_equals( $expected, $token );
+}
+
+/**
+ * @param mixed $baixades Decoded JSON rows from the form.
+ * @return array Repeater rows and the OS term ids, rows with a bad URL, OS or architecture dropped.
+ */
+function sc_sanitize_baixades( $baixades ) {
+	$rows  = array();
+	$terms = array();
+
+	foreach ( (array) $baixades as $baixada ) {
+		$baixada = (array) $baixada;
+		$url     = esc_url_raw( (string) ( $baixada['url'] ?? '' ), array( 'http', 'https' ) );
+		$os      = sanitize_text_field( (string) ( $baixada['sistema_operatiu'] ?? '' ) );
+		$arch    = sanitize_text_field( (string) ( $baixada['arquitectura'] ?? '' ) );
+
+		if ( '' === $url || '' === map_so( $os ) || ! in_array( $arch, SC_BAIXADA_ARCHITECTURES, true ) ) {
+			continue;
+		}
+
+		$rows[]  = array(
+			'download_url'     => $url,
+			'download_version' => sanitize_text_field( (string) ( $baixada['versio'] ?? '' ) ),
+			'download_size'    => '',
+			'arquitectura'     => $arch,
+			'download_os'      => map_so( $os ),
+		);
+		$terms[] = $os;
+	}
+
+	return array( $rows, $terms );
+}
+
 /**
  * Function to add a download related to a program
  *
@@ -361,26 +422,22 @@ function sc_add_new_baixada() {
 		$return['status'] = 0;
 		$return['text']   = "S'ha produït un error en enviar les dades. Torneu a carregar la pàgina i proveu-ho una altra vegada.";
 	} else {
-		$baixades    = json_decode( stripslashes( $_POST["baixades"] ) );
-		$programa_id = sanitize_text_field( $_POST["programa_id"] );
-		$taxonomy    = 'sistema-operatiu-programa';
+		$programa_id = absint( $_POST["programa_id"] ?? 0 );
+		$token       = sanitize_text_field( $_POST["baixada_token"] ?? '' );
 
-		//Related downloads
-		$version_info = array();
-		$terms        = array();
-		foreach ( $baixades as $key => $baixada ) {
-			$version_info[ $key ]['download_url']     = $baixada->url;
-			$version_info[ $key ]['download_version'] = $baixada->versio;
-			$version_info[ $key ]['download_size']    = '';
-			$version_info[ $key ]['arquitectura']     = $baixada->arquitectura;
-			$version_info[ $key ]['download_os']      = map_so( $baixada->sistema_operatiu );
-			$terms[]                                  = $baixada->sistema_operatiu;
+		if ( ! sc_baixada_token_is_valid( $programa_id, $token ) ) {
+			$return['status'] = 0;
+			$return['text']   = "S'ha produït un error en enviar les dades. Torneu a carregar la pàgina i proveu-ho una altra vegada.";
+			wp_send_json( $return );
 		}
+
+		list( $version_info, $terms ) = sc_sanitize_baixades( json_decode( stripslashes( $_POST["baixades"] ?? '' ) ) );
 
 		$field_key = acf_get_field_key( 'baixada', $programa_id );
 		update_field( $field_key, $version_info, $programa_id );
 
-		wp_set_post_terms( $programa_id, $terms, $taxonomy );
+		wp_set_post_terms( $programa_id, $terms, 'sistema-operatiu-programa' );
+		delete_transient( 'sc_baixada_token_' . $programa_id );
 
 		$return['status'] = 1;
 	}
@@ -437,6 +494,8 @@ function sc_add_new_program() {
 				'imatge_destacada_1' => $screenshot_attach_id
 			);
 			sc_update_metadata_acf( $return['post_id'], $metadata );
+
+			$return['baixada_token'] = sc_issue_baixada_token( $return['post_id'] );
 
 			$from_email = get_option( 'email_rebost' );
 			$to_email   = get_option( 'to_email_rebost' );

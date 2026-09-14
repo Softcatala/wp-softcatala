@@ -552,8 +552,10 @@ class StarterSite extends \Timber\Site {
 	 * The /tasques/ archive remains publicly accessible.
 	 */
 	function sc_redirect_tasca_to_login() {
-		if ( is_singular( 'tasca' ) && ! is_user_logged_in() ) {
-			wp_safe_redirect( wp_login_url( get_permalink() ) );
+		$target = sc_tasca_login_redirect_target();
+
+		if ( $target ) {
+			wp_safe_redirect( $target );
 			exit;
 		}
 	}
@@ -947,6 +949,25 @@ function get_current_url( $remove = false ) {
 	}
 
 	return $current_url;
+}
+
+/**
+ * @return string|null Login URL an anonymous request for a tasca permalink or feed is sent to, null otherwise.
+ */
+function sc_tasca_login_redirect_target() {
+	if ( is_user_logged_in() ) {
+		return null;
+	}
+
+	if ( is_singular( 'tasca' ) ) {
+		return wp_login_url( get_permalink() );
+	}
+
+	if ( is_feed() && in_array( 'tasca', (array) get_query_var( 'post_type' ), true ) ) {
+		return wp_login_url( get_post_type_archive_link( 'tasca' ) );
+	}
+
+	return null;
 }
 
 /*

@@ -48,19 +48,18 @@ class AuthLoginFlowTest extends SCTests {
 	}
 
 	/**
-	 * The tasques endpoints authenticate with Application Passwords and
-	 * Keycloak has no equivalent for machine clients, so ENFORCED must leave
-	 * that path alone. A regression here breaks the kanban API silently.
+	 * Application Passwords never reach wp_authenticate_user, so an API
+	 * request is no reason to let the account password through: XML-RPC
+	 * presents that password with XMLRPC_REQUEST defined.
 	 */
-	public function test_enforced_leaves_application_passwords_alone() {
+	public function test_enforced_refuses_password_login_on_api_requests() {
 		$user = new WP_User( $this->factory->user->create() );
 
 		add_filter( 'application_password_is_api_request', '__return_true' );
 		$result = $this->flow->block_password_login( $user );
 		remove_filter( 'application_password_is_api_request', '__return_true' );
 
-		$this->assertInstanceOf( 'WP_User', $result );
-		$this->assertEquals( $user->ID, $result->ID );
+		$this->assertWPError( $result );
 	}
 
 	/**

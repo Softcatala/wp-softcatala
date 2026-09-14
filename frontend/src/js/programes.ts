@@ -362,6 +362,7 @@ interface StepResult {
   status?: number
   text?: string
   post_id?: number
+  baixada_token?: string
   programs?: string
 }
 
@@ -494,6 +495,8 @@ function initAddProgramForm(): void {
       goToStep(2)
       const programaId = $<HTMLInputElement>('#programa_id')
       if (programaId && result.post_id !== undefined) programaId.value = String(result.post_id)
+      const token = $<HTMLInputElement>('#baixada_token')
+      if (token && result.baixada_token !== undefined) token.value = result.baixada_token
     } catch {
       hide(loading)
       showFormError('form_2')
@@ -554,6 +557,7 @@ function initAddBaixadesForm(): void {
 
     const data = new FormData()
     data.append('programa_id', $<HTMLInputElement>('#programa_id')?.value ?? '')
+    data.append('baixada_token', $<HTMLInputElement>('#baixada_token')?.value ?? '')
     data.append('nom', $<HTMLInputElement>('input[name=nom]')?.value ?? '')
     data.append('baixades', JSON.stringify(baixades))
     data.append('action', 'add_new_baixada')
