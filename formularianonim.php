@@ -18,6 +18,6 @@ $context['post'] = $timberPost;
 $context['credits'] = $timberPost->meta( 'credits' );
 
 //Contact Form Data
-$context['contact']['to_email'] = get_option('email_denuncies');
+$context['contact']['destinatari'] = 'denuncies';
 
 Timber::render( array( 'formularianonim.twig' ), $context );

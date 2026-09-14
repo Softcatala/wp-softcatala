@@ -66,10 +66,8 @@
                                     <div class="row">
                                    <div class="form-boto col-xs-5">
                                      <input type="hidden" name="form_id" id="form_id" value="anonim" />
-                                     <input type="hidden" name="correu_contacte" id="correu_contacte" value="{{ contact.to_email }}" />
-                                     <input type="hidden" id="nom_from" value="{% if content_title %}{{ content_title }}{% else %}Web{% endif %} de Softcatalà" />
-                                     <input type="hidden" id="to_email" value="{{ contact.to_email }}" />
-                                     <input type="hidden" id="assumpte" value="[{% if content_title %}{{ content_title }}{% else %}{{ post.title }}{% endif %}] Contacte des del formulari anònim del Codi de Conducta" />
+                                     <input type="hidden" name="destinatari" id="destinatari" value="denuncies" />
+                                     <input type="hidden" name="post_id" id="post_id" value="{{ post.ID|default(0) }}" />
                                      {{ function('wp_nonce_field', 'contact_form') }}
                                      <button type="submit" class="bt-basic bt-basic-vermell-fosc">Envia</button>
                                    </div>

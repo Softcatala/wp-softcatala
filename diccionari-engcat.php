@@ -102,6 +102,6 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 $context['stats'] = $stats;
 
 //Contact Form
-$context['contact']['to_email'] = get_option('email_sinonims');
+$context['contact']['destinatari'] = 'sinonims';
 
 Timber::render( array( 'diccionari-engcat.twig' ), $context );

@@ -36,6 +36,6 @@ $context['sidebar_elements'] = array( 'static/corrector-stats.twig', 'static/aju
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 
 //Contact Form
-$context['contact']['to_email'] = get_option('email_corrector');
+$context['contact']['destinatari'] = 'corrector';
 
 Timber::render( array( 'corrector-antic.twig' ), $context );

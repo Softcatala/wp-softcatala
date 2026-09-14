@@ -86,7 +86,7 @@ $context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.
 $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom_recursos');
 
 //Contact Form
-$context['contact']['to_email'] = get_option('email_recursos');
+$context['contact']['destinatari'] = 'recursos';
 
 if($show404) Timber::render( array( '404.twig' ), $context );
 

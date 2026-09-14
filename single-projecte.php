@@ -41,11 +41,6 @@ if ( is_array( $post->responsable ) ) {
     $context['responsables'] = false;
 }
 
-//Contact Form Data
-$context['contact']['to_email'] = 'web@softcatala.org';
-$context['contact']['nom_from'] = 'Projectes de Softcatalà';
-$context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
-
 //Related subpages
 $query = array ( 'post_id' => $post->ID, 'subpage_type' => 'projecte' );
 $args = get_post_query_args( 'page', SearchQueryType::PageProjecte, $query );

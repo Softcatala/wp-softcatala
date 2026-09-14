@@ -10,12 +10,8 @@ $contactForm.on('submit', function(ev){
     post_data.append('correu', jQuery('input[name=correu_contacte]').val());
     post_data.append('tipus', jQuery('#tipus_contacte option:selected').val());
     post_data.append('comentari', jQuery('#comentari_contacte').val());
-    if ( jQuery('#from_email').lenght == 1 && jQuery('#from_email').val() != '') {
-        post_data.append('from_email', jQuery('#from_email').val());
-    }
-    post_data.append('to_email', jQuery('#to_email').val());
-    post_data.append('nom_from', jQuery('#nom_from').val());
-    post_data.append('assumpte', jQuery('#assumpte').val());
+    post_data.append('destinatari', jQuery('input[name=destinatari]').val() || 'web');
+    post_data.append('post_id', jQuery('input[name=post_id]').val() || '0');
     // Honeypot: always sent, expected to be empty. Identifies which form this is,
     // so the server can apply the checks that form's fields actually allow.
     post_data.append('lloc_web', jQuery('input[name=lloc_web]').val() || '');

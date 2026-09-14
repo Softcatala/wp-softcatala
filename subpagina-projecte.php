@@ -55,11 +55,6 @@ if ( is_array( $timberPost->responsable ) ) {
     $context['responsables'] = false;
 }
 
-//Contact Form Data
-$context['contact']['to_email'] = 'web@softcatala.org';
-$context['contact']['nom_from'] = 'Projectes de Softcatalà';
-$context['contact']['assumpte'] = '[Projectes] Contacte des del formulari';
-
 $query = array ( 'post_id' => $post_subpagina->projecte, 'subpage_type' => 'projecte' );
 
 //Related subpages

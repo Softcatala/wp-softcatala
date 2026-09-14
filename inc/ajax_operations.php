@@ -216,6 +216,54 @@ function sc_subscribe_list() {
  *
  * @return json response
  */
+const SC_CONTACT_DEFAULT_RECIPIENT = 'web@softcatala.org';
+
+/**
+ * Contact form recipients, keyed by the `destinatari` value the form posts.
+ */
+const SC_CONTACT_RECIPIENTS = array(
+	'recursos'  => 'email_recursos',
+	'corrector' => 'email_corrector',
+	'sinonims'  => 'email_sinonims',
+	'traductor' => 'email_traductor',
+	'denuncies' => 'email_denuncies',
+);
+
+/**
+ * @param string $key Key into SC_CONTACT_RECIPIENTS.
+ * @return string Recipient address, web@ when the key is unknown or its option is not an address.
+ */
+function sc_contact_recipient( $key ) {
+	if ( ! isset( SC_CONTACT_RECIPIENTS[ $key ] ) ) {
+		return SC_CONTACT_DEFAULT_RECIPIENT;
+	}
+
+	$email = get_option( SC_CONTACT_RECIPIENTS[ $key ] );
+
+	return is_email( $email ) ? $email : SC_CONTACT_DEFAULT_RECIPIENT;
+}
+
+/**
+ * @param int $post_id Page the form was sent from, or 0.
+ * @return string Page title, or the site name when there is no page.
+ */
+function sc_contact_page_title( $post_id ) {
+	$title = $post_id > 0 ? wp_strip_all_tags( get_the_title( $post_id ) ) : '';
+
+	return '' !== $title ? $title : 'Softcatalà';
+}
+
+/**
+ * @param string $form_id Form identifier: report, contacte or anonim.
+ * @param int    $post_id Page the form was sent from, or 0.
+ * @return string Email subject.
+ */
+function sc_contact_subject( $form_id, $post_id ) {
+	$subject = '[' . sc_contact_page_title( $post_id ) . '] Contacte des del formulari';
+
+	return 'anonim' === $form_id ? $subject . ' anònim del Codi de Conducta' : $subject;
+}
+
 function sc_contact_form() {
 	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], $_POST["action"] ) ) {
 		wp_send_json( array( 'type' => 'error', 'text' => 'S\'ha produït un error en enviar el formulari.' ) );
@@ -223,10 +271,11 @@ function sc_contact_form() {
 		return;
 	}
 
-	$to_email   = sanitize_text_field( $_POST["to_email"] );
-	$from_email = isset( $_POST["from_email"] ) ? sanitize_text_field( $_POST["from_email"] ) : $to_email;
-	$nom_from   = sanitize_text_field( $_POST["nom_from"] );
-	$assumpte   = sanitize_text_field( $_POST["assumpte"] );
+	$form_id  = isset( $_POST["form_id"] ) ? sanitize_key( $_POST["form_id"] ) : '';
+	$post_id  = isset( $_POST["post_id"] ) ? absint( $_POST["post_id"] ) : 0;
+	$to_email = sc_contact_recipient( sanitize_key( $_POST["destinatari"] ?? '' ) );
+	$nom_from = sc_contact_page_title( $post_id ) . ' de Softcatalà';
+	$assumpte = sc_contact_subject( $form_id, $post_id );
 
 	//check if its an ajax request, exit if not
 	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
@@ -238,13 +287,9 @@ function sc_contact_form() {
 
 	//Sanitize input data using PHP filter_var().
 	$nom       = sanitize_text_field( $_POST["nom"] );
-	$correu    = sanitize_email( $_POST["correu"] );
+	$correu    = 'anonim' === $form_id ? $to_email : sanitize_email( $_POST["correu"] ?? '' );
 	$tipus     = isset( $_POST["tipus"] ) ? sanitize_text_field( $_POST["tipus"] ) : '';
 	$comentari = stripslashes( sanitize_text_field( ( $_POST["comentari"] ) ) );
-
-	// Identifies which of the three forms sharing this endpoint sent the request.
-	// Absent on HTML served from a page cache predating this field: stay permissive.
-	$form_id = isset( $_POST["form_id"] ) ? sanitize_key( $_POST["form_id"] ) : '';
 
 	// Honeypot: a field hidden from humans, so any value means an automated filler.
 	$honeypot_validation = sc_validate_honeypot();
@@ -288,7 +333,7 @@ function sc_contact_form() {
 	$message_body = "Tipus: " . $tipus . "\r\n\rComentari: " . $comentari . "\r\n\rNom: " . $nom . "\r\nCorreu electrònic: " . $correu;
 
 	//proceed with PHP email.
-	$headers = 'From: ' . $nom_from . ' <' . $from_email . ">\r\n" .
+	$headers = 'From: ' . $nom_from . ' <' . $to_email . ">\r\n" .
 	           'Reply-To: ' . $correu . '' . "\r\n" .
 	           'X-Mailer: PHP/' . phpversion();
 

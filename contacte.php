@@ -17,9 +17,4 @@ $context['sidebar_bottom'] = Timber::get_widgets('sidebar_bottom');
 $context['post'] = $timberPost;
 $context['credits'] = $timberPost->meta( 'credits' );
 
-//Contact Form Data
-$context['contact']['to_email'] = 'web@softcatala.org';
-$context['contact']['nom_from'] = 'Web de Softcatalà';
-$context['contact']['assumpte'] = 'Contacte des del formulari general';
-
 Timber::render( array( 'contacte.twig' ), $context );
