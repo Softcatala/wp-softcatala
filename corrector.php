@@ -9,11 +9,24 @@
 // corrector.js is an ES module that imports its client-<hash>.js chunk itself;
 // there is no unhashed client.js to enqueue since the corrector build stopped emitting one.
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
-wp_enqueue_script( 'sc-js-corrector-vite-corrector', get_template_directory_uri() . '/static/js/corrector/corrector.js', array(), WP_SOFTCATALA_VERSION, true );
-#wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', get_template_directory_uri() . '/static/js/corrector/paraphrase.js', array(), WP_SOFTCATALA_VERSION, true );
 
-wp_enqueue_style( 'sc-css-corrector-vite-client', get_template_directory_uri() . '/static/css/corrector/client.css', array(), WP_SOFTCATALA_VERSION );
-wp_enqueue_style( 'sc-css-corrector-vite-main', get_template_directory_uri() . '/static/css/corrector/corrector.css', array(), WP_SOFTCATALA_VERSION );
+// ?corrector=alpha loads the build bind-mounted at /alpha/corrector/ by web-softcatala, when present.
+$corrector_alpha_dir = dirname( ABSPATH ) . '/alpha/corrector';
+if ( 'alpha' === ( $_GET['corrector'] ?? '' ) && file_exists( $corrector_alpha_dir . '/corrector.js' ) ) {
+	$corrector_js_uri  = home_url( '/alpha/corrector' );
+	$corrector_css_uri = $corrector_js_uri;
+	$corrector_version = (string) filemtime( $corrector_alpha_dir . '/corrector.js' );
+} else {
+	$corrector_js_uri  = get_template_directory_uri() . '/static/js/corrector';
+	$corrector_css_uri = get_template_directory_uri() . '/static/css/corrector';
+	$corrector_version = WP_SOFTCATALA_VERSION;
+}
+
+wp_enqueue_script( 'sc-js-corrector-vite-corrector', $corrector_js_uri . '/corrector.js', array(), $corrector_version, true );
+#wp_enqueue_script( 'sc-js-corrector-vite-paraphrase', $corrector_js_uri . '/paraphrase.js', array(), $corrector_version, true );
+
+wp_enqueue_style( 'sc-css-corrector-vite-client', $corrector_css_uri . '/client.css', array(), $corrector_version );
+wp_enqueue_style( 'sc-css-corrector-vite-main', $corrector_css_uri . '/corrector.css', array(), $corrector_version );
 
 
 
