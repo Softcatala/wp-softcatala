@@ -10,12 +10,18 @@
 // there is no unhashed client.js to enqueue since the corrector build stopped emitting one.
 wp_enqueue_script( 'sc-js-contacte', get_template_directory_uri() . '/static/js/contact_form.js', array( 'jquery' ), WP_SOFTCATALA_VERSION, true );
 
-// ?corrector=alpha loads the build bind-mounted at /alpha/corrector/ by web-softcatala, when present.
-$corrector_alpha_dir = dirname( ABSPATH ) . '/alpha/corrector';
-if ( 'alpha' === ( $_GET['corrector'] ?? '' ) && file_exists( $corrector_alpha_dir . '/corrector.js' ) ) {
-	$corrector_js_uri  = home_url( '/alpha/corrector' );
+// Builds come from web-softcatala at /_apps/corrector/: stable/ is baked into the image,
+// versions/<slug>/ is a bind mount that corrector CI publishes branches to, picked with ?corrector=<slug>.
+$corrector_apps_dir = dirname( ABSPATH ) . '/_apps/corrector';
+$corrector_request  = isset( $_GET['corrector'] ) && is_string( $_GET['corrector'] ) ? $_GET['corrector'] : '';
+if ( preg_match( '/^[a-z0-9-]{1,63}$/', $corrector_request ) && is_file( "$corrector_apps_dir/versions/$corrector_request/corrector.js" ) ) {
+	$corrector_js_uri  = home_url( "/_apps/corrector/versions/$corrector_request" );
 	$corrector_css_uri = $corrector_js_uri;
-	$corrector_version = (string) filemtime( $corrector_alpha_dir . '/corrector.js' );
+	$corrector_version = (string) filemtime( "$corrector_apps_dir/versions/$corrector_request/corrector.js" );
+} elseif ( is_file( "$corrector_apps_dir/stable/corrector.js" ) ) {
+	$corrector_js_uri  = home_url( '/_apps/corrector/stable' );
+	$corrector_css_uri = $corrector_js_uri;
+	$corrector_version = trim( (string) @file_get_contents( "$corrector_apps_dir/stable/VERSION" ) ) ?: WP_SOFTCATALA_VERSION;
 } else {
 	$corrector_js_uri  = get_template_directory_uri() . '/static/js/corrector';
 	$corrector_css_uri = get_template_directory_uri() . '/static/css/corrector';

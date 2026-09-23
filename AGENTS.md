@@ -44,7 +44,7 @@ cd frontend && npm run build   # runs the tests, then compiles → static/
 
 - Entry point: `frontend/src/js/main.ts` → `static/js/main.min.js`
 - Styles: `frontend/src/scss/main.scss` → `static/css/main.min.css`
-- The corrector React app lives in `../corrector/` (sibling repo). After building it, run `npm run wordpress` inside that repo to copy its assets into `static/css/corrector/` and `static/js/corrector/`.
+- The corrector React app lives in `../corrector/` (sibling repo). `corrector.php` loads it from `/_apps/corrector/` in web-softcatala: `stable/` is the release baked into the image (`CORRECTOR_VERSION` in its Dockerfile), `versions/<branch-slug>/` a bind mount that corrector CI publishes branches to, selected with `?corrector=<branch-slug>`. The copy in `static/*/corrector/` is only a fallback until every image carries `stable/`.
 
 ### Frontend tests
 
