@@ -17,7 +17,7 @@ class Sinonims extends DictionarySitemap {
     }
 
     protected function api_url( $key ) {
-        $url_api = get_option( 'api_diccionari_sinonims' );
+        $url_api = trailingslashit( get_option( 'api_diccionari_sinonims' ) );
 
         return $url_api . 'index/' . strtolower( $key );
     }
