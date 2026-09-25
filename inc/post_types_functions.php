@@ -44,24 +44,25 @@ function get_top_downloads_home()
     }
 
     $limit = 5;
-    $json_path = "https://baixades.softcatala.org/top.json";
-    $baixades_json = json_decode( file_get_contents( $json_path ) );
+    $baixades_json = sc_fetch_downloads_json( "https://baixades.softcatala.org/top.json" );
+
+    if ( ! $baixades_json ) {
+        return array();
+    }
 
     $programari = array();
-    if ( $baixades_json ) {
-        foreach ( $baixades_json as $key => $operating_system ) {
-            $programari[$key] = array();
-            $i = 0;
-            foreach ( $operating_system as $pkey => $program ) {
-                if ($i < $limit) {
-                    $link = \Softcatala\Posts\Programa::link_from_stats($program);
-                    if ( $link ) {
-                        $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 8 );
-                        $programari[$key][$pkey]['link'] = $link;
-                        $programari[$key][$pkey]['total_downloads'] = $program->total;
-                    }
-                    $i++;
+    foreach ( $baixades_json as $key => $operating_system ) {
+        $programari[$key] = array();
+        $i = 0;
+        foreach ( $operating_system as $pkey => $program ) {
+            if ($i < $limit) {
+                $link = \Softcatala\Posts\Programa::link_from_stats($program);
+                if ( $link ) {
+                    $programari[$key][$pkey]['title'] = wp_trim_words( str_replace('_', ' ', get_the_title( $program->wordpress_id )), 8 );
+                    $programari[$key][$pkey]['link'] = $link;
+                    $programari[$key][$pkey]['total_downloads'] = $program->total;
                 }
+                $i++;
             }
         }
     }

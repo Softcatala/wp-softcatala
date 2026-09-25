@@ -8,6 +8,30 @@
  * the daily cron job that keeps download counts fresh.
  */
 
+/** Fetches and decodes one of the baixades.softcatala.org statistics files, or false on failure. */
+function sc_fetch_downloads_json( $url, $assoc = false ) {
+	$response = wp_remote_get( $url, array( 'timeout' => 10 ) );
+
+	if ( is_wp_error( $response ) ) {
+		error_log( 'SC Downloads: request to ' . $url . ' failed: ' . $response->get_error_message() );
+		return false;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	if ( 200 !== $code ) {
+		error_log( 'SC Downloads: ' . $url . ' returned HTTP ' . $code );
+		return false;
+	}
+
+	$decoded = json_decode( wp_remote_retrieve_body( $response ), $assoc );
+	if ( empty( $decoded ) ) {
+		error_log( 'SC Downloads: ' . $url . ' returned no usable JSON' );
+		return false;
+	}
+
+	return $decoded;
+}
+
 /**
  * Fetches the full downloads JSON from baixades.softcatala.org,
  * cached via transient for 2 hours.
@@ -18,7 +42,10 @@ function get_downloads_full() {
 	$result = get_transient( 'downloads_full' );
 
 	if ( false === $result ) {
-		$result = json_decode( file_get_contents( 'https://baixades.softcatala.org/full.json' ), true );
+		$result = sc_fetch_downloads_json( 'https://baixades.softcatala.org/full.json', true );
+		if ( false === $result ) {
+			return false;
+		}
 		set_transient( 'downloads_full', $result, 2 * HOUR_IN_SECONDS );
 	}
 
@@ -58,7 +85,7 @@ function get_program_context( $programa ) {
 		$wordpress_ids_column = array_column( $download_full, 'wordpress_id' );
 		if ( $wordpress_ids_column ) {
 			$index = array_search( $programa->ID, $wordpress_ids_column );
-			if ( $index ) {
+			if ( false !== $index ) {
 				$context['total_downloads'] = $download_full[ $index ]['total'];
 			}
 		}
