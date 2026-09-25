@@ -53,6 +53,39 @@ function fullGrammarTag( $word ) {
 	return $grammarTag;
 }
 
+/**
+ * Renders the English IPA transcription of a word.
+ *
+ * Shows the American transcription first and the British one next; when both
+ * varieties share the same transcription, shows it once without a dialect label.
+ *
+ * @param object $word Word object from the dictionary API.
+ *
+ * @return string HTML fragment, or an empty string when there is no IPA data.
+ */
+function format_ipa( $word ) {
+	$us = isset( $word->ipaUs ) ? trim( $word->ipaUs ) : '';
+	$uk = isset( $word->ipaUk ) ? trim( $word->ipaUk ) : '';
+
+	if ( '' === $us && '' === $uk ) {
+		return '';
+	}
+
+	if ( '' !== $us && $us === $uk ) {
+		return '<span class="engcat-ipa">/' . esc_html( $us ) . '/</span>';
+	}
+
+	$parts = array();
+	if ( '' !== $us ) {
+		$parts[] = '<span class="engcat-ipa__var">US</span>/' . esc_html( $us ) . '/';
+	}
+	if ( '' !== $uk ) {
+		$parts[] = '<span class="engcat-ipa__var">UK</span>/' . esc_html( $uk ) . '/';
+	}
+
+	return '<span class="engcat-ipa">' . implode( '&nbsp;&nbsp;', $parts ) . '</span>';
+}
+
 function prepareLemmaHeading( $word ) {
 	$output = '';
 
@@ -79,6 +112,12 @@ function prepareLemmaHeading( $word ) {
 		$output .= ' [&rArr; ' . $word->remark . '] ';
 	}
 	$output .= '</span>';
+
+	// afegim la transcripció fonètica, darrere de les etiquetes
+	$ipa = format_ipa( $word );
+	if ( '' !== $ipa ) {
+		$output .= '&nbsp;' . $ipa . '&nbsp;';
+	}
 
 	// afegim formes alternatives, incloent-hi el plural, en la línia següent
 	if ( ! empty( $word->alternativeForms ) || ! empty( $word->plural ) ) {
@@ -174,6 +213,11 @@ function prepareWord( $word, $prevFullGTag ) {
 
 	if ( ! empty( $word->remark ) ) {
 		$output .= ' [&rArr; ' . $word->remark . '] ';
+	}
+
+	$ipa = format_ipa( $word );
+	if ( '' !== $ipa ) {
+		$output .= '&nbsp;' . $ipa;
 	}
 
 	return trim( $output );

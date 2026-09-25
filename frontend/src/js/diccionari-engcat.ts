@@ -43,7 +43,7 @@ function prepareInputSearchQuery(): void {
 
 function getQuery(): string {
   const input = document.getElementById('cerca_diccionari_engcat') as HTMLInputElement | null
-  return (input?.value ?? '').trim().replace("'", '’')
+  return (input?.value ?? '').trim().replace(/'/g, '’')
 }
 
 function getLanguage(): string {

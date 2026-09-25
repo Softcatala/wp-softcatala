@@ -2,6 +2,37 @@
 // Diccionari anglès-català
 // ==========================================================================
 
+// Charis SIL: tipografia amb cobertura IPA completa (inclou el nexe d'africades).
+@font-face {
+  font-family: 'Charis SIL';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../fonts/Charis-Regular.woff2') format('woff2');
+}
+
+// Transcripcions fonètiques angleses (IPA)
+.engcat-ipa {
+  font-family: 'Charis SIL', 'Doulos SIL', 'Gentium Plus', 'Noto Sans', 'DejaVu Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8em;
+  color: #514e4d;
+  white-space: nowrap;
+}
+
+.engcat-ipa__var {
+  font-size: 0.8em;
+  color: #999999;
+  vertical-align: super;
+  margin-right: 1px;
+}
+
+// Dins del lema (h2) una mica més petita, com la resta d'etiquetes
+h2.originalword .engcat-ipa {
+  font-size: 0.6em;
+}
+
 .index-dic-engcat {
   padding-bottom: 0;
   font-size: 14px;
