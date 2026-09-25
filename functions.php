@@ -786,6 +786,10 @@ function softcatala_scripts() {
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_style( 'sc-css-main', get_template_directory_uri() . '/static/css/main.min.css', array(), WP_SOFTCATALA_VERSION );
 	wp_enqueue_script( 'sc-js-main', get_template_directory_uri() . '/static/js/main.min.js', array(), WP_SOFTCATALA_VERSION, true );
+	// contact_form.js reads scajax; every page that renders contact_form.twig enqueues 'sc-js-contacte'.
+	if ( wp_script_is( 'sc-js-contacte', 'registered' ) ) {
+		wp_localize_script( 'sc-js-contacte', 'scajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+	}
 
 	$sc_site->register_ui_settings();
 	//wp_enqueue_script( 'sc-js-ads', get_template_directory_uri() . '/static/js/ads.js', array(), WP_SOFTCATALA_VERSION, true );
