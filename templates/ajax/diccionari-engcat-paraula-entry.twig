@@ -1,5 +1,5 @@
 <article class="lemma">
-    <header>{{ lemma.originalWord | prepareLemmaHeading}}</header>
+    <header>{{ lemma.originalWord | prepareLemmaHeading(results.llengua)}}</header>
     
         {% for subLemma in lemma.subLemmaList  %}
                 {{ subLemma.originalWord | prepareSubLemma}}

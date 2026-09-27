@@ -28,6 +28,39 @@
   margin-right: 1px;
 }
 
+// Tooltip personalitzat per a les transcripcions de les traduccions angleses.
+// S'activa amb el ratolí i amb el teclat (focus), sense JavaScript.
+.engcat-ipa-tip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted #b5b2b0;
+}
+
+.engcat-ipa-tip:hover {
+  border-bottom-color: #514e4d;
+}
+
+.engcat-ipa-tip__pop {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  padding: 2px 8px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.engcat-ipa-tip:hover .engcat-ipa-tip__pop,
+.engcat-ipa-tip:focus .engcat-ipa-tip__pop,
+.engcat-ipa-tip:focus-within .engcat-ipa-tip__pop {
+  display: block;
+}
+
 // Dins del lema (h2) una mica més petita, com la resta d'etiquetes
 h2.originalword .engcat-ipa {
   font-size: 0.6em;

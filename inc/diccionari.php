@@ -86,7 +86,30 @@ function format_ipa( $word ) {
 	return '<span class="engcat-ipa">' . implode( '&nbsp;&nbsp;', $parts ) . '</span>';
 }
 
-function prepareLemmaHeading( $word ) {
+/**
+ * Wraps a word with a tooltip showing its English IPA transcription.
+ *
+ * Used for the translated words of the Catalan-to-English direction, which are
+ * the English ones. When there is no IPA data the word is returned unchanged.
+ *
+ * @param string $text Word text.
+ * @param object $word Word object from the dictionary API.
+ *
+ * @return string HTML fragment.
+ */
+function format_ipa_tooltip( $text, $word ) {
+	$ipa = format_ipa( $word );
+
+	if ( '' === $ipa ) {
+		return $text;
+	}
+
+	return '<span class="engcat-ipa-tip" tabindex="0">' . $text
+		. '<span class="engcat-ipa-tip__pop" role="tooltip">' . $ipa . '</span>'
+		. '</span>';
+}
+
+function prepareLemmaHeading( $word, $llengua = '' ) {
 	$output = '';
 
 	$output .= '<h2 class="originalword">';
@@ -113,10 +136,13 @@ function prepareLemmaHeading( $word ) {
 	}
 	$output .= '</span>';
 
-	// afegim la transcripció fonètica, darrere de les etiquetes
-	$ipa = format_ipa( $word );
-	if ( '' !== $ipa ) {
-		$output .= '&nbsp;' . $ipa . '&nbsp;';
+	// afegim la transcripció fonètica, darrere de les etiquetes,
+	// només quan el lema (h2) és anglès
+	if ( 'eng' === $llengua ) {
+		$ipa = format_ipa( $word );
+		if ( '' !== $ipa ) {
+			$output .= '&nbsp;' . $ipa . '&nbsp;';
+		}
 	}
 
 	// afegim formes alternatives, incloent-hi el plural, en la línia següent
@@ -192,7 +218,7 @@ function prepareWord( $word, $prevFullGTag ) {
 		$output .= '(' . $word->before . ') ';
 	}
 
-	$output .= $word->text;
+	$output .= format_ipa_tooltip( $word->text, $word );
 
 	if ( ! empty( $word->after ) ) {
 		$output .= ' (' . $word->after . ')';
@@ -213,11 +239,6 @@ function prepareWord( $word, $prevFullGTag ) {
 
 	if ( ! empty( $word->remark ) ) {
 		$output .= ' [&rArr; ' . $word->remark . '] ';
-	}
-
-	$ipa = format_ipa( $word );
-	if ( '' !== $ipa ) {
-		$output .= '&nbsp;' . $ipa;
 	}
 
 	return trim( $output );
