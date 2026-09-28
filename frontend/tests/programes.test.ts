@@ -80,6 +80,14 @@ describe('download button', () => {
     expect(visibleDownloads()).toEqual(['baixada_osx_generic'])
   })
 
+  it('picks the Intel build on a Mac, whose UA never reports Apple Silicon', async () => {
+    setUserAgent(UA.mac)
+    document.body.innerHTML = downloadButtons(['windows_x86_64', 'osx_arm', 'osx_x86_64'])
+    await loadModule()
+
+    expect(visibleDownloads()).toEqual(['baixada_osx_x86_64'])
+  })
+
   it('falls back to the first button when the os has no build at all', async () => {
     setUserAgent(UA.android)
     document.body.innerHTML = downloadButtons(['windows_x86_64', 'linux_x86'])

@@ -69,7 +69,7 @@ class Programa extends Post {
 	}
 
 	/**
-	 * Adds the counter URL, OS label and OS icon to a set of download rows.
+	 * Adds the counter URL, OS and architecture labels and OS icon to a set of download rows.
 	 *
 	 * The counter URL looks like:
 	 * https://baixades.softcatala.org/?id=3522&wid=42&versio=44.0.1&so=linux&url=...
@@ -90,6 +90,7 @@ class Programa extends Post {
 			$os             = $baixada['download_os'] ?? '';
 
 			$baixades[ $key ]['download_os_label'] = get_os_nicename( $os );
+			$baixades[ $key ]['arquitectura_label'] = get_arch_nicename( $os, $baixada['arquitectura'] ?? '' );
 
 			$baixades[ $key ]['download_url_ext'] = 'https://baixades.softcatala.org/'
 				. '?id=' . $idrebost

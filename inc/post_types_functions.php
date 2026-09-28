@@ -96,6 +96,34 @@ function get_os_nicename( $os ) {
     return $os_nicename;
 }
 
+/**
+ * Label for a download's architecture, or '' when it needs none.
+ *
+ * Macs are told apart by processor family rather than bitness, since both
+ * current builds are 64-bit.
+ */
+function get_arch_nicename( $os, $arch ) {
+    if ( 'osx' === $os ) {
+        switch ( $arch ) {
+            case 'x86_64':
+                return 'Intel';
+            case 'arm':
+                return 'Apple Silicon';
+        }
+    }
+
+    switch ( $arch ) {
+        case 'x86_64':
+            return '64 bits';
+        case 'x86':
+            return '32 bits';
+        case 'arm':
+            return 'ARM';
+        default:
+            return '';
+    }
+}
+
 function get_so_from_so( $os, $arch ) {
 
 	if ( is_array( $os ) ) {

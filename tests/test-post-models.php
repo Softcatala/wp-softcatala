@@ -111,6 +111,22 @@ class PostModelsTest extends SCTests {
 		$this->assertEquals( 'fab fa-windows', $baixades[0]['so_icona'] );
 	}
 
+	function test_download_architecture_labels() {
+		$rows = array(
+			array( 'download_os' => 'windows', 'arquitectura' => 'x86_64' ),
+			array( 'download_os' => 'linux', 'arquitectura' => 'x86' ),
+			array( 'download_os' => 'osx', 'arquitectura' => 'x86_64' ),
+			array( 'download_os' => 'osx', 'arquitectura' => 'arm' ),
+			array( 'download_os' => 'linux', 'arquitectura' => 'arm' ),
+			array( 'download_os' => 'osx', 'arquitectura' => 'generic' ),
+			array( 'download_os' => 'windows', 'arquitectura' => 'arm: arm' ),
+		);
+
+		$labels = array_column( Programa::build_download_urls( $rows, '1', 1 ), 'arquitectura_label' );
+
+		$this->assertSame( array( '64 bits', '32 bits', 'Intel', 'Apple Silicon', 'ARM', '', '' ), $labels );
+	}
+
 	function test_download_urls_default_to_version_1() {
 		$baixades = Programa::build_download_urls(
 			array(

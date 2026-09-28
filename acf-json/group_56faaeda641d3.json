@@ -148,7 +148,7 @@
                         "generic": "N\/A",
                         "x86": "32 bits",
                         "x86_64": "64 bits",
-                        "arm: arm": "arm: arm"
+                        "arm": "ARM"
                     },
                     "default_value": "x86",
                     "return_format": "value",
