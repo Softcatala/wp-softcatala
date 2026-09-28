@@ -66,15 +66,17 @@ abstract class DictionarySitemap {
         $sitemap_custom_items = '';
 
         $domain = home_url();
-        $time   = $this->weekly_lastmod();
         $slug   = $this->slug();
 
         foreach ( $this->keys() as $key ) {
+			$known_words = get_transient( $this->stale_cache_key( $key ) );
+			if ( is_array( $known_words ) && empty( $known_words ) ) {
+				continue;
+			}
 
             $sitemap_custom_items .= "
                 <sitemap>
                 <loc>$domain/sitemaps/$slug-$key.xml</loc>
-                <lastmod>$time</lastmod>
                 </sitemap>";
         }
 
@@ -105,23 +107,16 @@ abstract class DictionarySitemap {
             return;
         }
 
-        $result = $this->rest_client->get( $this->api_url( $key ), $this->use_api_key() );
-
-        if ( $result['error'] ) {
-            $this->return500();
-        }
-
-        if ( 200 != $result['code'] || ! isset( $result['result'] ) ) {
-            return;
-        }
-
-        $words = $this->extract_words( $result['result'] );
+		$words = $this->words_for_key( $key );
+		if ( is_wp_error( $words ) ) {
+			$this->return500();
+		}
 
         $domain = home_url();
-        $time   = $this->weekly_lastmod();
 
         header( 'Content-Type: text/xml; charset=UTF-8' );
-        echo '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="//www.softcatala.org/main-sitemap.xsl"?>';
+		$xsl = esc_url( home_url( '/main-sitemap.xsl' ) );
+		echo '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="' . $xsl . '"?>';
         echo "\n";
         echo '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
         echo "\n";
@@ -129,7 +124,7 @@ abstract class DictionarySitemap {
         foreach ( $words as $word ) {
             $u   = rawurlencode( $word );
             $loc = $domain . $this->word_url( $key, $u );
-            echo "<url><loc>$loc</loc><lastmod>$time</lastmod></url>\n";
+            echo '<url><loc>' . esc_url( $loc ) . "</loc></url>\n";
         }
 
         echo '</urlset>';
@@ -137,12 +132,82 @@ abstract class DictionarySitemap {
     }
 
     /**
-     * ISO-8601 timestamp of the Monday of the current week, so <lastmod>
-     * stays stable within a week but still advances week to week.
+     * Keeps sitemap URLs canonical and resolvable by WordPress rewrites.
+     * Dataset APIs do not currently expose a trustworthy modification date,
+     * so the sitemap deliberately omits lastmod instead of inventing one.
      */
-    protected function weekly_lastmod() {
-        return date( 'c', strtotime( 'monday this week' ) );
+    protected function normalise_words( $words ) {
+        $normalised = [];
+
+        foreach ( (array) $words as $word ) {
+            $word = trim( (string) $word );
+
+            // Encoded slashes are decoded before WordPress matches rewrites.
+            if ( '' === $word || str_contains( $word, '/' ) ) {
+                continue;
+            }
+
+            $canonical_key = mb_strtolower( $word, 'UTF-8' );
+            if ( isset( $normalised[ $canonical_key ] ) ) {
+                continue;
+            }
+
+            $normalised[ $canonical_key ] = $word;
+        }
+
+        return array_values( $normalised );
     }
+
+	/**
+	 * Returns a cached, validated word list and falls back to the last known
+	 * valid copy when the upstream API is temporarily unavailable.
+	 *
+	 * @param string $key Sitemap key.
+	 * @return array|\WP_Error
+	 */
+	protected function words_for_key( $key ) {
+		$cached = get_transient( $this->fresh_cache_key( $key ) );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$result = $this->rest_client->get( $this->api_url( $key ), $this->use_api_key() );
+		$valid_response =
+			empty( $result['error'] ) &&
+			200 === (int) ( $result['code'] ?? 0 ) &&
+			isset( $result['result'] ) &&
+			is_string( $result['result'] );
+
+		if ( $valid_response ) {
+			json_decode( $result['result'] );
+			$valid_response = JSON_ERROR_NONE === json_last_error();
+		}
+
+		if ( $valid_response ) {
+			$words = $this->normalise_words( $this->extract_words( $result['result'] ) );
+			set_transient( $this->fresh_cache_key( $key ), $words, 6 * HOUR_IN_SECONDS );
+			set_transient( $this->stale_cache_key( $key ), $words, 7 * DAY_IN_SECONDS );
+
+			return $words;
+		}
+
+		$stale = get_transient( $this->stale_cache_key( $key ) );
+		if ( is_array( $stale ) ) {
+			return $stale;
+		}
+
+		return new \WP_Error( 'sc_sitemap_api_error', 'Error connecting to API server' );
+	}
+
+	/** @param string $key Sitemap key. */
+	private function fresh_cache_key( $key ) {
+		return 'sc_sitemap_' . md5( $this->slug() . ':' . $key ) . '_fresh';
+	}
+
+	/** @param string $key Sitemap key. */
+	private function stale_cache_key( $key ) {
+		return 'sc_sitemap_' . md5( $this->slug() . ':' . $key ) . '_stale';
+	}
 
     protected function return500() {
         throw_error( '500', 'Error connecting to API server' );
