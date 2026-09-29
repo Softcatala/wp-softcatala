@@ -117,6 +117,14 @@ function sc_cron_update_downloads() {
 	} else {
 		error_log( 'SC Downloads Update Error: ' . $result['message'] );
 	}
+
+	// The summary only counts the failures, and a program that fails every
+	// day keeps its old downloads without anybody noticing
+	foreach ( $result['results'] as $program ) {
+		if ( ! $program['result']['success'] ) {
+			error_log( 'SC Downloads Update Error: ' . $program['result']['message'] );
+		}
+	}
 }
 add_action( 'sc_update_downloads_cron', 'sc_cron_update_downloads' );
 add_action( 'init', 'sc_schedule_downloads_update' );

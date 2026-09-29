@@ -1098,39 +1098,6 @@ function throw_error( $code, $message ) {
 }
 
 /**
- * This function executes an API call of the type 'rest' given a url with all the parameters in it
- *
- * @param $url
- *
- * @return mixed
- */
-function do_json_api_call( $url ) {
-	$api_call = wp_remote_get(
-		$url,
-		array(
-			'method'  => 'GET',
-			'timeout' => 5,
-			'headers' => array(
-				'Content-Type' => 'application/json'
-			)
-		)
-	);
-
-	if ( is_wp_error( $api_call ) ) {
-		$result = 'error';
-	} else {
-		if ( isset( $api_call['body'] ) && $api_call['body'] != '[]' ) {
-			$result = $api_call['body'];
-		} else {
-			//Return true to inform that the call was OK, but the result was empty
-			$result = $api_call;
-		}
-	}
-
-	return $result;
-}
-
-/**
  * In case the variable 'redirect_page' is set, the comment form will redirect to that value
  *
  * @param $location

@@ -14,20 +14,30 @@ class SC_Downloads_Updater {
 	private $base_url = 'https://api.softcatala.org/rebost-releases/v1';
 
 	/**
+	 * Seconds the API is given to answer
+	 *
+	 * The API checks every download it lists before answering. The updater
+	 * can wait for it because it only runs from cron, WP-CLI or the REST API,
+	 * never while a page is being served.
+	 */
+	const TIMEOUT = 30;
+
+	/**
 	 * Get all programs from the API
 	 *
 	 * @param string|null $program_filter Optional program group filter
 	 * @return array|WP_Error Array of programs or WP_Error on failure
 	 */
 	public function get_all_programs( $program_filter = null ) {
-		$result = do_json_api_call( $this->base_url );
-		
-		if ( $result == 'error' ) {
-			return new WP_Error( 'api_error', "Failed to fetch programs configuration from API: {$this->base_url}" );
+		$all_programs = $this->fetch( $this->base_url );
+
+		if ( is_wp_error( $all_programs ) ) {
+			return new WP_Error(
+				'api_error',
+				"Failed to fetch programs configuration from API: {$this->base_url} ({$all_programs->get_error_message()})"
+			);
 		}
 
-		$all_programs = json_decode( $result, true );
-		
 		if ( empty( $all_programs ) ) {
 			return new WP_Error( 'no_programs', 'No programs found in API response' );
 		}
@@ -70,15 +80,14 @@ class SC_Downloads_Updater {
 		}
 
 		// Fetch data from API
-		$result = do_json_api_call( $api_url );
-		if ( $result == 'error' ) {
+		$versions = $this->fetch( $api_url );
+		if ( is_wp_error( $versions ) ) {
 			return array(
 				'success' => false,
-				'message' => "Failed to fetch data for {$slug} from {$api_url}"
+				'message' => "Failed to fetch data for {$slug} from {$api_url} ({$versions->get_error_message()})",
 			);
 		}
 
-		$versions = json_decode( $result, true );
 		if ( empty( $versions ) ) {
 			return array(
 				'success' => true,
@@ -192,6 +201,45 @@ class SC_Downloads_Updater {
 			'execution_time' => $execution_time,
 			'results' => $results
 		);
+	}
+
+	/**
+	 * Fetches a JSON list from the API
+	 *
+	 * @param string $url URL of the API to fetch.
+	 * @return array|WP_Error The list, or WP_Error when the API cannot be reached,
+	 *                        answers with anything but a 2xx status, or with a
+	 *                        body that is not a JSON list
+	 */
+	private function fetch( $url ) {
+		$response = wp_remote_get(
+			$url,
+			array(
+				'timeout' => self::TIMEOUT,
+				'headers' => array(
+					'Accept' => 'application/json',
+				),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$status = (int) wp_remote_retrieve_response_code( $response );
+
+		// An error page has a body too, and it must not be taken for data.
+		if ( $status < 200 || $status >= 300 ) {
+			return new WP_Error( 'api_status', "HTTP {$status}" );
+		}
+
+		$list = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! is_array( $list ) ) {
+			return new WP_Error( 'api_body', 'the answer is not a JSON list' );
+		}
+
+		return $list;
 	}
 
 	/**
