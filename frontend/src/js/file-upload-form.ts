@@ -77,12 +77,22 @@ export function initFileUploadForm(config: FileUploadConfig): void {
       if (percent) percent.textContent = '0 %'
       progress.forEach((el) => (el.style.display = 'none'))
 
-      const json = JSON.parse(xhr.responseText)
-      if (xhr.status === 200) {
+      let json: Record<string, unknown> | null = null
+      try {
+        json = JSON.parse(xhr.responseText)
+      } catch {
+        // Proxy errors (502, 413, timeouts) come back empty or as plain text
+      }
+
+      if (xhr.status === 200 && json) {
         document.querySelector<HTMLInputElement>('#file')!.value = ''
-        displaySuccess(json['waiting_queue'], json['filename'])
-      } else {
+        displaySuccess(json['waiting_queue'] as number, json['filename'] as string | undefined)
+      } else if (json && typeof json['error'] === 'string') {
         displayError(json['error'])
+      } else {
+        displayError(
+          "No s'ha pogut enviar el fitxer. Pot ser que sigui massa gran o que el servei no estigui disponible ara mateix. Proveu-ho més tard o amb un fitxer més petit.",
+        )
       }
     }
 
