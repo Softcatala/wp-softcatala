@@ -109,6 +109,34 @@ function format_ipa_tooltip( $text, $word ) {
 		. '</span>';
 }
 
+/**
+ * Renders the inflected forms of an English verb in a single compact line.
+ *
+ * The field is a single string with the four forms separated by semicolons
+ * (3rd person, gerund, past, past participle) and the variants of each form
+ * separated by commas.
+ *
+ * @param string $field Inflected forms field from the dictionary API.
+ *
+ * @return string HTML fragment.
+ */
+function format_inflected_forms( $field ) {
+	$labels = array( '3a', 'ger.', 'pass.', 'part.' );
+	$forms  = explode( ';', $field );
+	$parts  = array();
+
+	foreach ( $forms as $i => $form ) {
+		$variants = implode( ', ', array_map( 'trim', explode( ',', $form ) ) );
+		if ( isset( $labels[ $i ] ) ) {
+			$parts[] = '<span class="engcat-gray">' . $labels[ $i ] . '</span>&nbsp;' . esc_html( $variants );
+		} else {
+			$parts[] = esc_html( $variants );
+		}
+	}
+
+	return implode( ';&nbsp;', $parts );
+}
+
 function prepareLemmaHeading( $word, $llengua = '' ) {
 	$output = '';
 
@@ -163,6 +191,10 @@ function prepareLemmaHeading( $word, $llengua = '' ) {
 			}
 		}
 		$output .= '</span>';
+	}
+	// afegim les formes flexionades del verb anglès
+	if ( 'eng' === $llengua && ! empty( $word->inflectedForms ) ) {
+		$output .= '<br/><span class="engcat-small-variants">' . format_inflected_forms( $word->inflectedForms ) . '</span>';
 	}
 	$output .= '</h2>';
 
