@@ -33,7 +33,7 @@ class DiccionariEngcat extends DictionarySitemap {
     protected function api_url( $key ) {
         list( $llengua, $lletra ) = $this->parse_key( $key );
 
-        $url_api = get_option( 'api_diccionari_engcat' );
+        $url_api = trailingslashit( get_option( 'api_diccionari_engcat' ) );
 
         return $url_api . 'index/' . $llengua . '-' . strtolower( $lletra );
     }
