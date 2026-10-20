@@ -11,27 +11,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
 
     {{function('wp_head')}}
-    <script defer data-domain="softcatala.org" src="https://t.softcatala.org/js/script.outbound-links.js"></script>
+    <script defer data-domain="softcatala.org" src="https://t.softcatala.org/js/script.manual.outbound-links.js"></script>
     <script>
-        function sc_plausible404() {
-            plausible('404', { props: { path: document.location.pathname } }); 
-        }
-        function sc_plausibleTimeout() {
-            setTimeout(() => {
-                if(window.plausible) {
-                   sc_plausible404()
-                } else {
-                  sc_plausibleTimeout()
-                }
-            }, 1000)
-        }
-        document.addEventListener('DOMContentLoaded', function () { 
-            if(window.plausible) {
-               sc_plausible404()
-            } else {
-                sc_plausibleTimeout()
+        // Queue calls until the deferred script loads; it replays plausible.q on init.
+        window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments) };
+        (function () {
+            // Browser languages, sent with every pageview (same props as softvalencia.org).
+            function baseLanguage(lang) {
+                return lang.split('-')[0].toLowerCase();
             }
-        });
+            var props = {
+                exactLanguage: navigator.language.toLowerCase(),
+                language: baseLanguage(navigator.language)
+            };
+            // First preferred language that differs from the main one, so "ca-ES, ca" doesn't report ca twice.
+            var languages = navigator.languages || [];
+            for (var i = 0; i < languages.length; i++) {
+                if (baseLanguage(languages[i]) !== props.language) {
+                    props.secondLanguage = baseLanguage(languages[i]);
+                    break;
+                }
+            }
+            plausible('pageview', { props: props });
+            {% if function('is_404') %}
+            plausible('404', { props: { path: document.location.pathname } });
+            {% endif %}
+        })();
     </script>
 </head>
 <body class="{{body_class}}">
