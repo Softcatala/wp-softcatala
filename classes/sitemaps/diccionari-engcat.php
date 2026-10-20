@@ -50,6 +50,12 @@ class DiccionariEngcat extends DictionarySitemap {
         return isset( $api_result->words ) ? $api_result->words : [];
     }
 
+    protected function exclude_word( $key, $word ) {
+        list( $llengua ) = $this->parse_key( $key );
+
+        return \SC_Diccionari_engcat::is_noindex( $word, $llengua );
+    }
+
     private function parse_key( $key ) {
         return explode( '-', $key, 2 );
     }

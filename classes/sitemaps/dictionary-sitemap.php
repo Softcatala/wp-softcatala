@@ -47,6 +47,13 @@ abstract class DictionarySitemap {
      */
     abstract protected function extract_words( $raw_json );
 
+    /**
+     * Whether a word from the API index should be left out of the sitemap.
+     */
+    protected function exclude_word( $key, $word ) {
+        return false;
+    }
+
     protected function use_api_key() {
         return false;
     }
@@ -127,6 +134,10 @@ abstract class DictionarySitemap {
         echo "\n";
 
         foreach ( $words as $word ) {
+            if ( $this->exclude_word( $key, $word ) ) {
+                continue;
+            }
+
             $u   = rawurlencode( $word );
             $loc = $domain . $this->word_url( $key, $u );
             echo "<url><loc>$loc</loc><lastmod>$time</lastmod></url>\n";

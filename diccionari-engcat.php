@@ -50,7 +50,12 @@ if( ! empty ( $paraula ) && empty( $llengua ) ) {
 	    $content_title = $r->content_title;
 	    $prefix_description = ' «' . $paraula . '»';
         $context_holder['engcat_resultat'] = $r->html;
- 	    
+
+        if ( SC_Diccionari_engcat::is_noindex( $paraula, $llengua ) ) {
+            add_filter( 'wpseo_robots', function () {
+                return 'noindex, follow';
+            } );
+        }
     } catch ( Exception $e ) {
         throw_service_error( $content_title, '', true );
     }

@@ -16,6 +16,21 @@ class SC_Diccionari_engcat {
 
 	const STATS_TRANSIENT = 'SC_diccionari_engcat_sessions';
 
+	/**
+	 * Catalan entries that share their name with one of our tools. Google
+	 * sends searches for the tool to the dictionary entry, so these are kept
+	 * out of the index and the sitemap.
+	 */
+	const NOINDEX_WORDS = array(
+		'cat' => array( 'corrector', 'traductor' ),
+	);
+
+	public static function is_noindex( $paraula, $llengua ) {
+		$words = isset( self::NOINDEX_WORDS[ $llengua ] ) ? self::NOINDEX_WORDS[ $llengua ] : array();
+
+		return in_array( mb_strtolower( $paraula ), $words, true );
+	}
+
 	public static function init() {
 		new SC_Diccionari_engcat();
 	}
