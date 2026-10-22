@@ -3,6 +3,7 @@
  * Feature flags shown as switches under "Funcionalitat opcional" in Softcatalà Settings.
  *
  * Each key is the wp_options name; flags are off until enabled in the dashboard.
+ * Flags marked 'overridable' can be forced per request with ?ff=name (on) or ?ff=-name (off).
  *
  * @package Softcatala
  */
@@ -27,5 +28,6 @@ return array(
 	SC_Settings::SETTINGS_CLICKIO_CMP                   => array(
 		'title'       => 'Gestor de consentiment (Clickio)',
 		'description' => 'Habilita/deshabilita el bàner de consentiment de galetes de Clickio i el Consent Mode de Google',
+		'overridable' => true,
 	),
 );

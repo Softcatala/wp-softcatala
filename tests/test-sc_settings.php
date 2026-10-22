@@ -93,4 +93,63 @@ class SC_SettingsTest extends SCTests {
 		$this->assertStringContainsString( 'clickiocmp.com', $on );
 		$this->assertStringContainsString( '__tcfapiLocator', $on );
 	}
+
+	function tear_down() {
+		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+		parent::tear_down();
+	}
+
+	/**
+	 * ?ff=name turns an overridable flag on for the request without touching the stored option
+	 */
+	function test_querystring_turns_flag_on() {
+		$settings = SC_Settings::get_instance();
+		$settings->reload();
+		$_GET['ff'] = 'clickio_cmp';
+
+		$this->assertSame( array( 'clickio_cmp' => true ), $settings->get_overrides() );
+		$this->assertTrue( $settings->get_active_values()['clickio_cmp'] );
+		$this->assertFalse( $settings->get_setting( SC_Settings::SETTINGS_CLICKIO_CMP ) );
+	}
+
+	/**
+	 * ?ff=-name turns an enabled overridable flag off
+	 */
+	function test_querystring_turns_flag_off() {
+		update_option( SC_Settings::SETTINGS_CLICKIO_CMP, 'on' );
+		$settings = SC_Settings::get_instance();
+		$settings->reload();
+		$_GET['ff'] = '-clickio_cmp';
+
+		$this->assertFalse( $settings->get_active_values()['clickio_cmp'] );
+		$this->assertSame( 'on', $settings->get_setting( SC_Settings::SETTINGS_CLICKIO_CMP ) );
+	}
+
+	/**
+	 * Unknown names, non-overridable flags and malformed values are ignored
+	 */
+	function test_querystring_ignores_unknown_and_non_overridable_flags() {
+		$settings = SC_Settings::get_instance();
+
+		$_GET['ff'] = 'log_traductor_source, nope,,--clickio_cmp';
+		$this->assertSame( array(), $settings->get_overrides() );
+
+		$_GET['ff'] = array( 'clickio_cmp' );
+		$this->assertSame( array(), $settings->get_overrides() );
+	}
+
+	/**
+	 * Overrides reach front-end templates but never the dashboard checkboxes
+	 */
+	function test_overrides_do_not_leak_into_dashboard() {
+		$settings = SC_Settings::get_instance();
+		$settings->reload();
+		$_GET['ff'] = 'clickio_cmp';
+
+		$html = \Timber\Timber::compile( 'admin/sc-dash.twig', array( 'sections' => array(), 'settings' => $settings ) );
+
+		$this->assertStringNotContainsString( 'name="clickio_cmp" checked', $html );
+		$this->assertStringContainsString( '?ff=clickio_cmp', $html );
+		$this->assertStringNotContainsString( '?ff=log_traductor_source', $html );
+	}
 }

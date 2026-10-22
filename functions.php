@@ -1,7 +1,7 @@
 <?php
 
 
-define( 'WP_SOFTCATALA_VERSION', '3.0.19' );
+define( 'WP_SOFTCATALA_VERSION', '3.0.21' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -125,6 +125,7 @@ class StarterSite extends \Timber\Site {
 
 		// Task management: redirect anonymous users away from individual task permalinks.
 		add_action( 'template_redirect', array( $this, 'sc_redirect_tasca_to_login' ) );
+		add_action( 'template_redirect', array( $this, 'sc_skip_cache_for_flag_overrides' ) );
 		add_action( 'template_redirect', array( $this, 'sc_redirect_resum_mensual_to_login' ) );
 
 		// Visibility: redirect anonymous users away from individual internal projecte pages.
@@ -664,11 +665,26 @@ class StarterSite extends \Timber\Site {
 		return $excluded_ids;
 	}
 
+	/**
+	 * Keeps pages rendered with ?ff= flag overrides out of page caches and proxies.
+	 */
+	function sc_skip_cache_for_flag_overrides() {
+		if ( ! SC_Settings::get_instance()->get_overrides() ) {
+			return;
+		}
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+		if ( ! headers_sent() ) {
+			header( 'Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0' );
+		}
+	}
+
 	function add_user_nav_info_to_context( $context ) {
 		$context['user_info']     = $this->get_user_information();
 		$context['search_params'] = $this->get_search_params();
 		$context['site']          = $this;
-		$context['feature_flags'] = SC_Settings::get_instance()->get_setting_values();
+		$context['feature_flags'] = SC_Settings::get_instance()->get_active_values();
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
 		$context['menu_recursos']  = \Timber\Timber::get_menu( 'nav-recursos' );

@@ -24,6 +24,7 @@
                             <label for="{{ name }}">
                                     <strong>{{ flag.title }}</strong>
                                     {{ flag.description }}
+                                    {% if flag.overridable %}<br><small>Es pot forçar per a una petició amb <code>?ff={{ name }}</code> o <code>?ff=-{{ name }}</code></small>{% endif %}
                             </label>
                         </th>
                         <td>

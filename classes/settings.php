@@ -17,6 +17,8 @@ class SC_Settings extends SC_Singleton {
 	const SETTINGS_CORRECTOR_SEND_SESSIONID = 'corrector_send_sessionid';
 	const SETTINGS_CLICKIO_CMP = 'clickio_cmp';
 
+	const OVERRIDE_PARAM = 'ff';
+
 	private $flags = null;
 
 	/**
@@ -61,6 +63,35 @@ class SC_Settings extends SC_Singleton {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Overridable flags forced on or off for this request with ?ff=name,-name.
+	 */
+	public function get_overrides() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only, per-request display toggle.
+		$raw = isset( $_GET[ self::OVERRIDE_PARAM ] ) && is_string( $_GET[ self::OVERRIDE_PARAM ] ) ? sanitize_text_field( wp_unslash( $_GET[ self::OVERRIDE_PARAM ] ) ) : '';
+
+		$flags     = $this->get_flags();
+		$overrides = array();
+
+		foreach ( explode( ',', $raw ) as $token ) {
+			$token = trim( $token );
+			$name  = '-' === substr( $token, 0, 1 ) ? substr( $token, 1 ) : $token;
+
+			if ( ! empty( $flags[ $name ]['overridable'] ) ) {
+				$overrides[ $name ] = ( $name === $token );
+			}
+		}
+
+		return $overrides;
+	}
+
+	/**
+	 * Stored values with this request's overrides applied, for front-end templates.
+	 */
+	public function get_active_values() {
+		return array_merge( $this->get_setting_values(), $this->get_overrides() );
 	}
 
 	public function reload() {
