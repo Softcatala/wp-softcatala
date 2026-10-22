@@ -77,5 +77,34 @@
   }
 </script>
 <!-- Fi Analytics -->
+<!-- TCF stub -->
+<script type="text/javascript">
+!function(){"use strict";var t,e,o=(t=function(t){function e(t){return(e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}t.exports=function(){for(var t,o,n=[],r=window,a=r;a;){try{if(a.frames.__tcfapiLocator){t=a;break}}catch(t){}if(a===r.top)break;a=a.parent}t||(function t(){var e=r.document,o=!!r.frames.__tcfapiLocator;if(!o)if(e.body){var n=e.createElement("iframe");n.style.cssText="display:none",n.name="__tcfapiLocator",e.body.appendChild(n)}else setTimeout(t,5);return!o}(),r.__tcfapi=function(){for(var t=arguments.length,e=new Array(t),r=0;r<t;r++)e[r]=arguments[r];if(!e.length)return n;"setGdprApplies"===e[0]?e.length>3&&2===parseInt(e[1],10)&&"boolean"==typeof e[3]&&(o=e[3],"function"==typeof e[2]&&e[2]("set",!0)):"ping"===e[0]?"function"==typeof e[2]&&e[2]({gdprApplies:o,cmpLoaded:!1,cmpStatus:"stub"}):n.push(e)},r.addEventListener("message",(function(t){var o="string"==typeof t.data,n={};if(o)try{n=JSON.parse(t.data)}catch(t){}else n=t.data;var r="object"===e(n)&&null!==n?n.__tcfapiCall:null;r&&window.__tcfapi(r.command,r.version,(function(e,n){var a={__tcfapiReturn:{returnValue:e,success:n,callId:r.callId}};t&&t.source&&t.source.postMessage&&t.source.postMessage(o?JSON.stringify(a):a,"*")}),r.parameter)}),!1))}},t(e={exports:{}}),e.exports);o()}();
+</script>
 
+<!-- Default Consent Mode config -->
+<script>
+    //<![CDATA[
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 1500
+    });
+    gtag('set', 'ads_data_redaction', true);
+    gtag('set', 'url_passthrough', true);
+    (function(){
+        const s={adStorage:{storageName:"ad_storage",serialNumber:0},analyticsStorage:{storageName:"analytics_storage",serialNumber:1},functionalityStorage:{storageName:"functionality_storage",serialNumber:2},personalizationStorage:{storageName:"personalization_storage",serialNumber:3},securityStorage:{storageName:"security_storage",serialNumber:4},adUserData:{storageName:"ad_user_data",serialNumber:5},adPersonalization:{storageName:"ad_personalization",serialNumber:6}};let c=localStorage.getItem("__lxG__consent__v2");if(c){c=JSON.parse(c);if(c&&c.cls_val)c=c.cls_val;if(c)c=c.split("|");if(c&&c.length&&typeof c[14]!==undefined){c=c[14].split("").map(e=>e-0);if(c.length){let t={};Object.values(s).sort((e,t)=>e.serialNumber-t.serialNumber).forEach(e=>{t[e.storageName]=c[e.serialNumber]?"granted":"denied"});gtag("consent","update",t)}}}
+    })();
+    //]]>
+</script>
+
+<!-- Clickio Consent Main tag -->
+<script async type="text/javascript" src="//clickiocmp.com/t/consent_250605.js"></script>
 {% endblock %}
