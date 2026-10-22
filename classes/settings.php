@@ -15,16 +15,23 @@ class SC_Settings extends SC_Singleton {
 	const SETTINGS_SEND_EMAILS_THESAURUS_ERRORS = 'send_emails_thesaurus_error';
 	const SETTINGS_LOG_TRADUCTOR_SOURCE = 'log_traductor_source';
 	const SETTINGS_CORRECTOR_SEND_SESSIONID = 'corrector_send_sessionid';
+	const SETTINGS_CLICKIO_CMP = 'clickio_cmp';
 
-	const SETTINGS = array(
-		self::SETTINGS_LOG_CORRECTOR_USER_EVENTS,
-		self::SETTINGS_SEND_EMAILS_THESAURUS_ERRORS,
-		self::SETTINGS_LOG_TRADUCTOR_SOURCE,
-		self::SETTINGS_CORRECTOR_SEND_SESSIONID,
-	);
+	private $flags = null;
+
+	/**
+	 * Flag definitions from config/feature-flags.php, keyed by option name.
+	 */
+	public function get_flags() {
+		if ( null === $this->flags ) {
+			$this->flags = require get_template_directory() . '/config/feature-flags.php';
+		}
+
+		return $this->flags;
+	}
 
 	public function get_setting_names() {
-		return self::SETTINGS;
+		return array_keys( $this->get_flags() );
 	}
 
 	private $setting_values = false;

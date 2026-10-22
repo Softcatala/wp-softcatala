@@ -668,6 +668,7 @@ class StarterSite extends \Timber\Site {
 		$context['user_info']     = $this->get_user_information();
 		$context['search_params'] = $this->get_search_params();
 		$context['site']          = $this;
+		$context['feature_flags'] = SC_Settings::get_instance()->get_setting_values();
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
 		$context['menu_recursos']  = \Timber\Timber::get_menu( 'nav-recursos' );
