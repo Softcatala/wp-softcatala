@@ -6,7 +6,7 @@
         <span class="sc-ad-debug__label">{{ slot }} · {{ ad.zone ?: 'cap' }} · {{ ad.source }}</span>
     {% endif %}
     {% if ad.zone %}
-        {{ ads_mark_rendered(ad.zone) }}
+        {% do ads_mark_rendered() %}
         <ins data-revive-zoneid="{{ ad.zone }}" data-revive-id="{{ ads.revive_id }}"></ins>
     {% endif %}
     {% if ads.debug %}

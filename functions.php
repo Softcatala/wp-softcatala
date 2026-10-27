@@ -696,7 +696,7 @@ class StarterSite extends \Timber\Site {
 		$context['search_params'] = $this->get_search_params();
 		$context['site']          = $this;
 		$context['feature_flags'] = SC_Settings::get_instance()->get_active_values();
-		$context['ads']           = \Softcatala\Ads\Renderer::context( ! empty( $context['feature_flags'][ SC_Settings::SETTINGS_AD_SLOTS ] ) );
+		$context['ads']           = \Softcatala\Ads\Renderer::context( SC_Settings::get_instance()->is_active( SC_Settings::SETTINGS_AD_SLOTS ) );
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
 		$context['menu_recursos']  = \Timber\Timber::get_menu( 'nav-recursos' );
@@ -770,8 +770,7 @@ class StarterSite extends \Timber\Site {
 		global $wp_filter;
 
 		// With ad slots on, WooSidebars' get_header callbacks never run under Timber, so its overrides stop applying.
-		$flags = SC_Settings::get_instance()->get_active_values();
-		if ( ! empty( $flags[ SC_Settings::SETTINGS_AD_SLOTS ] ) ) {
+		if ( SC_Settings::get_instance()->is_active( SC_Settings::SETTINGS_AD_SLOTS ) ) {
 			return;
 		}
 

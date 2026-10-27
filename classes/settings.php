@@ -95,6 +95,16 @@ class SC_Settings extends SC_Singleton {
 		return array_merge( $this->get_setting_values(), $this->get_overrides() );
 	}
 
+	/**
+	 * Whether a flag is on for this request, ?ff= overrides included.
+	 *
+	 * @param string $setting Flag option name.
+	 * @return bool
+	 */
+	public function is_active( $setting ) {
+		return ! empty( $this->get_active_values()[ $setting ] );
+	}
+
 	public function reload() {
 		$this->setting_values = false;
 	}

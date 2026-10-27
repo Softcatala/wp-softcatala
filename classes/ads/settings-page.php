@@ -17,7 +17,8 @@ class SettingsPage {
 	const OPTIONS_GROUP = 'group_sc_publicitat';
 	const PAGE_GROUP    = 'group_sc_ads_page';
 
-	const INHERIT_HELP = 'Buit: hereta el valor general. 0: sense publicitat.';
+	const INHERIT_HELP      = 'Buit: hereta el valor general. 0: sense publicitat.';
+	const PAGE_INHERIT_HELP = 'Buit: la zona de la secció. 0: sense publicitat.';
 
 	public function __construct() {
 		add_action( 'acf/init', array( $this, 'register_options_page' ) );
@@ -124,7 +125,7 @@ class SettingsPage {
 
 		foreach ( $config['slots'] as $slot => $label ) {
 			$field                 = self::zone_field( 'field_sc_ads_' . $slot, ZoneResolver::meta_key( $slot ), $label );
-			$field['instructions'] = 'Buit: la zona de la secció. 0: sense publicitat.';
+			$field['instructions'] = self::PAGE_INHERIT_HELP;
 			$fields[]              = $field;
 		}
 

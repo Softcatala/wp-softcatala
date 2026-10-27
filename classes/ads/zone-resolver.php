@@ -87,7 +87,12 @@ class ZoneResolver {
 	 * Whether the current request carries at least one valid ?ads= token.
 	 */
 	public static function has_query_overrides() {
-		$parsed = ( new self() )->parse_query( self::read_query() );
+		$raw = self::read_query();
+		if ( '' === $raw ) {
+			return false;
+		}
+
+		$parsed = ( new self() )->parse_query( $raw );
 
 		return $parsed['debug'] || $parsed['zones'] || $parsed['hidden'];
 	}

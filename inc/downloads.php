@@ -62,9 +62,7 @@ function get_downloads_full() {
  * @return array
  */
 function sc_programa_sidebar( $context, $programa ) {
-	$flags = SC_Settings::get_instance()->get_active_values();
-
-	if ( empty( $flags[ SC_Settings::SETTINGS_AD_SLOTS ] ) || ! is_singular( 'programa' ) || 'catalanitzador' !== $programa->post_name ) {
+	if ( ! SC_Settings::get_instance()->is_active( SC_Settings::SETTINGS_AD_SLOTS ) || ! is_singular( 'programa' ) || 'catalanitzador' !== $programa->post_name ) {
 		return $context;
 	}
 
