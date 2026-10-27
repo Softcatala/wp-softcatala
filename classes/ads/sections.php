@@ -24,7 +24,7 @@ class Sections {
 	/**
 	 * Section for a page (by template) or a single post of a mapped type.
 	 *
-	 * @param \WP_Post|null $post
+	 * @param \WP_Post|null $post Post to map; anything else maps to the default section.
 	 * @return string
 	 */
 	public function for_post( $post ) {

@@ -44,6 +44,9 @@ class Renderer {
 
 	/**
 	 * Records a rendered zone. Returns '' so templates can call it inline.
+	 *
+	 * @param int $zone Revive zone id.
+	 * @return string
 	 */
 	public static function mark( $zone ) {
 		self::$zones[] = (int) $zone;

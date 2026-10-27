@@ -45,6 +45,10 @@ class ZoneResolver {
 
 	/**
 	 * Option holding a section's zone for a slot, as written by the Publicitat options page.
+	 *
+	 * @param string $section Section key.
+	 * @param string $slot    Slot name.
+	 * @return string
 	 */
 	public static function option_name( $section, $slot ) {
 		return self::OPTIONS_ID . '_' . self::field_name( $section, $slot );
@@ -52,6 +56,10 @@ class ZoneResolver {
 
 	/**
 	 * ACF field name of a section's zone for a slot on the options page.
+	 *
+	 * @param string $section Section key.
+	 * @param string $slot    Slot name.
+	 * @return string
 	 */
 	public static function field_name( $section, $slot ) {
 		return $section . '_' . $slot;
@@ -59,6 +67,9 @@ class ZoneResolver {
 
 	/**
 	 * Post meta key (and ACF field name) of a page's own zone for a slot.
+	 *
+	 * @param string $slot Slot name.
+	 * @return string
 	 */
 	public static function meta_key( $slot ) {
 		return self::META_PREFIX . $slot;
@@ -84,7 +95,7 @@ class ZoneResolver {
 	/**
 	 * Parses "debug,slot:zone,-slot". Unknown slots and anything that is not a positive zone are dropped.
 	 *
-	 * @param string $raw
+	 * @param string $raw ?ads= value.
 	 * @return array{debug: bool, zones: array<string, int>, hidden: array<string, bool>}
 	 */
 	public function parse_query( $raw ) {
@@ -101,8 +112,8 @@ class ZoneResolver {
 				$parsed['debug'] = true;
 			} elseif ( '-' === substr( $token, 0, 1 ) && in_array( substr( $token, 1 ), $this->slots, true ) ) {
 				$parsed['hidden'][ substr( $token, 1 ) ] = true;
-			} elseif ( preg_match( '/^([a-z0-9_]+):([1-9][0-9]{0,8})$/', $token, $m ) && in_array( $m[1], $this->slots, true ) ) {
-				$parsed['zones'][ $m[1] ] = absint( $m[2] );
+			} elseif ( preg_match( '/^([a-z0-9_]+):([1-9][0-9]{0,8})$/', $token, $pair ) && in_array( $pair[1], $this->slots, true ) ) {
+				$parsed['zones'][ $pair[1] ] = absint( $pair[2] );
 			}
 		}
 
@@ -110,9 +121,9 @@ class ZoneResolver {
 	}
 
 	/**
-	 * @param string     $section   Section key from Sections.
-	 * @param int        $post_id   Current page or post, 0 when there is none.
-	 * @param string     $raw_query ?ads= value.
+	 * @param string $section   Section key from Sections.
+	 * @param int    $post_id   Current page or post, 0 when there is none.
+	 * @param string $raw_query ?ads= value.
 	 * @return array{debug: bool, slots: array<string, array{zone: int|null, source: string}>}
 	 */
 	public function resolve( $section, $post_id = 0, $raw_query = '' ) {
@@ -156,6 +167,10 @@ class ZoneResolver {
 
 	/**
 	 * Saved value, or the section's seed while the option has never been written.
+	 *
+	 * @param string $section Section key.
+	 * @param string $slot    Slot name.
+	 * @return string
 	 */
 	private function section_value( $section, $slot ) {
 		$value = get_option( self::option_name( $section, $slot ), false );
