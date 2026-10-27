@@ -1,4 +1,11 @@
-{# Catalanitzador stats widget, rendered in PHP by sc_programa_sidebar(); the wrapper matches the old widget area's. #}
+{# Catalanitzador stats box; the wrapper matches the old widget area's. #}
 <div class="catalanitzador_stats">
-    {{ catalanitzador_stats }}
+    <span class="hidden">Ja som {{ catalanitzador_sessions }} que hem catalanitzat el PC</span>
+    <a href="/catalanitzador/stats/">
+        <span class="catalanitzador_sessions">{{ catalanitzador_sessions }}</span>
+        <img src="/themes/wp-softcatala/static/images/widgets/catalanitzador-banner-stats.png"
+             alt="Ja som {{ catalanitzador_sessions }} que hem catalanitzat el PC"
+             title="Ja som {{ catalanitzador_sessions }} que hem catalanitzat el PC"
+        />
+    </a>
 </div>

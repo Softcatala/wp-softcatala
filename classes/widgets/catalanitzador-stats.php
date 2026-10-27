@@ -2,14 +2,12 @@
 
 namespace Softcatala\Widgets;
 
+use Softcatala\Providers\CatalanitzadorStats as Stats;
+
 /**
  * Displays stats for Catalanitzador
  */
 class CatalanitzadorStats extends \WP_Widget {
-
-	const STATS_URL = 'https://www.softcatala.org/catalanitzador/response.php';
-
-	const TRANSIENT_NAME = 'total_catalanitzador_sessions';
 
 	/**
 	 * Sets up the widgets name etc
@@ -31,43 +29,10 @@ class CatalanitzadorStats extends \WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		$sessions = $this->get_total_catalanitzador_sessions();
+		$sessions = Stats::sessions();
 
 		if ( false !== $sessions ) {
 			\Timber\Timber::render( 'widgets/catalanitzador_stats.twig', array( 'sessions' => number_format( $sessions,0,',','.' ) ) );
 		}
-	}
-
-	private function get_total_catalanitzador_sessions() {
-
-		$stored_sessions = get_transient( self::TRANSIENT_NAME );
-
-		if ( false === $stored_sessions ) {
-
-			$stored_sessions = $this->fetch_remote_sessions();
-
-			if ( false !== $stored_sessions ) {
-				set_transient( self::TRANSIENT_NAME, $stored_sessions, DAY_IN_SECONDS );
-			}
-		}
-
-		return $stored_sessions;
-	}
-
-	private function fetch_remote_sessions() {
-		$rest_client = new \SC_RestClient();
-
-		$result = $rest_client->get( self::STATS_URL );
-
-		if ( 200 == $result['code'] ) {
-
-			$sessions = $result['result'];
-
-			if ( is_numeric( $sessions ) ) {
-				return $sessions;
-			}
-		}
-
-		return false;
 	}
 }

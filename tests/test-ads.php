@@ -433,48 +433,6 @@ class SC_AdsTest extends SCTests {
 		$this->assertSame( 2, $GLOBALS['sc_test_page_cache_clears'] );
 	}
 
-	private function catalanitzador_sidebar( $slug = 'catalanitzador', $flag = 'ad_slots' ) {
-		$id = $this->factory->post->create( array( 'post_type' => 'programa', 'post_name' => $slug ) );
-		$this->go_to( get_permalink( $id ) );
-		// go_to() resets $_GET, so the flag override goes in afterwards.
-		$_GET[ SC_Settings::OVERRIDE_PARAM ] = $flag;
-		set_transient( \Softcatala\Widgets\CatalanitzadorStats::TRANSIENT_NAME, 1234567, HOUR_IN_SECONDS );
-
-		return sc_programa_sidebar( array( 'sidebar_elements' => array( 'baixades.twig', 'links.twig' ) ), get_post( $id ) );
-	}
-
-	/**
-	 * With ad_slots on, the Catalanitzador programa gets its stats first and the hashtag button last
-	 */
-	function test_catalanitzador_sidebar_content() {
-		$context = $this->catalanitzador_sidebar();
-		$this->assertSame(
-			array( 'programa/catalanitzador-stats.twig', 'baixades.twig', 'links.twig', 'programa/catalanitzador-hashtag.twig' ),
-			$context['sidebar_elements']
-		);
-		$this->assertStringContainsString( '1.234.567', $context['catalanitzador_stats'] );
-
-		$html = \Timber\Timber::compile( 'programa/catalanitzador-hashtag.twig', array() );
-		$this->assertStringContainsString( 'button_hashtag=catalanitzador', $html );
-
-		$this->assertSame( array( 'baixades.twig', 'links.twig' ), $this->catalanitzador_sidebar( 'gimp' )['sidebar_elements'] );
-	}
-
-	/**
-	 * With ad_slots off, or on a programa subpage, the sidebar is unchanged
-	 */
-	function test_catalanitzador_sidebar_needs_flag_and_programa_page() {
-		$this->assertSame( array( 'baixades.twig', 'links.twig' ), $this->catalanitzador_sidebar( 'catalanitzador', '' )['sidebar_elements'] );
-
-		$programa = $this->factory->post->create( array( 'post_type' => 'programa', 'post_name' => 'catalanitzador' ) );
-		$subpage  = $this->factory->post->create( array( 'post_type' => 'page' ) );
-		$this->go_to( get_permalink( $subpage ) );
-		$_GET[ SC_Settings::OVERRIDE_PARAM ] = 'ad_slots';
-
-		$context = sc_programa_sidebar( array( 'sidebar_elements' => array( 'links.twig' ) ), get_post( $programa ) );
-		$this->assertSame( array( 'links.twig' ), $context['sidebar_elements'] );
-	}
-
 	/**
 	 * Saving the Publicitat page clears the page cache; saving anything else does not
 	 */

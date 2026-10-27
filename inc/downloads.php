@@ -54,7 +54,8 @@ function get_downloads_full() {
 
 /**
  * Adds the content WooSidebars used to show on the Catalanitzador programa page:
- * its stats at the top of the sidebar and the #catalanitzador button at the bottom.
+ * its stats at the top of the sidebar (when the count is available) and the
+ * #catalanitzador button at the bottom.
  * Only with ad slots on, and only on the programa itself, not its subpages.
  *
  * @param array    $context  Context with 'sidebar_elements'.
@@ -66,11 +67,12 @@ function sc_programa_sidebar( $context, $programa ) {
 		return $context;
 	}
 
-	ob_start();
-	( new \Softcatala\Widgets\CatalanitzadorStats() )->widget( array(), array() );
-	$context['catalanitzador_stats'] = ob_get_clean();
+	$sessions = \Softcatala\Providers\CatalanitzadorStats::sessions();
+	if ( false !== $sessions ) {
+		$context['catalanitzador_sessions'] = number_format( $sessions, 0, ',', '.' );
+		array_unshift( $context['sidebar_elements'], 'programa/catalanitzador-stats.twig' );
+	}
 
-	array_unshift( $context['sidebar_elements'], 'programa/catalanitzador-stats.twig' );
 	$context['sidebar_elements'][] = 'programa/catalanitzador-hashtag.twig';
 
 	return $context;
