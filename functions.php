@@ -790,6 +790,7 @@ add_filter( 'block_categories_all', function( $categories ) {
 } );
 
 new \Softcatala\Blocks\Cards();
+new \Softcatala\Ads\SettingsPage();
 
 function softcatala_scripts() {
 

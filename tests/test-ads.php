@@ -6,9 +6,17 @@
  */
 
 use Softcatala\Ads\Sections;
+use Softcatala\Ads\SettingsPage;
 use Softcatala\Ads\ZoneResolver;
 
 require_once( 'sc_tests.php' );
+
+// WP Super Cache is not installed in the test suite; stand in for its clear-all API and count calls.
+if ( ! function_exists( 'wp_cache_clear_cache' ) ) {
+	function wp_cache_clear_cache() {
+		$GLOBALS['sc_test_page_cache_clears'] = ( $GLOBALS['sc_test_page_cache_clears'] ?? 0 ) + 1;
+	}
+}
 
 /**
  * Revive ad slots: section detection and per-slot zone resolution
@@ -167,5 +175,61 @@ class SC_AdsTest extends SCTests {
 
 		$_GET['ads'] = 'bogus:1';
 		$this->assertFalse( ZoneResolver::has_query_overrides() );
+	}
+
+	/**
+	 * The Publicitat options page has one zone field per section and slot, pre-filled with the seed
+	 */
+	function test_options_field_group_covers_every_section_and_slot() {
+		$config = ZoneResolver::load_config();
+		$fields = acf_get_fields( SettingsPage::OPTIONS_GROUP );
+		$zones  = array();
+
+		foreach ( $fields as $field ) {
+			if ( 'number' === $field['type'] ) {
+				$zones[ $field['name'] ] = $field['default_value'];
+			}
+		}
+
+		$this->assertCount( count( $config['sections'] ) * count( $config['slots'] ), $zones );
+		$this->assertSame( 36, $zones[ ZoneResolver::field_name( 'corrector', 'sidebar_top' ) ] );
+		$this->assertSame( 13, $zones[ ZoneResolver::field_name( 'default', 'header_1' ) ] );
+		$this->assertSame( '', $zones[ ZoneResolver::field_name( 'recursos', 'sidebar_top' ) ] );
+	}
+
+	/**
+	 * Pages and programes get one optional override field per slot, stored under the resolver's meta key
+	 */
+	function test_page_field_group_targets_pages_and_programes() {
+		$group = acf_get_field_group( SettingsPage::PAGE_GROUP );
+
+		$this->assertSame( array( 'page', 'programa' ), array_map( fn( $rule ) => $rule[0]['value'], $group['location'] ) );
+		$this->assertSame(
+			array_map( array( ZoneResolver::class, 'meta_key' ), array_keys( ZoneResolver::load_config()['slots'] ) ),
+			wp_list_pluck( acf_get_fields( SettingsPage::PAGE_GROUP ), 'name' )
+		);
+	}
+
+	/**
+	 * Free ACF (as in CI) has no options pages; registering must not fail
+	 */
+	function test_options_page_registration_is_guarded() {
+		( new SettingsPage() )->register_options_page();
+
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Saving the Publicitat page clears the page cache; saving anything else does not
+	 */
+	function test_saving_options_page_clears_page_cache() {
+		$GLOBALS['sc_test_page_cache_clears'] = 0;
+
+		do_action( 'acf/save_post', 123 );
+		do_action( 'acf/save_post', 'options' );
+		$this->assertSame( 0, $GLOBALS['sc_test_page_cache_clears'] );
+
+		do_action( 'acf/save_post', ZoneResolver::OPTIONS_ID );
+		$this->assertSame( 1, $GLOBALS['sc_test_page_cache_clears'] );
 	}
 }
