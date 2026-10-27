@@ -251,6 +251,15 @@ function classifyWord(word) {
     else if (syll[ns - 1].match(/[àáèéìíòóùú]/i)) {
         r = 0;
     } //aguda
+    else if (syll[ns - 1].match(/([^aeiou]|[qg]u)i[iu]s?$/i)) {
+        r = 0;
+    } // aguda (amplii, veniu, aflaquiu, aconseguiu)
+    else if (syll[ns - 1].match(/([^aeiou]|[qg]u)uus?$/i)) {
+        r = 0;
+    } // aguda (duu, duus, lluu, lluus)
+    else if (syll[ns - 1].match(/([^aeiouqg]ui|aii)$/i)) {
+        r = 0;
+    } // aguda (avui, hawaii; però abadoqui, abassegui)
     else if (syll[ns - 1].match(/[aeo][iu][^aeiou]*$/i)) {
         r = 0;
     } // aguda (amb diftong)

@@ -1190,6 +1190,20 @@ var patterns = [//
 "-agu4ant",
 ".agu4ait",
 "-agu4ait",
+"9ge8or8ge",
+"sa8int",
+"je8an",
+"eixavu9ir",
+"to8p9less",
+"go8u8a8c8h8e",
+"démodé8e",
+"aqua9gym",
+"ba9há9'í",
+"bok9mål",
+"what8s9app",
+"pre9islàmic",
+"pre9inserció",
+"pre9univers",
 ""
 ];
 
