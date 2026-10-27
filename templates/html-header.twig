@@ -40,7 +40,20 @@
     </script>
 </head>
 <body class="{{body_class}}">
-    {% if ads_container %}
+    {% if ads_container and ads.enabled %}
+        <div class="cap-banner container-fluid hidden-xs">
+            {% for slot, slot_class in { 'header_1': 'cap-banner-slot', 'header_2': 'cap-banner-slot visible-lg-block' } %}
+                {% if ads.slots[slot].zone or ads.debug %}
+                <div class="{{ slot_class }}"{% if slot == 'header_1' %} style="width: 744px;"{% endif %}>
+                    <div style="float: left;">
+                        <img src="/themes/wp-softcatala/static/images/header/publicitat.jpg" alt = "Publicitat" width="15" height="90"/>
+                    </div>
+                    {% include 'ads/slot.twig' %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% elseif ads_container %}
         <div class="cap-banner container-fluid hidden-xs">
             <div class="cap-banner-slot" style="width: 744px;">
                 <div style="float: left;">

@@ -125,7 +125,7 @@ class StarterSite extends \Timber\Site {
 
 		// Task management: redirect anonymous users away from individual task permalinks.
 		add_action( 'template_redirect', array( $this, 'sc_redirect_tasca_to_login' ) );
-		add_action( 'template_redirect', array( $this, 'sc_skip_cache_for_flag_overrides' ) );
+		add_action( 'template_redirect', array( $this, 'sc_skip_cache_for_request_overrides' ) );
 		add_action( 'template_redirect', array( $this, 'sc_redirect_resum_mensual_to_login' ) );
 
 		// Visibility: redirect anonymous users away from individual internal projecte pages.
@@ -666,10 +666,17 @@ class StarterSite extends \Timber\Site {
 	}
 
 	/**
-	 * Keeps pages rendered with ?ff= flag overrides out of page caches and proxies.
+	 * Whether this request carries a ?ff= flag override or a valid ?ads= token.
 	 */
-	function sc_skip_cache_for_flag_overrides() {
-		if ( ! SC_Settings::get_instance()->get_overrides() ) {
+	function has_request_overrides() {
+		return SC_Settings::get_instance()->get_overrides() || \Softcatala\Ads\ZoneResolver::has_query_overrides();
+	}
+
+	/**
+	 * Keeps pages rendered with ?ff= or ?ads= overrides out of page caches and proxies.
+	 */
+	function sc_skip_cache_for_request_overrides() {
+		if ( ! $this->has_request_overrides() ) {
 			return;
 		}
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
@@ -685,6 +692,7 @@ class StarterSite extends \Timber\Site {
 		$context['search_params'] = $this->get_search_params();
 		$context['site']          = $this;
 		$context['feature_flags'] = SC_Settings::get_instance()->get_active_values();
+		$context['ads']           = \Softcatala\Ads\Renderer::context( ! empty( $context['feature_flags'][ SC_Settings::SETTINGS_AD_SLOTS ] ) );
 		$context['themepath']     = get_template_directory_uri();
 		$context['current_url']   = get_current_url();
 		$context['menu_recursos']  = \Timber\Timber::get_menu( 'nav-recursos' );
@@ -712,6 +720,9 @@ class StarterSite extends \Timber\Site {
 		$twig->addFilter( new \Twig\TwigFilter( 'prepareSubLemma', 'prepareSubLemma' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'prepareWord', 'prepareWord' ) );
 		$twig->addFilter( new \Twig\TwigFilter( 'presentFeminine', 'presentFeminine' ) );
+		/* Revive ad slots */
+		$twig->addFunction( new \Twig\TwigFunction( 'ads_mark_rendered', array( '\Softcatala\Ads\Renderer', 'mark' ) ) );
+		$twig->addFunction( new \Twig\TwigFunction( 'ads_script_needed', array( '\Softcatala\Ads\Renderer', 'script_needed' ) ) );
 
 		return $twig;
 	}

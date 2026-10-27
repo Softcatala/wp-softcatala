@@ -30,4 +30,9 @@ return array(
 		'description' => 'Habilita/deshabilita el bàner de consentiment de galetes de Clickio i el Consent Mode de Google',
 		'overridable' => true,
 	),
+	SC_Settings::SETTINGS_AD_SLOTS                      => array(
+		'title'       => 'Publicitat per seccions',
+		'description' => 'Mostra les zones de Revive configurades a Paràmetres › Publicitat en lloc de les barres laterals de WooSidebars',
+		'overridable' => true,
+	),
 );

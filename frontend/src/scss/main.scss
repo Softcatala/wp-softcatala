@@ -33,6 +33,7 @@
 @use 'components/widgets';
 @use 'components/conjugador';
 @use 'components/hora';
+@use 'components/ad-slots';
 
 // 6. Page-specific layouts (most specific)
 @use 'layouts/home';

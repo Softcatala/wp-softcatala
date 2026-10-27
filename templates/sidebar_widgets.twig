@@ -1,6 +1,8 @@
 <!-- .aside-right -->
 <aside class="aside-right col-sm-12 col-md-3">
+    {% include 'ads/slot.twig' with { slot: 'sidebar_top' } %}
     {{sidebar_top}}
     {{sidebar_bottom}}
+    {% include 'ads/slot.twig' with { slot: 'sidebar_bottom' } %}
 </aside>
 <!--/.aside-right -->

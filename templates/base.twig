@@ -19,6 +19,9 @@
 
 		{% block footer %}
 			{% include 'footer.twig' %}
+			{% if ads_script_needed() %}
+				<script async src="{{ ads.delivery_url }}"></script>
+			{% endif %}
 			{{ function('wp_footer') }}
 		{% endblock %}
 	</body>

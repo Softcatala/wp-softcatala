@@ -5,6 +5,7 @@
  * @package Softcatala
  */
 
+use Softcatala\Ads\Renderer;
 use Softcatala\Ads\Sections;
 use Softcatala\Ads\SettingsPage;
 use Softcatala\Ads\ZoneResolver;
@@ -217,6 +218,145 @@ class SC_AdsTest extends SCTests {
 		( new SettingsPage() )->register_options_page();
 
 		$this->assertTrue( true );
+	}
+
+	/**
+	 * `ads` context as add_user_nav_info_to_context builds it, for a given section and query
+	 */
+	private function ads_context( $enabled = true, $section = 'corrector', $query = '' ) {
+		$config = ZoneResolver::load_config();
+		$ads    = array(
+			'enabled'      => $enabled,
+			'debug'        => false,
+			'slots'        => array(),
+			'revive_id'    => $config['revive_id'],
+			'delivery_url' => $config['delivery_url'],
+		);
+
+		return $enabled ? array_merge( $ads, ( new ZoneResolver() )->resolve( $section, 0, $query ) ) : $ads;
+	}
+
+	private function render_slot( $slot, $ads ) {
+		Renderer::reset();
+		return trim( \Timber\Timber::compile( 'ads/slot.twig', array( 'slot' => $slot, 'ads' => $ads ) ) );
+	}
+
+	/**
+	 * A page shaped like the recursos tools: header banners plus the recursos sidebar
+	 */
+	private function render_page( $context ) {
+		Renderer::reset();
+		$template = '{% extends "base.twig" %}{% block content %}{% include "sidebar_recursos.twig" %}{% endblock %}';
+
+		return \Timber\Timber::compile_string( $template, $context );
+	}
+
+	/**
+	 * A slot with a zone renders its <ins> with the configured Revive id
+	 */
+	function test_slot_renders_zone() {
+		$html = $this->render_slot( 'sidebar_top', $this->ads_context() );
+
+		$this->assertSame( 1, substr_count( $html, '<ins data-revive-zoneid="36" data-revive-id="eb4534b21d1ac483f6974b8de847dbe7"></ins>' ) );
+		$this->assertStringNotContainsString( 'asyncjs.php', $html );
+		$this->assertTrue( Renderer::script_needed() );
+	}
+
+	/**
+	 * An empty slot renders nothing, and leaves the script unneeded
+	 */
+	function test_empty_slot_renders_nothing() {
+		$this->assertSame( '', $this->render_slot( 'sidebar_bottom', $this->ads_context() ) );
+		$this->assertFalse( Renderer::script_needed() );
+
+		$this->assertSame( '', $this->render_slot( 'sidebar_top', $this->ads_context( false ) ) );
+	}
+
+	/**
+	 * Debug outlines every slot, labelled with slot, zone (or "cap") and source
+	 */
+	function test_debug_labels_slots() {
+		$ads = $this->ads_context( true, 'corrector', 'debug' );
+
+		$this->assertStringContainsString( 'sidebar_bottom · cap · default', $this->render_slot( 'sidebar_bottom', $ads ) );
+
+		$filled = $this->render_slot( 'sidebar_top', $this->ads_context( true, 'corrector', 'debug,sidebar_top:42' ) );
+		$this->assertStringContainsString( 'sidebar_top · 42 · query', $filled );
+		$this->assertStringContainsString( 'data-revive-zoneid="42"', $filled );
+	}
+
+	/**
+	 * Header and sidebar slots together load the Revive script exactly once
+	 */
+	function test_page_loads_revive_script_once() {
+		$html = $this->render_page( array( 'ads' => $this->ads_context(), 'ads_container' => true ) );
+
+		$this->assertStringContainsString( 'data-revive-zoneid="13"', $html );
+		$this->assertStringContainsString( 'data-revive-zoneid="17"', $html );
+		$this->assertStringContainsString( 'data-revive-zoneid="36"', $html );
+		$this->assertSame( 1, substr_count( $html, 'asyncjs.php' ) );
+	}
+
+	/**
+	 * No rendered slot, no script: pages without ads_container skip the header zones the default section resolves
+	 */
+	function test_page_without_rendered_slots_has_no_script() {
+		$html = $this->render_page( array( 'ads' => $this->ads_context( true, 'recursos' ), 'ads_container' => false ) );
+
+		$this->assertStringNotContainsString( 'data-revive-zoneid', $html );
+		$this->assertSame( 0, substr_count( $html, 'asyncjs.php' ) );
+	}
+
+	/**
+	 * With ad_slots off the page is today's: hard-coded header zones, no slots, no debug
+	 */
+	function test_flag_off_keeps_legacy_markup() {
+		$_GET['ads'] = 'debug,sidebar_top:42';
+		$ads         = Renderer::context( false );
+		$this->assertSame( array(), $ads['slots'] );
+		$this->assertFalse( $ads['debug'] );
+
+		$html = $this->render_page( array( 'ads' => $ads, 'ads_container' => true ) );
+
+		$this->assertStringContainsString( 'data-revive-zoneid="13"', $html );
+		$this->assertStringContainsString( 'data-revive-zoneid="17"', $html );
+		$this->assertStringNotContainsString( 'data-revive-zoneid="36"', $html );
+		$this->assertStringNotContainsString( 'sc-ad-debug', $html );
+		$this->assertSame( 2, substr_count( $html, 'asyncjs.php' ) );
+	}
+
+	/**
+	 * With ad_slots on, the request context resolves the current section and applies ?ads=
+	 */
+	function test_request_context_resolves_current_request() {
+		$page = $this->page_with_template( 'traductor.php' );
+		$this->go_to( get_permalink( $page ) );
+		$_GET['ads'] = 'debug,header_2:55';
+
+		$ads = Renderer::context( true );
+
+		$this->assertTrue( $ads['enabled'] );
+		$this->assertTrue( $ads['debug'] );
+		$this->assertSame( array( 'zone' => 38, 'source' => 'section' ), $ads['slots']['sidebar_top'] );
+		$this->assertSame( array( 'zone' => 55, 'source' => 'query' ), $ads['slots']['header_2'] );
+	}
+
+	/**
+	 * A valid ?ads= keeps the page out of the page cache; an ignored one does not
+	 */
+	function test_query_overrides_skip_page_cache() {
+		global $sc_site;
+
+		$_GET['ads'] = 'bogus:1';
+		$this->assertFalse( $sc_site->has_request_overrides() );
+
+		$_GET['ads'] = 'sidebar_top:42';
+		$this->assertTrue( $sc_site->has_request_overrides() );
+
+		unset( $_GET['ads'] );
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = 'clickio_cmp';
+		$this->assertTrue( $sc_site->has_request_overrides() );
+		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
 	}
 
 	/**

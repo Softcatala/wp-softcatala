@@ -1,0 +1,15 @@
+{# One Revive ad slot. Expects `slot` (its name) and the global `ads` context. #}
+{% set ad = ads.slots[slot] ?? null %}
+{% if ad %}
+    {% if ads.debug %}
+    <div class="sc-ad-debug">
+        <span class="sc-ad-debug__label">{{ slot }} · {{ ad.zone ?: 'cap' }} · {{ ad.source }}</span>
+    {% endif %}
+    {% if ad.zone %}
+        {{ ads_mark_rendered(ad.zone) }}
+        <ins data-revive-zoneid="{{ ad.zone }}" data-revive-id="{{ ads.revive_id }}"></ins>
+    {% endif %}
+    {% if ads.debug %}
+    </div>
+    {% endif %}
+{% endif %}

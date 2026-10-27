@@ -1,0 +1,23 @@
+// ==========================================================================
+// Ad slots
+// ==========================================================================
+//
+// Debug outline for Revive ad slots, shown only with ?ads=debug
+// (templates/ads/slot.twig).
+
+@use '../tokens' as *;
+
+.sc-ad-debug {
+  min-height: 2em;
+  margin-bottom: 1em;
+  outline: 2px dashed var(--color-error);
+}
+
+.sc-ad-debug__label {
+  display: block;
+  padding: 2px 6px;
+  background: var(--color-error);
+  color: #fff;
+  font-family: monospace;
+  font-size: 12px;
+}
