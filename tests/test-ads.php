@@ -12,6 +12,13 @@ use Softcatala\Ads\ZoneResolver;
 
 require_once( 'sc_tests.php' );
 
+/**
+ * Stands in for a WooSidebars class hooked on get_header.
+ */
+class Woo_Sidebars_Test_Double {
+	public function replace_sidebars() {}
+}
+
 // WP Super Cache is not installed in the test suite; stand in for its clear-all API and count calls.
 if ( ! function_exists( 'wp_cache_clear_cache' ) ) {
 	function wp_cache_clear_cache() {
@@ -25,7 +32,8 @@ if ( ! function_exists( 'wp_cache_clear_cache' ) ) {
 class SC_AdsTest extends SCTests {
 
 	function tear_down() {
-		unset( $_GET[ ZoneResolver::QUERY_PARAM ] );
+		unset( $_GET[ ZoneResolver::QUERY_PARAM ], $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+		SC_Settings::get_instance()->reload();
 		parent::tear_down();
 	}
 
@@ -357,6 +365,112 @@ class SC_AdsTest extends SCTests {
 		$_GET[ SC_Settings::OVERRIDE_PARAM ] = 'clickio_cmp';
 		$this->assertTrue( $sc_site->has_request_overrides() );
 		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+	}
+
+	/**
+	 * ad_slots is an overridable flag that starts off
+	 */
+	function test_ad_slots_flag_is_overridable_and_off() {
+		$settings = SC_Settings::get_instance();
+		$settings->reload();
+
+		$this->assertTrue( $settings->get_flags()[ SC_Settings::SETTINGS_AD_SLOTS ]['overridable'] );
+		$this->assertFalse( $settings->get_setting( SC_Settings::SETTINGS_AD_SLOTS ) );
+	}
+
+	/**
+	 * Registers a stand-in WooSidebars callback on get_header, runs the workaround, and reports where it ended up
+	 */
+	private function run_woosidebar_workaround() {
+		global $sc_site;
+
+		$callback = array( new Woo_Sidebars_Test_Double(), 'replace_sidebars' );
+		add_action( 'get_header', $callback );
+		$sc_site->fix_woosidebar_hooks();
+
+		$moved = (bool) has_action( 'template_redirect', $callback );
+		remove_action( 'get_header', $callback );
+		remove_action( 'template_redirect', $callback, 10 );
+
+		return $moved;
+	}
+
+	/**
+	 * With ad_slots off the WooSidebars workaround still runs; on, it moves nothing
+	 */
+	function test_ad_slots_flag_switches_woosidebars_off() {
+		SC_Settings::get_instance()->reload();
+		$this->assertTrue( $this->run_woosidebar_workaround() );
+
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = 'ad_slots';
+		$this->assertFalse( $this->run_woosidebar_workaround() );
+
+		update_option( SC_Settings::SETTINGS_AD_SLOTS, 'on' );
+		SC_Settings::get_instance()->reload();
+		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+		$this->assertFalse( $this->run_woosidebar_workaround() );
+
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = '-ad_slots';
+		$this->assertTrue( $this->run_woosidebar_workaround() );
+		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+	}
+
+	/**
+	 * Turning ad_slots on or off clears the page cache; saving it unchanged does not
+	 */
+	function test_ad_slots_flag_change_clears_page_cache() {
+		$GLOBALS['sc_test_page_cache_clears'] = 0;
+
+		update_option( SC_Settings::SETTINGS_AD_SLOTS, 'on' );
+		$this->assertSame( 1, $GLOBALS['sc_test_page_cache_clears'] );
+
+		update_option( SC_Settings::SETTINGS_AD_SLOTS, 'on' );
+		$this->assertSame( 1, $GLOBALS['sc_test_page_cache_clears'] );
+
+		update_option( SC_Settings::SETTINGS_AD_SLOTS, '' );
+		$this->assertSame( 2, $GLOBALS['sc_test_page_cache_clears'] );
+	}
+
+	private function catalanitzador_sidebar( $slug = 'catalanitzador', $flag = 'ad_slots' ) {
+		$id = $this->factory->post->create( array( 'post_type' => 'programa', 'post_name' => $slug ) );
+		$this->go_to( get_permalink( $id ) );
+		// go_to() resets $_GET, so the flag override goes in afterwards.
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = $flag;
+		set_transient( \Softcatala\Widgets\CatalanitzadorStats::TRANSIENT_NAME, 1234567, HOUR_IN_SECONDS );
+
+		return sc_programa_sidebar( array( 'sidebar_elements' => array( 'baixades.twig', 'links.twig' ) ), get_post( $id ) );
+	}
+
+	/**
+	 * With ad_slots on, the Catalanitzador programa gets its stats first and the hashtag button last
+	 */
+	function test_catalanitzador_sidebar_content() {
+		$context = $this->catalanitzador_sidebar();
+		$this->assertSame(
+			array( 'programa/catalanitzador-stats.twig', 'baixades.twig', 'links.twig', 'programa/catalanitzador-hashtag.twig' ),
+			$context['sidebar_elements']
+		);
+		$this->assertStringContainsString( '1.234.567', $context['catalanitzador_stats'] );
+
+		$html = \Timber\Timber::compile( 'programa/catalanitzador-hashtag.twig', array() );
+		$this->assertStringContainsString( 'button_hashtag=catalanitzador', $html );
+
+		$this->assertSame( array( 'baixades.twig', 'links.twig' ), $this->catalanitzador_sidebar( 'gimp' )['sidebar_elements'] );
+	}
+
+	/**
+	 * With ad_slots off, or on a programa subpage, the sidebar is unchanged
+	 */
+	function test_catalanitzador_sidebar_needs_flag_and_programa_page() {
+		$this->assertSame( array( 'baixades.twig', 'links.twig' ), $this->catalanitzador_sidebar( 'catalanitzador', '' )['sidebar_elements'] );
+
+		$programa = $this->factory->post->create( array( 'post_type' => 'programa', 'post_name' => 'catalanitzador' ) );
+		$subpage  = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		$this->go_to( get_permalink( $subpage ) );
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = 'ad_slots';
+
+		$context = sc_programa_sidebar( array( 'sidebar_elements' => array( 'links.twig' ) ), get_post( $programa ) );
+		$this->assertSame( array( 'links.twig' ), $context['sidebar_elements'] );
 	}
 
 	/**

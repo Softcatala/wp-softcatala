@@ -53,6 +53,32 @@ function get_downloads_full() {
 }
 
 /**
+ * Adds the content WooSidebars used to show on the Catalanitzador programa page:
+ * its stats at the top of the sidebar and the #catalanitzador button at the bottom.
+ * Only with ad slots on, and only on the programa itself, not its subpages.
+ *
+ * @param array    $context  Context with 'sidebar_elements'.
+ * @param \WP_Post $programa
+ * @return array
+ */
+function sc_programa_sidebar( $context, $programa ) {
+	$flags = SC_Settings::get_instance()->get_active_values();
+
+	if ( empty( $flags[ SC_Settings::SETTINGS_AD_SLOTS ] ) || ! is_singular( 'programa' ) || 'catalanitzador' !== $programa->post_name ) {
+		return $context;
+	}
+
+	ob_start();
+	( new \Softcatala\Widgets\CatalanitzadorStats() )->widget( array(), array() );
+	$context['catalanitzador_stats'] = ob_get_clean();
+
+	array_unshift( $context['sidebar_elements'], 'programa/catalanitzador-stats.twig' );
+	$context['sidebar_elements'][] = 'programa/catalanitzador-hashtag.twig';
+
+	return $context;
+}
+
+/**
  * Builds the Timber context array for a single programa post.
  *
  * @param \Timber\Post $programa
@@ -64,6 +90,7 @@ function get_program_context( $programa ) {
 	$context['sidebar_top']      = Timber::get_widgets( 'sidebar_top' );
 	$context['sidebar_elements'] = array( 'static/ajudeu.twig', 'static/dubte_forum.twig', 'baixades.twig', 'links.twig' );
 	$context['sidebar_bottom']   = Timber::get_widgets( 'sidebar_bottom' );
+	$context                     = sc_programa_sidebar( $context, $programa );
 	$context['post']             = $programa;
 
 	$context['arxivat']  = $programa->is_archived();

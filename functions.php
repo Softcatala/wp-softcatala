@@ -1,7 +1,7 @@
 <?php
 
 
-define( 'WP_SOFTCATALA_VERSION', '3.0.21' );
+define( 'WP_SOFTCATALA_VERSION', '3.0.22' );
 
 if( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
@@ -187,6 +187,10 @@ class StarterSite extends \Timber\Site {
 		);
 
 		spl_autoload_register( array( $this, 'autoload' ) );
+
+		// Switching ad slots on or off changes every page with ads, so cached copies must go.
+		add_action( 'add_option_' . SC_Settings::SETTINGS_AD_SLOTS, array( '\Softcatala\Ads\PageCache', 'clear' ) );
+		add_action( 'update_option_' . SC_Settings::SETTINGS_AD_SLOTS, array( '\Softcatala\Ads\PageCache', 'clear' ) );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			spl_autoload_register( array( $this, 'autoload_wpcli' ) );
@@ -764,6 +768,12 @@ class StarterSite extends \Timber\Site {
 
 	public function fix_woosidebar_hooks() {
 		global $wp_filter;
+
+		// With ad slots on, WooSidebars' get_header callbacks never run under Timber, so its overrides stop applying.
+		$flags = SC_Settings::get_instance()->get_active_values();
+		if ( ! empty( $flags[ SC_Settings::SETTINGS_AD_SLOTS ] ) ) {
+			return;
+		}
 
 		if ( ! isset ( $wp_filter['get_header'] ) ) {
 			return;
