@@ -355,6 +355,8 @@ class SC_AdsTest extends SCTests {
 	function test_query_overrides_skip_page_cache() {
 		global $sc_site;
 
+		$this->assertNotFalse( has_action( 'template_redirect', array( $sc_site, 'sc_skip_cache_for_request_overrides' ) ) );
+
 		$_GET['ads'] = 'bogus:1';
 		$this->assertFalse( $sc_site->has_request_overrides() );
 
