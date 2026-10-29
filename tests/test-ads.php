@@ -400,8 +400,11 @@ class SC_AdsTest extends SCTests {
 	function test_clickio_tag_loads_in_head_on_ad_pages() {
 		$this->assertNotFalse( has_filter( 'timber/compile/data', array( HeadTags::class, 'enqueue' ) ) );
 
+		// Page templates call Timber::render(), which fires timber/render/data rather than timber/compile/data.
 		$_GET[ SC_Settings::OVERRIDE_PARAM ] = SC_Settings::SETTINGS_CLICKIO_ADS;
-		\Timber\Timber::compile( 'ads/slot.twig', array( 'ads_container' => true ) );
+		ob_start();
+		\Timber\Timber::render( 'ads/slot.twig', array( 'ads_container' => true ) );
+		ob_end_clean();
 
 		$this->assertTrue( wp_script_is( HeadTags::CLICKIO_HANDLE, 'enqueued' ) );
 

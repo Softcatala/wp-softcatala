@@ -20,7 +20,8 @@ class HeadTags {
 	/**
 	 * Enqueues the Clickio tag when the page shows ads and the clickio_ads flag is on.
 	 *
-	 * Hooked on timber/compile/data, which runs before the template (and its wp_head()) renders.
+	 * Hooked on timber/render/data (Timber::render) and timber/compile/data (Timber::compile),
+	 * which run before the template (and its wp_head()) renders.
 	 *
 	 * @param array $data Template context.
 	 * @return array Unchanged context.
