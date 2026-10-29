@@ -17,6 +17,7 @@ class SC_Settings extends SC_Singleton {
 	const SETTINGS_CORRECTOR_SEND_SESSIONID = 'corrector_send_sessionid';
 	const SETTINGS_CLICKIO_CMP = 'clickio_cmp';
 	const SETTINGS_AD_SLOTS = 'ad_slots';
+	const SETTINGS_CLICKIO_ADS = 'clickio_ads';
 
 	const OVERRIDE_PARAM = 'ff';
 

@@ -35,4 +35,9 @@ return array(
 		'description' => 'Mostra les zones de Revive configurades a Paràmetres › Publicitat en lloc de les barres laterals de WooSidebars',
 		'overridable' => true,
 	),
+	SC_Settings::SETTINGS_CLICKIO_ADS                   => array(
+		'title'       => 'Publicitat de Clickio',
+		'description' => "Habilita/deshabilita l'etiqueta de Clickio a la capçalera de les pàgines amb publicitat",
+		'overridable' => true,
+	),
 );

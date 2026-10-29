@@ -5,6 +5,7 @@
  * @package Softcatala
  */
 
+use Softcatala\Ads\HeadTags;
 use Softcatala\Ads\Renderer;
 use Softcatala\Ads\Sections;
 use Softcatala\Ads\SettingsPage;
@@ -33,6 +34,8 @@ class SC_AdsTest extends SCTests {
 
 	function tear_down() {
 		unset( $_GET[ ZoneResolver::QUERY_PARAM ], $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+		wp_dequeue_script( HeadTags::CLICKIO_HANDLE );
+		wp_deregister_script( HeadTags::CLICKIO_HANDLE );
 		SC_Settings::get_instance()->reload();
 		parent::tear_down();
 	}
@@ -378,6 +381,46 @@ class SC_AdsTest extends SCTests {
 
 		$this->assertTrue( $settings->get_flags()[ SC_Settings::SETTINGS_AD_SLOTS ]['overridable'] );
 		$this->assertFalse( $settings->get_setting( SC_Settings::SETTINGS_AD_SLOTS ) );
+	}
+
+	/**
+	 * clickio_ads is an overridable flag that starts off
+	 */
+	function test_clickio_ads_flag_is_overridable_and_off() {
+		$settings = SC_Settings::get_instance();
+		$settings->reload();
+
+		$this->assertTrue( $settings->get_flags()[ SC_Settings::SETTINGS_CLICKIO_ADS ]['overridable'] );
+		$this->assertFalse( $settings->get_setting( SC_Settings::SETTINGS_CLICKIO_ADS ) );
+	}
+
+	/**
+	 * Rendering a page with the ad banner enqueues the Clickio tag as an async head script
+	 */
+	function test_clickio_tag_loads_in_head_on_ad_pages() {
+		$this->assertNotFalse( has_filter( 'timber/compile/data', array( HeadTags::class, 'enqueue' ) ) );
+
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = SC_Settings::SETTINGS_CLICKIO_ADS;
+		\Timber\Timber::compile( 'ads/slot.twig', array( 'ads_container' => true ) );
+
+		$this->assertTrue( wp_script_is( HeadTags::CLICKIO_HANDLE, 'enqueued' ) );
+
+		$html = get_echo( 'wp_print_head_scripts' );
+		$this->assertMatchesRegularExpression( '#<script async [^>]*src="//s\.clickiocdn\.com/t/250605/360_light\.js"#', $html );
+		$this->assertStringNotContainsString( '360_light.js?ver=', $html );
+	}
+
+	/**
+	 * The Clickio tag stays off pages without ads, and off everywhere while the flag is off
+	 */
+	function test_clickio_tag_needs_ad_page_and_flag() {
+		$_GET[ SC_Settings::OVERRIDE_PARAM ] = SC_Settings::SETTINGS_CLICKIO_ADS;
+		HeadTags::enqueue( array() );
+		$this->assertFalse( wp_script_is( HeadTags::CLICKIO_HANDLE, 'enqueued' ) );
+
+		unset( $_GET[ SC_Settings::OVERRIDE_PARAM ] );
+		HeadTags::enqueue( array( 'ads_container' => true ) );
+		$this->assertFalse( wp_script_is( HeadTags::CLICKIO_HANDLE, 'enqueued' ) );
 	}
 
 	/**
