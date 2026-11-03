@@ -27,6 +27,14 @@
 
 .cap-banner-slot {
   display: flex;
+
+  // .visible-lg-block forces display: block !important, which drops the
+  // ad below the floated "Publicitat" label when it is as wide as the slot
+  &.visible-lg-block {
+    @include respond-from(lg) {
+      display: flex !important;
+    }
+  }
 }
 
 .pag-header {
