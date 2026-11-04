@@ -86,6 +86,34 @@
             "placeholder": "",
             "_name": "slide_link",
             "_valid": 1
+        },
+        {
+            "key": "field_58970cc1c8740",
+            "label": "Amaga el text",
+            "name": "hide_caption",
+            "aria-label": "",
+            "prefix": "acf",
+            "type": "true_false",
+            "value": null,
+            "menu_order": 3,
+            "instructions": "Mostra només la imatge, sense el títol, l'extracte, el botó ni el fons. El títol continua sent necessari: s'usa com a text alternatiu de la imatge.",
+            "required": 0,
+            "id": "",
+            "class": "",
+            "conditional_logic": 0,
+            "parent": 10262,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "_name": "hide_caption",
+            "_valid": 1
         }
     ],
     "location": [
@@ -109,5 +137,6 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
+    "modified": 1793750400,
     "_valid": true
 }
