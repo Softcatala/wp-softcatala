@@ -285,6 +285,18 @@ class StarterSite extends \Timber\Site {
 			);
 			return;
 		}
+		// ACF resolves its default path before the theme directory is registered,
+		// so on our containers that default is a folder that does not exist.
+		// The theme goes first: ACF lets the last path win when a group is in
+		// several, and plugins must keep precedence over the theme's copies.
+		add_filter(
+			'acf/settings/load_json',
+			function ( $paths ) {
+				$theme_folder = get_stylesheet_directory() . '/acf-json';
+
+				return array_values( array_unique( array_merge( array( $theme_folder ), (array) $paths ) ) );
+			}
+		);
 		add_filter(
 			'acf/settings/save_json',
 			function () {

@@ -51,6 +51,12 @@ class SliderVisibilityTest extends SCTests {
 		$this->assertSame( 0, $fields['hide_caption']['default_value'] );
 	}
 
+	public function test_acf_loads_the_hide_caption_checkbox_from_the_json_file() {
+		$fields = acf_get_fields( 'group_58970c4114f78' );
+
+		$this->assertContains( 'hide_caption', array_column( $fields, 'name' ) );
+	}
+
 	private function render_slide( $overrides ) {
 		$slide = array_merge(
 			array(
