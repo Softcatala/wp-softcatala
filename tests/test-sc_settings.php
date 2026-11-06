@@ -84,14 +84,30 @@ class SC_SettingsTest extends SCTests {
 	/**
 	 * The Clickio consent scripts are only emitted when the flag is on
 	 */
-	function test_footer_clickio_follows_flag() {
-		$off = \Timber\Timber::compile( 'footer.twig', array( 'feature_flags' => array( 'clickio_cmp' => false ) ) );
-		$on  = \Timber\Timber::compile( 'footer.twig', array( 'feature_flags' => array( 'clickio_cmp' => 'on' ) ) );
+	function test_consent_clickio_follows_flag() {
+		$off = \Timber\Timber::compile( 'consent.twig', array( 'feature_flags' => array( 'clickio_cmp' => false ) ) );
+		$on  = \Timber\Timber::compile( 'consent.twig', array( 'feature_flags' => array( 'clickio_cmp' => 'on' ) ) );
 
 		$this->assertStringNotContainsString( 'clickiocmp.com', $off );
 		$this->assertStringNotContainsString( '__tcfapiLocator', $off );
 		$this->assertStringContainsString( 'clickiocmp.com', $on );
 		$this->assertStringContainsString( '__tcfapiLocator', $on );
+	}
+
+	/**
+	 * The CMP loads in the head, before wp_head scripts and before gtag.js in the footer
+	 */
+	function test_consent_loads_before_analytics() {
+		$context = array( 'feature_flags' => array( 'clickio_cmp' => 'on' ) );
+		$header  = \Timber\Timber::compile( 'html-header.twig', $context );
+		$footer  = \Timber\Timber::compile( 'footer.twig', $context );
+
+		$cmp = strpos( $header, 'clickiocmp.com' );
+		$this->assertNotFalse( $cmp );
+		$this->assertLessThan( strpos( $header, '</head>' ), $cmp );
+		$this->assertLessThan( strpos( $header, "gtag('consent', 'default'" ), strpos( $header, '__tcfapiLocator' ) );
+		$this->assertStringNotContainsString( 'clickiocmp.com', $footer );
+		$this->assertStringContainsString( 'googletagmanager.com/gtag', $footer );
 	}
 
 	function tear_down() {

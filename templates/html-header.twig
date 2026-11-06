@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset={{site.charset}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# Before any tag that reads consent: gtag.js, wp_head scripts, ads #}
+    {% include 'consent.twig' %}
     <link rel="me" href="https://mastodont.cat/@softcatala">
     <link rel="pingback" href="{{site.pingback_url}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
