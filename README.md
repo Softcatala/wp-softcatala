@@ -121,6 +121,42 @@ and on every pull request:
 It runs the same scripts `bin/test.sh` does, so a green local run means a green
 CI run.
 
+## Releases
+
+A release is a GitHub release whose tag is the bare version number (`3.0.25`,
+not `v3.0.25`).
+
+1. Bump the version:
+
+   ```bash
+   ./bin/bump-version.sh            # patch: 3.0.25 → 3.0.26
+   ./bin/bump-version.sh --minor    # or --major
+   ```
+
+   The script reads the latest *published* GitHub release and writes the next
+   version to `style.css` and to `WP_SOFTCATALA_VERSION` in `functions.php`. The
+   version is also the cache-busting query string on the theme's CSS and JS, so
+   browsers only fetch new assets after a bump.
+
+2. Commit the bump and push to `master`. It can go in the last change's own
+   commit.
+
+3. Publish a release that points at that commit, tagged with the same version:
+
+   ```bash
+   gh release create 3.0.26 --target master --title "Publicitat per seccions" --notes ""
+   ```
+
+   The title is a few words, in Catalan, naming what the release brings, e.g.
+   "Publicitat per seccions", "Llistes i SEO". A release that only fixes the
+   one before it takes that title plus "(correcció)": "Etiqueta de Clickio
+   (correcció)". The notes stay empty, since the commit log already describes
+   the changes, and releases are never marked as pre-releases.
+
+Publish each release before bumping again. The script works from the latest
+published release, so running it twice without publishing produces the same
+number both times.
+
 ## Architecture
 
 The theme separates PHP logic from presentation:
