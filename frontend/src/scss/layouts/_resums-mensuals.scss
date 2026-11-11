@@ -1,0 +1,394 @@
+// ==========================================================================
+// Layout: Resums mensuals (archive + single)
+// ==========================================================================
+//
+// The figures come from post meta; the summary body is HTML from
+// SoftcatalaBot, whose class names are specified in
+// docs/specs/resum-mensual-rest-api.md. Keep the two in step.
+
+@use '../tokens' as *;
+
+$resum-red-dark: #a51f22;
+$resum-help-bg: #fdf5f5;
+$resum-help-border: #f0c9c9;
+$resum-help-text: #8f1c1f;
+$resum-late-bg: #fff4dd;
+$resum-late-text: #6b4a00;
+
+.resums-mensuals {
+  .main-header h1 {
+    margin-bottom: 4px;
+  }
+
+  .resum-subtitol {
+    margin: 0 0 16px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+
+  .resum-ruta {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    padding-top: 16px;
+  }
+
+  .resum-actualitzat {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 3px;
+    background: $resum-late-bg;
+    color: $resum-late-text;
+    font-size: 13px;
+  }
+
+  .aside-right {
+    padding-top: 36px;
+  }
+
+  .resum-caixa {
+    border: 1px solid var(--color-border-light);
+    padding: 20px;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 14px;
+
+      li + li {
+        margin-top: 8px;
+      }
+    }
+  }
+}
+
+// Nested under .contingut to outrank .blog .contingut article p/h2/h3.
+.resums-mensuals .contingut {
+  // ---------------------------------------------------------------------------
+  // Archive
+  // ---------------------------------------------------------------------------
+
+  .resums-any {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 36px 0 20px;
+  }
+
+  .resum-item {
+    display: flex;
+    gap: 24px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border-light);
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: normal;
+    }
+
+    @include respond-to(xs) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .resum-data {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1;
+    background: $resum-red-dark;
+    color: var(--color-white);
+    font-family: var(--font-family-secondary);
+
+    strong {
+      font-size: 22px;
+    }
+
+    .resum-data-mes {
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    span {
+      font-size: 13px;
+    }
+  }
+
+  .resum-item-cos {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .resum-etiquetes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: var(--color-gray-125);
+    }
+
+    .resum-etiqueta-ajuda {
+      background: $resum-help-bg;
+      color: $resum-help-text;
+    }
+
+    .resum-etiqueta-tardanes {
+      background: $resum-late-bg;
+      color: $resum-late-text;
+    }
+  }
+
+  .resum-extracte {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .resum-meta {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .resum-progres {
+    width: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+
+    @include respond-to(xs) {
+      width: 100%;
+      padding-left: 96px;
+    }
+
+    @include respond-to(xxs) {
+      padding-left: 0;
+    }
+  }
+
+  .resum-progres-barra {
+    height: 8px;
+    background: var(--color-gray-150);
+    border-radius: 4px;
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 8px;
+      background: var(--color-brand);
+    }
+  }
+
+  .resum-progres-text {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Single
+  // ---------------------------------------------------------------------------
+
+  .resum-xifres-destacades {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 36px 0 0;
+    padding: 0;
+    list-style: none;
+
+    @include respond-to(xs) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    li {
+      background: var(--color-gray-100);
+      padding: 14px 16px;
+    }
+
+    strong {
+      display: block;
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.2;
+
+      small {
+        font-size: 16px;
+        color: var(--color-text-secondary);
+      }
+    }
+
+    span {
+      font-size: 13px;
+    }
+
+    .resum-xifra-ajuda {
+      background: $resum-help-bg;
+      color: $resum-help-text;
+    }
+  }
+
+  .resum-contingut {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 36px;
+
+    // Already shown by the header pill and the figures strip.
+    &.has-actualitzat .resum-actualitzacio,
+    &.has-xifres .resum-xifres {
+      display: none;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: normal;
+      margin: 0 0 18px;
+      scroll-margin-top: 80px;
+    }
+
+    > section,
+    > div > section {
+      margin-bottom: 36px;
+    }
+
+    .resum-projectes {
+      margin: 0;
+      padding: 0 0 0 16px;
+      list-style: none;
+      border-left: 3px solid var(--color-gray-150);
+
+      li {
+        margin: 0 0 14px;
+        padding: 0;
+
+        &::before {
+          content: none;
+        }
+      }
+
+      a {
+        font-weight: 600;
+      }
+    }
+
+    .resum-tardana {
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+
+    .resum-nota {
+      display: block;
+      margin-top: 6px;
+      font-style: italic;
+      color: var(--color-gray-1000);
+    }
+
+    .resum-ajuda {
+      border: 1px solid $resum-help-border;
+      background: $resum-help-bg;
+      padding: 20px 24px;
+
+      h2 {
+        color: $resum-help-text;
+        font-size: 22px;
+      }
+
+      .resum-projectes {
+        border-left: 0;
+        padding-left: 0;
+
+        li:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .resum-categoria {
+      margin-bottom: 26px;
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .resum-sense-novetats h2,
+    .resum-sense-resposta h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .resum-llista {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        margin: 0;
+        padding: 0;
+
+        &::before {
+          content: none;
+        }
+      }
+
+      a {
+        display: inline-block;
+        font-size: 13px;
+        padding: 4px 10px;
+        border: 1px solid var(--color-border);
+        border-radius: 14px;
+      }
+    }
+
+    .resum-sense-resposta .resum-llista a {
+      color: var(--color-text-secondary);
+    }
+  }
+
+  .resum-navegacio {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 18px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+}

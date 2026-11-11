@@ -1,0 +1,81 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <main class="main blog wrap-blanc resums-mensuals">
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1 id="content_header_title">{{ content_title }}</h1>
+                        <p class="resum-subtitol">Estat dels projectes de Softcatalà, mes a mes. Només visible per a membres.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    {% if resums %}
+                        {% for resum in resums %}
+                            {% if loop.first or resum.year != year %}
+                                {% set year = resum.year %}
+                                <h2 class="resums-any">{{ year }}</h2>
+                            {% endif %}
+                            <article class="resum-item">
+                                {# Covered month when the bot sent it; publication date otherwise. #}
+                                <div class="resum-data" aria-hidden="true">
+                                    {% if resum.periode %}
+                                        <strong class="resum-data-mes">{{ resum.periode.abbr }}</strong>
+                                        <span>{{ resum.periode.year }}</span>
+                                    {% else %}
+                                        <strong>{{ resum.day }}</strong>
+                                        <span>{{ resum.month_abbr }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="resum-item-cos">
+                                    <h3><a href="{{ resum.link }}">{{ resum.title }}</a></h3>
+                                    {% if resum.stats %}
+                                        <ul class="resum-etiquetes">
+                                            <li><strong>{{ resum.stats.respostes }}</strong> de {{ resum.stats.total }} han respost</li>
+                                            {% if resum.stats.demanen_ajuda %}
+                                                <li class="resum-etiqueta-ajuda"><strong>{{ resum.stats.demanen_ajuda }}</strong> {{ resum.stats.demanen_ajuda == 1 ? 'demana' : 'demanen' }} ajuda</li>
+                                            {% endif %}
+                                            {% if resum.stats.tardanes %}
+                                                <li class="resum-etiqueta-tardanes"><strong>{{ resum.stats.tardanes }}</strong> {{ resum.stats.tardanes == 1 ? 'resposta tardana' : 'respostes tardanes' }}</li>
+                                            {% endif %}
+                                        </ul>
+                                    {% elseif resum.extracte %}
+                                        <p class="resum-extracte">{{ resum.extracte }}</p>
+                                    {% endif %}
+                                    <p class="resum-meta">
+                                        Publicat el <time datetime="{{ resum.datetime }}">{{ resum.publicat }}</time>{% if resum.actualitzat %} · actualitzat el {{ resum.actualitzat }}{% endif %}
+                                    </p>
+                                </div>
+                                {% if resum.stats %}
+                                    <div class="resum-progres">
+                                        <div class="resum-progres-barra" role="img" aria-label="{{ resum.stats.percentatge }}% de resposta">
+                                            <span style="width: {{ resum.stats.percentatge }}%"></span>
+                                        </div>
+                                        <span class="resum-progres-text">{{ resum.stats.percentatge }}% de resposta</span>
+                                    </div>
+                                {% endif %}
+                            </article>
+                        {% endfor %}
+
+                        {% include "pagination.twig" %}
+                    {% else %}
+                        <p>Encara no hi ha cap resum mensual.</p>
+                    {% endif %}
+                </div>
+
+                <aside class="aside-right col-sm-12 col-md-3">
+                    <div class="resum-caixa">
+                        <h2>Sobre els resums</h2>
+                        <p>Cada mes, el bot pregunta als projectes com van i publica aquí el resum. Les respostes tardanes l'actualitzen.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+{% endblock %}

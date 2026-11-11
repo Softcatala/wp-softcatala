@@ -1,0 +1,112 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <main class="main wrap-blanc blog resums-mensuals">
+        <header class="main-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <nav class="resum-ruta" aria-label="Ruta">
+                            <a href="{{ function('get_post_type_archive_link', 'resum_mensual') }}">Resums mensuals</a>
+                            {% if resum.periode %}<span aria-hidden="true">›</span> {{ resum.periode.label }}{% endif %}
+                        </nav>
+                        <h1 id="content_header_title">{{ post.title }}</h1>
+                        <p class="resum-subtitol">
+                            Publicat el <time datetime="{{ resum.datetime }}">{{ resum.publicat }}</time>
+                            {% if resum.actualitzat %}
+                                <span class="resum-actualitzat">Actualitzat el {{ resum.actualitzat }}{% if resum.stats and resum.stats.tardanes %} amb {{ resum.stats.tardanes }} {{ resum.stats.tardanes == 1 ? 'resposta tardana' : 'respostes tardanes' }}{% endif %}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="contingut contingut-left col-sm-12 col-md-9">
+                    <article>
+                        {% if resum.stats %}
+                            {% set stats = resum.stats %}
+                            <ul class="resum-xifres-destacades">
+                                <li>
+                                    <strong>{{ stats.respostes }}<small> / {{ stats.total }}</small></strong>
+                                    <span>han respost</span>
+                                </li>
+                                {% if stats.demanen_ajuda is not null %}
+                                    <li class="resum-xifra-ajuda">
+                                        <strong>{{ stats.demanen_ajuda }}</strong>
+                                        <span>{{ stats.demanen_ajuda == 1 ? 'demana' : 'demanen' }} ajuda</span>
+                                    </li>
+                                {% endif %}
+                                {% if stats.sense_novetats is not null %}
+                                    <li>
+                                        <strong>{{ stats.sense_novetats }}</strong>
+                                        <span>sense novetats</span>
+                                    </li>
+                                {% endif %}
+                                {% if stats.sense_resposta is not null %}
+                                    <li>
+                                        <strong>{{ stats.sense_resposta }}</strong>
+                                        <span>sense resposta</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+
+                        {# has-xifres and has-actualitzat hide the paragraphs the header and the figures strip
+                           already show; without the meta they stay as the bot wrote them. #}
+                        <section class="resum-contingut{% if resum.stats %} has-xifres{% endif %}{% if resum.actualitzat %} has-actualitzat{% endif %}">
+                            {{ post.content }}
+                        </section>
+                    </article>
+
+                    {% if adjacent.previous or adjacent.next %}
+                        <nav class="resum-navegacio" aria-label="Altres resums">
+                            {% if adjacent.previous %}
+                                <a href="{{ adjacent.previous.link }}" rel="prev">‹ {{ adjacent.previous.periode ? adjacent.previous.periode.label : adjacent.previous.title }}</a>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+                            {% if adjacent.next %}
+                                <a href="{{ adjacent.next.link }}" rel="next">{{ adjacent.next.periode ? adjacent.next.periode.label : adjacent.next.title }} ›</a>
+                            {% endif %}
+                        </nav>
+                    {% endif %}
+
+                    {% include "comentaris.twig" %}
+                </div>
+
+                <aside class="aside-right col-sm-12 col-md-3">
+                    {% if recents|length > 1 %}
+                        <div class="resum-caixa">
+                            <h2>Altres resums</h2>
+                            <ul>
+                                {% for recent in recents %}
+                                    <li>
+                                        {% if recent.ID == post.ID %}
+                                            <strong aria-current="page">{{ recent.periode ? recent.periode.label : recent.title }}</strong>
+                                        {% else %}
+                                            <a href="{{ recent.link }}">{{ recent.periode ? recent.periode.label : recent.title }}</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                <li><a href="{{ function('get_post_type_archive_link', 'resum_mensual') }}">Tots els resums</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if toc %}
+                        <div class="resum-caixa">
+                            <h2>En aquest resum</h2>
+                            <ul>
+                                {% for entry in toc %}
+                                    <li><a href="#{{ entry.id }}">{{ entry.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </aside>
+            </div>
+        </div>
+    </main>
+{% endblock %}
