@@ -8,7 +8,7 @@
                     <div class="col-xs-12">
                         <nav class="resum-ruta" aria-label="Ruta">
                             <a href="{{ function('get_post_type_archive_link', 'resum_mensual') }}">Resums mensuals</a>
-                            {% if resum.periode %}<span aria-hidden="true">›</span> {{ resum.periode.label }}{% endif %}
+                            {% if resum.periode %}<span aria-hidden="true">›</span> <span>{{ resum.periode.label }}</span>{% endif %}
                         </nav>
                         <h1 id="content_header_title">{{ post.title }}</h1>
                         <p class="resum-subtitol">

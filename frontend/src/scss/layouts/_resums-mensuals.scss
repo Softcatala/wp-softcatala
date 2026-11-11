@@ -26,13 +26,33 @@ $resum-late-text: #6b4a00;
     color: var(--color-text-secondary);
   }
 
-  .resum-ruta {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    padding-top: 16px;
+  // .blog .main-header span makes every header span 36px grey with a top
+  // margin; these spans are inline labels, so reset that first.
+  .main-header .resum-ruta,
+  .main-header .resum-subtitol {
+    span {
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      margin-top: 0;
+    }
   }
 
-  .resum-actualitzat {
+  .resum-ruta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    padding-top: 24px;
+  }
+
+  .resum-ruta + h1 {
+    margin-top: 8px;
+  }
+
+  .main-header .resum-subtitol .resum-actualitzat {
     display: inline-block;
     margin-left: 6px;
     padding: 1px 8px;

@@ -1,3 +1,7 @@
+{# Closed comments (post type without comment support, an editor closing them,
+   or the comments_open filter for archived programes) hide the whole section:
+   WordPress would reject a submission anyway. #}
+{% if function('comments_open', post.ID) %}
     <section class="comentaris">
     <hr>
     <div class="comentari-header">
@@ -40,3 +44,4 @@
 <div id="comment_form_flexible_{{ post.ID }}" style="display: none;">
     {% include "comment_form.twig" %}
 </div>
+{% endif %}

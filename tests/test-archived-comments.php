@@ -94,4 +94,27 @@ class ArchivedCommentsTest extends SCTests {
 		wp_set_object_terms( $post_id, array(), 'classificacio' );
 		$this->assertTrue( comments_open( $post_id ) );
 	}
+
+	/**
+	 * The comments section renders only while comments are open, so archived
+	 * programes and post types without comment support show no form.
+	 */
+	function test_comments_section_follows_comments_open() {
+		$active   = $this->create_post( 'programa', false );
+		$archived = $this->create_post( 'programa', true );
+		$resum    = $this->factory->post->create(
+			array(
+				'post_type'   => 'resum_mensual',
+				'post_status' => 'publish',
+			)
+		);
+
+		$this->assertStringContainsString( 'class="comentaris"', $this->render_comments( $active ) );
+		$this->assertStringNotContainsString( 'class="comentaris"', $this->render_comments( $archived ) );
+		$this->assertStringNotContainsString( 'class="comentaris"', $this->render_comments( $resum ) );
+	}
+
+	private function render_comments( $post_id ) {
+		return \Timber\Timber::compile( 'comentaris.twig', array( 'post' => \Timber\Timber::get_post( $post_id ) ) );
+	}
 }
