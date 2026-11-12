@@ -58,7 +58,8 @@ class SC_AdsTest extends SCTests {
 
 		$this->assertSame( 'corrector', $sections->for_post( get_post( $this->page_with_template( 'corrector-antic.php' ) ) ) );
 		$this->assertSame( 'diccionaris', $sections->for_post( get_post( $this->page_with_template( 'diccionari-engcat.php' ) ) ) );
-		$this->assertSame( 'recursos', $sections->for_post( get_post( $this->page_with_template( 'conjugador.php' ) ) ) );
+		$this->assertSame( 'diccionaris', $sections->for_post( get_post( $this->page_with_template( 'conjugador.php' ) ) ) );
+		$this->assertSame( 'recursos', $sections->for_post( get_post( $this->page_with_template( 'hora-catala.php' ) ) ) );
 		$this->assertSame( 'default', $sections->for_post( get_post( $this->page_with_template( 'page-no-sidebar.php' ) ) ) );
 		$this->assertSame( 'default', $sections->for_post( get_post( $this->factory->post->create() ) ) );
 		$this->assertSame( 'default', $sections->for_post( null ) );

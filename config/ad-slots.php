@@ -45,13 +45,12 @@ return array(
 		),
 		'diccionaris' => array(
 			'title'     => 'Diccionaris',
-			'templates' => array( 'sinonims.php', 'diccionari-engcat.php' ),
+			'templates' => array( 'sinonims.php', 'diccionari-engcat.php', 'conjugador.php' ),
 			'seed'      => array( 'sidebar_top' => 40 ),
 		),
 		'recursos'    => array(
 			'title'     => 'Altres recursos',
 			'templates' => array(
-				'conjugador.php',
 				'cercador-paraules.php',
 				'dubbing.php',
 				'dubbing-feedback.php',
