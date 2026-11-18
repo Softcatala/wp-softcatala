@@ -5,4 +5,5 @@ WP_CLI::add_command( 'sc update-downloads', 'Update_Downloads_Command' );
 WP_CLI::add_command( 'sc sync-huggingface', 'Sync_HuggingFace_Command' );
 WP_CLI::add_command( 'sc seed-estats', 'Seed_Estat_Tasca_Command' );
 WP_CLI::add_command( 'sc seed-nav-menus', 'Seed_Nav_Menus_Command' );
+WP_CLI::add_command( 'sc blocks', 'Blocks_Command' );
 

@@ -32,6 +32,17 @@ class SC_Shortcodes {
 	}
 
 	/**
+	 * Names of the shortcodes registered here. They are only in
+	 * $shortcode_tags while the_content runs, so callers that need the full
+	 * list (the content audit) ask for it.
+	 *
+	 * @return string[]
+	 */
+	public function names() {
+		return array_keys( $this->shortcodes );
+	}
+
+	/**
 	 * Configura els shortcodes
 	 */
 	public function setup() {

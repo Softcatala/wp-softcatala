@@ -94,6 +94,10 @@ Behind the `block_editor` feature flag (`?ff=block_editor` previews it). Roadmap
   variation; `_prose.scss` — content typography. Both are shared by `main.scss` (under
   `.contingut`) and `editor.scss` → `static/css/editor.min.css`, built by
   `npm run build:editor` (part of `npm run build`), not Vite.
+- `wp sc blocks audit` (`wp-cli/blocks_command.php`, logic in
+  `Softcatala\Blocks\ContentAudit`) — read-only report of what content still needs
+  migrating: classic vs block, shortcodes, sc-footnotes, legacy classes, inline styles,
+  blocks outside the allowed list. `--post_type=any`, `--per-post --format=csv`.
 - Never offer free colours: add a palette entry or a block style instead.
 - New shortcode functionality gets a block sharing the shortcode's renderer (see
   `classes/blocks/cards.php`).
