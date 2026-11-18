@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/ia-data",
+  "title": "Dades d'IA",
+  "category": "softcatala",
+  "icon": "chart-bar",
+  "description": "Una taula o un gràfic a partir d'un fitxer JSON de dades d'avaluació de models.",
+  "keywords": [
+    "ia",
+    "taula",
+    "gràfic",
+    "models"
+  ],
+  "attributes": {
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "format": {
+      "type": "string",
+      "default": "table"
+    },
+    "decimals": {
+      "type": "string",
+      "default": ""
+    },
+    "highlight_field": {
+      "type": "string",
+      "default": "cloud"
+    },
+    "link_column": {
+      "type": "string",
+      "default": ""
+    },
+    "link_field": {
+      "type": "string",
+      "default": "repo_url"
+    },
+    "metric": {
+      "type": "string",
+      "default": ""
+    },
+    "direction": {
+      "type": "string",
+      "default": ""
+    },
+    "scale": {
+      "type": "string",
+      "default": ""
+    },
+    "suffix": {
+      "type": "string",
+      "default": ""
+    },
+    "label_field": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "caption": {
+      "type": "string",
+      "default": ""
+    },
+    "threshold_label": {
+      "type": "string",
+      "default": ""
+    },
+    "cache": {
+      "type": "number",
+      "default": 3600
+    }
+  },
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "reusable": false
+  }
+}

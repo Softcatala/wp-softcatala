@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/targetes",
+  "title": "Targetes",
+  "category": "softcatala",
+  "icon": "grid-view",
+  "description": "Graella de targetes amb imatge, títol, descripció i enllaç.",
+  "keywords": [
+    "targetes",
+    "cards",
+    "graella"
+  ],
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "anchor": false,
+    "mode": false
+  },
+  "acf": {
+    "mode": "preview",
+    "renderCallback": "Softcatala\\Blocks\\Cards::render"
+  }
+}

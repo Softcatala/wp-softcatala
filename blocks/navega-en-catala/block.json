@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/navega-en-catala",
+  "title": "Navega en català: llengües del navegador",
+  "category": "softcatala",
+  "icon": "translation",
+  "description": "Mostra les llengües que el navegador del lector demana als webs.",
+  "keywords": [
+    "navegador",
+    "llengua"
+  ],
+  "attributes": {},
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "reusable": false,
+    "multiple": false
+  }
+}

@@ -12,9 +12,9 @@
  * theme or its tools produce (the resum fixture, agent output).
  */
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { getBlockType, parse, serialize } from '@wordpress/blocks'
+import { getBlockType, parse, registerBlockType, serialize } from '@wordpress/blocks'
 import { registerCoreBlocks } from '@wordpress/block-library'
 
 interface EditorConfig {
@@ -42,9 +42,23 @@ export const config: EditorConfig = JSON.parse(
 
 let registered = false
 
+const themeBlocksDir = resolve(__dirname, '../../../blocks')
+
+/**
+ * The theme's blocks (blocks/<name>/block.json) are rendered on the server,
+ * so their saved form is the comment alone: register them with that.
+ */
+function registerThemeBlocks(): void {
+  for (const folder of readdirSync(themeBlocksDir)) {
+    const metadata = JSON.parse(readFileSync(resolve(themeBlocksDir, folder, 'block.json'), 'utf8'))
+    registerBlockType(metadata, { save: () => null })
+  }
+}
+
 function ensureRegistered(): void {
   if (!registered) {
     registerCoreBlocks()
+    registerThemeBlocks()
     registered = true
   }
 }

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/index",
+  "title": "Índex de la pàgina",
+  "category": "softcatala",
+  "icon": "list-view",
+  "description": "Enllaços als títols de nivell 2 de la pàgina que tenen un ancoratge HTML.",
+  "keywords": [
+    "índex",
+    "sumari",
+    "taula de continguts"
+  ],
+  "attributes": {
+    "titol": {
+      "type": "string",
+      "default": "En aquesta pàgina"
+    }
+  },
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "reusable": false,
+    "multiple": false
+  }
+}

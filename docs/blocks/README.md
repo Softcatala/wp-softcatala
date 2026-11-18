@@ -30,7 +30,10 @@ The roadmap is `docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
 | `config/block-editor.json` | Post types, allowed blocks, block styles and the pattern category. Read by PHP (`Editor::config()`) and by the frontend tests |
 | `block-patterns/*.php` | Patterns: a header, then plain block markup |
 | `classes/blocks/attendance-table.php` | Server-side totals for the table's `assistencia` style |
-| `classes/blocks/cards.php` | The `acf/cards` block, sharing the `[cards]` renderer |
+| `blocks/<name>/block.json` | The theme's blocks (`sc/*`) |
+| `classes/blocks/theme-blocks.php` | Registers them; render callbacks of the native ones |
+| `classes/blocks/cards.php` | `sc/targetes` and the legacy `acf/cards` (ACF PRO), sharing the `[cards]` renderer |
+| `frontend/src/js/editor-blocks.ts` | Editor side of the native blocks: server preview and settings fields |
 | `frontend/src/scss/_blocks.scss` | The look of core blocks and every `.is-style-*` |
 | `frontend/src/scss/_prose.scss` | Content typography: headings, paragraphs, links, lists |
 | `frontend/src/scss/editor.scss` | The editor canvas stylesheet, plus editor-only fixes |
@@ -104,21 +107,32 @@ survive editing: rich text drops any class it doesn't know.
 ## Adding a custom block
 
 Reach for one only when core blocks plus a style can't do it: dynamic data, or a
-shortcode that needs a block (rule 3).
+shortcode that needs a block (rule 3). Each block is a folder under `blocks/` with its
+`block.json` (`sc/<name>`, category `softcatala`).
 
-- Today the theme has one, `acf/cards`: an ACF block whose `render_callback` calls the
-  shortcode's static `render()`. Copy that shape for a block whose content is a form
-  (fields, a repeater).
-- For a block that needs no fields, prefer a native, server-rendered block: a
-  `block.json` with `"render"` pointing at a PHP template that calls the shared renderer,
-  registered with `register_block_type()` on `init`. Moving `acf/cards` to `block.json`
-  is on the roadmap.
+- **Native, server-rendered** (`sc/index`, `sc/ia-data`, `sc/ia-local-checker`,
+  `sc/navega-en-catala`): `block.json` declares the attributes; the render callback
+  is listed in `Softcatala\Blocks\ThemeBlocks::renderers()` and calls the shortcode's
+  renderer (a static `render()`, or the shortcode method with the block's attributes as
+  its atts). The editor side is one entry in `BLOCKS` in
+  `frontend/src/js/editor-blocks.ts`: a server preview plus a sidebar field per
+  attribute. Nothing is saved but the comment (`<!-- wp:sc/name {…} /-->`). Prefer this:
+  it needs no plugin, and PHPUnit can render it.
+- **ACF PRO** (`sc/targetes`): for content that is a form, such as a repeater of cards.
+  `block.json` carries an `"acf"` key with the render callback, the field group's
+  location names the block, and `ThemeBlocks` registers it only when ACF PRO is active
+  (the test site runs the free ACF, so only the shared renderer is tested). The old
+  `acf/cards` stays registered, out of the inserter, for content saved with it.
 
-In both cases: add the block name to `blocks` in `config/block-editor.json`; test the
-shared renderer in PHPUnit (the shortcode and the block must produce the same HTML);
-style it in `_blocks.scss`; document it in the editor guide; and, if it replaces a
-shortcode or legacy class, add a row to the guide's "Del format antic al nou" table and,
-if it's useful to track, to `ContentAudit`.
+In both cases: add the block to `blocks` in `config/block-editor.json` (a test checks
+every `block.json` is allowed); test that the block and the shortcode render the same
+HTML (`tests/test-theme-blocks.php`); style it in `_blocks.scss` under
+`.wp-block-sc-<name>`; document it in the editors' guide, with a row in "Del format antic
+al nou" when it replaces something. The validator registers every `blocks/*/block.json`
+with an empty save, so patterns can use them.
+
+Blocks render whatever the `block_editor` flag says; the flag only gates the editor
+script, so with it off they don't appear in the inserter.
 
 ## Page index
 
@@ -126,8 +140,8 @@ if it's useful to track, to `ContentAudit`.
 sidebar widgets, and the right column is `templates/components/index-pagina.twig`, the
 page's `<h2 id="…">` headings from `Softcatala\Content\TableOfContents` (shared with the
 resums' sidebar). It stays in view on wide screens and comes first on narrow ones. A page
-with no anchored `h2` gets the full width. The `sc/index` block on the roadmap would put
-the same list inside the content instead.
+with no anchored `h2` gets the full width. The `sc/index` block puts the same list inside
+the content instead.
 
 ## Post types and allowed blocks
 

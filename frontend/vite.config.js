@@ -110,6 +110,7 @@ export default defineConfig({
         sinonims: resolve(__dirname, 'src/js/sinonims.ts'),
         programes: resolve(__dirname, 'src/js/programes.ts'),
         'editor-formats': resolve(__dirname, 'src/js/editor-formats.ts'),
+        'editor-blocks': resolve(__dirname, 'src/js/editor-blocks.ts'),
       },
       output: {
         entryFileNames: (chunk) =>
@@ -124,6 +125,7 @@ export default defineConfig({
           : chunk.name === 'sinonims' ? 'js/sinonims.js'
           : chunk.name === 'programes' ? 'js/programes.js'
           : chunk.name === 'editor-formats' ? 'js/editor-formats.js'
+          : chunk.name === 'editor-blocks' ? 'js/editor-blocks.js'
           : 'js/[name].min.js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {

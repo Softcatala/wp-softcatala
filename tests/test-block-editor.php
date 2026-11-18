@@ -193,9 +193,10 @@ class BlockEditorTest extends SCTests {
 
 	private function unregister_patterns() {
 		$registry = WP_Block_Patterns_Registry::get_instance();
-		foreach ( array( 'softcatala/trobada', 'softcatala/sessio', 'softcatala/xifres' ) as $slug ) {
-			if ( $registry->is_registered( $slug ) ) {
-				$registry->unregister( $slug );
+		foreach ( glob( get_template_directory() . '/block-patterns/*.php' ) as $file ) {
+			$pattern = Editor::read_pattern( $file );
+			if ( $pattern && $registry->is_registered( $pattern['slug'] ) ) {
+				$registry->unregister( $pattern['slug'] );
 			}
 		}
 		if ( WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'softcatala' ) ) {
@@ -258,7 +259,7 @@ class BlockEditorTest extends SCTests {
 
 		foreach ( array( 1, 2 ) as $pass ) {
 			$html = apply_filters( 'the_content', $guide );
-			foreach ( array( 'caption', 'gallery', 'video', 'cards', 'ia-data', 'llista-icones', 'llista-links', 'insert' ) as $tag ) {
+			foreach ( array( 'caption', 'gallery', 'video', 'cards', 'ia-data', 'ia-local-checker', 'navega-en-catala', 'llista-icones', 'llista-links', 'insert' ) as $tag ) {
 				$this->assertStringContainsString( "<code>[$tag]</code>", $html, "pass $pass: [$tag]" );
 			}
 		}

@@ -85,6 +85,11 @@ describe('validateMarkup', () => {
     ])
   })
 
+  it('accepts the theme\'s server-rendered blocks', () => {
+    expect(validateMarkup('<!-- wp:sc/index {"titol":"Sumari"} /-->')).toEqual([])
+    expect(validateMarkup('<!-- wp:sc/ia-data {"url":"https://example.org/d.json","format":"graph"} /-->')).toEqual([])
+  })
+
   it('reports unknown block types', () => {
     const markup = '<!-- wp:softcatala/inexistent /-->'
     expect(validateMarkup(markup)).toEqual([

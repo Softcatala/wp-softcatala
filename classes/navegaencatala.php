@@ -17,6 +17,16 @@ class SC_NavegaEnCatala {
 	}
 
 	public function shortcode() {
+		return self::render();
+	}
+
+	/**
+	 * The widget's markup, shared by the shortcode and the sc/navega-en-catala
+	 * block (Softcatala\Blocks\ThemeBlocks).
+	 *
+	 * @return string
+	 */
+	public static function render() {
 		$out = <<<NAVEGA
 		<div class="navega"><div id="navega-user-agent" class="navega-user-agent"></div></div>
 		<script>

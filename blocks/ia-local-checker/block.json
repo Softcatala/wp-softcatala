@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/ia-local-checker",
+  "title": "Comprovador d'IA local",
+  "category": "softcatala",
+  "icon": "desktop",
+  "description": "El formulari que diu quins models pot fer anar l'ordinador del lector.",
+  "keywords": [
+    "ia",
+    "requisits"
+  ],
+  "attributes": {},
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "reusable": false,
+    "multiple": false
+  }
+}

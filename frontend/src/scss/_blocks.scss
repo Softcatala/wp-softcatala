@@ -64,13 +64,13 @@ $crida-heading: #8f1c1f;
     margin-top: 0;
   }
 
-  // Targetes: each column a bordered box, all as tall as the tallest
+  // Requadres: each column a bordered box, all as tall as the tallest
   // (core's columns already stretch). The ia-local requirements layout.
-  .wp-block-columns.is-style-targetes {
+  .wp-block-columns.is-style-requadres {
     gap: 30px;
   }
 
-  .wp-block-columns.is-style-targetes > .wp-block-column {
+  .wp-block-columns.is-style-requadres > .wp-block-column {
     border: 1px solid var(--color-border-light);
     padding: 20px;
 
@@ -457,6 +457,34 @@ $crida-heading: #8f1c1f;
   .is-style-avis-crida ul.wp-block-list.is-style-amb-filet {
     border-left: 0;
     padding-left: 0;
+  }
+
+  // Índex de la pàgina (sc/index, Softcatala\Blocks\ThemeBlocks): the same
+  // box as the index column of the "amb índex" page template.
+  .wp-block-sc-index {
+    margin: 0 0 20px;
+    padding: 20px;
+    border: 1px solid var(--color-border-light);
+
+    .sc-index-titol {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    // A class of its own keeps the content's list bullets (_prose.scss) off.
+    .sc-index-llista {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 14px;
+      line-height: 1.4;
+
+      li + li {
+        margin-top: 8px;
+      }
+    }
   }
 
   // Amb icones: links or short items as grey tiles with a check, two per

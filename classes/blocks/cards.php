@@ -70,6 +70,13 @@ class Cards {
 						'value'    => 'acf/cards',
 					),
 				),
+				array(
+					array(
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'sc/targetes',
+					),
+				),
 			),
 		) );
 	}
@@ -86,12 +93,25 @@ class Cards {
 			'category'        => 'softcatala',
 			'icon'            => 'grid-view',
 			'keywords'        => array( 'targetes', 'cards', 'grid' ),
-			'render_callback' => array( $this, 'render' ),
+			// Superseded by sc/targetes (blocks/targetes/block.json); kept
+			// registered, out of the inserter, so blocks saved as acf/cards
+			// still render and edit.
+			'supports'        => array( 'inserter' => false ),
+			'render_callback' => array( self::class, 'render' ),
 			'enqueue_style'   => get_template_directory_uri() . '/static/css/main.min.css',
 		) );
 	}
 
-	public function render( $block, $content = '', $is_preview = false, $post_id = 0 ) {
+	/**
+	 * Render callback of both sc/targetes (blocks/targetes/block.json) and
+	 * the legacy acf/cards.
+	 *
+	 * @param array  $block      ACF block settings.
+	 * @param string $content    Inner content (unused).
+	 * @param bool   $is_preview Whether it renders in the editor (unused).
+	 * @param int    $post_id    Post being rendered (unused).
+	 */
+	public static function render( $block, $content = '', $is_preview = false, $post_id = 0 ) {
 		$rows  = get_field( 'cards' ) ?: array();
 		$cards = array_map( function( $row ) {
 			return array(

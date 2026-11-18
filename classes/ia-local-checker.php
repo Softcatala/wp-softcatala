@@ -18,6 +18,16 @@ class SC_Ia_Local_Checker {
 	}
 
 	public function shortcode() {
+		return self::render();
+	}
+
+	/**
+	 * The widget's markup, shared by the shortcode and the sc/ia-local-checker
+	 * block (Softcatala\Blocks\ThemeBlocks).
+	 *
+	 * @return string
+	 */
+	public static function render() {
 		wp_enqueue_style(
 			'sc-css-ia-local-checker',
 			get_template_directory_uri() . '/static/css/ia-local-checker.css',

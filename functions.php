@@ -824,6 +824,7 @@ add_filter( 'block_categories_all', function( $categories ) {
 new \Softcatala\Blocks\Cards();
 \Softcatala\Blocks\Editor::init();
 \Softcatala\Blocks\AttendanceTable::register();
+\Softcatala\Blocks\ThemeBlocks::init();
 new \Softcatala\Ads\SettingsPage();
 
 function softcatala_scripts() {
@@ -868,7 +869,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		'sc-js-dict-eng-cat',
 		'sc-js-sinonims',
 		'sc-js-programes',
-		'sc-js-editor-formats',
+		'sc-js-editor-formats', 'sc-js-editor-blocks',
 	];
 	if ( in_array( $handle, $module_handles, true ) || strpos( $handle, 'sc-js-corrector-vite' ) !== false ) {
 		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
