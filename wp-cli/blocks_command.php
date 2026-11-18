@@ -192,6 +192,16 @@ class Blocks_Command extends WP_CLI_Command {
 				continue;
 			}
 
+			// Most widespread first; the format table keeps post type order.
+			if ( 'formats' !== $key ) {
+				uasort(
+					$summary[ $key ],
+					function ( $a, $b ) {
+						return array( $b['posts'], $b['uses'] ) <=> array( $a['posts'], $a['uses'] );
+					}
+				);
+			}
+
 			$rows = array();
 			foreach ( $summary[ $key ] as $name => $counts ) {
 				$rows[] = array( $label => $name ) + $counts;
