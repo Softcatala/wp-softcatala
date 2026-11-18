@@ -32,6 +32,14 @@ describe('spec fixtures', () => {
   })
 })
 
+describe('editor guide', () => {
+  // Published as a page: it uses the blocks and styles it documents.
+  it('editor-de-blocs.html is valid block markup', () => {
+    const markup = readFileSync(resolve(__dirname, '../../docs/editors/editor-de-blocs.html'), 'utf8')
+    expect(validateMarkup(markup)).toEqual([])
+  })
+})
+
 describe('validateMarkup', () => {
   it('accepts a styled paragraph', () => {
     const markup = '<!-- wp:paragraph {"className":"is-style-avis-info"} -->\n<p class="is-style-avis-info">Hola</p>\n<!-- /wp:paragraph -->'

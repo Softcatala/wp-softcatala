@@ -75,38 +75,23 @@ Page-specific scripts (e.g. `conjugador.ts`) are enqueued in the page template P
 
 ## Block editor
 
-Behind the `block_editor` feature flag (`?ff=block_editor` previews it). Roadmap:
-`docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
+Behind the `block_editor` feature flag (`?ff=block_editor` previews it). **Read
+`docs/blocks/README.md` before touching blocks, styles, patterns or block markup.**
+Roadmap: `docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
 
-- `config/block-editor.php` — theme.json data (palette, gradient, font sizes, closed
-  pickers). It is PHP, merged by `Softcatala\Blocks\Editor`, rather than a root
-  `theme.json`, so the flag can switch it off.
-- `config/block-editor.json` — post types, allowed blocks, block style variations and the
-  pattern category; shared by the PHP and the frontend tests.
-- `block-patterns/*.php` — patterns: a WordPress pattern header, then plain block markup
-  (no PHP). Registered by `Editor`, not WordPress's own `patterns/` scan, so they follow
-  the flag. Copy markup from what the editor saves; don't hand-write it.
-- `frontend/tests/blocks/validate.ts` — validates block markup with WordPress's own
-  packages (the editor's "unexpected content" check, plus a round trip to the current
-  saved format, allowed blocks and registered styles). `blocks.test.ts` runs it on every
-  pattern; use it for any block markup the theme or its tools produce.
-- `frontend/src/scss/_blocks.scss` — the look of core blocks and every `.is-style-*`
-  variation; `_prose.scss` — content typography. Both are shared by `main.scss` (under
-  `.contingut`) and `editor.scss` → `static/css/editor.min.css`, built by
-  `npm run build:editor` (part of `npm run build`), not Vite.
-- `wp sc blocks audit` (`wp-cli/blocks_command.php`, logic in
-  `Softcatala\Blocks\ContentAudit`) — read-only report of what content still needs
-  migrating: classic vs block, shortcodes, sc-footnotes, legacy classes, inline styles,
-  blocks outside the allowed list. `--post_type=any`, `--per-post --format=csv`.
-- `frontend/src/js/editor-formats.ts` → `static/js/editor-formats.js` — the rich-text
-  formats "Text secundari" (`span.sc-secundari`) and "Nota" (`span.sc-nota`), enqueued
-  in the editor by `Editor` with the flag on.
+- `classes/blocks/editor.php` wires everything; `config/block-editor.php` (theme.json data)
+  and `config/block-editor.json` (post types, allowed blocks, styles) are the config.
+- `frontend/tests/blocks/validate.ts` validates block markup with WordPress's own
+  packages; run it on any markup the theme or its tools produce. Patterns, the resum
+  fixture and the editor guide are validated in `blocks.test.ts`.
+- `docs/editors/editor-de-blocs.html` is the editors' guide (Catalan, block markup,
+  published as a page). A new or changed style, pattern, format or block updates it in
+  the same change.
 - Resums mensuals: SoftcatalaBot sends block markup (spec v2,
   `docs/specs/resum-mensual-rest-api.md`); `docs/specs/fixtures/resum-mensual.html` is
-  validated by the frontend tests, and the bot keeps a copy of it — change both together.
+  validated here and copied byte for byte in the bot's tests — change both together.
 - Never offer free colours: add a palette entry or a block style instead.
-- New shortcode functionality gets a block sharing the shortcode's renderer (see
-  `classes/blocks/cards.php`).
+- New shortcode functionality gets a block sharing the shortcode's renderer.
 
 ## Autoloading Conventions
 
