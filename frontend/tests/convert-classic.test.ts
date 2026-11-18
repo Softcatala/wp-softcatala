@@ -26,7 +26,8 @@ describe('convertClassic', () => {
       { id: 'nota-1', content: 'Pot variar segons la versió.' },
       { id: 'nota-2', content: 'Una altra nota.' },
     ])
-    expect(markup).toContain('Cal saber-ho<sup data-fn="nota-1" class="fn"><a href="#nota-1" id="nota-1-link">*</a></sup> abans.')
+    expect(markup).toContain('Cal saber-ho<sup data-fn="nota-1" class="fn"><a href="#nota-1" id="nota-1-link">1</a></sup> abans.')
+    expect(markup).toContain('<a href="#nota-2" id="nota-2-link">2</a></sup>')
     expect(markup.trimEnd().endsWith('<!-- wp:footnotes /-->')).toBe(true)
     expect(report.join('\n')).toContain('2 notes al peu')
   })

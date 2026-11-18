@@ -107,8 +107,10 @@ export function convertClassic(raw: string, options: Options = {}): Conversion {
       report.push(`Un codi curt dins d'un altre element no s'ha pogut convertir: ${serialize([context.stored[Number(n)]])}`)
       return ''
     }
+    // Numbered in reading order, as the editor saves them (WordPress's
+    // excerpt code expects the number).
     const id = footnotes[Number(n)].id
-    return `<sup data-fn="${id}" class="fn"><a href="#${id}" id="${id}-link">*</a></sup>`
+    return `<sup data-fn="${id}" class="fn"><a href="#${id}" id="${id}-link">${Number(n) + 1}</a></sup>`
   })
 
   // A round trip through WordPress's own parser and serializer gives the
