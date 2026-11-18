@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "preview": "vite preview",
     "build:editor": "sass --no-source-map --style=compressed src/scss/editor.scss ../static/css/editor.min.css",
-    "convert": "node tools/convert-classic-cli.mjs"
+    "convert": "node tools/convert-classic-cli.mjs",
+    "validate": "node tools/validate-cli.mjs"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",

@@ -197,7 +197,13 @@ must write exactly what the editor would save. The details that bite:
   runs it. Write `[[tag]]`, WordPress's escape, to show `[tag]`. sc-footnotes has no
   escape: describe its `[1. …]` syntax in words.
 
-Validate it:
+Validate it, from the command line (`frontend/`, through Docker like the tests):
+
+```bash
+npm run validate -- page.html [--allow-html]   # OK / ERR per file, exit 1 on problems
+```
+
+or in a test:
 
 ```ts
 import { validateMarkup } from './blocks/validate'
