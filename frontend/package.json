@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "vite build --watch",
     "prebuild": "npm run test",
-    "build": "vite build",
+    "build": "vite build && npm run build:editor",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:editor": "sass --no-source-map --style=compressed src/scss/editor.scss ../static/css/editor.min.css"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",

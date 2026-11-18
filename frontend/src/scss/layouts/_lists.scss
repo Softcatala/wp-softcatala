@@ -45,73 +45,7 @@
   }
 }
 
-// ---------------------------------------------------------------------------
-// Default list bullets for content sections (chevron icon)
-// ---------------------------------------------------------------------------
-// Only targets <ul> without a class attribute — lists with their own class
-// (.cont-llista, .llista-check, .pagination, .dropdown-menu, etc.) are
-// naturally excluded and no longer need !important opt-outs. The one class
-// let through is .wp-block-list: the block editor puts it on every list it
-// saves, and those are plain content lists.
-
-.contingut > section :is(ul:not([class]), ul.wp-block-list),
-.contingut > article > section :is(ul:not([class]), ul.wp-block-list) {
-  padding: 0;
-  margin-bottom: 10px;
-  list-style: outside none none;
-
-  li {
-    font-size: 16px;
-    line-height: 2;
-    padding: 6px;
-  }
-
-  li::before {
-    font-family: "Font Awesome 7 Free";
-    font-weight: 900;
-    content: '\f054';
-    color: var(--color-brand);
-    font-size: 13px;
-    margin: 0 15px 0 0;
-  }
-
-  // A nested list reads as a detail of the item above it:
-  // - it starts under the parent's text, past the chevron (13px icon, ~8px
-  //   wide, plus the 15px gap; the parent li's 6px padding is already there);
-  // - it sits close to its parent instead of floating at full item spacing;
-  // - its marker is a smaller grey angle (the breadcrumbs' \f105), not a
-  //   second red chevron that would say "same level".
-  ul {
-    padding-left: 23px;
-    margin-bottom: 0;
-
-    li {
-      font-size: 15px;
-      line-height: 1.6;
-      padding: 2px 6px;
-    }
-
-    li::before {
-      content: '\f105';
-      color: var(--color-gray-800);
-      font-size: 12px;
-      margin-right: 12px;
-    }
-  }
-}
-
-// Ordered lists in content sections keep their decimal markers; restore the
-// browser-default indent and the bottom margin removed by the global reset.
-.contingut > section :is(ol:not([class]), ol.wp-block-list),
-.contingut > article > section :is(ol:not([class]), ol.wp-block-list) {
-  padding-left: 40px;
-  margin-bottom: 10px;
-
-  li {
-    font-size: 16px;
-    line-height: 2;
-  }
-}
+// Default content-list bullets live in _prose.scss (shared with the block editor).
 
 // ---------------------------------------------------------------------------
 // Breadcrumbs

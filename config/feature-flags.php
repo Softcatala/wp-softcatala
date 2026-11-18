@@ -40,4 +40,9 @@ return array(
 		'description' => "Habilita/deshabilita l'etiqueta de Clickio a la capçalera de les pàgines amb publicitat",
 		'overridable' => true,
 	),
+	SC_Settings::SETTINGS_BLOCK_EDITOR                  => array(
+		'title'       => 'Editor de blocs',
+		'description' => "Paleta de colors i mides tancada, estils de l'editor, blocs permesos, estils de blocs (avisos, taules) i editor de blocs només per a entrades, pàgines, projectes i resums mensuals",
+		'overridable' => true,
+	),
 );

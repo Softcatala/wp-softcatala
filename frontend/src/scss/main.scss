@@ -51,5 +51,8 @@
 @use 'layouts/devices';
 @use 'layouts/left-menu';
 
+// 6b. Block editor content (core blocks and their style variations)
+@use 'layouts/block-content';
+
 // 7. Utilities (highest priority — keep last)
 @use 'utilities';

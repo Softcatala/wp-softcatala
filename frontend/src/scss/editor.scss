@@ -1,0 +1,44 @@
+// ==========================================================================
+// Block editor canvas — compiled to static/css/editor.min.css
+// ==========================================================================
+//
+// Loaded with add_editor_style() (classes/blocks/editor.php), which scopes
+// every rule to .editor-styles-wrapper. Built by `npm run build:editor`, not
+// Vite: Vite bundles all CSS into main.min.css.
+//
+// Mirrors what a page body looks like inside .contingut: base type, prose,
+// tables and the block layer. Header, footer and page chrome stay out.
+
+@use 'tokens';
+@use 'prose';
+@use 'blocks';
+
+body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-page);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h4 {
+  font-size: 22px;
+}
+
+// The post title, styled like the page's .contingut > header h1.
+.editor-post-title,
+.wp-block-post-title {
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+@include prose.prose;
+@include blocks.blocks;

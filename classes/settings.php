@@ -18,6 +18,7 @@ class SC_Settings extends SC_Singleton {
 	const SETTINGS_CLICKIO_CMP = 'clickio_cmp';
 	const SETTINGS_AD_SLOTS = 'ad_slots';
 	const SETTINGS_CLICKIO_ADS = 'clickio_ads';
+	const SETTINGS_BLOCK_EDITOR = 'block_editor';
 
 	const OVERRIDE_PARAM = 'ff';
 

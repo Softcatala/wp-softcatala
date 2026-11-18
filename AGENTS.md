@@ -73,6 +73,22 @@ Exception: self-contained IIFE files with no module-level imports produce classi
 ### Per-page JS and CSS
 Page-specific scripts (e.g. `conjugador.ts`) are enqueued in the page template PHP file (e.g. `conjugador.php`). Localized data (`wp_localize_script`) is also set there. Page-specific CSS should be integrated into `frontend/src/scss/` rather than kept as separate static files.
 
+## Block editor
+
+Behind the `block_editor` feature flag (`?ff=block_editor` previews it). Roadmap:
+`docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
+
+- `config/block-editor.php` — theme.json data (palette, gradient, font sizes, closed
+  pickers), allowed blocks, post types, block style variations. It is PHP, merged by
+  `Softcatala\Blocks\Editor`, rather than a root `theme.json`, so the flag can switch it off.
+- `frontend/src/scss/_blocks.scss` — the look of core blocks and every `.is-style-*`
+  variation; `_prose.scss` — content typography. Both are shared by `main.scss` (under
+  `.contingut`) and `editor.scss` → `static/css/editor.min.css`, built by
+  `npm run build:editor` (part of `npm run build`), not Vite.
+- Never offer free colours: add a palette entry or a block style instead.
+- New shortcode functionality gets a block sharing the shortcode's renderer (see
+  `classes/blocks/cards.php`).
+
 ## Autoloading Conventions
 
 Classes are autoloaded via two conventions (both defined in `functions.php`):

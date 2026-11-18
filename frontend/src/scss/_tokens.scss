@@ -151,6 +151,14 @@ $container-lg: 1200px;  // same as md (per existing Less)
   --color-red-100: #ffcccc;    // eines light bg
   --color-red-50: #fff7f7;     // light red bg
 
+  // --- Colors: Corporate identity guide (/premsa/imatge-corporativa/) ---
+  // Official Pantone → sRGB conversions. Pantone 186, the corporate red, is
+  // --color-red-700 above: the site's established on-screen version of it
+  // (official #c8102e). Mirrored in config/block-editor.php.
+  --color-brand-484: #9a3324;  // Pantone 484 — dark red, for gradients
+  --color-brand-1795: #d22630; // Pantone 1795 — bright red, for gradients
+  --color-brand-151: #ff8200;  // Pantone 151 — orange accent; 2.5:1 on white, never body text
+
   // --- Colors: Greens ---
   --color-green-700: #199301;  // check/success
   --color-green-50: #f7fff7;   // light green bg

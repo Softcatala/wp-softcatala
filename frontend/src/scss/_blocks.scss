@@ -1,0 +1,347 @@
+// ==========================================================================
+// Block editor content — the Softcatalà look of core blocks
+// ==========================================================================
+//
+// WordPress's structural block CSS (wp-block-library, loaded per block on
+// demand) makes blocks work: columns, galleries, captions, scrolling tables.
+// The theme does not opt in to its opinionated layer (wp-block-styles); this
+// file is that layer, in the site's own style.
+//
+// Included in two places so the editor and the site match:
+//
+//   - main.scss, under `.contingut` (which also lifts specificity above the
+//     older `.contingut > section a/p` rules)
+//   - editor.scss, at the root of the editor canvas
+//
+// Block style variations registered in classes/blocks/editor.php live here
+// as .is-style-* rules. See docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md.
+
+@use "sass:list";
+@use "tokens" as *;
+
+// Callout palettes: background, text, border. The first four match
+// components/_alerts.scss; neutre matches p.fons-gris.
+$avisos: (
+  'info':    (#d9edf7, #31708f, #bce8f1),
+  'atencio': (#fcf8e3, #8a6d3b, #faebcc),
+  'exit':    (#dff0d8, #3c763d, #d6e9c6),
+  'error':   (#f2dede, #a94442, #ebccd1),
+  'neutre':  (var(--color-bg-light), var(--color-text), var(--color-bg-light)),
+);
+
+@mixin table-head-cell {
+  background-color: var(--color-gray-425);
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+@mixin blocks {
+  // ------------------------------------------------------------------------
+  // Headings: anchor links land below the sticky header
+  // ------------------------------------------------------------------------
+
+  h2[id],
+  h3[id] {
+    scroll-margin-top: 80px;
+  }
+
+  // ------------------------------------------------------------------------
+  // Columns
+  // ------------------------------------------------------------------------
+  // Core stacks columns below 782px; the theme's sm breakpoint is 769px. The
+  // 13px between them only affects the layout of a column already narrowed by
+  // the left menu, so core's breakpoint is kept.
+
+  .wp-block-columns {
+    margin-bottom: 20px;
+  }
+
+  .wp-block-column > :first-child {
+    margin-top: 0;
+  }
+
+  // ------------------------------------------------------------------------
+  // Separator
+  // ------------------------------------------------------------------------
+
+  .wp-block-separator {
+    border: 0;
+    border-top: 1px solid var(--color-border-light);
+    margin: 30px 0;
+    opacity: 1;
+  }
+
+  // ------------------------------------------------------------------------
+  // Captions (image, gallery, table, embed)
+  // ------------------------------------------------------------------------
+
+  .wp-element-caption,
+  .wp-block-table figcaption {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-top: 8px;
+  }
+
+  // ------------------------------------------------------------------------
+  // Buttons
+  // ------------------------------------------------------------------------
+
+  .wp-block-button__link {
+    background-color: var(--color-brand);
+    color: var(--color-white);
+    border-radius: var(--border-radius-sm);
+    padding: 10px 20px;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-brand-hover);
+      color: var(--color-white);
+      text-decoration: none;
+    }
+  }
+
+  .wp-block-button.is-style-outline .wp-block-button__link {
+    background-color: transparent;
+    border: 2px solid var(--color-brand);
+    color: var(--color-brand);
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-brand);
+      color: var(--color-white);
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Details (desplegable)
+  // ------------------------------------------------------------------------
+
+  .wp-block-details {
+    border-bottom: 1px solid var(--color-border-light);
+    padding: 10px 0;
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Footnotes
+  // ------------------------------------------------------------------------
+
+  .wp-block-footnotes {
+    font-size: 14px;
+    border-top: 1px solid var(--color-border-light);
+    padding-top: 15px;
+    padding-left: 40px;
+
+    li {
+      line-height: 1.6;
+      font-size: 14px;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Quote
+  // ------------------------------------------------------------------------
+
+  .wp-block-quote {
+    border-left: 3px solid var(--color-brand);
+    margin: 20px 0;
+    padding: 0 0 0 20px;
+
+    cite {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Tables
+  // ------------------------------------------------------------------------
+  // Default: the same look the theme gives every table inside a content
+  // section (components/_tables.scss), restated so the editor shows it too.
+
+  .wp-block-table {
+    margin: 30px 0;
+
+    // The legacy `section table` rule adds its own 35px margin; the figure
+    // already has one.
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+    }
+
+    // Core draws 3px currentColor rules around thead and tfoot.
+    thead,
+    tfoot {
+      border: 0;
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      border: 2px solid var(--color-white);
+      background-color: var(--color-bg-light);
+      vertical-align: top;
+    }
+
+    thead th,
+    thead td {
+      @include table-head-cell;
+    }
+
+    tfoot td,
+    tfoot th {
+      font-weight: 600;
+    }
+
+    // Ratllada (core's "stripes"): alternating rows, no cell grid.
+    &.is-style-stripes {
+      border-bottom: 0;
+
+      table {
+        border: 0;
+      }
+
+      th,
+      td {
+        border: 0;
+        background-color: transparent;
+      }
+
+      thead th,
+      thead td {
+        @include table-head-cell;
+      }
+
+      tbody tr:nth-child(odd) {
+        background-color: var(--color-gray-100);
+      }
+
+      tfoot tr {
+        border-top: 2px solid var(--color-gray-425);
+      }
+    }
+
+    // Compacta: dense data tables.
+    &.is-style-compacta {
+      th,
+      td {
+        padding: 4px 8px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    }
+
+    // Dues columnes: label / value (the legacy .taula-2col).
+    &.is-style-dues-columnes tbody td:first-child {
+      @include table-head-cell;
+      width: 25%;
+    }
+
+    // Assistència: who comes to what. Totals are computed server-side by
+    // Softcatala\Blocks\AttendanceTable; this is only the look.
+    &.is-style-assistencia {
+      table {
+        border: 0;
+      }
+
+      th,
+      td {
+        border: 0;
+        background-color: transparent;
+        white-space: nowrap;
+      }
+
+      th:not(:first-child),
+      td:not(:first-child) {
+        text-align: center;
+        width: 1%;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      // Names stay in view while the session columns scroll on a phone.
+      th:first-child,
+      td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        white-space: normal;
+        min-width: 120px;
+        background-color: var(--color-white);
+      }
+
+      thead th,
+      thead td,
+      thead th:first-child,
+      thead td:first-child {
+        @include table-head-cell;
+        text-align: left;
+      }
+
+      thead th:not(:first-child),
+      thead td:not(:first-child) {
+        text-align: center;
+      }
+
+      tbody tr:nth-child(odd),
+      tbody tr:nth-child(odd) td:first-child {
+        background-color: var(--color-gray-100);
+      }
+
+      tfoot tr:first-child {
+        border-top: 2px solid var(--color-gray-425);
+      }
+
+      .sc-assistencia-total td {
+        font-weight: 700;
+      }
+
+      .sc-assistencia-infants td {
+        border-top: 0;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--color-text-secondary);
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Avís: callouts on paragraphs and groups
+  // ------------------------------------------------------------------------
+
+  @each $name, $colors in $avisos {
+    .is-style-avis-#{$name} {
+      background-color: list.nth($colors, 1);
+      color: list.nth($colors, 2);
+      border: 1px solid list.nth($colors, 3);
+      border-radius: var(--border-radius-md);
+      padding: 15px 20px;
+      margin: 20px 0;
+
+      > :first-child {
+        margin-top: 0;
+      }
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+      }
+    }
+
+    // `p.is-style-…` outranks `.contingut > section p` (line-height: 2).
+    p.is-style-avis-#{$name} {
+      line-height: 1.6;
+    }
+  }
+}

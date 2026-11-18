@@ -1,0 +1,114 @@
+// ==========================================================================
+// Prose — typography of authored content
+// ==========================================================================
+//
+// What headings, paragraphs, links and lists look like inside a page's body.
+// Included in two places so they cannot drift apart:
+//
+//   - components/_content.scss, under `.contingut > section` (the front end)
+//   - editor.scss, at the root of the block editor canvas (WordPress scopes
+//     editor styles to .editor-styles-wrapper)
+
+@use 'tokens' as *;
+
+@mixin prose {
+  h2 {
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: 35px;
+    margin-bottom: 14px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-black);
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-weight: 400;
+    line-height: 2;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+
+    &:hover,
+    &:focus {
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  // Default list bullets (chevron icon). Only lists without a class: lists
+  // with their own (.cont-llista, .llista-check, .pagination…) opt out by
+  // having one. The one class let through is .wp-block-list: the block editor
+  // puts it on every list it saves, and those are plain content lists.
+  :is(ul:not([class]), ul.wp-block-list) {
+    padding: 0;
+    margin-bottom: 10px;
+    list-style: outside none none;
+
+    li {
+      font-size: 16px;
+      line-height: 2;
+      padding: 6px;
+    }
+
+    li::before {
+      font-family: "Font Awesome 7 Free";
+      font-weight: 900;
+      content: '\f054';
+      color: var(--color-brand);
+      font-size: 13px;
+      margin: 0 15px 0 0;
+    }
+
+    // A nested list reads as a detail of the item above it:
+    // - it starts under the parent's text, past the chevron (13px icon, ~8px
+    //   wide, plus the 15px gap; the parent li's 6px padding is already there);
+    // - it sits close to its parent instead of floating at full item spacing;
+    // - its marker is a smaller grey angle (the breadcrumbs' \f105), not a
+    //   second red chevron that would say "same level".
+    ul {
+      padding-left: 23px;
+      margin-bottom: 0;
+
+      li {
+        font-size: 15px;
+        line-height: 1.6;
+        padding: 2px 6px;
+      }
+
+      li::before {
+        content: '\f105';
+        color: var(--color-gray-800);
+        font-size: 12px;
+        margin-right: 12px;
+      }
+    }
+  }
+
+  // Ordered lists keep their decimal markers; restore the browser-default
+  // indent and the bottom margin removed by the global reset.
+  :is(ol:not([class]), ol.wp-block-list) {
+    padding-left: 40px;
+    margin-bottom: 10px;
+
+    li {
+      font-size: 16px;
+      line-height: 2;
+    }
+  }
+}

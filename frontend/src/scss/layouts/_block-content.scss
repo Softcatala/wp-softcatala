@@ -1,0 +1,13 @@
+// ==========================================================================
+// Layout: block editor content on the front end
+// ==========================================================================
+//
+// The rules themselves live in ../_blocks.scss, shared with editor.scss.
+// Scoped to .contingut, which keeps them above the legacy
+// `.contingut > section p/a` rules.
+
+@use '../blocks';
+
+.contingut {
+  @include blocks.blocks;
+}

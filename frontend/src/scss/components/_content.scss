@@ -12,6 +12,7 @@
 // Source: maqueta/app/assets/less/comuns/contingut.less (451 lines)
 
 @use '../tokens' as *;
+@use '../prose';
 
 // ---------------------------------------------------------------------------
 // Page header bar (.main-header)
@@ -293,44 +294,7 @@
     margin-top: 0;
   }
 
-  h2 {
-    font-size: 28px;
-    font-weight: 300;
-    margin-top: 35px;
-    margin-bottom: 14px;
-  }
-
-  h3 {
-    font-size: 24px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--color-black);
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-weight: 400;
-    line-height: 2;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-
-  a {
-    color: var(--color-link);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-
-    &:hover,
-    &:focus {
-      color: var(--color-link-hover);
-      text-decoration: underline;
-    }
-  }
-
-  strong {
-    font-weight: 600;
-  }
+  @include prose.prose;
 }
 
 // ---------------------------------------------------------------------------
