@@ -142,6 +142,12 @@ if it's useful to track, to `ContentAudit`.
 - Editor-only fixes go in `editor.scss`, never in the shared mixins. Example: in the editor
   a list item's text is a `div.block-editor-rich-text__editable` inside the `li`, so the
   chevron and the text need `inline-block` there and nowhere else.
+- Groups render exactly as saved: `Editor::init()` removes WordPress's
+  `wp_restore_group_inner_container`, which otherwise wraps each group's content in a
+  `.wp-block-group__inner-container` on themes without a `theme.json` file. So a style can
+  lay out a group's children with `>` selectors, as `xifres` does. To preview a change,
+  render it through WordPress (`do_blocks()` or a real page), not from saved markup:
+  render filters like this one and the attendance totals change the HTML.
 - The theme keeps WordPress's structural block CSS (`wp-block-library`, loaded per block)
   and does **not** opt in to `wp-block-styles`: `_blocks.scss` is that layer, in the
   site's style.

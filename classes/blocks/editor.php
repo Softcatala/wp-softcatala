@@ -77,6 +77,15 @@ class Editor {
 		add_filter( 'allowed_block_types_all', array( self::class, 'allowed_blocks' ), 10, 2 );
 		add_filter( 'use_block_editor_for_post_type', array( self::class, 'use_for_post_type' ), self::EDITOR_CHOICE_PRIORITY, 2 );
 		add_filter( 'use_block_editor_for_post', array( self::class, 'use_for_post' ), self::EDITOR_CHOICE_PRIORITY, 2 );
+
+		// Render groups as the editor saves them. For a theme without a
+		// theme.json file (ours is merged from PHP, so the flag can switch it
+		// off), WordPress wraps each group's content in an extra
+		// .wp-block-group__inner-container for older themes that styled it.
+		// This theme never did, and the wrapper breaks the group styles that
+		// lay out their children (xifres). Not behind the flag: like the
+		// block CSS, how block content renders must not depend on it.
+		remove_filter( 'render_block_core/group', 'wp_restore_group_inner_container', 10 );
 	}
 
 	/**

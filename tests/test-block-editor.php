@@ -235,6 +235,13 @@ class BlockEditorTest extends SCTests {
 		$this->assertMatchesRegularExpression( '#<tr class="sc-assistencia-total"><td>Total</td>(<td[^>]*>1</td>){3}<td[^>]*>2</td></tr>#', $html );
 	}
 
+	function test_groups_render_without_the_inner_container() {
+		$html = do_blocks( "<!-- wp:group {\"className\":\"is-style-xifres\"} -->\n<div class=\"wp-block-group is-style-xifres\"><!-- wp:paragraph -->\n<p>14</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->" );
+
+		$this->assertStringNotContainsString( 'wp-block-group__inner-container', $html );
+		$this->assertMatchesRegularExpression( '#<div class="wp-block-group is-style-xifres[^"]*">\s*<p[^>]*>14</p>#', $html );
+	}
+
 	function test_pattern_files_all_read() {
 		foreach ( glob( get_template_directory() . '/block-patterns/*.php' ) as $file ) {
 			$this->assertNotNull( Editor::read_pattern( $file ), basename( $file ) );
