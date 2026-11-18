@@ -127,10 +127,10 @@ class ContentAuditTest extends SCTests {
 	}
 
 	function test_for_site_includes_theme_shortcodes() {
-		$result = ContentAudit::for_site()->audit( '[llista-icones] [caption]x[/caption] [tabs][tab title="a"]b[/tab][/tabs]' );
+		$result = ContentAudit::for_site()->audit( '[llista-icones] [caption]x[/caption] [cards][card title="a"]b[/card][/cards]' );
 
 		$this->assertArrayHasKey( 'llista-icones', $result['shortcodes'] );
 		$this->assertArrayHasKey( 'caption', $result['shortcodes'] );
-		$this->assertArrayHasKey( 'tabs', $result['shortcodes'] );
+		$this->assertArrayHasKey( 'cards', $result['shortcodes'] );
 	}
 }
