@@ -215,4 +215,35 @@ class ResumMensualTest extends SCTests {
 			)
 		);
 	}
+
+	/**
+	 * Spec v2 content (block markup) still feeds the sidebar's table of
+	 * contents: heading anchors serialize as id="…" before the class.
+	 */
+	function test_toc_from_block_markup_fixture() {
+		$content = file_get_contents( get_template_directory() . '/docs/specs/fixtures/resum-mensual.html' );
+
+		$this->assertSame(
+			array(
+				array(
+					'id'    => 'ajuda',
+					'title' => 'Projectes que necessiten ajuda',
+				),
+				array(
+					'id'    => 'actualitzacions',
+					'title' => 'Actualitzacions per categoria',
+				),
+				array(
+					'id'    => 'sense-novetats',
+					'title' => 'Sense novetats',
+				),
+				array(
+					'id'    => 'sense-resposta',
+					'title' => 'Sense resposta',
+				),
+			),
+			ResumsMensuals::get_toc( $content )
+		);
+	}
 }
+

@@ -27,7 +27,11 @@ $avisos: (
   'exit':    (#dff0d8, #3c763d, #d6e9c6),
   'error':   (#f2dede, #a94442, #ebccd1),
   'neutre':  (var(--color-bg-light), var(--color-text), var(--color-bg-light)),
+  // Crida: "we need help" (the resums' help box). Tinted with the brand red.
+  'crida':   (#fdf5f5, var(--color-text), #f0c9c9),
 );
+
+$crida-heading: #8f1c1f;
 
 @mixin table-head-cell {
   background-color: var(--color-gray-425);
@@ -343,5 +347,152 @@ $avisos: (
     p.is-style-avis-#{$name} {
       line-height: 1.6;
     }
+  }
+
+  // Crida keeps the body text colour and real links, and colours its headings.
+  // .wp-block-group raises these above the blog's `article h2/p` rules.
+  .is-style-avis-crida {
+    padding: 20px 24px;
+
+    a {
+      color: var(--color-link);
+      text-decoration: none;
+    }
+  }
+
+  .wp-block-group.is-style-avis-crida :is(h2, h3) {
+    color: $crida-heading;
+    margin-top: 0;
+  }
+
+  // ------------------------------------------------------------------------
+  // Xifres: a row of figures (group of `xifra` groups)
+  // ------------------------------------------------------------------------
+  // Each xifra is a group holding the number (first paragraph) and its label.
+
+  .is-style-xifres {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 30px 0;
+
+    @include respond-to(xs) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    > * {
+      margin: 0;
+    }
+  }
+
+  .wp-block-group:is(.is-style-xifra, .is-style-xifra-destacada) {
+    background-color: var(--color-gray-100);
+    padding: 14px 16px;
+
+    > p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    > p:first-child {
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    // "14 / 34": the total reads as secondary, not as an aside.
+    .sc-secundari {
+      font-size: 16px;
+      font-style: normal;
+    }
+  }
+
+  .wp-block-group.is-style-xifra-destacada {
+    background-color: #fdf5f5;
+    color: $crida-heading;
+  }
+
+  // ------------------------------------------------------------------------
+  // Lists: amb filet (ruled, no bullets) and etiquetes (tags)
+  // ------------------------------------------------------------------------
+  // ul.wp-block-list.is-style-… outranks the chevron rules in _prose.scss.
+
+  ul.wp-block-list.is-style-amb-filet {
+    margin: 0 0 20px;
+    padding: 0 0 0 16px;
+    border-left: 3px solid var(--color-gray-150);
+
+    li {
+      margin: 0 0 14px;
+      padding: 0;
+      line-height: 1.6;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Inside a crida box the rule would be one frame too many.
+  .is-style-avis-crida ul.wp-block-list.is-style-amb-filet {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  ul.wp-block-list.is-style-etiquetes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 20px;
+    padding: 0;
+
+    li {
+      margin: 0;
+      padding: 4px 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Sobretítol: small uppercase label heading
+  // ------------------------------------------------------------------------
+
+  .wp-block-heading.is-style-sobretitol {
+    margin: 26px 0 10px;
+    font-family: var(--font-family-primary);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+  }
+
+  // ------------------------------------------------------------------------
+  // Inline formats (frontend/src/js/editor-formats.ts)
+  // ------------------------------------------------------------------------
+
+  .sc-secundari {
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
+  .sc-nota {
+    display: block;
+    margin-top: 6px;
+    font-style: italic;
+    color: var(--color-gray-1000);
   }
 }

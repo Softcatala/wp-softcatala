@@ -44,19 +44,31 @@
       "avis-atencio": "Avís: atenció",
       "avis-exit": "Avís: fet",
       "avis-error": "Avís: error",
-      "avis-neutre": "Avís: neutre"
+      "avis-neutre": "Avís: neutre",
+      "avis-crida": "Avís: crida (cal ajuda)"
     },
     "core/group": {
       "avis-info": "Avís: informació",
       "avis-atencio": "Avís: atenció",
       "avis-exit": "Avís: fet",
       "avis-error": "Avís: error",
-      "avis-neutre": "Avís: neutre"
+      "avis-neutre": "Avís: neutre",
+      "avis-crida": "Avís: crida (cal ajuda)",
+      "xifres": "Xifres (fila)",
+      "xifra": "Xifra",
+      "xifra-destacada": "Xifra destacada"
     },
     "core/table": {
       "compacta": "Compacta",
       "dues-columnes": "Dues columnes",
       "assistencia": "Assistència (amb totals)"
+    },
+    "core/list": {
+      "amb-filet": "Amb filet",
+      "etiquetes": "Etiquetes"
+    },
+    "core/heading": {
+      "sobretitol": "Sobretítol"
     }
   },
   "pattern_category": {

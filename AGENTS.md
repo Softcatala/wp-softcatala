@@ -98,6 +98,12 @@ Behind the `block_editor` feature flag (`?ff=block_editor` previews it). Roadmap
   `Softcatala\Blocks\ContentAudit`) — read-only report of what content still needs
   migrating: classic vs block, shortcodes, sc-footnotes, legacy classes, inline styles,
   blocks outside the allowed list. `--post_type=any`, `--per-post --format=csv`.
+- `frontend/src/js/editor-formats.ts` → `static/js/editor-formats.js` — the rich-text
+  formats "Text secundari" (`span.sc-secundari`) and "Nota" (`span.sc-nota`), enqueued
+  in the editor by `Editor` with the flag on.
+- Resums mensuals: SoftcatalaBot sends block markup (spec v2,
+  `docs/specs/resum-mensual-rest-api.md`); `docs/specs/fixtures/resum-mensual.html` is
+  validated by the frontend tests, and the bot keeps a copy of it — change both together.
 - Never offer free colours: add a palette entry or a block style instead.
 - New shortcode functionality gets a block sharing the shortcode's renderer (see
   `classes/blocks/cards.php`).

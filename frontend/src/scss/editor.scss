@@ -51,3 +51,9 @@ h4 {
   vertical-align: top;
   width: calc(100% - 30px);
 }
+
+// Styled lists have no chevron, so the text takes the whole line again.
+ul.wp-block-list:is(.is-style-amb-filet, .is-style-etiquetes) li > .block-editor-rich-text__editable {
+  display: block;
+  width: auto;
+}

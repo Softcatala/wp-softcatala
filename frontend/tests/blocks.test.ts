@@ -24,6 +24,14 @@ describe('block patterns', () => {
   })
 })
 
+describe('spec fixtures', () => {
+  // SoftcatalaBot's tests keep a copy of this file: update it there too.
+  it('resum-mensual.html is valid block markup', () => {
+    const markup = readFileSync(resolve(__dirname, '../../docs/specs/fixtures/resum-mensual.html'), 'utf8')
+    expect(validateMarkup(markup)).toEqual([])
+  })
+})
+
 describe('validateMarkup', () => {
   it('accepts a styled paragraph', () => {
     const markup = '<!-- wp:paragraph {"className":"is-style-avis-info"} -->\n<p class="is-style-avis-info">Hola</p>\n<!-- /wp:paragraph -->'

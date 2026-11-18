@@ -193,7 +193,7 @@ class BlockEditorTest extends SCTests {
 
 	private function unregister_patterns() {
 		$registry = WP_Block_Patterns_Registry::get_instance();
-		foreach ( array( 'softcatala/trobada', 'softcatala/sessio' ) as $slug ) {
+		foreach ( array( 'softcatala/trobada', 'softcatala/sessio', 'softcatala/xifres' ) as $slug ) {
 			if ( $registry->is_registered( $slug ) ) {
 				$registry->unregister( $slug );
 			}

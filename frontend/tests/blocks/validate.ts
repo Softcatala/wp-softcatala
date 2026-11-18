@@ -105,8 +105,16 @@ export function validateMarkup(markup: string, allowHtml = false): Problem[] {
 
   // Markup in an older format still parses (WordPress migrates it through the
   // block's deprecations), but it is not what the editor saves today.
-  if (problems.length === 0 && serialize(parsed as never).trim() !== markup.trim()) {
-    problems.push({ block: '(document)', message: 'not in the current saved format: re-serializing the blocks changes the markup' })
+  const saved = serialize(parsed as never).trim()
+  const given = markup.trim()
+  if (problems.length === 0 && saved !== given) {
+    let at = 0
+    while (at < given.length && given[at] === saved[at]) at++
+    const around = (text: string) => JSON.stringify(text.slice(Math.max(0, at - 40), at + 60))
+    problems.push({
+      block: '(document)',
+      message: `not in the current saved format: re-serializing the blocks changes the markup at character ${at}. Given ${around(given)}, saved ${around(saved)}`,
+    })
   }
 
   return problems

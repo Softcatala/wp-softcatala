@@ -71,6 +71,7 @@ class Editor {
 		add_filter( 'wp_theme_json_data_theme', array( self::class, 'theme_json' ) );
 		add_action( 'after_setup_theme', array( self::class, 'editor_styles' ), 20 );
 		add_action( 'enqueue_block_assets', array( self::class, 'editor_fonts' ) );
+		add_action( 'enqueue_block_editor_assets', array( self::class, 'editor_scripts' ) );
 		add_action( 'init', array( self::class, 'register_styles' ), 20 );
 		add_action( 'init', array( self::class, 'register_patterns' ), 20 );
 		add_filter( 'allowed_block_types_all', array( self::class, 'allowed_blocks' ), 10, 2 );
@@ -139,6 +140,24 @@ class Editor {
 
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- versioned by Google.
 		wp_enqueue_style( 'sc-editor-fonts', self::FONTS_URL, array(), null );
+	}
+
+	/**
+	 * The theme's rich-text formats (frontend/src/js/editor-formats.ts).
+	 * Loaded as a module: see $module_handles in functions.php.
+	 */
+	public static function editor_scripts() {
+		if ( ! self::is_active() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'sc-js-editor-formats',
+			get_template_directory_uri() . '/static/js/editor-formats.js',
+			array( 'wp-rich-text', 'wp-block-editor', 'wp-element' ),
+			WP_SOFTCATALA_VERSION,
+			true
+		);
 	}
 
 	/**

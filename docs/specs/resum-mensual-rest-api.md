@@ -11,9 +11,10 @@ Two kinds of data drive it:
 
 1. **Post meta**: the month and the figures. Used for the badges, the strip and the
    month block.
-2. **`content`**: the full summary as HTML, with the class names and ids below. It
-   stays the complete, readable text: it is what the WordPress editor shows, what the
-   feed and REST output carry, and what the page falls back to without meta.
+2. **`content`**: the full summary as **block markup** (spec v2, below), so it can be
+   opened and fixed in the block editor like any page. It stays the complete, readable
+   text: it is what the editor shows, what the feed and REST output carry, and what the
+   page falls back to without meta.
 
 Everything here is optional for the theme. A summary without meta, or without the
 classes, still renders: the archive falls back to the publication date and the first
@@ -39,7 +40,7 @@ saved.
 |---|---|
 | `title` | `Resum mensual — octubre de 2026` (unchanged) |
 | `status` | `publish` |
-| `content` | HTML, see [Content](#content) |
+| `content` | Block markup, see [Content](#content) |
 | `meta` | object, see below |
 
 Do not send `date` on updates. The archive order and the previous/next links follow
@@ -77,73 +78,56 @@ To clear a value later, send it as `null`.
 
 ## Content
 
-The current HTML, with these hooks added. Class names are what the theme styles;
-ids are what the sidebar table of contents links to.
+### Spec v2: block markup
 
-| Element | Hook | What the theme does |
-|---|---|---|
-| "Actualitzat el …" paragraph | `<p class="resum-actualitzacio">` | Hidden when `actualitzat` is set (the header shows it instead). |
-| "14 de 34 projectes han respost …" paragraph | `<p class="resum-xifres">` | Hidden when the figures are set (the strip shows them instead). |
-| "Projectes que necessiten ajuda" | `<section class="resum-ajuda">` with `<h2 id="ajuda">` | Highlighted box. |
-| "Actualitzacions per categoria" | `<section class="resum-actualitzacions">` with `<h2 id="actualitzacions">` | Section heading. |
-| One category inside it | `<section class="resum-categoria">` with an `<h3>` | Small uppercase heading, list indented with a rule. |
-| A list of projects with a message | `<ul class="resum-projectes">`, one `<li>` per project | Project name in bold, no bullets. |
-| "(resposta tardana)" marker | `<span class="resum-tardana">` | Grey italics. |
-| Extra line under a project | `<span class="resum-nota">` inside the `<li>` | Its own line, italics. |
-| "Sense novetats (6)" | `<section class="resum-sense-novetats">` with `<h2 id="sense-novetats">` | Smaller heading. |
-| "Sense resposta (20)" | `<section class="resum-sense-resposta">` with `<h2 id="sense-resposta">` | Smaller heading. |
-| The project names in those two | `<ul class="resum-llista">`, one `<li><a>` per project, no separators | Shown as tags. |
+The content is serialized WordPress blocks: core blocks with the theme's block styles
+and two inline formats. Nothing in it is specific to the resums, so the same look is
+available to anyone editing a page.
+
+**The canonical example is [`fixtures/resum-mensual.html`](fixtures/resum-mensual.html).**
+The theme's tests validate it with WordPress's own block packages (the editor's
+validation, plus a round trip to the format the editor saves today), so it is exactly
+what the editor would produce. Generate the same structure; when in doubt, copy from
+it rather than from this table. SoftcatalaBot's tests keep **a copy** of that file and
+compare their output with it: whoever changes it here copies it there in the same
+change.
+
+| Part | Blocks |
+|---|---|
+| "Projectes que necessiten ajuda" | `core/group` (`"tagName":"section"`, style `avis-crida`) → `core/heading` with anchor `ajuda` → list |
+| "Actualitzacions per categoria" | `core/group` (`section`) → `core/heading` anchor `actualitzacions` → per category: `core/heading` level 3, style `sobretitol`, then its list |
+| A list of projects with a message | `core/list` style `amb-filet`, one `core/list-item` per project: `<strong><a href="…">Name</a></strong>: message` |
+| "(resposta tardana)" | `<span class="sc-secundari">(resposta tardana)</span>` inside the item (the "Text secundari" format) |
+| Extra line under a project | `<span class="sc-nota">…</span>` at the end of the item (the "Nota" format) |
+| "Sense novetats (6)" / "Sense resposta (20)" | `core/group` (`section`) → `core/heading` anchor `sense-novetats` / `sense-resposta` → list |
+| The project names in those two | `core/list` style `etiquetes`, one `core/list-item` per project: `<a href="…">Name</a>` |
+
+What is **not** in the content any more:
+
+- The "Actualitzat el …" and "14 de 34 projectes han respost …" paragraphs. The page
+  header and the figures strip show them from `meta`; v1 sent them only to hide them.
+
+Details that are easy to get wrong (all visible in the fixture):
+
+- A heading's anchor is a block attribute and comes first in the tag:
+  `<!-- wp:heading {"anchor":"ajuda"} -->` then `<h2 id="ajuda" class="wp-block-heading">`.
+- Blocks are separated by a blank line; inner blocks follow the parent's opening tag
+  directly, as in the fixture.
+- Block content is not run through `wpautop`, so v1's rules about line breaks no
+  longer apply.
 
 The table of contents lists every `<h2>` with an `id`, in order, dropping a trailing
 count such as ` (20)`. Ids must be unique in the page; the four above are enough.
 
 Project links: keep linking each name to the project's page, as now.
 
-### Formatting rules
+### Spec v1: HTML with `resum-*` classes (being retired)
 
-WordPress runs `wpautop` on the content, which turns blank lines into `<p>` and single
-line breaks into `<br>`. To keep the markup as sent:
-
-- Do not put blank lines or line breaks **inside** an element. One line per block
-  element is safe.
-- Use `<span class="resum-nota">` for the extra line, not a `<p>` or `<br>` inside the
-  `<li>`.
-
-`<section>`, `class` and `id` survive WordPress's HTML filtering for any user who can
-publish, so no extra capability is needed.
-
-### Example
-
-```html
-<p class="resum-actualitzacio"><em>Actualitzat el 7 nov. 2026 amb 2 respostes tardanes.</em></p>
-<p class="resum-xifres">14 de 34 projectes han respost; 3 demanen ajuda.</p>
-<section class="resum-ajuda">
-<h2 id="ajuda">Projectes que necessiten ajuda</h2>
-<ul class="resum-projectes">
-<li><a href="https://www.softcatala.org/projectes/libreoffice/">LibreOffice</a>: Sempre calen mans</li>
-<li><a href="https://www.softcatala.org/projectes/qgis/">QGIS</a> <span class="resum-tardana">(resposta tardana)</span>: Cal que usuaris de QGIS col·laboren en la traducció, per la gran quantitat de termes específics.</li>
-<li><a href="https://www.softcatala.org/projectes/securedrop/">SecureDrop</a>: Caldria trobar un moderador</li>
-</ul>
-</section>
-<section class="resum-actualitzacions">
-<h2 id="actualitzacions">Actualitzacions per categoria</h2>
-<section class="resum-categoria">
-<h3>Traducció de programari</h3>
-<ul class="resum-projectes">
-<li><a href="https://www.softcatala.org/projectes/liberapay/">Liberapay</a>: Traducció al dia gràcies a Minairó</li>
-<li><a href="https://www.softcatala.org/projectes/telegram/">Telegram</a> <span class="resum-tardana">(resposta tardana)</span>: Han entrat més de 4.000 cadenes noves; en falten unes 1.000. <span class="resum-nota">Ahir van implementar una IA per a fer les traduccions noves.</span></li>
-</ul>
-</section>
-</section>
-<section class="resum-sense-novetats">
-<h2 id="sense-novetats">Sense novetats (6)</h2>
-<ul class="resum-llista"><li><a href="https://www.softcatala.org/projectes/joplin/">Joplin</a></li><li><a href="https://www.softcatala.org/projectes/softvalencia/">Softvalència</a></li></ul>
-</section>
-<section class="resum-sense-resposta">
-<h2 id="sense-resposta">Sense resposta (20)</h2>
-<ul class="resum-llista"><li><a href="https://www.softcatala.org/projectes/apertium/">Apertium</a></li><li><a href="https://www.softcatala.org/projectes/gimp/">Gimp</a></li></ul>
-</section>
-```
+Summaries published before v2 are plain HTML with `resum-*` class names
+(`resum-ajuda`, `resum-projectes`, `resum-tardana`, `resum-nota`, `resum-llista`…) and
+the two paragraphs above, which the template hides when `meta` is present. The theme
+keeps rendering them until October 2026, the only v1 summary, has been re-sent as v2;
+then the v1 CSS and the hiding code are removed. Do not send v1 any more.
 
 ## Requests
 
@@ -154,7 +138,7 @@ POST /wp-json/wp/v2/resums-mensuals
 {
   "title": "Resum mensual — octubre de 2026",
   "status": "publish",
-  "content": "<p class=\"resum-xifres\">12 de 34 projectes han respost; 2 demanen ajuda.</p>…",
+  "content": "<!-- wp:group {\"tagName\":\"section\",\"className\":\"is-style-avis-crida\"} -->…",
   "meta": {
     "periode": "2026-10",
     "total": 34,
@@ -172,7 +156,7 @@ Update after late replies (same post, new content and figures, no `date`):
 ```json
 POST /wp-json/wp/v2/resums-mensuals/1234
 {
-  "content": "<p class=\"resum-actualitzacio\"><em>Actualitzat el 7 nov. 2026 amb 2 respostes tardanes.</em></p>…",
+  "content": "<!-- wp:group {\"tagName\":\"section\",\"className\":\"is-style-avis-crida\"} -->…",
   "meta": {
     "respostes": 14,
     "demanen_ajuda": 3,
@@ -187,7 +171,8 @@ Meta keys left out of an update keep their stored value.
 
 The response echoes the stored values under `meta`, so the bot can check them.
 
-## Backfilling October 2026
+## Re-sending October 2026 as v2
 
-The one summary published so far has no meta. Send an update to it with the
-`meta` above and the content with the hooks; nothing else changes.
+October 2026 was published as v1 HTML. Send an update to it with its content
+regenerated as v2 block markup (its `meta` is already stored); nothing else changes.
+Once it is live, the theme drops v1 support.
