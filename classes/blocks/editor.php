@@ -37,6 +37,26 @@ class Editor {
 	const EDITOR_CHOICE_PRIORITY = 200;
 
 	/**
+	 * Pattern files, relative to the theme. Not `patterns/`: WordPress registers
+	 * that folder by itself, and these must follow the feature flag.
+	 */
+	const PATTERNS_DIR = 'block-patterns';
+
+	/**
+	 * Pattern file headers, as WordPress reads them from a theme's patterns/.
+	 */
+	const PATTERN_HEADERS = array(
+		'title'         => 'Title',
+		'slug'          => 'Slug',
+		'description'   => 'Description',
+		'categories'    => 'Categories',
+		'keywords'      => 'Keywords',
+		'blockTypes'    => 'Block Types',
+		'postTypes'     => 'Post Types',
+		'viewportWidth' => 'Viewport Width',
+	);
+
+	/**
 	 * Parsed config/block-editor.php.
 	 *
 	 * @var array|null
@@ -52,6 +72,7 @@ class Editor {
 		add_action( 'after_setup_theme', array( self::class, 'editor_styles' ), 20 );
 		add_action( 'enqueue_block_assets', array( self::class, 'editor_fonts' ) );
 		add_action( 'init', array( self::class, 'register_styles' ), 20 );
+		add_action( 'init', array( self::class, 'register_patterns' ), 20 );
 		add_filter( 'allowed_block_types_all', array( self::class, 'allowed_blocks' ), 10, 2 );
 		add_filter( 'use_block_editor_for_post_type', array( self::class, 'use_for_post_type' ), self::EDITOR_CHOICE_PRIORITY, 2 );
 		add_filter( 'use_block_editor_for_post', array( self::class, 'use_for_post' ), self::EDITOR_CHOICE_PRIORITY, 2 );
@@ -139,6 +160,69 @@ class Editor {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Registers the Softcatalà pattern category and the patterns in
+	 * block-patterns/. Each file is a pattern header followed by plain block
+	 * markup (validated by frontend/tests/blocks.test.ts).
+	 */
+	public static function register_patterns() {
+		if ( ! self::is_active() ) {
+			return;
+		}
+
+		$category = self::config( 'pattern_category' );
+		register_block_pattern_category( $category['slug'], array( 'label' => $category['label'] ) );
+
+		foreach ( glob( get_template_directory() . '/' . self::PATTERNS_DIR . '/*.php' ) as $file ) {
+			$pattern = self::read_pattern( $file );
+
+			if ( $pattern && ! \WP_Block_Patterns_Registry::get_instance()->is_registered( $pattern['slug'] ) ) {
+				register_block_pattern( $pattern['slug'], $pattern['properties'] );
+			}
+		}
+	}
+
+	/**
+	 * Reads one pattern file.
+	 *
+	 * @param string $file Absolute path.
+	 * @return array|null array( 'slug' => …, 'properties' => … ), or null without a slug, title or content.
+	 */
+	public static function read_pattern( $file ) {
+		$headers = get_file_data( $file, self::PATTERN_HEADERS );
+		$source  = file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- a local theme file.
+		$end     = strpos( $source, '?>' );
+		$content = trim( false === $end ? $source : substr( $source, $end + 2 ) );
+
+		if ( '' === $headers['slug'] || '' === $headers['title'] || '' === $content ) {
+			return null;
+		}
+
+		$properties = array(
+			'title'   => $headers['title'],
+			'content' => $content,
+		);
+
+		if ( '' !== $headers['description'] ) {
+			$properties['description'] = $headers['description'];
+		}
+
+		if ( '' !== $headers['viewportWidth'] ) {
+			$properties['viewportWidth'] = (int) $headers['viewportWidth'];
+		}
+
+		foreach ( array( 'categories', 'keywords', 'blockTypes', 'postTypes' ) as $list ) {
+			if ( '' !== $headers[ $list ] ) {
+				$properties[ $list ] = array_map( 'trim', explode( ',', $headers[ $list ] ) );
+			}
+		}
+
+		return array(
+			'slug'       => $headers['slug'],
+			'properties' => $properties,
+		);
 	}
 
 	/**

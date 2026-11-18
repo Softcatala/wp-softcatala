@@ -1,0 +1,66 @@
+{
+  "post_types": [
+    "post",
+    "page",
+    "projecte",
+    "resum_mensual"
+  ],
+  "blocks": [
+    "core/paragraph",
+    "core/heading",
+    "core/list",
+    "core/list-item",
+    "core/quote",
+    "core/image",
+    "core/gallery",
+    "core/media-text",
+    "core/table",
+    "core/columns",
+    "core/column",
+    "core/group",
+    "core/buttons",
+    "core/button",
+    "core/separator",
+    "core/details",
+    "core/code",
+    "core/preformatted",
+    "core/embed",
+    "core/file",
+    "core/video",
+    "core/audio",
+    "core/footnotes",
+    "core/shortcode",
+    "core/freeform",
+    "core/block",
+    "core/missing",
+    "acf/cards"
+  ],
+  "html_blocks": [
+    "core/html"
+  ],
+  "styles": {
+    "core/paragraph": {
+      "avis-info": "Avís: informació",
+      "avis-atencio": "Avís: atenció",
+      "avis-exit": "Avís: fet",
+      "avis-error": "Avís: error",
+      "avis-neutre": "Avís: neutre"
+    },
+    "core/group": {
+      "avis-info": "Avís: informació",
+      "avis-atencio": "Avís: atenció",
+      "avis-exit": "Avís: fet",
+      "avis-error": "Avís: error",
+      "avis-neutre": "Avís: neutre"
+    },
+    "core/table": {
+      "compacta": "Compacta",
+      "dues-columnes": "Dues columnes",
+      "assistencia": "Assistència (amb totals)"
+    }
+  },
+  "pattern_category": {
+    "slug": "softcatala",
+    "label": "Softcatalà"
+  }
+}

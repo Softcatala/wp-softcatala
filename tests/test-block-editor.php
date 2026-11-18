@@ -190,4 +190,54 @@ class BlockEditorTest extends SCTests {
 	function test_editor_stylesheet_is_built() {
 		$this->assertFileExists( get_template_directory() . '/' . Editor::EDITOR_STYLE );
 	}
+
+	private function unregister_patterns() {
+		$registry = WP_Block_Patterns_Registry::get_instance();
+		foreach ( array( 'softcatala/trobada', 'softcatala/sessio' ) as $slug ) {
+			if ( $registry->is_registered( $slug ) ) {
+				$registry->unregister( $slug );
+			}
+		}
+		if ( WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'softcatala' ) ) {
+			unregister_block_pattern_category( 'softcatala' );
+		}
+	}
+
+	function test_patterns_registered_only_when_on() {
+		$this->unregister_patterns();
+		$registry = WP_Block_Patterns_Registry::get_instance();
+
+		Editor::register_patterns();
+		$this->assertFalse( $registry->is_registered( 'softcatala/trobada' ) );
+
+		$this->set_flag( true );
+		Editor::register_patterns();
+
+		$this->assertTrue( WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'softcatala' ) );
+		$this->assertTrue( $registry->is_registered( 'softcatala/sessio' ) );
+
+		$trobada = $registry->get_registered( 'softcatala/trobada' );
+		$this->assertSame( 'Pàgina de trobada', $trobada['title'] );
+		$this->assertSame( array( 'softcatala' ), $trobada['categories'] );
+		$this->assertSame( array( 'core/post-content' ), $trobada['blockTypes'] );
+		$this->assertSame( array( 'page' ), $trobada['postTypes'] );
+		$this->assertStringStartsWith( '<!-- wp:paragraph', $trobada['content'] );
+		$this->assertStringNotContainsString( '?>', $trobada['content'] );
+
+		$this->unregister_patterns();
+	}
+
+	function test_trobada_pattern_renders_totals() {
+		$pattern = Editor::read_pattern( get_template_directory() . '/block-patterns/trobada.php' );
+		$html    = do_blocks( $pattern['properties']['content'] );
+
+		// The sample row: ✓ in three sessions, ✓ +1 at dinner.
+		$this->assertMatchesRegularExpression( '#<tr class="sc-assistencia-total"><td>Total</td>(<td[^>]*>1</td>){3}<td[^>]*>2</td></tr>#', $html );
+	}
+
+	function test_pattern_files_all_read() {
+		foreach ( glob( get_template_directory() . '/block-patterns/*.php' ) as $file ) {
+			$this->assertNotNull( Editor::read_pattern( $file ), basename( $file ) );
+		}
+	}
 }

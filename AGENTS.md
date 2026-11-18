@@ -79,8 +79,17 @@ Behind the `block_editor` feature flag (`?ff=block_editor` previews it). Roadmap
 `docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
 
 - `config/block-editor.php` — theme.json data (palette, gradient, font sizes, closed
-  pickers), allowed blocks, post types, block style variations. It is PHP, merged by
-  `Softcatala\Blocks\Editor`, rather than a root `theme.json`, so the flag can switch it off.
+  pickers). It is PHP, merged by `Softcatala\Blocks\Editor`, rather than a root
+  `theme.json`, so the flag can switch it off.
+- `config/block-editor.json` — post types, allowed blocks, block style variations and the
+  pattern category; shared by the PHP and the frontend tests.
+- `block-patterns/*.php` — patterns: a WordPress pattern header, then plain block markup
+  (no PHP). Registered by `Editor`, not WordPress's own `patterns/` scan, so they follow
+  the flag. Copy markup from what the editor saves; don't hand-write it.
+- `frontend/tests/blocks/validate.ts` — validates block markup with WordPress's own
+  packages (the editor's "unexpected content" check, plus a round trip to the current
+  saved format, allowed blocks and registered styles). `blocks.test.ts` runs it on every
+  pattern; use it for any block markup the theme or its tools produce.
 - `frontend/src/scss/_blocks.scss` — the look of core blocks and every `.is-style-*`
   variation; `_prose.scss` — content typography. Both are shared by `main.scss` (under
   `.contingut`) and `editor.scss` → `static/css/editor.min.css`, built by

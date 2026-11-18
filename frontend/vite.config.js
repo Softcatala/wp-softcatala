@@ -64,6 +64,13 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
+    server: {
+      deps: {
+        // WordPress's packages import JSON without `with { type: 'json' }`,
+        // which Node rejects; let Vite transform them instead.
+        inline: [/@wordpress\//],
+      },
+    },
   },
 
   css: {
