@@ -53,7 +53,7 @@ h4 {
 }
 
 // Styled lists have no chevron, so the text takes the whole line again.
-ul.wp-block-list:is(.is-style-amb-filet, .is-style-etiquetes) li > .block-editor-rich-text__editable {
+ul.wp-block-list:is(.is-style-amb-filet, .is-style-etiquetes, .is-style-amb-icones) li > .block-editor-rich-text__editable {
   display: block;
   width: auto;
 }

@@ -65,10 +65,14 @@
     },
     "core/list": {
       "amb-filet": "Amb filet",
-      "etiquetes": "Etiquetes"
+      "etiquetes": "Etiquetes",
+      "amb-icones": "Amb icones (rajoles)"
     },
     "core/heading": {
       "sobretitol": "Sobretítol"
+    },
+    "core/columns": {
+      "targetes": "Targetes"
     }
   },
   "pattern_category": {
