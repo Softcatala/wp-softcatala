@@ -120,6 +120,15 @@ style it in `_blocks.scss`; document it in the editor guide; and, if it replaces
 shortcode or legacy class, add a row to the guide's "Del format antic al nou" table and,
 if it's useful to track, to `ContentAudit`.
 
+## Page index
+
+`page-index.php` ("Plantilla text amb índex") renders `page.twig` with a `toc`: no
+sidebar widgets, and the right column is `templates/components/index-pagina.twig`, the
+page's `<h2 id="…">` headings from `Softcatala\Content\TableOfContents` (shared with the
+resums' sidebar). It stays in view on wide screens and comes first on narrow ones. A page
+with no anchored `h2` gets the full width. The `sc/index` block on the roadmap would put
+the same list inside the content instead.
+
 ## Post types and allowed blocks
 
 - `post_types` in `config/block-editor.json` lists the types that use the block editor.

@@ -12,7 +12,9 @@
 			<div class="row">
 
 				<!-- .contingut -->
-				{% if excludeSidebar %}
+				{% if toc %}
+				<div class="contingut contingut-left col-sm-12 col-md-9">
+				{% elseif excludeSidebar %}
 				<div class="contingut contingut-left col-sm-12">
 				{%  else %}
 				<div class="contingut contingut-left col-sm-9">
@@ -38,7 +40,9 @@
 
 				</div><!--/.contingut -->
 
-				{% if not excludeSidebar %}
+				{% if toc %}
+					{% include "components/index-pagina.twig" %}
+				{% elseif not excludeSidebar %}
 					{% include "sidebar.twig" %}
 				{%  endif %}
 			</div><!--/.row -->

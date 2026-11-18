@@ -231,20 +231,6 @@ class ResumsMensuals {
 	 * @return array Each with id and title.
 	 */
 	public static function get_toc( $content ) {
-		if ( ! preg_match_all( '/<h2\b[^>]*\bid="([^"]+)"[^>]*>(.*?)<\/h2>/is', $content, $matches, PREG_SET_ORDER ) ) {
-			return array();
-		}
-
-		$toc = array();
-		foreach ( $matches as $match ) {
-			// Drop the count in "Sense resposta (20)": the sidebar is narrow.
-			$title = trim( preg_replace( '/\s*\(\d+\)\s*$/', '', wp_strip_all_tags( $match[2] ) ) );
-			$toc[] = array(
-				'id'    => $match[1],
-				'title' => $title,
-			);
-		}
-
-		return $toc;
+		return \Softcatala\Content\TableOfContents::from_content( $content );
 	}
 }

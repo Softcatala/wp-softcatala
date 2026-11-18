@@ -1,0 +1,54 @@
+// ==========================================================================
+// Component: page index (templates/components/index-pagina.twig)
+// ==========================================================================
+//
+// The right column of the "Plantilla text amb índex" template: links to the
+// page's second-level headings. It stays in view while a long page scrolls;
+// on narrow screens it comes before the text, where a reader looks first.
+
+@use '../tokens' as *;
+
+.index-pagina {
+  padding-top: 36px;
+
+  nav {
+    border: 1px solid var(--color-border-light);
+    padding: 20px;
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.4;
+
+    li + li {
+      margin-top: 8px;
+    }
+  }
+
+  // `.row >`: the grid's col-* rules (utilities, loaded last) set
+  // position: relative with the same specificity.
+  @include respond-from(md) {
+    align-self: flex-start;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+
+    .row > & {
+      position: sticky;
+    }
+  }
+
+  @include respond-to(sm) {
+    order: -1;
+    padding-top: 20px;
+  }
+}

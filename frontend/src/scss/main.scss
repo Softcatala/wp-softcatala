@@ -34,6 +34,7 @@
 @use 'components/conjugador';
 @use 'components/hora';
 @use 'components/ad-slots';
+@use 'components/index-pagina';
 
 // 6. Page-specific layouts (most specific)
 @use 'layouts/home';

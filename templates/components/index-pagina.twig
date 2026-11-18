@@ -1,0 +1,11 @@
+{# The page's index: entries from Softcatala\Content\TableOfContents. #}
+<aside class="index-pagina col-sm-12 col-md-3" aria-labelledby="index-pagina-titol">
+	<nav>
+		<h2 id="index-pagina-titol">En aquesta pàgina</h2>
+		<ul>
+			{% for entry in toc %}
+				<li><a href="#{{ entry.id }}">{{ entry.title }}</a></li>
+			{% endfor %}
+		</ul>
+	</nav>
+</aside>
