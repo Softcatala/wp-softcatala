@@ -170,10 +170,9 @@ must write exactly what the editor would save. The details that bite:
   the comment; `{"hasFixedLayout":false}` gives a plain `<table>`.
 - Text is escaped as rich text saves it: `&`, `<` and `>` as entities, quotes as they are.
 - Line breaks inside a block are `<br>`; block content is not run through `wpautop`.
-- Content still runs through `the_content`, so text that names a shortcode or an old
-  footnote in brackets is executed, not shown. WordPress's `[[tag]]` escape works for
-  WordPress's and plugins' shortcodes but not reliably for the theme's own (see the
-  roadmap), and sc-footnotes has no escape: describe them without brackets.
+- Content still runs through `the_content`, so text that names a shortcode in brackets
+  runs it. Write `[[tag]]`, WordPress's escape, to show `[tag]`. sc-footnotes has no
+  escape: describe its `[1. …]` syntax in words.
 
 Validate it:
 

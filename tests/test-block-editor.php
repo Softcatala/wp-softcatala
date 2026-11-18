@@ -242,6 +242,30 @@ class BlockEditorTest extends SCTests {
 		$this->assertMatchesRegularExpression( '#<div class="wp-block-group is-style-xifres[^"]*">\s*<p[^>]*>14</p>#', $html );
 	}
 
+	/**
+	 * The editors' guide names shortcodes as [[tag]]. Its page must show them
+	 * as text, on every the_content call in a request.
+	 */
+	function test_editor_guide_shows_shortcodes_as_text() {
+		$guide = file_get_contents( get_template_directory() . '/docs/editors/editor-de-blocs.html' );
+		// [insert] belongs to the Insert Pages plugin, not installed here.
+		add_shortcode(
+			'insert',
+			function () {
+				return 'INSERTED';
+			}
+		);
+
+		foreach ( array( 1, 2 ) as $pass ) {
+			$html = apply_filters( 'the_content', $guide );
+			foreach ( array( 'caption', 'gallery', 'video', 'cards', 'ia-data', 'llista-icones', 'llista-links', 'insert' ) as $tag ) {
+				$this->assertStringContainsString( "<code>[$tag]</code>", $html, "pass $pass: [$tag]" );
+			}
+		}
+
+		remove_shortcode( 'insert' );
+	}
+
 	function test_pattern_files_all_read() {
 		foreach ( glob( get_template_directory() . '/block-patterns/*.php' ) as $file ) {
 			$this->assertNotNull( Editor::read_pattern( $file ), basename( $file ) );

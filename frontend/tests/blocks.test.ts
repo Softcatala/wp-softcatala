@@ -39,11 +39,13 @@ describe('editor guide', () => {
     expect(validateMarkup(markup)).toEqual([])
   })
 
-  it('names shortcodes without brackets', () => {
-    // On the page, [caption] or [1. nota] would run as a shortcode or become a
-    // sc-footnotes note instead of showing as text.
+  it('escapes every shortcode it names', () => {
+    // On the page, [caption] would run as a shortcode and [1. nota] become a
+    // sc-footnotes note. Shortcodes are named as [[tag]], WordPress's escape;
+    // sc-footnotes has none, so its syntax is described in words.
     const markup = readFileSync(resolve(__dirname, '../../docs/editors/editor-de-blocs.html'), 'utf8')
-    expect(markup.match(/\[[^\]\n]*\]/g) ?? []).toEqual([])
+    const unescaped = markup.replace(/\[\[[a-z-]+\]\]/g, '').match(/\[[^\]\n]*\]/g) ?? []
+    expect(unescaped).toEqual([])
   })
 })
 
