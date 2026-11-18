@@ -42,3 +42,12 @@ h4 {
 
 @include prose.prose;
 @include blocks.blocks;
+
+// In the editor a list item's text is a <div> (the item can also hold a nested
+// list), so it would wrap onto the line under the inline chevron from
+// _prose.scss. Let it sit next to the chevron and take the rest of the line.
+:is(ul:not([class]), ul.wp-block-list) li > .block-editor-rich-text__editable {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 30px);
+}
