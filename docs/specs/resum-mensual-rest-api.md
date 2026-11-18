@@ -113,6 +113,9 @@ Details that are easy to get wrong (all visible in the fixture):
   `<!-- wp:heading {"anchor":"ajuda"} -->` then `<h2 id="ajuda" class="wp-block-heading">`.
 - Blocks are separated by a blank line; inner blocks follow the parent's opening tag
   directly, as in the fixture.
+- Text is escaped as the editor saves it: `&`, `<` and `>` as entities, quotes left
+  as they are. In `href`, `&` and `"`.
+- Several lines inside one item are `<br>`s inside the `<li>`.
 - Block content is not run through `wpautop`, so v1's rules about line breaks no
   longer apply.
 
