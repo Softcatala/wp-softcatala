@@ -2,15 +2,14 @@
 // Layout: Resums mensuals (archive + single)
 // ==========================================================================
 //
-// The figures come from post meta; the summary body is HTML from
-// SoftcatalaBot, whose class names are specified in
-// docs/specs/resum-mensual-rest-api.md. Keep the two in step.
+// The figures come from post meta; the summary body is block markup from
+// SoftcatalaBot (docs/specs/resum-mensual-rest-api.md), styled by the block
+// styles in _blocks.scss.
 
 @use '../tokens' as *;
 
 $resum-red-dark: #a51f22;
 $resum-help-bg: #fdf5f5;
-$resum-help-border: #f0c9c9;
 $resum-help-text: #8f1c1f;
 $resum-late-bg: #fff4dd;
 $resum-late-text: #6b4a00;
@@ -275,16 +274,12 @@ $resum-late-text: #6b4a00;
     }
   }
 
+  // The body is block markup (spec v2): its look comes from the block styles
+  // in _blocks.scss, like any page. Only the column's rhythm is set here.
   .resum-contingut {
     font-size: 15px;
     line-height: 1.6;
     margin-top: 36px;
-
-    // Already shown by the header pill and the figures strip.
-    &.has-actualitzat .resum-actualitzacio,
-    &.has-xifres .resum-xifres {
-      display: none;
-    }
 
     h2 {
       font-size: 24px;
@@ -293,111 +288,8 @@ $resum-late-text: #6b4a00;
       scroll-margin-top: 80px;
     }
 
-    > section,
-    > div > section {
+    > section {
       margin-bottom: 36px;
-    }
-
-    .resum-projectes {
-      margin: 0;
-      padding: 0 0 0 16px;
-      list-style: none;
-      border-left: 3px solid var(--color-gray-150);
-
-      li {
-        margin: 0 0 14px;
-        padding: 0;
-
-        &::before {
-          content: none;
-        }
-      }
-
-      a {
-        font-weight: 600;
-      }
-    }
-
-    .resum-tardana {
-      font-style: italic;
-      color: var(--color-text-secondary);
-    }
-
-    .resum-nota {
-      display: block;
-      margin-top: 6px;
-      font-style: italic;
-      color: var(--color-gray-1000);
-    }
-
-    .resum-ajuda {
-      border: 1px solid $resum-help-border;
-      background: $resum-help-bg;
-      padding: 20px 24px;
-
-      h2 {
-        color: $resum-help-text;
-        font-size: 22px;
-      }
-
-      .resum-projectes {
-        border-left: 0;
-        padding-left: 0;
-
-        li:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    .resum-categoria {
-      margin-bottom: 26px;
-
-      h3 {
-        margin: 0 0 10px;
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--color-text-secondary);
-      }
-    }
-
-    .resum-sense-novetats h2,
-    .resum-sense-resposta h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .resum-llista {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-
-      li {
-        margin: 0;
-        padding: 0;
-
-        &::before {
-          content: none;
-        }
-      }
-
-      a {
-        display: inline-block;
-        font-size: 13px;
-        padding: 4px 10px;
-        border: 1px solid var(--color-border);
-        border-radius: 14px;
-      }
-    }
-
-    .resum-sense-resposta .resum-llista a {
-      color: var(--color-text-secondary);
     }
   }
 

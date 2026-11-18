@@ -124,13 +124,11 @@ count such as ` (20)`. Ids must be unique in the page; the four above are enough
 
 Project links: keep linking each name to the project's page, as now.
 
-### Spec v1: HTML with `resum-*` classes (being retired)
+### Spec v1: HTML with `resum-*` classes (retired)
 
-Summaries published before v2 are plain HTML with `resum-*` class names
-(`resum-ajuda`, `resum-projectes`, `resum-tardana`, `resum-nota`, `resum-llista`…) and
-the two paragraphs above, which the template hides when `meta` is present. The theme
-keeps rendering them until October 2026, the only v1 summary, has been re-sent as v2;
-then the v1 CSS and the hiding code are removed. Do not send v1 any more.
+The first summaries were plain HTML with `resum-*` class names and the two paragraphs
+above. October 2026, the only one, was re-sent as v2 on 2026-11-18, and the theme no
+longer styles v1. Do not send it.
 
 ## Requests
 
@@ -173,9 +171,3 @@ POST /wp-json/wp/v2/resums-mensuals/1234
 Meta keys left out of an update keep their stored value.
 
 The response echoes the stored values under `meta`, so the bot can check them.
-
-## Re-sending October 2026 as v2
-
-October 2026 was published as v1 HTML. Send an update to it with its content
-regenerated as v2 block markup (its `meta` is already stored); nothing else changes.
-Once it is live, the theme drops v1 support.

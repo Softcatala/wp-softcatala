@@ -92,7 +92,7 @@ class ResumMensualTest extends SCTests {
 		$request->set_body_params(
 			array(
 				'title'   => 'Resum mensual — octubre de 2026',
-				'content' => '<p class="resum-actualitzacio">Actualitzat</p>',
+				'content' => "<!-- wp:paragraph -->\n<p>Resum</p>\n<!-- /wp:paragraph -->",
 				'status'  => 'publish',
 				'meta'    => array(
 					'periode'        => '2026-10',

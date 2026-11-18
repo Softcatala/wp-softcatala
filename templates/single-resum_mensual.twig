@@ -54,9 +54,7 @@
                             </ul>
                         {% endif %}
 
-                        {# has-xifres and has-actualitzat hide the paragraphs the header and the figures strip
-                           already show; without the meta they stay as the bot wrote them. #}
-                        <section class="resum-contingut{% if resum.stats %} has-xifres{% endif %}{% if resum.actualitzat %} has-actualitzat{% endif %}">
+                        <section class="resum-contingut">
                             {{ post.content }}
                         </section>
                     </article>
