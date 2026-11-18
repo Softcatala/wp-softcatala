@@ -11,13 +11,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview",
-    "build:editor": "sass --no-source-map --style=compressed src/scss/editor.scss ../static/css/editor.min.css"
+    "build:editor": "sass --no-source-map --style=compressed src/scss/editor.scss ../static/css/editor.min.css",
+    "convert": "node tools/convert-classic-cli.mjs"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@types/node": "^24.19.2",
+    "@wordpress/autop": "^5.2.0",
     "@wordpress/block-library": "^12.1.0",
     "@wordpress/blocks": "^17.1.0",
+    "@wordpress/shortcode": "^5.2.0",
     "jsdom": "^29.1.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

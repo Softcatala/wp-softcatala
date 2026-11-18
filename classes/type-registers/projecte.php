@@ -133,7 +133,8 @@ class Projecte extends PostType {
 			'label'               => __( 'Projecte', 'softcatala' ),
 			'description'         => __( 'Projecte de Softcatalà.', 'softcatala' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'comments', 'revisions', 'thumbnail' ),
+			// custom-fields: core footnotes keep their notes in post meta.
+			'supports'            => array( 'title', 'editor', 'excerpt', 'comments', 'revisions', 'thumbnail', 'custom-fields' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,

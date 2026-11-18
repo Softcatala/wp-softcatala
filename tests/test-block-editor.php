@@ -122,6 +122,41 @@ class BlockEditorTest extends SCTests {
 		$this->assertContains( 'core/html', Editor::allowed_blocks( true ) );
 	}
 
+	function test_classic_editor_settings_untouched_without_the_default_flag() {
+		$this->assertFalse( Editor::classic_editor_settings( false ) );
+
+		$this->set_flag( true );
+		$this->assertFalse( Editor::classic_editor_settings( false ) );
+	}
+
+	function test_block_editor_default_needs_both_flags() {
+		update_option( SC_Settings::SETTINGS_BLOCK_EDITOR_DEFAULT, 'on' );
+		SC_Settings::get_instance()->reload();
+		$this->assertFalse( Editor::classic_editor_settings( false ), 'block_editor off' );
+
+		$this->set_flag( true );
+		$this->assertSame(
+			array(
+				'editor'      => 'block',
+				'allow-users' => true,
+			),
+			Editor::classic_editor_settings( false )
+		);
+
+		delete_option( SC_Settings::SETTINGS_BLOCK_EDITOR_DEFAULT );
+		SC_Settings::get_instance()->reload();
+	}
+
+	/**
+	 * Core footnotes keep their notes in the `footnotes` meta, which WordPress
+	 * registers only for post types with custom-fields and revisions.
+	 */
+	function test_footnotes_meta_for_every_block_editor_post_type() {
+		foreach ( Editor::config( 'post_types' ) as $post_type ) {
+			$this->assertTrue( registered_meta_key_exists( 'post', 'footnotes', $post_type ), $post_type );
+		}
+	}
+
 	function test_post_types_untouched_when_off() {
 		$this->assertTrue( Editor::use_for_post_type( true, 'programa' ) );
 	}

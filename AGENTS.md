@@ -84,6 +84,9 @@ Roadmap: `docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
 - `frontend/tests/blocks/validate.ts` validates block markup with WordPress's own
   packages; run it on any markup the theme or its tools produce. Patterns, the resum
   fixture and the editor guide are validated in `blocks.test.ts`.
+- `npm run convert` (`frontend/tools/`) converts a classic page to block markup: the
+  editor's own converter plus footnotes, theme shortcodes and legacy classes. It never
+  writes to a site; save its output as an autosave for review.
 - `docs/editors/editor-de-blocs.html` is the editors' guide (Catalan, block markup,
   published as a page). A new or changed style, pattern, format or block updates it in
   the same change.

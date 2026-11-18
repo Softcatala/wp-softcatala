@@ -224,6 +224,39 @@ wp sc blocks audit --post_type=page --per-post --format=csv > pages.csv
 The legacy classes it looks for are `ContentAudit::LEGACY_CLASSES`. When a class gets a
 block equivalent, the guide's "Del format antic al nou" table says which.
 
+## Converting a classic page
+
+`npm run convert` (in `frontend/`, through Docker like the tests) converts a classic
+page's raw content to block markup. It is the editor's own "Convert to blocks"
+(`rawHandler` from `@wordpress/blocks`) plus what that converter doesn't know about the
+site (`frontend/tools/convert-classic.ts`):
+
+- sc-footnotes `[1. …]` → core footnotes (the format in the text, a Footnotes block, and
+  the notes for the `footnotes` meta, written to `<prefix>.footnotes.json`);
+- `[ia-data]`, `[ia-local-checker]`, `[navega-en-catala]` → the theme's blocks;
+  `[llista-links]`, `[llista-icones]` → an Amb icones list; other shortcodes (`[cards]`,
+  `[insert]`) stay in a Shortcode block;
+- callout classes → Avís, `taula-2col` → Dues columnes, other legacy table classes → the
+  default look, `petit` → the Petit size, `center` → centred, the ia-local `req-flex`
+  row → Requadres columns;
+- `<a name>` anchors → the anchor of the heading they mark; plain wrapper `div`s unwrapped.
+
+```bash
+docker compose -f docker-compose.test.yml run --rm --no-deps node \
+  npm run convert -- in.html out/pagina      # writes out/pagina.html (+ .footnotes.json)
+```
+
+The input is the raw `post_content` (`wp post get <id> --field=content`, or the REST API's
+`content.raw` with `context=edit`). It prints a report of what it mapped and what needs a
+person (Custom HTML blocks, kept shortcodes, anchors with no heading, dropped inline
+styles) and fails if the result doesn't validate.
+
+It never writes to a site. To hand the result over for review, save it as an
+**autosave** of the page (`POST /wp/v2/pages/<id>/autosaves` with `content`, and `meta`
+`{"footnotes": "<the JSON as a string>"}`): the published page doesn't change, and the
+editor offers to restore the autosave the next time someone opens it. Converting runs
+in Node, not in `wp-cli`, because WordPress's converter only exists in JavaScript.
+
 ## The editor guide
 
 `docs/editors/editor-de-blocs.html` is the editors' guide, in Catalan, written as block

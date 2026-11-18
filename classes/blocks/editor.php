@@ -77,6 +77,7 @@ class Editor {
 		add_filter( 'allowed_block_types_all', array( self::class, 'allowed_blocks' ), 10, 2 );
 		add_filter( 'use_block_editor_for_post_type', array( self::class, 'use_for_post_type' ), self::EDITOR_CHOICE_PRIORITY, 2 );
 		add_filter( 'use_block_editor_for_post', array( self::class, 'use_for_post' ), self::EDITOR_CHOICE_PRIORITY, 2 );
+		add_filter( 'classic_editor_plugin_settings', array( self::class, 'classic_editor_settings' ) );
 
 		// Render groups as the editor saves them. For a theme without a
 		// theme.json file (ours is merged from PHP, so the flag can switch it
@@ -299,6 +300,27 @@ class Editor {
 		}
 
 		return false;
+	}
+
+	/**
+	 * With the block_editor_default flag (and block_editor) on, overrides the
+	 * Classic Editor plugin's settings: the block editor by default, users may
+	 * switch. Posts last edited in the classic editor keep opening in it (the
+	 * plugin remembers each post's editor). Off, the plugin's own settings
+	 * apply. The plugin hides its settings screen while this decides.
+	 *
+	 * @param array|false $settings Settings forced so far (false: none).
+	 * @return array|false
+	 */
+	public static function classic_editor_settings( $settings ) {
+		if ( ! self::is_active() || ! \SC_Settings::get_instance()->is_active( \SC_Settings::SETTINGS_BLOCK_EDITOR_DEFAULT ) ) {
+			return $settings;
+		}
+
+		return array(
+			'editor'      => 'block',
+			'allow-users' => true,
+		);
 	}
 
 	/**
