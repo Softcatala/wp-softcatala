@@ -106,6 +106,35 @@ describe('convertClassic', () => {
     expect(report.join('\n')).toContain('Paràgrafs buits eliminats')
   })
 
+  it('leaves no empty paragraph where an image was wrapped in divs', () => {
+    const { markup } = convert('Captura:\n<div class="center">\n<div class="floatnone"><a href="/a.png"><img class="aligncenter size-medium wp-image-1" src="/a-300x193.png" alt="" width="300" height="193" /></a></div>\n</div>\nUna altra captura:')
+
+    expect(markup).toContain('wp:image')
+    expect(markup).not.toMatch(/<p>(\s|&nbsp;|<br>)*<\/p>/)
+  })
+
+  it('keeps what WordPress converts into an invalid block in a Classic block, and says so', () => {
+    const nestedTable = '<table><tbody><tr><td>Ponència</td><td>\n<table border="0"><tbody><tr><td>PDF</td></tr></tbody></table>\n</td></tr></tbody></table>'
+    const nestedLink = '<ul>\n<li><a href="http://a.org"><a href="http://b.org">B</a></a></li>\n</ul>'
+    const { markup, report } = convert(`Abans.\n\n${nestedTable}\n\n${nestedLink}\n\nDesprés.`)
+
+    // A Classic block is saved as plain HTML between the other blocks.
+    expect(markup).not.toContain('wp:table')
+    expect(markup).not.toContain('wp:list')
+    expect(markup).not.toContain('wp:html')
+    expect(markup).toContain('<td>PDF</td>')
+    expect(markup).toContain('<a href="http://b.org">B</a>')
+    expect(markup).toContain('<p>Després.</p>')
+    expect(report.join('\n')).toContain('2 blocs que no serien vàlids')
+  })
+
+  it('warns about scripts and iframes, which blocks can lose', () => {
+    const { report } = convert('Text.\n\n<script src="/a.js"></script>\n\n<iframe src="https://example.org/"></iframe>')
+
+    expect(report.join('\n')).toContain('1 scripts (<script>)')
+    expect(report.join('\n')).toContain('1 iframes (<iframe>)')
+  })
+
   it('keeps other shortcodes in a Shortcode block and says so', () => {
     const { markup, report } = convert('[cards]\n[card title="A" link="/a/"]Una[/card]\n[/cards]\n\n[insert page="123"]')
 

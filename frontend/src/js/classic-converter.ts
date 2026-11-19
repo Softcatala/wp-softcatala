@@ -37,6 +37,8 @@ export interface Block {
   name: string
   attributes: Record<string, unknown>
   innerBlocks: Block[]
+  /** Set by parse(): whether the saved HTML is what the block would save. */
+  isValid?: boolean
 }
 
 /** The WordPress functions the converter uses. */
@@ -107,6 +109,14 @@ export function convertClassic(raw: string, wordpress: WordPressApi, options: Op
 
   let html = raw.replace(/\r\n?/g, '\n')
 
+  // Kept, but blocks can lose them: a <script> or <iframe> inside a paragraph
+  // goes when the paragraph is edited, or saved by someone without the
+  // unfiltered_html capability.
+  for (const [tag, what] of [['script', 'scripts'], ['iframe', 'iframes'], ['form', 'formularis']]) {
+    const n = (html.match(new RegExp(`<${tag}[\\s>]`, 'gi')) ?? []).length
+    if (n > 0) report.push(`${n} ${what} (<${tag}>): comproveu que encara funcionen després de desar; si no, deixeu aquell tros en un bloc «Clàssic»`)
+  }
+
   const styles = (html.match(/\sstyle\s*=\s*["']/gi) ?? []).length
   if (styles > 0) report.push(`${styles} atributs style descartats (colors, mides o alineacions fets a mà)`)
 
@@ -140,12 +150,41 @@ export function convertClassic(raw: string, wordpress: WordPressApi, options: Op
 
   // A round trip through WordPress's own parser and serializer gives the
   // exact saved form (entities such as &nbsp; and &gt;).
-  const parsed = api.parse(markup)
+  const parsed = keepInvalidAsClassic(withoutEmptyParagraphs(api.parse(markup), report), report)
   const htmlBlocks = countBlocks(parsed, 'core/html')
   if (htmlBlocks > 0) report.push(`${htmlBlocks} blocs «HTML personalitzat» (HTML que no té bloc; només els administradors els poden editar): cal revisar-los`)
   markup = api.serialize(parsed)
 
   return { markup, footnotes, report: summarise(report) }
+}
+
+/**
+ * Paragraphs with nothing in them: the old <p>&nbsp;</p> spacers, what is left
+ * around a shortcode the Classic block had wrapped in a paragraph, and what
+ * WordPress's conversion leaves next to an image.
+ */
+function withoutEmptyParagraphs(blocks: Block[], report: string[]): Block[] {
+  return blocks
+    .filter((b) => {
+      const empty = b.name === 'core/paragraph' && !/<img/i.test(String(b.attributes.content ?? '')) && !String(b.attributes.content ?? '').replace(/<br\s*\/?>|&nbsp;|\u00A0|\s/gi, '')
+      if (empty) report.push('Paràgrafs buits eliminats')
+      return !empty
+    })
+    .map((b) => (b.innerBlocks.length > 0 ? { ...b, innerBlocks: withoutEmptyParagraphs(b.innerBlocks, report) } : b))
+}
+
+/**
+ * HTML that WordPress's conversion turns into a block that doesn't validate (a
+ * link inside a link, a table inside a table cell, a pasted wiki gallery)
+ * would open with "This block contains unexpected content". It goes into a
+ * Classic block instead, which shows and edits it as before.
+ */
+function keepInvalidAsClassic(blocks: Block[], report: string[]): Block[] {
+  const invalid = (b: Block): boolean => b.isValid === false || b.innerBlocks.some(invalid)
+  const kept = blocks.filter(invalid).length
+  if (kept > 0) report.push(`${kept} blocs que no serien vàlids (HTML que cap bloc no pot desar tal com és) deixats en un bloc «Clàssic»: cal revisar-los`)
+
+  return blocks.map((b) => (invalid(b) ? api.createBlock('core/freeform', { content: api.serialize([b]).replace(/<!-- \/?wp:[\s\S]*?-->\n?/g, '').trim() }) : b))
 }
 
 function countBlocks(blocks: Block[], name: string): number {
@@ -240,10 +279,6 @@ function convertHtml(html: string, context: Context): Block[] {
   }
 
   for (const node of Array.from(doc.body.childNodes)) {
-    if (node.nodeType === 1 && isEmptyParagraph(node as Element)) {
-      context.report.push('Paràgrafs buits eliminats')
-      continue
-    }
     const special = node.nodeType === 1 ? convertElement(node as Element, context) : null
     if (special) {
       flush()
@@ -257,15 +292,6 @@ function convertHtml(html: string, context: Context): Block[] {
   flush()
 
   return blocks
-}
-
-/**
- * A paragraph with nothing in it: the old <p>&nbsp;</p> spacers, or what is
- * left around a shortcode the Classic block had wrapped in a paragraph
- * (<p>[llista-icones]…[/llista-icones]</p>) once it becomes a block.
- */
-function isEmptyParagraph(el: Element): boolean {
-  return el.tagName === 'P' && !el.querySelector('img, iframe, video, audio, object, embed, input') && !(el.textContent ?? '').replace(/\u00A0/g, '').trim()
 }
 
 function classesOf(el: Element): string[] {

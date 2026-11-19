@@ -265,7 +265,14 @@ conversion (`rawHandler`) plus what that doesn't know about the site:
   other legacy table classes (no CSS of their own) → the default look, `petit` → the Text
   petit format, `center` → centred, the ia-local `req-flex` row → Requadres columns;
 - `<a name>` anchors → the anchor of the heading they mark; a `div` with an `id` → a group
-  with that anchor; other wrapper `div`s unwrapped (the report lists their classes).
+  with that anchor; other wrapper `div`s unwrapped (the report lists their classes);
+- empty paragraphs dropped (spacers, what's left around a shortcode TinyMCE wrapped in a
+  paragraph, what `rawHandler` leaves next to an image);
+- a top-level block that doesn't validate (a link inside a link, a table inside a table,
+  a pasted wiki gallery) → a Classic block with the original HTML, which shows and edits
+  as before;
+- scripts, iframes and forms are kept but flagged in the report: inside a paragraph, they
+  go when it's edited or saved without `unfiltered_html`.
 
 ```bash
 docker compose -f docker-compose.test.yml run --rm --no-deps node \
