@@ -156,7 +156,7 @@ export function convertClassic(raw: string, wordpress: WordPressApi, options: Op
 
   // A round trip through WordPress's own parser and serializer gives the
   // exact saved form (entities such as &nbsp; and &gt;).
-  const parsed = keepInvalidAsClassic(withoutEmptyParagraphs(api.parse(markup), report), report)
+  const parsed = keepInvalidAsClassic(withoutEmptyParagraphs(api.parse(markup), report).map(automaticTableLayout), report)
   const htmlBlocks = countBlocks(parsed, 'core/html')
   if (htmlBlocks > 0) report.push(`${htmlBlocks} blocs «HTML personalitzat» (HTML que no té bloc; només els administradors els poden editar): cal revisar-los`)
   markup = api.serialize(parsed)
@@ -432,6 +432,17 @@ function convertDefinitionList(el: Element, context: Context): Block[] {
   flush()
 
   return [api.createBlock('core/list', {}, items.map((content) => api.createBlock('core/list-item', { content })))]
+}
+
+/**
+ * Classic tables had the browser's automatic layout: each column as wide as
+ * its content needs. WordPress's conversion turns on "Fixed width table
+ * cells", which makes the columns equal (a short label column takes half the
+ * table), so converted tables go back to automatic.
+ */
+function automaticTableLayout(block: Block): Block {
+  const inner = block.innerBlocks.map(automaticTableLayout)
+  return block.name === 'core/table' ? { ...block, attributes: { ...block.attributes, hasFixedLayout: false }, innerBlocks: inner } : { ...block, innerBlocks: inner }
 }
 
 function centred(block: Block): Block {

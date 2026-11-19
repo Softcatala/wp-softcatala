@@ -40,6 +40,13 @@ describe('convertClassic', () => {
     expect(markup).toContain('<p>Segon.</p>')
   })
 
+  it('keeps tables on automatic layout, as they were (columns sized by their content)', () => {
+    const { markup } = convert('<table class="prettytable"><tbody><tr><td><tt>Text original</tt></td><td><tt>A long sentence that should get the room.</tt></td></tr></tbody></table>\n\n<blockquote><table><tbody><tr><td>a</td></tr></tbody></table></blockquote>')
+
+    expect(markup).not.toContain('has-fixed-layout')
+    expect(markup.match(/"hasFixedLayout":false/g)).toHaveLength(2)
+  })
+
   it('maps legacy table classes to table styles', () => {
     const table = (cls: string) => `<table class="${cls}"><tbody><tr><td>Llicència</td><td>GPL</td></tr></tbody></table>`
     expect(convert(table('taula-2col')).markup).toContain('is-style-dues-columnes')
