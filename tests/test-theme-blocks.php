@@ -111,6 +111,17 @@ class ThemeBlocksTest extends SCTests {
 		$this->assertSame( trim( $shortcode ), trim( $block ) );
 	}
 
+	/**
+	 * The checker's CSS is scoped to its own root class: .cc is also the
+	 * footer's licence column, and #sct-ia only exists on the ia-local page.
+	 */
+	function test_checker_css_is_scoped_to_the_widget() {
+		$css = preg_replace( '#/\*.*?\*/#s', '', file_get_contents( get_template_directory() . '/static/css/ia-local-checker.css' ) );
+
+		$this->assertDoesNotMatchRegularExpression( '/\.cc(?=[\s:{,])/', $css );
+		$this->assertStringContainsString( 'class="cc sc-ia-checker"', do_blocks( '<!-- wp:sc/ia-local-checker /-->' ) );
+	}
+
 	function test_widget_blocks_render_like_their_shortcodes() {
 		$this->assertSame( trim( do_shortcode( '[ia-local-checker]' ) ), trim( do_blocks( '<!-- wp:sc/ia-local-checker /-->' ) ) );
 		$this->assertSame( trim( do_shortcode( '[navega-en-catala]' ) ), trim( do_blocks( '<!-- wp:sc/navega-en-catala /-->' ) ) );
