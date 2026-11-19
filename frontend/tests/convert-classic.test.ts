@@ -94,6 +94,18 @@ describe('convertClassic', () => {
     expect(report.join('\n')).not.toContain('sense les 3 parts')
   })
 
+  it('leaves no empty paragraphs around shortcodes the Classic block wrapped in one', () => {
+    const { markup, report } = convert(
+      '<h2>Per què?</h2>\n<p>[llista-icones color="blancgris"]<br />\nlanguage|Llengua|Text.<br />\n[/llista-icones]</p>\n<h2>Qui?</h2>\n<p>Intro.</p>\n<p>[ia-local-checker]</p>\n<p>&nbsp;</p>\n<p><br /></p>'
+    )
+
+    expect(markup).not.toMatch(/<p>(\s|&nbsp;|<br>)*<\/p>/)
+    expect(markup.match(/<!-- wp:paragraph/g)).toHaveLength(1)
+    expect(markup).toContain('wp:sc/llista-icones')
+    expect(markup).toContain('<!-- wp:sc/ia-local-checker /-->')
+    expect(report.join('\n')).toContain('Paràgrafs buits eliminats')
+  })
+
   it('keeps other shortcodes in a Shortcode block and says so', () => {
     const { markup, report } = convert('[cards]\n[card title="A" link="/a/"]Una[/card]\n[/cards]\n\n[insert page="123"]')
 

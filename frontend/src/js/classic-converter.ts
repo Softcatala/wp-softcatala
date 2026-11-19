@@ -240,6 +240,10 @@ function convertHtml(html: string, context: Context): Block[] {
   }
 
   for (const node of Array.from(doc.body.childNodes)) {
+    if (node.nodeType === 1 && isEmptyParagraph(node as Element)) {
+      context.report.push('Paràgrafs buits eliminats')
+      continue
+    }
     const special = node.nodeType === 1 ? convertElement(node as Element, context) : null
     if (special) {
       flush()
@@ -253,6 +257,15 @@ function convertHtml(html: string, context: Context): Block[] {
   flush()
 
   return blocks
+}
+
+/**
+ * A paragraph with nothing in it: the old <p>&nbsp;</p> spacers, or what is
+ * left around a shortcode the Classic block had wrapped in a paragraph
+ * (<p>[llista-icones]…[/llista-icones]</p>) once it becomes a block.
+ */
+function isEmptyParagraph(el: Element): boolean {
+  return el.tagName === 'P' && !el.querySelector('img, iframe, video, audio, object, embed, input') && !(el.textContent ?? '').replace(/\u00A0/g, '').trim()
 }
 
 function classesOf(el: Element): string[] {
