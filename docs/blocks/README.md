@@ -178,6 +178,11 @@ the content instead.
   lay out a group's children with `>` selectors, as `xifres` does. To preview a change,
   render it through WordPress (`do_blocks()` or a real page), not from saved markup:
   render filters like this one and the attendance totals change the HTML.
+- An Amb icones list is a two-column grid filled column by column: `Editor::list_rows`
+  adds its row count (`--files`) to the `<ul>` when it renders, and the grid's rows keep
+  the two columns level. Without the count (the editor), it falls back to CSS columns.
+  Avoid CSS columns for anything interactive: the browser lays the second column out as
+  a continuation of the first, and `:hover` stopped working on its items.
 - The theme keeps WordPress's structural block CSS (`wp-block-library`, loaded per block)
   and does **not** opt in to `wp-block-styles`: `_blocks.scss` is that layer, in the
   site's style.

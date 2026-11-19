@@ -88,6 +88,9 @@ class Editor {
 		// lay out their children (xifres). Not behind the flag: like the
 		// block CSS, how block content renders must not depend on it.
 		remove_filter( 'render_block_core/group', 'wp_restore_group_inner_container', 10 );
+
+		// Not behind the flag either: it is how a saved list renders.
+		add_filter( 'render_block_core/list', array( self::class, 'list_rows' ), 10, 2 );
 	}
 
 	/**
@@ -369,5 +372,31 @@ class Editor {
 		$post = isset( $args['post'], $args['revision'] ) ? get_post( (int) $args['post'] ) : null;
 
 		return $post && use_block_editor_for_post( $post ) ? remove_query_arg( 'revision', $location ) : $location;
+	}
+
+	/**
+	 * An Amb icones list is a two-column grid filled column by column, so the
+	 * stylesheet needs its number of rows: --files on the <ul>. (A grid, not CSS
+	 * columns: its rows line the two columns up, and multi-column layout broke
+	 * the hover on the second column's items.)
+	 *
+	 * @param string $content Rendered block.
+	 * @param array  $block   Parsed block.
+	 * @return string
+	 */
+	public static function list_rows( $content, $block ) {
+		$class = $block['attrs']['className'] ?? '';
+		if ( ! preg_match( '/(^|\s)is-style-amb-icones(\s|$)/', $class ) ) {
+			return $content;
+		}
+
+		$rows = (int) ceil( count( $block['innerBlocks'] ?? array() ) / 2 );
+		$tags = new \WP_HTML_Tag_Processor( $content );
+		if ( $rows > 0 && $tags->next_tag( 'ul' ) ) {
+			$style = trim( (string) $tags->get_attribute( 'style' ) );
+			$tags->set_attribute( 'style', '--files:' . $rows . ( '' !== $style ? ';' . $style : '' ) );
+		}
+
+		return $tags->get_updated_html();
 	}
 }

@@ -524,6 +524,11 @@ $crida-heading: #8f1c1f;
   // Amb icones: links or short items as grey tiles with a check, in two
   // columns on wide screens, filled top to bottom like [llista-links], which
   // it replaces (per-item icons are the sc/llista-icones block).
+  //
+  // On the site it is a grid filled column by column: the theme adds the
+  // row count (--files, Editor::list_rows), the rows line the two columns
+  // up, and every item takes its row's height. Where there is no count (the
+  // editor), CSS columns, as before.
   ul.wp-block-list.is-style-amb-icones {
     column-gap: 30px;
     margin-block: 0 20px;
@@ -531,6 +536,19 @@ $crida-heading: #8f1c1f;
 
     @include respond-from(sm) {
       columns: 2;
+
+      &[style*='--files'] {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(var(--files), auto);
+        grid-auto-flow: column;
+        row-gap: 10px;
+        columns: auto;
+
+        li {
+          margin: 0;
+        }
+      }
     }
 
     li {
@@ -543,13 +561,14 @@ $crida-heading: #8f1c1f;
       background-color: var(--color-bg-light);
 
       // Absolute, so the item's text (a bold title, then plain text) flows
-      // as one paragraph beside it.
+      // as one paragraph beside it. Level with the first line: in a grid row
+      // an item can be taller than its text.
       &::before {
         content: '\f00c';
         position: absolute;
         left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 13px;
+        line-height: 1;
         margin: 0;
         font-size: 28px;
         color: var(--color-gray-875);

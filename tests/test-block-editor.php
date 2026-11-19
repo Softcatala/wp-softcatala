@@ -278,6 +278,24 @@ class BlockEditorTest extends SCTests {
 		$this->assertMatchesRegularExpression( '#<div class="wp-block-group is-style-xifres[^"]*">\s*<p[^>]*>14</p>#', $html );
 	}
 
+	function test_amb_icones_list_gets_its_row_count() {
+		$items = function ( $n ) {
+			$out = '';
+			for ( $i = 1; $i <= $n; $i++ ) {
+				$out .= "<!-- wp:list-item -->\n<li>Element $i</li>\n<!-- /wp:list-item -->\n";
+			}
+			return $out;
+		};
+		$list  = function ( $n, $class ) use ( $items ) {
+			return "<!-- wp:list {\"className\":\"$class\"} -->\n<ul class=\"wp-block-list $class\">" . $items( $n ) . "</ul>\n<!-- /wp:list -->";
+		};
+
+		// Column by column: five items take three rows.
+		$this->assertStringContainsString( '<ul style="--files:3" class="wp-block-list is-style-amb-icones">', do_blocks( $list( 5, 'is-style-amb-icones' ) ) );
+		$this->assertStringContainsString( 'style="--files:2"', do_blocks( $list( 4, 'is-style-amb-icones' ) ) );
+		$this->assertStringNotContainsString( '--files', do_blocks( $list( 5, 'is-style-amb-filet' ) ) );
+	}
+
 	/**
 	 * The editors' guide names shortcodes as [[tag]]. Its page must show them
 	 * as text, on every the_content call in a request.
