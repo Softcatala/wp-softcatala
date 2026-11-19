@@ -105,7 +105,7 @@ class BlockEditorTest extends SCTests {
 
 		$blocks = Editor::allowed_blocks( true );
 
-		foreach ( array( 'core/paragraph', 'core/columns', 'core/column', 'core/table', 'core/list-item', 'core/freeform', 'core/media-text' ) as $block ) {
+		foreach ( array( 'core/paragraph', 'core/columns', 'core/column', 'core/table', 'core/list-item', 'core/freeform', 'core/media-text', 'core/more' ) as $block ) {
 			$this->assertContains( $block, $blocks );
 		}
 		$this->assertNotContains( 'core/cover', $blocks );

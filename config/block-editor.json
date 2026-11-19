@@ -21,6 +21,7 @@
     "core/buttons",
     "core/button",
     "core/separator",
+    "core/more",
     "core/details",
     "core/code",
     "core/preformatted",
