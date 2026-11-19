@@ -25,10 +25,27 @@ interface EditProps {
   setAttributes: (attributes: Record<string, unknown>) => void
 }
 
+import { iconListData, iconListRows, itemToRow, rowToItem } from './icon-list-data'
+
 type CreateElement = (type: unknown, props?: Record<string, unknown> | null, ...children: unknown[]) => unknown
 
+interface BlockLike {
+  name: string
+  attributes: Record<string, unknown>
+  innerBlocks: BlockLike[]
+}
+
+type CreateBlock = (name: string, attributes?: Record<string, unknown>, innerBlocks?: unknown[]) => unknown
+
 interface WordPressGlobals {
-  blocks: { registerBlockType: (name: string, settings: Record<string, unknown>) => unknown }
+  blocks: {
+    registerBlockType: (name: string, settings: Record<string, unknown>) => unknown
+    createBlock?: CreateBlock
+    getBlockType?: (name: string) => (Record<string, unknown> & { transforms?: unknown }) | undefined
+    unregisterBlockType?: (name: string) => unknown
+  }
+  hooks?: { addFilter: (hook: string, namespace: string, callback: (settings: Record<string, unknown>, name: string) => Record<string, unknown>) => void }
+  domReady?: (callback: () => void) => void
   blockEditor: { InspectorControls: unknown; useBlockProps: (props?: Record<string, unknown>) => Record<string, unknown> }
   components: { PanelBody: unknown; TextControl: unknown; SelectControl: unknown }
   element: { createElement: CreateElement; Fragment: unknown }
@@ -105,7 +122,61 @@ export function registerBlocks(wp: WordPressGlobals): void {
   }
 }
 
+/**
+ * A list (any style) ↔ the sc/llista-icones ACF block: list items become rows
+ * (a leading bold "Title:" becomes the title, the icon starts empty), and rows
+ * become items (the icon has no place in a list).
+ */
+export function iconListTransforms(createBlock: CreateBlock) {
+  return {
+    from: [
+      {
+        type: 'block',
+        blocks: ['core/list'],
+        transform: (_attributes: Record<string, unknown>, innerBlocks: BlockLike[]) =>
+          createBlock('sc/llista-icones', {
+            name: 'sc/llista-icones',
+            mode: 'preview',
+            data: iconListData(innerBlocks.map((item) => itemToRow(String(item.attributes.content ?? '')))),
+          }),
+      },
+    ],
+    to: [
+      {
+        type: 'block',
+        blocks: ['core/list'],
+        transform: (attributes: Record<string, unknown>) =>
+          createBlock(
+            'core/list',
+            {},
+            iconListRows((attributes.data ?? {}) as Record<string, unknown>).map((row) => createBlock('core/list-item', { content: rowToItem(row) }))
+          ),
+      },
+    ],
+  }
+}
+
+export function addIconListTransforms(wp: WordPressGlobals): void {
+  const { createBlock, getBlockType, unregisterBlockType, registerBlockType } = wp.blocks
+  if (!createBlock || !wp.hooks) return
+  const transforms = iconListTransforms(createBlock)
+
+  wp.hooks.addFilter('blocks.registerBlockType', 'softcatala/llista-icones-transforms', (settings, name) =>
+    name === 'sc/llista-icones' ? { ...settings, transforms } : settings
+  )
+
+  // ACF PRO may have registered the block before this script ran.
+  wp.domReady?.(() => {
+    const type = getBlockType?.('sc/llista-icones')
+    if (type && type.transforms !== transforms && unregisterBlockType) {
+      unregisterBlockType('sc/llista-icones')
+      registerBlockType('sc/llista-icones', { ...type, transforms })
+    }
+  })
+}
+
 const globals = (globalThis as { wp?: WordPressGlobals }).wp
 if (globals?.blocks && globals.serverSideRender) {
   registerBlocks(globals)
+  addIconListTransforms(globals)
 }

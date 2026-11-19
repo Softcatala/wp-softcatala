@@ -5,6 +5,8 @@
  *   such as "(resposta tardana)".
  * - "Nota" → <span class="sc-nota">: its own line, italics, for an extra line
  *   under a list item.
+ * - "Text petit" → <span class="sc-petit">: smaller text, such as a file size
+ *   under a download link (the legacy .petit).
  *
  * Their look is in frontend/src/scss/_blocks.scss. Enqueued only in the block
  * editor, with the block_editor flag on (Softcatala\Blocks\Editor), and uses
@@ -29,6 +31,7 @@ interface WordPressGlobals {
 export const FORMATS = [
   { name: 'sc/secundari', title: 'Text secundari', className: 'sc-secundari', icon: 'editor-textcolor' },
   { name: 'sc/nota', title: 'Nota (línia pròpia)', className: 'sc-nota', icon: 'format-aside' },
+  { name: 'sc/petit', title: 'Text petit', className: 'sc-petit', icon: 'editor-contract' },
 ] as const
 
 export function registerFormats(wp: WordPressGlobals): void {

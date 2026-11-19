@@ -610,4 +610,10 @@ $crida-heading: #8f1c1f;
     font-style: italic;
     color: var(--color-gray-1000);
   }
+
+  // Text petit: the legacy .petit (file sizes under download links, small
+  // print) as an inline format.
+  .sc-petit {
+    font-size: 0.85em;
+  }
 }

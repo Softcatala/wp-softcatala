@@ -124,7 +124,11 @@ shortcode that needs a block (rule 3). Each block is a folder under `blocks/` wi
   location names the block, and `ThemeBlocks` registers it only when ACF PRO is active
   (`ThemeBlocks::ACF_BLOCKS`; the test site runs the free ACF, so only the shared
   renderer is tested, and the validator gives ACF blocks the `name`, `data` and `mode`
-  attributes ACF adds). The old
+  attributes ACF adds). Their `data` format (fields by name, `_name` → field key,
+  repeaters flattened) is read and written in `frontend/src/js/icon-list-data.ts` for
+  `sc/llista-icones`, which also has list ↔ block transforms (`addIconListTransforms` in
+  `editor-blocks.ts`: added when ACF registers the block, or by re-registering it if
+  ACF got there first). The old
   `acf/cards` stays registered, out of the inserter, for content saved with it.
 
 In both cases: add the block to `blocks` in `config/block-editor.json` (a test checks

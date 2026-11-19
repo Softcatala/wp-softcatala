@@ -106,10 +106,17 @@ describe('convertClassic', () => {
   it('maps small and centred paragraphs, and drops inline styles', () => {
     const { markup, report } = convert('<p class="petit">Lletra petita.</p>\n<p class="center">Centrat.</p>\n<p style="color:#ff0000">Vermell a mà.</p>')
 
-    expect(markup).toContain('<p class="has-petit-font-size">Lletra petita.</p>')
+    expect(markup).toContain('<p><span class="sc-petit">Lletra petita.</span></p>')
     expect(markup).toContain('<p class="has-text-align-center">Centrat.</p>')
     expect(markup).not.toContain('#ff0000')
     expect(report.join('\n')).toContain('1 atributs style descartats')
+  })
+
+  it('turns .petit in table cells into Text petit on its own line', () => {
+    const { markup } = convert('<table border="0"><tbody><tr><td><a href="/a.pdf">Ponència</a> <div class="petit" align="center">(32 KB)</div></td></tr></tbody></table>')
+
+    expect(markup).toContain('<br><span class="sc-petit">(32 KB)</span>')
+    expect(markup).not.toContain('<p></p>')
   })
 
   it('moves old named anchors onto the heading they mark', () => {

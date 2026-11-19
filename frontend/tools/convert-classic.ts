@@ -15,7 +15,7 @@
  *   Other shortcodes ([cards], [insert]…) are kept in Shortcode blocks.
  * - Legacy classes on top-level elements become block styles: callouts
  *   (fons-gris, messagebox, alerta, req-banner) → Avís, taula-2col → Dues
- *   columnes, prettytable → Guia d'estil, petit → the Petit font size,
+ *   columnes, prettytable → Guia d'estil, petit → the "Text petit" format,
  *   center → centred text, the
  *   ia-local req-flex row → Requadres columns.
  *
@@ -29,6 +29,7 @@
 import { autop } from '@wordpress/autop'
 import { createBlock, parse, rawHandler, serialize } from '@wordpress/blocks'
 import { attrs as shortcodeAttrs } from '@wordpress/shortcode'
+import { iconListData } from '../src/js/icon-list-data'
 import { ensureRegistered } from './register-blocks'
 
 type Block = ReturnType<typeof createBlock>
@@ -118,6 +119,8 @@ export function convertClassic(raw: string, options: Options = {}): Conversion {
     return `<sup data-fn="${id}" class="fn"><a href="#${id}" id="${id}-link">${Number(n) + 1}</a></sup>`
   })
 
+  markup = markup.replace(/\u27E6petit\u27E7/g, '<span class="sc-petit">').replace(/\u27E6\/petit\u27E7/g, '</span>')
+
   // A round trip through WordPress's own parser and serializer gives the
   // exact saved form (entities such as &nbsp; and &gt;).
   const parsed = parse(markup)
@@ -154,7 +157,8 @@ function convertShortcodes(html: string, context: Context): string {
     const valid = rows.filter((parts) => parts.length === 3)
     if (valid.length < rows.length) report.push(`[llista-icones]: ${rows.length - valid.length} línies sense les 3 parts (icona|títol|text) descartades`)
     report.push('[llista-icones] convertit en bloc «Llista amb icones»')
-    return store(createBlock('sc/llista-icones', { name: 'sc/llista-icones', data: iconListData(valid, color), mode: 'preview' }))
+    const items = valid.map(([icon, title, text]) => ({ icon: icon.trim(), title: title.trim(), text: text.trim() }))
+    return store(createBlock('sc/llista-icones', { name: 'sc/llista-icones', data: iconListData(items, color), mode: 'preview' }))
   })
 
   html = html.replace(/\[(llista-links)(\s[^\]]*)?\]([\s\S]*?)\[\/\1\]/g, (_m, tag: string, _a, body: string) => {
@@ -201,30 +205,11 @@ function convertShortcodes(html: string, context: Context): string {
   return html
 }
 
-/**
- * The sc/llista-icones block's ACF data: each field by name, with its key
- * under "_name", the repeater flattened (items_0_icon…), as ACF saves it.
- * Field keys: Softcatala\Blocks\IconList::register_field_group().
- */
-function iconListData(rows: string[][], color: string): Record<string, unknown> {
-  const data: Record<string, unknown> = { color, _color: 'field_sc_llista_icones_color' }
-  rows.forEach(([icon, title, text], i) => {
-    data[`items_${i}_icon`] = icon.trim()
-    data[`_items_${i}_icon`] = 'field_sc_llista_icones_icon'
-    data[`items_${i}_title`] = title.trim()
-    data[`_items_${i}_title`] = 'field_sc_llista_icones_title'
-    data[`items_${i}_text`] = text.trim()
-    data[`_items_${i}_text`] = 'field_sc_llista_icones_text'
-  })
-  data.items = rows.length
-  data._items = 'field_sc_llista_icones_items'
-  return data
-}
-
 /** Converts autop'd HTML, top-level element by element. */
 function convertHtml(html: string, context: Context): Block[] {
   const doc = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html')
   moveNamedAnchors(doc, context.report)
+  markSmallText(doc, context.report)
   const blocks: Block[] = []
   const pending: string[] = []
 
@@ -299,14 +284,10 @@ function convertElement(el: Element, context: Context): Block[] | null {
     }
   }
 
-  if (tag === 'p' && (classes.includes('petit') || classes.includes('center'))) {
-    return rawHandler({ HTML: `<p>${el.innerHTML}</p>` }).map((b) => {
-      if (b.name !== 'core/paragraph') return b
-      const attributes = { ...b.attributes }
-      if (classes.includes('petit')) attributes.fontSize = 'petit'
-      if (classes.includes('center')) attributes.style = { typography: { textAlign: 'center' } }
-      return { ...b, attributes }
-    })
+  if (tag === 'p' && classes.includes('center')) {
+    return rawHandler({ HTML: `<p>${el.innerHTML}</p>` }).map((b) =>
+      b.name === 'core/paragraph' ? { ...b, attributes: { ...b.attributes, style: { typography: { textAlign: 'center' } } } } : b
+    )
   }
 
   // Any other wrapper div. With an id, it may be a link target (or a CSS or
@@ -346,6 +327,31 @@ function moveNamedAnchors(doc: Document, report: string[]): void {
     a.replaceWith(...Array.from(a.childNodes))
     // autop wraps a lone anchor in its own paragraph.
     if (parent && parent.tagName === 'P' && !parent.textContent?.trim() && parent.children.length === 0) parent.remove()
+  }
+}
+
+/**
+ * .petit (small print: file sizes under download links) becomes the "Text
+ * petit" format. Its text is marked with tokens, which survive rawHandler and
+ * become <span class="sc-petit"> at the end; a .petit div, a line of its
+ * own, gets a line break before it.
+ */
+function markSmallText(doc: Document, report: string[]): void {
+  for (const el of Array.from(doc.querySelectorAll('.petit'))) {
+    const marked = doc.createTextNode(`\u27E6petit\u27E7${el.textContent ?? ''}\u27E6/petit\u27E7`)
+    if (el.tagName === 'P') {
+      el.replaceChildren(marked)
+      el.classList.remove('petit')
+    } else {
+      const parts: Node[] = [marked]
+      if (el.tagName === 'DIV' && el.previousSibling) parts.unshift(doc.createElement('br'))
+      el.replaceWith(...parts)
+    }
+    report.push('.petit convertit en «Text petit»')
+  }
+  // autop leaves empty paragraphs where block-level .petit divs were.
+  for (const p of Array.from(doc.querySelectorAll('td p, th p'))) {
+    if (!p.textContent?.trim() && p.children.length === 0) p.remove()
   }
 }
 

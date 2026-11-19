@@ -172,7 +172,7 @@ class Editor {
 		wp_enqueue_script(
 			'sc-js-editor-blocks',
 			get_template_directory_uri() . '/static/js/editor-blocks.js',
-			array( 'wp-blocks', 'wp-block-editor', 'wp-components', 'wp-element', 'wp-server-side-render', 'wp-data' ),
+			array( 'wp-blocks', 'wp-block-editor', 'wp-components', 'wp-element', 'wp-server-side-render', 'wp-data', 'wp-hooks', 'wp-dom-ready' ),
 			WP_SOFTCATALA_VERSION,
 			true
 		);
