@@ -88,6 +88,12 @@ const TABLE_CLASSES: Array<[RegExp, string | null]> = [
   [/^(prettytable\d+|wikitable|comparacio\d*|tres_columnes\d*)$/, null],
 ]
 
+/** Unwrapped like a <div> (pasted press clippings have them). */
+const HTML5_WRAPPERS = ['section', 'article', 'header', 'footer', 'aside', 'main']
+
+/** Unwrapped when they hold whole paragraphs. */
+const INLINE_WRAPPERS = ['em', 'i', 'strong', 'b', 'u', 'font', 'span']
+
 /** Shortcodes kept as they are, in a Shortcode block. */
 const KEPT_SHORTCODES = ['cards', 'insert']
 
@@ -268,6 +274,7 @@ function convertHtml(html: string, context: Context): Block[] {
   const doc = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html')
   moveNamedAnchors(doc, context.report)
   markSmallText(doc, context.report)
+  wrapStrayListItems(doc, context.report)
   const blocks: Block[] = []
   const pending: string[] = []
 
@@ -325,6 +332,30 @@ function convertElement(el: Element, context: Context): Block[] | null {
     return [api.createBlock('core/group', { className: `is-style-${avis}` }, convertHtml(api.autop(el.innerHTML), context))]
   }
 
+  if (tag === 'dl') return convertDefinitionList(el, context)
+
+  // A quote's content goes through the converter too (WordPress would convert
+  // it on its own, without the site's mappings); a trailing <cite> is its
+  // citation.
+  if (tag === 'blockquote') {
+    const cite = el.lastElementChild?.tagName === 'CITE' ? el.lastElementChild : null
+    cite?.remove()
+    return [api.createBlock('core/quote', cite ? { citation: cite.innerHTML.trim() } : {}, convertHtml(api.autop(el.innerHTML), context))]
+  }
+
+  // Bold or italics around whole paragraphs (<em><p>…</p></em>): the
+  // paragraphs, without it.
+  if (INLINE_WRAPPERS.includes(tag) && el.querySelector('p, div, table, ul, ol, h1, h2, h3, h4, h5, h6, blockquote, dl')) {
+    report.push(`<${tag}> al voltant de paràgrafs desfet`)
+    return convertHtml(api.autop(el.innerHTML), context)
+  }
+
+  // <center>, and the old wiki's <div class="center">: the text, centred.
+  if (tag === 'center' || (tag === 'div' && classes.includes('center') && !el.id)) {
+    report.push(`<${tag === 'center' ? 'center' : 'div class="center"'}> convertit en text centrat`)
+    return convertHtml(api.autop(el.innerHTML), context).map(centred)
+  }
+
   if (classes.includes('download_section')) {
     report.push('.download_section desfet: el seu contingut queda com a blocs normals')
     return convertHtml(api.autop(el.innerHTML), context)
@@ -351,18 +382,79 @@ function convertElement(el: Element, context: Context): Block[] | null {
   // Any other wrapper div. With an id, it may be a link target (or a CSS or
   // script hook): it becomes a group with that anchor. Without one, only its
   // content matters.
-  if (tag === 'div') {
+  if (tag === 'div' || HTML5_WRAPPERS.includes(tag)) {
     const inner = convertHtml(api.autop(el.innerHTML), context)
     if (el.id) {
       report.push(`<div id="${el.id}"> convertit en grup amb l'ancoratge «${el.id}»`)
       return [api.createBlock('core/group', { anchor: el.id }, inner)]
     }
     const lost = classes.filter((c) => !c.startsWith('wp-'))
-    report.push(`Contenidors <div> desfets (el seu contingut queda com a blocs)${lost.length > 0 ? `; classes perdudes: ${lost.join(' ')}` : ''}`)
+    report.push(`Contenidors <${tag}> desfets (el seu contingut queda com a blocs)${lost.length > 0 ? `; classes perdudes: ${lost.join(' ')}` : ''}`)
     return inner
   }
 
   return null
+}
+
+/**
+ * A definition list. With terms (<dt>), a list with each term in bold before
+ * its description. Without (only <dd>, how the old wiki indented a line with
+ * ":"), its lines in a group with the Sagnat style.
+ */
+function convertDefinitionList(el: Element, context: Context): Block[] {
+  const children = Array.from(el.children)
+  const hasTerms = children.some((c) => c.tagName === 'DT' && c.textContent?.trim())
+
+  if (!hasTerms) {
+    context.report.push('Llistes de definició sense termes (el sagnat de la wiki antiga) convertides en grups amb l\'estil «Sagnat»')
+    const inner = children.filter((c) => c.tagName === 'DD').flatMap((dd) => convertHtml(api.autop(dd.innerHTML), context))
+    return [api.createBlock('core/group', { className: 'is-style-sagnat' }, inner)]
+  }
+
+  context.report.push('Llistes de definició convertides en llistes, amb el terme en negreta')
+  const items: string[] = []
+  let term: string | null = null
+  const descriptions: string[] = []
+  const flush = () => {
+    if (term !== null) items.push(descriptions.length > 0 ? `<strong>${term}</strong>: ${descriptions.join(' ')}` : `<strong>${term}</strong>`)
+    else items.push(...descriptions)
+    term = null
+    descriptions.length = 0
+  }
+  for (const child of children) {
+    if (child.tagName === 'DT') {
+      flush()
+      term = child.innerHTML.trim()
+    } else if (child.tagName === 'DD') {
+      descriptions.push(child.innerHTML.trim())
+    }
+  }
+  flush()
+
+  return [api.createBlock('core/list', {}, items.map((content) => api.createBlock('core/list-item', { content })))]
+}
+
+function centred(block: Block): Block {
+  if (block.name !== 'core/paragraph' && block.name !== 'core/heading') return block
+  const style = (block.attributes.style ?? {}) as Record<string, Record<string, unknown>>
+  return { ...block, attributes: { ...block.attributes, style: { ...style, typography: { ...style.typography, textAlign: 'center' } } } }
+}
+
+/** List items outside any list (pasted fragments): runs of them get a <ul>. */
+function wrapStrayListItems(doc: Document, report: string[]): void {
+  for (const li of Array.from(doc.querySelectorAll('li'))) {
+    const parent = li.parentElement
+    if (!li.isConnected || !parent || ['UL', 'OL', 'MENU'].includes(parent.tagName)) continue
+    const ul = doc.createElement('ul')
+    li.before(ul)
+    let node: ChildNode | null = li
+    while (node && (node.nodeName === 'LI' || (node.nodeType === 3 && !node.textContent?.trim()))) {
+      const next: ChildNode | null = node.nextSibling
+      ul.append(node)
+      node = next
+    }
+    report.push('Elements de llista solts posats dins d\'una llista')
+  }
 }
 
 /**

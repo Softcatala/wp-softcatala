@@ -454,6 +454,15 @@ $crida-heading: #8f1c1f;
   }
 
   // ------------------------------------------------------------------------
+  // Sagnat: an indented group, for examples and quotations set off from the
+  // text (what the old wiki pages did with <dl><dd>). Padding, not margin:
+  // the editor centres blocks with side margins.
+  // ------------------------------------------------------------------------
+  .wp-block-group.is-style-sagnat {
+    padding-inline-start: 2em;
+  }
+
+  // ------------------------------------------------------------------------
   // Lists: amb filet (ruled, no bullets) and etiquetes (tags)
   // ------------------------------------------------------------------------
   // ul.wp-block-list.is-style-… outranks the chevron rules in _prose.scss.

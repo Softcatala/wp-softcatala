@@ -135,6 +135,57 @@ describe('convertClassic', () => {
     expect(report.join('\n')).toContain('1 iframes (<iframe>)')
   })
 
+  it("turns the old wiki's indentation (<dl> with only <dd>) into a Sagnat group", () => {
+    const { markup } = convert('Ordre:\n<dl>\n \t<dd>Subjecte + Verb + Complements</dd>\n \t<dd><tt>Correcte</tt>: <b>Només</b> es pot inserir.\n<dl><dd>Més endins.</dd></dl></dd>\n</dl>\nDesprés.')
+
+    expect(markup).toContain('<!-- wp:group {"className":"is-style-sagnat"} -->')
+    expect(markup).toContain('<p>Subjecte + Verb + Complements</p>')
+    expect(markup.match(/is-style-sagnat/g)!.length).toBeGreaterThanOrEqual(4)
+    expect(markup).not.toContain('<dl')
+    expect(markup).not.toContain('wp:html')
+  })
+
+  it('turns a definition list with terms into a list with the term in bold', () => {
+    const { markup } = convert('<dl>\n<dt><a href="/po">mailman.po</a></dt>\n<dd>Els missatges.</dd>\n<dt>templates/ca</dt>\n<dd>Les plantilles.</dd>\n</dl>\n<dl><dt></dt><dd><em>Sense terme.</em></dd></dl>')
+
+    expect(markup).toContain('<li><strong><a href="/po">mailman.po</a></strong>: Els missatges.</li>')
+    expect(markup).toContain('<li><strong>templates/ca</strong>: Les plantilles.</li>')
+    // An empty <dt> is the wiki's indentation too.
+    expect(markup).toContain('is-style-sagnat')
+  })
+
+  it('centres <center> and div.center, and puts stray list items in a list', () => {
+    const { markup, report } = convert('<center>\n\nCentrat.\n\n</center>\n<div class="center">També.</div>\n<p>Abans.</p>\n<li>U</li>\n<li>Dos</li>\n<p>Després.</p>')
+
+    expect(markup.match(/has-text-align-center/g)).toHaveLength(2)
+    expect(markup).not.toContain('wp:html')
+    expect(markup).toContain('<!-- wp:list -->\n<ul class="wp-block-list"><!-- wp:list-item -->\n<li>U</li>')
+    expect(report.join('\n')).not.toContain('classes perdudes: center')
+  })
+
+  it('converts what is inside quotes, unwraps HTML5 wrappers and bold around paragraphs', () => {
+    const { markup } = convert(
+      '<blockquote><p>Demanem:</p>\n<dl><dd><em>Que l\'administració no imposi programes.</em></dd></dl>\n<cite>Manifest</cite></blockquote>\n<footer class="article-footer">Publicat per Ara.cat</footer>\n<em>\n<p>Primer.</p>\n<p>Segon.</p>\n</em>'
+    )
+
+    expect(markup).toContain('<!-- wp:quote')
+    expect(markup).toContain('is-style-sagnat')
+    expect(markup).toContain('<cite>Manifest</cite>')
+    expect(markup).toContain('<p>Publicat per Ara.cat</p>')
+    expect(markup).toContain('<p>Segon.</p>')
+    expect(markup).not.toContain('wp:html')
+  })
+
+  it('keeps forms in Custom HTML and flags them', () => {
+    // Custom HTML is allowed only for users with unfiltered_html, so the
+    // allowed-list check doesn't apply here.
+    const { markup, report } = convertClassic('<form action="https://example.org/" method="post"><input name="email" type="email" /><input type="submit" value="Envia" /></form>')
+    expect(validateMarkup(markup).filter((p) => !(p.block === 'core/html' && /allowed list/.test(String(p.message))))).toEqual([])
+
+    expect(markup).toContain('<!-- wp:html -->')
+    expect(report.join('\n')).toContain('1 formularis (<form>)')
+  })
+
   it('keeps other shortcodes in a Shortcode block and says so', () => {
     const { markup, report } = convert('[cards]\n[card title="A" link="/a/"]Una[/card]\n[/cards]\n\n[insert page="123"]')
 

@@ -266,6 +266,10 @@ conversion (`rawHandler`) plus what that doesn't know about the site:
   petit format, `center` → centred, the ia-local `req-flex` row → Requadres columns;
 - `<a name>` anchors → the anchor of the heading they mark; a `div` with an `id` → a group
   with that anchor; other wrapper `div`s unwrapped (the report lists their classes);
+- `<dl>` with terms → a list with the term in bold; without (the old wiki's `:`
+  indentation, only `<dd>`) → a group with the Sagnat style; `<center>` and
+  `div.center` → centred text; stray `<li>`s → wrapped in a list; forms stay in Custom
+  HTML;
 - empty paragraphs dropped (spacers, what's left around a shortcode TinyMCE wrapped in a
   paragraph, what `rawHandler` leaves next to an image);
 - a top-level block that doesn't validate (a link inside a link, a table inside a table,
