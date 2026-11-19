@@ -402,6 +402,46 @@
 }
 
 // ---------------------------------------------------------------------------
+// Icon list ([llista-icones] and the sc/llista-icones block)
+// ---------------------------------------------------------------------------
+//
+// Two columns, odd items left and even items right, which is also the order
+// they stack in on phones. From sm up the columns share one set of rows
+// (subgrid), so each row is as tall as the taller of its two items and the
+// columns stay level. --files, set by the renderer, is the number of rows.
+// Grid margins don't collapse, so the items' margins become gaps and padding
+// with the same spacing as before. Without subgrid the columns stay independent.
+// .row.llista-icones: the grid utilities (.row, display: flex) load after this.
+
+@supports (grid-template-rows: subgrid) {
+  @include respond-from(sm) {
+    .row.llista-icones {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(var(--files), auto);
+      row-gap: 20px;
+      padding-block: 10px 20px;
+
+      > div {
+        display: grid;
+        grid-row: 1 / -1;
+        grid-template-rows: subgrid;
+        width: auto;
+
+        > * {
+          margin-block: 0;
+        }
+      }
+    }
+
+    .row.llista-icones-gris {
+      row-gap: 10px;
+      padding-block: 10px 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Gray image thumbnail (horizontal card with image + caption)
 // ---------------------------------------------------------------------------
 

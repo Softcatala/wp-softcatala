@@ -60,12 +60,19 @@ class SC_Shortcodes_IconList {
 			( $index % 2 == 0 ) ? $column0 .= $item_html : $column1 .= $item_html;
 		}
 
-		$html  = '<div class="row">';
+		// --files: the rows of the longer (left) column, so the stylesheet can
+		// line the two columns' items up row by row (_cards.scss, Icon list).
+		$rows  = (int) ceil( count( $items ) / 2 );
+		$html  = '<div class="row llista-icones llista-icones-' . self::get_color( $color ) . '" style="--files:' . $rows . '">';
 		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $column0 . '</div>';
 		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $column1 . '</div>';
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	private static function get_color( $color ) {
+		return in_array( $color, array( 'blanc', 'gris', 'blancgris' ), true ) ? $color : 'blanc';
 	}
 
 	private static function get_column_css_class( $color, $default = '' ) {

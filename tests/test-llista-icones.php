@@ -2,7 +2,8 @@
 /**
  * Tests for the icon list: the [llista-icones] shortcode keeps its output
  * (tests/fixtures/llista-icones.json, recorded before its renderer was shared
- * with the sc/llista-icones block), and the block's renderer gives the same.
+ * with the sc/llista-icones block; since then only the outer div has changed,
+ * to line the columns up), and the block's renderer gives the same.
  *
  * @package Softcatala
  */
@@ -58,6 +59,21 @@ class LlistaIconesTest extends SCTests {
 		);
 
 		$this->assertStringContainsString( '<i class="fas fa-users"></i>', $html );
+	}
+
+	function test_columns_keep_their_order_and_share_rows() {
+		$item = function ( $title ) {
+			return array(
+				'icon'  => 'users',
+				'title' => $title,
+				'text'  => 'Text.',
+			);
+		};
+		$html = SC_Shortcodes_IconList::render( array( $item( 'U' ), $item( 'Dos' ), $item( 'Tres' ) ), 'vermell' );
+
+		// Odd items left, even right; three items take two rows.
+		$this->assertStringStartsWith( '<div class="row llista-icones llista-icones-blanc" style="--files:2">', $html );
+		$this->assertMatchesRegularExpression( '#<h3>U</h3>.*<h3>Tres</h3>.*</div><div class=" col-sm-6">.*<h3>Dos</h3>#', $html );
 	}
 
 	function test_no_items_no_markup() {
