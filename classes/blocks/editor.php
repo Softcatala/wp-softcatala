@@ -78,6 +78,7 @@ class Editor {
 		add_filter( 'use_block_editor_for_post_type', array( self::class, 'use_for_post_type' ), self::EDITOR_CHOICE_PRIORITY, 2 );
 		add_filter( 'use_block_editor_for_post', array( self::class, 'use_for_post' ), self::EDITOR_CHOICE_PRIORITY, 2 );
 		add_filter( 'classic_editor_plugin_settings', array( self::class, 'classic_editor_settings' ) );
+		add_filter( 'wp_redirect', array( self::class, 'restore_redirect' ) );
 
 		// Render groups as the editor saves them. For a theme without a
 		// theme.json file (ours is merged from PHP, so the flag can switch it
@@ -339,5 +340,34 @@ class Editor {
 		}
 
 		return self::use_for_post_type( $use_block_editor, $post->post_type );
+	}
+
+	/**
+	 * After "Restore this revision", sends the block editor no ?revision=.
+	 *
+	 * The revisions screen (revision.php) redirects to the edit screen with message=5&revision=<id>,
+	 * for the classic editor's "restored" notice. Since WordPress 7.0 the block
+	 * editor reads ?revision= as "show this revision", and when the screen has
+	 * meta boxes (visual revisions off) it sends you on to revision.php: the
+	 * restore works, but you land back on the revisions screen. The classic
+	 * editor keeps the parameter for its notice.
+	 *
+	 * Core bug https://core.trac.wordpress.org/ticket/66708; its patch
+	 * (wordpress-develop PR #16080, slated for 7.2) builds the same URL.
+	 * Remove this once the minimum WordPress version has it.
+	 *
+	 * @param string $location Redirect URL.
+	 * @return string
+	 */
+	public static function restore_redirect( $location ) {
+		$action = isset( $_GET['action'] ) ? sanitize_key( wp_unslash( $_GET['action'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- revision.php checked the nonce.
+		if ( 'revision.php' !== ( $GLOBALS['pagenow'] ?? '' ) || 'restore' !== $action ) {
+			return $location;
+		}
+
+		parse_str( (string) wp_parse_url( $location, PHP_URL_QUERY ), $args );
+		$post = isset( $args['post'], $args['revision'] ) ? get_post( (int) $args['post'] ) : null;
+
+		return $post && use_block_editor_for_post( $post ) ? remove_query_arg( 'revision', $location ) : $location;
 	}
 }

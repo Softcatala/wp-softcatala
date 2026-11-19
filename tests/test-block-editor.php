@@ -307,4 +307,34 @@ class BlockEditorTest extends SCTests {
 			$this->assertNotNull( Editor::read_pattern( $file ), basename( $file ) );
 		}
 	}
+
+	/**
+	 * Restoring a revision lands in the block editor, not back on revision.php:
+	 * the editor reads ?revision= as "show this revision".
+	 */
+	function test_restore_redirect_drops_the_revision_for_the_block_editor() {
+		$block   = self::factory()->post->create( array( 'post_type' => 'page' ) );
+		$classic = self::factory()->post->create( array( 'post_type' => 'page' ) );
+		$url     = function ( $id ) {
+			return admin_url( "post.php?post=$id&action=edit&message=5&revision=99" );
+		};
+		$choose  = function ( $use, $post ) use ( $classic ) {
+			return get_post( $post )->ID !== $classic;
+		};
+		add_filter( 'use_block_editor_for_post', $choose, 999, 2 );
+
+		$GLOBALS['pagenow'] = 'revision.php';
+		$_GET['action']     = 'restore';
+
+		$this->assertSame( admin_url( "post.php?post=$block&action=edit&message=5" ), apply_filters( 'wp_redirect', $url( $block ), 302 ) );
+		$this->assertSame( $url( $classic ), apply_filters( 'wp_redirect', $url( $classic ), 302 ) );
+
+		// Any other redirect is left alone.
+		$_GET['action'] = 'view';
+		$this->assertSame( $url( $block ), apply_filters( 'wp_redirect', $url( $block ), 302 ) );
+
+		unset( $_GET['action'] );
+		$GLOBALS['pagenow'] = 'index.php';
+	}
 }
+
