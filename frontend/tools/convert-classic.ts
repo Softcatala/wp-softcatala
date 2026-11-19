@@ -10,11 +10,13 @@
  *   `footnotes` meta.
  * - The theme's shortcodes become its blocks or styles: [ia-data] →
  *   sc/ia-data, [ia-local-checker] and [navega-en-catala] → their blocks,
- *   [llista-links] and [llista-icones] → a list with the Amb icones style.
+ *   [llista-icones] → sc/llista-icones (icons and colour kept),
+ *   [llista-links] → a list with the Amb icones style.
  *   Other shortcodes ([cards], [insert]…) are kept in Shortcode blocks.
  * - Legacy classes on top-level elements become block styles: callouts
  *   (fons-gris, messagebox, alerta, req-banner) → Avís, taula-2col → Dues
- *   columnes, petit → the Petit font size, center → centred text, the
+ *   columnes, prettytable → Guia d'estil, petit → the Petit font size,
+ *   center → centred text, the
  *   ia-local req-flex row → Requadres columns.
  *
  * Everything else is left to rawHandler, which drops inline styles and
@@ -60,7 +62,10 @@ const AVIS_CLASSES: Record<string, string> = {
 /** Legacy table classes and the style they become (null: the default look). */
 const TABLE_CLASSES: Array<[RegExp, string | null]> = [
   [/^taula-2col$/, 'dues-columnes'],
-  [/^(prettytable\d*|wikitable|comparacio\d*|tres_columnes\d*)$/, null],
+  [/^prettytable$/, 'guia-estil'],
+  // No CSS of their own in the theme (comparacio had one for eleven days in
+  // 2015): they look like the default table today.
+  [/^(prettytable\d+|wikitable|comparacio\d*|tres_columnes\d*)$/, null],
 ]
 
 /** Shortcodes kept as they are, in a Shortcode block. */
@@ -143,15 +148,22 @@ function convertShortcodes(html: string, context: Context): string {
   }
   const count = (tag: string) => report.push(`[${tag}] convertit en bloc`)
 
-  html = html.replace(/\[(llista-links|llista-icones)(\s[^\]]*)?\]([\s\S]*?)\[\/\1\]/g, (_m, tag: string, _a, body: string) => {
+  html = html.replace(/\[llista-icones(\s[^\]]*)?\]([\s\S]*?)\[\/llista-icones\]/g, (_m, attrText = '', body: string) => {
+    const color = (shortcodeAttrs(attrText).named as Record<string, string>).color ?? 'blanc'
+    const rows = body.split('\n').map((l) => l.trim()).filter(Boolean).map((line) => line.split('|'))
+    const valid = rows.filter((parts) => parts.length === 3)
+    if (valid.length < rows.length) report.push(`[llista-icones]: ${rows.length - valid.length} línies sense les 3 parts (icona|títol|text) descartades`)
+    report.push('[llista-icones] convertit en bloc «Llista amb icones»')
+    return store(createBlock('sc/llista-icones', { name: 'sc/llista-icones', data: iconListData(valid, color), mode: 'preview' }))
+  })
+
+  html = html.replace(/\[(llista-links)(\s[^\]]*)?\]([\s\S]*?)\[\/\1\]/g, (_m, tag: string, _a, body: string) => {
     const lines = body.split('\n').map((l) => l.trim()).filter(Boolean)
     const items = lines.map((line) => {
       const parts = line.split('|').map((p) => p.trim())
-      if (tag === 'llista-links' && parts.length === 2) return `<a href="${parts[1]}">${parts[0]}</a>`
-      if (tag === 'llista-icones' && parts.length === 3) return parts[1] ? `<strong>${parts[1]}</strong>: ${parts[2]}` : parts[2]
-      return line
+      return parts.length === 2 ? `<a href="${parts[1]}">${parts[0]}</a>` : line
     })
-    report.push(`[${tag}] convertit en llista «Amb icones»${tag === 'llista-icones' ? ' (les icones de cada element es perden)' : ''}`)
+    report.push(`[${tag}] convertit en llista «Amb icones»`)
     return store(
       createBlock(
         'core/list',
@@ -187,6 +199,26 @@ function convertShortcodes(html: string, context: Context): string {
   }
 
   return html
+}
+
+/**
+ * The sc/llista-icones block's ACF data: each field by name, with its key
+ * under "_name", the repeater flattened (items_0_icon…), as ACF saves it.
+ * Field keys: Softcatala\Blocks\IconList::register_field_group().
+ */
+function iconListData(rows: string[][], color: string): Record<string, unknown> {
+  const data: Record<string, unknown> = { color, _color: 'field_sc_llista_icones_color' }
+  rows.forEach(([icon, title, text], i) => {
+    data[`items_${i}_icon`] = icon.trim()
+    data[`_items_${i}_icon`] = 'field_sc_llista_icones_icon'
+    data[`items_${i}_title`] = title.trim()
+    data[`_items_${i}_title`] = 'field_sc_llista_icones_title'
+    data[`items_${i}_text`] = text.trim()
+    data[`_items_${i}_text`] = 'field_sc_llista_icones_text'
+  })
+  data.items = rows.length
+  data._items = 'field_sc_llista_icones_items'
+  return data
 }
 
 /** Converts autop'd HTML, top-level element by element. */
@@ -277,10 +309,18 @@ function convertElement(el: Element, context: Context): Block[] | null {
     })
   }
 
-  // Any other wrapper div: its content is what matters.
+  // Any other wrapper div. With an id, it may be a link target (or a CSS or
+  // script hook): it becomes a group with that anchor. Without one, only its
+  // content matters.
   if (tag === 'div') {
-    report.push('Contenidors <div> desfets (el seu contingut queda com a blocs)')
-    return convertHtml(autop(el.innerHTML), context)
+    const inner = convertHtml(autop(el.innerHTML), context)
+    if (el.id) {
+      report.push(`<div id="${el.id}"> convertit en grup amb l'ancoratge «${el.id}»`)
+      return [createBlock('core/group', { anchor: el.id }, inner)]
+    }
+    const lost = classes.filter((c) => !c.startsWith('wp-'))
+    report.push(`Contenidors <div> desfets (el seu contingut queda com a blocs)${lost.length > 0 ? `; classes perdudes: ${lost.join(' ')}` : ''}`)
+    return inner
   }
 
   return null

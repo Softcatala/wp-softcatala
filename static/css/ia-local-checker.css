@@ -1,3 +1,9 @@
+/*
+ * The checker widget (templates/ia-local-checker.twig, rooted at .cc). Its
+ * rules are scoped to .cc, not to the ia-local page's #sct-ia wrapper, so the
+ * widget works wherever it is placed (the sc/ia-local-checker block, the
+ * Requisits pattern). Loaded only where the widget renders.
+ */
 #sct-ia .req-flex {
     display: flex;
     gap: 32px;
@@ -6,7 +12,7 @@
     margin: 1.5em 0;
 }
 
-#sct-ia .cc {
+.cc {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 18px 20px;
@@ -17,7 +23,7 @@
     box-sizing: border-box;
 }
 
-#sct-ia .cc-t {
+.cc .cc-t {
     font-size: 15px;
     font-weight: 600;
     margin: 0 0 14px;
@@ -26,7 +32,7 @@
     display: block;
 }
 
-#sct-ia .cc-row {
+.cc .cc-row {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
@@ -34,7 +40,7 @@
     align-items: center;
 }
 
-#sct-ia .cc-row label {
+.cc .cc-row label {
     font-size: 13px;
     color: #666;
     min-width: 110px;
@@ -43,7 +49,7 @@
     font-weight: normal;
 }
 
-#sct-ia .cc-row select {
+.cc .cc-row select {
     font-size: 13px !important;
     padding: 5px 10px !important;
     border: 1px solid #ccc !important;
@@ -54,7 +60,7 @@
     margin: 0 !important;
 }
 
-#sct-ia .cc-r {
+.cc .cc-r {
     display: none;
     border-radius: 6px;
     padding: 10px 14px;
@@ -63,50 +69,50 @@
     line-height: 1.5;
 }
 
-#sct-ia .cc-r b {
+.cc .cc-r b {
     display: block;
     margin-bottom: 3px;
     font-weight: 600;
 }
 
-#sct-ia .ok {
+.cc .ok {
     background: #f0fdf4;
     border: 1px solid #86efac;
     color: #166534;
 }
 
-#sct-ia .wn {
+.cc .wn {
     background: #fffbeb;
     border: 1px solid #fcd34d;
     color: #92400e;
 }
 
-#sct-ia .bd {
+.cc .bd {
     background: #fef2f2;
     border: 1px solid #fca5a5;
     color: #991b1b;
 }
 
 /* Compatibility matrix: RAM × hardware → show result */
-#sct-ia .cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r4m { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r4n { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r4a { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r4c { display: block; }
+.cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r4m { display: block; }
+.cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r4n { display: block; }
+.cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r4a { display: block; }
+.cc:has(select[name="ccram"] option[value="r4"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r4c { display: block; }
 
-#sct-ia .cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r8m { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r8n { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r8a { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r8c { display: block; }
+.cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r8m { display: block; }
+.cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r8n { display: block; }
+.cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r8a { display: block; }
+.cc:has(select[name="ccram"] option[value="r8"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r8c { display: block; }
 
-#sct-ia .cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r16m { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r16n { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r16a { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r16c { display: block; }
+.cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r16m { display: block; }
+.cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r16n { display: block; }
+.cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r16a { display: block; }
+.cc:has(select[name="ccram"] option[value="r16"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r16c { display: block; }
 
-#sct-ia .cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r32m { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r32n { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r32a { display: block; }
-#sct-ia .cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r32c { display: block; }
+.cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="mac"]:checked) #ccv-r32m { display: block; }
+.cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="nvi"]:checked) #ccv-r32n { display: block; }
+.cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="amd"]:checked) #ccv-r32a { display: block; }
+.cc:has(select[name="ccram"] option[value="r32"]:checked):has(select[name="cchw"] option[value="cpu"]:checked) #ccv-r32c { display: block; }
 
 /* Requirements banner */
 div.req-banner * {

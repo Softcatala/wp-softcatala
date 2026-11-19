@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "sc/llista-icones",
+  "title": "Llista amb icones",
+  "category": "softcatala",
+  "icon": "screenoptions",
+  "description": "Elements amb una icona, un títol i un text, en dues columnes o en una.",
+  "keywords": [
+    "llista",
+    "icones",
+    "raons"
+  ],
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "anchor": false,
+    "mode": false
+  },
+  "acf": {
+    "mode": "preview",
+    "renderCallback": "Softcatala\\Blocks\\IconList::render"
+  }
+}

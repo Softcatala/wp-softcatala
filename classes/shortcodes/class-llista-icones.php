@@ -21,22 +21,54 @@ class SC_Shortcodes_IconList {
 			return $content;
 		}
 
-		$itemCss   = $this->get_item_css_class( $atributs['color'] );
-		$columnCss = $this->get_column_css_class( $atributs['color'] );
-
 		$content = strip_tags( $content, '<a><b><strong><em>' );
-		$items   = preg_split( '/\R/', $content, -1, PREG_SPLIT_NO_EMPTY );
-		$columns = $this->get_icon_list_columns( $items, $itemCss );
+		$lines   = preg_split( '/\R/', $content, -1, PREG_SPLIT_NO_EMPTY );
+
+		$items = array();
+		foreach ( $lines as $line ) {
+			$parts   = explode( '|', $line );
+			$items[] = count( $parts ) === 3
+				? array( 'icon' => $parts[0], 'title' => $parts[1], 'text' => $parts[2] )
+				: array( 'invalid' => $line );
+		}
+
+		return self::render( $items, $atributs['color'] );
+	}
+
+	/**
+	 * The icon list's markup, shared by the [llista-icones] shortcode and the
+	 * sc/llista-icones block (Softcatala\Blocks\IconList).
+	 *
+	 * @param array  $items Each with icon (a Font Awesome 4 or 7 name), title
+	 *                      and text; or with invalid (the raw line), shown as
+	 *                      an error.
+	 * @param string $color blanc, gris or blancgris.
+	 * @return string
+	 */
+	public static function render( array $items, $color = 'blanc' ) {
+		if ( empty( $items ) ) {
+			return '';
+		}
+
+		$itemCss   = self::get_item_css_class( $color );
+		$columnCss = self::get_column_css_class( $color );
+
+		$column0 = '';
+		$column1 = '';
+		foreach ( array_values( $items ) as $index => $item ) {
+			$item_html = self::get_icon_list_item( $item, $itemCss );
+			( $index % 2 == 0 ) ? $column0 .= $item_html : $column1 .= $item_html;
+		}
 
 		$html  = '<div class="row">';
-		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $columns[0] . '</div>';
-		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $columns[1] . '</div>';
+		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $column0 . '</div>';
+		$html .= '<div class="' . $columnCss . ' col-sm-6">' . $column1 . '</div>';
 		$html .= '</div>';
 
 		return $html;
 	}
 
-	private function get_column_css_class( $color, $default = '' ) {
+	private static function get_column_css_class( $color, $default = '' ) {
 		switch ( $color ) {
 			case 'blancgris':
 				return 'col-xs-12';
@@ -45,7 +77,7 @@ class SC_Shortcodes_IconList {
 		}
 	}
 
-	private function get_item_css_class( $color, $default = 'thumbnail-blanc' ) {
+	private static function get_item_css_class( $color, $default = 'thumbnail-blanc' ) {
 		switch ( $color ) {
 			case 'gris':
 				return 'thumbnail-gris';
@@ -58,28 +90,12 @@ class SC_Shortcodes_IconList {
 		}
 	}
 
-	private function get_icon_list_columns( $items, $css ) {
-		$column0     = '';
-		$column1     = '';
-		$total_items = 0;
-
-		foreach ( $items as $item ) {
-			$item_html = $this->get_icon_list_item( $item, $css );
-			( $total_items % 2 == 0 ) ? $column0 .= $item_html : $column1 .= $item_html;
-			$total_items++;
-		}
-
-		return array( $column0, $column1 );
-	}
-
-	private function get_icon_list_item( $item, $css ) {
-		$parts = explode( '|', $item );
-
-		if ( $this->validate( $parts ) ) {
-			$fa4_name  = trim( $this->get_icon( $parts[0] ) );
-			$icon_class = $this->fa4_to_fa7( $fa4_name );
-			$heading   = $this->get_heading( $parts[1] );
-			$body      = $this->get_body( $parts[2] );
+	private static function get_icon_list_item( $item, $css ) {
+		if ( ! isset( $item['invalid'] ) ) {
+			$fa4_name   = trim( self::get_icon( $item['icon'] ?? '' ) );
+			$icon_class = self::fa4_to_fa7( $fa4_name );
+			$heading    = self::get_heading( $item['title'] ?? '' );
+			$body       = self::get_body( $item['text'] ?? '' );
 
 			$html  = '<div class="thumbnail ' . $css . '">';
 			$html .= '<i class="' . $icon_class . '"></i>';
@@ -97,21 +113,14 @@ class SC_Shortcodes_IconList {
 		} else {
 			$html  = '<div class="bg-danger">';
 			$html .= 'L\'element de la llista no conté 3 parts';
-			$html .= '<pre>' . $item . '</pre>';
+			$html .= '<pre>' . $item['invalid'] . '</pre>';
 			$html .= '</div>';
 		}
 
 		return $html;
 	}
 
-	/**
-	 * Converteix un nom d'icona FA4 a la classe FA7 correcta.
-	 * Inclou prefix (fas/far/fab) i el nou nom quan ha canviat.
-	 *
-	 * @param string $fa4_name Nom de la icona sense prefix (ex: 'keyboard-o').
-	 * @return string Classe FA7 completa (ex: 'far fa-keyboard').
-	 */
-	private function fa4_to_fa7( $fa4_name ) {
+	private static function fa4_to_fa7( $fa4_name ) {
 		$map = array(
 			// Icons with name changes
 			'calendar'       => 'fas fa-calendar-days',
@@ -141,19 +150,15 @@ class SC_Shortcodes_IconList {
 		return 'fas fa-' . $fa4_name;
 	}
 
-	private function validate( $elements ) {
-		return is_array( $elements ) && count( $elements ) == 3;
-	}
-
-	private function get_icon( $icon ) {
+	private static function get_icon( $icon ) {
 		return ( isset( $icon ) && ! empty( $icon ) ) ? $icon : 'circle';
 	}
 
-	private function get_heading( $heading ) {
+	private static function get_heading( $heading ) {
 		return ( isset( $heading ) && ! empty( $heading ) ) ? $heading : '';
 	}
 
-	private function get_body( $body ) {
+	private static function get_body( $body ) {
 		return ( isset( $body ) && ! empty( $body ) ) ? $body : '';
 	}
 }

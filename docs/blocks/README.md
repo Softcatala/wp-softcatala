@@ -118,10 +118,13 @@ shortcode that needs a block (rule 3). Each block is a folder under `blocks/` wi
   `frontend/src/js/editor-blocks.ts`: a server preview plus a sidebar field per
   attribute. Nothing is saved but the comment (`<!-- wp:sc/name {…} /-->`). Prefer this:
   it needs no plugin, and PHPUnit can render it.
-- **ACF PRO** (`sc/targetes`): for content that is a form, such as a repeater of cards.
+- **ACF PRO** (`sc/targetes`, `sc/llista-icones`): for content that is a form, such as a
+  repeater of cards or of icon items.
   `block.json` carries an `"acf"` key with the render callback, the field group's
   location names the block, and `ThemeBlocks` registers it only when ACF PRO is active
-  (the test site runs the free ACF, so only the shared renderer is tested). The old
+  (`ThemeBlocks::ACF_BLOCKS`; the test site runs the free ACF, so only the shared
+  renderer is tested, and the validator gives ACF blocks the `name`, `data` and `mode`
+  attributes ACF adds). The old
   `acf/cards` stays registered, out of the inserter, for content saved with it.
 
 In both cases: add the block to `blocks` in `config/block-editor.json` (a test checks
@@ -239,13 +242,15 @@ site (`frontend/tools/convert-classic.ts`):
 
 - sc-footnotes `[1. …]` → core footnotes (the format in the text, a Footnotes block, and
   the notes for the `footnotes` meta, written to `<prefix>.footnotes.json`);
-- `[ia-data]`, `[ia-local-checker]`, `[navega-en-catala]` → the theme's blocks;
-  `[llista-links]`, `[llista-icones]` → an Amb icones list; other shortcodes (`[cards]`,
-  `[insert]`) stay in a Shortcode block;
-- callout classes → Avís, `taula-2col` → Dues columnes, other legacy table classes → the
-  default look, `petit` → the Petit size, `center` → centred, the ia-local `req-flex`
+- `[ia-data]`, `[ia-local-checker]`, `[navega-en-catala]`, `[llista-icones]` → the
+  theme's blocks (`sc/llista-icones` with ACF's data format, icons and colour kept);
+  `[llista-links]` → an Amb icones list; other shortcodes (`[cards]`, `[insert]`) stay in
+  a Shortcode block;
+- callout classes → Avís, `taula-2col` → Dues columnes, `prettytable` → Guia d'estil,
+  other legacy table classes (no CSS of their own) → the default look, `petit` → the Petit size, `center` → centred, the ia-local `req-flex`
   row → Requadres columns;
-- `<a name>` anchors → the anchor of the heading they mark; plain wrapper `div`s unwrapped.
+- `<a name>` anchors → the anchor of the heading they mark; a `div` with an `id` → a group
+  with that anchor; other wrapper `div`s unwrapped (the report lists their classes).
 
 ```bash
 docker compose -f docker-compose.test.yml run --rm --no-deps node \

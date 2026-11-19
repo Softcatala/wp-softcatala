@@ -26,6 +26,11 @@ export function ensureRegistered(): void {
   // comment alone.
   for (const folder of readdirSync(themeBlocksDir)) {
     const metadata = JSON.parse(readFileSync(resolve(themeBlocksDir, folder, 'block.json'), 'utf8'))
+    if (metadata.acf) {
+      // ACF PRO adds these when it registers the block; its fields' values
+      // are saved in `data`.
+      metadata.attributes = { name: { type: 'string' }, data: { type: 'object' }, mode: { type: 'string' }, ...metadata.attributes }
+    }
     registerBlockType(metadata, { save: () => null })
   }
 

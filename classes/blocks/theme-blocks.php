@@ -8,8 +8,9 @@
  * frontend/src/js/editor-blocks.ts, enqueued with the block_editor flag by
  * Editor::editor_scripts().
  *
- * sc/targetes is an ACF PRO block (its cards are a repeater field): its
- * block.json carries an "acf" key, and it is only registered when ACF PRO is.
+ * sc/targetes and sc/llista-icones are ACF PRO blocks (their items are a
+ * repeater field): their block.json carries an "acf" key, and they are only
+ * registered when ACF PRO is.
  *
  * Registered whatever the flag says, like the block CSS: content that has
  * these blocks must render.
@@ -27,6 +28,12 @@ use Softcatala\Content\TableOfContents;
 class ThemeBlocks {
 
 	const DIR = 'blocks';
+
+	/**
+	 * ACF PRO blocks (their content is a form), by folder. Registered only
+	 * with ACF PRO active; their block.json carries the render callback.
+	 */
+	const ACF_BLOCKS = array( 'targetes', 'llista-icones' );
 
 	/**
 	 * Hooks the registration.
@@ -61,8 +68,12 @@ class ThemeBlocks {
 			}
 		}
 
-		if ( function_exists( 'acf_register_block_type' ) && ! \WP_Block_Type_Registry::get_instance()->is_registered( 'sc/targetes' ) ) {
-			register_block_type( "$dir/targetes" );
+		if ( function_exists( 'acf_register_block_type' ) ) {
+			foreach ( self::ACF_BLOCKS as $folder ) {
+				if ( ! \WP_Block_Type_Registry::get_instance()->is_registered( 'sc/' . $folder ) ) {
+					register_block_type( "$dir/$folder" );
+				}
+			}
 		}
 	}
 

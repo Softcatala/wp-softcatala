@@ -44,9 +44,12 @@ describe('convertClassic', () => {
     const table = (cls: string) => `<table class="${cls}"><tbody><tr><td>Llicència</td><td>GPL</td></tr></tbody></table>`
     expect(convert(table('taula-2col')).markup).toContain('is-style-dues-columnes')
 
-    const plain = convert(table('prettytable')).markup
+    expect(convert(table('prettytable')).markup).toContain('is-style-guia-estil')
+
+    const plain = convert(table('wikitable')).markup
     expect(plain).toContain('<!-- wp:table')
-    expect(plain).not.toContain('prettytable')
+    expect(plain).not.toContain('wikitable')
+    expect(plain).not.toContain('is-style')
   })
 
   it('turns the theme shortcodes into its blocks', () => {
@@ -59,14 +62,27 @@ describe('convertClassic', () => {
     expect(markup).toContain('<!-- wp:sc/navega-en-catala /-->')
   })
 
-  it('turns the list shortcodes into Amb icones lists', () => {
-    const { markup, report } = convert(
-      '[llista-links]\nRecomanacions|#recomanacions\nContrasenyes|#contrasenyes\n[/llista-links]\n\n[llista-icones color="blancgris"]\nlanguage|Traductors|Només cal un bon català.\n[/llista-icones]'
-    )
+  it('turns [llista-links] into an Amb icones list', () => {
+    const { markup } = convert('[llista-links]\nRecomanacions|#recomanacions\nContrasenyes|#contrasenyes\n[/llista-links]')
 
     expect(markup).toContain('<ul class="wp-block-list is-style-amb-icones"><!-- wp:list-item -->\n<li><a href="#recomanacions">Recomanacions</a></li>')
-    expect(markup).toContain('<li><strong>Traductors</strong>: Només cal un bon català.</li>')
-    expect(report.join('\n')).toContain('les icones de cada element es perden')
+  })
+
+  it('turns [llista-icones] into the icon list block, icons and colour kept', () => {
+    const { markup, report } = convert('[llista-icones color="blancgris"]\nlanguage||La satisfacció.\nsort-alpha-asc|Traductors|Només cal un bon català.\nlínia trencada\n[/llista-icones]')
+
+    const data = JSON.parse(/<!-- wp:sc\/llista-icones (\{.*\}) \/-->/.exec(markup)![1]).data
+    expect(data).toMatchObject({
+      color: 'blancgris',
+      items: 2,
+      items_0_icon: 'language',
+      items_0_title: '',
+      items_1_icon: 'sort-alpha-asc',
+      items_1_title: 'Traductors',
+      items_1_text: 'Només cal un bon català.',
+      _items: 'field_sc_llista_icones_items',
+    })
+    expect(report.join('\n')).toContain('1 línies sense les 3 parts')
   })
 
   it('keeps other shortcodes in a Shortcode block and says so', () => {
@@ -104,17 +120,26 @@ describe('convertClassic', () => {
   })
 
   it('unwraps plain wrapper divs, so what they hold is converted too', () => {
-    const { markup } = convert('<div id="sct-ia">\n\nIntro.\n\n<div class="req-flex">\n<div class="req-banner">A</div>\n[ia-local-checker]\n</div>\n\n</div>')
+    const { markup, report } = convert('<div class="contingut-footer">\n\nIntro.\n\n<div class="req-flex">\n<div class="req-banner">A</div>\n[ia-local-checker]\n</div>\n\n</div>')
 
     expect(markup).not.toContain('wp:html')
+    expect(markup).not.toContain('wp:group')
     expect(markup).toContain('<!-- wp:sc/ia-local-checker /-->')
     expect(markup).toContain('is-style-requadres')
+    expect(report.join('\n')).toContain('classes perdudes: contingut-footer')
+  })
+
+  it('keeps a div with an id as a group with that anchor, so links to it work', () => {
+    const { markup } = convert('<div id="embeddings-report">\n[ia-data url="https://example.org/d.json"]\n</div>')
+
+    expect(markup).toContain('<!-- wp:group {"anchor":"embeddings-report"} -->\n<div id="embeddings-report" class="wp-block-group">')
+    expect(markup).toContain('<!-- wp:sc/ia-data {"url":"https://example.org/d.json"} /-->')
   })
 
   it('reports repeated findings once, with a count', () => {
-    const table = '<table class="prettytable"><tbody><tr><td>a</td></tr></tbody></table>'
+    const table = '<table class="wikitable"><tbody><tr><td>a</td></tr></tbody></table>'
     const { report } = convert(`${table}\n\n${table}`)
 
-    expect(report).toContain('Taula .prettytable → estil per defecte (×2)')
+    expect(report).toContain('Taula .wikitable → estil per defecte (×2)')
   })
 })

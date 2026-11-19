@@ -247,6 +247,27 @@ $crida-heading: #8f1c1f;
       }
     }
 
+    // Guia d'estil: the legacy table.prettytable (components/_tables.scss),
+    // as the style guides use it: white cells, the first column tinted by
+    // row (grey, then light red, then light green).
+    &.is-style-guia-estil {
+      td {
+        background-color: var(--color-white);
+      }
+
+      tbody tr td:first-child {
+        background-color: var(--color-gray-100);
+      }
+
+      tbody tr + tr td:first-child {
+        background-color: var(--color-red-50);
+      }
+
+      tbody tr + tr + tr td:first-child {
+        background-color: var(--color-green-50);
+      }
+    }
+
     // Compacta: dense data tables.
     &.is-style-compacta {
       th,
@@ -487,23 +508,22 @@ $crida-heading: #8f1c1f;
     }
   }
 
-  // Amb icones: links or short items as grey tiles with a check, two per
-  // row on wide screens. Replaces [llista-links] and [llista-icones] (whose
-  // per-item icons become the same check).
+  // Amb icones: links or short items as grey tiles with a check, in two
+  // columns on wide screens, filled top to bottom like [llista-links], which
+  // it replaces (per-item icons are the sc/llista-icones block).
   ul.wp-block-list.is-style-amb-icones {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px 30px;
+    column-gap: 30px;
     margin: 0 0 20px;
     padding: 0;
 
     @include respond-from(sm) {
-      grid-template-columns: 1fr 1fr;
+      columns: 2;
     }
 
     li {
       position: relative;
-      margin: 0;
+      break-inside: avoid;
+      margin: 0 0 10px;
       padding: 16px 15px 16px 65px;
       font-size: 15px;
       line-height: 1.5;
