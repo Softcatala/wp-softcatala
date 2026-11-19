@@ -13,6 +13,14 @@
 @use 'prose';
 @use 'blocks';
 
+// As the front end's reset: padding and borders inside an element's width,
+// so a padded block (a notice, a list with a rule) is as wide as the others.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-base);

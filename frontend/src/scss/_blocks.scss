@@ -14,7 +14,11 @@
 //   - editor.scss, at the root of the editor canvas
 //
 // Block style variations registered in classes/blocks/editor.php live here
-// as .is-style-* rules. See docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md.
+// as .is-style-* rules.
+//
+// A whole block's spacing is margin-block (top and bottom) only: the editor
+// centres every block with auto side margins, and a `margin: X 0` here would
+// override them and pin the block to the canvas's left edge. See docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md.
 
 @use "sass:list";
 @use "tokens" as *;
@@ -86,7 +90,7 @@ $crida-heading: #8f1c1f;
   .wp-block-separator {
     border: 0;
     border-top: 1px solid var(--color-border-light);
-    margin: 30px 0;
+    margin-block: 30px;
     opacity: 1;
   }
 
@@ -169,7 +173,7 @@ $crida-heading: #8f1c1f;
 
   .wp-block-quote {
     border-left: 3px solid var(--color-brand);
-    margin: 20px 0;
+    margin-block: 20px;
     padding: 0 0 0 20px;
 
     cite {
@@ -185,7 +189,7 @@ $crida-heading: #8f1c1f;
   // section (components/_tables.scss), restated so the editor shows it too.
 
   .wp-block-table {
-    margin: 30px 0;
+    margin-block: 30px;
 
     // The legacy `section table` rule adds its own 35px margin; the figure
     // already has one.
@@ -363,7 +367,7 @@ $crida-heading: #8f1c1f;
       border: 1px solid list.nth($colors, 3);
       border-radius: var(--border-radius-md);
       padding: 15px 20px;
-      margin: 20px 0;
+      margin-block: 20px;
 
       > :first-child {
         margin-top: 0;
@@ -410,7 +414,7 @@ $crida-heading: #8f1c1f;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
-    margin: 30px 0;
+    margin-block: 30px;
 
     @include respond-to(xs) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -455,7 +459,7 @@ $crida-heading: #8f1c1f;
   // ul.wp-block-list.is-style-… outranks the chevron rules in _prose.scss.
 
   ul.wp-block-list.is-style-amb-filet {
-    margin: 0 0 20px;
+    margin-block: 0 20px;
     padding: 0 0 0 16px;
     border-left: 3px solid var(--color-gray-150);
 
@@ -483,7 +487,7 @@ $crida-heading: #8f1c1f;
   // Índex de la pàgina (sc/index, Softcatala\Blocks\ThemeBlocks): the same
   // box as the index column of the "amb índex" page template.
   .wp-block-sc-index {
-    margin: 0 0 20px;
+    margin-block: 0 20px;
     padding: 20px;
     border: 1px solid var(--color-border-light);
 
@@ -513,7 +517,7 @@ $crida-heading: #8f1c1f;
   // it replaces (per-item icons are the sc/llista-icones block).
   ul.wp-block-list.is-style-amb-icones {
     column-gap: 30px;
-    margin: 0 0 20px;
+    margin-block: 0 20px;
     padding: 0;
 
     @include respond-from(sm) {
@@ -563,7 +567,7 @@ $crida-heading: #8f1c1f;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 0 0 20px;
+    margin-block: 0 20px;
     padding: 0;
 
     li {
@@ -585,7 +589,7 @@ $crida-heading: #8f1c1f;
   // ------------------------------------------------------------------------
 
   .wp-block-heading.is-style-sobretitol {
-    margin: 26px 0 10px;
+    margin-block: 26px 10px;
     font-family: var(--font-family-primary);
     font-size: 13px;
     font-weight: 700;
