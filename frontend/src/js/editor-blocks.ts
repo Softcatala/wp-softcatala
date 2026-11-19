@@ -26,6 +26,7 @@ interface EditProps {
 }
 
 import { iconListData, iconListRows, itemToRow, rowToItem } from './icon-list-data'
+import { addClassicConversion, type ConvertWordPress } from './editor-convert'
 
 type CreateElement = (type: unknown, props?: Record<string, unknown> | null, ...children: unknown[]) => unknown
 
@@ -175,8 +176,9 @@ export function addIconListTransforms(wp: WordPressGlobals): void {
   })
 }
 
-const globals = (globalThis as { wp?: WordPressGlobals }).wp
+const globals = (globalThis as { wp?: WordPressGlobals & Partial<ConvertWordPress> }).wp
 if (globals?.blocks && globals.serverSideRender) {
   registerBlocks(globals)
   addIconListTransforms(globals)
+  if (globals.autop && globals.shortcode && globals.data) addClassicConversion(globals as unknown as ConvertWordPress)
 }

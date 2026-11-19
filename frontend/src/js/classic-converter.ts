@@ -1,0 +1,386 @@
+/**
+ * Converts a classic page's raw content to block markup.
+ *
+ * The bulk of it is WordPress's own converter, rawHandler() from
+ * @wordpress/blocks: the same code as the editor's "Convert to blocks". This
+ * adds what that converter doesn't know about the site:
+ *
+ * - sc-footnotes notes, [1. text], become core footnotes: the format in the
+ *   text, a Footnotes block at the end, and the notes for the post's
+ *   `footnotes` meta.
+ * - The theme's shortcodes become its blocks or styles: [ia-data] →
+ *   sc/ia-data, [ia-local-checker] and [navega-en-catala] → their blocks,
+ *   [llista-icones] → sc/llista-icones (icons and colour kept),
+ *   [llista-links] → a list with the Amb icones style.
+ *   Other shortcodes ([cards], [insert]…) are kept in Shortcode blocks.
+ * - Legacy classes on top-level elements become block styles: callouts
+ *   (fons-gris, messagebox, alerta, req-banner) → Avís, taula-2col → Dues
+ *   columnes, prettytable → Guia d'estil, petit → the "Text petit" format,
+ *   center → centred text, the
+ *   ia-local req-flex row → Requadres columns.
+ *
+ * Everything else is left to rawHandler, which drops inline styles and
+ * unknown classes. The report says what was mapped and what needs a look.
+ *
+ * WordPress's functions come in as `api`, so the same code runs in two places:
+ * the editor's "Convert to blocks" (editor-convert.ts, with the editor's `wp`
+ * globals) and `npm run convert` (tools/convert-classic.ts, with the npm
+ * packages). Either way the blocks must be registered first, and it needs a
+ * DOM. Tested in tests/convert-classic.test.ts.
+ */
+
+import { iconListData } from './icon-list-data'
+
+/** A block as @wordpress/blocks hands it out. */
+export interface Block {
+  clientId: string
+  name: string
+  attributes: Record<string, unknown>
+  innerBlocks: Block[]
+}
+
+/** The WordPress functions the converter uses. */
+export interface WordPressApi {
+  autop: (text: string) => string
+  createBlock: (name: string, attributes?: Record<string, unknown>, innerBlocks?: Block[]) => Block
+  parse: (content: string) => Block[]
+  rawHandler: (args: { HTML: string }) => Block[]
+  serialize: (blocks: Block | Block[]) => string
+  shortcodeAttrs: (text: string) => { named: Record<string, string | undefined> }
+}
+
+let api: WordPressApi
+
+export interface Footnote {
+  id: string
+  content: string
+}
+
+export interface Conversion {
+  /** Serialized blocks. */
+  markup: string
+  /** For the post's `footnotes` meta (as JSON). Empty without notes. */
+  footnotes: Footnote[]
+  /** What was mapped, and what needs a person to look at it. */
+  report: string[]
+}
+
+export interface Options {
+  /** Footnote ids; random UUIDs by default (tests pass a counter). */
+  newId?: () => string
+}
+
+const AVIS_CLASSES: Record<string, string> = {
+  'fons-gris': 'avis-neutre',
+  messagebox: 'avis-info',
+  alerta: 'avis-atencio',
+  'req-banner': 'avis-neutre',
+}
+
+/** Legacy table classes and the style they become (null: the default look). */
+const TABLE_CLASSES: Array<[RegExp, string | null]> = [
+  [/^taula-2col$/, 'dues-columnes'],
+  [/^prettytable$/, 'guia-estil'],
+  // No CSS of their own in the theme (comparacio had one for eleven days in
+  // 2015): they look like the default table today.
+  [/^(prettytable\d+|wikitable|comparacio\d*|tres_columnes\d*)$/, null],
+]
+
+/** Shortcodes kept as they are, in a Shortcode block. */
+const KEPT_SHORTCODES = ['cards', 'insert']
+
+interface Context {
+  /** Blocks built from shortcodes, found again by their token. */
+  stored: Block[]
+  report: string[]
+}
+
+const TOKEN = (kind: string, n: number) => `⟦${kind}:${n}⟧`
+const TOKEN_PATTERN = /⟦(fn|sc):(\d+)⟧/
+
+export function convertClassic(raw: string, wordpress: WordPressApi, options: Options = {}): Conversion {
+  api = wordpress
+  const newId = options.newId ?? (() => crypto.randomUUID())
+  const context: Context = { stored: [], report: [] }
+  const { report } = context
+  const footnotes: Footnote[] = []
+
+  let html = raw.replace(/\r\n?/g, '\n')
+
+  const styles = (html.match(/\sstyle\s*=\s*["']/gi) ?? []).length
+  if (styles > 0) report.push(`${styles} atributs style descartats (colors, mides o alineacions fets a mà)`)
+
+  // sc-footnotes' own pattern: "[1. text]".
+  html = html.replace(/\[(\d+)\.\s*(.*?)\]/gs, (_match, _n: string, content: string) => {
+    footnotes.push({ id: newId(), content: content.trim() })
+    return TOKEN('fn', footnotes.length - 1)
+  })
+  if (footnotes.length > 0) report.push(`${footnotes.length} notes al peu passades a notes al peu de l'editor`)
+
+  html = convertShortcodes(html, context)
+
+  const blocks = convertHtml(api.autop(html), context)
+  if (footnotes.length > 0) blocks.push(api.createBlock('core/footnotes'))
+
+  let markup = api.serialize(blocks)
+  markup = markup.replace(new RegExp(TOKEN_PATTERN.source, 'g'), (_m, kind: string, n: string) => {
+    if (kind !== 'fn') {
+      // A shortcode inside another element (a list item, a table cell):
+      // it can't become a block there.
+      report.push(`Un codi curt dins d'un altre element no s'ha pogut convertir: ${api.serialize([context.stored[Number(n)]])}`)
+      return ''
+    }
+    // Numbered in reading order, as the editor saves them (WordPress's
+    // excerpt code expects the number).
+    const id = footnotes[Number(n)].id
+    return `<sup data-fn="${id}" class="fn"><a href="#${id}" id="${id}-link">${Number(n) + 1}</a></sup>`
+  })
+
+  markup = markup.replace(/\u27E6petit\u27E7/g, '<span class="sc-petit">').replace(/\u27E6\/petit\u27E7/g, '</span>')
+
+  // A round trip through WordPress's own parser and serializer gives the
+  // exact saved form (entities such as &nbsp; and &gt;).
+  const parsed = api.parse(markup)
+  const htmlBlocks = countBlocks(parsed, 'core/html')
+  if (htmlBlocks > 0) report.push(`${htmlBlocks} blocs «HTML personalitzat» (HTML que no té bloc; només els administradors els poden editar): cal revisar-los`)
+  markup = api.serialize(parsed)
+
+  return { markup, footnotes, report: summarise(report) }
+}
+
+function countBlocks(blocks: Block[], name: string): number {
+  return blocks.reduce((n, b) => n + (b.name === name ? 1 : 0) + countBlocks(b.innerBlocks, name), 0)
+}
+
+/** Repeated lines once, with a count. */
+function summarise(lines: string[]): string[] {
+  const counts = new Map<string, number>()
+  for (const line of lines) counts.set(line, (counts.get(line) ?? 0) + 1)
+  return [...counts].map(([line, n]) => (n > 1 ? `${line} (×${n})` : line))
+}
+
+/** Turns the theme's shortcodes into tokens for blocks built here. */
+function convertShortcodes(html: string, context: Context): string {
+  const { report } = context
+  const store = (block: Block): string => {
+    context.stored.push(block)
+    return `\n\n<p>${TOKEN('sc', context.stored.length - 1)}</p>\n\n`
+  }
+  const count = (tag: string) => report.push(`[${tag}] convertit en bloc`)
+  // One item per line. The editor's Classic block (TinyMCE) ends each line
+  // with <br />; the saved content has plain line breaks.
+  const lines = (body: string) => body.replace(/<br\s*\/?>/gi, '\n').split('\n').map((l) => l.trim()).filter(Boolean)
+
+  html = html.replace(/\[llista-icones(\s[^\]]*)?\]([\s\S]*?)\[\/llista-icones\]/g, (_m, attrText = '', body: string) => {
+    const color = (api.shortcodeAttrs(attrText).named as Record<string, string>).color ?? 'blanc'
+    const rows = lines(body).map((line) => line.split('|'))
+    const valid = rows.filter((parts) => parts.length === 3)
+    if (valid.length < rows.length) report.push(`[llista-icones]: ${rows.length - valid.length} línies sense les 3 parts (icona|títol|text) descartades`)
+    report.push('[llista-icones] convertit en bloc «Llista amb icones»')
+    const items = valid.map(([icon, title, text]) => ({ icon: icon.trim(), title: title.trim(), text: text.trim() }))
+    return store(api.createBlock('sc/llista-icones', { name: 'sc/llista-icones', data: iconListData(items, color), mode: 'preview' }))
+  })
+
+  html = html.replace(/\[(llista-links)(\s[^\]]*)?\]([\s\S]*?)\[\/\1\]/g, (_m, tag: string, _a, body: string) => {
+    const items = lines(body).map((line) => {
+      const parts = line.split('|').map((p) => p.trim())
+      return parts.length === 2 ? `<a href="${parts[1]}">${parts[0]}</a>` : line
+    })
+    report.push(`[${tag}] convertit en llista «Amb icones»`)
+    return store(
+      api.createBlock(
+        'core/list',
+        { className: 'is-style-amb-icones' },
+        items.map((content) => api.createBlock('core/list-item', { content }))
+      )
+    )
+  })
+
+  html = html.replace(/\[ia-data(\s[^\]]*)?\]/g, (_m, attrText = '') => {
+    const named = api.shortcodeAttrs(attrText).named as Record<string, string>
+    const attributes: Record<string, unknown> = { ...named }
+    if ('cache' in named) attributes.cache = Number(named.cache) || 0
+    count('ia-data')
+    return store(api.createBlock('sc/ia-data', attributes))
+  })
+
+  for (const tag of ['ia-local-checker', 'navega-en-catala']) {
+    html = html.replace(new RegExp(`\\[${tag}\\s*\\/?\\]`, 'g'), () => {
+      count(tag)
+      return store(api.createBlock(`sc/${tag}`))
+    })
+  }
+
+  for (const tag of KEPT_SHORTCODES) {
+    const enclosing = new RegExp(`\\[${tag}(\\s[^\\]]*)?\\][\\s\\S]*?\\[\\/${tag}\\]`, 'g')
+    const single = new RegExp(`\\[${tag}(\\s[^\\]]*)?\\/?\\]`, 'g')
+    const keep = (text: string) => {
+      report.push(`[${tag}] mantingut en un bloc «Codi curt»: cal revisar-lo`)
+      return store(api.createBlock('core/shortcode', { text }))
+    }
+    html = html.replace(enclosing, keep).replace(single, keep)
+  }
+
+  return html
+}
+
+/** Converts autop'd HTML, top-level element by element. */
+function convertHtml(html: string, context: Context): Block[] {
+  const doc = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html')
+  moveNamedAnchors(doc, context.report)
+  markSmallText(doc, context.report)
+  const blocks: Block[] = []
+  const pending: string[] = []
+
+  const flush = () => {
+    if (pending.length > 0) {
+      blocks.push(...api.rawHandler({ HTML: pending.join('') }))
+      pending.length = 0
+    }
+  }
+
+  for (const node of Array.from(doc.body.childNodes)) {
+    const special = node.nodeType === 1 ? convertElement(node as Element, context) : null
+    if (special) {
+      flush()
+      blocks.push(...special)
+    } else if (node.nodeType === 1) {
+      pending.push((node as Element).outerHTML)
+    } else if (node.textContent?.trim()) {
+      pending.push(`<p>${node.textContent}</p>`)
+    }
+  }
+  flush()
+
+  return blocks
+}
+
+function classesOf(el: Element): string[] {
+  return Array.from(el.classList)
+}
+
+/** Blocks for an element with legacy markup, or null to leave it to rawHandler. */
+function convertElement(el: Element, context: Context): Block[] | null {
+  const { report } = context
+  const tag = el.tagName.toLowerCase()
+  const classes = classesOf(el)
+
+  const tokenOnly = tag === 'p' && /^\s*⟦sc:(\d+)⟧\s*$/.exec(el.innerHTML)
+  if (tokenOnly) return [context.stored[Number(tokenOnly[1])]]
+
+  if (classes.includes('req-flex')) {
+    report.push('Fila req-flex convertida en columnes «Requadres»')
+    const columns = Array.from(el.children).map((child) => {
+      const inner = child.classList.contains('req-banner') ? child.innerHTML : child.outerHTML
+      return api.createBlock('core/column', {}, convertHtml(api.autop(inner), context))
+    })
+    return [api.createBlock('core/columns', { className: 'is-style-requadres' }, columns)]
+  }
+
+  const avis = classes.map((c) => AVIS_CLASSES[c]).find(Boolean)
+  if (avis) {
+    report.push(`.${classes.find((c) => AVIS_CLASSES[c])} convertit en «Avís» (${avis})`)
+    if (tag === 'p') {
+      return api.rawHandler({ HTML: `<p>${el.innerHTML}</p>` }).map((b) => withClass(b, `is-style-${avis}`))
+    }
+    return [api.createBlock('core/group', { className: `is-style-${avis}` }, convertHtml(api.autop(el.innerHTML), context))]
+  }
+
+  if (classes.includes('download_section')) {
+    report.push('.download_section desfet: el seu contingut queda com a blocs normals')
+    return convertHtml(api.autop(el.innerHTML), context)
+  }
+
+  const table = tag === 'table' ? el : el.querySelector(':scope > table')
+  if (table) {
+    const tableClasses = classesOf(table)
+    const match = tableClasses.map((c) => TABLE_CLASSES.find(([re]) => re.test(c))).find(Boolean)
+    if (match) {
+      const style = match[1]
+      report.push(`Taula .${tableClasses.join('.')} → ${style ? `estil «${style}»` : 'estil per defecte'}`)
+      // rawHandler keeps the table's class; the legacy one goes.
+      return api.rawHandler({ HTML: table.outerHTML }).map((b) => (b.name === 'core/table' ? withClass(b, style ? `is-style-${style}` : undefined) : b))
+    }
+  }
+
+  if (tag === 'p' && classes.includes('center')) {
+    return api.rawHandler({ HTML: `<p>${el.innerHTML}</p>` }).map((b) =>
+      b.name === 'core/paragraph' ? { ...b, attributes: { ...b.attributes, style: { typography: { textAlign: 'center' } } } } : b
+    )
+  }
+
+  // Any other wrapper div. With an id, it may be a link target (or a CSS or
+  // script hook): it becomes a group with that anchor. Without one, only its
+  // content matters.
+  if (tag === 'div') {
+    const inner = convertHtml(api.autop(el.innerHTML), context)
+    if (el.id) {
+      report.push(`<div id="${el.id}"> convertit en grup amb l'ancoratge «${el.id}»`)
+      return [api.createBlock('core/group', { anchor: el.id }, inner)]
+    }
+    const lost = classes.filter((c) => !c.startsWith('wp-'))
+    report.push(`Contenidors <div> desfets (el seu contingut queda com a blocs)${lost.length > 0 ? `; classes perdudes: ${lost.join(' ')}` : ''}`)
+    return inner
+  }
+
+  return null
+}
+
+/**
+ * Old-style anchors, <a name="x"></a>, become the id (the block's anchor) of
+ * the heading they mark, so links to #x keep working; the <a> goes.
+ */
+function moveNamedAnchors(doc: Document, report: string[]): void {
+  for (const a of Array.from(doc.querySelectorAll('a[name]'))) {
+    const name = a.getAttribute('name') ?? ''
+    const heading = a.closest('h1, h2, h3, h4, h5, h6') ?? nextHeading(a)
+
+    if (heading && !heading.id && name) {
+      heading.id = name
+      report.push('Ancoratges <a name> passats al títol que marquen')
+    } else if (name) {
+      report.push(`Ancoratge «${name}» sense títol al costat: s'ha perdut, cal revisar els enllaços que hi apunten`)
+    }
+
+    const parent = a.parentElement
+    a.replaceWith(...Array.from(a.childNodes))
+    // autop wraps a lone anchor in its own paragraph.
+    if (parent && parent.tagName === 'P' && !parent.textContent?.trim() && parent.children.length === 0) parent.remove()
+  }
+}
+
+/**
+ * .petit (small print: file sizes under download links) becomes the "Text
+ * petit" format. Its text is marked with tokens, which survive rawHandler and
+ * become <span class="sc-petit"> at the end; a .petit div, a line of its
+ * own, gets a line break before it.
+ */
+function markSmallText(doc: Document, report: string[]): void {
+  for (const el of Array.from(doc.querySelectorAll('.petit'))) {
+    const marked = doc.createTextNode(`\u27E6petit\u27E7${el.textContent ?? ''}\u27E6/petit\u27E7`)
+    if (el.tagName === 'P') {
+      el.replaceChildren(marked)
+      el.classList.remove('petit')
+    } else {
+      const parts: Node[] = [marked]
+      if (el.tagName === 'DIV' && el.previousSibling) parts.unshift(doc.createElement('br'))
+      el.replaceWith(...parts)
+    }
+    report.push('.petit convertit en «Text petit»')
+  }
+  // autop leaves empty paragraphs where block-level .petit divs were.
+  for (const p of Array.from(doc.querySelectorAll('td p, th p'))) {
+    if (!p.textContent?.trim() && p.children.length === 0) p.remove()
+  }
+}
+
+function nextHeading(el: Element): Element | null {
+  // The anchor alone (or in its own paragraph) right before the heading.
+  const holder = el.parentElement?.tagName === 'P' && !el.parentElement.textContent?.replace(el.textContent ?? '', '').trim() ? el.parentElement : el
+  const next = holder.nextElementSibling
+  return next && /^H[1-6]$/.test(next.tagName) ? next : null
+}
+
+function withClass(block: Block, className: string | undefined): Block {
+  return { ...block, attributes: { ...block.attributes, className } }
+}

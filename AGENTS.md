@@ -86,6 +86,10 @@ Roadmap: `docs/plans/2026-11-18-007-feat-block-editor-primitives-plan.md`.
   fixture and the editor guide are validated in `blocks.test.ts`.
 - `npm run validate -- <file>` checks a file of block markup; `npm run convert` turns a
   classic page into block markup (never writes to a site). Both in `frontend/tools/`.
+  The converter itself (`src/js/classic-converter.ts`) also runs in the editor's
+  "Convert to blocks" on a Classic block (`src/js/editor-convert.ts`).
+  The converter itself (`src/js/classic-converter.ts`) also runs in the editor's
+  "Convert to blocks" on a Classic block (`src/js/editor-convert.ts`).
 - Skills: `sc-block-page` (write a page in blocks), `sc-convert-classic` (migrate a
   classic page), `sc-block-dev` (add a block, style, pattern or format).
 - `docs/editors/editor-de-blocs.html` is the editors' guide (Catalan, block markup,

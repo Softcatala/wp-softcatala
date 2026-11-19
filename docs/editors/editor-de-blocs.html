@@ -384,11 +384,11 @@
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li>Seleccioneu el bloc i trieu «Converteix en blocs» a la seva barra. Cada paràgraf, títol, llista, imatge i taula passa a ser el seu bloc.</li>
+<li>Seleccioneu el bloc i trieu «Converteix a blocs» a la seva barra. Cada paràgraf, títol, llista, imatge i taula passa a ser el seu bloc, i el format antic del web passa als blocs i estils d'aquesta guia: les notes al peu, els codis curts del tema i les classes antigues (vegeu la taula de sota).</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li>Repasseu-la de dalt a baix amb la taula de sota: les classes i els codis antics no es veuen a l'editor, i cal substituir-los per l'estil o el bloc nou.</li>
+<li>Llegiu l'avís que apareix a dalt: diu què s'ha convertit i què cal revisar. Els blocs «Codi curt» i «HTML personalitzat» que hi quedin són trossos que no s'han pogut passar a cap bloc; refeu-los amb els blocs de la guia si podeu.</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
@@ -401,7 +401,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Per a pàgines llargues o amb molts codis antics, l'equip del web té una eina que fa la conversió i, a més, passa les notes al peu, els codis curts del tema i les classes antigues als blocs i estils d'aquesta guia. Deixa el resultat com a desament automàtic de la pàgina: quan l'obriu, l'editor us oferirà recuperar-lo, i el reviseu abans de publicar.</p>
+<p>L'equip del web pot fer la mateixa conversió per vosaltres i deixar-ne el resultat com a desament automàtic de la pàgina: quan l'obriu, l'editor us oferirà recuperar-lo, i el reviseu abans de publicar.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3,"anchor":"equivalencies"} -->
@@ -409,7 +409,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:table {"className":"is-style-dues-columnes"} -->
-<figure class="wp-block-table is-style-dues-columnes"><table class="has-fixed-layout"><thead><tr><th>Abans</th><th>Ara</th></tr></thead><tbody><tr><td>Colors de fons triats a mà, <code>fons-gris</code>, <code>messagebox</code>, <code>alerta</code></td><td>Un avís (informació, atenció, fet, error, neutre o crida)</td></tr><tr><td>Taules <code>prettytable</code></td><td>Taula, estil «Guia d'estil»</td></tr><tr><td>Taules <code>wikitable</code>, <code>comparacio</code>, <code>tres_columnes</code></td><td>Taula, estil per defecte (o compacta, si és de dades): ja es veuen així</td></tr><tr><td>Taules <code>taula-2col</code></td><td>Taula, estil «Dues columnes»</td></tr><tr><td>Text <code>petit</code></td><td>Mida de lletra «Petit»</td></tr><tr><td>Text <code>center</code></td><td>Alineació centrada, a la barra del bloc</td></tr><tr><td><code>[[caption]]</code>, <code>[[gallery]]</code>, <code>[[video]]</code></td><td>Imatge amb peu, galeria, vídeo (es converteixen sols)</td></tr><tr><td><code>[[cards]]</code></td><td>Bloc «Targetes»</td></tr><tr><td><code>[[ia-data]]</code></td><td>Bloc «Dades d'IA» (les mateixes opcions, a la barra lateral)</td></tr><tr><td><code>[[ia-local-checker]]</code>, <code>[[navega-en-catala]]</code></td><td>Blocs «Comprovador d'IA local» i «Navega en català»</td></tr><tr><td>Notes al peu antigues (entre claudàtors, amb un número i un punt al davant)</td><td>Nota al peu de l'editor (barra del text, desplegable de més opcions)</td></tr><tr><td><code>[[insert]]</code> i altres codis</td><td>De moment, en un bloc «Codi curt», tal com estaven</td></tr><tr><td><code>[[llista-links]]</code></td><td>Una llista amb l'estil «Amb icones»</td></tr><tr><td><code>[[llista-icones]]</code></td><td>Bloc «Llista amb icones» (les mateixes icones, títols, textos i aspecte)</td></tr><tr><td>Requadres <code>req-flex</code> i <code>req-banner</code> (IA local)</td><td>Columnes amb l'estil «Requadres» (patró «Requisits»)</td></tr><tr><td>Fletxes, icones o colors fets amb HTML</td><td>Una llista (amb filet, etiquetes o icones) o un avís</td></tr></tbody></table></figure>
+<figure class="wp-block-table is-style-dues-columnes"><table class="has-fixed-layout"><thead><tr><th>Abans</th><th>Ara</th></tr></thead><tbody><tr><td>Colors de fons triats a mà, <code>fons-gris</code>, <code>messagebox</code>, <code>alerta</code></td><td>Un avís (informació, atenció, fet, error, neutre o crida)</td></tr><tr><td>Taules <code>prettytable</code></td><td>Taula, estil «Guia d'estil»</td></tr><tr><td>Taules <code>wikitable</code>, <code>comparacio</code>, <code>tres_columnes</code></td><td>Taula, estil per defecte (o compacta, si és de dades): ja es veuen així</td></tr><tr><td>Taules <code>taula-2col</code></td><td>Taula, estil «Dues columnes»</td></tr><tr><td>Text <code>petit</code></td><td>Format «Text petit» (barra del text, desplegable de més opcions)</td></tr><tr><td>Text <code>center</code></td><td>Alineació centrada, a la barra del bloc</td></tr><tr><td><code>[[caption]]</code>, <code>[[gallery]]</code>, <code>[[video]]</code></td><td>Imatge amb peu, galeria, vídeo (es converteixen sols)</td></tr><tr><td><code>[[cards]]</code></td><td>En un bloc «Codi curt», tal com estava; el podeu refer amb el bloc «Targetes»</td></tr><tr><td><code>[[ia-data]]</code></td><td>Bloc «Dades d'IA» (les mateixes opcions, a la barra lateral)</td></tr><tr><td><code>[[ia-local-checker]]</code>, <code>[[navega-en-catala]]</code></td><td>Blocs «Comprovador d'IA local» i «Navega en català»</td></tr><tr><td>Notes al peu antigues (entre claudàtors, amb un número i un punt al davant)</td><td>Nota al peu de l'editor (barra del text, desplegable de més opcions)</td></tr><tr><td><code>[[insert]]</code> i altres codis</td><td>De moment, en un bloc «Codi curt», tal com estaven</td></tr><tr><td><code>[[llista-links]]</code></td><td>Una llista amb l'estil «Amb icones»</td></tr><tr><td><code>[[llista-icones]]</code></td><td>Bloc «Llista amb icones» (les mateixes icones, títols, textos i aspecte)</td></tr><tr><td>Requadres <code>req-flex</code> i <code>req-banner</code> (IA local)</td><td>Columnes amb l'estil «Requadres» (patró «Requisits»)</td></tr><tr><td>Fletxes, icones o colors fets amb HTML</td><td>Una llista (amb filet, etiquetes o icones) o un avís</td></tr></tbody></table></figure>
 <!-- /wp:table -->
 
 <!-- wp:heading {"anchor":"notes"} -->

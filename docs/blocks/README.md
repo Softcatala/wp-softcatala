@@ -239,10 +239,21 @@ block equivalent, the guide's "Del format antic al nou" table says which.
 
 ## Converting a classic page
 
-`npm run convert` (in `frontend/`, through Docker like the tests) converts a classic
-page's raw content to block markup. It is the editor's own "Convert to blocks"
-(`rawHandler` from `@wordpress/blocks`) plus what that converter doesn't know about the
-site (`frontend/tools/convert-classic.ts`):
+One converter, `frontend/src/js/classic-converter.ts`, runs in two places:
+
+- **The editor's "Convert to blocks"** on a Classic block (`frontend/src/js/editor-convert.ts`,
+  in the `editor-blocks` script, so behind the `block_editor` flag). WordPress's button
+  has no hook: it calls the block editor's `replaceBlocks` with `rawHandler()`'s blocks,
+  so that action is wrapped. Only a replacement that is exactly WordPress's conversion of
+  one Classic block is changed; anything else passes through, and so does WordPress's
+  result if the converter throws. The notes go to the `footnotes` meta, and the report
+  shows as a notice. The Classic block's content is TinyMCE's, not the saved one: lines
+  end in `<br />`, which the shortcode parsers treat as line breaks.
+- **`npm run convert`** (`frontend/tools/convert-classic.ts`), for bulk runs and review.
+
+The converter takes WordPress's functions as a parameter (the editor's `wp` globals, or
+the npm packages in Node), so it bundles none of WordPress. It is the editor's own
+conversion (`rawHandler`) plus what that doesn't know about the site:
 
 - sc-footnotes `[1. …]` → core footnotes (the format in the text, a Footnotes block, and
   the notes for the `footnotes` meta, written to `<prefix>.footnotes.json`);
@@ -251,8 +262,8 @@ site (`frontend/tools/convert-classic.ts`):
   `[llista-links]` → an Amb icones list; other shortcodes (`[cards]`, `[insert]`) stay in
   a Shortcode block;
 - callout classes → Avís, `taula-2col` → Dues columnes, `prettytable` → Guia d'estil,
-  other legacy table classes (no CSS of their own) → the default look, `petit` → the Petit size, `center` → centred, the ia-local `req-flex`
-  row → Requadres columns;
+  other legacy table classes (no CSS of their own) → the default look, `petit` → the Text
+  petit format, `center` → centred, the ia-local `req-flex` row → Requadres columns;
 - `<a name>` anchors → the anchor of the heading they mark; a `div` with an `id` → a group
   with that anchor; other wrapper `div`s unwrapped (the report lists their classes).
 
@@ -266,11 +277,11 @@ The input is the raw `post_content` (`wp post get <id> --field=content`, or the 
 person (Custom HTML blocks, kept shortcodes, anchors with no heading, dropped inline
 styles) and fails if the result doesn't validate.
 
-It never writes to a site. To hand the result over for review, save it as an
+The command never writes to a site. To hand the result over for review, save it as an
 **autosave** of the page (`POST /wp/v2/pages/<id>/autosaves` with `content`, and `meta`
 `{"footnotes": "<the JSON as a string>"}`): the published page doesn't change, and the
-editor offers to restore the autosave the next time someone opens it. Converting runs
-in Node, not in `wp-cli`, because WordPress's converter only exists in JavaScript.
+editor offers to restore the autosave the next time someone opens it. There is no
+`wp-cli` version because WordPress's converter only exists in JavaScript.
 
 ## The editor guide
 

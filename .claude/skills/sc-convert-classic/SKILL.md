@@ -8,6 +8,8 @@ description: Convert a classic-editor page or post on softcatala.org to blocks, 
 The converter is `npm run convert` (`frontend/tools/convert-classic.ts`): WordPress's own
 "Convert to blocks" plus footnotes, theme shortcodes, legacy classes and old anchors. What
 it maps and how to save the result: "Converting a classic page" in `docs/blocks/README.md`.
+Editors get the same conversion from "Convert to blocks" in the editor; this skill is for
+converting on someone's behalf and leaving the result for review.
 
 1. **Fetch the raw content**: `GET /wp-json/wp/v2/pages/<id>?context=edit` (or `/posts`),
    field `content.raw`, with the application password the user provides for this run (kept

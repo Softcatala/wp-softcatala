@@ -85,6 +85,15 @@ describe('convertClassic', () => {
     expect(report.join('\n')).toContain('1 línies sense les 3 parts')
   })
 
+  it("reads shortcode lines ended with the Classic block's <br />", () => {
+    const { markup, report } = convert('[llista-icones]<br />\nlanguage|Llengua|Text.<br />\ngroup|Grup|Més.<br />\n[/llista-icones]\n\n[llista-links]<br />\nA|#a<br />\n[/llista-links]')
+
+    const data = JSON.parse(/<!-- wp:sc\/llista-icones (\{.*\}) \/-->/.exec(markup)![1]).data
+    expect(data).toMatchObject({ items: 2, items_0_text: 'Text.', items_1_text: 'Més.' })
+    expect(markup).toContain('<li><a href="#a">A</a></li>')
+    expect(report.join('\n')).not.toContain('sense les 3 parts')
+  })
+
   it('keeps other shortcodes in a Shortcode block and says so', () => {
     const { markup, report } = convert('[cards]\n[card title="A" link="/a/"]Una[/card]\n[/cards]\n\n[insert page="123"]')
 
