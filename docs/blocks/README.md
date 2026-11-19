@@ -270,6 +270,9 @@ conversion (`rawHandler`) plus what that doesn't know about the site:
   indentation, only `<dd>`) → a group with the Sagnat style; `<center>` and
   `div.center` → centred text; stray `<li>`s → wrapped in a list; forms stay in Custom
   HTML;
+- list items flattened to what a list item can hold: block content inside one (an indented
+  `<pre>`, paragraphs) unwrapped with one line break between parts, a `<pre>` as `<code>`,
+  no line breaks at the start or end (they showed as empty lines in the editor);
 - empty paragraphs dropped (spacers, what's left around a shortcode TinyMCE wrapped in a
   paragraph, what `rawHandler` leaves next to an image);
 - a top-level block that doesn't validate (a link inside a link, a table inside a table,

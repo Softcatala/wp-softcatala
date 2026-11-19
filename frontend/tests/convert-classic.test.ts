@@ -183,6 +183,32 @@ describe('convertClassic', () => {
     expect(markup).not.toContain('wp:html')
   })
 
+  it('flattens block content inside list items (an indented command) without empty lines', () => {
+    const { markup } = convert(
+      "<ol>\n<li>Amb el navegador.</li>\n<li>Amb el Bazaar, escrivint l'ordre següent en un terminal:\n<dl>\n<dd>\n<pre>bzr branch lp:~mailman-l10n-ca/mailman/stable-sc</pre>\n</dd>\n</dl>\n</li>\n<li><p>Primer.</p>\n<p>Segon.</p></li>\n</ol>"
+    )
+
+    expect(markup).toContain("<li>Amb el Bazaar, escrivint l'ordre següent en un terminal:<br><code>bzr branch lp:~mailman-l10n-ca/mailman/stable-sc</code></li>")
+    expect(markup).toContain('<li>Primer.<br>Segon.</li>')
+    expect(markup).not.toMatch(/<br>\s*<br>|<br><\/li>|<li><br>/)
+    expect(markup).not.toContain('<dl')
+  })
+
+  it('leaves no line break at the start or end of a list item', () => {
+    const { markup } = convert('<blockquote>\n<ul>\n<li>\nEl programari lliure\nés gratuït.\n</li>\n<li>Últim.<br />\n</li>\n<li>Amb negreta buida.\n<b></b></li>\n</ul>\n</blockquote>')
+
+    // A line break inside the text was a <br> on the old page too (autop).
+    expect(markup).toContain('<li>El programari lliure<br>és gratuït.</li>')
+    expect(markup).toContain('<li>Últim.</li>')
+    expect(markup).toContain('<li>Amb negreta buida.</li>')
+  })
+
+  it("keeps an author's own line breaks in a list item that also has a block", () => {
+    const { markup } = convert('<ul>\n<li>Horari:<br />matí<br />tarda\n<pre>9-13 h</pre></li>\n</ul>')
+
+    expect(markup).toContain('<li>Horari:<br>matí<br>tarda<br><code>9-13 h</code></li>')
+  })
+
   it('keeps forms in Custom HTML and flags them', () => {
     // Custom HTML is allowed only for users with unfiltered_html, so the
     // allowed-list check doesn't apply here.

@@ -275,6 +275,7 @@ function convertHtml(html: string, context: Context): Block[] {
   moveNamedAnchors(doc, context.report)
   markSmallText(doc, context.report)
   wrapStrayListItems(doc, context.report)
+  flattenListItems(doc)
   const blocks: Block[] = []
   const pending: string[] = []
 
@@ -449,6 +450,58 @@ function centred(block: Block): Block {
   if (block.name !== 'core/paragraph' && block.name !== 'core/heading') return block
   const style = (block.attributes.style ?? {}) as Record<string, Record<string, unknown>>
   return { ...block, attributes: { ...block.attributes, style: { ...style, typography: { ...style.typography, textAlign: 'center' } } } }
+}
+
+const ITEM_BLOCKS = ['P', 'DIV', 'DL', 'DD', 'DT', 'PRE', 'BLOCKQUOTE']
+
+/**
+ * A list item holds text and nested lists, nothing else. Block content inside
+ * one (an indented command: <dl><dd><pre>…</pre></dd></dl>; paragraphs) is
+ * flattened: wrappers go, a <pre> becomes <code>, parts are separated by one
+ * line break. Without this, every line break in the source around those
+ * elements became a <br> in the item.
+ */
+function flattenListItems(doc: Document): void {
+  for (const li of Array.from(doc.querySelectorAll('li')).reverse()) {
+    let changed = true
+    while (changed) {
+      changed = false
+      for (const el of Array.from(li.children)) {
+        if (!ITEM_BLOCKS.includes(el.tagName)) continue
+        changed = true
+        const parts: Node[] = []
+        if (el.tagName === 'PRE') {
+          const code = doc.createElement('code')
+          code.innerHTML = el.innerHTML.replace(/\n/g, '<br>')
+          parts.push(code)
+        } else {
+          parts.push(...Array.from(el.childNodes))
+        }
+        // A line break before and after each block; marked, so that two
+        // blocks in a row get one, and the author's own <br>s stay.
+        const mark = () => Object.assign(doc.createElement('br'), { className: 'sc-sep' })
+        parts.unshift(mark())
+        parts.push(mark())
+        el.replaceWith(...parts)
+      }
+    }
+    // Line breaks left in the text (autop made the meaningful ones <br>)
+    // showed as spaces, but rawHandler would make them <br>s.
+    const walker = doc.createTreeWalker(li, 4 /* NodeFilter.SHOW_TEXT */)
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (!n.parentElement?.closest('pre, code, script')) n.textContent = (n.textContent ?? '').replace(/\s*\n\s*/g, ' ')
+    }
+    // Spaces next to the marks go; runs of marks become one break; breaks and
+    // spaces at the start or end of the item go (an empty line in the editor).
+    const SEP = '<br class="sc-sep">'
+    li.innerHTML = li.innerHTML
+      .replace(/\s*<br class="sc-sep">\s*/g, SEP)
+      .replace(/(<br class="sc-sep">)+/g, SEP)
+      .replace(/<br class="sc-sep">/g, '<br>')
+      .replace(/\s*<br>\s*/g, '<br>')
+      .replace(/<(b|i|em|strong|u|span|font)\b[^>]*>\s*<\/\1>/g, '')
+      .replace(/^(\s|<br>)+|(\s|<br>)+$/g, '')
+  }
 }
 
 /** List items outside any list (pasted fragments): runs of them get a <ul>. */
