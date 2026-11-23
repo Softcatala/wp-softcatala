@@ -62,6 +62,7 @@ include( 'inc/api-token.php' );
 include( 'rest/downloads-api.php' );
 include( 'rest/projectes-csv-api.php' );
 include( 'rest/tasques-api.php' );
+include( 'rest/membres-api.php' );
 
 
 
